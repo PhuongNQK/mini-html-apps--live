@@ -1,15 +1,17 @@
 import { createElement } from '../../utils/helpers.js';
+import { getModuleById } from '../../data/curriculum.js';
 
 export function GameSelectView() {
     const store = window.app.store.getState();
     const container = createElement('div', 'view-container centered');
 
+    const module = getModuleById(store.currentTopic) || {};
     container.innerHTML = `
         <div class="dashboard-header">
              <button id="btn-back" class="btn btn-text">← Back</button>
              <h2>Let's Play!</h2>
         </div>
-        <h2>Topic: ${store.currentTopic}</h2>
+        <h2>Topic: ${module.name} (in ${module.weekGroup.title} - ${module.weekGroup.description})</h2>
         <div class="games-grid">
             <button class="card game-card-select" data-game="flashcard">
                 <div class="icon">🃏</div>

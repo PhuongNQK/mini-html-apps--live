@@ -5,6 +5,7 @@ export const CODING_PHRASES_EXTENDED = [
         image: '👋',
         translation: {
             en: 'Hello World!',
+            ms: 'Hello, Dunia!',
             fr: 'Bonjour le monde!',
             de: 'Hallo Welt!',
             it: 'Ciao Mondo!',
@@ -23,6 +24,7 @@ export const CODING_PHRASES_EXTENDED = [
         image: '❤️',
         translation: {
             en: 'I love coding.',
+            ms: 'Saya suka pengekodan.',
             fr: 'J\'aime coder.',
             de: 'Ich liebe es zu programmieren.',
             it: 'Amo programmare.',
@@ -41,6 +43,7 @@ export const CODING_PHRASES_EXTENDED = [
         image: '🐛',
         translation: {
             en: 'Check for bugs.',
+            ms: 'Periksa pepijat.',
             fr: 'Vérifier les erreurs.',
             de: 'Auf Fehler prüfen.',
             it: 'Controlla i bug.',
@@ -59,6 +62,7 @@ export const CODING_PHRASES_EXTENDED = [
         image: '▶️',
         translation: {
             en: 'Run the program.',
+            ms: 'Jalankan program ini.',
             fr: 'Exécuter le programme.',
             de: 'Führe das Programm aus.',
             it: 'Esegui il programma.',
@@ -77,6 +81,7 @@ export const CODING_PHRASES_EXTENDED = [
         image: '🧠',
         translation: {
             en: 'Computer logic is fun.',
+            ms: 'Logik komputer memang menyeronokkan.',
             fr: 'La logique informatique est amusante.',
             de: 'Computerlogik macht Spaß.',
             it: 'La logica del computer è divertente.',
@@ -95,6 +100,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💾",
     "translation": {
         "en": "Save your file.",
+        "ms": "Simpan fail anda.",
         "fr": "Enregistrez votre fichier.",
         "de": "Speichere deine Datei.",
         "it": "Salva il tuo file.",
@@ -113,6 +119,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "🖱️",
     "translation": {
         "en": "Click the button.",
+        "ms": "Klik butang.",
         "fr": "Cliquez sur le bouton.",
         "de": "Klicke auf den Button.",
         "it": "Clicca sul pulsante.",
@@ -131,6 +138,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "📶",
     "translation": {
         "en": "Connect to WiFi.",
+        "ms": "Sambung ke WiFi.",
         "fr": "Connectez-vous au WiFi.",
         "de": "Verbinde dich mit dem WLAN.",
         "it": "Connettiti al WiFi.",
@@ -149,6 +157,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "🔒",
     "translation": {
         "en": "Type the password.",
+        "ms": "Sila taip kata laluan root.</span",
         "fr": "Tapez le mot de passe.",
         "de": "Gib das Passwort ein.",
         "it": "Digita la password.",
@@ -167,6 +176,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "🖥️",
     "translation": {
         "en": "The screen is black.",
+        "ms": "Skrin berwarna hitam.",
         "fr": "L'écran est noir.",
         "de": "Der Bildschirm ist schwarz.",
         "it": "Lo schermo è nero.",
@@ -185,6 +195,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Write a function.",
+        "ms": "Tulis fungsi.",
         "fr": "Écrivez une fonction.",
         "de": "Schreibe eine Funktion.",
         "it": "Scrivi una funzione.",
@@ -203,6 +214,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Call the API.",
+        "ms": "Hubungi api.",
         "fr": "Appelez l'API.",
         "de": "Ruf die API auf.",
         "it": "Chiama l'API.",
@@ -221,6 +233,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Parse the JSON.",
+        "ms": "Huraikan JSON.",
         "fr": "Analysez le JSON.",
         "de": "Parse das JSON.",
         "it": "Analizza il JSON.",
@@ -239,6 +252,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Loop over the list.",
+        "ms": "Gelung di atas senarai.",
         "fr": "Boucle sur la liste.",
         "de": "Schleife über die Liste.",
         "it": "Cicla sulla lista.",
@@ -257,6 +271,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Create a new variable.",
+        "ms": "Cipta tugas baru atau variabel.",
         "fr": "Créez une nouvelle variable.",
         "de": "Erstelle eine neue Variable.",
         "it": "Crea una nuova variabile.",
@@ -275,6 +290,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Assign a value.",
+        "ms": "Berikan nilai.",
         "fr": "Assignez une valeur.",
         "de": "Weise einen Wert zu.",
         "it": "Assegna un valore.",
@@ -293,6 +309,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Check the condition.",
+        "ms": "Periksa keadaan.",
         "fr": "Vérifiez la condition.",
         "de": "Prüfe die Bedingung.",
         "it": "Controlla la condizione.",
@@ -311,6 +328,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Throw an exception.",
+        "ms": "Lemparkan pengecualian.",
         "fr": "Lancez une exception.",
         "de": "Wirf eine Ausnahme.",
         "it": "Lancia un'eccezione.",
@@ -329,6 +347,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Catch the error.",
+        "ms": "Tangkap ralat.",
         "fr": "Attrapez l'erreur.",
         "de": "Fang den Fehler ab.",
         "it": "Cattura l'errore.",
@@ -347,6 +366,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Import the module.",
+        "ms": "Import modul.",
         "fr": "Importez le module.",
         "de": "Importiere das Modul.",
         "it": "Importa il modulo.",
@@ -365,6 +385,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Export the class.",
+        "ms": "Eksport kelas.",
         "fr": "Exportez la classe.",
         "de": "Exportiere die Klasse.",
         "it": "Esporta la classe.",
@@ -383,6 +404,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Compile the code.",
+        "ms": "Susun kod.",
         "fr": "Compilez le code.",
         "de": "Kompiliere den Code.",
         "it": "Compila il codice.",
@@ -401,6 +423,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Deploy to production.",
+        "ms": "Digunakan untuk pengeluaran.",
         "fr": "Déployez en production.",
         "de": "Stelle in die Produktion bereit.",
         "it": "Metti in produzione.",
@@ -419,6 +442,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Update the database.",
+        "ms": "Kemas kini pangkalan data.",
         "fr": "Mettez à jour la base de données.",
         "de": "Aktualisiere die Datenbank.",
         "it": "Aggiorna il database.",
@@ -437,6 +461,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Query the table.",
+        "ms": "Tanya jadual.",
         "fr": "Interrogez la table.",
         "de": "Frage die Tabelle ab.",
         "it": "Interroga la tabella.",
@@ -455,6 +480,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Filter the results.",
+        "ms": "Tapis hasilnya.",
         "fr": "Filtrez les résultats.",
         "de": "Filtere die Ergebnisse.",
         "it": "Filtra i risultati.",
@@ -473,6 +499,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Sort by date.",
+        "ms": "Isih Mengikut Tarikh",
         "fr": "Trier par date.",
         "de": "Sortiere nach Datum.",
         "it": "Ordina per data.",
@@ -491,6 +518,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Authenticate the user.",
+        "ms": "Sahkan pengguna.",
         "fr": "Authentifiez l'utilisateur.",
         "de": "Authentifiziere den Benutzer.",
         "it": "Autentica l'utente.",
@@ -509,6 +537,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Log out now.",
+        "ms": "Log keluar sekarang.",
         "fr": "Déconnectez-vous maintenant.",
         "de": "Melde dich jetzt ab.",
         "it": "Disconnettiti ora.",
@@ -527,6 +556,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Sign up here.",
+        "ms": "Daftar sekarang",
         "fr": "Inscrivez-vous ici.",
         "de": "Registriere dich hier.",
         "it": "Iscriviti qui.",
@@ -545,6 +575,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Initialize the repository.",
+        "ms": "Awalkan repositori.",
         "fr": "Initialisez le dépôt.",
         "de": "Initialisiere das Repository.",
         "it": "Inizializza il repository.",
@@ -563,6 +594,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Commit your changes.",
+        "ms": "Lakukan perubahan anda.",
         "fr": "Validez vos modifications.",
         "de": "Commite deine Änderungen.",
         "it": "Esegui il commit delle modifiche.",
@@ -581,6 +613,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Push to remote.",
+        "ms": "Tekan ke alat kawalan jauh.",
         "fr": "Poussez vers le distant.",
         "de": "Push zum Remote.",
         "it": "Spingi al remoto.",
@@ -599,6 +632,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Merge the branch.",
+        "ms": "Gabungkan cabang.",
         "fr": "Fusionnez la branche.",
         "de": "Führe den Branch zusammen.",
         "it": "Unisci il ramo.",
@@ -617,6 +651,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Resolve the conflict.",
+        "ms": "Selesaikan konflik.",
         "fr": "Résolvez le conflit.",
         "de": "Löse den Konflikt.",
         "it": "Risolvi il conflitto.",
@@ -635,6 +670,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Install dependencies.",
+        "ms": "PASANG, DEPENDENSI",
         "fr": "Installez les dépendances.",
         "de": "Installiere Abhängigkeiten.",
         "it": "Installa le dipendenze.",
@@ -653,6 +689,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Build the project.",
+        "ms": "Bina projek.",
         "fr": "Construisez le projet.",
         "de": "Baue das Projekt.",
         "it": "Costruisci il progetto.",
@@ -671,6 +708,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Start the server.",
+        "ms": "Mulakan pelayan.",
         "fr": "Démarrez le serveur.",
         "de": "Starte den Server.",
         "it": "Avvia il server.",
@@ -689,6 +727,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Stop the process.",
+        "ms": "Hentikan proses OCR",
         "fr": "Arrêtez le processus.",
         "de": "Stoppe den Prozess.",
         "it": "Ferma il processo.",
@@ -707,6 +746,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Restart the application.",
+        "ms": "Mulakan semula aplikasi.",
         "fr": "Redémarrez l'application.",
         "de": "Starte die Anwendung neu.",
         "it": "Riavvia l'applicazione.",
@@ -725,6 +765,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Define a constant.",
+        "ms": "Takrifkan pemalar.",
         "fr": "Définissez une constante.",
         "de": "Definiere eine Konstante.",
         "it": "Definisci una costante.",
@@ -743,6 +784,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Create an object.",
+        "ms": "Cipta objek.",
         "fr": "Créez un objet.",
         "de": "Erstelle ein Objekt.",
         "it": "Crea un oggetto.",
@@ -761,6 +803,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Add an event listener.",
+        "ms": "Tambah pendengar acara.",
         "fr": "Ajoutez un écouteur d'événements.",
         "de": "Füge einen Event-Listener hinzu.",
         "it": "Aggiungi un listener di eventi.",
@@ -779,6 +822,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Remove the element.",
+        "ms": "Buang elemen.",
         "fr": "Supprimez l'élément.",
         "de": "Entferne das Element.",
         "it": "Rimuovi l'elemento.",
@@ -797,6 +841,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Update the style.",
+        "ms": "Kemas kini gaya.",
         "fr": "Mettez à jour le style.",
         "de": "Aktualisiere den Stil.",
         "it": "Aggiorna lo stile.",
@@ -815,6 +860,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Change the background color.",
+        "ms": "Ubah Warna Latar belakang",
         "fr": "Changez la couleur de fond.",
         "de": "Ändere die Hintergrundfarbe.",
         "it": "Cambia il colore di sfondo.",
@@ -833,6 +879,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Set the width.",
+        "ms": "Tetapkan lebar",
         "fr": "Définissez la largeur.",
         "de": "Setze die Breite.",
         "it": "Imposta la larghezza.",
@@ -851,6 +898,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Adjust the height.",
+        "ms": "Laraskan ketinggian.",
         "fr": "Ajustez la hauteur.",
         "de": "Passe die Höhe an.",
         "it": "Regola l'altezza.",
@@ -869,6 +917,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Center the content.",
+        "ms": "Ketengahkan kandungan.",
         "fr": "Centrez le contenu.",
         "de": "Zentriere den Inhalt.",
         "it": "Centra il contenuto.",
@@ -887,6 +936,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Hide the panel.",
+        "ms": "Sembunyikan panel.",
         "fr": "Masquez le panneau.",
         "de": "Verstecke das Panel.",
         "it": "Nascondi il pannello.",
@@ -905,6 +955,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Show the modal.",
+        "ms": "Tunjukkan modal.",
         "fr": "Affichez la modale.",
         "de": "Zeige das Modal.",
         "it": "Mostra il modale.",
@@ -923,6 +974,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Navigate to home.",
+        "ms": "Kemudi ke halaman utama.",
         "fr": "Naviguez vers l'accueil.",
         "de": "Navigiere zur Startseite.",
         "it": "Naviga verso la home.",
@@ -941,6 +993,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Refresh the page.",
+        "ms": "Segar semula halaman",
         "fr": "Actualisez la page.",
         "de": "Aktualisiere die Seite.",
         "it": "Aggiorna la pagina.",
@@ -959,6 +1012,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Submit the form.",
+        "ms": "Hantar borang",
         "fr": "Soumettez le formulaire.",
         "de": "Sende das Formular ab.",
         "it": "Invia il modulo.",
@@ -977,6 +1031,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Validate the input.",
+        "ms": "Sahkan input.",
         "fr": "Validez l'entrée.",
         "de": "Validiere die Eingabe.",
         "it": "Convalida l'input.",
@@ -995,6 +1050,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Select an option.",
+        "ms": "Pilih satu opsyen",
         "fr": "Sélectionnez une option.",
         "de": "Wähle eine Option.",
         "it": "Seleziona un'opzione.",
@@ -1013,6 +1069,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Upload the file.",
+        "ms": "Muat naik fail.",
         "fr": "Téléversez le fichier.",
         "de": "Lade die Datei hoch.",
         "it": "Carica il file.",
@@ -1031,6 +1088,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Download the image.",
+        "ms": "Muat turun imej.",
         "fr": "Téléchargez l'image.",
         "de": "Lade das Bild herunter.",
         "it": "Scarica l'immagine.",
@@ -1049,6 +1107,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Play the video.",
+        "ms": "Mainkan video.",
         "fr": "Jouez la vidéo.",
         "de": "Spiele das Video ab.",
         "it": "Riproduci il video.",
@@ -1067,6 +1126,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Pause the audio.",
+        "ms": "Jeda audio.",
         "fr": "Mettez l'audio en pause.",
         "de": "Pausiere das Audio.",
         "it": "Metti in pausa l'audio.",
@@ -1085,6 +1145,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Connect to Bluetooth.",
+        "ms": "Sambung ke Bluetooth.",
         "fr": "Connectez-vous au Bluetooth.",
         "de": "Verbinde mit Bluetooth.",
         "it": "Connettiti al Bluetooth.",
@@ -1103,6 +1164,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Scan the QR code.",
+        "ms": "Imbas kod QR.",
         "fr": "Scannez le code QR.",
         "de": "Scanne den QR-Code.",
         "it": "Scansiona il codice QR.",
@@ -1121,6 +1183,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Enable location services.",
+        "ms": "Dayakan perkhidmatan lokasi.",
         "fr": "Activez les services de localisation.",
         "de": "Aktiviere die Standortdienste.",
         "it": "Abilita i servizi di localizzazione.",
@@ -1139,6 +1202,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Send a notification.",
+        "ms": "Hantar pemberitahuan.",
         "fr": "Envoyez une notification.",
         "de": "Sende eine Benachrichtigung.",
         "it": "Invia una notifica.",
@@ -1157,6 +1221,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Access the camera.",
+        "ms": "Akses kamera.",
         "fr": "Accédez à la caméra.",
         "de": "Greife auf die Kamera zu.",
         "it": "Accedi alla fotocamera.",
@@ -1175,6 +1240,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Microphone connection established.",
+        "ms": "Sambungan mikrofon terjalin.",
         "fr": "Connexion microphone établie.",
         "de": "Mikrofonverbindung hergestellt.",
         "it": "Connessione microfono stabilita.",
@@ -1193,6 +1259,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Sync in progress.",
+        "ms": "Penyegerakan sedang dijalankan",
         "fr": "Synchronisation en cours.",
         "de": "Synchronisierung läuft.",
         "it": "Sincronizzazione in corso.",
@@ -1211,6 +1278,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Battery is low.",
+        "ms": "Bateri rendah",
         "fr": "La batterie est faible.",
         "de": "Akku ist schwach.",
         "it": "La batteria è scarica.",
@@ -1229,6 +1297,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Charge the device.",
+        "ms": "Cas peranti.",
         "fr": "Chargez l'appareil.",
         "de": "Lade das Gerät auf.",
         "it": "Carica il dispositivo.",
@@ -1247,6 +1316,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Turn off power.",
+        "ms": "Matikan kuasa.",
         "fr": "Éteignez l'alimentation.",
         "de": "Schalte den Strom ab.",
         "it": "Spegni l'alimentazione.",
@@ -1265,6 +1335,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Read the documentation.",
+        "ms": "Baca dokumentasi.",
         "fr": "Lisez la documentation.",
         "de": "Lies die Dokumentation.",
         "it": "Leggi la documentazione.",
@@ -1283,6 +1354,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Follow the tutorial.",
+        "ms": "Ikuti tutorialnya.",
         "fr": "Suivez le tutoriel.",
         "de": "Folge dem Tutorial.",
         "it": "Segui il tutorial.",
@@ -1301,6 +1373,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Copy the snippet.",
+        "ms": "Salin coretan.",
         "fr": "Copiez l'extrait.",
         "de": "Kopiere den Schnipsel.",
         "it": "Copia lo snippet.",
@@ -1319,6 +1392,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Paste into the editor.",
+        "ms": "Tampal ke dalam editor.",
         "fr": "Collez dans l'éditeur.",
         "de": "Füge in den Editor ein.",
         "it": "Incolla nell'editor.",
@@ -1337,6 +1411,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Save as new file.",
+        "ms": "Simpan sebagai fail baharu.",
         "fr": "Enregistrer comme nouveau fichier.",
         "de": "Als neue Datei speichern.",
         "it": "Salva come nuovo file.",
@@ -1355,6 +1430,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Open the project.",
+        "ms": "Buka projek.",
         "fr": "Ouvrez le projet.",
         "de": "Öffne das Projekt.",
         "it": "Apri il progetto.",
@@ -1373,6 +1449,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Close the tab.",
+        "ms": "Tutup tab.",
         "fr": "Fermez l'onglet.",
         "de": "Schließe den Tab.",
         "it": "Chiudi la scheda.",
@@ -1391,6 +1468,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Search for keywords.",
+        "ms": "Cari kata kunci.",
         "fr": "Recherchez des mots-clés.",
         "de": "Suche nach Stichwörtern.",
         "it": "Cerca parole chiave.",
@@ -1409,6 +1487,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Replace the text.",
+        "ms": "Gantikan teks.",
         "fr": "Remplacez le texte.",
         "de": "Ersetze den Text.",
         "it": "Sostituisci il testo.",
@@ -1427,6 +1506,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Undo the action.",
+        "ms": "Buat asal tindakan terakhir",
         "fr": "Annulez l'action.",
         "de": "Mache die Aktion rückgängig.",
         "it": "Annulla l'azione.",
@@ -1445,6 +1525,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Redo the changes.",
+        "ms": "Buat semula perubahan.",
         "fr": "Rétablissez les modifications.",
         "de": "Stelle die Änderungen wieder her.",
         "it": "Ripeti le modifiche.",
@@ -1463,6 +1544,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Format the document.",
+        "ms": "Format dokumen.",
         "fr": "Formatez le document.",
         "de": "Formatiere das Dokument.",
         "it": "Formatta il documento.",
@@ -1481,6 +1563,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Comment out the line.",
+        "ms": "Komen di luar garisan.",
         "fr": "Commentez la ligne.",
         "de": "Kommentiere die Zeile aus.",
         "it": "Commenta la riga.",
@@ -1499,6 +1582,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Uncomment the code.",
+        "ms": "Batalkan komen kod.",
         "fr": "Décommentez le code.",
         "de": "Einkommentiere den Code.",
         "it": "Decommenta il codice.",
@@ -1517,6 +1601,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Indent the block.",
+        "ms": "Inden blok.",
         "fr": "Indentez le bloc.",
         "de": "Rücke den Block ein.",
         "it": "Rientra il blocco.",
@@ -1535,6 +1620,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Configure the settings.",
+        "ms": "Konfigurasikan tetapan.",
         "fr": "Configurez les paramètres.",
         "de": "Konfiguriere die Einstellungen.",
         "it": "Configura le impostazioni.",
@@ -1553,6 +1639,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Enable dark mode.",
+        "ms": "Dayakan mod gelap.",
         "fr": "Activez le mode sombre.",
         "de": "Aktiviere den Dunkelmodus.",
         "it": "Abilita la modalità scura.",
@@ -1571,6 +1658,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Install the plugin.",
+        "ms": "Pasang pemalam.",
         "fr": "Installez le plugin.",
         "de": "Installiere das Plugin.",
         "it": "Installa il plugin.",
@@ -1589,6 +1677,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Check for updates.",
+        "ms": "Periksa kemas kini",
         "fr": "Vérifiez les mises à jour.",
         "de": "Suche nach Updates.",
         "it": "Controlla aggiornamenti.",
@@ -1607,6 +1696,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Report a bug.",
+        "ms": "Laporkan masalah laman ini",
         "fr": "Signalez un bug.",
         "de": "Melde einen Fehler.",
         "it": "Segnala un bug.",
@@ -1625,6 +1715,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Join the community.",
+        "ms": "Sertai komuniti.",
         "fr": "Rejoignez la communauté.",
         "de": "Tritt der Community bei.",
         "it": "Unisciti alla community.",
@@ -1643,6 +1734,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Ask a question.",
+        "ms": "Tanya soalan",
         "fr": "Posez une question.",
         "de": "Stelle eine Frage.",
         "it": "Fai una domanda.",
@@ -1661,6 +1753,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Share your code.",
+        "ms": "Kongsi kod anda.",
         "fr": "Partagez votre code.",
         "de": "Teile deinen Code.",
         "it": "Condividi il tuo codice.",
@@ -1679,6 +1772,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Fork the repository.",
+        "ms": "Garpu repositori.",
         "fr": "Forkez le dépôt.",
         "de": "Forke das Repository.",
         "it": "Forka il repository.",
@@ -1697,6 +1791,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Star the project.",
+        "ms": "Bintangi projek ini.",
         "fr": "Mettez une étoile au projet.",
         "de": "Markiere das Projekt mit einem Stern.",
         "it": "Metti una stella al progetto.",
@@ -1715,6 +1810,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Verify email address.",
+        "ms": "Sahkan alamat e-mel anda",
         "fr": "Vérifiez l'adresse e-mail.",
         "de": "Bestätige die E-Mail-Adresse.",
         "it": "Verifica l'indirizzo email.",
@@ -1733,6 +1829,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Reset your password.",
+        "ms": "Set semula kata laluan anda",
         "fr": "Réinitialisez votre mot de passe.",
         "de": "Setze dein Passwort zurück.",
         "it": "Reimposta la tua password.",
@@ -1751,6 +1848,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Accept cookies.",
+        "ms": "Terima kuki",
         "fr": "Acceptez les cookies.",
         "de": "Akzeptiere Cookies.",
         "it": "Accetta i cookie.",
@@ -1769,6 +1867,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Decline cookies.",
+        "ms": "Tolak kuki.",
         "fr": "Refusez les cookies.",
         "de": "Lehne Cookies ab.",
         "it": "Rifiuta i cookie.",
@@ -1787,6 +1886,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Terms of service.",
+        "ms": "Terma Perkhidmatan",
         "fr": "Conditions d'utilisation.",
         "de": "Nutzungsbedingungen.",
         "it": "Termini di servizio.",
@@ -1805,6 +1905,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Privacy policy.",
+        "ms": "Dasar privasi",
         "fr": "Politique de confidentialité.",
         "de": "Datenschutzerklärung.",
         "it": "Informativa sulla privacy.",
@@ -1823,6 +1924,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Contact support.",
+        "ms": "hubungi sokongan",
         "fr": "Contactez le support.",
         "de": "Kontaktiere den Support.",
         "it": "Contatta il supporto.",
@@ -1841,6 +1943,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "View the profile.",
+        "ms": "Lihat profil.",
         "fr": "Voir le profil.",
         "de": "Profil ansehen.",
         "it": "Visualizza il profilo.",
@@ -1859,6 +1962,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Edit settings.",
+        "ms": "Sunting tetapan",
         "fr": "Modifier les paramètres.",
         "de": "Einstellungen bearbeiten.",
         "it": "Modifica impostazioni.",
@@ -1877,6 +1981,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Upgrade plan.",
+        "ms": "Naik Taraf Pelan",
         "fr": "Mettre à niveau le plan.",
         "de": "Plan upgraden.",
         "it": "Aggiorna piano.",
@@ -1895,6 +2000,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Cancel subscription.",
+        "ms": "Batal Langganan RSS",
         "fr": "Annuler l'abonnement.",
         "de": "Abonnement kündigen.",
         "it": "Annulla iscrizione.",
@@ -1913,6 +2019,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Payment successful.",
+        "ms": "Pembayaran berjaya.",
         "fr": "Paiement réussi.",
         "de": "Zahlung erfolgreich.",
         "it": "Pagamento riuscito.",
@@ -1931,6 +2038,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Transaction failed.",
+        "ms": "Transaksi gagal",
         "fr": "La transaction a échoué.",
         "de": "Transaktion fehlgeschlagen.",
         "it": "Transazione fallita.",
@@ -1949,6 +2057,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Order confirmed.",
+        "ms": "Pesanan disahkan.",
         "fr": "Commande confirmée.",
         "de": "Bestellung bestätigt.",
         "it": "Ordine confermato.",
@@ -1967,6 +2076,7 @@ export const CODING_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "Track shipment.",
+        "ms": "Jejak Kiriman",
         "fr": "Suivre l'expédition.",
         "de": "Sendung verfolgen.",
         "it": "Traccia la spedizione.",
@@ -1994,7 +2104,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "변수 초기화.",
         "zh": "初始化变量。",
         "vi": "Khởi tạo biến.",
-        "en": "Initialize variable."
+        "en": "Initialize variable.",
+        "ms": "Awalkan pemboleh ubah."
     }
 },
 {
@@ -2012,7 +2123,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "함수 선언.",
         "zh": "声明函数。",
         "vi": "Khai báo hàm.",
-        "en": "Declare function."
+        "en": "Declare function.",
+        "ms": "Mengisytiharkan fungsi."
     }
 },
 {
@@ -2030,7 +2142,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "반환 값.",
         "zh": "返回值。",
         "vi": "Giá trị trả về.",
-        "en": "Return value."
+        "en": "Return value.",
+        "ms": "Nilai pulangan."
     }
 },
 {
@@ -2048,7 +2161,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "메서드 호출.",
         "zh": "调用方法。",
         "vi": "Gọi phương thức.",
-        "en": "Call method."
+        "en": "Call method.",
+        "ms": "Kaedah panggilan."
     }
 },
 {
@@ -2066,7 +2180,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "라이브러리 가져오기.",
         "zh": "导入库。",
         "vi": "Nhập thư viện.",
-        "en": "Import library."
+        "en": "Import library.",
+        "ms": "Import ke Pustaka"
     }
 },
 {
@@ -2084,7 +2199,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "모듈 내보내기.",
         "zh": "导出模块。",
         "vi": "Xuất mô-đun.",
-        "en": "Export module."
+        "en": "Export module.",
+        "ms": "Eksport modul."
     }
 },
 {
@@ -2102,7 +2218,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "클래스 정의.",
         "zh": "类定义。",
         "vi": "Định nghĩa lớp.",
-        "en": "Class definition."
+        "en": "Class definition.",
+        "ms": "Definisi kelas."
     }
 },
 {
@@ -2120,7 +2237,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "객체 인스턴스.",
         "zh": "对象实例。",
         "vi": "Thực thể đối tượng.",
-        "en": "Object instance."
+        "en": "Object instance.",
+        "ms": "Tika objek."
     }
 },
 {
@@ -2138,7 +2256,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "속성 상속.",
         "zh": "继承属性。",
         "vi": "Kế thừa thuộc tính.",
-        "en": "Inherit property."
+        "en": "Inherit property.",
+        "ms": "Mewarisi harta."
     }
 },
 {
@@ -2156,7 +2275,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "메서드 오버라이드.",
         "zh": "重写方法。",
         "vi": "Ghi đè phương thức.",
-        "en": "Override method."
+        "en": "Override method.",
+        "ms": "Batalkan kaedah."
     }
 },
 {
@@ -2174,7 +2294,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Try catch 블록.",
         "zh": "Try catch 块。",
         "vi": "Khối try catch.",
-        "en": "Try catch block."
+        "en": "Try catch block.",
+        "ms": "Cuba tangkap blok."
     }
 },
 {
@@ -2192,7 +2313,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "에러 발생.",
         "zh": "抛出错误。",
         "vi": "Ném lỗi.",
-        "en": "Throw error."
+        "en": "Throw error.",
+        "ms": "Ralat baling."
     }
 },
 {
@@ -2210,7 +2332,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Finally 절.",
         "zh": "Finally 子句。",
         "vi": "Mệnh đề finally.",
-        "en": "Finally clause."
+        "en": "Finally clause.",
+        "ms": "Akhir sekali klausa."
     }
 },
 {
@@ -2228,7 +2351,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Async await.",
         "zh": "Async await.",
         "vi": "Async await.",
-        "en": "Async await."
+        "en": "Async await.",
+        "ms": "Async menanti."
     }
 },
 {
@@ -2246,7 +2370,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Promise 해결.",
         "zh": "Promise解决。",
         "vi": "Giải quyết Promise.",
-        "en": "Promise resolve."
+        "en": "Promise resolve.",
+        "ms": "Janji selesai."
     }
 },
 {
@@ -2264,7 +2389,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Promise 거부.",
         "zh": "Promise拒绝。",
         "vi": "Từ chối Promise.",
-        "en": "Promise reject."
+        "en": "Promise reject.",
+        "ms": "Janji ditolak."
     }
 },
 {
@@ -2282,7 +2408,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "콜백 함수.",
         "zh": "回调函数。",
         "vi": "Hàm callback.",
-        "en": "Callback function."
+        "en": "Callback function.",
+        "ms": "Fungsi panggilan balik."
     }
 },
 {
@@ -2300,7 +2427,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "화살표 함수.",
         "zh": "箭头函数。",
         "vi": "Hàm mũi tên.",
-        "en": "Arrow function."
+        "en": "Arrow function.",
+        "ms": "Fungsi anak panah."
     }
 },
 {
@@ -2318,7 +2446,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "익명 함수.",
         "zh": "匿名函数。",
         "vi": "Hàm ẩn danh.",
-        "en": "Anonymous function."
+        "en": "Anonymous function.",
+        "ms": "Fungsi tanpa nama."
     }
 },
 {
@@ -2336,7 +2465,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "생성자 호출.",
         "zh": "构造函数调用。",
         "vi": "Gọi hàm khởi tạo.",
-        "en": "Constructor call."
+        "en": "Constructor call.",
+        "ms": "Panggilan pembina."
     }
 },
 {
@@ -2354,7 +2484,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "정적 메서드.",
         "zh": "静态方法。",
         "vi": "Phương thức tĩnh.",
-        "en": "Static method."
+        "en": "Static method.",
+        "ms": "Kaedah statik."
     }
 },
 {
@@ -2372,7 +2503,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "공개 필드.",
         "zh": "公共字段。",
         "vi": "Trường công khai.",
-        "en": "Public field."
+        "en": "Public field.",
+        "ms": "Bidang awam."
     }
 },
 {
@@ -2390,7 +2522,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "비공개 메서드.",
         "zh": "私有方法。",
         "vi": "Phương thức riêng tư.",
-        "en": "Private method."
+        "en": "Private method.",
+        "ms": "Kaedah persendirian."
     }
 },
 {
@@ -2408,7 +2541,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "보호된 멤버.",
         "zh": "受保护成员。",
         "vi": "Thành viên được bảo vệ.",
-        "en": "Protected member."
+        "en": "Protected member.",
+        "ms": "Ahli yang dilindungi."
     }
 },
 {
@@ -2426,7 +2560,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "게터 세터.",
         "zh": "Getter Setter。",
         "vi": "Getter setter.",
-        "en": "Getter setter."
+        "en": "Getter setter.",
+        "ms": "Getter setter."
     }
 },
 {
@@ -2444,7 +2579,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "타입 확인.",
         "zh": "类型检查。",
         "vi": "Kiểm tra kiểu.",
-        "en": "Type checking."
+        "en": "Type checking.",
+        "ms": "Semakan jenis."
     }
 },
 {
@@ -2462,7 +2598,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "인터페이스 구현.",
         "zh": "接口实现。",
         "vi": "Triển khai giao diện.",
-        "en": "Interface implementation."
+        "en": "Interface implementation.",
+        "ms": "Pelaksanaan antara muka."
     }
 },
 {
@@ -2480,7 +2617,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "추상 클래스.",
         "zh": "抽象类。",
         "vi": "Lớp trừu tượng.",
-        "en": "Abstract class."
+        "en": "Abstract class.",
+        "ms": "Kelas Abstrak"
     }
 },
 {
@@ -2498,7 +2636,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "제네릭 타입.",
         "zh": "泛型类型。",
         "vi": "Kiểu chung.",
-        "en": "Generic type."
+        "en": "Generic type.",
+        "ms": "Jenis generik."
     }
 },
 {
@@ -2516,7 +2655,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "열거형 값.",
         "zh": "枚举值。",
         "vi": "Giá trị Enum.",
-        "en": "Enum value."
+        "en": "Enum value.",
+        "ms": "Nilai enum."
     }
 },
 {
@@ -2534,7 +2674,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Switch 문.",
         "zh": "Switch 语句。",
         "vi": "Lệnh switch case.",
-        "en": "Switch case."
+        "en": "Switch case.",
+        "ms": "Tukar kes."
     }
 },
 {
@@ -2552,7 +2693,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "If else 문.",
         "zh": "If else 语句。",
         "vi": "Câu lệnh if else.",
-        "en": "If else statement."
+        "en": "If else statement.",
+        "ms": "Jika pernyataan lain."
     }
 },
 {
@@ -2570,7 +2712,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "For 루프.",
         "zh": "For 循环。",
         "vi": "Vòng lặp for.",
-        "en": "For loop."
+        "en": "For loop.",
+        "ms": "Untuk gelung."
     }
 },
 {
@@ -2588,7 +2731,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "While 루프.",
         "zh": "While 循环。",
         "vi": "Vòng lặp while.",
-        "en": "While loop."
+        "en": "While loop.",
+        "ms": "Manakala gelung."
     }
 },
 {
@@ -2606,7 +2750,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Do while.",
         "zh": "Do while。",
         "vi": "Do while.",
-        "en": "Do while."
+        "en": "Do while.",
+        "ms": "Lakukan sementara."
     }
 },
 {
@@ -2624,7 +2769,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Break 문.",
         "zh": "Break 语句。",
         "vi": "Lệnh break.",
-        "en": "Break statement."
+        "en": "Break statement.",
+        "ms": "Kenyataan putus."
     }
 },
 {
@@ -2642,7 +2788,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "루프 계속.",
         "zh": "继续循环。",
         "vi": "Tiếp tục vòng lặp.",
-        "en": "Continue loop."
+        "en": "Continue loop.",
+        "ms": "Teruskan gelung."
     }
 },
 {
@@ -2660,7 +2807,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "함수 매개변수.",
         "zh": "函数参数。",
         "vi": "Tham số hàm.",
-        "en": "Function parameter."
+        "en": "Function parameter.",
+        "ms": "Parameter fungsi."
     }
 },
 {
@@ -2678,7 +2826,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "기본 인수.",
         "zh": "默认参数。",
         "vi": "Đối số mặc định.",
-        "en": "Default argument."
+        "en": "Default argument.",
+        "ms": "Argumen lalai."
     }
 },
 {
@@ -2696,7 +2845,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Rest 연산자.",
         "zh": "Rest 运算符。",
         "vi": "Toán tử rest.",
-        "en": "Rest operator."
+        "en": "Rest operator.",
+        "ms": "Operator rehat."
     }
 },
 {
@@ -2714,7 +2864,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "Spread 문법.",
         "zh": "展开语法。",
         "vi": "Cú pháp spread.",
-        "en": "Spread syntax."
+        "en": "Spread syntax.",
+        "ms": "Sebarkan sintaks."
     }
 },
 {
@@ -2732,7 +2883,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "템플릿 리터럴.",
         "zh": "模板字面量。",
         "vi": "Chuỗi mẫu.",
-        "en": "Template literal."
+        "en": "Template literal.",
+        "ms": "Templat literal."
     }
 },
 {
@@ -2750,7 +2902,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "구조 분해 할당.",
         "zh": "解构赋值。",
         "vi": "Gán hủy cấu trúc.",
-        "en": "Destructuring assignment."
+        "en": "Destructuring assignment.",
+        "ms": "Tugasan pemusnah."
     }
 },
 {
@@ -2768,7 +2921,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "모듈 시스템.",
         "zh": "模块系统。",
         "vi": "Hệ thống mô-đun.",
-        "en": "Module system."
+        "en": "Module system.",
+        "ms": "Sistem modul."
     }
 },
 {
@@ -2786,7 +2940,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "의존성 주입.",
         "zh": "依赖注入。",
         "vi": "Tiêm phụ thuộc.",
-        "en": "Dependency injection."
+        "en": "Dependency injection.",
+        "ms": "Suntikan kebergantungan."
     }
 },
 {
@@ -2804,7 +2959,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "디자인 패턴.",
         "zh": "设计模式。",
         "vi": "Mẫu thiết kế.",
-        "en": "Design pattern."
+        "en": "Design pattern.",
+        "ms": "Corak reka bentuk."
     }
 },
 {
@@ -2822,7 +2978,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "싱글톤 인스턴스.",
         "zh": "单例实例。",
         "vi": "Thực thể singleton.",
-        "en": "Singleton instance."
+        "en": "Singleton instance.",
+        "ms": "Contoh tunggal."
     }
 },
 {
@@ -2840,7 +2997,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "팩토리 메서드.",
         "zh": "工厂方法。",
         "vi": "Phương thức nhà máy.",
-        "en": "Factory method."
+        "en": "Factory method.",
+        "ms": "Kaedah kilang."
     }
 },
 {
@@ -2858,7 +3016,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "옵저버 패턴.",
         "zh": "观察者模式。",
         "vi": "Mẫu quan sát viên.",
-        "en": "Observer pattern."
+        "en": "Observer pattern.",
+        "ms": "Corak pemerhati."
     }
 },
 {
@@ -2876,7 +3035,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ko": "전략 패턴.",
         "zh": "策略模式。",
         "vi": "Mẫu chiến lược.",
-        "en": "Strategy pattern."
+        "en": "Strategy pattern.",
+        "ms": "Corak strategi."
     }
 },
 {
@@ -2894,7 +3054,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "HTML要素。",
         "ko": "HTML 요소.",
         "ru": "HTML элемент.",
-        "en": "HTML element."
+        "en": "HTML element.",
+        "ms": "Elemen HTML."
     }
 },
 {
@@ -2912,7 +3073,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "CSSセレクタ。",
         "ko": "CSS 선택자.",
         "ru": "CSS селектор.",
-        "en": "CSS selector."
+        "en": "CSS selector.",
+        "ms": "Pemilih CSS"
     }
 },
 {
@@ -2930,7 +3092,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "DOM操作。",
         "ko": "DOM 조작.",
         "ru": "Манипуляция DOM.",
-        "en": "DOM manipulation."
+        "en": "DOM manipulation.",
+        "ms": "Manipulasi DOM."
     }
 },
 {
@@ -2948,7 +3111,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "イベント処理。",
         "ko": "이벤트 처리.",
         "ru": "Обработка событий.",
-        "en": "Event handling."
+        "en": "Event handling.",
+        "ms": "Pengendalian acara."
     }
 },
 {
@@ -2966,7 +3130,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "フォーム送信。",
         "ko": "양식 제출.",
         "ru": "Отправка формы.",
-        "en": "Form submission."
+        "en": "Form submission.",
+        "ms": "Penyerahan borang."
     }
 },
 {
@@ -2984,7 +3149,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "入力検証。",
         "ko": "입력 검증.",
         "ru": "Валидация ввода.",
-        "en": "Input validation."
+        "en": "Input validation.",
+        "ms": "Pengesahan input."
     }
 },
 {
@@ -3002,7 +3168,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ローカルストレージ。",
         "ko": "로컬 스토리지.",
         "ru": "Локальное хранилище.",
-        "en": "Local storage."
+        "en": "Local storage.",
+        "ms": "Storan setempat"
     }
 },
 {
@@ -3020,7 +3187,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "セッションストレージ。",
         "ko": "세션 스토리지.",
         "ru": "Хранилище сеанса.",
-        "en": "Session storage."
+        "en": "Session storage.",
+        "ms": "Penyimpanan sesi."
     }
 },
 {
@@ -3038,7 +3206,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "クッキー管理。",
         "ko": "쿠키 관리.",
         "ru": "Управление куки.",
-        "en": "Cookie management."
+        "en": "Cookie management.",
+        "ms": "Pengurusan kuki."
     }
 },
 {
@@ -3056,7 +3225,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Fetch API。",
         "ko": "Fetch API.",
         "ru": "Fetch API.",
-        "en": "Fetch API."
+        "en": "Fetch API.",
+        "ms": "Ambil api."
     }
 },
 {
@@ -3074,7 +3244,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "AJAXリクエスト。",
         "ko": "AJAX 요청.",
         "ru": "AJAX запрос.",
-        "en": "AJAX request."
+        "en": "AJAX request.",
+        "ms": "Permintaan AJAX."
     }
 },
 {
@@ -3092,7 +3263,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "HTTPヘッダー。",
         "ko": "HTTP 헤더.",
         "ru": "HTTP заголовок.",
-        "en": "HTTP header."
+        "en": "HTTP header.",
+        "ms": "Pengepala HTTP."
     }
 },
 {
@@ -3110,7 +3282,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ステータスコード。",
         "ko": "상태 코드.",
         "ru": "Код состояния.",
-        "en": "Status code."
+        "en": "Status code.",
+        "ms": "Kod status."
     }
 },
 {
@@ -3128,7 +3301,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "JSON解析。",
         "ko": "JSON 파싱.",
         "ru": "Парсинг JSON.",
-        "en": "JSON parsing."
+        "en": "JSON parsing.",
+        "ms": "Penghuraian JSON."
     }
 },
 {
@@ -3146,7 +3320,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "XML構造。",
         "ko": "XML 구조.",
         "ru": "Структура XML.",
-        "en": "XML structure."
+        "en": "XML structure.",
+        "ms": "Struktur XML."
     }
 },
 {
@@ -3164,7 +3339,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "キャンバス描画。",
         "ko": "캔버스 그리기.",
         "ru": "Рисование на Canvas.",
-        "en": "Canvas drawing."
+        "en": "Canvas drawing.",
+        "ms": "Lukisan kanvas."
     }
 },
 {
@@ -3182,7 +3358,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "SVGレンダリング。",
         "ko": "SVG 렌더링.",
         "ru": "Рендеринг SVG.",
-        "en": "SVG rendering."
+        "en": "SVG rendering.",
+        "ms": "Penerapan SVG."
     }
 },
 {
@@ -3200,7 +3377,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "レスポンシブデザイン。",
         "ko": "반응형 디자인.",
         "ru": "Адаптивный дизайн.",
-        "en": "Responsive design."
+        "en": "Responsive design.",
+        "ms": "Reka bentuk responsif."
     }
 },
 {
@@ -3218,7 +3396,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "メディアクエリ。",
         "ko": "미디어 쿼리.",
         "ru": "Медиа-запрос.",
-        "en": "Media query."
+        "en": "Media query.",
+        "ms": "Pertanyaan media."
     }
 },
 {
@@ -3236,7 +3415,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Flexboxレイアウト。",
         "ko": "Flexbox 레이아웃.",
         "ru": "Flexbox макет.",
-        "en": "Flexbox layout."
+        "en": "Flexbox layout.",
+        "ms": "Susun atur Flexbox."
     }
 },
 {
@@ -3254,7 +3434,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "グリッドレイアウト。",
         "ko": "그리드 레이아웃.",
         "ru": "Grid макет.",
-        "en": "Grid layout."
+        "en": "Grid layout.",
+        "ms": "Susun atur grid."
     }
 },
 {
@@ -3272,7 +3453,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "アニメーションフレーム。",
         "ko": "애니메이션 프레임.",
         "ru": "Кадр анимации.",
-        "en": "Animation frame."
+        "en": "Animation frame.",
+        "ms": "Bingkai animasi."
     }
 },
 {
@@ -3290,7 +3472,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "トランジション効果。",
         "ko": "전환 효과.",
         "ru": "Эффект перехода.",
-        "en": "Transition effect."
+        "en": "Transition effect.",
+        "ms": "Kesan peralihan masuk"
     }
 },
 {
@@ -3308,7 +3491,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "キーフレームルール。",
         "ko": "키프레임 규칙.",
         "ru": "Правило keyframe.",
-        "en": "Keyframe rule."
+        "en": "Keyframe rule.",
+        "ms": "Peraturan bingkai kunci."
     }
 },
 {
@@ -3326,7 +3510,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "疑似クラス。",
         "ko": "의사 클래스.",
         "ru": "Псевдокласс.",
-        "en": "Pseudo class."
+        "en": "Pseudo class.",
+        "ms": "Kelas semu."
     }
 },
 {
@@ -3344,7 +3529,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "疑似要素。",
         "ko": "의사 요소.",
         "ru": "Псевдоэлемент.",
-        "en": "Pseudo element."
+        "en": "Pseudo element.",
+        "ms": "Unsur semu."
     }
 },
 {
@@ -3362,7 +3548,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "属性セレクタ。",
         "ko": "속성 선택자.",
         "ru": "Селектор атрибутов.",
-        "en": "Attribute selector."
+        "en": "Attribute selector.",
+        "ms": "Pemilih atribut."
     }
 },
 {
@@ -3380,7 +3567,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "クラス名。",
         "ko": "클래스 이름.",
         "ru": "Имя класса.",
-        "en": "Class name."
+        "en": "Class name.",
+        "ms": "Name=KDevAdaProject"
     }
 },
 {
@@ -3398,7 +3586,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ID属性。",
         "ko": "ID 속성.",
         "ru": "Атрибут ID.",
-        "en": "ID attribute."
+        "en": "ID attribute.",
+        "ms": "Atribut ID."
     }
 },
 {
@@ -3416,7 +3605,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "データ属性。",
         "ko": "데이터 속성.",
         "ru": "Атрибут данных.",
-        "en": "Data attribute."
+        "en": "Data attribute.",
+        "ms": "Atribut data."
     }
 },
 {
@@ -3434,7 +3624,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "アクセシビリティタグ。",
         "ko": "접근성 태그.",
         "ru": "Тег доступности.",
-        "en": "Accessibility tag."
+        "en": "Accessibility tag.",
+        "ms": "Tag kebolehcapaian."
     }
 },
 {
@@ -3452,7 +3643,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ARIAラベル。",
         "ko": "ARIA 레이블.",
         "ru": "ARIA метка.",
-        "en": "ARIA label."
+        "en": "ARIA label.",
+        "ms": "Aria Label"
     }
 },
 {
@@ -3470,7 +3662,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "セマンティックタグ。",
         "ko": "시맨틱 태그.",
         "ru": "Семантический тег.",
-        "en": "Semantic tag."
+        "en": "Semantic tag.",
+        "ms": "Tag semantik."
     }
 },
 {
@@ -3488,7 +3681,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "メタタグ。",
         "ko": "메타 태그.",
         "ru": "Мета-тег.",
-        "en": "Meta tag."
+        "en": "Meta tag.",
+        "ms": "meta data pakej"
     }
 },
 {
@@ -3506,7 +3700,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ビューポート設定。",
         "ko": "뷰포트 설정.",
         "ru": "Настройка viewport.",
-        "en": "Viewport setting."
+        "en": "Viewport setting.",
+        "ms": "Tetapan port pandang."
     }
 },
 {
@@ -3524,7 +3719,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ファビコン。",
         "ko": "파비콘 아이콘.",
         "ru": "Favicon значок.",
-        "en": "Favicon icon."
+        "en": "Favicon icon.",
+        "ms": "Ikon Favicon."
     }
 },
 {
@@ -3542,7 +3738,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "マニフェストファイル。",
         "ko": "매니페스트 파일.",
         "ru": "Файл манифеста.",
-        "en": "Manifest file."
+        "en": "Manifest file.",
+        "ms": "Fail manifes."
     }
 },
 {
@@ -3560,7 +3757,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "サービスワーカー。",
         "ko": "서비스 워커.",
         "ru": "Service worker.",
-        "en": "Service worker."
+        "en": "Service worker.",
+        "ms": "Pekerja perkhidmatan."
     }
 },
 {
@@ -3578,7 +3776,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ウェブソケット。",
         "ko": "웹 소켓.",
         "ru": "Web socket.",
-        "en": "Web socket."
+        "en": "Web socket.",
+        "ms": "Soket web."
     }
 },
 {
@@ -3596,7 +3795,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "プッシュ通知。",
         "ko": "푸시 알림.",
         "ru": "Push-уведомление.",
-        "en": "Push notification."
+        "en": "Push notification.",
+        "ms": "Pemberitahuan tolak"
     }
 },
 {
@@ -3614,7 +3814,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Selectクエリ。",
         "ko": "Select 쿼리.",
         "ru": "Запрос Select.",
-        "en": "Select query."
+        "en": "Select query.",
+        "ms": "Pilih pertanyaan."
     }
 },
 {
@@ -3632,7 +3833,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "レコード挿入。",
         "ko": "레코드 삽입.",
         "ru": "Вставить запись.",
-        "en": "Insert record."
+        "en": "Insert record.",
+        "ms": "Masukkan rekod."
     }
 },
 {
@@ -3650,7 +3852,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "行更新。",
         "ko": "행 업데이트.",
         "ru": "Обновить строку.",
-        "en": "Update row."
+        "en": "Update row.",
+        "ms": "Kemas kini baris."
     }
 },
 {
@@ -3668,7 +3871,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "エントリ削除。",
         "ko": "항목 삭제.",
         "ru": "Удалить запись.",
-        "en": "Delete entry."
+        "en": "Delete entry.",
+        "ms": "_Pindah ke Sampah"
     }
 },
 {
@@ -3686,7 +3890,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "テーブル作成。",
         "ko": "테이블 생성.",
         "ru": "Создать таблицу.",
-        "en": "Create table."
+        "en": "Create table.",
+        "ms": "Kiri:"
     }
 },
 {
@@ -3704,7 +3909,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "データベース削除。",
         "ko": "데이터베이스 삭제.",
         "ru": "Удалить базу данных.",
-        "en": "Drop database."
+        "en": "Drop database.",
+        "ms": "Letakkan pangkalan data."
     }
 },
 {
@@ -3722,7 +3928,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "スキーマ変更。",
         "ko": "스키마 변경.",
         "ru": "Изменить схему.",
-        "en": "Alter schema."
+        "en": "Alter schema.",
+        "ms": "Ubah skema."
     }
 },
 {
@@ -3740,7 +3947,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "外部キー。",
         "ko": "외래 키.",
         "ru": "Внешний ключ.",
-        "en": "Foreign key."
+        "en": "Foreign key.",
+        "ms": "Kunci asing."
     }
 },
 {
@@ -3758,7 +3966,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "主キー。",
         "ko": "기본 키.",
         "ru": "Первичный ключ.",
-        "en": "Primary key."
+        "en": "Primary key.",
+        "ms": "Kekunci Utama?Default value"
     }
 },
 {
@@ -3776,7 +3985,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "インデックス作成。",
         "ko": "인덱스 생성.",
         "ru": "Создание индекса.",
-        "en": "Index creation."
+        "en": "Index creation.",
+        "ms": "Log pembinaan indeks: Label for button to close search index progress dialog after successful completion"
     }
 },
 {
@@ -3794,7 +4004,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "テーブル結合。",
         "ko": "테이블 조인.",
         "ru": "Присоединить таблицу.",
-        "en": "Join table."
+        "en": "Join table.",
+        "ms": "Sertai meja."
     }
 },
 {
@@ -3812,7 +4023,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "内部結合。",
         "ko": "내부 조인.",
         "ru": "Внутреннее соединение.",
-        "en": "Inner join."
+        "en": "Inner join.",
+        "ms": "Inner join."
     }
 },
 {
@@ -3830,7 +4042,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "左結合。",
         "ko": "왼쪽 조인.",
         "ru": "Левое соединение.",
-        "en": "Left join."
+        "en": "Left join.",
+        "ms": "Sertai kiri."
     }
 },
 {
@@ -3848,7 +4061,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "右結合。",
         "ko": "오른쪽 조인.",
         "ru": "Правое соединение.",
-        "en": "Right join."
+        "en": "Right join.",
+        "ms": "Sertai dengan betul."
     }
 },
 {
@@ -3866,7 +4080,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "クロス結合。",
         "ko": "크로스 조인.",
         "ru": "Перекрестное соединение.",
-        "en": "Cross join."
+        "en": "Cross join.",
+        "ms": "Sertai silang."
     }
 },
 {
@@ -3884,7 +4099,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "すべて結合。",
         "ko": "모두 합집합.",
         "ru": "Объединить все.",
-        "en": "Union all."
+        "en": "Union all.",
+        "ms": "Kesatuan semua."
     }
 },
 {
@@ -3902,7 +4118,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "グループ化。",
         "ko": "그룹화.",
         "ru": "Группировать по.",
-        "en": "Group by."
+        "en": "Group by.",
+        "ms": "Dikumpulkan oleh"
     }
 },
 {
@@ -3920,7 +4137,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "並べ替え。",
         "ko": "정렬.",
         "ru": "Сортировать по.",
-        "en": "Order by."
+        "en": "Order by.",
+        "ms": "Susun dengan"
     }
 },
 {
@@ -3938,7 +4156,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Having句。",
         "ko": "Having 절.",
         "ru": "Предложение Having.",
-        "en": "Having clause."
+        "en": "Having clause.",
+        "ms": "Mempunyai klausa."
     }
 },
 {
@@ -3956,7 +4175,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "リミットオフセット。",
         "ko": "제한 오프셋.",
         "ru": "Лимит смещения.",
-        "en": "Limit offset."
+        "en": "Limit offset.",
+        "ms": "Ofset had."
     }
 },
 {
@@ -3974,7 +4194,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "トランザクション開始。",
         "ko": "트랜잭션 시작.",
         "ru": "Начало транзакции.",
-        "en": "Transaction start."
+        "en": "Transaction start.",
+        "ms": "Transaksi bermula."
     }
 },
 {
@@ -3992,7 +4213,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "変更コミット。",
         "ko": "변경 커밋.",
         "ru": "Зафиксировать изменение.",
-        "en": "Commit change."
+        "en": "Commit change.",
+        "ms": "Lakukan perubahan."
     }
 },
 {
@@ -4010,7 +4232,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "トランザクションロールバック。",
         "ko": "트랜잭션 롤백.",
         "ru": "Откат транзакции.",
-        "en": "Rollback transaction."
+        "en": "Rollback transaction.",
+        "ms": "Transaksi gulung balik."
     }
 },
 {
@@ -4028,7 +4251,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ストアドプロシージャ。",
         "ko": "저장 프로시저.",
         "ru": "Хранимая процедура.",
-        "en": "Stored procedure."
+        "en": "Stored procedure.",
+        "ms": "Prosedur yang disimpan."
     }
 },
 {
@@ -4046,7 +4270,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "トリガー関数。",
         "ko": "트리거 함수.",
         "ru": "Функция триггера.",
-        "en": "Trigger function."
+        "en": "Trigger function.",
+        "ms": "Fungsi pencetus."
     }
 },
 {
@@ -4064,7 +4289,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ビュー定義。",
         "ko": "뷰 정의.",
         "ru": "Определение представления.",
-        "en": "View definition."
+        "en": "View definition.",
+        "ms": "Definisi"
     }
 },
 {
@@ -4082,7 +4308,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "正規化形式。",
         "ko": "정규화 형식.",
         "ru": "Форма нормализации.",
-        "en": "Normalization form."
+        "en": "Normalization form.",
+        "ms": "Borang penormalan."
     }
 },
 {
@@ -4100,7 +4327,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "データベース移行。",
         "ko": "데이터베이스 마이그레이션.",
         "ru": "Миграция базы данных.",
-        "en": "Database migration."
+        "en": "Database migration.",
+        "ms": "Pemindahan pangkalan data."
     }
 },
 {
@@ -4118,7 +4346,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "シードデータ。",
         "ko": "시드 데이터.",
         "ru": "Начальные данные.",
-        "en": "Seed data."
+        "en": "Seed data.",
+        "ms": "Data benih."
     }
 },
 {
@@ -4136,7 +4365,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "データベースバックアップ。",
         "ko": "데이터베이스 백업.",
         "ru": "Резервное копирование базы данных.",
-        "en": "Backup database."
+        "en": "Backup database.",
+        "ms": "Pangkalan data sandaran."
     }
 },
 {
@@ -4154,7 +4384,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Git初期化。",
         "ko": "Git 초기화.",
         "ru": "Git init.",
-        "en": "Git init."
+        "en": "Git init.",
+        "ms": "Git init."
     }
 },
 {
@@ -4172,7 +4403,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitクローン。",
         "ko": "Git 복제.",
         "ru": "Git clone.",
-        "en": "Git clone."
+        "en": "Git clone.",
+        "ms": "Klon git."
     }
 },
 {
@@ -4190,7 +4422,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Git追加。",
         "ko": "Git 추가.",
         "ru": "Git add.",
-        "en": "Git add."
+        "en": "Git add.",
+        "ms": "Tambah Git."
     }
 },
 {
@@ -4208,7 +4441,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitコミット。",
         "ko": "Git 커밋.",
         "ru": "Git commit.",
-        "en": "Git commit."
+        "en": "Git commit.",
+        "ms": "Git komited."
     }
 },
 {
@@ -4226,7 +4460,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitプッシュ。",
         "ko": "Git 푸시.",
         "ru": "Git push.",
-        "en": "Git push."
+        "en": "Git push.",
+        "ms": "Git push."
     }
 },
 {
@@ -4244,7 +4479,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitプル。",
         "ko": "Git 풀.",
         "ru": "Git pull.",
-        "en": "Git pull."
+        "en": "Git pull.",
+        "ms": "Tarikan git."
     }
 },
 {
@@ -4262,7 +4498,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitフェッチ。",
         "ko": "Git 가져오기.",
         "ru": "Git fetch.",
-        "en": "Git fetch."
+        "en": "Git fetch.",
+        "ms": "Git fetch."
     }
 },
 {
@@ -4280,7 +4517,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitチェックアウト。",
         "ko": "Git 체크아웃.",
         "ru": "Git checkout.",
-        "en": "Git checkout."
+        "en": "Git checkout.",
+        "ms": "Daftar keluar git."
     }
 },
 {
@@ -4298,7 +4536,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitブランチ。",
         "ko": "Git 브랜치.",
         "ru": "Git branch.",
-        "en": "Git branch."
+        "en": "Git branch.",
+        "ms": "Cabang Git."
     }
 },
 {
@@ -4316,7 +4555,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitマージ。",
         "ko": "Git 병합.",
         "ru": "Git merge.",
-        "en": "Git merge."
+        "en": "Git merge.",
+        "ms": "Git merge."
     }
 },
 {
@@ -4334,7 +4574,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitリベース。",
         "ko": "Git リベース.",
         "ru": "Git rebase.",
-        "en": "Git rebase."
+        "en": "Git rebase.",
+        "ms": "Git rebase."
     }
 },
 {
@@ -4352,7 +4593,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitリセット。",
         "ko": "Git 리셋.",
         "ru": "Git reset.",
-        "en": "Git reset."
+        "en": "Git reset.",
+        "ms": "Git ditetapkan semula."
     }
 },
 {
@@ -4370,7 +4612,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitスタッシュ。",
         "ko": "Git 스태시.",
         "ru": "Git stash.",
-        "en": "Git stash."
+        "en": "Git stash.",
+        "ms": "Git stash."
     }
 },
 {
@@ -4388,7 +4631,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitタグ。",
         "ko": "Git 태그.",
         "ru": "Git tag.",
-        "en": "Git tag."
+        "en": "Git tag.",
+        "ms": "Tag git."
     }
 },
 {
@@ -4406,7 +4650,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitログ。",
         "ko": "Git 로그.",
         "ru": "Git log.",
-        "en": "Git log."
+        "en": "Git log.",
+        "ms": "Log git."
     }
 },
 {
@@ -4424,7 +4669,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Git差分。",
         "ko": "Git 차이.",
         "ru": "Git diff.",
-        "en": "Git diff."
+        "en": "Git diff.",
+        "ms": "Git diff."
     }
 },
 {
@@ -4442,7 +4688,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Gitリモート。",
         "ko": "Git 원격.",
         "ru": "Git remote.",
-        "en": "Git remote."
+        "en": "Git remote.",
+        "ms": "Git remote."
     }
 },
 {
@@ -4460,7 +4707,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Git設定。",
         "ko": "Git 설정.",
         "ru": "Git config.",
-        "en": "Git config."
+        "en": "Git config.",
+        "ms": "Konfigurasi git."
     }
 },
 {
@@ -4478,7 +4726,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "プルリクエスト。",
         "ko": "풀 리퀘스트.",
         "ru": "Pull request.",
-        "en": "Pull request."
+        "en": "Pull request.",
+        "ms": "Tarik permohonan."
     }
 },
 {
@@ -4496,7 +4745,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "コードレビュー。",
         "ko": "코드 리뷰.",
         "ru": "Код-ревью.",
-        "en": "Code review."
+        "en": "Code review.",
+        "ms": "kod pemerhatian "
     }
 },
 {
@@ -4514,7 +4764,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "継続的インテグレーション。",
         "ko": "지속적 통합.",
         "ru": "Непрерывная интеграция.",
-        "en": "Continuous integration."
+        "en": "Continuous integration.",
+        "ms": "Penyepaduan berterusan."
     }
 },
 {
@@ -4532,7 +4783,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "継続的デプロイ。",
         "ko": "지속적 배포.",
         "ru": "Непрерывное развертывание.",
-        "en": "Continuous deployment."
+        "en": "Continuous deployment.",
+        "ms": "Pengerahan berterusan."
     }
 },
 {
@@ -4550,7 +4802,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ビルドパイプライン。",
         "ko": "빌드 파이프라인.",
         "ru": "Сборочный конвейер.",
-        "en": "Build pipeline."
+        "en": "Build pipeline.",
+        "ms": "Bina saluran paip."
     }
 },
 {
@@ -4568,7 +4821,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Dockerコンテナ。",
         "ko": "도커 컨테이너.",
         "ru": "Docker контейнер.",
-        "en": "Docker container."
+        "en": "Docker container.",
+        "ms": "Bekas dok."
     }
 },
 {
@@ -4586,7 +4840,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Dockerイメージ。",
         "ko": "도커 이미지.",
         "ru": "Docker образ.",
-        "en": "Docker image."
+        "en": "Docker image.",
+        "ms": "Imej Docker."
     }
 },
 {
@@ -4604,7 +4859,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Docker構成。",
         "ko": "도커 컴포즈.",
         "ru": "Docker compose.",
-        "en": "Docker compose."
+        "en": "Docker compose.",
+        "ms": "Docker menggubah."
     }
 },
 {
@@ -4622,7 +4878,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "Kubernetesポッド。",
         "ko": "쿠버네티스 포드.",
         "ru": "Kubernetes pod.",
-        "en": "Kubernetes pod."
+        "en": "Kubernetes pod.",
+        "ms": "Kubernetes pod."
     }
 },
 {
@@ -4640,7 +4897,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "クラスターノード。",
         "ko": "클러스터 노드.",
         "ru": "Узел кластера.",
-        "en": "Cluster node."
+        "en": "Cluster node.",
+        "ms": "Nod kluster."
     }
 },
 {
@@ -4658,7 +4916,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "サービスメッシュ。",
         "ko": "서비스 메시.",
         "ru": "Service mesh.",
-        "en": "Service mesh."
+        "en": "Service mesh.",
+        "ms": "Rangkaian perkhidmatan."
     }
 },
 {
@@ -4676,7 +4935,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ロードバランサ。",
         "ko": "로드 밸런서.",
         "ru": "Балансировщик нагрузки.",
-        "en": "Load balancer."
+        "en": "Load balancer.",
+        "ms": "Pengimbang muatan."
     }
 },
 {
@@ -4694,7 +4954,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "単体テスト。",
         "ko": "단위 테스트.",
         "ru": "Модульный тест.",
-        "en": "Unit test."
+        "en": "Unit test.",
+        "ms": "Ujian unit."
     }
 },
 {
@@ -4712,7 +4973,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "統合テスト。",
         "ko": "통합 테스트.",
         "ru": "Интеграционный тест.",
-        "en": "Integration test."
+        "en": "Integration test.",
+        "ms": "Ujian integrasi."
     }
 },
 {
@@ -4730,7 +4992,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "エンドツーエンドテスト。",
         "ko": "엔드투엔드 테스트.",
         "ru": "Сквозной тест.",
-        "en": "End to end test."
+        "en": "End to end test.",
+        "ms": "Ujian hujung ke hujung."
     }
 },
 {
@@ -4748,7 +5011,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "テストケース。",
         "ko": "테스트 케이스.",
         "ru": "Тестовый случай.",
-        "en": "Test case."
+        "en": "Test case.",
+        "ms": "Kes ujian."
     }
 },
 {
@@ -4766,7 +5030,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "テストスイート。",
         "ko": "테스트 스위트.",
         "ru": "Тестовый набор.",
-        "en": "Test suite."
+        "en": "Test suite.",
+        "ms": "Suite ujian."
     }
 },
 {
@@ -4784,7 +5049,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "テストランナー。",
         "ko": "테스트 러너.",
         "ru": "Запуск тестов.",
-        "en": "Test runner."
+        "en": "Test runner.",
+        "ms": "Pelari ujian."
     }
 },
 {
@@ -4802,7 +5068,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "アサーションライブラリ。",
         "ko": "어설션 라이브러리.",
         "ru": "Библиотека утверждений.",
-        "en": "Assertion library."
+        "en": "Assertion library.",
+        "ms": "Pustaka penegasan."
     }
 },
 {
@@ -4820,7 +5087,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "モックオブジェクト。",
         "ko": "모의 객체.",
         "ru": "Mock-объект.",
-        "en": "Mock object."
+        "en": "Mock object.",
+        "ms": "Objek olok-olok."
     }
 },
 {
@@ -4838,7 +5106,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "スタブ関数。",
         "ko": "스텁 함수.",
         "ru": "Функция-заглушка.",
-        "en": "Stub function."
+        "en": "Stub function.",
+        "ms": "Fungsi stub."
     }
 },
 {
@@ -4856,7 +5125,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "スパイメソッド。",
         "ko": "스파이 메서드.",
         "ru": "Шпионский метод.",
-        "en": "Spy method."
+        "en": "Spy method.",
+        "ms": "Kaedah pengintipan."
     }
 },
 {
@@ -4874,7 +5144,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "コードカバレッジ。",
         "ko": "코드 커버리지.",
         "ru": "Покрытие кода.",
-        "en": "Code coverage."
+        "en": "Code coverage.",
+        "ms": "Perlindungan kod."
     }
 },
 {
@@ -4892,7 +5163,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "回帰テスト。",
         "ko": "회귀 테스트.",
         "ru": "Регрессионный тест.",
-        "en": "Regression test."
+        "en": "Regression test.",
+        "ms": "Ujian regresi."
     }
 },
 {
@@ -4910,7 +5182,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "スモークテスト。",
         "ko": "스모크 테스트.",
         "ru": "Дымовой тест.",
-        "en": "Smoke test."
+        "en": "Smoke test.",
+        "ms": "Ujian asap."
     }
 },
 {
@@ -4928,7 +5201,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "パフォーマンステスト。",
         "ko": "성능 테스트.",
         "ru": "Тест производительности.",
-        "en": "Performance test."
+        "en": "Performance test.",
+        "ms": "TabloidName"
     }
 },
 {
@@ -4946,7 +5220,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ストレステスト。",
         "ko": "스트레스 테스트.",
         "ru": "Стресс-тест.",
-        "en": "Stress test."
+        "en": "Stress test.",
+        "ms": "Ujian tekanan."
     }
 },
 {
@@ -4964,7 +5239,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "セキュリティ監査。",
         "ko": "보안 감사.",
         "ru": "Аудит безопасности.",
-        "en": "Security audit."
+        "en": "Security audit.",
+        "ms": "Audit keselamatan."
     }
 },
 {
@@ -4982,7 +5258,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "バグレポート。",
         "ko": "버그 리포트.",
         "ru": "Отчет об ошибке.",
-        "en": "Bug report."
+        "en": "Bug report.",
+        "ms": "<cf font=\"Arial\" size=\"10\"> LAPORAN PEPIJAT:"
     }
 },
 {
@@ -5000,7 +5277,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "課題追跡。",
         "ko": "이슈 추적.",
         "ru": "Отслеживание задач.",
-        "en": "Issue tracking."
+        "en": "Issue tracking.",
+        "ms": "Penjejakan isu."
     }
 },
 {
@@ -5018,7 +5296,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "機能リクエスト。",
         "ko": "기능 요청.",
         "ru": "Запрос функции.",
-        "en": "Feature request."
+        "en": "Feature request.",
+        "ms": "Permintaan ciri."
     }
 },
 {
@@ -5036,7 +5315,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "リリースノート。",
         "ko": "릴리스 노트.",
         "ru": "Примечания к выпуску.",
-        "en": "Release note."
+        "en": "Release note.",
+        "ms": "Nota pelepasan."
     }
 },
 {
@@ -5054,7 +5334,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "SQLインジェクション。",
         "ko": "SQL 인젝션.",
         "ru": "SQL-инъекция.",
-        "en": "SQL injection."
+        "en": "SQL injection.",
+        "ms": "Suntikan SQL."
     }
 },
 {
@@ -5072,7 +5353,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "XSS攻撃。",
         "ko": "XSS 공격.",
         "ru": "XSS атака.",
-        "en": "XSS attack."
+        "en": "XSS attack.",
+        "ms": "Serangan XSS."
     }
 },
 {
@@ -5090,7 +5372,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "CSRF保護。",
         "ko": "CSRF 보호.",
         "ru": "CSRF защита.",
-        "en": "CSRF protection."
+        "en": "CSRF protection.",
+        "ms": "Perlindungan CSRF."
     }
 },
 {
@@ -5108,7 +5391,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "暗号化キー。",
         "ko": "암호화 키.",
         "ru": "Ключ шифрования.",
-        "en": "Encryption key."
+        "en": "Encryption key.",
+        "ms": "Kunci Enkripsi:"
     }
 },
 {
@@ -5126,7 +5410,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ハッシュアルゴリズム。",
         "ko": "해싱 알고리즘.",
         "ru": "Algoritmo хеширования.",
-        "en": "Hashing algorithm."
+        "en": "Hashing algorithm.",
+        "ms": "Algoritma hashing."
     }
 },
 {
@@ -5144,7 +5429,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "デジタル署名。",
         "ko": "디지털 서명.",
         "ru": "Цифровая подпись.",
-        "en": "Digital signature."
+        "en": "Digital signature.",
+        "ms": "Tandatangan"
     }
 },
 {
@@ -5162,7 +5448,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "SSL証明書。",
         "ko": "SSL 인증서.",
         "ru": "SSL сертификат.",
-        "en": "SSL certificate."
+        "en": "SSL certificate.",
+        "ms": "Sijil SSL"
     }
 },
 {
@@ -5180,7 +5467,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "HTTPSプロトコル。",
         "ko": "HTTPS 프로토콜.",
         "ru": "Протокол HTTPS.",
-        "en": "HTTPS protocol."
+        "en": "HTTPS protocol.",
+        "ms": "Protokol https."
     }
 },
 {
@@ -5198,7 +5486,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ファイアウォールルール。",
         "ko": "방화벽 규칙.",
         "ru": "Правило брандмауэра.",
-        "en": "Firewall rule."
+        "en": "Firewall rule.",
+        "ms": "Peraturan firewall."
     }
 },
 {
@@ -5216,7 +5505,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "レート制限。",
         "ko": "속도 제한.",
         "ru": "Ограничение скорости.",
-        "en": "Rate limiting."
+        "en": "Rate limiting.",
+        "ms": "Mengehadkan kadar."
     }
 },
 {
@@ -5234,7 +5524,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "コマンドライン。",
         "ko": "명령줄.",
         "ru": "Командная строка.",
-        "en": "Command line."
+        "en": "Command line.",
+        "ms": "Arahan baris"
     }
 },
 {
@@ -5252,7 +5543,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "シェルスクリプト。",
         "ko": "셸 스크립트.",
         "ru": "Shell-скрипт.",
-        "en": "Shell script."
+        "en": "Shell script.",
+        "ms": "Skrip shell"
     }
 },
 {
@@ -5270,7 +5562,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "環境変数。",
         "ko": "환경 변수.",
         "ru": "Переменная среды.",
-        "en": "Environment variable."
+        "en": "Environment variable.",
+        "ms": "Name of an environment variable"
     }
 },
 {
@@ -5288,7 +5581,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "パス設定。",
         "ko": "경로 설정.",
         "ru": "Настройка пути.",
-        "en": "Path setting."
+        "en": "Path setting.",
+        "ms": "Tetapan laluan."
     }
 },
 {
@@ -5306,7 +5600,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ファイル権限。",
         "ko": "파일 권한.",
         "ru": "Разрешение файла.",
-        "en": "File permission."
+        "en": "File permission.",
+        "ms": "Kebenaran fail."
     }
 },
 {
@@ -5324,7 +5619,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ディスク使用量。",
         "ko": "디스크 사용량.",
         "ru": "Использование диска.",
-        "en": "Disk usage."
+        "en": "Disk usage.",
+        "ms": "Penggunaan cakera."
     }
 },
 {
@@ -5342,7 +5638,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "メモリリーク。",
         "ko": "메모리 누수.",
         "ru": "Утечка памяти.",
-        "en": "Memory leak."
+        "en": "Memory leak.",
+        "ms": "Kebocoran memori."
     }
 },
 {
@@ -5360,7 +5657,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "CPU負荷。",
         "ko": "CPU 부하.",
         "ru": "Нагрузка на ЦП.",
-        "en": "CPU load."
+        "en": "CPU load.",
+        "ms": "Muatan CPU"
     }
 },
 {
@@ -5378,7 +5676,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "ネットワーク遅延。",
         "ko": "네트워크 지연.",
         "ru": "Задержка сети.",
-        "en": "Network latency."
+        "en": "Network latency.",
+        "ms": "Kependaman rangkaian."
     }
 },
 {
@@ -5396,7 +5695,8 @@ export const CODING_PHRASES_EXTENDED = [
         "ja": "帯域幅使用量。",
         "ko": "대역폭 사용량.",
         "ru": "Использование полосы пропускания.",
-        "en": "Bandwidth usage."
+        "en": "Bandwidth usage.",
+        "ms": "Penggunaan jalur lebar."
     }
 }
 

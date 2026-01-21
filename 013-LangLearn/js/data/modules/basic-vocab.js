@@ -4,7 +4,7 @@ export const VOCAB_BASIC = [
         id: 'greg',
         word: 'Boy',
         translation: {
-            en: 'Boy', es: 'Chico', fr: 'Garçon', vi: 'Cậu bé', de: 'Junge', it: 'Ragazzo', ja: '男の子', ko: '소년', pt: 'Menino', ru: 'Мальчик', zh: '男孩'
+            en: 'Boy', ms: 'Budak lelaki', es: 'Chico', fr: 'Garçon', vi: 'Cậu bé', de: 'Junge', it: 'Ragazzo', ja: '男の子', ko: '소년', pt: 'Menino', ru: 'Мальчик', zh: '男孩'
         },
         image: '👦'
     },
@@ -12,7 +12,7 @@ export const VOCAB_BASIC = [
         id: 'mom',
         word: 'Mom',
         translation: {
-            en: 'Mom', es: 'Mamá', fr: 'Maman', vi: 'Mẹ', de: 'Mama', it: 'Mamma', ja: 'お母さん', ko: '엄마', pt: 'Mãe', ru: 'Мама', zh: '妈妈'
+            en: 'Mom', ms: 'Ibu', es: 'Mamá', fr: 'Maman', vi: 'Mẹ', de: 'Mama', it: 'Mamma', ja: 'お母さん', ko: '엄마', pt: 'Mãe', ru: 'Мама', zh: '妈妈'
         },
         image: '👩'
     },
@@ -20,7 +20,7 @@ export const VOCAB_BASIC = [
         id: 'dad',
         word: 'Dad',
         translation: {
-            en: 'Dad', es: 'Papá', fr: 'Papa', vi: 'Bố', de: 'Papa', it: 'Papà', ja: 'お父さん', ko: '아빠', pt: 'Pai', ru: 'Папа', zh: '爸爸'
+            en: 'Dad', ms: 'Ayah', es: 'Papá', fr: 'Papa', vi: 'Bố', de: 'Papa', it: 'Papà', ja: 'お父さん', ko: '아빠', pt: 'Pai', ru: 'Папа', zh: '爸爸'
         },
         image: '👨'
     },
@@ -28,7 +28,7 @@ export const VOCAB_BASIC = [
         id: 'brother',
         word: 'Brother',
         translation: {
-            en: 'Brother', es: 'Hermano', fr: 'Frère', vi: 'Anh trai, em trai', de: 'Bruder', it: 'Fratello', ja: '兄弟', ko: '형제', pt: 'Irmão', ru: 'Брат', zh: '兄弟'
+            en: 'Brother', ms: 'Abang / adik lelaki', es: 'Hermano', fr: 'Frère', vi: 'Anh trai, em trai', de: 'Bruder', it: 'Fratello', ja: '兄弟', ko: '형제', pt: 'Irmão', ru: 'Брат', zh: '兄弟'
         },
         image: '👦'
     },
@@ -36,7 +36,7 @@ export const VOCAB_BASIC = [
         id: 'friend',
         word: 'Friend',
         translation: {
-            en: 'Friend', es: 'Amigo', fr: 'Ami', vi: 'Bạn bè', de: 'Freund', it: 'Amico', ja: '友達', ko: '친구', pt: 'Amigo', ru: 'Друг', zh: '朋友'
+            en: 'Friend', ms: 'Kawan', es: 'Amigo', fr: 'Ami', vi: 'Bạn bè', de: 'Freund', it: 'Amico', ja: '友達', ko: '친구', pt: 'Amigo', ru: 'Друг', zh: '朋友'
         },
         image: '🤝'
     },
@@ -46,7 +46,7 @@ export const VOCAB_BASIC = [
         id: 'school',
         word: 'School',
         translation: {
-            en: 'School', es: 'Escuela', fr: 'École', vi: 'Trường học', de: 'Schule', it: 'Scuola', ja: '学校', ko: '학교', pt: 'Escola', ru: 'Школа', zh: '学校'
+            en: 'School', ms: 'Sekolah', es: 'Escuela', fr: 'École', vi: 'Trường học', de: 'Schule', it: 'Scuola', ja: '学校', ko: '학교', pt: 'Escola', ru: 'Школа', zh: '学校'
         },
         image: '🏫'
     },
@@ -54,7 +54,7 @@ export const VOCAB_BASIC = [
         id: 'book',
         word: 'Book',
         translation: {
-            en: 'Book', es: 'Libro', fr: 'Livre', vi: 'Sách', de: 'Buch', it: 'Libro', ja: '本', ko: '책', pt: 'Livro', ru: 'Книга', zh: '书'
+            en: 'Book', ms: 'Buku', es: 'Libro', fr: 'Livre', vi: 'Sách', de: 'Buch', it: 'Libro', ja: '本', ko: '책', pt: 'Livro', ru: 'Книга', zh: '书'
         },
         image: '📕'
     },
@@ -62,7 +62,7 @@ export const VOCAB_BASIC = [
         id: 'backpack',
         word: 'Backpack',
         translation: {
-            en: 'Backpack', es: 'Mochila', fr: 'Sac à dos', vi: 'Ba lô', de: 'Rucksack', it: 'Zaino', ja: 'リュック', ko: '배낭', pt: 'Mochila', ru: 'Рюкзак', zh: '背包'
+            en: 'Backpack', ms: 'Beg galas', es: 'Mochila', fr: 'Sac à dos', vi: 'Ba lô', de: 'Rucksack', it: 'Zaino', ja: 'リュック', ko: '배낭', pt: 'Mochila', ru: 'Рюкзак', zh: '背包'
         },
         image: '🎒'
     },
@@ -70,7 +70,7 @@ export const VOCAB_BASIC = [
         id: 'pencil',
         word: 'Pencil',
         translation: {
-            en: 'Pencil', es: 'Lápiz', fr: 'Crayon', vi: 'Bút chì', de: 'Bleistift', it: 'Matita', ja: '鉛筆', ko: '연필', pt: 'Lápis', ru: 'Карандаш', zh: '铅笔'
+            en: 'Pencil', ms: 'Pensel', es: 'Lápiz', fr: 'Crayon', vi: 'Bút chì', de: 'Bleistift', it: 'Matita', ja: '鉛筆', ko: '연필', pt: 'Lápis', ru: 'Карандаш', zh: '铅笔'
         },
         image: '✏️'
     },
@@ -78,7 +78,7 @@ export const VOCAB_BASIC = [
         id: 'homework',
         word: 'Homework',
         translation: {
-            en: 'Homework', es: 'Tarea', fr: 'Devoirs', vi: 'Bài tập', de: 'Hausaufgaben', it: 'Compiti', ja: '宿題', ko: '숙제', pt: 'Lição de casa', ru: 'Домашнее задание', zh: '作业'
+            en: 'Homework', ms: 'Kerja rumah', es: 'Tarea', fr: 'Devoirs', vi: 'Bài tập', de: 'Hausaufgaben', it: 'Compiti', ja: '宿題', ko: '숙제', pt: 'Lição de casa', ru: 'Домашнее задание', zh: '作业'
         },
         image: '📝'
     },
@@ -88,7 +88,7 @@ export const VOCAB_BASIC = [
         id: 'happy',
         word: 'Happy',
         translation: {
-            en: 'Happy', es: 'Feliz', fr: 'Heureux', vi: 'Vui vẻ', de: 'Glücklich', it: 'Felice', ja: '幸せ', ko: '행복한', pt: 'Feliz', ru: 'Счастливый', zh: '快乐'
+            en: 'Happy', ms: 'Gembira', es: 'Feliz', fr: 'Heureux', vi: 'Vui vẻ', de: 'Glücklich', it: 'Felice', ja: '幸せ', ko: '행복한', pt: 'Feliz', ru: 'Счастливый', zh: '快乐'
         },
         image: '😄'
     },
@@ -96,7 +96,7 @@ export const VOCAB_BASIC = [
         id: 'sad',
         word: 'Sad',
         translation: {
-            en: 'Sad', es: 'Triste', fr: 'Triste', vi: 'Buồn', de: 'Traurig', it: 'Triste', ja: '悲しい', ko: '슬픈', pt: 'Triste', ru: 'Грустный', zh: '悲伤'
+            en: 'Sad', ms: 'Sedih', es: 'Triste', fr: 'Triste', vi: 'Buồn', de: 'Traurig', it: 'Triste', ja: '悲しい', ko: '슬픈', pt: 'Triste', ru: 'Грустный', zh: '悲伤'
         },
         image: '😢'
     },
@@ -104,7 +104,7 @@ export const VOCAB_BASIC = [
         id: 'angry',
         word: 'Angry',
         translation: {
-            en: 'Angry', es: 'Enojado', fr: 'Fâché', vi: 'Tức giận', de: 'Wütend', it: 'Arrabbiato', ja: '怒っている', ko: '화난', pt: 'Bravo', ru: 'Злой', zh: '生气'
+            en: 'Angry', ms: 'Marah', es: 'Enojado', fr: 'Fâché', vi: 'Tức giận', de: 'Wütend', it: 'Arrabbiato', ja: '怒っている', ko: '화난', pt: 'Bravo', ru: 'Злой', zh: '生气'
         },
         image: '😠'
     },
@@ -112,7 +112,7 @@ export const VOCAB_BASIC = [
         id: 'scared',
         word: 'Scared',
         translation: {
-            en: 'Scared', es: 'Asustado', fr: 'Effrayé', vi: 'Sợ hãi', de: 'Verängstigt', it: 'Spaventato', ja: '怖い', ko: '무서운', pt: 'Assustado', ru: 'Испуганный', zh: '害怕'
+            en: 'Scared', ms: 'Takut', es: 'Asustado', fr: 'Effrayé', vi: 'Sợ hãi', de: 'Verängstigt', it: 'Spaventato', ja: '怖い', ko: '무서운', pt: 'Assustado', ru: 'Испуганный', zh: '害怕'
         },
         image: '😱'
     },
@@ -120,7 +120,7 @@ export const VOCAB_BASIC = [
         id: 'sleep',
         word: 'Sleep',
         translation: {
-            en: 'Sleep', es: 'Dormir', fr: 'Dormir', vi: 'Ngủ', de: 'Schlafen', it: 'Dormire', ja: '寝る', ko: '자다', pt: 'Dormir', ru: 'Спать', zh: '睡觉'
+            en: 'Sleep', ms: 'Tidur', es: 'Dormir', fr: 'Dormir', vi: 'Ngủ', de: 'Schlafen', it: 'Dormire', ja: '寝る', ko: '자다', pt: 'Dormir', ru: 'Спать', zh: '睡觉'
         },
         image: '😴'
     }

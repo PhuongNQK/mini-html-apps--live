@@ -35,6 +35,25 @@ export const ALPHABETS = {
             }
         ]
     },
+    ms: {
+        scripts: [
+            {
+                id: 'malaysian',
+                name: 'Alphabet',
+                letters: [
+                    { char: 'A', word: 'Ayam', image: '🐔' }, { char: 'B', word: 'Bola', image: '⚽' }, { char: 'C', word: 'Cawan', image: '☕' },
+                    { char: 'D', word: 'Daun', image: '🍃' }, { char: 'E', word: 'Epal', image: '🍎' }, { char: 'F', word: 'Foto', image: '🖼️' },
+                    { char: 'G', word: 'Gajah', image: '🐘' }, { char: 'H', word: 'Harimau', image: '🐅' }, { char: 'I', word: 'Ikan', image: '🐟' },
+                    { char: 'J', word: 'Jam', image: '⏰' }, { char: 'K', word: 'Kucing', image: '🐱' }, { char: 'L', word: 'Lampu', image: '💡' },
+                    { char: 'M', word: 'Mata', image: '👁️' }, { char: 'N', word: 'Nasi', image: '🍚' }, { char: 'O', word: 'Oren', image: '🍊' },
+                    { char: 'P', word: 'Pokok', image: '🌳' }, { char: 'Q', word: 'Quran', image: '📖' }, { char: 'R', word: 'Rumah', image: '🏠' },
+                    { char: 'S', word: 'Susu', image: '🥛' }, { char: 'T', word: 'Tikus', image: '🐀' }, { char: 'U', word: 'Ular', image: '🐍' },
+                    { char: 'V', word: 'Van', image: '🚐' }, { char: 'W', word: 'Wau', image: '🪁' }, { char: 'X', word: 'X-ray', image: '🩻' },
+                    { char: 'Y', word: 'Yoyo', image: '🪀' }, { char: 'Z', word: 'Zirafah', image: '🦒' }
+                ]
+            }
+        ]
+    },
     // Vietnamese (Latin-based with variations, stripped for basic, extended later)
     vi: {
         scripts: [

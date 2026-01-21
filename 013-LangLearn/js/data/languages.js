@@ -9,7 +9,8 @@ export const LANGUAGES = [
     { code: 'ru', name: 'Russian', flag: '🇷🇺' },
     { code: 'es', name: 'Spanish', flag: '🇪🇸' },
     { code: 'zh', name: 'Chinese', flag: '🇨🇳' },
-    { code: 'vi', name: 'Vietnamese', flag: '🇻🇳' }
+    { code: 'vi', name: 'Vietnamese', flag: '🇻🇳' },
+    { code: 'ms', name: 'Malaysian', flag: '🇲🇾' }
 ];
 
 export const TOPICS = [

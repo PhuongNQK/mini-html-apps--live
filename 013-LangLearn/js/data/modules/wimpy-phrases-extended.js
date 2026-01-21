@@ -5,6 +5,7 @@ export const WIMPY_PHRASES_EXTENDED = [
         image: '📔',
         translation: {
             en: 'This is my diary.',
+            ms: 'Ini diari saya.',
             fr: 'Ceci est mon journal.',
             de: 'Das ist mein Tagebuch.',
             it: 'Questo è il mio diario.',
@@ -23,6 +24,7 @@ export const WIMPY_PHRASES_EXTENDED = [
         image: '🙅‍♂️',
         translation: {
             en: 'I do not want to go to school.',
+            ms: 'Saya mahu pergi ke sekolah.',
             fr: 'Je ne veux pas aller à l\'école.',
             de: 'Ich will nicht zur Schule gehen.',
             it: 'Non voglio andare a scuola.',
@@ -41,6 +43,7 @@ export const WIMPY_PHRASES_EXTENDED = [
         image: '👬',
         translation: {
             en: 'Rowley is my best friend.',
+            ms: 'Rowley adalah kawan baik saya.',
             fr: 'Rowley est mon meilleur ami.',
             de: 'Rowley ist mein bester Freund.',
             it: 'Rowley è il mio migliore amico.',
@@ -59,6 +62,7 @@ export const WIMPY_PHRASES_EXTENDED = [
         image: '🥁',
         translation: {
             en: 'Rodrick plays the drums.',
+            ms: 'Rodrick memainkan dram.',
             fr: 'Rodrick joue de la batterie.',
             de: 'Rodrick spielt Schlagzeug.',
             it: 'Rodrick suona la batteria.',
@@ -77,6 +81,7 @@ export const WIMPY_PHRASES_EXTENDED = [
         image: '🎁',
         translation: {
             en: 'Mom bought me a gift.',
+            ms: 'Ibu belikan saya hadiah.',
             fr: 'Maman m\'a acheté un cadeau.',
             de: 'Mama hat mir ein Geschenk gekauft.',
             it: 'La mamma mi ha comprato un regalo.',
@@ -95,6 +100,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤦",
     "translation": {
         "en": "I forgot my homework.",
+        "ms": "Saya terlupa kerja rumah saya.",
         "fr": "J'ai oublié mes devoirs.",
         "de": "Ich habe meine Hausaufgaben vergessen.",
         "it": "Ho dimenticato i compiti.",
@@ -113,6 +119,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔒",
     "translation": {
         "en": "My locker is stuck.",
+        "ms": "Loker saya tersangkut.",
         "fr": "Mon casier est coincé.",
         "de": "Mein Spind klemmt.",
         "it": "Il mio armadietto è bloccato.",
@@ -131,6 +138,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📝",
     "translation": {
         "en": "We have a pop quiz.",
+        "ms": "Kami ada kuiz pop.",
         "fr": "Nous avons une interro surprise.",
         "de": "Wir schreiben einen unangekündigten Test.",
         "it": "Abbiamo un compito a sorpresa.",
@@ -149,6 +157,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧀",
     "translation": {
         "en": "Do not touch the cheese.",
+        "ms": "Jangan sentuh keju.",
         "fr": "Ne touche pas au fromage.",
         "de": "Fass den Käse nicht an.",
         "it": "Non toccare il formaggio.",
@@ -167,6 +176,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☀️",
     "translation": {
         "en": "Summer vacation is over.",
+        "ms": "Percutian musim panas sudah berakhir.",
         "fr": "Les vacances d'été sont finies.",
         "de": "Die Sommerferien sind vorbei.",
         "it": "Le vacanze estive sono finite.",
@@ -185,6 +195,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧈",
     "translation": {
         "en": "Can you pass the butter?",
+        "ms": "Boleh awak hulurkan mentega?",
         "fr": "Peux-tu passer le beurre ?",
         "de": "Kannst du mir die Butter geben?",
         "it": "Mi passi il burro?",
@@ -203,6 +214,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😱",
     "translation": {
         "en": "I was scared of the dark.",
+        "ms": "Saya takut dengan kegelapan.",
         "fr": "J'avais peur du noir.",
         "de": "Ich hatte Angst im Dunkeln.",
         "it": "Avevo paura del buio.",
@@ -221,6 +233,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛌",
     "translation": {
         "en": "I wore my favorite pajamas.",
+        "ms": "Saya memakai baju tidur kegemaran saya.",
         "fr": "Je portais mon pyjama préféré.",
         "de": "Ich trug meinen Lieblingsschlafanzug.",
         "it": "Indossavo il mio pigiama preferito.",
@@ -239,6 +252,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪥",
     "translation": {
         "en": "Where is my toothbrush?",
+        "ms": "Di mana berus gigi saya?",
         "fr": "Où est ma brosse à dents ?",
         "de": "Wo ist meine Zahnbürste?",
         "it": "Dov'è il mio spazzolino?",
@@ -257,6 +271,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎉",
     "translation": {
         "en": "Rowley had a big party.",
+        "ms": "Rowley mengadakan parti besar.",
         "fr": "Rowley a fait une grande fête.",
         "de": "Rowley hatte eine große Party.",
         "it": "Rowley ha dato una grande festa.",
@@ -275,6 +290,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☕",
     "translation": {
         "en": "I need a cup of water.",
+        "ms": "Saya perlukan secawan air.",
         "fr": "J'ai besoin d'une tasse d'eau.",
         "de": "Ich brauche eine Tasse Wasser.",
         "it": "Ho bisogno di una tazza d'acqua.",
@@ -293,6 +309,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍳",
     "translation": {
         "en": "The stove is very hot.",
+        "ms": "Jadi, dapurnya sangat panas.",
         "fr": "La cuisinière est très chaude.",
         "de": "Der Herd ist sehr heiß.",
         "it": "Il fornello è molto caldo.",
@@ -311,6 +328,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👧",
     "translation": {
         "en": "I do not have a sister.",
+        "ms": "Saya tidak mempunyai adik perempuan.",
         "fr": "Je n'ai pas de sœur.",
         "de": "Ich habe keine Schwester.",
         "it": "Non ho una sorella.",
@@ -329,6 +347,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛁",
     "translation": {
         "en": "Manny needs a bath.",
+        "ms": "Manny perlu mandi.",
         "fr": "Manny a besoin d'un bain.",
         "de": "Manny braucht ein Bad.",
         "it": "Manny ha bisogno di un bagno.",
@@ -347,6 +366,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔌",
     "translation": {
         "en": "I lost my phone charger.",
+        "ms": "Saya kehilangan pengecas telefon saya.",
         "fr": "J'ai perdu mon chargeur.",
         "de": "Ich habe mein Ladegerät verloren.",
         "it": "Ho perso il mio caricabatterie.",
@@ -365,6 +385,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥫",
     "translation": {
         "en": "Too much sauce on the pizza.",
+        "ms": "Terlalu banyak sos pada piza.",
         "fr": "Trop de sauce sur la pizza.",
         "de": "Zu viel Soße auf der Pizza.",
         "it": "Troppa salsa sulla pizza.",
@@ -383,6 +404,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥩",
     "translation": {
         "en": "We had beef for dinner.",
+        "ms": "Kami makan daging lembu untuk makan malam.",
         "fr": "Nous avons mangé du bœuf.",
         "de": "Wir hatten Rindfleisch zum Abendessen.",
         "it": "Abbiamo mangiato manzo per cena.",
@@ -401,6 +423,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧴",
     "translation": {
         "en": "The glue is sticky.",
+        "ms": "Gamnya melekit.",
         "fr": "La colle est collante.",
         "de": "Der Kleber klebt.",
         "it": "La colla è appiccicosa.",
@@ -419,6 +442,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚪",
     "translation": {
         "en": "Close the door quickly.",
+        "ms": "Tutup pintu dengan cepat.",
         "fr": "Ferme la porte vite.",
         "de": "Schließ die Tür schnell.",
         "it": "Chiudi la porta velocemente.",
@@ -437,6 +461,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🩲",
     "translation": {
         "en": "Do not forget clean underwear.",
+        "ms": "Jangan lupa bersihkan seluar dalam.",
         "fr": "N'oublie pas des sous-vêtements propres.",
         "de": "Vergiss nicht frische Unterwäsche.",
         "it": "Non dimenticare la biancheria pulita.",
@@ -455,6 +480,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👩‍💼",
     "translation": {
         "en": "The librarian said shh.",
+        "ms": "Pustakawan itu berkata.",
         "fr": "Le bibliothécaire a dit chut.",
         "de": "Der Bibliothekar sagte Pst.",
         "it": "Il bibliotecario ha detto shh.",
@@ -473,6 +499,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👨‍🎓",
     "translation": {
         "en": "Every student must study.",
+        "ms": "Setiap pelajar mesti belajar.",
         "fr": "Chaque étudiant doit étudier.",
         "de": "Jeder Schüler muss lernen.",
         "it": "Ogni studente deve studiare.",
@@ -491,6 +518,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤝",
     "translation": {
         "en": "Can you help me?",
+        "ms": "Boleh awak bantu saya?",
         "fr": "Peux-tu m'aider ?",
         "de": "Kannst du mir helfen?",
         "it": "Puoi aiutarmi?",
@@ -509,6 +537,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔬",
     "translation": {
         "en": "I failed the science test.",
+        "ms": "Saya gagal ujian sains.",
         "fr": "J'ai raté le test de sciences.",
         "de": "Ich bin im Wissenchaftstest durchgefallen.",
         "it": "Ho fallito il test di scienze.",
@@ -527,6 +556,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏺",
     "translation": {
         "en": "I like strawberry jam.",
+        "ms": "Saya suka jem strawberi.",
         "fr": "J'aime la confiture de fraises.",
         "de": "Ich mag Erdbeermarmelade.",
         "it": "Mi piace la marmellata di fragole.",
@@ -545,6 +575,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎸",
     "translation": {
         "en": "Dad bought a guitar.",
+        "ms": "Ayah beli gitar.",
         "fr": "Papa a acheté une guitare.",
         "de": "Papa hat eine Gitarre gekauft.",
         "it": "Papà ha comprato una chitarra.",
@@ -563,6 +594,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍫",
     "translation": {
         "en": "Do not eat my chocolate.",
+        "ms": "Jangan makan coklat saya.",
         "fr": "Ne mange pas mon chocolat.",
         "de": "Iss nicht meine Schokolade.",
         "it": "Non mangiare il mio cioccolato.",
@@ -581,6 +613,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎹",
     "translation": {
         "en": "I hate piano lessons.",
+        "ms": "Saya benci pelajaran piano.",
         "fr": "Je déteste les leçons de piano.",
         "de": "Ich hasse Klavierstunden.",
         "it": "Odio le lezioni di pianoforte.",
@@ -599,6 +632,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📓",
     "translation": {
         "en": "It is a journal, not a diary.",
+        "ms": "Ia adalah jurnal, bukan diari.",
         "fr": "C'est un journal, pas un intime.",
         "de": "Es ist ein Journal, kein Tagebuch.",
         "it": "È un giornale, non un diario.",
@@ -617,6 +651,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍜",
     "translation": {
         "en": "The noodle is very long.",
+        "ms": "Mi ini sangat panjang.",
         "fr": "La nouille est très longue.",
         "de": "Die Nudel ist sehr lang.",
         "it": "Lo spaghetto è molto lungo.",
@@ -635,6 +670,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌙",
     "translation": {
         "en": "Look at the full moon.",
+        "ms": "Lihat bulan purnama.",
         "fr": "Regarde la pleine lune.",
         "de": "Schau dir den Vollmond an.",
         "it": "Guarda la luna piena.",
@@ -653,6 +689,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚓",
     "translation": {
         "en": "The police came to school.",
+        "ms": "Polis datang ke sekolah.",
         "fr": "La police est venue à l'école.",
         "de": "Die Polizei kam zur Schule.",
         "it": "La polizia è venuta a scuola.",
@@ -671,6 +708,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔑",
     "translation": {
         "en": "I lost my house key.",
+        "ms": "Saya kehilangan kunci rumah saya.",
         "fr": "J'ai perdu ma clé de maison.",
         "de": "Ich habe meinen Hausschlüssel verloren.",
         "it": "Ho perso le chiavi di casa.",
@@ -689,6 +727,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏀",
     "translation": {
         "en": "We played basketball in the gym.",
+        "ms": "Kami bermain bola keranjang di gimnasium.",
         "fr": "Nous avons joué au basket au gymnase.",
         "de": "Wir haben in der Turnhalle Basketball gespielt.",
         "it": "Abbiamo giocato a basket in palestra.",
@@ -707,6 +746,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐟",
     "translation": {
         "en": "My pet fish died.",
+        "ms": "Ikan peliharaan saya mati.",
         "fr": "Mon poisson est mort.",
         "de": "Mein Goldfisch ist gestorben.",
         "it": "Il mio pesce è morto.",
@@ -725,6 +765,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💧",
     "translation": {
         "en": "Calculate the volume of water.",
+        "ms": "Kira isipadu air.",
         "fr": "Calcule le volume d'eau.",
         "de": "Berechne das Wasservolumen.",
         "it": "Calcola il volume d'acqua.",
@@ -743,6 +784,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👀",
     "translation": {
         "en": "I watch TV all day.",
+        "ms": "Saya menonton TV sepanjang hari.",
         "fr": "Je regarde la télé toute la journée.",
         "de": "Ich schaue den ganzen Tag fern.",
         "it": "Guardo la TV tutto il giorno.",
@@ -761,6 +803,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌧️",
     "translation": {
         "en": "April Fools Day is fun.",
+        "ms": "April Fools Day memang menyeronokkan.",
         "fr": "Le poisson d'avril est amusant.",
         "de": "Der erste April ist lustig.",
         "it": "Il primo aprile è divertente.",
@@ -779,6 +822,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🗣️",
     "translation": {
         "en": "The counselor is nice.",
+        "ms": "Kaunselornya baik.",
         "fr": "le conseiller est gentil.",
         "de": "Der Berater ist nett.",
         "it": "Il consulente è gentile.",
@@ -797,6 +841,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📱",
     "translation": {
         "en": "Where is the remote?",
+        "ms": "Di manakah alat kawalan jauh?",
         "fr": "Où est la télécommande ?",
         "de": "Wo ist die Fernbedienung?",
         "it": "Dov'è il telecomando?",
@@ -815,6 +860,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☁️",
     "translation": {
         "en": "The sky is blue today.",
+        "ms": "Langit biru hari ini.",
         "fr": "Le ciel est bleu aujourd'hui.",
         "de": "Der Himmel ist heute blau.",
         "it": "Il cielo è blu oggi.",
@@ -833,6 +879,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧹",
     "translation": {
         "en": "Clean your room now.",
+        "ms": "Bersihkan bilik anda sekarang.",
         "fr": "Nettoie ta chambre maintenant.",
         "de": "Räum dein Zimmer auf.",
         "it": "Pulisci la tua stanza ora.",
@@ -851,6 +898,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌭",
     "translation": {
         "en": "I ate three hot dogs.",
+        "ms": "Saya makan tiga hot dog.",
         "fr": "J'ai mangé trois hot-dogs.",
         "de": "Ich habe drei Hot Dogs gegessen.",
         "it": "Ho mangiato tre hot dog.",
@@ -869,6 +917,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "Thank god it is Friday.",
+        "ms": "Syukurlah hari ini hari Jumaat.",
         "fr": "Dieu merci, c'est vendredi.",
         "de": "Gott sei Dank ist Freitag.",
         "it": "Grazie a Dio è venerdì.",
@@ -887,6 +936,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🖍️",
     "translation": {
         "en": "Manny ate a crayon.",
+        "ms": "Manny makan krayon.",
         "fr": "Manny a mangé un crayon.",
         "de": "Manny hat einen Buntstift gegessen.",
         "it": "Manny ha mangiato un pastello.",
@@ -905,6 +955,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "✉️",
     "translation": {
         "en": "I wrote a letter to grandma.",
+        "ms": "Saya tulis surat kepada nenek.",
         "fr": "J'ai écrit une lettre à grand-mère.",
         "de": "Ich habe einen Brief an Oma geschrieben.",
         "it": "Ho scritto una lettera alla nonna.",
@@ -923,6 +974,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛣️",
     "translation": {
         "en": "The road was very bumpy.",
+        "ms": "Jalan itu sangat bergelombang.",
         "fr": "La route était très bosselée.",
         "de": "Die Straße war sehr holprig.",
         "it": "La strada era molto accidentata.",
@@ -941,6 +993,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏞️",
     "translation": {
         "en": "Do not swim in the river.",
+        "ms": "Jangan berenang di sungai.",
         "fr": "Ne nage pas dans la rivière.",
         "de": "Schwimm nicht im Fluss.",
         "it": "Non nuotare nel fiume.",
@@ -959,6 +1012,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛌",
     "translation": {
         "en": "I want to sleep all day.",
+        "ms": "Saya mahu tidur sepanjang hari.",
         "fr": "Je veux dormir toute la journée.",
         "de": "Ich möchte den ganzen Tag schlafen.",
         "it": "Voglio dormire tutto il giorno.",
@@ -977,6 +1031,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏪",
     "translation": {
         "en": "We went to the market.",
+        "ms": "Kami pergi ke pasar.",
         "fr": "Nous sommes allés au marché.",
         "de": "Wir sind zum Markt gegangen.",
         "it": "Siamo andati al mercato.",
@@ -995,6 +1050,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧍",
     "translation": {
         "en": "Do not stand on the desk.",
+        "ms": "Jangan berdiri di atas meja.",
         "fr": "Ne monte pas sur le bureau.",
         "de": "Steh nicht auf dem Schreibtisch.",
         "it": "Non stare in piedi sulla scrivania.",
@@ -1013,6 +1069,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍃",
     "translation": {
         "en": "A leaf fell on my head.",
+        "ms": "Daun jatuh di atas kepala saya.",
         "fr": "Une feuille est tombée sur ma tête.",
         "de": "Ein Blatt fiel auf meinen Kopf.",
         "it": "Una foglia mi è caduta in testa.",
@@ -1031,6 +1088,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎒",
     "translation": {
         "en": "My backpack is too heavy.",
+        "ms": "Beg galas saya terlalu berat.",
         "fr": "Mon sac à dos est trop lourd.",
         "de": "Mein Rucksack ist zu schwer.",
         "it": "Il mio zaino è troppo pesante.",
@@ -1049,6 +1107,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🦷",
     "translation": {
         "en": "I hate the dentist.",
+        "ms": "Saya benci doktor gigi.",
         "fr": "Je déteste le dentiste.",
         "de": "Ich hasse den Zahnarzt.",
         "it": "Odio il dentista.",
@@ -1067,6 +1126,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚪",
     "translation": {
         "en": "Running in the hallway is forbidden.",
+        "ms": "Berlari di lorong adalah dilarang.",
         "fr": "Courir dans le couloir est interdit.",
         "de": "Im Flur rennen ist verboten.",
         "it": "Correre nel corridoio è vietato.",
@@ -1085,6 +1145,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏖️",
     "translation": {
         "en": "School starts in August.",
+        "ms": "Sekolah bermula pada bulan Ogos.",
         "fr": "L'école commence en août.",
         "de": "Die Schule beginnt im August.",
         "it": "La scuola inizia ad agosto.",
@@ -1103,6 +1164,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏢",
     "translation": {
         "en": "That building is tall.",
+        "ms": "Bangunan itu tinggi.",
         "fr": "Ce bâtiment est grand.",
         "de": "Dieses Gebäude ist hoch.",
         "it": "Quell'edificio è alto.",
@@ -1121,6 +1183,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐀",
     "translation": {
         "en": "I saw a huge rat.",
+        "ms": "Saya nampak seekor tikus besar.",
         "fr": "J'ai vu un rat énorme.",
         "de": "Ich habe eine riesige Ratte gesehen.",
         "it": "Ho visto un ratto enorme.",
@@ -1139,6 +1202,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "➗",
     "translation": {
         "en": "Math is confusing.",
+        "ms": "Matematik mengelirukan.",
         "fr": "Les maths sont déroutantes.",
         "de": "Mathe ist verwirrend.",
         "it": "La matematica è confusa.",
@@ -1157,6 +1221,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💻",
     "translation": {
         "en": "My laptop is broken.",
+        "ms": "laptop saya rosak",
         "fr": "Mon ordinateur est cassé.",
         "de": "Mein Laptop ist kaputt.",
         "it": "Il mio portatile è rotto.",
@@ -1175,6 +1240,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏊",
     "translation": {
         "en": "The pool was cold.",
+        "ms": "Kolam renang itu sejuk.",
         "fr": "La piscine était froide.",
         "de": "Der Pool war kalt.",
         "it": "La piscina era fredda.",
@@ -1193,6 +1259,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥛",
     "translation": {
         "en": "I drank expired milk.",
+        "ms": "Saya minum susu yang telah tamat tempoh.",
         "fr": "J'ai bu du lait périmé.",
         "de": "Ich habe abgelaufene Milch getrunken.",
         "it": "Ho bevuto latte scaduto.",
@@ -1211,6 +1278,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏣",
     "translation": {
         "en": "We mailed it at the post office.",
+        "ms": "Kami poskannya di pejabat pos.",
         "fr": "Nous l'avons posté au bureau de poste.",
         "de": "Wir haben es bei der Post aufgegeben.",
         "it": "L'abbiamo spedito all'ufficio postale.",
@@ -1229,6 +1297,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😋",
     "translation": {
         "en": "I am always hungry.",
+        "ms": "Saya sentiasa lapar.",
         "fr": "J'ai toujours faim.",
         "de": "Ich habe immer Hunger.",
         "it": "Ho sempre fame.",
@@ -1247,6 +1316,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐦",
     "translation": {
         "en": "A bird pooped on me.",
+        "ms": "Seekor burung berak pada saya.",
         "fr": "Un oiseau m'a fait caca dessus.",
         "de": "Ein Vogel hat auf mich gekackt.",
         "it": "Un uccello mi ha fatto la cacca addosso.",
@@ -1265,6 +1335,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚏",
     "translation": {
         "en": "I waited at the bus stop.",
+        "ms": "Saya menunggu di perhentian bas.",
         "fr": "J'ai attendu à l'arrêt de bus.",
         "de": "Ich habe an der Bushaltestelle gewartet.",
         "it": "Ho aspettato alla fermata dell'autobus.",
@@ -1283,6 +1354,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛣️",
     "translation": {
         "en": "Look both ways crossing the street.",
+        "ms": "Lihat kedua-dua cara melintas jalan.",
         "fr": "Regarde des deux côtés en traversant.",
         "de": "Schau in beide Richtungen, wenn du die Straße überquerst.",
         "it": "Guarda da entrambe le parti attraversando la strada.",
@@ -1301,6 +1373,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧹",
     "translation": {
         "en": "The janitor cleaned the mess.",
+        "ms": "Tukang sapu dah bersihkan keadaan.",
         "fr": "Le concierge a nettoyé le désordre.",
         "de": "Der Hausmeister hat das Chaos beseitigt.",
         "it": "Il bidello ha pulito il disastro.",
@@ -1319,6 +1392,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍞",
     "translation": {
         "en": "This bread is moldy.",
+        "ms": "Roti ini berkulat.",
         "fr": "Ce pain est moisi.",
         "de": "Dieses Brot ist schimmelig.",
         "it": "Questo pane è ammuffito.",
@@ -1337,6 +1411,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍰",
     "translation": {
         "en": "I ate the whole cake.",
+        "ms": "Saya makan seluruh kek.",
         "fr": "J'ai mangé tout le gâteau.",
         "de": "Ich habe den ganzen Kuchen gegessen.",
         "it": "Ho mangiato tutta la torta.",
@@ -1355,6 +1430,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎮",
     "translation": {
         "en": "Can we play video games?",
+        "ms": "Bolehkah kita bermain permainan video?",
         "fr": "On peut jouer aux jeux vidéo ?",
         "de": "Können wir Videospiele spielen?",
         "it": "Possiamo giocare ai videogiochi?",
@@ -1373,6 +1449,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😐",
     "translation": {
         "en": "I am so bored.",
+        "ms": "saya bosan.",
         "fr": "Je m'ennuie tellement.",
         "de": "Mir ist so langweilig.",
         "it": "Sono così annoiato.",
@@ -1391,6 +1468,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍊",
     "translation": {
         "en": "I peeled the orange.",
+        "ms": "Saya mengupas buah oren itu.",
         "fr": "J'ai épluché l'orange.",
         "de": "Ich habe die Orange geschält.",
         "it": "Ho sbucciato l'arancia.",
@@ -1409,6 +1487,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪑",
     "translation": {
         "en": "Sit down immediately.",
+        "ms": "Duduk dengan segera.",
         "fr": "Assieds-toi tout de suite.",
         "de": "Setz dich sofort hin.",
         "it": "Siediti immediatamente.",
@@ -1427,6 +1506,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🦘",
     "translation": {
         "en": "Do not jump on the bed.",
+        "ms": "Jangan melompat ke atas katil.",
         "fr": "Ne saute pas sur le lit.",
         "de": "Spring nicht auf dem Bett.",
         "it": "Non saltare sul letto.",
@@ -1445,6 +1525,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚪",
     "translation": {
         "en": "I hid in the closet.",
+        "ms": "Saya bersembunyi di dalam almari.",
         "fr": "Je me suis caché dans le placard.",
         "de": "Ich habe mich im Schrank versteckt.",
         "it": "Mi sono nascosto nell'armadio.",
@@ -1463,6 +1544,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥩",
     "translation": {
         "en": "The meat smells bad.",
+        "ms": "Dagingnya berbau busuk.",
         "fr": "La viande sent mauvais.",
         "de": "Das Fleisch riecht schlecht.",
         "it": "La carne ha un cattivo odore.",
@@ -1481,6 +1563,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍬",
     "translation": {
         "en": "Candy rots your teeth.",
+        "ms": "Gula-gula membusukkan gigi anda.",
         "fr": "Les bonbons pourrissent les dents.",
         "de": "Süßigkeiten machen die Zähne kaputt.",
         "it": "Le caramelle fanno cariare i denti.",
@@ -1499,6 +1582,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪰",
     "translation": {
         "en": "There is a fly in my soup.",
+        "ms": "Ada lalat dalam sup saya.",
         "fr": "Il y a une mouche dans ma soupe.",
         "de": "Da ist eine Fliege in meiner Suppe.",
         "it": "C'è una mosca nella mia zuppa.",
@@ -1517,6 +1601,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "Church is on Sunday.",
+        "ms": "Gereja pada hari Ahad.",
         "fr": "L'église est le dimanche.",
         "de": "Kirche ist am Sonntag.",
         "it": "La chiesa è di domenica.",
@@ -1535,6 +1620,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👆",
     "translation": {
         "en": "Do not touch my stuff.",
+        "ms": "Jangan sentuh barang saya.",
         "fr": "Ne touche pas à mes affaires.",
         "de": "Fass meine Sachen nicht an.",
         "it": "Non toccare la mia roba.",
@@ -1553,6 +1639,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📺",
     "translation": {
         "en": "Turn off the TV.",
+        "ms": "Matikan TV.",
         "fr": "Éteins la télé.",
         "de": "Mach den Fernseher aus.",
         "it": "Spegni la TV.",
@@ -1571,6 +1658,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧦",
     "translation": {
         "en": "My socks do not match.",
+        "ms": "Stokin saya tidak sepadan.",
         "fr": "Mes chaussettes ne sont pas assorties.",
         "de": "Meine Socken passen nicht zusammen.",
         "it": "I miei calzini non sono uguali.",
@@ -1589,6 +1677,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎬",
     "translation": {
         "en": "Let's watch a scary movie.",
+        "ms": "Mari tonton filem menakutkan.",
         "fr": "Regardons un film d'horreur.",
         "de": "Lass uns einen Gruselfilm schauen.",
         "it": "Guardiamo un film dell'orrore.",
@@ -1607,6 +1696,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📚",
     "translation": {
         "en": "I study in the library.",
+        "ms": "Saya belajar di perpustakaan.",
         "fr": "J'étudie à la bibliothèque.",
         "de": "Ich lerne in der Bibliothek.",
         "it": "Studio in biblioteca.",
@@ -1625,6 +1715,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌶️",
     "translation": {
         "en": "Pass the salt and pepper.",
+        "ms": "Letakkan garam dan lada.",
         "fr": "Passe le sel et le poivre.",
         "de": "Reich mir bitte Salz und Pfeffer.",
         "it": "Passami sale e pepe.",
@@ -1643,6 +1734,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🗣️",
     "translation": {
         "en": "I cannot speak French.",
+        "ms": "Saya tidak boleh bercakap bahasa Perancis.",
         "fr": "Je ne parle pas français.",
         "de": "Ich spreche kein Französisch.",
         "it": "Non parlo francese.",
@@ -1661,6 +1753,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👕",
     "translation": {
         "en": "My shirt is dirty.",
+        "ms": "Baju saya kotor.",
         "fr": "Ma chemise est sale.",
         "de": "Mein Hemd ist schmutzig.",
         "it": "La mia camicia è sporca.",
@@ -1679,6 +1772,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😢",
     "translation": {
         "en": "Why are you so sad?",
+        "ms": "Kenapa awak sedih?",
         "fr": "Pourquoi es-tu si triste ?",
         "de": "Warum bist du so traurig?",
         "it": "Perché sei così triste?",
@@ -1697,6 +1791,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☀️",
     "translation": {
         "en": "It was a long day.",
+        "ms": "Ia adalah hari yang panjang.",
         "fr": "C'était une longue journée.",
         "de": "Es war ein langer Tag.",
         "it": "È stata una lunga giornata.",
@@ -1715,6 +1810,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌏",
     "translation": {
         "en": "Geography is boring.",
+        "ms": "Geografi membosankan.",
         "fr": "La géographie est ennuyeuse.",
         "de": "Erdkunde ist langweilig.",
         "it": "La geografia è noiosa.",
@@ -1733,6 +1829,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🕐",
     "translation": {
         "en": "I waited for an hour.",
+        "ms": "Saya menunggu selama sejam.",
         "fr": "J'ai attendu une heure.",
         "de": "Ich habe eine Stunde gewartet.",
         "it": "Ho aspettato un'ora.",
@@ -1751,6 +1848,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍉",
     "translation": {
         "en": "Watermelon has many seeds.",
+        "ms": "Tembikai mempunyai banyak biji.",
         "fr": "La pastèque a beaucoup de pépins.",
         "de": "Wassermelone hat viele Kerne.",
         "it": "L'anguria ha molti semi.",
@@ -1769,6 +1867,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐍",
     "translation": {
         "en": "I am afraid of snakes.",
+        "ms": "Saya takut ular.",
         "fr": "J'ai peur des serpents.",
         "de": "Ich habe Angst vor Schlangen.",
         "it": "Ho paura dei serpenti.",
@@ -1787,6 +1886,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👩‍🏫",
     "translation": {
         "en": "My teacher is very strict.",
+        "ms": "Guru saya sangat tegas.",
         "fr": "Mon professeur est très strict.",
         "de": "Mein Lehrer ist sehr streng.",
         "it": "Il mio insegnante è molto severo.",
@@ -1805,6 +1905,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥤",
     "translation": {
         "en": "I am so thirsty.",
+        "ms": "Saya sangat dahaga.",
         "fr": "J'ai tellement soif.",
         "de": "Ich bin so durstig.",
         "it": "Ho tanta sete.",
@@ -1823,6 +1924,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚻",
     "translation": {
         "en": "May I go to the bathroom?",
+        "ms": "Boleh saya ke bilik air?",
         "fr": "Puis-je aller aux toilettes ?",
         "de": "Darf ich auf die Toilette gehen?",
         "it": "Posso andare in bagno?",
@@ -1841,6 +1943,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥜",
     "translation": {
         "en": "I am allergic to peanuts.",
+        "ms": "Saya alah kepada kacang tanah.",
         "fr": "Je suis allergique aux cacahuètes.",
         "de": "Ich bin allergisch gegen Erdnüsse.",
         "it": "Sono allergico alle arachidi.",
@@ -1859,6 +1962,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💯",
     "translation": {
         "en": "I got a bad grade.",
+        "ms": "Saya mendapat gred yang teruk.",
         "fr": "J'ai eu une mauvaise note.",
         "de": "Ich habe eine schlechte Note bekommen.",
         "it": "Ho preso un brutto voto.",
@@ -1877,6 +1981,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚰",
     "translation": {
         "en": "The water fountain is broken.",
+        "ms": "Pancutan air rosak.",
         "fr": "La fontaine à eau est cassée.",
         "de": "Der Trinkbrunnen ist kaputt.",
         "it": "La fontanella è rotta.",
@@ -1895,6 +2000,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📜",
     "translation": {
         "en": "I fell asleep in history class.",
+        "ms": "Saya tertidur dalam kelas sejarah.",
         "fr": "Je me suis endormi en cours d'histoire.",
         "de": "Ich bin im Geschichtsunterricht eingeschlafen.",
         "it": "Mi sono addormentato durante la lezione di storia.",
@@ -1913,6 +2019,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍯",
     "translation": {
         "en": "Bees make honey.",
+        "ms": "Lebah menghasilkan madu.",
         "fr": "Les abeilles font du miel.",
         "de": "Bienen machen Honig.",
         "it": "Le api fanno il miele.",
@@ -1931,6 +2038,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👜",
     "translation": {
         "en": "Where is my gym bag?",
+        "ms": "Di mana beg gimnasium saya?",
         "fr": "Où est mon sac de sport ?",
         "de": "Wo ist meine Sporttasche?",
         "it": "Dov'è la mia borsa da palestra?",
@@ -1949,6 +2057,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍮",
     "translation": {
         "en": "Peanut butter and jelly.",
+        "ms": "Mentega kacang dan jeli.",
         "fr": "Beurre de cacahuète et gelée.",
         "de": "Erdnussbutter und Gelee.",
         "it": "Burro di arachidi e gelatina.",
@@ -1967,6 +2076,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎁",
     "translation": {
         "en": "I opened my present.",
+        "ms": "Saya membuka hadiah saya.",
         "fr": "J'ai ouvert mon cadeau.",
         "de": "Ich habe mein Geschenk geöffnet.",
         "it": "Ho aperto il mio regalo.",
@@ -1985,6 +2095,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎄",
     "translation": {
         "en": "All I want for Christmas.",
+        "ms": "Apa yang saya mahu untuk Krismas.",
         "fr": "Tout ce que je veux pour Noël.",
         "de": "Alles was ich mir zu Weihnachten wünsche.",
         "it": "Tutto quello che voglio per Natale.",
@@ -2003,6 +2114,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧼",
     "translation": {
         "en": "Let me borrow your eraser.",
+        "ms": "Biar saya pinjam pemadam awak.",
         "fr": "Laisse-moi emprunter ta gomme.",
         "de": "Lass mich deinen Radiergummi leihen.",
         "it": "Prestami la tua gomma.",
@@ -2021,6 +2133,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍜",
     "translation": {
         "en": "The soup is too hot.",
+        "ms": "Supnya terlalu panas.",
         "fr": "La soupe est trop chaude.",
         "de": "Die Suppe ist zu heiß.",
         "it": "La zuppa è troppo calda.",
@@ -2039,6 +2152,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥓",
     "translation": {
         "en": "I love bacon for breakfast.",
+        "ms": "Saya suka daging untuk sarapan.",
         "fr": "J'adore le bacon au petit déjeuner.",
         "de": "Ich liebe Speck zum Frühstück.",
         "it": "Amo la pancetta a colazione.",
@@ -2057,6 +2171,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪑",
     "translation": {
         "en": "This chair is uncomfortable.",
+        "ms": "Kerusi ini tidak selesa.",
         "fr": "Cette chaise est inconfortable.",
         "de": "Dieser Stuhl ist unbequem.",
         "it": "Questa sedia è scomoda.",
@@ -2075,6 +2190,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍴",
     "translation": {
         "en": "Eat with a fork.",
+        "ms": "Makan dengan garpu.",
         "fr": "Mange avec une fourchette.",
         "de": "Iss mit einer Gabel.",
         "it": "Mangia con una forchetta.",
@@ -2093,6 +2209,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⛈️",
     "translation": {
         "en": "A big storm is coming.",
+        "ms": "Ribut besar akan datang.",
         "fr": "Une grosse tempête arrive.",
         "de": "Ein großer Sturm kommt.",
         "it": "Sta arrivando una grande tempesta.",
@@ -2111,6 +2228,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌭",
     "translation": {
         "en": "We grilled sausages.",
+        "ms": "Kami memanggang sosej.",
         "fr": "Nous avons grillé des saucisses.",
         "de": "Wir haben Würstchen gegrillt.",
         "it": "Abbiamo grigliato salsicce.",
@@ -2129,6 +2247,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛌",
     "translation": {
         "en": "This pillow is soft.",
+        "ms": "Bantal ini lembut.",
         "fr": "Ce chevet est doux.",
         "de": "Dieses Kissen ist weich.",
         "it": "Questo cuscino è morbido.",
@@ -2147,6 +2266,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔢",
     "translation": {
         "en": "I forgot my locker combination.",
+        "ms": "Saya terlupa kombinasi loker saya.",
         "fr": "J'ai oublié la combinaison de mon casier.",
         "de": "Ich habe meine Spindkombination vergessen.",
         "it": "Ho dimenticato la combinazione del mio armadietto.",
@@ -2165,6 +2285,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍓",
     "translation": {
         "en": "I ate a sweet strawberry.",
+        "ms": "Saya makan strawberi manis.",
         "fr": "J'ai mangé une fraise sucrée.",
         "de": "Ich habe eine süße Erdbeere gegessen.",
         "it": "Ho mangiato una fragola dolce.",
@@ -2183,6 +2304,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐭",
     "translation": {
         "en": "The mouse ran away.",
+        "ms": "Tikus itu melarikan diri.",
         "fr": "La souris s'est enfuie.",
         "de": "Die Maus ist weggelaufen.",
         "it": "Il topo è scappato.",
@@ -2201,6 +2323,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧀",
     "translation": {
         "en": "Who moved my cheese?",
+        "ms": "Siapa yang gerakkan keju saya?",
         "fr": "Qui a bougé mon fromage ?",
         "de": "Wer hat meinen Käse bewegt?",
         "it": "Chi ha spostato il mio formaggio?",
@@ -2219,6 +2342,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌽",
     "translation": {
         "en": "Corn on the cob is good.",
+        "ms": "Jagung pada tongkol adalah baik.",
         "fr": "L'épi de maïs est bon.",
         "de": "Maiskolben sind gut.",
         "it": "La pannocchia è buona.",
@@ -2237,6 +2361,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "✏️",
     "translation": {
         "en": "My pencil sharpener is full.",
+        "ms": "Pengasah pensel saya penuh.",
         "fr": "Mon taille-crayon est plein.",
         "de": "Mein Anspitzer ist voll.",
         "it": "Il mio temperamatite è pieno.",
@@ -2255,6 +2380,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧃",
     "translation": {
         "en": "Don't spill the juice.",
+        "ms": "Jangan tumpahkan jus.",
         "fr": "Ne renverse pas le jus.",
         "de": "Verschütte den Saft nicht.",
         "it": "Non versare il succo.",
@@ -2273,6 +2399,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍗",
     "translation": {
         "en": "Tastes like chicken.",
+        "ms": "Rasanya seperti ayam.",
         "fr": "Ça a le goût de poulet.",
         "de": "Schmeckt wie Hühnchen.",
         "it": "Sa di pollo.",
@@ -2291,6 +2418,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🕷️",
     "translation": {
         "en": "That spider is huge.",
+        "ms": "Labah-labah itu besar.",
         "fr": "Cette araignée est énorme.",
         "de": "Diese Spinne ist riesig.",
         "it": "Quel ragno è enorme.",
@@ -2309,6 +2437,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍽️",
     "translation": {
         "en": "Do not eat too fast.",
+        "ms": "Jangan makan terlalu cepat.",
         "fr": "Ne mange pas trop vite.",
         "de": "Iss nicht zu schnell.",
         "it": "Non mangiare troppo velocemente.",
@@ -2327,6 +2456,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🖍️",
     "translation": {
         "en": "The teacher threw the chalk.",
+        "ms": "Guru itu membaling kapur itu.",
         "fr": "Le professeur a jeté la craie.",
         "de": "Der Lehrer warf die Kreide.",
         "it": "L'insegnante ha lanciato il gesso.",
@@ -2345,6 +2475,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎭",
     "translation": {
         "en": "The movie theater was full.",
+        "ms": "Panggung wayang penuh.",
         "fr": "Le cinéma était plein.",
         "de": "Das Kino war voll.",
         "it": "Il cinema era pieno.",
@@ -2363,6 +2494,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥣",
     "translation": {
         "en": "I ate a bowl of cereal.",
+        "ms": "Saya makan semangkuk bijirin.",
         "fr": "J'ai mangé un bol de céréales.",
         "de": "Ich habe eine Schüssel Müsli gegessen.",
         "it": "Ho mangiato una ciotola di cereali.",
@@ -2381,6 +2513,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎬",
     "translation": {
         "en": "We went to the cinema.",
+        "ms": "Kami pergi ke pawagam.",
         "fr": "Nous sommes allés au cinéma.",
         "de": "Wir sind ins Kino gegangen.",
         "it": "Siamo andati al cinema.",
@@ -2399,6 +2532,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏥",
     "translation": {
         "en": "He broke his arm and went to the hospital.",
+        "ms": "Dia patah tangan dan pergi ke hospital.",
         "fr": "Il s'est cassé le bras et est allé à l'hôpital.",
         "de": "Er brach sich den Arm und ging ins Krankenhaus.",
         "it": "Si è rotto il braccio ed è andato in ospedale.",
@@ -2417,6 +2551,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍅",
     "translation": {
         "en": "I hate tomatoes.",
+        "ms": "Saya benci tomato.",
         "fr": "Je déteste les tomates.",
         "de": "Ich hasse Tomaten.",
         "it": "Odio i pomodori.",
@@ -2435,6 +2570,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔒",
     "translation": {
         "en": "My locker smells funny.",
+        "ms": "Loker saya berbau lucu.",
         "fr": "Mon casier sent drôle.",
         "de": "Mein Spind riecht komisch.",
         "it": "Il mio armadietto ha un odore strano.",
@@ -2453,6 +2589,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👂",
     "translation": {
         "en": "Listen to your parents.",
+        "ms": "Dengar cakap ibu bapa awak.",
         "fr": "Écoute tes parents.",
         "de": "Hör auf deine Eltern.",
         "it": "Ascolta i tuoi genitori.",
@@ -2471,6 +2608,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏠",
     "translation": {
         "en": "Our house is small.",
+        "ms": "Rumah kami kecil.",
         "fr": "Notre maison est petite.",
         "de": "Unser Haus ist klein.",
         "it": "La nostra casa è piccola.",
@@ -2489,6 +2627,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥔",
     "translation": {
         "en": "I like mashed potatoes.",
+        "ms": "Saya suka kentang tumbuk.",
         "fr": "J'aime la purée de pommes de terre.",
         "de": "Ich mag Kartoffelbrei.",
         "it": "Mi piace il purè di patate.",
@@ -2507,6 +2646,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧮",
     "translation": {
         "en": "Use a calculator for math.",
+        "ms": "Gunakan kalkulator untuk matematik.",
         "fr": "Utilise une calculatrice pour les maths.",
         "de": "Benutze einen Taschenrechner für Mathe.",
         "it": "Usa una calcolatrice per la matematica.",
@@ -2525,6 +2665,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⭐",
     "translation": {
         "en": "You are a star.",
+        "ms": "Awak seorang bintang.",
         "fr": "Tu es une étoile.",
         "de": "Du bist ein Stern.",
         "it": "Sei una stella.",
@@ -2543,6 +2684,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥛",
     "translation": {
         "en": "The glass is broken.",
+        "ms": "Gelas itu pecah.",
         "fr": "Le verre est cassé.",
         "de": "Das Glas ist zerbrochen.",
         "it": "Il bicchiere è rotto.",
@@ -2561,6 +2703,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎻",
     "translation": {
         "en": "She plays the violin beautifully.",
+        "ms": "Dia bermain biola dengan cantik.",
         "fr": "Elle joue du violon magnifiquement.",
         "de": "Sie spielt wunderschön Geige.",
         "it": "Suona il violino magnificamente.",
@@ -2579,6 +2722,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😴",
     "translation": {
         "en": "I am too tired to move.",
+        "ms": "Saya terlalu letih untuk bergerak.",
         "fr": "Je suis trop fatigué pour bouger.",
         "de": "Ich bin zu müde, um mich zu bewegen.",
         "it": "Sono troppo stanco per muovermi.",
@@ -2597,6 +2741,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐜",
     "translation": {
         "en": "Ants are everywhere.",
+        "ms": "Semut ada di mana-mana.",
         "fr": "Les fourmis sont partout.",
         "de": "Ameisen sind überall.",
         "it": "Le formiche sono ovunque.",
@@ -2615,6 +2760,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐛",
     "translation": {
         "en": "There is a bug in my code.",
+        "ms": "Terdapat pepijat dalam kod saya.",
         "fr": "Il y a un bug dans mon code.",
         "de": "Es gibt einen Fehler in meinem Code.",
         "it": "C'è un bug nel mio codice.",
@@ -2633,6 +2779,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌉",
     "translation": {
         "en": "We crossed the bridge.",
+        "ms": "Kami menyeberangi jambatan.",
         "fr": "Nous avons traversé le pont.",
         "de": "Wir überquerten die Brücke.",
         "it": "Abbiamo attraversato il ponte.",
@@ -2651,6 +2798,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤖",
     "translation": {
         "en": "I built a robot.",
+        "ms": "Saya bina robot.",
         "fr": "J'ai construit un robot.",
         "de": "Ich habe einen Roboter gebaut.",
         "it": "Ho costruito un robot.",
@@ -2669,6 +2817,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚗",
     "translation": {
         "en": "Our car broke down.",
+        "ms": "Kereta kami rosak.",
         "fr": "Notre voiture est tombée en panne.",
         "de": "Unser Auto hatte eine Panne.",
         "it": "La nostra auto si è rotta.",
@@ -2687,6 +2836,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📓",
     "translation": {
         "en": "I lost my math notebook.",
+        "ms": "Saya kehilangan buku nota matematik saya.",
         "fr": "J'ai perdu mon cahier de maths.",
         "de": "Ich habe mein Matheheft verloren.",
         "it": "Ho perso il mio quaderno di matematica.",
@@ -2705,6 +2855,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥪",
     "translation": {
         "en": "Ham and cheese sandwich.",
+        "ms": "Ham dan sandwic keju.",
         "fr": "Sandwich jambon-fromage.",
         "de": "Schinken-Käse-Sandwich.",
         "it": "Panino prosciutto e formaggio.",
@@ -2723,6 +2874,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥤",
     "translation": {
         "en": "Drink plenty of water.",
+        "ms": "Minum banyak air.",
         "fr": "Bois beaucoup d'eau.",
         "de": "Trink viel Wasser.",
         "it": "Bevi molta acqua.",
@@ -2741,6 +2893,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "❤️",
     "translation": {
         "en": "Valentine's Day is in February.",
+        "ms": "Hari Valentine adalah pada bulan Februari.",
         "fr": "La Saint-Valentin est en février.",
         "de": "Valentinstag ist im Februar.",
         "it": "San Valentino è a febbraio.",
@@ -2759,6 +2912,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎎",
     "translation": {
         "en": "She collects dolls.",
+        "ms": "Dia mengumpul anak patung.",
         "fr": "Elle collectionne les poupées.",
         "de": "Sie sammelt Puppen.",
         "it": "Colleziona bambole.",
@@ -2777,6 +2931,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍿",
     "translation": {
         "en": "I love movie popcorn.",
+        "ms": "Saya suka popcorn filem.",
         "fr": "J'adore le popcorn du cinéma.",
         "de": "Ich liebe Kinopopcorn.",
         "it": "Amo i popcorn del cinema.",
@@ -2795,6 +2950,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☀️",
     "translation": {
         "en": "The sun is shining.",
+        "ms": "bagaimana keadaan keluarga awak?",
         "fr": "Le soleil brille.",
         "de": "Die Sonne scheint.",
         "it": "Il sole splende.",
@@ -2813,6 +2969,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💵",
     "translation": {
         "en": "Time is money.",
+        "ms": "Masa itu emas.",
         "fr": "Le temps, c'est de l'argent.",
         "de": "Zeit ist Geld.",
         "it": "Il tempo è denaro.",
@@ -2831,6 +2988,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "✋",
     "translation": {
         "en": "Take one please.",
+        "ms": "Ambil satu.",
         "fr": "Prends-en un s'il te plaît.",
         "de": "Nimm bitte eins.",
         "it": "Prendine uno per favore.",
@@ -2849,6 +3007,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧂",
     "translation": {
         "en": "Too much sugar is bad.",
+        "ms": "Terlalu banyak gula tidak baik.",
         "fr": "Trop de sucre est mauvais.",
         "de": "Zu viel Zucker ist schlecht.",
         "it": "Troppo zucchero fa male.",
@@ -2867,6 +3026,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎸",
     "translation": {
         "en": "Rodrick's band is loud.",
+        "ms": "Band Rodrick kuat.",
         "fr": "Le groupe de Rodrick est bruyant.",
         "de": "Rodricks Band ist laut.",
         "it": "La band di Rodrick è rumorosa.",
@@ -2885,6 +3045,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐱",
     "translation": {
         "en": "My cat sleeps all day.",
+        "ms": "Kucing saya tidur sepanjang hari.",
         "fr": "Mon chat dort toute la journée.",
         "de": "Meine Katze schläft den ganzen Tag.",
         "it": "Il mio gatto dorme tutto il giorno.",
@@ -2903,6 +3064,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📏",
     "translation": {
         "en": "Measure with a ruler.",
+        "ms": "Ukur dengan pembaris.",
         "fr": "Mesure avec une règle.",
         "de": "Miss mit einem Lineal.",
         "it": "Misura con un righello.",
@@ -2921,6 +3083,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📷",
     "translation": {
         "en": "Smile for the camera.",
+        "ms": "Senyum untuk kamera.",
         "fr": "Souris pour la caméra.",
         "de": "Lächel für die Kamera.",
         "it": "Sorridi alla telecamera.",
@@ -2939,6 +3102,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💵",
     "translation": {
         "en": "I have to pay him back.",
+        "ms": "Saya perlu bayar dia balik.",
         "fr": "Je dois le rembourser.",
         "de": "Ich muss es ihm zurückzahlen.",
         "it": "Devo ripagarlo.",
@@ -2957,6 +3121,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☁️",
     "translation": {
         "en": "That cloud looks like a pig.",
+        "ms": "Awan itu kelihatan seperti khinzir.",
         "fr": "Ce nuage ressemble à un cochon.",
         "de": "Diese Wolke sieht aus wie ein Schwein.",
         "it": "Quell'angolo sembra un maiale.",
@@ -2975,6 +3140,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥯",
     "translation": {
         "en": "I like sesame buns.",
+        "ms": "Saya suka roti bijan.",
         "fr": "J'aime les petits pains au sésame.",
         "de": "Ich mag Sesamsbrötchen.",
         "it": "Mi piacciono i panini al sesamo.",
@@ -2993,6 +3159,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎵",
     "translation": {
         "en": "The music is too loud.",
+        "ms": "Muziknya terlalu kuat.",
         "fr": "La musique est trop forte.",
         "de": "Die Musik ist zu laut.",
         "it": "La musica è troppo alta.",
@@ -3011,6 +3178,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📎",
     "translation": {
         "en": "The stapler is empty.",
+        "ms": "Stapler kosong.",
         "fr": "L'agrafeuse est vide.",
         "de": "Der Hefter ist leer.",
         "it": "La graffettatrice è vuota.",
@@ -3029,6 +3197,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👊",
     "translation": {
         "en": "He hit me first.",
+        "ms": "Dia pukul saya dulu.",
         "fr": "Il m'a frappé en premier.",
         "de": "Er hat mich zuerst geschlagen.",
         "it": "Mi ha colpito per primo.",
@@ -3047,6 +3216,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍩",
     "translation": {
         "en": "I ate a jelly donut.",
+        "ms": "Saya makan donat jeli.",
         "fr": "J'ai mangé un beignet à la gelée.",
         "de": "Ich habe einen Berliner gegessen.",
         "it": "Ho mangiato una ciambella alla marmellata.",
@@ -3065,6 +3235,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍌",
     "translation": {
         "en": "I slipped on a banana peel.",
+        "ms": "Saya tergelincir pada kulit pisang.",
         "fr": "J'ai glissé sur une peau de banane.",
         "de": "Ich bin auf einer Bananenschale ausgerutscht.",
         "it": "Sono scivolato su una buccia di banana.",
@@ -3083,6 +3254,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤲",
     "translation": {
         "en": "Can you carry this?",
+        "ms": "Boleh awak bawa ini?",
         "fr": "Peux-tu porter ça ?",
         "de": "Kannst du das tragen?",
         "it": "Puoi portare questo?",
@@ -3101,6 +3273,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍽️",
     "translation": {
         "en": "I broke a plate.",
+        "ms": "Saya memecahkan pinggan.",
         "fr": "J'ai cassé une assiette.",
         "de": "Ich habe einen Teller zerbrochen.",
         "it": "Ho rotto un piatto.",
@@ -3119,6 +3292,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "Thursday is almost Friday.",
+        "ms": "Khamis hampir Jumaat.",
         "fr": "Jeudi est presque vendredi.",
         "de": "Donnerstag ist fast Freitag.",
         "it": "Giovedì è quasi venerdì.",
@@ -3137,6 +3311,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎆",
     "translation": {
         "en": "Happy New Year!",
+        "ms": "Selamat Tahun Baharu! ",
         "fr": "Bonne année !",
         "de": "Frohes Neues Jahr!",
         "it": "Buon anno!",
@@ -3155,6 +3330,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪟",
     "translation": {
         "en": "Open the window please.",
+        "ms": "Tolong buka tingkap.",
         "fr": "Ouvre la fenêtre s'il te plaît.",
         "de": "Öffne das Fenster bitte.",
         "it": "Apri la finestra per favore.",
@@ -3173,6 +3349,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎃",
     "translation": {
         "en": "I love Halloween candy.",
+        "ms": "Saya suka gula-gula Halloween.",
         "fr": "J'adore les bonbons d'Halloween.",
         "de": "Ich liebe Halloween-Süßigkeiten.",
         "it": "Amo i dolci di Halloween.",
@@ -3191,6 +3368,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏛️",
     "translation": {
         "en": "We visited the museum.",
+        "ms": "Kami melawat muzium.",
         "fr": "Nous avons visité le musée.",
         "de": "Wir haben das Museum besucht.",
         "it": "Abbiamo visitato il museo.",
@@ -3209,6 +3387,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥦",
     "translation": {
         "en": "I refuse to eat broccoli.",
+        "ms": "Saya enggan makan brokoli.",
         "fr": "Je refuse de manger du brocoli.",
         "de": "Ich weigere mich, Brokkoli zu essen.",
         "it": "Mi rifiuto di mangiare broccoli.",
@@ -3227,6 +3406,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍂",
     "translation": {
         "en": "September brings cool weather.",
+        "ms": "September membawa cuaca yang sejuk.",
         "fr": "Septembre apporte un temps frais.",
         "de": "Der September bringt kühles Wetter.",
         "it": "Settembre porta il tempo fresco.",
@@ -3245,6 +3425,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍽️",
     "translation": {
         "en": "Set the table for dinner.",
+        "ms": "Sediakan meja untuk makan malam.",
         "fr": "Mets la table pour le dîner.",
         "de": "Deck den Tisch für das Abendessen.",
         "it": "Apparecchia la tavola per la cena.",
@@ -3263,6 +3444,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪱",
     "translation": {
         "en": "The early bird catches the worm.",
+        "ms": "The early bird catches the worm.",
         "fr": "L'oiseau matinal attrape le ver.",
         "de": "Der frühe Vogel fängt den Wurm.",
         "it": "Il mattino ha l'oro in bocca.",
@@ -3281,6 +3463,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥁",
     "translation": {
         "en": "I play the drums.",
+        "ms": "Saya bermain dram.",
         "fr": "Je joue de la batterie.",
         "de": "Ich spiele Schlagzeug.",
         "it": "Suono la batteria.",
@@ -3299,6 +3482,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏋️",
     "translation": {
         "en": "Do not lift heavy objects.",
+        "ms": "JANGAN MENGANGKAT OBJEK BERAT",
         "fr": "Ne soulève pas d'objets lourds.",
         "de": "Heb keine schweren Gegenstände.",
         "it": "Non sollevare oggetti pesanti.",
@@ -3317,6 +3501,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😠",
     "translation": {
         "en": "Dad was very angry.",
+        "ms": "Ayah sangat marah.",
         "fr": "Papa était très en colère.",
         "de": "Papa war sehr wütend.",
         "it": "Papà era molto arrabbiato.",
@@ -3335,6 +3520,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📄",
     "translation": {
         "en": "I hid my report card.",
+        "ms": "Saya sembunyikan kad laporan saya.",
         "fr": "J'ai caché mon bulletin.",
         "de": "Ich habe mein Zeugnis versteckt.",
         "it": "Ho nascosto la mia pagella.",
@@ -3353,6 +3539,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⛵",
     "translation": {
         "en": "We went on a boat ride.",
+        "ms": "Kami menaiki bot.",
         "fr": "Nous avons fait une promenade en bateau.",
         "de": "Wir haben eine Bootsfahrt gemacht.",
         "it": "Abbiamo fatto un giro in barca.",
@@ -3371,6 +3558,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👨‍👩‍👧‍👦",
     "translation": {
         "en": "I love my family.",
+        "ms": "Saya sayang keluarga saya.",
         "fr": "J'aime ma famille.",
         "de": "Ich liebe meine Familie.",
         "it": "Amo la mia famiglia.",
@@ -3389,6 +3577,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📝",
     "translation": {
         "en": "I forgot to study for the test.",
+        "ms": "Saya terlupa belajar untuk ujian.",
         "fr": "J'ai oublié d'étudier pour le test.",
         "de": "Ich habe vergessen, für den Test zu lernen.",
         "it": "Ho dimenticato di studiare per il test.",
@@ -3407,6 +3596,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "Check your class schedule.",
+        "ms": "Semak jadual kelas anda.",
         "fr": "Vérifie ton emploi du temps.",
         "de": "Überprüfe deinen Stundenplan.",
         "it": "Controlla il tuo orario delle lezioni.",
@@ -3425,6 +3615,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔪",
     "translation": {
         "en": "Be careful with that knife.",
+        "ms": "Berhati-hati dengan pisau itu.",
         "fr": "Fais attention avec ce couteau.",
         "de": "Sei vorsichtig mit dem Messer.",
         "it": "Fai attenzione a quel coltello.",
@@ -3443,6 +3634,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐝",
     "translation": {
         "en": "A bee stung me.",
+        "ms": "Seekor lebah menyengat saya.",
         "fr": "Une abeille m'a piqué.",
         "de": "Eine Biene hat mich gestochen.",
         "it": "Un'ape mi ha punto.",
@@ -3461,6 +3653,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍪",
     "translation": {
         "en": "Who ate the last cookie?",
+        "ms": "Siapa yang makan biskut terakhir?",
         "fr": "Qui a mangé le dernier biscuit ?",
         "de": "Wer hat den letzten Keks gegessen?",
         "it": "Chi ha mangiato l'ultimo biscotto?",
@@ -3479,6 +3672,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎨",
     "translation": {
         "en": "I made a drawing of you.",
+        "ms": "Saya buat lukisan awak.",
         "fr": "J'ai fait un dessin de toi.",
         "de": "Ich habe eine Zeichnung von dir gemacht.",
         "it": "Ho fatto un disegno di te.",
@@ -3497,6 +3691,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💇",
     "translation": {
         "en": "Comb your hair.",
+        "ms": "Sikat rambut anda.",
         "fr": "Peigne tes cheveux.",
         "de": "Kämm deine Haare.",
         "it": "Pettinati i capelli.",
@@ -3515,6 +3710,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛝",
     "translation": {
         "en": "Recess is my favorite time.",
+        "ms": "Waktu rehat adalah waktu kegemaran saya.",
         "fr": "La récréation est mon moment préféré.",
         "de": "Die Pause ist meine Lieblingszeit.",
         "it": "L'intervallo è il mio momento preferito.",
@@ -3533,6 +3729,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎃",
     "translation": {
         "en": "Halloween is in October.",
+        "ms": "Halloween adalah pada bulan Oktober.",
         "fr": "Halloween est en octobre.",
         "de": "Halloween ist im Oktober.",
         "it": "Halloween è a ottobre.",
@@ -3551,6 +3748,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧠",
     "translation": {
         "en": "We learn new things every day.",
+        "ms": "Kita belajar perkara baru setiap hari.",
         "fr": "Nous apprenons de nouvelles choses chaque jour.",
         "de": "Wir lernen jeden Tag neue Dinge.",
         "it": "Impariamo cose nuove ogni giorno.",
@@ -3569,6 +3767,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📦",
     "translation": {
         "en": "What is in the box?",
+        "ms": "Apa yang ada dalam kotak?",
         "fr": "Qu'est-ce qu'il y a dans la boîte ?",
         "de": "Was ist in der Kiste?",
         "it": "Cosa c'è nella scatola?",
@@ -3587,6 +3786,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📱",
     "translation": {
         "en": "Put your phone away.",
+        "ms": "Simpan telefon anda.",
         "fr": "Range ton téléphone.",
         "de": "Leg dein Handy weg.",
         "it": "Metti via il telefono.",
@@ -3605,6 +3805,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🖥️",
     "translation": {
         "en": "The screen is cracked.",
+        "ms": "Skrin retak.",
         "fr": "L'écran est fissuré.",
         "de": "Der Bildschirm ist gesprungen.",
         "it": "Lo schermo è rotto.",
@@ -3623,6 +3824,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🖊️",
     "translation": {
         "en": "Write it on the whiteboard.",
+        "ms": "Tulisnya di papan putih.",
         "fr": "Écris-le au tableau blanc.",
         "de": "Schreib es an das Whiteboard.",
         "it": "Scrivilo sulla lavagna.",
@@ -3641,6 +3843,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤢",
     "translation": {
         "en": "I feel very sick.",
+        "ms": "Saya rasa sangat sakit.",
         "fr": "Je me sens très malade.",
         "de": "Ich fühle mich sehr krank.",
         "it": "Mi sento molto male.",
@@ -3659,6 +3862,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👨‍⚖️",
     "translation": {
         "en": "The principal called my name.",
+        "ms": "Pengetua memanggil nama saya.",
         "fr": "Le directeur a appelé mon nom.",
         "de": "Der Schulleiter hat meinen Namen gerufen.",
         "it": "Il preside ha chiamato il mio nome.",
@@ -3677,6 +3881,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📂",
     "translation": {
         "en": "Put the paper in the folder.",
+        "ms": "Masukkan kertas ke dalam folder.",
         "fr": "Mets le papier dans le dossier.",
         "de": "Leg das Papier in den Ordner.",
         "it": "Metti il foglio nella cartella.",
@@ -3695,6 +3900,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍎",
     "translation": {
         "en": "An apple a day.",
+        "ms": "Sebiji epal sehari.",
         "fr": "Une pomme par jour.",
         "de": "Ein Apfel am Tag.",
         "it": "Una mela al giorno.",
@@ -3713,6 +3919,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👨",
     "translation": {
         "en": "My dad is strong.",
+        "ms": "Ayah saya kuat.",
         "fr": "Mon père est fort.",
         "de": "Mein Vater ist stark.",
         "it": "Mio padre è forte.",
@@ -3731,6 +3938,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪑",
     "translation": {
         "en": "My desk is messy.",
+        "ms": "Meja saya berselerak.",
         "fr": "Mon bureau est en désordre.",
         "de": "Mein Schreibtisch ist unordentlich.",
         "it": "La mia scrivania è disordinata.",
@@ -3749,6 +3957,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "See you next week.",
+        "ms": "jumpa lagi",
         "fr": "À la semaine prochaine.",
         "de": "Bis nächste Woche.",
         "it": "Ci vediamo la prossima settimana.",
@@ -3767,6 +3976,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💨",
     "translation": {
         "en": "The wind blew my hat off.",
+        "ms": "Angin meniup topi saya.",
         "fr": "Le vent a emporté mon chapeau.",
         "de": "Der Wind hat meinen Hut weggeweht.",
         "it": "Il vento mi ha portato via il cappello.",
@@ -3785,6 +3995,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🗄️",
     "translation": {
         "en": "The drawer is stuck.",
+        "ms": "Laci tersangkut.",
         "fr": "Le tiroir est coincé.",
         "de": "Die Schublade klemmt.",
         "it": "Il cassetto è bloccato.",
@@ -3803,6 +4014,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧶",
     "translation": {
         "en": "Do not spill on the rug.",
+        "ms": "Jangan tumpahkan pada permaidani.",
         "fr": "Ne renverse rien sur le tapis.",
         "de": "Verschütte nichts auf den Teppich.",
         "it": "Non versare niente sul tappeto.",
@@ -3821,6 +4033,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😊",
     "translation": {
         "en": "I am so happy today.",
+        "ms": "kenapa saya gembira sangat hari ini",
         "fr": "Je suis si heureux aujourd'hui.",
         "de": "Ich bin heute so glücklich.",
         "it": "Sono così felice oggi.",
@@ -3839,6 +4052,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🗣️",
     "translation": {
         "en": "I speak a little English.",
+        "ms": "Cakap sikit",
         "fr": "Je parle un peu anglais.",
         "de": "Ich spreche ein wenig Englisch.",
         "it": "Parlo un po' di inglese.",
@@ -3857,6 +4071,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔒",
     "translation": {
         "en": "Did you lock the door?",
+        "ms": "Awak dah kunci pintu?",
         "fr": "As-tu verrouillé la porte ?",
         "de": "Hast du die Tür abgeschlossen?",
         "it": "Hai chiuso a chiave la porta?",
@@ -3875,6 +4090,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⏱️",
     "translation": {
         "en": "Wait a second.",
+        "ms": "Tunggu sebentar.",
         "fr": "Attends une seconde.",
         "de": "Warte eine Sekunde.",
         "it": "Aspetta un secondo.",
@@ -3893,6 +4109,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "Next month is my birthday.",
+        "ms": "Bulan depan adalah hari lahir saya.",
         "fr": "Le mois prochain, c'est mon anniversaire.",
         "de": "Nächsten Monat ist mein Geburtstag.",
         "it": "Il mese prossimo è il mio compleanno.",
@@ -3911,6 +4128,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "😠",
     "translation": {
         "en": "Stand up to the bully.",
+        "ms": "Berdiri di hadapan pembuli.",
         "fr": "Tiens tête à la brute.",
         "de": "Wehr dich gegen den Mobber.",
         "it": "Affronta il bullo.",
@@ -3929,6 +4147,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👩‍⚕️",
     "translation": {
         "en": "Go see the nurse.",
+        "ms": "Pergi jumpa jururawat.",
         "fr": "Va voir l'infirmière.",
         "de": "Geh zur Krankenschwester.",
         "it": "Vai dall'infermiera.",
@@ -3947,6 +4166,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏫",
     "translation": {
         "en": "I got detention again.",
+        "ms": "Saya ditahan lagi.",
         "fr": "J'ai encore été collé.",
         "de": "Ich habe wieder Nachsitzen bekommen.",
         "it": "Ho preso di nuovo una punizione.",
@@ -3965,6 +4185,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👕",
     "translation": {
         "en": "Put on your clothes.",
+        "ms": "Pakai pakaian awak.",
         "fr": "Mets tes vêtements.",
         "de": "Zieh deine Kleidung an.",
         "it": "Mettiti i vestiti.",
@@ -3983,6 +4204,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "❄️",
     "translation": {
         "en": "I love playing in the snow.",
+        "ms": "Saya suka bermain salji.",
         "fr": "J'adore jouer dans la neige.",
         "de": "Ich liebe es, im Schnee zu spielen.",
         "it": "Amo giocare nella neve.",
@@ -4001,6 +4223,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⚾",
     "translation": {
         "en": "Don't throw the ball inside.",
+        "ms": "Jangan baling bola ke dalam.",
         "fr": "Ne lance pas la balle à l'intérieur.",
         "de": "Wirf den Ball nicht drinnen.",
         "it": "Non lanciare la palla dentro casa.",
@@ -4019,6 +4242,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "On Wednesday we wear pink.",
+        "ms": "Pada hari Rabu kami memakai warna merah jambu.",
         "fr": "Le mercredi, on porte du rose.",
         "de": "Mittwochs tragen wir Pink.",
         "it": "Di mercoledì indossiamo il rosa.",
@@ -4037,6 +4261,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⛰️",
     "translation": {
         "en": "We climbed the mountain.",
+        "ms": "Kami mendaki gunung.",
         "fr": "Nous avons escaladé la montagne.",
         "de": "Wir haben den Berg bestiegen.",
         "it": "Abbiamo scalato la montagna.",
@@ -4055,6 +4280,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👨‍🍳",
     "translation": {
         "en": "My dad loves to cook.",
+        "ms": "Ayah saya suka memasak.",
         "fr": "Mon père adore cuisiner.",
         "de": "Mein Vater kocht gerne.",
         "it": "Mio padre ama cucinare.",
@@ -4073,6 +4299,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚿",
     "translation": {
         "en": "Take a shower.",
+        "ms": "berkemban selepas mandi",
         "fr": "Prends une douche.",
         "de": "Nimm eine Dusche.",
         "it": "Fatti una doccia.",
@@ -4091,6 +4318,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪥",
     "translation": {
         "en": "Brush your teeth.",
+        "ms": "Berus gigi anda.",
         "fr": "Brosse-toi les dents.",
         "de": "Putz dir die Zähne.",
         "it": "Lavati i denti.",
@@ -4109,6 +4337,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥣",
     "translation": {
         "en": "Sugary cereal is bad for you.",
+        "ms": "Bijirin manis tidak baik untuk anda.",
         "fr": "Les céréales sucrées sont mauvaises pour toi.",
         "de": "Zuckerhaltiges Müsli ist schlecht für dich.",
         "it": "I cereali zuccherati fanno male.",
@@ -4127,6 +4356,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍲",
     "translation": {
         "en": "Heat it in the microwave.",
+        "ms": "Panaskan dalam ketuhar gelombang mikro.",
         "fr": "Réchauffe-le au micro-ondes.",
         "de": "Mach es in der Mikrowelle warm.",
         "it": "Scaldalo nel microonde.",
@@ -4145,6 +4375,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☀️",
     "translation": {
         "en": "Good afternoon!",
+        "ms": "Selamat tengahari!",
         "fr": "Bon après-midi !",
         "de": "Guten Tag!",
         "it": "Buon pomeriggio!",
@@ -4163,6 +4394,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "✈️",
     "translation": {
         "en": "I flew on an airplane.",
+        "ms": "Saya terbang dengan kapal terbang.",
         "fr": "J'ai pris l'avion.",
         "de": "Ich bin mit dem Flugzeug geflogen.",
         "it": "Ho volato su un aereo.",
@@ -4181,6 +4413,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌸",
     "translation": {
         "en": "May is a spring month.",
+        "ms": "Mei adalah bulan musim bunga.",
         "fr": "Mai est un mois de printemps.",
         "de": "Mai ist ein Frühlingsmonat.",
         "it": "Maggio è un mese primaverile.",
@@ -4199,6 +4432,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍳",
     "translation": {
         "en": "The kitchen is clean.",
+        "ms": "Dapurnya bersih.",
         "fr": "La cuisine est propre.",
         "de": "Die Küche ist sauber.",
         "it": "La cucina è pulita.",
@@ -4217,6 +4451,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👟",
     "translation": {
         "en": "Tie your shoes.",
+        "ms": "Ikat kasut awak.",
         "fr": "Lace tes chaussures.",
         "de": "Bind deine Schuhe zu.",
         "it": "Allacciati le scarpe.",
@@ -4235,6 +4470,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📖",
     "translation": {
         "en": "Open your book.",
+        "ms": "Buka buku anda.",
         "fr": "Ouvre ton livre.",
         "de": "Öffne dein Buch.",
         "it": "Apri il tuo libro.",
@@ -4253,6 +4489,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪙",
     "translation": {
         "en": "I found a rare coin.",
+        "ms": "Saya jumpa duit syiling yang jarang ditemui.",
         "fr": "J'ai trouvé une pièce rare.",
         "de": "Ich habe eine seltene Münze gefunden.",
         "it": "Ho trovato una moneta rara.",
@@ -4271,6 +4508,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏖️",
     "translation": {
         "en": "Let's go to the beach.",
+        "ms": "Mari pergi pantai.",
         "fr": "Allons à la plage.",
         "de": "Lass uns zum Strand gehen.",
         "it": "Andiamo in spiaggia.",
@@ -4289,6 +4527,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤩",
     "translation": {
         "en": "I am so excited!",
+        "ms": "Saya sangat ... teruja",
         "fr": "Je suis tellement excité !",
         "de": "Ich bin so aufgeregt!",
         "it": "Sono così eccitato!",
@@ -4307,6 +4546,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛋️",
     "translation": {
         "en": "Get off the sofa.",
+        "ms": "Keluar dari sofa.",
         "fr": "Descends du canapé.",
         "de": "Geh vom Sofa runter.",
         "it": "Scendi dal divano.",
@@ -4325,6 +4565,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥵",
     "translation": {
         "en": "It is too hot outside.",
+        "ms": "Di luar terlalu panas.",
         "fr": "Il fait trop chaud dehors.",
         "de": "Es ist zu heiß draußen.",
         "it": "Fa troppo caldo fuori.",
@@ -4343,6 +4584,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌍",
     "translation": {
         "en": "Spin the globe.",
+        "ms": "Putar bola dunia.",
         "fr": "Fais tourner le globe.",
         "de": "Dreh den Globus.",
         "it": "Gira il mappamondo.",
@@ -4361,6 +4603,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚆",
     "translation": {
         "en": "The train is late.",
+        "ms": "Keretapi dah lewat.",
         "fr": "Le train est en retard.",
         "de": "Der Zug hat Verspätung.",
         "it": "Il treno è in ritardo.",
@@ -4379,6 +4622,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏬",
     "translation": {
         "en": "We shopped at the mall.",
+        "ms": "Kami membeli-belah di pusat membeli-belah.",
         "fr": "Nous avons fait du shopping au centre commercial.",
         "de": "Wir haben im Einkaufszentrum eingekauft.",
         "it": "Abbiamo fatto shopping al centro commerciale.",
@@ -4397,6 +4641,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏖️",
     "translation": {
         "en": "Summer vacation is here.",
+        "ms": "Percutian musim panas sudah tiba.",
         "fr": "Les vacances d'été sont là.",
         "de": "Die Sommerferien sind da.",
         "it": "Le vacanze estive sono qui.",
@@ -4415,6 +4660,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌧️",
     "translation": {
         "en": "I forgot my umbrella in the rain.",
+        "ms": "Saya terlupa payung saya dalam hujan.",
         "fr": "J'ai oublié mon parapluie sous la pluie.",
         "de": "Ich habe meinen Regenschirm im Regen vergessen.",
         "it": "Ho dimenticato l'ombrello sotto la pioggia.",
@@ -4433,6 +4679,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌳",
     "translation": {
         "en": "We played in the park.",
+        "ms": "Kami bermain di taman.",
         "fr": "Nous avons joué dans le parc.",
         "de": "Wir haben im Park gespielt.",
         "it": "Abbiamo giocato nel parco.",
@@ -4451,6 +4698,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪞",
     "translation": {
         "en": "Look in the mirror.",
+        "ms": "di dalam cermin.",
         "fr": "Regarde dans le miroir.",
         "de": "Schau in den Spiegel.",
         "it": "Guardati allo specchio.",
@@ -4469,6 +4717,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⚽",
     "translation": {
         "en": "He kicked the ball.",
+        "ms": "Dia menendang bola.",
         "fr": "Il a donné un coup de pied dans le ballon.",
         "de": "Er trat den Ball.",
         "it": "Ha calciato la palla.",
@@ -4487,6 +4736,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧊",
     "translation": {
         "en": "There is no food in the fridge.",
+        "ms": "Tiada makanan di dalam peti sejuk.",
         "fr": "Il n'y a pas de nourriture dans le frigo.",
         "de": "Es ist kein Essen im Kühlschrank.",
         "it": "Non c'è cibo nel frigo.",
@@ -4505,6 +4755,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⏰",
     "translation": {
         "en": "Wake up early.",
+        "ms": "Bangun awal.",
         "fr": "Réveille-toi tôt.",
         "de": "Wach früh auf.",
         "it": "Svegliati presto.",
@@ -4523,6 +4774,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎈",
     "translation": {
         "en": "I popped the balloon.",
+        "ms": "Saya keluarkan belon itu.",
         "fr": "J'ai éclaté le ballon.",
         "de": "Ich habe den Ballon zerplatzt.",
         "it": "Ho scoppiato il palloncino.",
@@ -4541,6 +4793,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☀️",
     "translation": {
         "en": "July is very hot.",
+        "ms": "Julai sangat panas.",
         "fr": "Juillet est très chaud.",
         "de": "Juli ist sehr heiß.",
         "it": "Luglio è molto caldo.",
@@ -4559,6 +4812,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍂",
     "translation": {
         "en": "Leaves change color in fall.",
+        "ms": "Daun bertukar warna pada musim gugur.",
         "fr": "Les feuilles changent de couleur en automne.",
         "de": "Blätter ändern ihre Farbe im Herbst.",
         "it": "Le foglie cambiano colore in autunno.",
@@ -4577,6 +4831,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛒",
     "translation": {
         "en": "I want to buy this.",
+        "ms": "Saya nak beli ini.",
         "fr": "Je veux acheter ça.",
         "de": "Ich möchte das kaufen.",
         "it": "Voglio comprare questo.",
@@ -4595,6 +4850,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥕",
     "translation": {
         "en": "Eat your carrots.",
+        "ms": "Makan lobak merah anda.",
         "fr": "Mange tes carottes.",
         "de": "Iss deine Karotten.",
         "it": "Mangia le tue carote.",
@@ -4613,6 +4869,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👨‍🎓",
     "translation": {
         "en": "He is my classmate.",
+        "ms": "Dia rakan sekelas saya.",
         "fr": "C'est mon camarade de classe.",
         "de": "Er ist mein Klassenkamerad.",
         "it": "Lui è mio compagno di classe.",
@@ -4631,6 +4888,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "No school on Saturday.",
+        "ms": "Tiada sekolah pada hari Sabtu.",
         "fr": "Pas d'école le samedi.",
         "de": "Keine Schule am Samstag.",
         "it": "Niente scuola il sabato.",
@@ -4649,6 +4907,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🖱️",
     "translation": {
         "en": "My mouse is broken.",
+        "ms": "Tetikus saya rosak.",
         "fr": "Ma souris est cassée.",
         "de": "Meine Maus ist kaputt.",
         "it": "Il mio mouse è rotto.",
@@ -4667,6 +4926,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏫",
     "translation": {
         "en": "Middle school is hard.",
+        "ms": "Sekolah menengah memang susah.",
         "fr": "Le collège, c'est dur.",
         "de": "Mittelschule ist hart.",
         "it": "La scuola media è dura.",
@@ -4685,6 +4945,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍦",
     "translation": {
         "en": "I dropped my ice cream.",
+        "ms": "Saya jatuhkan aiskrim saya.",
         "fr": "J'ai fait tomber ma glace.",
         "de": "Ich habe mein Eis fallen lassen.",
         "it": "Mi è caduto il gelato.",
@@ -4703,6 +4964,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛏️",
     "translation": {
         "en": "Make your bed.",
+        "ms": "Siapkan katil anda.",
         "fr": "Fais ton lit.",
         "de": "Mach dein Bett.",
         "it": "Fatti il letto.",
@@ -4721,6 +4983,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧼",
     "translation": {
         "en": "Wash with soap.",
+        "ms": "Basuh dengan sabun.",
         "fr": "Lave avec du savon.",
         "de": "Wasche mit Seife.",
         "it": "Lavati con il sapone.",
@@ -4739,6 +5002,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥄",
     "translation": {
         "en": "Use a spoon for soup.",
+        "ms": "Gunakan sudu untuk sup.",
         "fr": "Utilise une cuillère pour la soupe.",
         "de": "Benutze einen Löffel für die Suppe.",
         "it": "Usa un cucchiaio per la zuppa.",
@@ -4757,6 +5021,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧼",
     "translation": {
         "en": "Wash your hands.",
+        "ms": "Pergi cuci tangan.",
         "fr": "Lave-toi les mains.",
         "de": "Wasch dir die Hände.",
         "it": "Lavati le mani.",
@@ -4775,6 +5040,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⚾",
     "translation": {
         "en": "Catch the ball.",
+        "ms": "Tangkap bola.",
         "fr": "Attrape la balle.",
         "de": "Fang den Ball.",
         "it": "Prendi la palla.",
@@ -4793,6 +5059,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🖼️",
     "translation": {
         "en": "I hung a poster.",
+        "ms": "Saya gantung poster.",
         "fr": "J'ai accroché un poster.",
         "de": "Ich habe ein Poster aufgehängt.",
         "it": "Ho appeso un poster.",
@@ -4811,6 +5078,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📅",
     "translation": {
         "en": "I hate Mondays.",
+        "ms": "Saya benci hari Isnin.",
         "fr": "Je déteste les lundis.",
         "de": "Ich hasse Montage.",
         "it": "Odio i lunedì.",
@@ -4829,6 +5097,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🦁",
     "translation": {
         "en": "The zoo was fun.",
+        "ms": "Zoo ini menyeronokkan.",
         "fr": "Le zoo était amusant.",
         "de": "Der Zoo hat Spaß gemacht.",
         "it": "Lo zoo era divertente.",
@@ -4847,6 +5116,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "✏️",
     "translation": {
         "en": "My pencil case holds everything.",
+        "ms": "Bekas pensel saya memegang segala-galanya.",
         "fr": "Ma trousse contient tout.",
         "de": "Mein Federmäppchen hält alles.",
         "it": "Il mio astuccio contiene tutto.",
@@ -4865,6 +5135,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🩳",
     "translation": {
         "en": "It is too cold for shorts.",
+        "ms": "Ia terlalu sejuk untuk seluar pendek.",
         "fr": "Il fait trop froid pour un short.",
         "de": "Es ist zu kalt für kurze Hosen.",
         "it": "Fa troppo freddo per i pantaloncini.",
@@ -4883,6 +5154,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏟️",
     "translation": {
         "en": "The stadium was loud.",
+        "ms": "Stadium itu bising.",
         "fr": "Le stade était bruyant.",
         "de": "Das Stadion war laut.",
         "it": "Lo stadio era rumoroso.",
@@ -4901,6 +5173,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🦷",
     "translation": {
         "en": "We are out of toothpaste.",
+        "ms": "Kita kehabisan ubat gigi.",
         "fr": "Nous n'avons plus de dentifrice.",
         "de": "Wir haben keine Zahnpasta mehr.",
         "it": "Abbiamo finito il dentifricio.",
@@ -4919,6 +5192,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍕",
     "translation": {
         "en": "I ordered a pepperoni pizza.",
+        "ms": "Saya memesan pizza pepperoni.",
         "fr": "J'ai commandé une pizza au pepperoni.",
         "de": "Ich habe eine Peperoni-Pizza bestellt.",
         "it": "Ho ordinato una pizza ai peperoni.",
@@ -4937,6 +5211,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🦃",
     "translation": {
         "en": "Thanksgiving is in November.",
+        "ms": "Hari Kesyukuran ialah pada bulan November.",
         "fr": "Thanksgiving est en novembre.",
         "de": "Thanksgiving ist im November.",
         "it": "Il Ringraziamento è a novembre.",
@@ -4955,6 +5230,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍔",
     "translation": {
         "en": "I want a cheeseburger.",
+        "ms": "Saya nak burger keju.",
         "fr": "Je veux un cheeseburger.",
         "de": "Ich möchte einen Cheeseburger.",
         "it": "Voglio un cheeseburger.",
@@ -4973,6 +5249,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧖",
     "translation": {
         "en": "Bring a towel to the pool.",
+        "ms": "Bawa tuala ke kolam renang.",
         "fr": "Apporte une serviette à la piscine.",
         "de": "Bring ein Handtuch zum Pool mit.",
         "it": "Porta un asciugamano in piscina.",
@@ -4991,6 +5268,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💼",
     "translation": {
         "en": "Dad went to work.",
+        "ms": "Ayah pergi kerja.",
         "fr": "Papa est allé travailler.",
         "de": "Papa ist zur Arbeit gegangen.",
         "it": "Papà è andato al lavoro.",
@@ -5009,6 +5287,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏫",
     "translation": {
         "en": "Look at the board.",
+        "ms": "Lihat papan.",
         "fr": "Regarde le tableau.",
         "de": "Schau an die Tafel.",
         "it": "Guarda la lavagna.",
@@ -5027,6 +5306,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👖",
     "translation": {
         "en": "I ripped my pants.",
+        "ms": "Saya koyakkan seluar saya.",
         "fr": "J'ai déchiré mon pantalon.",
         "de": "Ich habe meine Hose zerrissen.",
         "it": "Ho strappato i pantaloni.",
@@ -5045,6 +5325,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🖊️",
     "translation": {
         "en": "The marker is dry.",
+        "ms": "Penanda sudah kering.",
         "fr": "Le marqueur est sec.",
         "de": "Der Marker ist ausgetrocknet.",
         "it": "Il pennarello è secco.",
@@ -5063,6 +5344,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚌",
     "translation": {
         "en": "The bus driver was nice.",
+        "ms": "Pemandu bas itu baik.",
         "fr": "Le chauffeur de bus était gentil.",
         "de": "Der Busfahrer war nett.",
         "it": "L'autista dell'autobus era gentile.",
@@ -5081,6 +5363,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📚",
     "translation": {
         "en": "I forgot my homework.",
+        "ms": "Saya terlupa kerja rumah saya.",
         "fr": "J'ai oublié mes devoirs.",
         "de": "Ich habe meine Hausaufgaben vergessen.",
         "it": "Ho dimenticato i compiti.",
@@ -5099,6 +5382,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏨",
     "translation": {
         "en": "We stayed in a hotel.",
+        "ms": "Kami menginap di hotel.",
         "fr": "Nous sommes restés dans un hôtel.",
         "de": "Wir haben in einem Hotel übernachtet.",
         "it": "Abbiamo alloggiato in un hotel.",
@@ -5117,6 +5401,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌱",
     "translation": {
         "en": "Keep off the grass.",
+        "ms": "Jauhkan dari rumput.",
         "fr": "Pelouse interdite.",
         "de": "Rasen betreten verboten.",
         "it": "Non calpestare l'erba.",
@@ -5135,6 +5420,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⌨️",
     "translation": {
         "en": "Type on the keyboard.",
+        "ms": "Taip pada papan kekunci.",
         "fr": "Tape sur le clavier.",
         "de": "Tipp auf der Tastatur.",
         "it": "Digita sulla tastiera.",
@@ -5153,6 +5439,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚚",
     "translation": {
         "en": "That is a big truck.",
+        "ms": "Itu trak besar.",
         "fr": "C'est un gros camion.",
         "de": "Das ist ein großer LKW.",
         "it": "Quello è un grosso camion.",
@@ -5171,6 +5458,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💨",
     "translation": {
         "en": "March is windy.",
+        "ms": "Mac berangin.",
         "fr": "Mars est venteux.",
         "de": "Der März ist windig.",
         "it": "Marzo è ventoso.",
@@ -5189,6 +5477,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📄",
     "translation": {
         "en": "I need a sheet of paper.",
+        "ms": "Saya perlukan sehelai kertas.",
         "fr": "J'ai besoin d'une feuille de papier.",
         "de": "Ich brauche ein Blatt Papier.",
         "it": "Ho bisogno di un foglio di carta.",
@@ -5207,6 +5496,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚪",
     "translation": {
         "en": "Push the door open.",
+        "ms": "Tolak pintu terbuka.",
         "fr": "Pousse la porte pour l'ouvrir.",
         "de": "Drück die Tür auf.",
         "it": "Spingi per aprire la porta.",
@@ -5225,6 +5515,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎨",
     "translation": {
         "en": "Art class is messy.",
+        "ms": "Kelas seni tidak kemas.",
         "fr": "Le cours d'art est salissant.",
         "de": "Kunstunterricht ist chaotisch.",
         "it": "La lezione d'arte è disordinata.",
@@ -5243,6 +5534,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "❄️",
     "translation": {
         "en": "It snows in January.",
+        "ms": "Salji turun pada bulan Januari.",
         "fr": "Il neige en janvier.",
         "de": "Im Januar schneit es.",
         "it": "Nevica a gennaio.",
@@ -5261,6 +5553,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧸",
     "translation": {
         "en": "Share your toys.",
+        "ms": "Kongsi mainan anda.",
         "fr": "Partage tes jouets.",
         "de": "Teile deine Spielsachen.",
         "it": "Condividi i tuoi giocattoli.",
@@ -5279,6 +5572,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👕",
     "translation": {
         "en": "I forgot my PE kit.",
+        "ms": "Saya terlupa kit PE saya.",
         "fr": "J'ai oublié ma tenue de sport.",
         "de": "Ich habe mein Sportzeug vergessen.",
         "it": "Ho dimenticato il kit da ginnastica.",
@@ -5297,6 +5591,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📖",
     "translation": {
         "en": "I like to read comics.",
+        "ms": "Saya suka membaca komik.",
         "fr": "J'aime lire des bandes dessinées.",
         "de": "Ich lese gerne Comics.",
         "it": "Mi piace leggere i fumetti.",
@@ -5315,6 +5610,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💵",
     "translation": {
         "en": "Can I have a dollar?",
+        "ms": "Boleh saya minta satu dolar?",
         "fr": "Puis-je avoir un dollar ?",
         "de": "Kann ich einen Dollar haben?",
         "it": "Posso avere un dollaro?",
@@ -5333,6 +5629,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌳",
     "translation": {
         "en": "Climb the tree.",
+        "ms": "Panjat pokok.",
         "fr": "Grimpe à l'arbre.",
         "de": "Kletter auf den Baum.",
         "it": "Arrampicati sull'albero.",
@@ -5351,6 +5648,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "❄️",
     "translation": {
         "en": "Winter is coming.",
+        "ms": "Musim sejuk akan tiba.",
         "fr": "L'hiver arrive.",
         "de": "Der Winter naht.",
         "it": "L'inverno sta arrivando.",
@@ -5369,6 +5667,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚶",
     "translation": {
         "en": "Let's go for a walk.",
+        "ms": "Pergi mati lah kau",
         "fr": "Allons faire une promenade.",
         "de": "Lass uns spazieren gehen.",
         "it": "Andiamo a fare una passeggiata.",
@@ -5387,6 +5686,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪁",
     "translation": {
         "en": "Fly a kite.",
+        "ms": "Terbangkan layang-layang.",
         "fr": "Fais voler un cerf-volant.",
         "de": "Lass einen Drachen steigen.",
         "it": "Fai volare un aquilone.",
@@ -5405,6 +5705,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🗯️",
     "translation": {
         "en": "Zoo-Wee Mama comic.",
+        "ms": "Komik Zoo-Wee Mama.",
         "fr": "Bande dessinée Zoo-Wee Mama.",
         "de": "Zoo-Wee Mama Comic.",
         "it": "Fumetto Zoo-Wee Mama.",
@@ -5423,6 +5724,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔔",
     "translation": {
         "en": "Saved by the bell.",
+        "ms": "Disimpan oleh loceng.",
         "fr": "Sauvé par le gong.",
         "de": "Gerettet durch die Glocke.",
         "it": "Salvato dalla campanella.",
@@ -5441,6 +5743,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎲",
     "translation": {
         "en": "Let's play a game.",
+        "ms": "<x id=\"1\"/>Mari main permainan.&#10;\N",
         "fr": "Jouons à un jeu.",
         "de": "Lass uns ein Spiel spielen.",
         "it": "Facciamo un gioco.",
@@ -5459,6 +5762,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍳",
     "translation": {
         "en": "I like scrambled eggs.",
+        "ms": "Saya suka telur rebus.",
         "fr": "J'aime les œufs brouillés.",
         "de": "Ich mag Rührei.",
         "it": "Mi piacciono le uova strapazzate.",
@@ -5477,6 +5781,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥔",
     "translation": {
         "en": "Pass the chips.",
+        "ms": "Hulurkan cip.",
         "fr": "Passe les chips.",
         "de": "Reich mir die Chips.",
         "it": "Passami le patatine.",
@@ -5495,6 +5800,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🃏",
     "translation": {
         "en": "Pick a card.",
+        "ms": "Pilih kad.",
         "fr": "Choisis une carte.",
         "de": "Zieh eine Karte.",
         "it": "Scegli una carta.",
@@ -5513,6 +5819,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⏱️",
     "translation": {
         "en": "Just a minute.",
+        "ms": "Sebentar.",
         "fr": "Juste une minute.",
         "de": "Nur eine Minute.",
         "it": "Solo un minuto.",
@@ -5531,6 +5838,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌮",
     "translation": {
         "en": "Taco Tuesday!",
+        "ms": "Selasa Taco!",
         "fr": "Mardi Tacos !",
         "de": "Taco-Dienstag!",
         "it": "Martedì dei taco!",
@@ -5549,6 +5857,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥩",
     "translation": {
         "en": "Pork chops for dinner.",
+        "ms": "Daging khinzir untuk makan malam.",
         "fr": "Côtelettes de porc pour le dîner.",
         "de": "Schweinekoteletts zum Abendessen.",
         "it": "Braciole di maiale per cena.",
@@ -5567,6 +5876,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚰",
     "translation": {
         "en": "Wash dishes in the sink.",
+        "ms": "Basuh pinggan mangkuk di dalam sinki.",
         "fr": "Fais la vaisselle dans l'évier.",
         "de": "Wasch das Geschirr im Spülbecken.",
         "it": "Lava i piatti nel lavandino.",
@@ -5585,6 +5895,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔬",
     "translation": {
         "en": "My favorite subject is science.",
+        "ms": "Subjek kegemaran saya ialah sains.",
         "fr": "Ma matière préférée est la science.",
         "de": "Mein Lieblingsfach ist Naturwissenschaft.",
         "it": "La mia materia preferita è scienze.",
@@ -5603,6 +5914,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔥",
     "translation": {
         "en": "Do not play with fire.",
+        "ms": "Jangan bermain dengan api.",
         "fr": "Ne joue pas avec le feu.",
         "de": "Spiel nicht mit dem Feuer.",
         "it": "Non giocare con il fuoco.",
@@ -5621,6 +5933,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪟",
     "translation": {
         "en": "Close the curtain.",
+        "ms": "Tutup tirai.",
         "fr": "Ferme le rideau.",
         "de": "Schließ den Vorhang.",
         "it": "Chiudi la tenda.",
@@ -5639,6 +5952,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤲",
     "translation": {
         "en": "Give it to me.",
+        "ms": "Beri kepada saya.",
         "fr": "Donne-le-moi.",
         "de": "Gib es mir.",
         "it": "Dammelo.",
@@ -5657,6 +5971,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚌",
     "translation": {
         "en": "The bus is yellow.",
+        "ms": "Bas itu berwarna kuning.",
         "fr": "Le bus est jaune.",
         "de": "Der Bus ist gelb.",
         "it": "L'autobus è giallo.",
@@ -5675,6 +5990,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🎄",
     "translation": {
         "en": "Christmas is in December.",
+        "ms": "Krismas adalah pada bulan Disember.",
         "fr": "Noël est en décembre.",
         "de": "Weihnachten ist im Dezember.",
         "it": "Natale è a dicembre.",
@@ -5693,6 +6009,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "✂️",
     "translation": {
         "en": "Don't run with scissors.",
+        "ms": "Jangan lari dengan gunting.",
         "fr": "Ne cours pas avec des ciseaux.",
         "de": "Renn nicht mit Scheren.",
         "it": "Non correre con le forbici.",
@@ -5711,6 +6028,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🕒",
     "translation": {
         "en": "Dismissal is at 3 PM.",
+        "ms": "Pemberhentian adalah pada pukul 3 petang.",
         "fr": "La sortie est à 15 heures.",
         "de": "Schulschluss ist um 15 Uhr.",
         "it": "L'uscita è alle 15:00.",
@@ -5729,6 +6047,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🪜",
     "translation": {
         "en": "Top shelf is too high.",
+        "ms": "Rak atas terlalu tinggi.",
         "fr": "L'étagère du haut est trop haute.",
         "de": "Das oberste Regal ist zu hoch.",
         "it": "Lo scaffale in alto è troppo alto.",
@@ -5747,6 +6066,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍇",
     "translation": {
         "en": "I ate a sour grape.",
+        "ms": "Saya makan anggur masam.",
         "fr": "J'ai mangé un raisin aigre.",
         "de": "Ich habe eine saure Traube gegessen.",
         "it": "Ho mangiato un'uva aspra.",
@@ -5765,6 +6085,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🐶",
     "translation": {
         "en": "My dog ate my homework.",
+        "ms": "Anjing saya makan kerja rumah saya.",
         "fr": "Mon chien a mangé mes devoirs.",
         "de": "Mein Hund hat meine Hausaufgaben gefressen.",
         "it": "Il mio cane ha mangiato i miei compiti.",
@@ -5783,6 +6104,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍱",
     "translation": {
         "en": "Cafeteria food is gross.",
+        "ms": "Makanan kafeteria menjijikkan.",
         "fr": "La nourriture de la cafétéria est dégoûtante.",
         "de": "Kantinenessen ist ekelhaft.",
         "it": "Il cibo della mensa fa schifo.",
@@ -5801,6 +6123,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚪",
     "translation": {
         "en": "Pull the door.",
+        "ms": "Tarik pintu.",
         "fr": "Tire la porte.",
         "de": "Zieh die Tür.",
         "it": "Tira la porta.",
@@ -5819,6 +6142,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍽️",
     "translation": {
         "en": "We ate at a restaurant.",
+        "ms": "Kami makan di restoran.",
         "fr": "Nous avons mangé au restaurant.",
         "de": "Wir haben im Restaurant gegessen.",
         "it": "Abbiamo mangiato al ristorante.",
@@ -5837,6 +6161,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🗺️",
     "translation": {
         "en": "I need a map.",
+        "ms": "Saya perlukan peta.",
         "fr": "J'ai besoin d'une carte.",
         "de": "Ich brauche eine Karte.",
         "it": "Ho bisogno di una mappa.",
@@ -5855,6 +6180,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☀️",
     "translation": {
         "en": "School ends in June.",
+        "ms": "Sekolah berakhir pada bulan Jun.",
         "fr": "L'école finit en juin.",
         "de": "Die Schule endet im Juni.",
         "it": "La scuola finisce a giugno.",
@@ -5873,6 +6199,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⚽",
     "translation": {
         "en": "Throw the ball.",
+        "ms": "Bagi saya bola.",
         "fr": "Lance la balle.",
         "de": "Wirf den Ball.",
         "it": "Lancia la palla.",
@@ -5891,6 +6218,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌸",
     "translation": {
         "en": "Smell the flower.",
+        "ms": "Hidu minyak bunga restong",
         "fr": "Sens la fleur.",
         "de": "Riech an der Blume.",
         "it": "Annusa il fiore.",
@@ -5909,6 +6237,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "📚",
     "translation": {
         "en": "I have to study.",
+        "ms": "Saya perlu belajar.",
         "fr": "Je dois étudier.",
         "de": "Ich muss lernen.",
         "it": "Devo studiare.",
@@ -5927,6 +6256,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥗",
     "translation": {
         "en": "Eat a healthy salad.",
+        "ms": "Makan salad yang sihat.",
         "fr": "Mange une salade saine.",
         "de": "Iss einen gesunden Salat.",
         "it": "Mangia un'insalata salutare.",
@@ -5945,6 +6275,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚲",
     "translation": {
         "en": "I ride my bike to school.",
+        "ms": "Saya menunggang basikal ke sekolah.",
         "fr": "Je vais à l'école en vélo.",
         "de": "Ich fahre mit dem Fahrrad zur Schule.",
         "it": "Vado a scuola in bici.",
@@ -5963,6 +6294,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🧂",
     "translation": {
         "en": "Too much salt.",
+        "ms": "Terlalu banyak garam.",
         "fr": "Trop de sel.",
         "de": "Zu viel Salz.",
         "it": "Troppo sale.",
@@ -5981,6 +6313,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍚",
     "translation": {
         "en": "I eat rice every day.",
+        "ms": "Saya makan nasi setiap hari.",
         "fr": "Je mange du riz tous les jours.",
         "de": "Ich esse jeden Tag Reis.",
         "it": "Mangio riso ogni giorno.",
@@ -5999,6 +6332,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🛌",
     "translation": {
         "en": "I hid under the blanket.",
+        "ms": "Saya bersembunyi di bawah selimut.",
         "fr": "Je me suis caché sous la couverture.",
         "de": "Ich habe mich unter der Decke versteckt.",
         "it": "Mi sono nascosto sotto la coperta.",
@@ -6017,6 +6351,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "☀️",
     "translation": {
         "en": "Good morning.",
+        "ms": "Selamat pagi.",
         "fr": "Bonjour.",
         "de": "Guten Morgen.",
         "it": "Buongiorno.",
@@ -6035,6 +6370,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🌮",
     "translation": {
         "en": "I love soft tacos.",
+        "ms": "Saya suka taco lembut.",
         "fr": "J'adore les tacos souples.",
         "de": "Ich liebe weiche Tacos.",
         "it": "Amo i tacos morbidi.",
@@ -6053,6 +6389,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💡",
     "translation": {
         "en": "Turn on the lamp.",
+        "ms": "Hidupkan lampu.",
         "fr": "Allume la lampe.",
         "de": "Mach die Lampe an.",
         "it": "Accendi la lampada.",
@@ -6071,6 +6408,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🍬",
     "translation": {
         "en": "Do not chew gum in class.",
+        "ms": "Jangan kunyah gula-gula getah di dalam kelas.",
         "fr": "Ne mâche pas de chewing-gum en classe.",
         "de": "Kaugummi kauen im Unterricht verboten.",
         "it": "Non masticare gomma in classe.",
@@ -6089,6 +6427,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚪",
     "translation": {
         "en": "Close the door.",
+        "ms": "CLOSE THE DOOR",
         "fr": "Ferme la porte.",
         "de": "Schließ die Tür.",
         "it": "Chiudi la porta.",
@@ -6107,6 +6446,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🥤",
     "translation": {
         "en": "I spilled my soda.",
+        "ms": "Saya menumpahkan soda saya.",
         "fr": "J'ai renversé mon soda.",
         "de": "Ich habe meine Limo verschüttet.",
         "it": "Ho rovesciato la mia bibita.",
@@ -6125,6 +6465,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🔋",
     "translation": {
         "en": "The battery is dead.",
+        "ms": "Bateri sudah mati.",
         "fr": "La batterie est morte.",
         "de": "Die Batterie ist leer.",
         "it": "La batteria è scarica.",
@@ -6143,6 +6484,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "✍️",
     "translation": {
         "en": "Write your name.",
+        "ms": "Tulis nama anda.",
         "fr": "Écris ton nom.",
         "de": "Schreib deinen Namen.",
         "it": "Scrivi il tuo nome.",
@@ -6161,6 +6503,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "💰",
     "translation": {
         "en": "I will sell my old toys.",
+        "ms": "Saya akan jual mainan lama saya.",
         "fr": "Je vais vendre mes vieux jouets.",
         "de": "Ich werde meine alten Spielsachen verkaufen.",
         "it": "Venderò i miei vecchi giocattoli.",
@@ -6179,6 +6522,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏦",
     "translation": {
         "en": "Put money in the bank.",
+        "ms": "Masukkan wang ke dalam bank.",
         "fr": "Mets de l'argent à la banque.",
         "de": "Bring Geld zur Bank.",
         "it": "Metti i soldi in banca.",
@@ -6197,6 +6541,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🤧",
     "translation": {
         "en": "I have a cold.",
+        "ms": "Saya selsema",
         "fr": "J'ai un rhume.",
         "de": "Ich bin erkältet.",
         "it": "Ho il raffreddore.",
@@ -6215,6 +6560,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏃",
     "translation": {
         "en": "Run fast!",
+        "ms": "Lari dengan cerpat",
         "fr": "Cours vite !",
         "de": "Lauf schnell!",
         "it": "Corri veloce!",
@@ -6233,6 +6579,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "⏰",
     "translation": {
         "en": "My alarm clock did not ring.",
+        "ms": "Jam penggera saya tidak berbunyi.",
         "fr": "Mon réveil n'a pas sonné.",
         "de": "Mein Wecker hat nicht geklingelt.",
         "it": "La mia sveglia non ha suonato.",
@@ -6251,6 +6598,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🚽",
     "translation": {
         "en": "Flush the toilet.",
+        "ms": "Siram tandas.",
         "fr": "Tire la chasse.",
         "de": "Spül die Toilette.",
         "it": "Tira lo sciacquone.",
@@ -6269,6 +6617,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "🏪",
     "translation": {
         "en": "Mom went to the store.",
+        "ms": "Ibu pergi ke kedai.",
         "fr": "Maman est allée au magasin.",
         "de": "Mama ist zum Laden gegangen.",
         "it": "Mamma è andata al negozio.",
@@ -6287,6 +6636,7 @@ export const WIMPY_PHRASES_EXTENDED = [
     "image": "👛",
     "translation": {
         "en": "I found a wallet.",
+        "ms": "Saya jumpa dompet.",
         "fr": "J'ai trouvé un portefeuille.",
         "de": "Ich habe eine Brieftasche gefunden.",
         "it": "Ho trovato un portafoglio.",

@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Thinking – 300 Mô Hình Tư Duy</title>
+  <meta name="description" content="Bảng tổng hợp 300 mô hình tư duy trong Super Thinking, sắp xếp theo mức độ hữu dụng">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <h1 class="sr-only">Bảng tổng hợp các mô hình tư duy trong Super Thinking</h1>
+
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-full: 999px;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+    }
+
+    /* ===== DARK THEME (default) ===== */
+    [data-theme="dark"] {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1a2235;
+      --bg-elevated: #1e293b;
+      --bg-hover: #243047;
+      --bg-glass: rgba(17, 24, 39, 0.7);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --border-primary: rgba(148, 163, 184, 0.15);
+      --border-secondary: rgba(148, 163, 184, 0.08);
+      --accent-1: #6366f1;
+      --accent-1-soft: rgba(99, 102, 241, 0.12);
+      --accent-2: #8b5cf6;
+      --accent-3: #06b6d4;
+      --gradient-hero: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #042f2e 100%);
+      --gradient-accent: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+      --essential-bg: rgba(16, 185, 129, 0.12);
+      --essential-text: #34d399;
+      --essential-border: rgba(16, 185, 129, 0.2);
+      --high-bg: rgba(59, 130, 246, 0.12);
+      --high-text: #60a5fa;
+      --high-border: rgba(59, 130, 246, 0.2);
+      --medium-bg: rgba(245, 158, 11, 0.12);
+      --medium-text: #fbbf24;
+      --medium-border: rgba(245, 158, 11, 0.2);
+      --low-bg: rgba(148, 163, 184, 0.1);
+      --low-text: #94a3b8;
+      --low-border: rgba(148, 163, 184, 0.15);
+      --star-color: #fbbf24;
+      --scrollbar-bg: #1a2235;
+      --scrollbar-thumb: #334155;
+      --input-bg: #1a2235;
+    }
+
+    /* ===== LIGHT THEME ===== */
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --bg-elevated: #ffffff;
+      --bg-hover: #f1f5f9;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
+      --border-primary: rgba(15, 23, 42, 0.1);
+      --border-secondary: rgba(15, 23, 42, 0.06);
+      --accent-1: #4f46e5;
+      --accent-1-soft: rgba(79, 70, 229, 0.08);
+      --accent-2: #7c3aed;
+      --accent-3: #0891b2;
+      --gradient-hero: linear-gradient(135deg, #eef2ff 0%, #f8fafc 50%, #ecfeff 100%);
+      --gradient-accent: linear-gradient(135deg, #4f46e5, #7c3aed, #8b5cf6);
+      --essential-bg: #ecfdf5;
+      --essential-text: #059669;
+      --essential-border: rgba(5, 150, 105, 0.2);
+      --high-bg: #eff6ff;
+      --high-text: #2563eb;
+      --high-border: rgba(37, 99, 235, 0.2);
+      --medium-bg: #fffbeb;
+      --medium-text: #b45309;
+      --medium-border: rgba(180, 83, 9, 0.2);
+      --low-bg: #f8fafc;
+      --low-text: #64748b;
+      --low-border: rgba(100, 116, 139, 0.15);
+      --star-color: #f59e0b;
+      --scrollbar-bg: #f1f5f9;
+      --scrollbar-thumb: #cbd5e1;
+      --input-bg: #ffffff;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background var(--transition-base), color var(--transition-base);
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); border: 0;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius-full); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-1); }
+
+    /* ===== HERO HEADER ===== */
+    .hero {
+      background: var(--gradient-hero);
+      padding: 3rem 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--accent-1-soft);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-1);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .theme-toggle:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--accent-1);
+    }
+
+    .theme-toggle .icon { font-size: 16px; }
+
+    /* ===== MAIN CONTENT ===== */
+    .main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem;
+    }
+
+    /* ===== CONTROLS ===== */
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      align-items: center;
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 240px;
+      position: relative;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-size: 15px;
+      pointer-events: none;
+      transition: color var(--transition-fast);
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 10px 14px 10px 40px;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      background: var(--input-bg);
+      color: var(--text-primary);
+      transition: all var(--transition-fast);
+      outline: none;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-1-soft);
+    }
+
+    .search-wrap input:focus + .search-icon { color: var(--accent-1); }
+
+    .controls select {
+      padding: 10px 32px 10px 14px;
+      font-size: 13px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      background: var(--input-bg);
+      color: var(--text-primary);
+      cursor: pointer;
+      outline: none;
+      transition: all var(--transition-fast);
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    .controls select:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-1-soft);
+    }
+
+    /* ===== STATS ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      transition: all var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .stat:nth-child(1)::before { background: var(--gradient-accent); }
+    .stat:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .stat:nth-child(3)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .stat:nth-child(4)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .stat:nth-child(5)::before { background: linear-gradient(90deg, #94a3b8, #cbd5e1); }
+
+    .stat:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-primary);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .stat:nth-child(2) .stat-value { color: var(--essential-text); }
+    .stat:nth-child(3) .stat-value { color: var(--high-text); }
+    .stat:nth-child(4) .stat-value { color: var(--medium-text); }
+    .stat:nth-child(5) .stat-value { color: var(--low-text); }
+
+    /* ===== TABLE ===== */
+    .table-wrap {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 14px 16px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-primary);
+      font-weight: 600;
+      color: var(--text-tertiary);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      transition: color var(--transition-fast);
+      position: relative;
+    }
+
+    thead th:hover { color: var(--accent-1); }
+
+    thead th.sorted { color: var(--accent-1); }
+
+    thead th .sort-arrow {
+      margin-left: 4px;
+      font-size: 10px;
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+
+    thead th.sorted .sort-arrow { opacity: 1; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-secondary);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:hover {
+      background: var(--bg-hover);
+    }
+
+    tbody tr:active { background: var(--accent-1-soft); }
+
+    td {
+      padding: 14px 16px;
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+    .rank-cell {
+      font-weight: 600;
+      color: var(--text-tertiary);
+      font-size: 12px;
+      width: 40px;
+      text-align: center;
+    }
+
+    .rank-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-tertiary);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    tr:nth-child(1) .rank-num,
+    tr:nth-child(2) .rank-num,
+    tr:nth-child(3) .rank-num {
+      background: var(--accent-1-soft);
+      color: var(--accent-1);
+    }
+
+    .name-cell {
+      min-width: 180px;
+    }
+
+    .name-en {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 13.5px;
+      line-height: 1.4;
+    }
+
+    .name-vn {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+
+    .chapter-cell {
+      white-space: nowrap;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .chapter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-tertiary);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-secondary);
+    }
+
+    .level-cell { white-space: nowrap; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .b-essential {
+      background: var(--essential-bg);
+      color: var(--essential-text);
+      border-color: var(--essential-border);
+    }
+
+    .b-high {
+      background: var(--high-bg);
+      color: var(--high-text);
+      border-color: var(--high-border);
+    }
+
+    .b-medium {
+      background: var(--medium-bg);
+      color: var(--medium-text);
+      border-color: var(--medium-border);
+    }
+
+    .b-low {
+      background: var(--low-bg);
+      color: var(--low-text);
+      border-color: var(--low-border);
+    }
+
+    .stars {
+      font-size: 11px;
+      color: var(--star-color);
+      letter-spacing: -1px;
+      margin-top: 3px;
+      display: block;
+    }
+
+    .desc-cell {
+      color: var(--text-secondary);
+      font-size: 12.5px;
+      max-width: 340px;
+      line-height: 1.6;
+    }
+
+    .tags-cell { min-width: 100px; }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-secondary);
+      margin: 2px 3px 2px 0;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+
+    tr:hover .tag {
+      border-color: var(--border-primary);
+    }
+
+    .empty-state {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .empty-icon { font-size: 48px; margin-bottom: 1rem; opacity: 0.5; }
+
+    .empty-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    /* ===== DETAIL MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      max-width: 540px;
+      width: 100%;
+      box-shadow: var(--shadow-xl);
+      transform: translateY(20px) scale(0.97);
+      transition: transform var(--transition-base);
+      position: relative;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-secondary);
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all var(--transition-fast);
+    }
+
+    .modal-close:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-primary);
+    }
+
+    .modal-rank {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-1);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .modal-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-vn {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding: 1rem;
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      border-left: 3px solid var(--accent-1);
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .modal-meta .chapter-chip,
+    .modal-meta .badge,
+    .modal-meta .tag {
+      font-size: 12px;
+    }
+
+    /* ===== SCROLL TO TOP ===== */
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--accent-1);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all var(--transition-base);
+      z-index: 50;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--border-secondary);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero { padding: 2rem 1rem 1.5rem; }
+      .main { padding: 1rem; }
+      .hero-top { flex-direction: column; gap: 1rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .controls { flex-direction: column; }
+      .search-wrap { min-width: 100%; }
+      .controls select { width: 100%; }
+      .desc-cell { max-width: 200px; }
+      .modal-card { padding: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      td { padding: 10px 8px; font-size: 12px; }
+      .name-en { font-size: 12.5px; }
+    }
+
+    /* ===== ANIMATION ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stats, .table-wrap { animation: fadeIn 0.5s ease-out; }
+    .stats { animation-delay: 0.1s; animation-fill-mode: both; }
+    .table-wrap { animation-delay: 0.2s; animation-fill-mode: both; }
+  </style>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-top">
+        <div>
+          <div class="hero-badge">📚 Super Thinking</div>
+          <h2>300 Mô Hình Tư Duy</h2>
+          <p>Tổng hợp các mental models từ cuốn sách Super Thinking của Gabriel Weinberg & Lauren McCann, sắp xếp theo mức độ hữu dụng.</p>
+        </div>
+        <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+          <span class="icon" id="themeIcon">☀️</span>
+          <span id="themeLabel">Sáng</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search-wrap">
+        <input type="text" id="search" placeholder="Tìm kiếm mô hình tư duy..." oninput="render()">
+        <span class="search-icon">🔍</span>
+      </div>
+      <select id="chapFilter" onchange="render()">
+        <option value="">Tất cả chương</option>
+        <option value="1">Ch.1 – Tư duy chính xác</option>
+        <option value="2">Ch.2 – Hậu quả & Rủi ro</option>
+        <option value="3">Ch.3 – Quản lý thời gian</option>
+        <option value="4">Ch.4 – Quy luật tự nhiên</option>
+        <option value="5">Ch.5 – Thống kê & Dữ liệu</option>
+        <option value="6">Ch.6 – Ra quyết định</option>
+        <option value="7">Ch.7 – Xử lý xung đột</option>
+        <option value="8">Ch.8 – Quản lý con người</option>
+        <option value="9">Ch.9 – Kinh doanh & Thị trường</option>
+      </select>
+      <select id="lvlFilter" onchange="render()">
+        <option value="">Mọi mức độ</option>
+        <option value="essential">★★★★★ Thiết yếu</option>
+        <option value="high">★★★★ Cao</option>
+        <option value="medium">★★★ Trung bình</option>
+        <option value="low">★★ Cơ bản</option>
+      </select>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Tổng cộng</div>
+        <div class="stat-value" id="sTotal">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Thiết yếu</div>
+        <div class="stat-value" id="sEss">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Mức cao</div>
+        <div class="stat-value" id="sHigh">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Trung bình</div>
+        <div class="stat-value" id="sMed">0</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Cơ bản</div>
+        <div class="stat-value" id="sLow">0</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <div class="table-scroll">
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th id="th-rank" onclick="sortBy('rank')"># <span class="sort-arrow">▲</span></th>
+              <th id="th-name" onclick="sortBy('name')">Tên mô hình <span class="sort-arrow">▲</span></th>
+              <th id="th-chapter" onclick="sortBy('chapter')">Chương <span class="sort-arrow">▲</span></th>
+              <th id="th-level" onclick="sortBy('level')">Mức độ <span class="sort-arrow">▲</span></th>
+              <th>Mô tả ngắn</th>
+              <th>Lĩnh vực</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal-card" id="modalCard">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- Footer -->
+  <footer class="footer">
+    Dữ liệu tổng hợp từ <strong>Super Thinking</strong> – Gabriel Weinberg & Lauren McCann
+  </footer>
+
+  <script>
+    // ===== DATA =====
+    const MODELS = [
+      { rank: 1, name: "First Principles Thinking", vn: "Tư duy từ nguyên lý đầu tiên", chapter: 1, chap: "Ch.1", level: "essential", desc: "Phân tách vấn đề xuống nền tảng cơ bản, xây lại giải pháp từ đầu", tags: ["Tư duy", "Logic"] },
+      { rank: 2, name: "Inversion", vn: "Tư duy đảo ngược", chapter: 1, chap: "Ch.1", level: "essential", desc: "Nghĩ ngược lại – hỏi 'làm sao thất bại?' thay vì 'làm sao thành công?'", tags: ["Quyết định", "Chiến lược"] },
+      { rank: 3, name: "Confirmation Bias", vn: "Thiên kiến xác nhận", chapter: 1, chap: "Ch.1", level: "essential", desc: "Xu hướng tìm kiếm thông tin củng cố niềm tin sẵn có, bỏ qua phản chứng", tags: ["Tâm lý", "Nhận thức"] },
+      { rank: 4, name: "Opportunity Cost", vn: "Chi phí cơ hội", chapter: 3, chap: "Ch.3", level: "essential", desc: "Giá trị của lựa chọn tốt nhất bị từ bỏ khi chọn một phương án khác", tags: ["Kinh tế", "Thời gian"] },
+      { rank: 5, name: "Sunk Cost Fallacy", vn: "Ngụy biện chi phí chìm", chapter: 3, chap: "Ch.3", level: "essential", desc: "Tiếp tục đầu tư vì đã lỡ bỏ ra nhiều, dù tương lai không còn hợp lý", tags: ["Tâm lý", "Tài chính"] },
+      { rank: 6, name: "Hanlon's Razor", vn: "Dao cạo Hanlon", chapter: 1, chap: "Ch.1", level: "essential", desc: "Đừng quy kết ác ý khi sự cẩu thả hoặc vô minh có thể giải thích đủ", tags: ["Logic", "Quan hệ"] },
+      { rank: 7, name: "Occam's Razor", vn: "Dao cạo Occam", chapter: 1, chap: "Ch.1", level: "essential", desc: "Trong các giải thích ngang nhau, chọn giải thích đơn giản nhất", tags: ["Logic", "Khoa học"] },
+      { rank: 8, name: "Pareto Principle (80/20)", vn: "Nguyên lý Pareto 80/20", chapter: 3, chap: "Ch.3", level: "essential", desc: "80% kết quả đến từ 20% nguyên nhân – tập trung vào những thứ quan trọng nhất", tags: ["Quản lý", "Hiệu suất"] },
+      { rank: 9, name: "Loss Aversion", vn: "Ác cảm thua lỗ", chapter: 3, chap: "Ch.3", level: "essential", desc: "Con người sợ mất mát gấp ~2 lần mức vui mừng khi được lợi ngang nhau", tags: ["Tâm lý", "Tài chính"] },
+      { rank: 10, name: "Availability Bias", vn: "Thiên kiến sẵn có", chapter: 1, chap: "Ch.1", level: "essential", desc: "Đánh giá xác suất dựa trên những ví dụ dễ nhớ thay vì dữ liệu thực", tags: ["Nhận thức", "Thống kê"] },
+      { rank: 11, name: "Dunning-Kruger Effect", vn: "Hiệu ứng Dunning-Kruger", chapter: 8, chap: "Ch.8", level: "essential", desc: "Người ít kinh nghiệm thường tự tin thái quá; chuyên gia lại hay nghi ngờ bản thân", tags: ["Tâm lý", "Học tập"] },
+      { rank: 12, name: "Network Effects", vn: "Hiệu ứng mạng lưới", chapter: 9, chap: "Ch.9", level: "essential", desc: "Giá trị của sản phẩm/dịch vụ tăng theo số người dùng (Facebook, điện thoại)", tags: ["Kinh doanh", "Công nghệ"] },
+      { rank: 13, name: "Critical Mass", vn: "Khối lượng tới hạn", chapter: 4, chap: "Ch.4", level: "essential", desc: "Ngưỡng mà ở đó một hệ thống tự duy trì và tăng trưởng bùng nổ", tags: ["Vật lý", "Kinh doanh"] },
+      { rank: 14, name: "Compounding", vn: "Lãi kép / Tích lũy", chapter: 3, chap: "Ch.3", level: "essential", desc: "Tăng trưởng theo hàm mũ khi lợi nhuận/kết quả liên tục được tái đầu tư", tags: ["Tài chính", "Chiến lược"] },
+      { rank: 15, name: "Feedback Loop", vn: "Vòng phản hồi", chapter: 4, chap: "Ch.4", level: "essential", desc: "Đầu ra của hệ thống quay lại ảnh hưởng đầu vào – tạo vòng khuếch đại hoặc ổn định", tags: ["Hệ thống", "Khoa học"] },
+      { rank: 16, name: "Correlation ≠ Causation", vn: "Tương quan ≠ Nhân quả", chapter: 5, chap: "Ch.5", level: "essential", desc: "Hai thứ cùng tăng không có nghĩa cái này gây ra cái kia", tags: ["Thống kê", "Khoa học"] },
+      { rank: 17, name: "Fundamental Attribution Error", vn: "Lỗi quy kết cơ bản", chapter: 1, chap: "Ch.1", level: "essential", desc: "Đánh giá hành vi người khác do tính cách, bỏ qua hoàn cảnh; tự đánh giá ngược lại", tags: ["Tâm lý", "Quan hệ"] },
+      { rank: 18, name: "Cognitive Biases (general)", vn: "Thiên kiến nhận thức (chung)", chapter: 1, chap: "Ch.1", level: "high", desc: "Tập hợp các lỗi hệ thống trong tư duy do não bộ dùng đường tắt", tags: ["Tâm lý", "Nhận thức"] },
+      { rank: 19, name: "Inertia", vn: "Quán tính", chapter: 4, chap: "Ch.4", level: "high", desc: "Hệ thống có xu hướng duy trì trạng thái hiện tại – thay đổi cần lực tác động ban đầu lớn", tags: ["Vật lý", "Tổ chức"] },
+      { rank: 20, name: "Second-Order Effects", vn: "Hệ quả bậc hai", chapter: 2, chap: "Ch.2", level: "high", desc: "Hậu quả gián tiếp của một hành động, thường quan trọng hơn hậu quả trực tiếp", tags: ["Hệ thống", "Chiến lược"] },
+      { rank: 21, name: "Tragedy of the Commons", vn: "Thảm kịch tài nguyên chung", chapter: 2, chap: "Ch.2", level: "high", desc: "Cá nhân khai thác tài nguyên chung quá mức vì lợi ích riêng, hủy hoại tất cả", tags: ["Kinh tế", "Xã hội"] },
+      { rank: 22, name: "Eisenhower Decision Matrix", vn: "Ma trận Eisenhower", chapter: 3, chap: "Ch.3", level: "high", desc: "Phân loại nhiệm vụ theo 2 trục: Quan trọng / Khẩn cấp để ưu tiên hành động", tags: ["Quản lý", "Thời gian"] },
+      { rank: 23, name: "Cost-Benefit Analysis", vn: "Phân tích chi phí – lợi ích", chapter: 6, chap: "Ch.6", level: "high", desc: "Định lượng và so sánh toàn bộ chi phí và lợi ích của một quyết định", tags: ["Quyết định", "Kinh tế"] },
+      { rank: 24, name: "Prisoner's Dilemma", vn: "Bài toán tù nhân", chapter: 7, chap: "Ch.7", level: "high", desc: "Tình huống hai bên cùng hành động theo lợi ích riêng dẫn đến kết quả tệ hơn hợp tác", tags: ["Lý thuyết trò chơi", "Xã hội"] },
+      { rank: 25, name: "Game Theory", vn: "Lý thuyết trò chơi", chapter: 7, chap: "Ch.7", level: "high", desc: "Phân tích chiến lược trong tình huống nhiều bên tác động lẫn nhau", tags: ["Kinh tế", "Chiến lược"] },
+      { rank: 26, name: "Externality", vn: "Ngoại tác", chapter: 2, chap: "Ch.2", level: "high", desc: "Chi phí hoặc lợi ích của một hoạt động rơi vào bên thứ ba không tham gia giao dịch", tags: ["Kinh tế", "Xã hội"] },
+      { rank: 27, name: "Asymmetric Information", vn: "Thông tin bất cân xứng", chapter: 2, chap: "Ch.2", level: "high", desc: "Một bên trong giao dịch có nhiều thông tin hơn bên kia, tạo bất lợi", tags: ["Kinh tế", "Tài chính"] },
+      { rank: 28, name: "Black Swan", vn: "Thiên nga đen", chapter: 6, chap: "Ch.6", level: "high", desc: "Sự kiện cực hiếm, cực kỳ bất ngờ, nhưng có tác động khổng lồ", tags: ["Rủi ro", "Thống kê"] },
+      { rank: 29, name: "Survivorship Bias", vn: "Thiên kiến sống sót", chapter: 5, chap: "Ch.5", level: "high", desc: "Chỉ phân tích những trường hợp thành công, bỏ qua số đông thất bại", tags: ["Thống kê", "Nhận thức"] },
+      { rank: 30, name: "Moat (Competitive Advantage)", vn: "Hào nước – lợi thế cạnh tranh", chapter: 9, chap: "Ch.9", level: "high", desc: "Rào cản bảo vệ doanh nghiệp khỏi đối thủ (thương hiệu, chi phí chuyển đổi, quy mô)", tags: ["Kinh doanh", "Đầu tư"] },
+      { rank: 31, name: "Product/Market Fit", vn: "Phù hợp sản phẩm/thị trường", chapter: 9, chap: "Ch.9", level: "high", desc: "Sản phẩm thỏa mãn nhu cầu thị trường đủ mạnh để tăng trưởng hữu cơ", tags: ["Startup", "Kinh doanh"] },
+      { rank: 32, name: "Deliberate Practice", vn: "Luyện tập có chủ đích", chapter: 8, chap: "Ch.8", level: "high", desc: "Cải thiện kỹ năng qua phản hồi liên tục, vùng khó, không phải lặp lại cơ học", tags: ["Học tập", "Phát triển"] },
+      { rank: 33, name: "North Star Metric", vn: "Chỉ số Bắc Đẩu", chapter: 3, chap: "Ch.3", level: "high", desc: "Một chỉ số duy nhất phản ánh giá trị cốt lõi, định hướng toàn bộ chiến lược", tags: ["Chiến lược", "Kinh doanh"] },
+      { rank: 34, name: "Mental Model Latticework", vn: "Mạng lưới mô hình tư duy", chapter: 1, chap: "Ch.1", level: "high", desc: "Kết hợp nhiều mô hình từ nhiều lĩnh vực để đưa ra quyết định tổng hợp", tags: ["Meta", "Tư duy"] },
+      { rank: 35, name: "Forcing Functions", vn: "Hàm ép buộc", chapter: 4, chap: "Ch.4", level: "high", desc: "Tạo ra sự kiện/điều kiện buộc bạn phải hành động (deadline, cam kết công khai)", tags: ["Hành vi", "Quản lý"] },
+      { rank: 36, name: "Systems Thinking", vn: "Tư duy hệ thống", chapter: 6, chap: "Ch.6", level: "high", desc: "Nhìn nhận toàn bộ hệ thống và tương tác giữa các thành phần thay vì từng phần riêng lẻ", tags: ["Hệ thống", "Chiến lược"] },
+      { rank: 37, name: "Goodhart's Law", vn: "Luật Goodhart", chapter: 2, chap: "Ch.2", level: "high", desc: "Khi một thước đo trở thành mục tiêu, nó không còn là thước đo tốt nữa", tags: ["Kinh tế", "Quản lý"] },
+      { rank: 38, name: "Principal-Agent Problem", vn: "Vấn đề ủy nhiệm – đại diện", chapter: 2, chap: "Ch.2", level: "high", desc: "Lợi ích của đại diện (agent) không thẳng hàng với lợi ích của người ủy quyền (principal)", tags: ["Kinh tế", "Quản trị"] },
+      { rank: 39, name: "Scenario Analysis", vn: "Phân tích kịch bản", chapter: 6, chap: "Ch.6", level: "high", desc: "Xây dựng và đánh giá nhiều tương lai khả dĩ để chuẩn bị quyết định", tags: ["Quyết định", "Rủi ro"] },
+      { rank: 40, name: "Randomized Controlled Trial", vn: "Thử nghiệm ngẫu nhiên có đối chứng", chapter: 5, chap: "Ch.5", level: "high", desc: "Phương pháp thực nghiệm chuẩn vàng để xác định nhân quả thay vì tương quan", tags: ["Khoa học", "Thống kê"] },
+      { rank: 41, name: "Impostor Syndrome", vn: "Hội chứng kẻ mạo danh", chapter: 8, chap: "Ch.8", level: "medium", desc: "Cảm giác mình không đủ năng lực dù thực tế thành công, sợ bị 'lột mặt nạ'", tags: ["Tâm lý", "Phát triển"] },
+      { rank: 42, name: "Path Dependence", vn: "Phụ thuộc đường đi", chapter: 2, chap: "Ch.2", level: "medium", desc: "Tập hợp lựa chọn hiện tại bị giới hạn bởi quyết định quá khứ (ví dụ: bàn phím QWERTY)", tags: ["Hệ thống", "Lịch sử"] },
+      { rank: 43, name: "Precautionary Principle", vn: "Nguyên tắc phòng ngừa", chapter: 2, chap: "Ch.2", level: "medium", desc: "Khi hành động có thể gây hại không chắc chắn, hãy hành động thận trọng", tags: ["Rủi ro", "Đạo đức"] },
+      { rank: 44, name: "Optionality", vn: "Bảo toàn lựa chọn", chapter: 2, chap: "Ch.2", level: "medium", desc: "Đưa ra các quyết định giữ lại nhiều lựa chọn cho tương lai thay vì đóng cửa sớm", tags: ["Chiến lược", "Tài chính"] },
+      { rank: 45, name: "Diminishing Returns", vn: "Lợi nhuận giảm dần", chapter: 3, chap: "Ch.3", level: "medium", desc: "Sau một ngưỡng nhất định, đầu tư thêm mang lại ít lợi ích hơn", tags: ["Kinh tế", "Hiệu suất"] },
+      { rank: 46, name: "Present Bias", vn: "Thiên kiến hiện tại", chapter: 3, chap: "Ch.3", level: "medium", desc: "Đánh giá quá cao phần thưởng ngắn hạn so với lợi ích dài hạn", tags: ["Tâm lý", "Tài chính"] },
+      { rank: 47, name: "Leverage", vn: "Đòn bẩy", chapter: 3, chap: "Ch.3", level: "medium", desc: "Dùng nguồn lực đi vay hoặc hiện có để khuếch đại kết quả", tags: ["Tài chính", "Chiến lược"] },
+      { rank: 48, name: "Flywheel Effect", vn: "Hiệu ứng bánh đà", chapter: 4, chap: "Ch.4", level: "medium", desc: "Khi đà xoay đủ mạnh, hệ thống tự duy trì với ít nỗ lực – mô hình tăng trưởng Amazon", tags: ["Kinh doanh", "Hệ thống"] },
+      { rank: 49, name: "Technology Adoption Life Cycle", vn: "Vòng đời áp dụng công nghệ", chapter: 4, chap: "Ch.4", level: "medium", desc: "Innovators → Early Adopters → Majority → Laggards – hiểu đâu trong chu kỳ này", tags: ["Công nghệ", "Marketing"] },
+      { rank: 50, name: "Catalysts & Activation Energy", vn: "Chất xúc tác & Năng lượng kích hoạt", chapter: 4, chap: "Ch.4", level: "medium", desc: "Năng lượng khởi đầu cần thiết để bắt đầu phản ứng/thay đổi; chất xúc tác giảm ngưỡng này", tags: ["Hóa học", "Thay đổi"] },
+      { rank: 51, name: "Local vs. Global Optimum", vn: "Cực trị cục bộ vs. toàn cục", chapter: 6, chap: "Ch.6", level: "medium", desc: "Giải pháp tốt nhất trong vùng hẹp có thể không phải tốt nhất tổng thể", tags: ["Toán học", "Chiến lược"] },
+      { rank: 52, name: "Groupthink", vn: "Tư duy bầy đàn", chapter: 6, chap: "Ch.6", level: "medium", desc: "Nhóm có xu hướng đồng thuận, ức chế quan điểm trái chiều dẫn đến quyết định sai", tags: ["Tâm lý", "Tổ chức"] },
+      { rank: 53, name: "False Positive / False Negative", vn: "Dương tính giả / Âm tính giả", chapter: 5, chap: "Ch.5", level: "medium", desc: "Kết quả thử nghiệm sai do lỗi thống kê – ảnh hưởng lớn đến y tế và chính sách", tags: ["Thống kê", "Khoa học"] },
+      { rank: 54, name: "Selection Bias", vn: "Thiên kiến chọn mẫu", chapter: 5, chap: "Ch.5", level: "medium", desc: "Mẫu không đại diện cho tổng thể làm kết quả nghiên cứu bị lệch", tags: ["Thống kê", "Nghiên cứu"] },
+      { rank: 55, name: "Statistical Significance", vn: "Ý nghĩa thống kê", chapter: 5, chap: "Ch.5", level: "medium", desc: "Ngưỡng p-value để phân biệt kết quả thực sự với kết quả do may mắn ngẫu nhiên", tags: ["Thống kê", "Khoa học"] },
+      { rank: 56, name: "Mean Reversion", vn: "Hồi quy về trung bình", chapter: 5, chap: "Ch.5", level: "medium", desc: "Các giá trị cực đoan có xu hướng dần dần quay về mức trung bình theo thời gian", tags: ["Thống kê", "Đầu tư"] },
+      { rank: 57, name: "Reciprocity", vn: "Quy tắc có đi có lại", chapter: 7, chap: "Ch.7", level: "medium", desc: "Con người có xu hướng trả ơn – công cụ gây ảnh hưởng mạnh trong thuyết phục", tags: ["Tâm lý", "Xã hội"] },
+      { rank: 58, name: "Social Proof", vn: "Bằng chứng xã hội", chapter: 7, chap: "Ch.7", level: "medium", desc: "Người ta làm theo số đông khi không chắc chắn về quyết định đúng", tags: ["Tâm lý", "Marketing"] },
+      { rank: 59, name: "Framing Effect", vn: "Hiệu ứng đóng khung", chapter: 7, chap: "Ch.7", level: "medium", desc: "Cách trình bày thông tin ảnh hưởng lớn đến quyết định dù nội dung giống nhau", tags: ["Tâm lý", "Thuyết phục"] },
+      { rank: 60, name: "Scarcity Principle", vn: "Nguyên lý khan hiếm", chapter: 7, chap: "Ch.7", level: "medium", desc: "Vật hiếm có giá trị cao hơn – tạo cảm giác khẩn cấp tăng sức hút", tags: ["Tâm lý", "Marketing"] },
+      { rank: 61, name: "Deterrence & Containment", vn: "Răn đe & Kiềm chế", chapter: 7, chap: "Ch.7", level: "medium", desc: "Chiến lược ngăn chặn đối thủ hành động bằng mối đe dọa đáng tin cậy", tags: ["Xung đột", "Chiến lược"] },
+      { rank: 62, name: "Guerrilla Warfare Tactics", vn: "Chiến thuật du kích", chapter: 7, chap: "Ch.7", level: "medium", desc: "Kẻ nhỏ dùng tốc độ, linh hoạt, bất ngờ để vô hiệu hóa lợi thế kẻ lớn", tags: ["Xung đột", "Chiến lược"] },
+      { rank: 63, name: "Peter Principle", vn: "Nguyên lý Peter", chapter: 8, chap: "Ch.8", level: "medium", desc: "Người bị thăng chức đến vị trí mà họ không còn đủ năng lực, rồi dừng lại ở đó", tags: ["Quản lý", "Tổ chức"] },
+      { rank: 64, name: "Radical Candor", vn: "Thẳng thắn triệt để", chapter: 8, chap: "Ch.8", level: "medium", desc: "Phản hồi trực tiếp kết hợp quan tâm cá nhân – khác với 'nói thẳng nhưng thiếu tình người'", tags: ["Quản lý", "Lãnh đạo"] },
+      { rank: 65, name: "DRI (Directly Responsible Individual)", vn: "Cá nhân chịu trách nhiệm trực tiếp", chapter: 8, chap: "Ch.8", level: "medium", desc: "Mỗi nhiệm vụ cần một người duy nhất chịu trách nhiệm thành bại", tags: ["Quản lý", "Tổ chức"] },
+      { rank: 66, name: "Disruption", vn: "Đột phá / Phá vỡ thị trường", chapter: 9, chap: "Ch.9", level: "medium", desc: "Sản phẩm đơn giản hơn, rẻ hơn ban đầu phục vụ phân khúc thấp, dần chiếm lĩnh thị trường", tags: ["Kinh doanh", "Công nghệ"] },
+      { rank: 67, name: "Crossing the Chasm", vn: "Vượt qua hố sâu", chapter: 9, chap: "Ch.9", level: "medium", desc: "Giai đoạn khó khăn nhất khi công nghệ mới chuyển từ early adopters sang mainstream", tags: ["Startup", "Marketing"] },
+      { rank: 68, name: "Pivot", vn: "Chuyển hướng chiến lược", chapter: 9, chap: "Ch.9", level: "medium", desc: "Thay đổi cơ bản hướng đi khi mô hình hiện tại không có dấu hiệu thành công", tags: ["Startup", "Chiến lược"] },
+      { rank: 69, name: "Tyranny of Small Decisions", vn: "Bạo ngục quyết định nhỏ", chapter: 2, chap: "Ch.2", level: "medium", desc: "Tập hợp các quyết định hợp lý nhỏ lẻ cộng lại thành kết quả tổng thể không mong muốn", tags: ["Hệ thống", "Xã hội"] },
+      { rank: 70, name: "Free Rider Problem", vn: "Vấn đề kẻ ăn không", chapter: 2, chap: "Ch.2", level: "medium", desc: "Một số người hưởng lợi từ nguồn công cộng mà không đóng góp chi phí", tags: ["Kinh tế", "Xã hội"] },
+      { rank: 71, name: "Analysis Paralysis", vn: "Tê liệt phân tích", chapter: 2, chap: "Ch.2", level: "low", desc: "Không thể ra quyết định vì quá nhiều thông tin hoặc quá sợ sai", tags: ["Quyết định", "Tâm lý"] },
+      { rank: 72, name: "Short-termism", vn: "Tư duy ngắn hạn", chapter: 2, chap: "Ch.2", level: "low", desc: "Ưu tiên lợi ích tức thì bất kể hậu quả dài hạn", tags: ["Chiến lược", "Tài chính"] },
+      { rank: 73, name: "Adverse Selection", vn: "Lựa chọn bất lợi", chapter: 2, chap: "Ch.2", level: "low", desc: "Thị trường bị chiếm bởi hàng kém chất lượng do người mua không phân biệt được", tags: ["Kinh tế", "Bảo hiểm"] },
+      { rank: 74, name: "Murphy's Law", vn: "Luật Murphy", chapter: 2, chap: "Ch.2", level: "low", desc: "Bất cứ thứ gì có thể xảy ra sai, sẽ xảy ra sai – hãy chuẩn bị cho điều đó", tags: ["Rủi ro", "Kỹ thuật"] },
+      { rank: 75, name: "Gambler's Fallacy", vn: "Ngụy biện con bạc", chapter: 5, chap: "Ch.5", level: "low", desc: "Tin rằng chuỗi kết quả quá khứ ảnh hưởng đến xác suất tương lai của sự kiện độc lập", tags: ["Thống kê", "Tâm lý"] },
+      { rank: 76, name: "Anecdotal Evidence", vn: "Bằng chứng giai thoại", chapter: 5, chap: "Ch.5", level: "low", desc: "Dùng câu chuyện cá nhân đơn lẻ thay vì dữ liệu thống kê để kết luận", tags: ["Thống kê", "Logic"] },
+      { rank: 77, name: "A/B Testing", vn: "Kiểm thử A/B", chapter: 5, chap: "Ch.5", level: "low", desc: "So sánh hai phiên bản để xác định phiên bản nào tốt hơn dựa trên dữ liệu", tags: ["Khoa học", "Kinh doanh"] },
+      { rank: 78, name: "Error Bars / Uncertainty", vn: "Thanh sai số / Bất định", chapter: 5, chap: "Ch.5", level: "low", desc: "Biểu diễn phạm vi không chắc chắn của ước tính thay vì chỉ nêu con số đơn lẻ", tags: ["Thống kê", "Khoa học"] },
+      { rank: 79, name: "Decision Tree", vn: "Cây quyết định", chapter: 6, chap: "Ch.6", level: "low", desc: "Biểu đồ dạng cây phân nhánh các lựa chọn và kết quả có thể", tags: ["Quyết định", "Xác suất"] },
+      { rank: 80, name: "Sensitivity Analysis", vn: "Phân tích độ nhạy", chapter: 6, chap: "Ch.6", level: "low", desc: "Kiểm tra mô hình nhạy cảm thế nào với các tham số đầu vào thay đổi", tags: ["Quyết định", "Tài chính"] },
+      { rank: 81, name: "Simulation", vn: "Mô phỏng", chapter: 6, chap: "Ch.6", level: "low", desc: "Dùng mô hình máy tính để mô phỏng nhiều kịch bản và phân phối kết quả", tags: ["Quyết định", "Khoa học"] },
+      { rank: 82, name: "Design Patterns", vn: "Mẫu thiết kế", chapter: 3, chap: "Ch.3", level: "low", desc: "Giải pháp có thể tái sử dụng cho các vấn đề thường gặp trong bối cảnh nhất định", tags: ["Kỹ thuật", "Hiệu suất"] },
+      { rank: 83, name: "Top Idea in Your Mind", vn: "Ý tưởng hàng đầu trong tâm trí", chapter: 3, chap: "Ch.3", level: "low", desc: "Suy nghĩ chiếm không gian tinh thần nhiều nhất định hình hành vi và sáng tạo", tags: ["Tâm lý", "Tập trung"] },
+      { rank: 84, name: "Luck Surface Area", vn: "Diện tích bề mặt may mắn", chapter: 4, chap: "Ch.4", level: "low", desc: "Càng gặp nhiều người, thử nhiều thứ, cơ hội tình cờ thành công càng tăng", tags: ["Chiến lược", "Mạng lưới"] },
+      { rank: 85, name: "Entropy", vn: "Entropy", chapter: 4, chap: "Ch.4", level: "low", desc: "Hệ thống có xu hướng đi từ trật tự sang hỗn loạn nếu không có năng lượng duy trì", tags: ["Vật lý", "Hệ thống"] },
+      { rank: 86, name: "Win-Win", vn: "Đôi bên cùng lợi", chapter: 4, chap: "Ch.4", level: "low", desc: "Tìm kiếm giải pháp cả hai bên cùng được lợi thay vì zero-sum", tags: ["Đàm phán", "Chiến lược"] },
+      { rank: 87, name: "Authority Bias", vn: "Thiên kiến thẩm quyền", chapter: 7, chap: "Ch.7", level: "low", desc: "Tin tưởng quá mức vào người có địa vị, bằng cấp hoặc chức danh", tags: ["Tâm lý", "Xã hội"] },
+      { rank: 88, name: "Dark Patterns", vn: "Mẫu thao túng", chapter: 7, chap: "Ch.7", level: "low", desc: "Thiết kế UI hoặc chiến thuật cố ý thao túng người dùng hành động trái ý muốn", tags: ["Công nghệ", "Đạo đức"] },
+      { rank: 89, name: "Winning Hearts and Minds", vn: "Chinh phục trái tim và tâm trí", chapter: 8, chap: "Ch.8", level: "low", desc: "Lãnh đạo thay đổi văn hóa bằng cách thuyết phục từ trong ra ngoài, không cưỡng ép", tags: ["Lãnh đạo", "Tổ chức"] },
+      { rank: 90, name: "Heat-Seeking Missile", vn: "Tên lửa dò nhiệt", chapter: 9, chap: "Ch.9", level: "low", desc: "Liên tục thu thập dữ liệu và điều chỉnh hướng đến cơ hội tốt nhất hiện tại", tags: ["Startup", "Chiến lược"] },
+      { rank: 91, name: "Only the Paranoid Survive", vn: "Chỉ kẻ hoang mang mới sống sót", chapter: 9, chap: "Ch.9", level: "low", desc: "Luôn dự đoán thay đổi ngành và chuẩn bị trước; sự tự mãn sẽ giết công ty", tags: ["Chiến lược", "Kinh doanh"] },
+      { rank: 92, name: "Idea Maze", vn: "Mê cung ý tưởng", chapter: 9, chap: "Ch.9", level: "low", desc: "Quá trình điều hướng qua vô số lựa chọn để tìm con đường đến product/market fit", tags: ["Startup", "Chiến lược"] },
+      { rank: 93, name: "Resonant Frequency", vn: "Tần số cộng hưởng", chapter: 9, chap: "Ch.9", level: "low", desc: "Chiến lược/hành động nào đó tạo kết quả vượt trội bất thường – dấu hiệu đang đúng hướng", tags: ["Vật lý", "Kinh doanh"] },
+      { rank: 94, name: "OODA Loop", vn: "Vòng lặp OODA", chapter: 1, chap: "Ch.1", level: "low", desc: "Observe – Orient – Decide – Act: chu trình phản ứng nhanh trong tình huống bất định", tags: ["Quân sự", "Chiến lược"] },
+      { rank: 95, name: "Devil's Advocate", vn: "Luật sư của quỷ", chapter: 1, chap: "Ch.1", level: "low", desc: "Cố tình tranh luận phía đối lập để kiểm tra độ vững của lập luận", tags: ["Logic", "Quyết định"] },
+      { rank: 96, name: "Filter Bubble", vn: "Bong bóng lọc", chapter: 1, chap: "Ch.1", level: "low", desc: "Thuật toán chỉ hiển thị nội dung phù hợp sở thích, cô lập khỏi quan điểm đa dạng", tags: ["Công nghệ", "Nhận thức"] },
+      { rank: 97, name: "Think Gray", vn: "Tư duy xám", chapter: 1, chap: "Ch.1", level: "low", desc: "Tránh nhị phân trắng/đen – tìm vùng xám giữa hai cực đoan", tags: ["Tư duy", "Logic"] },
+      { rank: 98, name: "Meta-Analysis", vn: "Phân tích tổng hợp", chapter: 5, chap: "Ch.5", level: "low", desc: "Kết hợp dữ liệu từ nhiều nghiên cứu để có bằng chứng tổng hợp mạnh hơn", tags: ["Thống kê", "Khoa học"] },
+      { rank: 99, name: "War of Attrition", vn: "Chiến tranh tiêu hao", chapter: 7, chap: "Ch.7", level: "low", desc: "Xung đột kéo dài cả hai phía đều cạn kiệt tài nguyên; ai bền vốn hơn thắng", tags: ["Xung đột", "Chiến lược"] },
+      { rank: 100, name: "Consequence-Conviction Matrix", vn: "Ma trận hệ quả – xác tín", chapter: 8, chap: "Ch.8", level: "low", desc: "Phân loại quyết định theo mức độ hệ quả và mức độ chắc chắn để chọn cách tiếp cận", tags: ["Quyết định", "Quản lý"] },
+      { rank: 101, name: "Overton Window", vn: "Cửa sổ Overton", chapter: 7, chap: "Ch.7", level: "high", desc: "Phạm vi ý tưởng mà công chúng chấp nhận vào một thời điểm; các ý tưởng ngoài cửa sổ bị coi là cực đoan", tags: ["Chính trị", "Xã hội"] },
+      { rank: 102, name: "Narrative Fallacy", vn: "Ngụy biện tường thuật", chapter: 1, chap: "Ch.1", level: "high", desc: "Não bộ tạo ra câu chuyện nhân quả giả từ chuỗi sự kiện ngẫu nhiên để tìm kiếm ý nghĩa", tags: ["Tâm lý", "Nhận thức"] },
+      { rank: 103, name: "Regression to the Mean", vn: "Hồi quy về trung bình (hành vi)", chapter: 5, chap: "Ch.5", level: "high", desc: "Sau thành tích cực tốt hoặc cực tệ, kết quả tiếp theo có xu hướng quay về mức bình thường", tags: ["Thống kê", "Quản lý"] },
+      { rank: 104, name: "Cobra Effect", vn: "Hiệu ứng rắn hổ mang", chapter: 2, chap: "Ch.2", level: "high", desc: "Giải pháp cho một vấn đề vô tình làm vấn đề tệ hơn do phản ứng ngược của người bị ảnh hưởng", tags: ["Chính sách", "Hệ thống"] },
+      { rank: 105, name: "Moral Hazard", vn: "Rủi ro đạo đức", chapter: 2, chap: "Ch.2", level: "high", desc: "Khi được bảo vệ khỏi hậu quả, người ta chấp nhận rủi ro nhiều hơn mức bình thường", tags: ["Kinh tế", "Bảo hiểm"] },
+      { rank: 106, name: "Anchoring Bias", vn: "Thiên kiến neo đậu", chapter: 6, chap: "Ch.6", level: "high", desc: "Số liệu đầu tiên nghe được ảnh hưởng quá mức đến mọi đánh giá và đàm phán về sau", tags: ["Tâm lý", "Đàm phán"] },
+      { rank: 107, name: "Hindsight Bias", vn: "Thiên kiến nhìn lại", chapter: 1, chap: "Ch.1", level: "high", desc: "Sau khi sự kiện xảy ra, ta tin mình đã 'biết trước' – bóp méo học hỏi từ quá khứ", tags: ["Tâm lý", "Lịch sử"] },
+      { rank: 108, name: "Optimism Bias", vn: "Thiên kiến lạc quan", chapter: 1, chap: "Ch.1", level: "high", desc: "Xu hướng tin rằng tương lai của mình sẽ tốt hơn thực tế xác suất cho phép", tags: ["Tâm lý", "Rủi ro"] },
+      { rank: 109, name: "Planning Fallacy", vn: "Ngụy biện lập kế hoạch", chapter: 3, chap: "Ch.3", level: "high", desc: "Các dự án luôn mất thời gian và tiền bạc hơn dự tính, dù biết điều đó từ kinh nghiệm", tags: ["Quản lý", "Tâm lý"] },
+      { rank: 110, name: "Reference Class Forecasting", vn: "Dự báo theo lớp tham chiếu", chapter: 6, chap: "Ch.6", level: "high", desc: "Dự đoán kết quả dựa trên dữ liệu thống kê của các dự án tương tự thay vì kế hoạch riêng", tags: ["Thống kê", "Quản lý"] },
+      { rank: 111, name: "Signaling", vn: "Phát tín hiệu", chapter: 7, chap: "Ch.7", level: "high", desc: "Hành động tốn kém được thực hiện chủ yếu để truyền thông tin đáng tin cậy cho người khác", tags: ["Kinh tế", "Xã hội"] },
+      { rank: 112, name: "Information Asymmetry (Markets)", vn: "Thông tin bất cân xứng (thị trường)", chapter: 9, chap: "Ch.9", level: "high", desc: "Người bán thường biết nhiều hơn người mua – nguồn gốc của thị trường chanh (lemons)", tags: ["Kinh tế", "Tài chính"] },
+      { rank: 113, name: "Economies of Scale", vn: "Kinh tế quy mô", chapter: 9, chap: "Ch.9", level: "high", desc: "Chi phí đơn vị giảm khi sản lượng tăng – lợi thế cạnh tranh mạnh cho doanh nghiệp lớn", tags: ["Kinh tế", "Kinh doanh"] },
+      { rank: 114, name: "Zero-Sum vs. Positive-Sum", vn: "Trò chơi tổng bằng không vs. tổng dương", chapter: 7, chap: "Ch.7", level: "high", desc: "Phân biệt tình huống một bên thắng bên kia thua với tình huống tất cả cùng hưởng lợi", tags: ["Lý thuyết trò chơi", "Chiến lược"] },
+      { rank: 115, name: "Marginal Thinking", vn: "Tư duy cận biên", chapter: 3, chap: "Ch.3", level: "high", desc: "Quyết định dựa trên chi phí/lợi ích của đơn vị tiếp theo, không phải trung bình tổng thể", tags: ["Kinh tế", "Quyết định"] },
+      { rank: 116, name: "Satisficing", vn: "Thỏa mãn đủ dùng", chapter: 6, chap: "Ch.6", level: "high", desc: "Chọn giải pháp đủ tốt thay vì tối ưu hóa vô hạn – tiết kiệm nguồn lực nhận thức", tags: ["Quyết định", "Tâm lý"] },
+      { rank: 117, name: "Overfitting", vn: "Khớp quá mức", chapter: 5, chap: "Ch.5", level: "high", desc: "Mô hình quá phức tạp, khớp tốt với dữ liệu quá khứ nhưng dự đoán kém dữ liệu mới", tags: ["Thống kê", "AI"] },
+      { rank: 118, name: "Base Rate Neglect", vn: "Bỏ qua tỉ lệ nền", chapter: 5, chap: "Ch.5", level: "high", desc: "Người ta bỏ qua xác suất tổng thể khi đánh giá xác suất của một trường hợp cụ thể", tags: ["Thống kê", "Tâm lý"] },
+      { rank: 119, name: "Proximate vs. Distal Cause", vn: "Nguyên nhân gần vs. xa", chapter: 1, chap: "Ch.1", level: "high", desc: "Phân biệt nguyên nhân trực tiếp (gần) với nguyên nhân sâu xa thực sự gây ra sự kiện", tags: ["Logic", "Khoa học"] },
+      { rank: 120, name: "Abstraction Ladder", vn: "Thang trừu tượng", chapter: 1, chap: "Ch.1", level: "high", desc: "Leo từ cụ thể lên trừu tượng hoặc ngược lại để kiểm tra tính nhất quán của lập luận", tags: ["Logic", "Ngôn ngữ"] },
+      { rank: 121, name: "Mental Accounting", vn: "Kế toán tâm lý", chapter: 3, chap: "Ch.3", level: "medium", desc: "Người ta phân loại tiền theo nguồn gốc và mục đích, dẫn đến quyết định tài chính phi lý", tags: ["Tâm lý", "Tài chính"] },
+      { rank: 122, name: "Endowment Effect", vn: "Hiệu ứng sở hữu", chapter: 3, chap: "Ch.3", level: "medium", desc: "Người ta định giá tài sản đang sở hữu cao hơn giá trị thị trường vì sợ mất đi", tags: ["Tâm lý", "Tài chính"] },
+      { rank: 123, name: "Status Quo Bias", vn: "Thiên kiến hiện trạng", chapter: 3, chap: "Ch.3", level: "medium", desc: "Ưu tiên giữ nguyên trạng thái hiện tại dù thay đổi có thể mang lại lợi ích lớn hơn", tags: ["Tâm lý", "Quyết định"] },
+      { rank: 124, name: "Hyperbolic Discounting", vn: "Chiết khấu hyperbol", chapter: 3, chap: "Ch.3", level: "medium", desc: "Phần thưởng ngay lập tức được đánh giá cao không tương xứng so với phần thưởng chậm hơn", tags: ["Tâm lý", "Kinh tế hành vi"] },
+      { rank: 125, name: "Nudge Theory", vn: "Lý thuyết cú huých", chapter: 8, chap: "Ch.8", level: "medium", desc: "Thiết kế môi trường lựa chọn để khuyến khích hành vi tốt hơn mà không cưỡng ép", tags: ["Tâm lý", "Chính sách"] },
+      { rank: 126, name: "Default Effect", vn: "Hiệu ứng mặc định", chapter: 3, chap: "Ch.3", level: "medium", desc: "Hầu hết người giữ lựa chọn mặc định – thiết kế mặc định thông minh thay đổi hành vi lớn", tags: ["Tâm lý", "Chính sách"] },
+      { rank: 127, name: "Commitment & Consistency", vn: "Cam kết & nhất quán", chapter: 7, chap: "Ch.7", level: "medium", desc: "Sau khi cam kết công khai, người ta có xu hướng hành động nhất quán với cam kết đó", tags: ["Tâm lý", "Thuyết phục"] },
+      { rank: 128, name: "Cognitive Dissonance", vn: "Bất hòa nhận thức", chapter: 1, chap: "Ch.1", level: "medium", desc: "Căng thẳng tâm lý khi giữ hai niềm tin mâu thuẫn; não tìm cách giải quyết bằng hợp lý hóa", tags: ["Tâm lý", "Nhận thức"] },
+      { rank: 129, name: "Halo Effect", vn: "Hiệu ứng hào quang", chapter: 1, chap: "Ch.1", level: "medium", desc: "Ấn tượng tích cực về một đặc điểm lan sang đánh giá toàn bộ người/sản phẩm", tags: ["Tâm lý", "Marketing"] },
+      { rank: 130, name: "Contrast Effect", vn: "Hiệu ứng tương phản", chapter: 6, chap: "Ch.6", level: "medium", desc: "Cùng một thứ được đánh giá khác nhau tùy thuộc vào thứ được so sánh cùng", tags: ["Tâm lý", "Tiếp thị"] },
+      { rank: 131, name: "Pygmalion Effect", vn: "Hiệu ứng Pygmalion", chapter: 8, chap: "Ch.8", level: "medium", desc: "Kỳ vọng cao của người quản lý làm nhân viên thực sự đạt kết quả tốt hơn", tags: ["Tâm lý", "Quản lý"] },
+      { rank: 132, name: "Self-Fulfilling Prophecy", vn: "Lời tiên tri tự ứng nghiệm", chapter: 4, chap: "Ch.4", level: "medium", desc: "Niềm tin về tương lai ảnh hưởng đến hành vi, khiến niềm tin đó trở thành sự thật", tags: ["Tâm lý", "Xã hội"] },
+      { rank: 133, name: "Goodhart's Law (variant)", vn: "Luật Goodhart – biến thể", chapter: 2, chap: "Ch.2", level: "medium", desc: "Khi lương thưởng gắn với chỉ số cụ thể, nhân viên tối ưu chỉ số, không tối ưu mục tiêu", tags: ["Quản lý", "Kinh tế"] },
+      { rank: 134, name: "Tragedy of the Anticommons", vn: "Thảm kịch chống tài nguyên chung", chapter: 2, chap: "Ch.2", level: "medium", desc: "Quá nhiều quyền phủ quyết làm tê liệt sử dụng tài nguyên dù ai cũng muốn khai thác", tags: ["Kinh tế", "Pháp lý"] },
+      { rank: 135, name: "Chilling Effect", vn: "Hiệu ứng lạnh lẽo", chapter: 2, chap: "Ch.2", level: "medium", desc: "Quy định/hình phạt làm người ta tự kiểm duyệt hành vi hợp pháp vì sợ hậu quả", tags: ["Pháp lý", "Xã hội"] },
+      { rank: 136, name: "Regression Discontinuity", vn: "Không liên tục hồi quy", chapter: 5, chap: "Ch.5", level: "medium", desc: "Phương pháp xác định nhân quả bằng cách quan sát thay đổi đột ngột tại ngưỡng giới hạn", tags: ["Thống kê", "Nghiên cứu"] },
+      { rank: 137, name: "Natural Experiment", vn: "Thực nghiệm tự nhiên", chapter: 5, chap: "Ch.5", level: "medium", desc: "Tình huống thực tế ngẫu nhiên tạo ra điều kiện gần giống thí nghiệm kiểm soát", tags: ["Thống kê", "Chính sách"] },
+      { rank: 138, name: "p-hacking / Data Dredging", vn: "Khai thác dữ liệu", chapter: 5, chap: "Ch.5", level: "medium", desc: "Chạy nhiều phép thử thống kê cho đến khi tìm được p<0.05 – kết quả giả tạo", tags: ["Thống kê", "Khoa học"] },
+      { rank: 139, name: "Replication Crisis", vn: "Khủng hoảng tái lập", chapter: 5, chap: "Ch.5", level: "medium", desc: "Nhiều nghiên cứu khoa học không tái lập được – cảnh báo về độ tin cậy kết quả đơn lẻ", tags: ["Khoa học", "Phương pháp"] },
+      { rank: 140, name: "Overton Shift", vn: "Dịch chuyển Overton", chapter: 7, chap: "Ch.7", level: "medium", desc: "Chiến lược đưa ý tưởng cực đoan vào cuộc thảo luận để dịch chuyển điểm trung bình", tags: ["Chính trị", "Chiến lược"] },
+      { rank: 141, name: "Tit for Tat", vn: "Ăn miếng trả miếng", chapter: 7, chap: "Ch.7", level: "medium", desc: "Chiến lược hợp tác ban đầu, sau đó làm y chang đối phương – cân bằng hợp tác và trừng phạt", tags: ["Lý thuyết trò chơi", "Xã hội"] },
+      { rank: 142, name: "Nash Equilibrium", vn: "Cân bằng Nash", chapter: 7, chap: "Ch.7", level: "medium", desc: "Trạng thái không ai có lợi khi đơn phương thay đổi chiến lược khi biết chiến lược đối thủ", tags: ["Lý thuyết trò chơi", "Kinh tế"] },
+      { rank: 143, name: "Schelling Point", vn: "Điểm Schelling", chapter: 7, chap: "Ch.7", level: "medium", desc: "Giải pháp mà người ta tự nhiên hội tụ về dù không giao tiếp – nền tảng phối hợp ngầm", tags: ["Lý thuyết trò chơi", "Xã hội"] },
+      { rank: 144, name: "Commitment Device", vn: "Thiết bị cam kết", chapter: 3, chap: "Ch.3", level: "medium", desc: "Ràng buộc bản thân trước để chống lại cám dỗ tương lai (ví dụ: đặt cọc tiền khi cai thuốc)", tags: ["Hành vi", "Tâm lý"] },
+      { rank: 145, name: "Pre-mortem", vn: "Phân tích tử vong trước", chapter: 6, chap: "Ch.6", level: "medium", desc: "Tưởng tượng dự án đã thất bại, tìm nguyên nhân – phát hiện rủi ro trước khi triển khai", tags: ["Quyết định", "Quản lý"] },
+      { rank: 146, name: "Outside View", vn: "Góc nhìn bên ngoài", chapter: 6, chap: "Ch.6", level: "medium", desc: "Nhìn dự án như người ngoài cuộc dựa trên thống kê lớp tương tự, thay vì tin vào kế hoạch riêng", tags: ["Quyết định", "Tâm lý"] },
+      { rank: 147, name: "Bayesian Thinking", vn: "Tư duy Bayes", chapter: 5, chap: "Ch.5", level: "medium", desc: "Cập nhật xác suất niềm tin khi có bằng chứng mới – cốt lõi của suy luận hợp lý", tags: ["Thống kê", "Logic"] },
+      { rank: 148, name: "Expected Value", vn: "Giá trị kỳ vọng", chapter: 6, chap: "Ch.6", level: "medium", desc: "Trung bình có trọng số của các kết quả – nền tảng mọi quyết định dưới điều kiện bất định", tags: ["Toán học", "Quyết định"] },
+      { rank: 149, name: "Kelly Criterion", vn: "Tiêu chí Kelly", chapter: 6, chap: "Ch.6", level: "medium", desc: "Công thức xác định tỉ lệ tối ưu để đặt cược/đầu tư dựa trên xác suất thắng và tỉ lệ trả thưởng", tags: ["Tài chính", "Toán học"] },
+      { rank: 150, name: "Regression Testing", vn: "Kiểm thử hồi quy", chapter: 4, chap: "Ch.4", level: "medium", desc: "Sau mỗi thay đổi, kiểm tra lại toàn bộ hệ thống để đảm bảo không gây lỗi mới", tags: ["Kỹ thuật", "Phương pháp"] },
+      { rank: 151, name: "Jevons Paradox", vn: "Nghịch lý Jevons", chapter: 2, chap: "Ch.2", level: "low", desc: "Cải thiện hiệu quả sử dụng tài nguyên dẫn đến tăng tổng lượng tài nguyên tiêu thụ", tags: ["Kinh tế", "Môi trường"] },
+      { rank: 152, name: "Streetlight Effect", vn: "Hiệu ứng đèn đường", chapter: 1, chap: "Ch.1", level: "low", desc: "Chỉ tìm kiếm ở nơi dễ tìm, không phải nơi có khả năng tìm thấy – sai lầm trong nghiên cứu", tags: ["Nhận thức", "Nghiên cứu"] },
+      { rank: 153, name: "Hawthorne Effect", vn: "Hiệu ứng Hawthorne", chapter: 5, chap: "Ch.5", level: "low", desc: "Người được quan sát thay đổi hành vi vì biết mình đang bị theo dõi, làm sai kết quả thực nghiệm", tags: ["Tâm lý", "Nghiên cứu"] },
+      { rank: 154, name: "Placebo Effect", vn: "Hiệu ứng giả dược", chapter: 5, chap: "Ch.5", level: "low", desc: "Niềm tin vào điều trị tạo ra tác dụng thực sự dù không có hoạt chất – cần kiểm soát trong thử nghiệm", tags: ["Y tế", "Thống kê"] },
+      { rank: 155, name: "Nocebo Effect", vn: "Hiệu ứng Nocebo", chapter: 5, chap: "Ch.5", level: "low", desc: "Kỳ vọng tiêu cực gây ra tác hại thực sự – mặt trái của hiệu ứng giả dược", tags: ["Y tế", "Tâm lý"] },
+      { rank: 156, name: "Regression Artifacts", vn: "Tạo phẩm hồi quy", chapter: 5, chap: "Ch.5", level: "low", desc: "Cải thiện giả tạo sau can thiệp vì nhóm được chọn lúc đang ở điểm cực đoan", tags: ["Thống kê", "Phương pháp"] },
+      { rank: 157, name: "Omitted Variable Bias", vn: "Lệch do bỏ sót biến", chapter: 5, chap: "Ch.5", level: "low", desc: "Ước lượng nhân quả sai vì bỏ sót biến số quan trọng ảnh hưởng cả nguyên nhân lẫn kết quả", tags: ["Thống kê", "Khoa học"] },
+      { rank: 158, name: "Ecological Fallacy", vn: "Ngụy biện sinh thái", chapter: 5, chap: "Ch.5", level: "low", desc: "Suy diễn sai về cá nhân từ dữ liệu tổng hợp của nhóm", tags: ["Thống kê", "Xã hội học"] },
+      { rank: 159, name: "Regression to the Mean (clinical)", vn: "Hồi quy trung bình (lâm sàng)", chapter: 5, chap: "Ch.5", level: "low", desc: "Bệnh nhân tìm điều trị khi triệu chứng nặng nhất – tự nhiên cải thiện rồi quy công cho điều trị", tags: ["Y tế", "Thống kê"] },
+      { rank: 160, name: "Bayesian Network", vn: "Mạng Bayes", chapter: 6, chap: "Ch.6", level: "low", desc: "Đồ thị xác suất biểu diễn quan hệ nhân quả giữa nhiều biến số để suy luận phức tạp", tags: ["AI", "Thống kê"] },
+      { rank: 161, name: "Chesterton's Fence", vn: "Hàng rào Chesterton", chapter: 1, chap: "Ch.1", level: "high", desc: "Đừng phá bỏ thứ gì mà không hiểu tại sao nó được xây dựng – truyền thống có lý do tiềm ẩn", tags: ["Logic", "Thay đổi"] },
+      { rank: 162, name: "Burden of Proof", vn: "Gánh nặng chứng minh", chapter: 1, chap: "Ch.1", level: "high", desc: "Người đưa ra tuyên bố có trách nhiệm chứng minh, không phải người nghi ngờ phải bác bỏ", tags: ["Logic", "Khoa học"] },
+      { rank: 163, name: "Ad Hominem Fallacy", vn: "Ngụy biện công kích cá nhân", chapter: 1, chap: "Ch.1", level: "medium", desc: "Tấn công người đưa ra lập luận thay vì bác bỏ bản thân lập luận", tags: ["Logic", "Tranh luận"] },
+      { rank: 164, name: "Straw Man Fallacy", vn: "Ngụy biện bù nhìn", chapter: 1, chap: "Ch.1", level: "medium", desc: "Xuyên tạc lập luận đối phương thành phiên bản yếu hơn rồi tấn công phiên bản đó", tags: ["Logic", "Tranh luận"] },
+      { rank: 165, name: "False Dichotomy", vn: "Ngụy biện hai lựa chọn", chapter: 1, chap: "Ch.1", level: "medium", desc: "Trình bày chỉ hai lựa chọn khi thực ra có nhiều giải pháp trung gian hoặc thứ ba", tags: ["Logic", "Tranh luận"] },
+      { rank: 166, name: "Slippery Slope Fallacy", vn: "Ngụy biện dốc trơn", chapter: 1, chap: "Ch.1", level: "medium", desc: "Cho rằng một hành động nhỏ tất yếu dẫn đến chuỗi hậu quả cực đoan mà không có bằng chứng", tags: ["Logic", "Tranh luận"] },
+      { rank: 167, name: "Appeal to Nature", vn: "Ngụy biện tự nhiên", chapter: 1, chap: "Ch.1", level: "low", desc: "Kết luận thứ gì đó tốt/xấu chỉ dựa trên tính tự nhiên hay nhân tạo của nó", tags: ["Logic", "Khoa học"] },
+      { rank: 168, name: "Modus Ponens", vn: "Tam đoạn luận khẳng định", chapter: 1, chap: "Ch.1", level: "low", desc: "Nếu A thì B; A đúng; vậy B đúng – hình thức suy luận hợp lệ cơ bản nhất", tags: ["Logic", "Triết học"] },
+      { rank: 169, name: "Occam's Razor (Parsimony)", vn: "Nguyên lý tiết kiệm", chapter: 1, chap: "Ch.1", level: "low", desc: "Mô hình có ít tham số hơn được ưu tiên khi giải thích tốt như nhau", tags: ["Khoa học", "Logic"] },
+      { rank: 170, name: "Abductive Reasoning", vn: "Suy luận quy nạp (tốt nhất)", chapter: 1, chap: "Ch.1", level: "low", desc: "Chọn giải thích đơn giản và có sức thuyết phục nhất cho dữ liệu quan sát được", tags: ["Logic", "Khoa học"] },
+      { rank: 171, name: "Reflexivity", vn: "Tính phản thân", chapter: 4, chap: "Ch.4", level: "high", desc: "Hành động của người tham gia thị trường ảnh hưởng đến chính thị trường họ đang phân tích", tags: ["Tài chính", "Hệ thống"] },
+      { rank: 172, name: "Creative Destruction", vn: "Phá hủy sáng tạo", chapter: 9, chap: "Ch.9", level: "high", desc: "Đổi mới liên tục phá hủy mô hình kinh doanh cũ và tạo ra cái mới – động lực tăng trưởng kinh tế", tags: ["Kinh tế", "Đổi mới"] },
+      { rank: 173, name: "Long Tail", vn: "Đuôi dài", chapter: 9, chap: "Ch.9", level: "high", desc: "Internet cho phép kiếm lợi từ vô số sản phẩm ngách bán ít thay vì chỉ tập trung hit lớn", tags: ["Kinh doanh", "Công nghệ"] },
+      { rank: 174, name: "Minimum Viable Product (MVP)", vn: "Sản phẩm khả thi tối thiểu", chapter: 9, chap: "Ch.9", level: "high", desc: "Phiên bản sản phẩm đơn giản nhất đủ để kiểm tra giả thuyết cốt lõi với khách hàng thực", tags: ["Startup", "Phương pháp"] },
+      { rank: 175, name: "Build-Measure-Learn", vn: "Xây – Đo – Học", chapter: 9, chap: "Ch.9", level: "high", desc: "Vòng lặp liên tục trong Lean Startup: xây nhanh, đo phản ứng thực, học và điều chỉnh", tags: ["Startup", "Phương pháp"] },
+      { rank: 176, name: "Two-Sided Market", vn: "Thị trường hai mặt", chapter: 9, chap: "Ch.9", level: "high", desc: "Nền tảng kết nối hai nhóm người dùng khác nhau, tạo giá trị cho cả hai phía", tags: ["Kinh doanh", "Công nghệ"] },
+      { rank: 177, name: "Freemium Model", vn: "Mô hình miễn phí có trả phí", chapter: 9, chap: "Ch.9", level: "medium", desc: "Cung cấp miễn phí dịch vụ cơ bản, thu phí tính năng nâng cao – chiến lược tăng trưởng phổ biến", tags: ["Kinh doanh", "Startup"] },
+      { rank: 178, name: "Price Discrimination", vn: "Phân biệt giá", chapter: 9, chap: "Ch.9", level: "medium", desc: "Bán cùng sản phẩm với giá khác nhau cho các nhóm khách hàng khác nhau để tối đa hóa doanh thu", tags: ["Kinh tế", "Marketing"] },
+      { rank: 179, name: "Platform Business Model", vn: "Mô hình kinh doanh nền tảng", chapter: 9, chap: "Ch.9", level: "medium", desc: "Tạo ra hạ tầng cho người dùng tương tác thay vì sản xuất sản phẩm – mô hình Amazon, Uber", tags: ["Kinh doanh", "Công nghệ"] },
+      { rank: 180, name: "Winner-Take-All Markets", vn: "Thị trường kẻ thắng chiếm tất", chapter: 9, chap: "Ch.9", level: "medium", desc: "Dẫn đầu nhỏ trong tài năng tạo ra lợi thế thu nhập khổng lồ do công nghệ khuếch đại", tags: ["Kinh tế", "Xã hội"] },
+      { rank: 181, name: "Vertical Integration", vn: "Tích hợp dọc", chapter: 9, chap: "Ch.9", level: "medium", desc: "Kiểm soát nhiều giai đoạn trong chuỗi cung ứng để giảm chi phí và tăng kiểm soát chất lượng", tags: ["Kinh doanh", "Chiến lược"] },
+      { rank: 182, name: "Horizontal Integration", vn: "Tích hợp ngang", chapter: 9, chap: "Ch.9", level: "medium", desc: "Mở rộng sang cùng giai đoạn sản xuất trong ngành khác hoặc mua đối thủ cạnh tranh", tags: ["Kinh doanh", "Chiến lược"] },
+      { rank: 183, name: "Switching Costs", vn: "Chi phí chuyển đổi", chapter: 9, chap: "Ch.9", level: "medium", desc: "Chi phí (tiền, thời gian, tâm lý) khi chuyển từ nhà cung cấp này sang nhà cung cấp khác", tags: ["Kinh doanh", "Chiến lược"] },
+      { rank: 184, name: "Diseconomies of Scale", vn: "Phi kinh tế quy mô", chapter: 9, chap: "Ch.9", level: "low", desc: "Sau một quy mô nhất định, chi phí đơn vị bắt đầu tăng thay vì giảm do bộ máy cồng kềnh", tags: ["Kinh tế", "Quản lý"] },
+      { rank: 185, name: "Opportunity Cost of Capital", vn: "Chi phí cơ hội vốn", chapter: 3, chap: "Ch.3", level: "medium", desc: "Tỉ suất sinh lời tối thiểu kỳ vọng khi đầu tư; dưới ngưỡng này không đáng đầu tư", tags: ["Tài chính", "Đầu tư"] },
+      { rank: 186, name: "Time Value of Money", vn: "Giá trị thời gian của tiền", chapter: 3, chap: "Ch.3", level: "high", desc: "1 đồng hôm nay có giá trị hơn 1 đồng tương lai – nền tảng định giá tài chính", tags: ["Tài chính", "Kinh tế"] },
+      { rank: 187, name: "Discount Rate", vn: "Tỉ lệ chiết khấu", chapter: 3, chap: "Ch.3", level: "medium", desc: "Tỉ lệ dùng để quy đổi giá trị tương lai về hiện tại; phản ánh rủi ro và chi phí cơ hội", tags: ["Tài chính", "Đầu tư"] },
+      { rank: 188, name: "Margin of Safety", vn: "Biên an toàn", chapter: 9, chap: "Ch.9", level: "high", desc: "Mua tài sản dưới giá trị nội tại để tạo đệm chống lại sai lầm phân tích và rủi ro", tags: ["Đầu tư", "Tài chính"] },
+      { rank: 189, name: "Circle of Competence", vn: "Vòng tròn năng lực", chapter: 9, chap: "Ch.9", level: "high", desc: "Chỉ đầu tư/quyết định trong lĩnh vực mình thực sự hiểu; nhận ra ranh giới là trí tuệ", tags: ["Đầu tư", "Nhận thức"] },
+      { rank: 190, name: "Mr. Market Metaphor", vn: "Ẩn dụ Ông Thị trường", chapter: 9, chap: "Ch.9", level: "high", desc: "Thị trường như người bạn thất thường chào giá mỗi ngày – dùng khi giá vô lý, bỏ qua khi không", tags: ["Đầu tư", "Tâm lý"] },
+      { rank: 191, name: "Intrinsic Value", vn: "Giá trị nội tại", chapter: 9, chap: "Ch.9", level: "high", desc: "Giá trị thực của tài sản dựa trên dòng tiền tương lai chiết khấu, bất kể giá thị trường", tags: ["Đầu tư", "Tài chính"] },
+      { rank: 192, name: "Mean Reversion (markets)", vn: "Hồi quy trung bình (thị trường)", chapter: 9, chap: "Ch.9", level: "medium", desc: "Giá/tỉ suất lợi nhuận cực cao hay cực thấp thường trở về mức lịch sử theo thời gian", tags: ["Đầu tư", "Thống kê"] },
+      { rank: 193, name: "Efficient Market Hypothesis", vn: "Giả thuyết thị trường hiệu quả", chapter: 9, chap: "Ch.9", level: "medium", desc: "Giá thị trường đã phản ánh mọi thông tin có sẵn – không thể liên tục 'đánh bại' thị trường", tags: ["Tài chính", "Kinh tế"] },
+      { rank: 194, name: "Regression Analysis", vn: "Phân tích hồi quy", chapter: 5, chap: "Ch.5", level: "medium", desc: "Ước lượng mối quan hệ giữa biến phụ thuộc và một/nhiều biến độc lập để dự đoán", tags: ["Thống kê", "Dữ liệu"] },
+      { rank: 195, name: "Power Law Distribution", vn: "Phân phối luật lũy thừa", chapter: 4, chap: "Ch.4", level: "medium", desc: "Phân phối khi thiểu số cực nhỏ chiếm phần lớn tổng – xuất hiện ở thu nhập, tần suất từ ngữ...", tags: ["Toán học", "Xã hội"] },
+      { rank: 196, name: "Normal Distribution", vn: "Phân phối chuẩn", chapter: 5, chap: "Ch.5", level: "medium", desc: "Phân phối hình chuông đối xứng – xuất hiện trong đo lường tự nhiên, nhưng không phải mọi nơi", tags: ["Thống kê", "Toán học"] },
+      { rank: 197, name: "Fat Tails", vn: "Đuôi béo", chapter: 6, chap: "Ch.6", level: "medium", desc: "Phân phối có xác suất sự kiện cực đoan cao hơn nhiều so với phân phối chuẩn dự đoán", tags: ["Rủi ro", "Thống kê"] },
+      { rank: 198, name: "Variance & Standard Deviation", vn: "Phương sai & Độ lệch chuẩn", chapter: 5, chap: "Ch.5", level: "low", desc: "Đo lường mức độ phân tán dữ liệu xung quanh giá trị trung bình", tags: ["Thống kê", "Toán học"] },
+      { rank: 199, name: "Conditional Probability", vn: "Xác suất có điều kiện", chapter: 5, chap: "Ch.5", level: "low", desc: "Xác suất sự kiện A xảy ra khi đã biết sự kiện B đã xảy ra", tags: ["Toán học", "Thống kê"] },
+      { rank: 200, name: "Monte Carlo Simulation", vn: "Mô phỏng Monte Carlo", chapter: 6, chap: "Ch.6", level: "low", desc: "Chạy hàng nghìn kịch bản ngẫu nhiên để ước lượng phân phối kết quả của hệ thống phức tạp", tags: ["Toán học", "Quyết định"] },
+      { rank: 201, name: "Maslow's Hierarchy of Needs", vn: "Tháp nhu cầu Maslow", chapter: 8, chap: "Ch.8", level: "high", desc: "5 tầng nhu cầu từ sinh lý đến tự hiện thực hóa – hiểu động lực con người ở mọi cấp độ", tags: ["Tâm lý", "Quản lý"] },
+      { rank: 202, name: "Herzberg's Two-Factor Theory", vn: "Lý thuyết hai yếu tố Herzberg", chapter: 8, chap: "Ch.8", level: "high", desc: "Phân biệt yếu tố duy trì (tránh bất mãn) và yếu tố tạo động lực thực sự (thành tích, công nhận)", tags: ["Quản lý", "Tâm lý"] },
+      { rank: 203, name: "Theory X and Theory Y", vn: "Lý thuyết X và Y", chapter: 8, chap: "Ch.8", level: "high", desc: "X: nhân viên lười, cần kiểm soát; Y: nhân viên tự chủ, muốn đóng góp – phong cách quản lý khác nhau", tags: ["Quản lý", "Lãnh đạo"] },
+      { rank: 204, name: "Situational Leadership", vn: "Lãnh đạo tình huống", chapter: 8, chap: "Ch.8", level: "high", desc: "Điều chỉnh phong cách lãnh đạo (chỉ đạo / hỗ trợ) tùy mức độ sẵn sàng của từng nhân viên", tags: ["Lãnh đạo", "Quản lý"] },
+      { rank: 205, name: "The Five Dysfunctions of a Team", vn: "5 rối loạn của nhóm", chapter: 8, chap: "Ch.8", level: "high", desc: "Lencioni: thiếu tin tưởng → sợ xung đột → thiếu cam kết → né tránh trách nhiệm → coi nhẹ kết quả", tags: ["Quản lý", "Tổ chức"] },
+      { rank: 206, name: "RACI Matrix", vn: "Ma trận RACI", chapter: 8, chap: "Ch.8", level: "high", desc: "Xác định rõ ai Responsible, Accountable, Consulted, Informed cho mỗi nhiệm vụ", tags: ["Quản lý", "Tổ chức"] },
+      { rank: 207, name: "OKR Framework", vn: "Khung OKR", chapter: 8, chap: "Ch.8", level: "high", desc: "Objectives & Key Results: liên kết mục tiêu tham vọng với kết quả đo lường được cụ thể", tags: ["Quản lý", "Chiến lược"] },
+      { rank: 208, name: "Parkinson's Law", vn: "Luật Parkinson", chapter: 3, chap: "Ch.3", level: "high", desc: "Công việc tự giãn ra để lấp đầy thời gian được phân bổ – deadline ngắn thường hiệu quả hơn", tags: ["Quản lý", "Thời gian"] },
+      { rank: 209, name: "Brooks's Law", vn: "Luật Brooks", chapter: 8, chap: "Ch.8", level: "high", desc: "Thêm người vào dự án phần mềm đang trễ hạn sẽ làm nó trễ hơn nữa", tags: ["Kỹ thuật", "Quản lý"] },
+      { rank: 210, name: "Conway's Law", vn: "Luật Conway", chapter: 8, chap: "Ch.8", level: "high", desc: "Kiến trúc hệ thống phần mềm phản ánh cấu trúc giao tiếp của tổ chức tạo ra nó", tags: ["Kỹ thuật", "Tổ chức"] },
+      { rank: 211, name: "BATNA", vn: "Phương án tốt nhất ngoài đàm phán", chapter: 7, chap: "Ch.7", level: "high", desc: "Best Alternative to Negotiated Agreement – biết BATNA giúp xác định điểm dừng đàm phán", tags: ["Đàm phán", "Chiến lược"] },
+      { rank: 212, name: "ZOPA", vn: "Vùng thỏa thuận khả thi", chapter: 7, chap: "Ch.7", level: "high", desc: "Zone of Possible Agreement – vùng chồng lấp giữa mức tối thiểu của bên bán và tối đa của bên mua", tags: ["Đàm phán", "Kinh tế"] },
+      { rank: 213, name: "Principled Negotiation", vn: "Đàm phán theo nguyên tắc", chapter: 7, chap: "Ch.7", level: "high", desc: "Tách con người khỏi vấn đề; tập trung lợi ích, không lập trường; tìm tiêu chí khách quan", tags: ["Đàm phán", "Quan hệ"] },
+      { rank: 214, name: "Cialdini's Principles of Influence", vn: "6 nguyên tắc ảnh hưởng của Cialdini", chapter: 7, chap: "Ch.7", level: "high", desc: "Có đi có lại, khan hiếm, thẩm quyền, nhất quán, bằng chứng xã hội, yêu thích – 6 công cụ thuyết phục", tags: ["Tâm lý", "Marketing"] },
+      { rank: 215, name: "Foot-in-the-Door Technique", vn: "Kỹ thuật chân trong cửa", chapter: 7, chap: "Ch.7", level: "medium", desc: "Yêu cầu nhỏ trước để tăng xác suất đồng ý yêu cầu lớn hơn sau", tags: ["Tâm lý", "Thuyết phục"] },
+      { rank: 216, name: "Door-in-the-Face Technique", vn: "Kỹ thuật cửa đóng sầm", chapter: 7, chap: "Ch.7", level: "medium", desc: "Yêu cầu lớn quá mức trước, sau khi bị từ chối đề nghị điều nhỏ hơn – xác suất chấp nhận tăng cao", tags: ["Tâm lý", "Đàm phán"] },
+      { rank: 217, name: "Liking Principle", vn: "Nguyên tắc yêu thích", chapter: 7, chap: "Ch.7", level: "medium", desc: "Người ta dễ bị thuyết phục bởi những người họ thích – sự tương đồng và lời khen tạo thiện cảm", tags: ["Tâm lý", "Thuyết phục"] },
+      { rank: 218, name: "Authority Heuristic", vn: "Heuristic thẩm quyền", chapter: 7, chap: "Ch.7", level: "medium", desc: "Tuân theo người có dấu hiệu thẩm quyền (danh hiệu, đồng phục, chứng chỉ) mà không đánh giá nội dung", tags: ["Tâm lý", "Xã hội"] },
+      { rank: 219, name: "Inoculation Theory", vn: "Lý thuyết tiêm chủng", chapter: 7, chap: "Ch.7", level: "medium", desc: "Tiếp xúc với phiên bản yếu của luận điểm đối lập giúp xây dựng khả năng kháng thao túng", tags: ["Tâm lý", "Giáo dục"] },
+      { rank: 220, name: "Mere Exposure Effect", vn: "Hiệu ứng tiếp xúc đơn thuần", chapter: 7, chap: "Ch.7", level: "medium", desc: "Càng tiếp xúc nhiều với một thứ, người ta càng có xu hướng thích nó – nền tảng quảng cáo lặp lại", tags: ["Tâm lý", "Marketing"] },
+      { rank: 221, name: "Porter's Five Forces", vn: "5 lực lượng của Porter", chapter: 9, chap: "Ch.9", level: "high", desc: "Phân tích cạnh tranh ngành qua: đối thủ hiện tại, nhà cung cấp, khách hàng, hàng thay thế, gia nhập mới", tags: ["Chiến lược", "Kinh doanh"] },
+      { rank: 222, name: "SWOT Analysis", vn: "Phân tích SWOT", chapter: 9, chap: "Ch.9", level: "high", desc: "Điểm mạnh, điểm yếu (nội bộ) và cơ hội, thách thức (bên ngoài) – công cụ định hướng chiến lược", tags: ["Chiến lược", "Quản lý"] },
+      { rank: 223, name: "Blue Ocean Strategy", vn: "Chiến lược đại dương xanh", chapter: 9, chap: "Ch.9", level: "high", desc: "Tạo thị trường mới không có cạnh tranh thay vì cạnh tranh trong thị trường đỏ đã bão hòa", tags: ["Chiến lược", "Đổi mới"] },
+      { rank: 224, name: "Jobs To Be Done", vn: "Lý thuyết công việc cần làm", chapter: 9, chap: "Ch.9", level: "high", desc: "Khách hàng 'thuê' sản phẩm để hoàn thành một công việc – tìm hiểu công việc thực sự sâu hơn demographics", tags: ["Marketing", "Đổi mới"] },
+      { rank: 225, name: "Value Chain Analysis", vn: "Phân tích chuỗi giá trị", chapter: 9, chap: "Ch.9", level: "high", desc: "Xác định hoạt động nào tạo ra giá trị và lợi thế cạnh tranh trong toàn bộ quy trình doanh nghiệp", tags: ["Chiến lược", "Kinh doanh"] },
+      { rank: 226, name: "BCG Matrix", vn: "Ma trận BCG", chapter: 9, chap: "Ch.9", level: "high", desc: "Phân loại danh mục sản phẩm theo thị phần và tăng trưởng: Stars, Cash Cows, Question Marks, Dogs", tags: ["Chiến lược", "Marketing"] },
+      { rank: 227, name: "Ansoff Matrix", vn: "Ma trận Ansoff", chapter: 9, chap: "Ch.9", level: "medium", desc: "4 chiến lược tăng trưởng: thâm nhập thị trường, phát triển thị trường, phát triển sản phẩm, đa dạng hóa", tags: ["Chiến lược", "Marketing"] },
+      { rank: 228, name: "Customer Lifetime Value", vn: "Giá trị vòng đời khách hàng", chapter: 9, chap: "Ch.9", level: "medium", desc: "Tổng lợi nhuận kỳ vọng từ một khách hàng trong toàn bộ thời gian quan hệ với doanh nghiệp", tags: ["Marketing", "Tài chính"] },
+      { rank: 229, name: "Net Promoter Score", vn: "Chỉ số khuyến nghị ròng", chapter: 9, chap: "Ch.9", level: "medium", desc: "Đo lường khả năng khách hàng giới thiệu sản phẩm – chỉ số đơn giản phản ánh lòng trung thành", tags: ["Marketing", "Kinh doanh"] },
+      { rank: 230, name: "Product Life Cycle", vn: "Vòng đời sản phẩm", chapter: 9, chap: "Ch.9", level: "medium", desc: "4 giai đoạn: giới thiệu, tăng trưởng, trưởng thành, suy thoái – chiến lược khác nhau ở mỗi giai đoạn", tags: ["Marketing", "Kinh doanh"] },
+      { rank: 231, name: "Innovator's Dilemma", vn: "Thế lưỡng nan của nhà đổi mới", chapter: 9, chap: "Ch.9", level: "high", desc: "Doanh nghiệp dẫn đầu bị phá vỡ khi chăm sóc khách hàng tốt nhất lại khiến họ bỏ lỡ đột phá mới", tags: ["Chiến lược", "Đổi mới"] },
+      { rank: 232, name: "Technology S-Curve", vn: "Đường cong S công nghệ", chapter: 4, chap: "Ch.4", level: "high", desc: "Công nghệ phát triển chậm → bùng nổ → bão hòa; nhận ra vị trí trên đường cong để đầu tư đúng lúc", tags: ["Công nghệ", "Chiến lược"] },
+      { rank: 233, name: "Diffusion of Innovation", vn: "Khuếch tán đổi mới", chapter: 4, chap: "Ch.4", level: "high", desc: "Rogers: Innovators (2.5%) → Early Adopters → Early Majority → Late Majority → Laggards", tags: ["Xã hội", "Marketing"] },
+      { rank: 234, name: "Hype Cycle", vn: "Chu kỳ kỳ vọng", chapter: 4, chap: "Ch.4", level: "high", desc: "Gartner: kỳ vọng phồng → vỡ mộng → khai sáng → ổn định – áp dụng cho công nghệ mới nổi", tags: ["Công nghệ", "Chiến lược"] },
+      { rank: 235, name: "Tipping Point", vn: "Điểm bùng phát", chapter: 4, chap: "Ch.4", level: "high", desc: "Ngưỡng mà tại đó hành vi/ý tưởng/dịch bệnh lây lan nhanh và không thể đảo ngược", tags: ["Xã hội", "Hệ thống"] },
+      { rank: 236, name: "Metcalfe's Law", vn: "Luật Metcalfe", chapter: 4, chap: "Ch.4", level: "high", desc: "Giá trị mạng lưới tỉ lệ với bình phương số lượng người dùng – cơ sở của hiệu ứng mạng", tags: ["Công nghệ", "Kinh tế"] },
+      { rank: 237, name: "Moore's Law", vn: "Luật Moore", chapter: 4, chap: "Ch.4", level: "medium", desc: "Số bóng bán dẫn trên chip đôi mỗi ~2 năm – xu hướng cải thiện công nghệ theo hàm mũ", tags: ["Công nghệ", "Lịch sử"] },
+      { rank: 238, name: "Gresham's Law", vn: "Luật Gresham", chapter: 4, chap: "Ch.4", level: "medium", desc: "Tiền xấu đẩy tiền tốt ra khỏi lưu thông – áp dụng rộng: tiêu chuẩn thấp đẩy tiêu chuẩn cao ra", tags: ["Kinh tế", "Xã hội"] },
+      { rank: 239, name: "Amara's Law", vn: "Luật Amara", chapter: 4, chap: "Ch.4", level: "medium", desc: "Người ta đánh giá quá cao tác động ngắn hạn và đánh giá quá thấp tác động dài hạn của công nghệ", tags: ["Công nghệ", "Dự báo"] },
+      { rank: 240, name: "Lindy Effect", vn: "Hiệu ứng Lindy", chapter: 4, chap: "Ch.4", level: "medium", desc: "Thứ đã tồn tại lâu có xu hướng tiếp tục tồn tại lâu hơn – sách cổ điển đáng đọc hơn sách mới", tags: ["Triết học", "Chiến lược"] },
+      { rank: 241, name: "Activation Energy (behavior)", vn: "Năng lượng kích hoạt (hành vi)", chapter: 3, chap: "Ch.3", level: "medium", desc: "Giảm ma sát để bắt đầu thói quen tốt; tăng ma sát để ngăn thói quen xấu", tags: ["Tâm lý", "Hành vi"] },
+      { rank: 242, name: "Habit Loop", vn: "Vòng lặp thói quen", chapter: 3, chap: "Ch.3", level: "high", desc: "Cue → Routine → Reward: hiểu cấu trúc thói quen để thay đổi hoặc xây dựng hành vi mới", tags: ["Tâm lý", "Hành vi"] },
+      { rank: 243, name: "Implementation Intentions", vn: "Ý định thực hiện", chapter: 3, chap: "Ch.3", level: "medium", desc: "Cam kết 'nếu X thì Y' tăng đáng kể xác suất thực hiện hành vi mong muốn", tags: ["Tâm lý", "Hành vi"] },
+      { rank: 244, name: "Temptation Bundling", vn: "Gói kết hợp cám dỗ", chapter: 3, chap: "Ch.3", level: "low", desc: "Kết hợp việc thích với việc cần làm để tăng động lực thực hiện", tags: ["Tâm lý", "Hành vi"] },
+      { rank: 245, name: "Identity-Based Habits", vn: "Thói quen dựa trên bản sắc", chapter: 3, chap: "Ch.3", level: "medium", desc: "Thay đổi bền vững khi ta thay đổi niềm tin về bản thân ('tôi là người chạy bộ') thay vì chỉ kết quả", tags: ["Tâm lý", "Phát triển"] },
+      { rank: 246, name: "Growth Mindset", vn: "Tư duy tăng trưởng", chapter: 8, chap: "Ch.8", level: "high", desc: "Dweck: tin rằng năng lực phát triển được qua nỗ lực, ngược với Fixed Mindset – tố chất cố định", tags: ["Tâm lý", "Học tập"] },
+      { rank: 247, name: "Learned Helplessness", vn: "Bất lực học được", chapter: 8, chap: "Ch.8", level: "medium", desc: "Sau nhiều lần thất bại ngoài tầm kiểm soát, người ta ngừng cố gắng dù tình huống đã thay đổi", tags: ["Tâm lý", "Lãnh đạo"] },
+      { rank: 248, name: "Locus of Control", vn: "Trung tâm kiểm soát", chapter: 8, chap: "Ch.8", level: "medium", desc: "Internal: tin mình kiểm soát kết quả; External: tin số phận/người khác quyết định – ảnh hưởng lớn đến hành vi", tags: ["Tâm lý", "Phát triển"] },
+      { rank: 249, name: "Self-Determination Theory", vn: "Lý thuyết tự quyết", chapter: 8, chap: "Ch.8", level: "medium", desc: "Ba nhu cầu tâm lý cốt lõi: Autonomy (tự chủ), Competence (năng lực), Relatedness (kết nối)", tags: ["Tâm lý", "Quản lý"] },
+      { rank: 250, name: "Flow State", vn: "Trạng thái dòng chảy", chapter: 3, chap: "Ch.3", level: "medium", desc: "Csikszentmihalyi: trạng thái tập trung tối ưu khi thách thức và kỹ năng cân bằng vừa đủ", tags: ["Tâm lý", "Hiệu suất"] },
+      { rank: 251, name: "Curse of Knowledge", vn: "Lời nguyền kiến thức", chapter: 1, chap: "Ch.1", level: "high", desc: "Người có chuyên môn không nhớ được cảm giác chưa biết, khó giải thích cho người mới", tags: ["Nhận thức", "Giáo dục"] },
+      { rank: 252, name: "Feynman Technique", vn: "Kỹ thuật Feynman", chapter: 1, chap: "Ch.1", level: "high", desc: "Giải thích khái niệm bằng ngôn ngữ đơn giản nhất – cách tốt nhất kiểm tra mức độ hiểu thực sự", tags: ["Học tập", "Nhận thức"] },
+      { rank: 253, name: "Spaced Repetition", vn: "Lặp lại ngắt quãng", chapter: 3, chap: "Ch.3", level: "high", desc: "Ôn tập đúng lúc sắp quên giúp ghi nhớ dài hạn hiệu quả hơn ôn tập liên tục", tags: ["Học tập", "Nhận thức"] },
+      { rank: 254, name: "Interleaving", vn: "Xen kẽ chủ đề", chapter: 3, chap: "Ch.3", level: "medium", desc: "Học xen kẽ các chủ đề khác nhau hiệu quả hơn học từng khối liên tục dù cảm giác khó hơn", tags: ["Học tập", "Nhận thức"] },
+      { rank: 255, name: "Desirable Difficulty", vn: "Khó khăn đáng mong muốn", chapter: 3, chap: "Ch.3", level: "medium", desc: "Những điều kiện học tập gây ra thêm nỗ lực thường dẫn đến ghi nhớ và chuyển hóa sâu hơn", tags: ["Học tập", "Giáo dục"] },
+      { rank: 256, name: "Transfer of Learning", vn: "Chuyển giao học tập", chapter: 3, chap: "Ch.3", level: "medium", desc: "Áp dụng kiến thức/kỹ năng học ở một ngữ cảnh vào ngữ cảnh mới – mục tiêu thực sự của giáo dục", tags: ["Học tập", "Nhận thức"] },
+      { rank: 257, name: "Working Memory", vn: "Bộ nhớ làm việc", chapter: 1, chap: "Ch.1", level: "medium", desc: "Bộ nhớ ngắn hạn giữ ~7 mục cùng lúc – hiểu giới hạn này để thiết kế thông tin hiệu quả", tags: ["Nhận thức", "Học tập"] },
+      { rank: 258, name: "Cognitive Load", vn: "Tải nhận thức", chapter: 1, chap: "Ch.1", level: "medium", desc: "Lượng tài nguyên nhận thức dùng khi xử lý thông tin – giảm tải giúp học và quyết định tốt hơn", tags: ["Nhận thức", "Thiết kế"] },
+      { rank: 259, name: "Chunking", vn: "Phân nhóm thông tin", chapter: 1, chap: "Ch.1", level: "medium", desc: "Nhóm thông tin thành đơn vị có nghĩa để mở rộng dung lượng bộ nhớ làm việc hiệu quả", tags: ["Nhận thức", "Học tập"] },
+      { rank: 260, name: "Dual Process Theory", vn: "Lý thuyết hai hệ thống", chapter: 1, chap: "Ch.1", level: "high", desc: "Kahneman: System 1 (nhanh, tự động, trực giác) và System 2 (chậm, có chủ đích, phân tích)", tags: ["Tâm lý", "Nhận thức"] },
+      { rank: 261, name: "Antifragility", vn: "Chống mong manh", chapter: 2, chap: "Ch.2", level: "high", desc: "Taleb: hệ thống không chỉ chịu đựng biến động mà còn lớn mạnh nhờ nó – vượt trên sự bền vững", tags: ["Rủi ro", "Chiến lược"] },
+      { rank: 262, name: "Hormesis", vn: "Hormesis – tác động hai chiều liều lượng", chapter: 4, chap: "Ch.4", level: "medium", desc: "Liều nhỏ tác nhân có hại đôi khi có lợi – tập thể dục gây tổn thương nhỏ để cơ thể phục hồi mạnh hơn", tags: ["Sinh học", "Sức khỏe"] },
+      { rank: 263, name: "Via Negativa", vn: "Con đường phủ định", chapter: 1, chap: "Ch.1", level: "medium", desc: "Cải thiện bằng cách loại bỏ những thứ xấu thay vì thêm thứ tốt – thường hiệu quả hơn", tags: ["Triết học", "Chiến lược"] },
+      { rank: 264, name: "Skin in the Game", vn: "Tự chịu rủi ro", chapter: 2, chap: "Ch.2", level: "high", desc: "Taleb: người đưa ra quyết định phải chịu hậu quả của quyết định đó – tạo trách nhiệm thực sự", tags: ["Rủi ro", "Đạo đức"] },
+      { rank: 265, name: "Barbell Strategy", vn: "Chiến lược tạ đôi", chapter: 6, chap: "Ch.6", level: "high", desc: "Đặt phần lớn tài sản vào cực kỳ an toàn, một phần nhỏ vào cực kỳ rủi ro cao – tránh vùng giữa", tags: ["Tài chính", "Rủi ro"] },
+      { rank: 266, name: "Ergodicity", vn: "Tính ergodic", chapter: 6, chap: "Ch.6", level: "medium", desc: "Trung bình của tập hợp khác trung bình theo thời gian – phân biệt để tránh sai lầm trong đầu tư", tags: ["Toán học", "Tài chính"] },
+      { rank: 267, name: "Narrative Economics", vn: "Kinh tế học tường thuật", chapter: 4, chap: "Ch.4", level: "medium", desc: "Shiller: câu chuyện viral về kinh tế ảnh hưởng đến hành vi thực sự và tạo ra chu kỳ kinh tế", tags: ["Kinh tế", "Xã hội"] },
+      { rank: 268, name: "Reflexivity (Soros)", vn: "Tính phản thân (Soros)", chapter: 9, chap: "Ch.9", level: "medium", desc: "Nhận thức sai về thị trường tác động đến thị trường thực, tạo vòng phản hồi tự ứng nghiệm", tags: ["Tài chính", "Triết học"] },
+      { rank: 269, name: "Margin of Safety (engineering)", vn: "Hệ số an toàn (kỹ thuật)", chapter: 2, chap: "Ch.2", level: "medium", desc: "Thiết kế vượt tải trọng dự kiến nhiều lần để chịu được điều kiện bất ngờ", tags: ["Kỹ thuật", "Rủi ro"] },
+      { rank: 270, name: "Redundancy", vn: "Dự phòng", chapter: 2, chap: "Ch.2", level: "medium", desc: "Xây dựng hệ thống dự phòng cho các thành phần quan trọng để đảm bảo hoạt động khi có sự cố", tags: ["Kỹ thuật", "Rủi ro"] },
+      { rank: 271, name: "Theory of Constraints", vn: "Lý thuyết điểm nghẽn", chapter: 3, chap: "Ch.3", level: "high", desc: "Goldratt: hiệu suất hệ thống bị giới hạn bởi bottleneck yếu nhất – tập trung cải thiện ở đó", tags: ["Quản lý", "Hệ thống"] },
+      { rank: 272, name: "Kanban / Lean", vn: "Kanban / Tinh gọn", chapter: 3, chap: "Ch.3", level: "high", desc: "Giới hạn công việc đang thực hiện, loại bỏ lãng phí, tối ưu luồng – gốc từ Toyota", tags: ["Quản lý", "Kỹ thuật"] },
+      { rank: 273, name: "Five Whys", vn: "5 Tại sao", chapter: 1, chap: "Ch.1", level: "high", desc: "Hỏi 'tại sao' liên tiếp 5 lần để tìm nguyên nhân gốc rễ thay vì chỉ xử lý triệu chứng", tags: ["Quản lý", "Logic"] },
+      { rank: 274, name: "Fault Tree Analysis", vn: "Phân tích cây lỗi", chapter: 2, chap: "Ch.2", level: "medium", desc: "Sơ đồ logic top-down xác định các kết hợp sự kiện dẫn đến lỗi hệ thống", tags: ["Kỹ thuật", "Rủi ro"] },
+      { rank: 275, name: "FMEA", vn: "Phân tích kiểu thất bại và hậu quả", chapter: 2, chap: "Ch.2", level: "medium", desc: "Failure Mode and Effects Analysis: liệt kê mọi cách hệ thống có thể hỏng và tác động của từng loại", tags: ["Kỹ thuật", "Rủi ro"] },
+      { rank: 276, name: "Swiss Cheese Model", vn: "Mô hình phô mai Thụy Sĩ", chapter: 2, chap: "Ch.2", level: "medium", desc: "Tai nạn xảy ra khi lỗ hổng trong nhiều lớp bảo vệ cùng thẳng hàng – cơ sở thiết kế an toàn", tags: ["Kỹ thuật", "Rủi ro"] },
+      { rank: 277, name: "Normal Accident Theory", vn: "Lý thuyết tai nạn thông thường", chapter: 2, chap: "Ch.2", level: "medium", desc: "Trong hệ thống phức tạp tương tác chặt, tai nạn không thể tránh khỏi dù có mọi biện pháp phòng ngừa", tags: ["Kỹ thuật", "Rủi ro"] },
+      { rank: 278, name: "High Reliability Organization", vn: "Tổ chức độ tin cậy cao", chapter: 8, chap: "Ch.8", level: "medium", desc: "Tổ chức như tàu sân bay hoặc bệnh viện duy trì vận hành gần như không lỗi dù trong môi trường nguy hiểm", tags: ["Quản lý", "Kỹ thuật"] },
+      { rank: 279, name: "Cynefin Framework", vn: "Khung Cynefin", chapter: 6, chap: "Ch.6", level: "high", desc: "5 miền ra quyết định: Simple, Complicated, Complex, Chaotic, Disorder – mỗi miền cần cách tiếp cận khác", tags: ["Quản lý", "Hệ thống"] },
+      { rank: 280, name: "VUCA", vn: "VUCA", chapter: 6, chap: "Ch.6", level: "high", desc: "Volatile, Uncertain, Complex, Ambiguous – mô tả môi trường hiện đại đòi hỏi lãnh đạo linh hoạt", tags: ["Lãnh đạo", "Chiến lược"] },
+      { rank: 281, name: "Scenario Planning", vn: "Lập kế hoạch kịch bản", chapter: 6, chap: "Ch.6", level: "high", desc: "Xây dựng nhiều kịch bản tương lai có thể để chuẩn bị chiến lược linh hoạt – Shell Oil dùng thành công", tags: ["Chiến lược", "Rủi ro"] },
+      { rank: 282, name: "Wicked Problems", vn: "Vấn đề nan giải", chapter: 6, chap: "Ch.6", level: "medium", desc: "Vấn đề không có giải pháp dứt khoát, mỗi lần giải quyết tạo ra vấn đề mới – khác với tame problems", tags: ["Hệ thống", "Chính sách"] },
+      { rank: 283, name: "Soft Systems Methodology", vn: "Phương pháp luận hệ thống mềm", chapter: 6, chap: "Ch.6", level: "low", desc: "Checkland: cách tiếp cận vấn đề phức tạp xã hội bằng mô hình hóa quan điểm nhiều bên liên quan", tags: ["Hệ thống", "Quản lý"] },
+      { rank: 284, name: "Emergence", vn: "Nổi sinh", chapter: 4, chap: "Ch.4", level: "high", desc: "Thuộc tính toàn thể nổi lên từ tương tác các thành phần đơn giản – không thể dự đoán từ từng phần", tags: ["Hệ thống", "Khoa học"] },
+      { rank: 285, name: "Punctuated Equilibrium", vn: "Cân bằng ngắt quãng", chapter: 4, chap: "Ch.4", level: "medium", desc: "Tiến hóa/thay đổi không đều – dài hạn ổn định, xen kẽ đợt thay đổi đột ngột nhanh chóng", tags: ["Sinh học", "Chiến lược"] },
+      { rank: 286, name: "Red Queen Effect", vn: "Hiệu ứng Nữ hoàng Đỏ", chapter: 4, chap: "Ch.4", level: "medium", desc: "Phải liên tục cải thiện chỉ để duy trì vị thế tương đối – cạnh tranh tiến hóa không bao giờ dừng", tags: ["Sinh học", "Kinh doanh"] },
+      { rank: 287, name: "Niche Construction", vn: "Xây dựng ổ sinh thái", chapter: 4, chap: "Ch.4", level: "low", desc: "Sinh vật thay đổi môi trường, môi trường thay đổi ngược lại áp lực tiến hóa lên sinh vật", tags: ["Sinh học", "Hệ thống"] },
+      { rank: 288, name: "Mimicry & Camouflage", vn: "Bắt chước & Ngụy trang", chapter: 4, chap: "Ch.4", level: "low", desc: "Chiến lược tiến hóa bắt chước đặc điểm kẻ thù hoặc môi trường – áp dụng trong kinh doanh và ngoại giao", tags: ["Sinh học", "Chiến lược"] },
+      { rank: 289, name: "Signaling Theory (biology)", vn: "Lý thuyết tín hiệu (sinh học)", chapter: 4, chap: "Ch.4", level: "low", desc: "Handicap principle: tín hiệu đáng tin cậy phải tốn kém để làm giả – lông đuôi công chứng minh sức khỏe", tags: ["Sinh học", "Kinh tế"] },
+      { rank: 290, name: "Kin Selection", vn: "Chọn lọc họ hàng", chapter: 4, chap: "Ch.4", level: "low", desc: "Hamilton: hy sinh vì người họ hàng gần có lợi về mặt tiến hóa vì gene được bảo tồn", tags: ["Sinh học", "Xã hội"] },
+      { rank: 291, name: "Reciprocal Altruism", vn: "Vị tha có đi có lại", chapter: 4, chap: "Ch.4", level: "medium", desc: "Giúp đỡ người không thân thiết với kỳ vọng được giúp lại sau này – nền tảng hợp tác xã hội", tags: ["Sinh học", "Xã hội"] },
+      { rank: 292, name: "Narrative Transportation", vn: "Vận chuyển tường thuật", chapter: 7, chap: "Ch.7", level: "medium", desc: "Người bị cuốn vào câu chuyện tạm thời giảm khả năng phản biện – nền tảng sức mạnh kể chuyện", tags: ["Tâm lý", "Thuyết phục"] },
+      { rank: 293, name: "Meme Theory", vn: "Lý thuyết meme", chapter: 4, chap: "Ch.4", level: "medium", desc: "Dawkins: ý tưởng lan truyền như gene theo chọn lọc tự nhiên – meme mạnh nhất tồn tại và biến thể", tags: ["Văn hóa", "Tiến hóa"] },
+      { rank: 294, name: "Epistemic Humility", vn: "Khiêm tốn nhận thức luận", chapter: 1, chap: "Ch.1", level: "high", desc: "Nhận ra giới hạn kiến thức của bản thân – nền tảng để tiếp nhận bằng chứng mới một cách cởi mở", tags: ["Triết học", "Nhận thức"] },
+      { rank: 295, name: "Steel-Manning", vn: "Diễn giải mạnh nhất", chapter: 1, chap: "Ch.1", level: "high", desc: "Trình bày phiên bản mạnh nhất của lập luận đối lập trước khi phản bác – đối lập với straw man", tags: ["Logic", "Tư duy"] },
+      { rank: 296, name: "Dialectical Thinking", vn: "Tư duy biện chứng", chapter: 1, chap: "Ch.1", level: "medium", desc: "Luận đề → phản luận đề → tổng hợp: quy trình Hegel để tiến hóa tư tưởng qua đối thoại", tags: ["Triết học", "Logic"] },
+      { rank: 297, name: "Socratic Method", vn: "Phương pháp Socrates", chapter: 1, chap: "Ch.1", level: "medium", desc: "Đặt câu hỏi liên tiếp để phát hiện mâu thuẫn và làm rõ khái niệm – công cụ dạy học và tranh luận", tags: ["Triết học", "Giáo dục"] },
+      { rank: 298, name: "Falsifiability", vn: "Tính có thể bác bỏ", chapter: 1, chap: "Ch.1", level: "high", desc: "Popper: lý thuyết khoa học phải có thể bị bác bỏ bởi thực nghiệm – phân biệt khoa học với giả khoa học", tags: ["Khoa học", "Logic"] },
+      { rank: 299, name: "Paradigm Shift", vn: "Thay đổi mô hình nhận thức", chapter: 4, chap: "Ch.4", level: "high", desc: "Kuhn: khoa học tiến bộ qua cách mạng, không phải tích lũy – khi dị thường đủ nhiều, mô hình cũ sụp đổ", tags: ["Khoa học", "Triết học"] },
+      { rank: 300, name: "Thought Experiment", vn: "Thí nghiệm tư duy", chapter: 1, chap: "Ch.1", level: "high", desc: "Dùng trí tưởng tượng để khám phá hệ quả logic của giả thuyết – công cụ Einstein, Schrödinger dùng", tags: ["Triết học", "Khoa học"] },
+    ];
+
+    // ===== CONFIG =====
+    const levelLabel = { essential: "Thiết yếu", high: "Cao", medium: "Trung bình", low: "Cơ bản" };
+    const levelClass = { essential: "b-essential", high: "b-high", medium: "b-medium", low: "b-low" };
+    const levelStars = { essential: "★★★★★", high: "★★★★", medium: "★★★", low: "★★" };
+    const levelOrder = { essential: 0, high: 1, medium: 2, low: 3 };
+
+    let sortKey = "rank", sortDir = 1;
+
+    // ===== THEME =====
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      document.getElementById('themeIcon').textContent = next === 'dark' ? '☀️' : '🌙';
+      document.getElementById('themeLabel').textContent = next === 'dark' ? 'Sáng' : 'Tối';
+      localStorage.setItem('theme', next);
+    }
+
+    // Init theme
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        document.documentElement.setAttribute('data-theme', saved);
+        document.getElementById('themeIcon').textContent = saved === 'dark' ? '☀️' : '🌙';
+        document.getElementById('themeLabel').textContent = saved === 'dark' ? 'Sáng' : 'Tối';
+      }
+    })();
+
+    // ===== SORT =====
+    function sortBy(k) {
+      if (sortKey === k) { sortDir *= -1; } else { sortKey = k; sortDir = 1; }
+      render();
+    }
+
+    function updateSortHeaders() {
+      ['rank', 'name', 'chapter', 'level'].forEach(key => {
+        const th = document.getElementById('th-' + key);
+        const arrow = th.querySelector('.sort-arrow');
+        if (sortKey === key) {
+          th.classList.add('sorted');
+          arrow.textContent = sortDir === 1 ? '▲' : '▼';
+        } else {
+          th.classList.remove('sorted');
+        }
+      });
+    }
+
+    // ===== RENDER =====
+    function render() {
+      const q = document.getElementById("search").value.toLowerCase();
+      const ch = document.getElementById("chapFilter").value;
+      const lv = document.getElementById("lvlFilter").value;
+
+      let data = MODELS.filter(m => {
+        if (q && !m.name.toLowerCase().includes(q) && !m.vn.toLowerCase().includes(q) && !m.desc.toLowerCase().includes(q) && !m.tags.join(" ").toLowerCase().includes(q)) return false;
+        if (ch && m.chapter != ch) return false;
+        if (lv && m.level !== lv) return false;
+        return true;
+      });
+
+      data = data.sort((a, b) => {
+        let va = a[sortKey], vb = b[sortKey];
+        if (sortKey === 'level') {
+          return sortDir * (levelOrder[va] - levelOrder[vb]);
+        }
+        if (typeof va === "string") return sortDir * va.localeCompare(vb);
+        return sortDir * (va - vb);
+      });
+
+      document.getElementById("sTotal").textContent = data.length;
+      document.getElementById("sEss").textContent = data.filter(m => m.level === "essential").length;
+      document.getElementById("sHigh").textContent = data.filter(m => m.level === "high").length;
+      document.getElementById("sMed").textContent = data.filter(m => m.level === "medium").length;
+      document.getElementById("sLow").textContent = data.filter(m => m.level === "low").length;
+
+      updateSortHeaders();
+
+      const tb = document.getElementById("tbody");
+      if (!data.length) {
+        tb.innerHTML = `
+          <tr><td colspan="6">
+            <div class="empty-state">
+              <div class="empty-icon">🔍</div>
+              <div class="empty-title">Không tìm thấy mô hình phù hợp</div>
+              <div class="empty-desc">Thử thay đổi từ khóa hoặc bộ lọc</div>
+            </div>
+          </td></tr>`;
+        return;
+      }
+
+      tb.innerHTML = data.map((m, i) => `
+        <tr onclick="showDetail(${m.rank - 1})">
+          <td class="rank-cell"><span class="rank-num">${i + 1}</span></td>
+          <td class="name-cell">
+            <div class="name-en">${m.name}</div>
+            <div class="name-vn">${m.vn}</div>
+          </td>
+          <td class="chapter-cell"><span class="chapter-chip">${m.chap}</span></td>
+          <td class="level-cell">
+            <span class="badge ${levelClass[m.level]}">${levelLabel[m.level]}</span>
+            <span class="stars">${levelStars[m.level]}</span>
+          </td>
+          <td class="desc-cell">${m.desc}</td>
+          <td class="tags-cell">${m.tags.map(t => `<span class="tag">${t}</span>`).join("")}</td>
+        </tr>`).join("");
+    }
+
+    // ===== MODAL =====
+    function showDetail(idx) {
+      const m = MODELS[idx];
+      document.getElementById('modalContent').innerHTML = `
+        <div class="modal-rank">#${m.rank} · ${m.chap}</div>
+        <div class="modal-name">${m.name}</div>
+        <div class="modal-vn">${m.vn}</div>
+        <div class="modal-desc">${m.desc}</div>
+        <div class="modal-meta">
+          <span class="badge ${levelClass[m.level]}">${levelLabel[m.level]} ${levelStars[m.level]}</span>
+          ${m.tags.map(t => `<span class="tag">${t}</span>`).join("")}
+        </div>
+      `;
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== document.getElementById('modal') && !e.target.classList.contains('modal-close')) return;
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ===== SCROLL TO TOP =====
+    window.addEventListener('scroll', () => {
+      const btn = document.getElementById('scrollTop');
+      if (window.scrollY > 400) btn.classList.add('visible');
+      else btn.classList.remove('visible');
+    });
+
+    // ===== INIT =====
+    render();
+  </script>
+</body>
+
+</html>

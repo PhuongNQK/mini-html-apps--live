@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACP Programming – Async, Concurrency & Parallelism Reference</title>
+  <meta name="description"
+    content="Interactive reference of async, parallel, and concurrency programming concepts across C#, Python, Go, Rust, Java, JavaScript, and C++.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <h1 class="sr-only">Interactive reference of async, parallel, and concurrency programming concepts across C#, Python,
+    Go, Rust, Java, JavaScript, and C++.</h1>
+
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, monospace;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-full: 999px;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      /* Language colors */
+      --col-cs: #569CD6;
+      --col-py: #4EC9B0;
+      --col-go: #00ADD8;
+      --col-rs: #FF6B35;
+      --col-jv: #F0A500;
+      --col-js: #C586C0;
+      --col-cpp: #E06C75;
+    }
+
+    /* ===== DARK THEME (default) ===== */
+    [data-theme="dark"] {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1a2235;
+      --bg-elevated: #1e293b;
+      --bg-hover: #243047;
+      --bg-glass: rgba(17, 24, 39, 0.75);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --border-primary: rgba(148, 163, 184, 0.15);
+      --border-secondary: rgba(148, 163, 184, 0.08);
+      --border-tertiary: rgba(148, 163, 184, 0.05);
+      --accent-1: #6366f1;
+      --accent-1-soft: rgba(99, 102, 241, 0.12);
+      --accent-2: #8b5cf6;
+      --accent-3: #06b6d4;
+      --gradient-hero: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #0c1a2e 100%);
+      --gradient-accent: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+      --basic-bg: rgba(16, 185, 129, 0.12);
+      --basic-text: #34d399;
+      --basic-border: rgba(16, 185, 129, 0.25);
+      --inter-bg: rgba(59, 130, 246, 0.12);
+      --inter-text: #60a5fa;
+      --inter-border: rgba(59, 130, 246, 0.25);
+      --adv-bg: rgba(245, 158, 11, 0.12);
+      --adv-text: #fbbf24;
+      --adv-border: rgba(245, 158, 11, 0.25);
+      --scrollbar-bg: #1a2235;
+      --scrollbar-thumb: #334155;
+      --input-bg: #1a2235;
+      --code-bg: #0d1117;
+      --code-border: rgba(148, 163, 184, 0.08);
+    }
+
+    /* ===== LIGHT THEME ===== */
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --bg-elevated: #ffffff;
+      --bg-hover: #f1f5f9;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
+      --border-primary: rgba(15, 23, 42, 0.12);
+      --border-secondary: rgba(15, 23, 42, 0.06);
+      --border-tertiary: rgba(15, 23, 42, 0.04);
+      --accent-1: #4f46e5;
+      --accent-1-soft: rgba(79, 70, 229, 0.08);
+      --accent-2: #7c3aed;
+      --accent-3: #0891b2;
+      --gradient-hero: linear-gradient(135deg, #eef2ff 0%, #f8fafc 50%, #ecfeff 100%);
+      --gradient-accent: linear-gradient(135deg, #4f46e5, #7c3aed, #8b5cf6);
+      --basic-bg: #ecfdf5;
+      --basic-text: #059669;
+      --basic-border: rgba(5, 150, 105, 0.25);
+      --inter-bg: #eff6ff;
+      --inter-text: #2563eb;
+      --inter-border: rgba(37, 99, 235, 0.25);
+      --adv-bg: #fffbeb;
+      --adv-text: #b45309;
+      --adv-border: rgba(180, 83, 9, 0.25);
+      --scrollbar-bg: #f1f5f9;
+      --scrollbar-thumb: #cbd5e1;
+      --input-bg: #ffffff;
+      --code-bg: #f6f8fa;
+      --code-border: rgba(15, 23, 42, 0.06);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+      --col-cs: #1a5fb4;
+      --col-py: #0d7377;
+      --col-go: #007d9c;
+      --col-rs: #c4410a;
+      --col-jv: #a06800;
+      --col-js: #8839a0;
+      --col-cpp: #b83553;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background var(--transition-base), color var(--transition-base);
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); border: 0;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius-full); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-1); }
+
+    /* ===== HERO HEADER ===== */
+    .hero {
+      background: var(--gradient-hero);
+      padding: 3rem 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--accent-1-soft);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-1);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .hero-langs {
+      display: flex;
+      gap: 8px;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-lang {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border-primary);
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .hero-lang:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-1);
+    }
+
+    .hero-lang .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .theme-toggle:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--accent-1);
+    }
+
+    .theme-toggle .icon { font-size: 16px; }
+
+    /* ===== MAIN CONTENT ===== */
+    .main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 3rem;
+    }
+
+    /* ===== STATS ===== */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      transition: all var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .stat:nth-child(1)::before { background: var(--gradient-accent); }
+    .stat:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .stat:nth-child(3)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .stat:nth-child(4)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+
+    .stat:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-primary);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .stat:nth-child(2) .stat-value { color: var(--basic-text); }
+    .stat:nth-child(3) .stat-value { color: var(--inter-text); }
+    .stat:nth-child(4) .stat-value { color: var(--adv-text); }
+
+    /* ===== TOOLBAR ===== */
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+      align-items: center;
+    }
+
+    .search-wrap {
+      flex: 1;
+      min-width: 220px;
+      position: relative;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      font-size: 15px;
+      pointer-events: none;
+      transition: color var(--transition-fast);
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 10px 14px 10px 40px;
+      font-size: 14px;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      background: var(--input-bg);
+      color: var(--text-primary);
+      transition: all var(--transition-fast);
+      outline: none;
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-1-soft);
+    }
+
+    .search-wrap input:focus + .search-icon { color: var(--accent-1); }
+
+    .filter-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag-btn {
+      font-size: 11px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-primary);
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .tag-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--accent-1);
+      color: var(--text-primary);
+    }
+
+    .tag-btn.active {
+      background: var(--accent-1-soft);
+      color: var(--accent-1);
+      border-color: rgba(99, 102, 241, 0.3);
+      font-weight: 600;
+    }
+
+    .tag-btn.all.active {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--border-primary);
+    }
+
+    /* ===== SECTION LABELS ===== */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label .section-count {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: var(--bg-hover);
+      color: var(--text-secondary);
+    }
+
+    .section-label:first-child { margin-top: 0; }
+
+    /* ===== CONCEPT CARDS ===== */
+    .concept-card {
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-lg);
+      background: var(--bg-elevated);
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: all var(--transition-base);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .concept-card:hover {
+      border-color: var(--border-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .concept-card.open {
+      border-color: rgba(99, 102, 241, 0.2);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.06);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--transition-fast);
+    }
+
+    .card-header:hover {
+      background: var(--bg-hover);
+    }
+
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 600;
+      flex: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .card-cats {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+
+    .cat-pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+    }
+
+    .level-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+    }
+
+    .level-basic {
+      background: var(--basic-bg);
+      color: var(--basic-text);
+      border-color: var(--basic-border);
+    }
+
+    .level-inter {
+      background: var(--inter-bg);
+      color: var(--inter-text);
+      border-color: var(--inter-border);
+    }
+
+    .level-adv {
+      background: var(--adv-bg);
+      color: var(--adv-text);
+      border-color: var(--adv-border);
+    }
+
+    .chevron {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      transition: transform .25s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 20px;
+      text-align: center;
+    }
+
+    .concept-card.open .chevron {
+      transform: rotate(180deg);
+      color: var(--accent-1);
+    }
+
+    /* ===== CARD BODY ===== */
+    .card-body {
+      border-top: 1px solid var(--border-secondary);
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; max-height: 0; }
+      to { opacity: 1; max-height: 2000px; }
+    }
+
+    /* Language availability grid */
+    .lang-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+      padding: 14px 18px;
+    }
+
+    .lang-cell {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      padding: 8px 10px;
+      min-height: 32px;
+      border: 1px solid var(--border-tertiary);
+      transition: all var(--transition-fast);
+    }
+
+    .lang-cell:hover {
+      border-color: var(--border-primary);
+      transform: translateY(-1px);
+    }
+
+    .lang-name {
+      font-size: 10px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .lang-status {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .lang-na {
+      color: var(--text-tertiary);
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* Description */
+    .card-desc {
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      border-top: 1px solid var(--border-tertiary);
+    }
+
+    .card-desc strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* Code tabs */
+    .code-section {
+      border-top: 1px solid var(--border-tertiary);
+    }
+
+    .code-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border-tertiary);
+      overflow-x: auto;
+      padding: 0 8px;
+      background: var(--bg-tertiary);
+    }
+
+    .code-tabs::-webkit-scrollbar { height: 2px; }
+
+    .code-tab {
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      padding: 8px 14px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-tertiary);
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .code-tab:hover {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
+    .code-tab.active {
+      color: var(--text-primary);
+      border-bottom-color: var(--accent-1);
+    }
+
+    .code-tab.na {
+      color: var(--text-tertiary);
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    .lang-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .code-panel {
+      display: none;
+      padding: 14px 18px;
+    }
+
+    .code-panel.active {
+      display: block;
+    }
+
+    pre {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--text-primary);
+      white-space: pre;
+      overflow-x: auto;
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      position: relative;
+    }
+
+    pre::before {
+      content: attr(data-lang);
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-family: var(--font-sans);
+    }
+
+    /* ===== NO RESULTS ===== */
+    .no-results {
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--text-tertiary);
+    }
+
+    .no-results .empty-icon { font-size: 48px; margin-bottom: 1rem; opacity: 0.5; }
+    .no-results .empty-title { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .no-results .empty-desc { font-size: 14px; color: var(--text-secondary); }
+
+    /* ===== SCROLL TO TOP ===== */
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--accent-1);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all var(--transition-base);
+      z-index: 50;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(99, 102, 241, 0.5);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--border-secondary);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .lang-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 2rem 1rem 1.5rem; }
+      .main { padding: 1rem; }
+      .hero-top { flex-direction: column; gap: 1rem; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .toolbar { flex-direction: column; }
+      .search-wrap { min-width: 100%; }
+      .lang-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 480px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .lang-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .card-header { padding: 12px 14px; }
+      .card-cats { display: none; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stats { animation: fadeIn 0.5s ease-out 0.1s both; }
+    .toolbar { animation: fadeIn 0.5s ease-out 0.2s both; }
+    #concepts-root { animation: fadeIn 0.5s ease-out 0.3s both; }
+  </style>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero" id="hero-header">
+    <div class="hero-inner">
+      <div class="hero-top">
+        <div>
+          <div class="hero-badge">⚡ Interactive Reference</div>
+          <h2>Async, Concurrency &<br>Parallelism Programming</h2>
+          <p>A comprehensive comparison of concurrency primitives and patterns across seven major programming languages. Explore threads, async/await, channels, and more.</p>
+          <div class="hero-langs" id="hero-langs"></div>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+          <span class="icon" id="theme-icon">🌙</span>
+          <span id="theme-label">Dark</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main">
+    <!-- Stats -->
+    <div class="stats" id="stats"></div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-wrap">
+        <input type="text" id="search" placeholder="Search concepts, tools, keywords..." oninput="render()">
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="filter-group" id="cat-filters"></div>
+      <div class="filter-group" id="level-filters"></div>
+    </div>
+
+    <!-- Concepts -->
+    <div id="concepts-root"></div>
+  </main>
+
+  <!-- Scroll to top -->
+  <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <!-- Footer -->
+  <footer class="footer">
+    ACP Programming Reference · 7 Languages · Built with ❤️
+  </footer>
+
+  <script>
+    const LANGS = ['C#', 'Python', 'Go', 'Rust', 'Java', 'JS', 'C++'];
+    const LANG_COLORS = {
+      'C#': 'var(--col-cs)', 'Python': 'var(--col-py)', 'Go': 'var(--col-go)',
+      'Rust': 'var(--col-rs)', 'Java': 'var(--col-jv)', 'JS': 'var(--col-js)', 'C++': 'var(--col-cpp)'
+    };
+    const CATS = ['thread/process', 'async/await', 'synchronization', 'communication', 'parallelism', 'execution model', 'memory model'];
+    const CAT_COLORS = {
+      'thread/process': 'var(--col-cs)', 'async/await': 'var(--col-js)', 'synchronization': 'var(--col-cpp)',
+      'communication': 'var(--col-go)', 'parallelism': 'var(--col-jv)', 'execution model': 'var(--col-py)', 'memory model': 'var(--col-rs)'
+    };
+    const LEVELS = { basic: 'Basic', inter: 'Intermediate', adv: 'Advanced' };
+
+    const NA = null;
+
+    const data = [
+      {
+        id: 'thread', level: 'basic', cats: ['thread/process'],
+        name: 'Thread',
+        desc: '<strong>Origin:</strong> OS-level concept going back to the 1960s. A thread is the smallest unit of execution within a process, sharing memory with sibling threads.<br><br><strong>When to use:</strong> CPU-bound work that can run in parallel. Each thread has its own stack but shares heap. Threads are heavyweight (MB of stack, OS scheduling).<br><br><strong>Pros:</strong> True parallelism, shared memory fast. <strong>Cons:</strong> Race conditions, high overhead, hard to manage at scale.',
+        avail: { 'C#': 'Thread', 'Python': 'threading.Thread', 'Go': 'goroutine (lighter)', 'Rust': 'std::thread', 'Java': 'Thread', 'JS': 'Worker (no shared mem)', 'C++': 'std::thread' },
+        code: {
+          'C#': `using System.Threading;\nvar t = new Thread(() => Console.WriteLine("Hello from thread"));\nt.Start();\nt.Join();`,
+          'Python': `import threading\ndef work(): print("Hello from thread")\nt = threading.Thread(target=work)\nt.start(); t.join()`,
+          'Go': `// Go uses goroutines instead (see goroutines entry)\n// but os threads are managed by the runtime:\nimport "runtime"\nruntime.GOMAXPROCS(4) // use 4 OS threads`,
+          'Rust': `use std::thread;\nlet handle = thread::spawn(|| {\n    println!("Hello from thread");\n});\nhandle.join().unwrap();`,
+          'Java': `Thread t = new Thread(() ->\n    System.out.println("Hello from thread"));\nt.start();\nt.join();`,
+          'JS': `// Browser: Web Worker (no shared memory by default)\nconst w = new Worker('worker.js');\nw.postMessage('start');\nw.onmessage = e => console.log(e.data);`,
+          'C++': `#include <thread>\n#include <iostream>\nstd::thread t([]{ std::cout << "Hello\\n"; });\nt.join();`
+        }
+      },
+      {
+        id: 'process', level: 'basic', cats: ['thread/process'],
+        name: 'Process',
+        desc: '<strong>Origin:</strong> Fundamental OS concept. A process is an isolated execution environment with its own memory space, file handles, and resources.<br><br><strong>When to use:</strong> Isolation is required (crashes don\'t affect each other), different trust levels, or bypassing language-level GIL (Python). Communication via IPC (pipes, sockets, shared memory).<br><br><strong>Pros:</strong> Strong isolation, fault tolerance. <strong>Cons:</strong> High overhead, slow IPC vs shared-memory threads.',
+        avail: { 'C#': 'Process / System.Diagnostics', 'Python': 'multiprocessing', 'Go': 'os/exec', 'Rust': 'std::process', 'Java': 'ProcessBuilder', 'JS': 'child_process (Node)', 'C++': 'fork() / CreateProcess' },
+        code: {
+          'C#': `using System.Diagnostics;\nvar p = new Process();\np.StartInfo.FileName = "notepad.exe";\np.Start(); p.WaitForExit();`,
+          'Python': `from multiprocessing import Process\ndef work(n): print(f"Worker {n}")\np = Process(target=work, args=(1,))\np.start(); p.join()`,
+          'Go': `import "os/exec"\ncmd := exec.Command("ls", "-l")\nout, _ := cmd.Output()\nfmt.Println(string(out))`,
+          'Rust': `use std::process::Command;\nlet out = Command::new("ls")\n    .arg("-l")\n    .output()\n    .expect("failed");\nprintln!("{}", String::from_utf8_lossy(&out.stdout));`,
+          'Java': `ProcessBuilder pb = new ProcessBuilder("ls", "-l");\nProcess p = pb.start();\np.waitFor();`,
+          'JS': `const { execSync } = require('child_process');\nconst out = execSync('ls -l');\nconsole.log(out.toString());`,
+          'C++': `#include <cstdlib>\n// Unix: fork() + exec(), or simpler:\nint ret = system("ls -l");`
+        }
+      },
+      {
+        id: 'goroutine', level: 'basic', cats: ['thread/process', 'execution model'],
+        name: 'Goroutine',
+        desc: '<strong>Origin:</strong> Introduced in Go (2009). Goroutines are Go\'s fundamental unit of concurrency — lightweight coroutines multiplexed onto OS threads by the Go runtime scheduler (M:N threading).<br><br><strong>When to use:</strong> Any concurrent operation in Go. Start thousands or millions cheaply (initial stack: ~2KB, auto-grows).<br><br><strong>Pros:</strong> Extremely lightweight, built-in scheduler, simple syntax. <strong>Cons:</strong> Go-specific; goroutine leaks if channels not drained.',
+        avail: { 'C#': 'Task (similar)', 'Python': 'asyncio coroutine (similar)', 'Go': 'goroutine (native)', 'Rust': 'async task (similar)', 'Java': 'Virtual Thread (Java 21+)', 'JS': 'async function', 'C++': 'coroutine (C++20, lower-level)' },
+        code: {
+          'C#': `// Closest analog: Task.Run\nTask.Run(() => Console.WriteLine("Concurrent work"));`,
+          'Python': `import asyncio\nasync def work():\n    print("Concurrent work")\nasyncio.run(work())`,
+          'Go': `// Native goroutine - just add 'go'\ngo func() {\n    fmt.Println("Goroutine!")\n}()`,
+          'Rust': `// Using tokio async runtime\n#[tokio::main]\nasync fn main() {\n    tokio::spawn(async { println!("task"); }).await.unwrap();\n}`,
+          'Java': `// Java 21+ Virtual Thread (closest analog)\nThread.ofVirtual().start(() ->\n    System.out.println("Virtual thread"));`,
+          'JS': `// Conceptually similar: async function\n(async () => {\n    await doWork();\n    console.log("done");\n})();`,
+          'C++': `// C++20 coroutine (no direct equivalent)\n// cppcoro library provides task<>:\n// co_await cppcoro::schedule_on(pool, task());`
+        }
+      },
+      {
+        id: 'threadpool', level: 'basic', cats: ['thread/process', 'parallelism'],
+        name: 'Thread pool',
+        desc: '<strong>Origin:</strong> Pattern popularized in Java (1998). A pool of pre-created threads waiting to execute submitted tasks, avoiding expensive thread creation overhead per task.<br><br><strong>When to use:</strong> Many short-lived tasks (web requests, I/O callbacks). Pre-creating threads amortizes startup cost.<br><br><strong>Pros:</strong> Lower overhead vs creating threads per task, bounded resource use. <strong>Cons:</strong> Blocking one thread blocks it for all; pool exhaustion under heavy load.',
+        avail: { 'C#': 'ThreadPool / Task default', 'Python': 'concurrent.futures.ThreadPoolExecutor', 'Go': 'runtime scheduler (implicit)', 'Rust': 'rayon / tokio runtime', 'Java': 'ExecutorService / ForkJoinPool', 'JS': 'Worker pool (manual)', 'C++': 'std::async / custom' },
+        code: {
+          'C#': `using System.Threading;\nThreadPool.QueueUserWorkItem(_ =>\n    Console.WriteLine("Pool thread"));\n// Or via Task (uses pool internally):\nTask.Run(() => Console.WriteLine("Task"));`,
+          'Python': `from concurrent.futures import ThreadPoolExecutor\nwith ThreadPoolExecutor(max_workers=4) as ex:\n    futures = [ex.submit(lambda: "result") for _ in range(8)]\n    results = [f.result() for f in futures]`,
+          'Go': `// Go's scheduler manages this implicitly.\n// Worker pool pattern:\njobs := make(chan int, 10)\nfor w := 0; w < 4; w++ {\n    go worker(jobs)\n}`,
+          'Rust': `use rayon::prelude::*;\n(0..10).into_par_iter()\n    .for_each(|i| println!("item {}", i));`,
+          'Java': `import java.util.concurrent.*;\nExecutorService pool = Executors.newFixedThreadPool(4);\npool.submit(() -> System.out.println("task"));\npool.shutdown();`,
+          'JS': `// Node: worker_threads pool (piscina library)\nconst Piscina = require('piscina');\nconst pool = new Piscina({ filename: './worker.js' });\nconst result = await pool.run({ n: 42 });`,
+          'C++': `#include <future>\nauto f = std::async(std::launch::async,\n    []{ return 42; });\nint result = f.get();`
+        }
+      },
+      {
+        id: 'asyncawait', level: 'inter', cats: ['async/await'],
+        name: 'async / await',
+        desc: '<strong>Origin:</strong> Async/await as syntax was pioneered by C# 5.0 (2012), then adopted by Python (3.5), JavaScript (ES2017), Rust, Swift, and others.<br><br><strong>When to use:</strong> I/O-bound work (network, disk, DB). Lets you write asynchronous code in a sequential style without callback hell. Does NOT create threads — suspends the current execution context while waiting.<br><br><strong>Pros:</strong> Readable sequential style, composable, efficient for I/O. <strong>Cons:</strong> Async "colors" the call stack — async functions must be called from async context; does not help CPU-bound work.',
+        avail: { 'C#': 'native (since C# 5)', 'Python': 'asyncio (since 3.5)', 'Go': 'no keyword; channels+goroutines', 'Rust': 'native + runtime (tokio)', 'Java': 'CompletableFuture (no keyword)', 'JS': 'native (ES2017)', 'C++': 'coroutines (C++20, manual)' },
+        code: {
+          'C#': `async Task<string> FetchAsync(string url) {\n    using var client = new HttpClient();\n    return await client.GetStringAsync(url);\n}\nstring html = await FetchAsync("https://example.com");`,
+          'Python': `import asyncio, aiohttp\n\nasync def fetch(url):\n    async with aiohttp.ClientSession() as s:\n        async with s.get(url) as r:\n            return await r.text()\n\nhtml = asyncio.run(fetch("https://example.com"))`,
+          'Go': `// Go doesn't have async/await.\n// Use goroutines + channels instead:\nfunc fetch(url string, ch chan<- string) {\n    resp, _ := http.Get(url)\n    defer resp.Body.Close()\n    b, _ := io.ReadAll(resp.Body)\n    ch <- string(b)\n}\nch := make(chan string)\ngo fetch("https://example.com", ch)\nresult := <-ch`,
+          'Rust': `use reqwest;\n#[tokio::main]\nasync fn main() -> Result<(), Box<dyn std::error::Error>> {\n    let body = reqwest::get("https://example.com")\n        .await?\n        .text()\n        .await?;\n    println!("{}", body);\n    Ok(())\n}`,
+          'Java': `// Java uses CompletableFuture (no keyword):\nCompletableFuture<String> future =\n    CompletableFuture.supplyAsync(() -> fetchUrl("https://example.com"));\nString result = future.get(); // blocks, or use thenApply()`,
+          'JS': `async function fetchData(url) {\n    const res = await fetch(url);\n    const data = await res.json();\n    return data;\n}\nconst result = await fetchData("https://api.example.com/data");`,
+          'C++': `// C++20 coroutines (cppcoro):\n// cppcoro::task<std::string> fetch(std::string url) {\n//     co_return co_await http_get(url);\n// }`
+        }
+      },
+      {
+        id: 'promise', level: 'inter', cats: ['async/await'],
+        name: 'Promise / Future',
+        desc: '<strong>Origin:</strong> Concept from 1970s; widely popularized by JavaScript Promises (ES6, 2015) and Java Futures (Java 5, 2004). Represents a value that will be available in the future.<br><br><strong>When to use:</strong> Composing async operations, handling async results without blocking, chaining multiple async steps.<br><br><strong>Pros:</strong> Composable, can represent pending/resolved/rejected states. <strong>Cons:</strong> Can lead to promise-chain complexity; Java Future.get() is blocking unless using CompletableFuture.',
+        avail: { 'C#': 'Task<T>', 'Python': 'asyncio.Future', 'Go': 'chan T (pattern)', 'Rust': 'Future<Output=T>', 'Java': 'CompletableFuture<T>', 'JS': 'Promise<T>', 'C++': 'std::future<T>' },
+        code: {
+          'C#': `Task<int> ComputeAsync() => Task.FromResult(42);\n\nTask<int> t = ComputeAsync();\nint result = await t; // or t.Result (blocking)`,
+          'Python': `import asyncio\nasync def main():\n    loop = asyncio.get_event_loop()\n    fut = loop.create_future()\n    fut.set_result(42)\n    print(await fut)  # 42\nasyncio.run(main())`,
+          'Go': `// Pattern: return a channel as a "future"\nfunc computeAsync() <-chan int {\n    ch := make(chan int, 1)\n    go func() { ch <- 42 }()\n    return ch\n}\nresult := <-computeAsync()`,
+          'Rust': `use std::future::Future;\nasync fn compute() -> i32 { 42 }\n// Futures are lazy — need to await them:\nlet result = compute().await;`,
+          'Java': `CompletableFuture<Integer> fut =\n    CompletableFuture.supplyAsync(() -> 42);\n// Non-blocking chain:\nfut.thenApply(v -> v * 2)\n   .thenAccept(System.out::println);`,
+          'JS': `const p = new Promise((resolve, reject) => {\n    setTimeout(() => resolve(42), 100);\n});\nconst result = await p;  // 42\n\n// Chaining:\np.then(v => v * 2).then(console.log);`,
+          'C++': `#include <future>\nstd::future<int> fut = std::async(\n    std::launch::async, []{ return 42; });\nint result = fut.get(); // blocks`
+        }
+      },
+      {
+        id: 'mutex', level: 'inter', cats: ['synchronization'],
+        name: 'Mutex (mutual exclusion lock)',
+        desc: '<strong>Origin:</strong> Dijkstra\'s semaphore paper (1965); mutex is a binary semaphore. Ensures only one thread at a time can access a shared resource (critical section).<br><br><strong>When to use:</strong> Protecting shared mutable state (counters, collections, files) from concurrent modification.<br><br><strong>Pros:</strong> Simple, universally supported. <strong>Cons:</strong> Risk of deadlock if locks acquired in wrong order; contention reduces parallelism; not composable.',
+        avail: { 'C#': 'lock / Monitor / Mutex', 'Python': 'threading.Lock', 'Go': 'sync.Mutex', 'Rust': 'std::sync::Mutex<T>', 'Java': 'synchronized / ReentrantLock', 'JS': 'no threads → not needed*', 'C++': 'std::mutex' },
+        code: {
+          'C#': `object _lock = new object();\nint counter = 0;\nvoid Increment() {\n    lock (_lock) { counter++; }\n}\n// Or: using System.Threading.Mutex\nvar m = new Mutex();\nm.WaitOne(); counter++; m.ReleaseMutex();`,
+          'Python': `import threading\nlock = threading.Lock()\ncounter = 0\ndef increment():\n    global counter\n    with lock:\n        counter += 1`,
+          'Go': `import "sync"\nvar mu sync.Mutex\nvar counter int\nfunc increment() {\n    mu.Lock()\n    defer mu.Unlock()\n    counter++\n}`,
+          'Rust': `use std::sync::{Arc, Mutex};\nlet counter = Arc::new(Mutex::new(0));\nlet c = Arc::clone(&counter);\n// In a thread:\nlet mut val = c.lock().unwrap();\n*val += 1; // lock released when val drops`,
+          'Java': `// synchronized block:\nint counter = 0;\nObject lock = new Object();\nsynchronized (lock) { counter++; }\n\n// ReentrantLock:\nReentrantLock lock = new ReentrantLock();\nlock.lock(); try { counter++; } finally { lock.unlock(); }`,
+          'JS': `// JavaScript is single-threaded in the main thread.\n// Shared between Workers: use Atomics + SharedArrayBuffer\nconst sab = new SharedArrayBuffer(4);\nconst arr = new Int32Array(sab);\nAtomics.add(arr, 0, 1); // atomic increment`,
+          'C++': `#include <mutex>\nstd::mutex mtx;\nint counter = 0;\nvoid increment() {\n    std::lock_guard<std::mutex> lock(mtx);\n    counter++;\n} // lock released automatically`
+        }
+      },
+      {
+        id: 'rwlock', level: 'inter', cats: ['synchronization'],
+        name: 'Read-write lock (RWLock)',
+        desc: '<strong>Origin:</strong> Generalization of mutex allowing multiple concurrent readers but exclusive writer. Known as shared/exclusive lock.<br><br><strong>When to use:</strong> Data that is read frequently but written rarely (caches, config, registries). Allows read-heavy workloads to scale without contention.<br><br><strong>Pros:</strong> Better read throughput than mutex. <strong>Cons:</strong> Write starvation possible; more complex than mutex.',
+        avail: { 'C#': 'ReaderWriterLockSlim', 'Python': 'threading.RLock (reentrant) / rwlock pkg', 'Go': 'sync.RWMutex', 'Rust': 'std::sync::RwLock<T>', 'Java': 'ReadWriteLock / ReentrantReadWriteLock', 'JS': 'Atomics (partial)', 'C++': 'std::shared_mutex (C++17)' },
+        code: {
+          'C#': `var rwl = new ReaderWriterLockSlim();\n// Read:\nrwl.EnterReadLock();\ntry { /* read shared data */ }\nfinally { rwl.ExitReadLock(); }\n// Write:\nrwl.EnterWriteLock();\ntry { /* modify data */ }\nfinally { rwl.ExitWriteLock(); }`,
+          'Python': `import threading\nlock = threading.RLock()  # reentrant\n# For proper RWLock use 'readerwriterlock' package:\nfrom readerwriterlock import rwlock\nrw = rwlock.RWLockFair()\nr = rw.gen_rlock(); w = rw.gen_wlock()\nwith r: pass  # read section\nwith w: pass  # write section`,
+          'Go': `import "sync"\nvar mu sync.RWMutex\n// Read (many readers):\nmu.RLock()\ndefer mu.RUnlock()\n// Write (exclusive):\nmu.Lock()\ndefer mu.Unlock()`,
+          'Rust': `use std::sync::{Arc, RwLock};\nlet lock = Arc::new(RwLock::new(vec![1,2,3]));\nlet r = lock.read().unwrap();   // shared read\ndrop(r);\nlet mut w = lock.write().unwrap(); // exclusive write\nw.push(4);`,
+          'Java': `ReadWriteLock rwl = new ReentrantReadWriteLock();\n// Read:\nrwl.readLock().lock();\ntry { /* read */ } finally { rwl.readLock().unlock(); }\n// Write:\nrwl.writeLock().lock();\ntry { /* write */ } finally { rwl.writeLock().unlock(); }`,
+          'JS': `// Not directly available for shared state.\n// Atomics.wait/notify can implement patterns:\nAtomics.wait(int32Arr, 0, 0); // blocks worker`,
+          'C++': `#include <shared_mutex>\nstd::shared_mutex sm;\n// Read (shared):\nstd::shared_lock<std::shared_mutex> r(sm);\n// Write (exclusive):\nstd::unique_lock<std::shared_mutex> w(sm);`
+        }
+      },
+      {
+        id: 'semaphore', level: 'inter', cats: ['synchronization'],
+        name: 'Semaphore',
+        desc: '<strong>Origin:</strong> Edsger Dijkstra, 1965. A counting semaphore controls access to a resource pool — allows N threads to enter concurrently (vs mutex which allows 1).<br><br><strong>When to use:</strong> Rate limiting, connection pools, limiting concurrent access to a resource (e.g. max 5 DB connections).<br><br><strong>Pros:</strong> Flexible count, widely supported. <strong>Cons:</strong> No ownership (any thread can release), prone to misuse.',
+        avail: { 'C#': 'SemaphoreSlim / Semaphore', 'Python': 'threading.Semaphore / asyncio.Semaphore', 'Go': 'buffered channel (pattern)', 'Rust': 'tokio::sync::Semaphore', 'Java': 'Semaphore (java.util.concurrent)', 'JS': 'async-semaphore pkg / manual', 'C++': 'std::counting_semaphore (C++20)' },
+        code: {
+          'C#': `var sem = new SemaphoreSlim(3); // max 3 concurrent\nawait sem.WaitAsync();\ntry { /* limited section */ }\nfinally { sem.Release(); }`,
+          'Python': `import asyncio\nsem = asyncio.Semaphore(3)\nasync def limited():\n    async with sem:\n        await asyncio.sleep(1)`,
+          'Go': `// Buffered channel as semaphore:\nsem := make(chan struct{}, 3)\nsem <- struct{}{}   // acquire\ndefer func() { <-sem }()  // release`,
+          'Rust': `use tokio::sync::Semaphore;\nlet sem = Arc::new(Semaphore::new(3));\nlet _permit = sem.acquire().await.unwrap();\n// work here; permit auto-released on drop`,
+          'Java': `Semaphore sem = new Semaphore(3);\nsem.acquire();\ntry { /* limited section */ }\nfinally { sem.release(); }`,
+          'JS': `// Manual async semaphore:\nclass Semaphore {\n  constructor(n) { this.n = n; this.q = []; }\n  async acquire() {\n    if (this.n > 0) { this.n--; return; }\n    await new Promise(r => this.q.push(r));\n  }\n  release() { if (this.q.length) this.q.shift()(); else this.n++; }\n}`,
+          'C++': `#include <semaphore>\nstd::counting_semaphore<3> sem(3);\nsem.acquire();\n// critical section\nsem.release();`
+        }
+      },
+      {
+        id: 'channel', level: 'inter', cats: ['communication'],
+        name: 'Channel',
+        desc: '<strong>Origin:</strong> Tony Hoare\'s CSP (1978); popularized in Go. A channel is a typed conduit for passing data between goroutines/threads. "Don\'t communicate by sharing memory; share memory by communicating."<br><br><strong>When to use:</strong> Passing data/signals between concurrent tasks without shared state. Go channels are first-class; other languages emulate via queues/libraries.<br><br><strong>Pros:</strong> Decouples producer/consumer, safe by design. <strong>Cons:</strong> Deadlock if send/receive not balanced; buffering strategy matters.',
+        avail: { 'C#': 'Channel<T> (System.Threading.Channels)', 'Python': 'asyncio.Queue', 'Go': 'chan T (native)', 'Rust': 'std::sync::mpsc / tokio::sync::mpsc', 'Java': 'BlockingQueue / LinkedTransferQueue', 'JS': 'MessageChannel / BroadcastChannel', 'C++': 'no stdlib; use tbb::concurrent_queue' },
+        code: {
+          'C#': `using System.Threading.Channels;\nvar ch = Channel.CreateUnbounded<int>();\n// Producer:\nawait ch.Writer.WriteAsync(42);\nch.Writer.Complete();\n// Consumer:\nawait foreach (var item in ch.Reader.ReadAllAsync())\n    Console.WriteLine(item);`,
+          'Python': `import asyncio\nasync def main():\n    q = asyncio.Queue()\n    await q.put(42)\n    val = await q.get()\n    print(val)\nasyncio.run(main())`,
+          'Go': `ch := make(chan int, 1) // buffered\nch <- 42               // send\nval := <-ch            // receive\n// Directional:\nfunc producer(ch chan<- int) { ch <- 1 }\nfunc consumer(ch <-chan int) { fmt.Println(<-ch) }`,
+          'Rust': `use std::sync::mpsc;\nlet (tx, rx) = mpsc::channel();\nstd::thread::spawn(move || tx.send(42).unwrap());\nprintln!("{}", rx.recv().unwrap());\n// Async with tokio:\n// let (tx, mut rx) = tokio::sync::mpsc::channel(32);`,
+          'Java': `BlockingQueue<Integer> q = new LinkedBlockingQueue<>();\n// Producer thread:\nq.put(42);\n// Consumer thread:\nint val = q.take(); // blocks until item available`,
+          'JS': `// Between workers:\nconst { port1, port2 } = new MessageChannel();\nport1.onmessage = e => console.log(e.data);\nport2.postMessage(42);`,
+          'C++': `// TBB (Intel Threading Building Blocks):\n// tbb::concurrent_queue<int> q;\n// q.push(42); int v; q.try_pop(v);\n// Or use std::queue + mutex + condition_variable manually`
+        }
+      },
+      {
+        id: 'event', level: 'inter', cats: ['synchronization', 'async/await'],
+        name: 'Event / Condition variable',
+        desc: '<strong>Origin:</strong> POSIX condition variables (pthread_cond). Allows threads to wait for a condition to become true, then be notified (signal/broadcast) by another thread.<br><br><strong>When to use:</strong> Producer-consumer patterns, "wait until X is ready", coordinating thread states. More flexible than busy-waiting.<br><br><strong>Pros:</strong> Efficient waiting (thread sleeps). <strong>Cons:</strong> Spurious wakeups, must always be paired with a mutex check.',
+        avail: { 'C#': 'ManualResetEventSlim / AutoResetEvent', 'Python': 'threading.Event / threading.Condition', 'Go': 'sync.Cond', 'Rust': 'std::sync::Condvar', 'Java': 'Object.wait/notify / Condition', 'JS': 'Atomics.wait/notify (workers)', 'C++': 'std::condition_variable' },
+        code: {
+          'C#': `var evt = new ManualResetEventSlim(false);\n// Waiter thread:\nTask.Run(() => { evt.Wait(); Console.WriteLine("Go!"); });\n// Signaler:\nevt.Set();`,
+          'Python': `import threading\nevt = threading.Event()\ndef waiter(): evt.wait(); print("Go!")\nt = threading.Thread(target=waiter); t.start()\nevt.set()`,
+          'Go': `import "sync"\nvar mu sync.Mutex\ncond := sync.NewCond(&mu)\n// Waiter:\nmu.Lock(); for !ready { cond.Wait() }; mu.Unlock()\n// Signaler:\nmu.Lock(); ready = true; cond.Signal(); mu.Unlock()`,
+          'Rust': `use std::sync::{Arc, Mutex, Condvar};\nlet pair = Arc::new((Mutex::new(false), Condvar::new()));\nlet (lock, cvar) = &*pair;\nlet mut started = lock.lock().unwrap();\nwhile !*started { started = cvar.wait(started).unwrap(); }\n// Signal: *lock.lock().unwrap() = true; cvar.notify_one();`,
+          'Java': `Object monitor = new Object();\n// Wait:\nsynchronized(monitor) { monitor.wait(); }\n// Notify:\nsynchronized(monitor) { monitor.notify(); }\n// With ReentrantLock:\nCondition c = lock.newCondition();\nc.await(); // wait; c.signal(); // notify`,
+          'JS': `// Cross-worker: Atomics.wait blocks a Worker\nconst sab = new SharedArrayBuffer(4);\nconst ia = new Int32Array(sab);\n// Worker: Atomics.wait(ia, 0, 0) // wait until != 0\n// Main:   Atomics.notify(ia, 0, 1)`,
+          'C++': `#include <condition_variable>\nstd::mutex mtx;\nstd::condition_variable cv;\nbool ready = false;\n// Waiter:\nstd::unique_lock<std::mutex> lk(mtx);\ncv.wait(lk, []{ return ready; });\n// Notifier:\n{ std::lock_guard<std::mutex> lg(mtx); ready = true; }\ncv.notify_one();`
+        }
+      },
+      {
+        id: 'atomics', level: 'inter', cats: ['synchronization', 'memory model'],
+        name: 'Atomic operations',
+        desc: '<strong>Origin:</strong> Hardware-level feature (test-and-set, CAS). Atomic operations are indivisible — guaranteed to complete without interruption, enabling lock-free programming.<br><br><strong>When to use:</strong> Simple counters, flags, reference counts without the overhead of a mutex. Foundation of lock-free data structures.<br><br><strong>Pros:</strong> Very fast, no blocking. <strong>Cons:</strong> Only works for simple scalar ops; complex invariants still need locks; memory ordering subtleties.',
+        avail: { 'C#': 'Interlocked', 'Python': 'threading module / ctypes (limited)', 'Go': 'sync/atomic', 'Rust': 'std::sync::atomic::*', 'Java': 'java.util.concurrent.atomic.*', 'JS': 'Atomics (SharedArrayBuffer)', 'C++': 'std::atomic<T>' },
+        code: {
+          'C#': `using System.Threading;\nint counter = 0;\nInterlocked.Increment(ref counter);\nInterlocked.Add(ref counter, 5);\nint old = Interlocked.Exchange(ref counter, 0);`,
+          'Python': `# Python GIL makes simple int ops effectively atomic\n# but for true atomics in ctypes:\nimport ctypes\nval = ctypes.c_int(0)\n# No built-in atomic; use threading.Lock for safety`,
+          'Go': `import "sync/atomic"\nvar counter int64\natomic.AddInt64(&counter, 1)\nval := atomic.LoadInt64(&counter)\natomic.StoreInt64(&counter, 0)`,
+          'Rust': `use std::sync::atomic::{AtomicI64, Ordering};\nstatic COUNTER: AtomicI64 = AtomicI64::new(0);\nCOUNTER.fetch_add(1, Ordering::SeqCst);\nlet val = COUNTER.load(Ordering::Relaxed);`,
+          'Java': `import java.util.concurrent.atomic.*;\nAtomicInteger counter = new AtomicInteger(0);\ncounter.incrementAndGet();\ncounter.addAndGet(5);\nint old = counter.getAndSet(0);`,
+          'JS': `const sab = new SharedArrayBuffer(8);\nconst buf = new BigInt64Array(sab);\nAtomics.add(buf, 0, 1n);     // atomic increment\nconst val = Atomics.load(buf, 0);`,
+          'C++': `#include <atomic>\nstd::atomic<int> counter{0};\ncounter.fetch_add(1, std::memory_order_relaxed);\nint val = counter.load();\ncounter.store(0);`
+        }
+      },
+      {
+        id: 'gil', level: 'inter', cats: ['execution model'],
+        name: 'GIL (Global Interpreter Lock)',
+        desc: '<strong>Origin:</strong> Python\'s CPython interpreter, ~1992. The GIL is a mutex in CPython that prevents multiple native threads from executing Python bytecode simultaneously.<br><br><strong>Impact:</strong> Python threads cannot truly parallelize CPU-bound work — only one thread runs Python code at a time. I/O-bound work is fine because GIL is released during I/O waits.<br><br><strong>Workarounds:</strong> multiprocessing (separate processes), C extensions (can release GIL), asyncio. Python 3.13+ has experimental free-threaded mode (no-GIL).',
+        avail: { 'C#': '-', 'Python': 'CPython only', 'Go': '-', 'Rust': '-', 'Java': '-', 'JS': '- (event loop, different concept)', 'C++': '-' },
+        code: {
+          'C#': `// C# has no GIL. True parallelism available natively.`,
+          'Python': `import threading, time\n\ndef cpu_bound(n):\n    total = 0\n    for i in range(n): total += i\n    return total\n\n# Due to GIL, this won't run in parallel for CPU work:\nt1 = threading.Thread(target=cpu_bound, args=(10**7,))\nt2 = threading.Thread(target=cpu_bound, args=(10**7,))\nt1.start(); t2.start()\nt1.join(); t2.join()\n# Use multiprocessing for real CPU parallelism:\nfrom multiprocessing import Pool\nwith Pool(4) as p:\n    results = p.map(cpu_bound, [10**7]*4)`,
+          'Go': `// Go has no GIL. Goroutines run in true parallel.`,
+          'Rust': `// Rust has no GIL. All threads run truly parallel.`,
+          'Java': `// Java has no GIL. Full parallelism available.`,
+          'JS': `// JS is single-threaded by design (event loop model).\n// No GIL concept — but also no true thread parallelism\n// in the main thread. Workers isolate contexts.`,
+          'C++': `// C++ has no GIL. Full hardware parallelism.`
+        }
+      },
+      {
+        id: 'eventloop', level: 'inter', cats: ['execution model', 'async/await'],
+        name: 'Event loop',
+        desc: '<strong>Origin:</strong> GUI systems (1970s), popularized for networking by Node.js (2009). A loop that waits for and dispatches events/callbacks. Single-threaded but handles many concurrent I/O operations via non-blocking syscalls + callbacks.<br><br><strong>When to use:</strong> I/O-heavy servers, GUIs, real-time apps. Node.js handles thousands of connections on one thread via libuv event loop.<br><br><strong>Pros:</strong> No race conditions (single-threaded), very efficient I/O. <strong>Cons:</strong> One blocking operation freezes everything; CPU work blocks the loop.',
+        avail: { 'C#': 'async state machine (similar internals)', 'Python': 'asyncio event loop', 'Go': 'goroutine scheduler (different model)', 'Rust': 'tokio / async-std reactor', 'Java': 'NIO Selector / Netty', 'JS': 'native (libuv in Node, browser)', 'C++': 'Boost.Asio / libuv' },
+        code: {
+          'C#': `// C# async/await uses a state machine, not an explicit event loop.\n// SynchronizationContext in UI frameworks acts like an event loop.\nawait Task.Delay(100); // yield to loop`,
+          'Python': `import asyncio\nasync def task(n):\n    await asyncio.sleep(n)\n    return n\n\nasync def main():\n    # All tasks run on ONE event loop (one thread):\n    results = await asyncio.gather(task(1), task(2), task(3))\n    print(results)  # [1, 2, 3] (total ~3s wall time, ~3s CPU)\nasyncio.run(main())`,
+          'Go': `// Go's scheduler is not an event loop.\n// The runtime uses M:N threading — goroutines multiplexed\n// over OS threads. I/O is handled via netpoller (epoll/kqueue).`,
+          'Rust': `// tokio has a multi-threaded event loop:\n#[tokio::main]\nasync fn main() {\n    tokio::join!(\n        async { tokio::time::sleep(Duration::from_secs(1)).await },\n        async { println!("concurrent") }\n    );\n}`,
+          'Java': `// NIO Selector-based event loop (Netty pattern):\n// Selector selector = Selector.open();\n// channel.register(selector, SelectionKey.OP_READ);\n// while (true) { selector.select(); /* handle events */ }`,
+          'JS': `// Node.js event loop phases:\n// timers -> I/O callbacks -> poll -> check (setImmediate) -> close\nsetTimeout(() => console.log('timer'), 0);\nsetImmediate(() => console.log('immediate'));\nPromise.resolve().then(() => console.log('microtask'));\n// Order: microtask, timer/immediate (depends on context)`,
+          'C++': `// Boost.Asio event loop:\n// boost::asio::io_context io;\n// io.run(); // blocks, dispatching handlers`
+        }
+      },
+      {
+        id: 'parallel', level: 'inter', cats: ['parallelism'],
+        name: 'Parallel.For / parallel loops',
+        desc: '<strong>Origin:</strong> OpenMP (1997) for C/C++; .NET Parallel introduced in .NET 4 (2010). High-level API to parallelize loops — automatically partitions iterations across threads.<br><br><strong>When to use:</strong> CPU-bound loops where iterations are independent (no order dependency). Data parallelism over collections.<br><br><strong>Pros:</strong> Easy to use, auto-scales to cores. <strong>Cons:</strong> Overhead for small loops; shared state needs synchronization; not for I/O-bound work.',
+        avail: { 'C#': 'Parallel.For / Parallel.ForEach', 'Python': 'multiprocessing.Pool.map / joblib', 'Go': 'goroutine fan-out pattern', 'Rust': 'rayon par_iter', 'Java': 'parallelStream() / ForkJoinPool', 'JS': 'no native parallel loops', 'C++': 'std::execution::par / OpenMP' },
+        code: {
+          'C#': `using System.Threading.Tasks;\nParallel.For(0, 100, i => {\n    Console.WriteLine($"Item {i} on {Thread.CurrentThread.ManagedThreadId}");\n});\n// PLINQ:\nvar results = Enumerable.Range(0, 100)\n    .AsParallel()\n    .Select(x => x * x)\n    .ToArray();`,
+          'Python': `from multiprocessing import Pool\nimport joblib\n\ndef square(x): return x * x\n\nwith Pool(4) as p:\n    results = p.map(square, range(100))\n\n# joblib (simpler):\nresults = joblib.Parallel(n_jobs=4)(\n    joblib.delayed(square)(i) for i in range(100))`,
+          'Go': `// Fan-out with goroutines + WaitGroup:\nvar wg sync.WaitGroup\nfor i := 0; i < 100; i++ {\n    wg.Add(1)\n    go func(n int) {\n        defer wg.Done()\n        fmt.Println(n)\n    }(i)\n}\nwg.Wait()`,
+          'Rust': `use rayon::prelude::*;\nlet results: Vec<i32> = (0..100)\n    .into_par_iter()\n    .map(|x| x * x)\n    .collect();`,
+          'Java': `// Parallel stream:\nList<Integer> results = IntStream.range(0, 100)\n    .parallel()\n    .map(x -> x * x)\n    .boxed()\n    .collect(Collectors.toList());`,
+          'JS': `// No parallel loops in main thread.\n// Worker pool with Promise.all:\nconst workers = Array.from({length: 4}, () => new Worker('./w.js'));\nconst tasks = items.map((item, i) =>\n    new Promise(r => { workers[i%4].postMessage(item);\n                        workers[i%4].onmessage = e => r(e.data); }));\nconst results = await Promise.all(tasks);`,
+          'C++': `#include <algorithm>\n#include <execution>\nstd::vector<int> v(100);\nstd::for_each(std::execution::par, v.begin(), v.end(),\n    [](int& x){ x = x * x; });\n// Or OpenMP: #pragma omp parallel for`
+        }
+      },
+      {
+        id: 'actor', level: 'adv', cats: ['communication', 'execution model'],
+        name: 'Actor model',
+        desc: '<strong>Origin:</strong> Carl Hewitt, 1973. Popularized by Erlang (1987) and Akka (Scala/Java, 2009). Actors are independent units that communicate exclusively via message passing — no shared state.<br><br><strong>When to use:</strong> Distributed systems, highly concurrent systems where shared state is hard to manage, fault-tolerant architectures.<br><br><strong>Pros:</strong> No shared state = no race conditions, natural supervision trees, location transparency. <strong>Cons:</strong> Mental model shift, overhead of message passing, not built into most languages.',
+        avail: { 'C#': 'Akka.NET / Orleans / Proto.Actor', 'Python': 'Pykka / Ray / Thespian', 'Go': 'goroutines+channels (pattern)', 'Rust': 'Actix / xactor', 'Java': 'Akka / Quasar', 'JS': 'no stdlib; Nact / comlink', 'C++': 'CAF (C++ Actor Framework)' },
+        code: {
+          'C#': `// Using Microsoft Orleans (virtual actors):\n// [StatelessWorker]\n// public class MyGrain : Grain, IMyGrain {\n//     public Task<string> SayHello() => Task.FromResult("Hello!");\n// }\n// Akka.NET example:\n// var actor = system.ActorOf<MyActor>("myActor");\n// actor.Tell(new MyMessage("hello"));`,
+          'Python': `import pykka\nclass Counter(pykka.ThreadingActor):\n    def __init__(self): super().__init__(); self.count = 0\n    def on_receive(self, msg):\n        if msg == 'inc': self.count += 1\n        elif msg == 'get': return self.count\n\nactor = Counter.start()\nactor.tell('inc')\nprint(actor.ask('get'))\nactor.stop()`,
+          'Go': `// Goroutines + channels implement actor pattern naturally:\ntype Actor struct { inbox chan Message }\nfunc (a *Actor) run() {\n    for msg := range a.inbox {\n        // process msg\n        fmt.Println("received:", msg)\n    }\n}\na := &Actor{inbox: make(chan Message, 100)}\ngo a.run()\na.inbox <- Message{Type: "hello"}`,
+          'Rust': `// Using actix:\nuse actix::prelude::*;\nstruct Counter { count: i32 }\nimpl Actor for Counter { type Context = Context<Self>; }\nstruct Inc;\nimpl Message for Inc { type Result = i32; }\nimpl Handler<Inc> for Counter {\n    type Result = i32;\n    fn handle(&mut self, _: Inc, _: &mut Context<Self>) -> i32 {\n        self.count += 1; self.count\n    }\n}`,
+          'Java': `// Akka (Java):\n// ActorSystem system = ActorSystem.create("demo");\n// ActorRef actor = system.actorOf(Props.create(MyActor.class));\n// actor.tell(new Message("hello"), ActorRef.noSender());\n// class MyActor extends AbstractActor {\n//     public Receive createReceive() {\n//         return receiveBuilder().match(Message.class,\n//             m -> System.out.println(m.text)).build(); }}`,
+          'JS': `// Nact (actor library for Node):\n// import { start, dispatch, spawn } from 'nact';\n// const system = start();\n// const counter = spawn(system, (state=0, msg, ctx) => {\n//   if (msg.type === 'inc') return state + 1;\n//   return state;\n// }, 'counter');\n// dispatch(counter, { type: 'inc' });`,
+          'C++': `// CAF (C++ Actor Framework):\n// caf::actor_system_config cfg;\n// caf::actor_system sys{cfg};\n// auto actor = sys.spawn([](caf::event_based_actor* self) {\n//     return caf::behavior{\n//         [=](std::string msg) { aout(self) << msg << '\\n'; }\n//     };\n// });\n// caf::anon_send(actor, "hello");`
+        }
+      },
+      {
+        id: 'stm', level: 'adv', cats: ['synchronization', 'memory model'],
+        name: 'STM (Software Transactional Memory)',
+        desc: '<strong>Origin:</strong> Shavit & Touitou, 1995. Haskell\'s STM is the most well-known implementation. STM allows composable, atomic memory transactions — like database transactions for memory.<br><br><strong>When to use:</strong> Complex concurrent data structures where multiple variables must be updated atomically. Eliminates deadlock/livelock from lock composition.<br><br><strong>Pros:</strong> Composable, deadlock-free, retries on conflict. <strong>Cons:</strong> High overhead, not available in most languages natively, no I/O inside transactions.',
+        avail: { 'C#': '- (no stdlib)', 'Python': '- (no stdlib)', 'Go': '- (no stdlib)', 'Rust': '- (no stdlib; atomics preferred)', 'Java': 'Multiverse library', 'JS': '-', 'C++': '- (no stdlib; GCC TM experimental)' },
+        code: {
+          'C#': `// Not available natively.\n// Use locks/Interlocked for atomic updates.`,
+          'Python': `# Not available natively.\n# Closest: threading.Lock + try/except rollback pattern`,
+          'Go': `// Not available. Use channels or mutex patterns.`,
+          'Rust': `// Not available in std. Ownership model often makes it unnecessary.\n// atomic_ref crate for some patterns.`,
+          'Java': `// Multiverse STM:\n// StmUtils.atomic(() -> {\n//     ref1.set(ref1.get() + 1);\n//     ref2.set(ref2.get() - 1);\n// }); // retries automatically on conflict`,
+          'JS': `// Not available.`,
+          'C++': `// GCC has experimental TM: __transaction_atomic { x++; y--; }\n// Not in the standard.`
+        }
+      },
+      {
+        id: 'csp', level: 'adv', cats: ['communication', 'execution model'],
+        name: 'CSP (Communicating Sequential Processes)',
+        desc: '<strong>Origin:</strong> Tony Hoare\'s paper, 1978. CSP is a formal model where independent processes communicate via synchronized message passing on named channels. Basis for Go\'s concurrency model and core.async in Clojure.<br><br><strong>When to use:</strong> Designing pipelines, expressing concurrent workflows cleanly. Go channels are a direct CSP implementation. The model makes reasoning about concurrency compositional.<br><br><strong>Pros:</strong> Clean compositional model, avoids shared state. <strong>Cons:</strong> Can deadlock on unbuffered channels; requires discipline.',
+        avail: { 'C#': 'System.Threading.Channels (partial)', 'Python': 'asyncio.Queue (partial)', 'Go': 'chan (native CSP)', 'Rust': 'crossbeam-channel / tokio channels', 'Java': 'BlockingQueue / CSP4J library', 'JS': 'js-csp library', 'C++': 'libcsp / handmade' },
+        code: {
+          'C#': `// Pipeline pattern with Channels:\nvar pipe = Channel.CreateUnbounded<int>();\n// Stage 1: produce\n_ = Task.Run(async () => {\n    for (int i = 0; i < 5; i++) await pipe.Writer.WriteAsync(i);\n    pipe.Writer.Complete();\n});\n// Stage 2: consume\nawait foreach (var n in pipe.Reader.ReadAllAsync())\n    Console.WriteLine(n * 2);`,
+          'Python': `import asyncio\nasync def producer(q):\n    for i in range(5): await q.put(i)\n    await q.put(None)  # sentinel\nasync def consumer(q):\n    while (n := await q.get()) is not None:\n        print(n * 2)\nasync def main():\n    q = asyncio.Queue()\n    await asyncio.gather(producer(q), consumer(q))\nasyncio.run(main())`,
+          'Go': `// Classic CSP pipeline:\nfunc gen(nums ...int) <-chan int {\n    out := make(chan int)\n    go func() { for _, n := range nums { out <- n }; close(out) }()\n    return out\n}\nfunc sq(in <-chan int) <-chan int {\n    out := make(chan int)\n    go func() { for n := range in { out <- n * n }; close(out) }()\n    return out\n}\nfor n := range sq(sq(gen(2, 3))) { fmt.Println(n) }`,
+          'Rust': `use crossbeam_channel::unbounded;\nlet (tx, rx) = unbounded();\nstd::thread::spawn(move || {\n    for i in 0..5 { tx.send(i).unwrap(); }\n});\nfor n in rx { println!("{}", n * 2); }`,
+          'Java': `// Pipeline with BlockingQueue:\nBlockingQueue<Integer> q = new LinkedBlockingQueue<>();\n// Producer thread:\nnew Thread(() -> { for(int i=0;i<5;i++) { try{q.put(i);}catch(Exception e){} } }).start();\n// Consumer thread:\nnew Thread(() -> { for(int i=0;i<5;i++) { try{System.out.println(q.take()*2);}catch(Exception e){} } }).start();`,
+          'JS': `// js-csp library:\n// const ch = csp.chan();\n// csp.go(function*() { yield csp.put(ch, 42); });\n// csp.go(function*() { console.log(yield csp.take(ch)); });`,
+          'C++': `// Manual CSP with mutex+condvar or use libcsp/cppcsp2:\n// Process communicates only through sync channels.`
+        }
+      },
+      {
+        id: 'cancellation', level: 'inter', cats: ['async/await'],
+        name: 'Cancellation token / context',
+        desc: '<strong>Origin:</strong> .NET CancellationToken (2010); Go context.Context (Go 1.7, 2016). A cooperative cancellation mechanism — the requester signals cancellation and the async operation checks for it.<br><br><strong>When to use:</strong> Any long-running async operation that should be cancellable (HTTP requests, DB queries, background jobs). Essential for clean shutdown and timeout handling.<br><br><strong>Pros:</strong> Composable, propagates through call chain, avoids orphaned tasks. <strong>Cons:</strong> Requires all layers to cooperate; easy to forget to check.',
+        avail: { 'C#': 'CancellationToken / CancellationTokenSource', 'Python': 'asyncio.Task.cancel()', 'Go': 'context.Context', 'Rust': 'tokio_util::sync::CancellationToken', 'Java': 'Future.cancel() / interrupt()', 'JS': 'AbortController / AbortSignal', 'C++': 'std::stop_token (C++20)' },
+        code: {
+          'C#': `var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));\ntry {\n    await DoWorkAsync(cts.Token);\n} catch (OperationCanceledException) {\n    Console.WriteLine("Cancelled");\n}\nasync Task DoWorkAsync(CancellationToken ct) {\n    while (!ct.IsCancellationRequested) {\n        await Task.Delay(100, ct);\n    }\n}`,
+          'Python': `import asyncio\nasync def worker(task):\n    try:\n        await asyncio.sleep(10)\n    except asyncio.CancelledError:\n        print("Cancelled!")\n        raise\n\nasync def main():\n    t = asyncio.create_task(worker(None))\n    await asyncio.sleep(1)\n    t.cancel()\n    await t\nasyncio.run(main())`,
+          'Go': `import "context"\nctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)\ndefer cancel()\n\nreq, _ := http.NewRequestWithContext(ctx, "GET", "https://example.com", nil)\nresp, err := http.DefaultClient.Do(req)\nif err != nil { fmt.Println("cancelled or timed out:", err) }`,
+          'Rust': `use tokio_util::sync::CancellationToken;\nlet token = CancellationToken::new();\nlet t = token.clone();\ntokio::spawn(async move {\n    tokio::select! {\n        _ = t.cancelled() => println!("Cancelled"),\n        _ = do_work() => println!("Done"),\n    }\n});\ntoken.cancel();`,
+          'Java': `ExecutorService ex = Executors.newSingleThreadExecutor();\nFuture<?> f = ex.submit(() -> { Thread.sleep(10000); return null; });\nThread.sleep(1000);\nf.cancel(true); // sends interrupt\n// CompletableFuture:\nCompletableFuture<Void> cf = CompletableFuture.runAsync(() -> {});\ncf.cancel(true);`,
+          'JS': `const controller = new AbortController();\nsetTimeout(() => controller.abort(), 5000);\ntry {\n    const res = await fetch('https://example.com',\n        { signal: controller.signal });\n} catch (e) {\n    if (e.name === 'AbortError') console.log('Aborted');\n}`,
+          'C++': `// C++20 std::stop_token:\nstd::stop_source src;\nstd::jthread t([](std::stop_token st) {\n    while (!st.stop_requested()) {\n        std::this_thread::sleep_for(100ms);\n    }\n    std::cout << "Stopped\\n";\n});\nsrc.request_stop();`
+        }
+      },
+      {
+        id: 'structural', level: 'adv', cats: ['async/await', 'parallelism'],
+        name: 'Structured concurrency',
+        desc: '<strong>Origin:</strong> Nathaniel J. Smith\'s "Notes on Structured Concurrency" (2018). Python\'s trio pioneered it; Java\'s StructuredTaskScope (Preview, Java 21+) and Swift\'s async let implement it natively. Ensures concurrent tasks are scoped and have clear lifetimes — child tasks cannot outlive their scope.<br><br><strong>When to use:</strong> Fan-out operations where you need all subtasks to complete or cancel together. Prevents task leaks and simplifies error propagation.<br><br><strong>Pros:</strong> Prevents task leaks, clean error propagation, predictable lifetimes. <strong>Cons:</strong> New concept; limited language support.',
+        avail: { 'C#': '- (partial via TaskScope patterns)', 'Python': 'anyio / trio nursery', 'Go': 'errgroup (partial)', 'Rust': 'tokio::task::JoinSet', 'Java': 'StructuredTaskScope (Java 21 preview)', 'JS': '- (AbortController partial)', 'C++': '-' },
+        code: {
+          'C#': `// No built-in StructuredTaskScope.\n// Pattern using TaskFactory or CancellationTokenSource:\nusing var cts = new CancellationTokenSource();\nvar tasks = new[] {\n    Task.Run(() => Work1(cts.Token)),\n    Task.Run(() => Work2(cts.Token))\n};\nawait Task.WhenAll(tasks);`,
+          'Python': `import asyncio\n# asyncio.TaskGroup (Python 3.11+, structured):\nasync def main():\n    async with asyncio.TaskGroup() as tg:\n        t1 = tg.create_task(work(1))\n        t2 = tg.create_task(work(2))\n    # Both tasks done or both cancelled on error\n\n# trio nursery (original):\n# async with trio.open_nursery() as nursery:\n#     nursery.start_soon(work, 1)\n#     nursery.start_soon(work, 2)`,
+          'Go': `import "golang.org/x/sync/errgroup"\ng, ctx := errgroup.WithContext(context.Background())\nfor _, u := range urls {\n    u := u\n    g.Go(func() error { return fetch(ctx, u) })\n}\nif err := g.Wait(); err != nil {\n    fmt.Println("error:", err)\n}`,
+          'Rust': `use tokio::task::JoinSet;\nlet mut set = JoinSet::new();\nfor i in 0..5 {\n    set.spawn(async move { do_work(i).await });\n}\nwhile let Some(res) = set.join_next().await {\n    println!("{:?}", res);\n}`,
+          'Java': `// Java 21 Preview:\ntry (var scope = new StructuredTaskScope.ShutdownOnFailure()) {\n    var f1 = scope.fork(() -> fetchUser(id));\n    var f2 = scope.fork(() -> fetchOrder(id));\n    scope.join().throwIfFailed();\n    return new Response(f1.get(), f2.get());\n}`,
+          'JS': `// Promise.all is closest (not true structured concurrency):\nconst [a, b] = await Promise.all([fetchA(), fetchB()]);\n// AbortController for cancellation across tasks`,
+          'C++': `// No standard structured concurrency.\n// C++26 may introduce std::execution senders/receivers.`
+        }
+      },
+      {
+        id: 'memorymodel', level: 'adv', cats: ['memory model'],
+        name: 'Memory model & memory ordering',
+        desc: '<strong>Origin:</strong> Formalized in Java Memory Model (2004 JSR-133), C++11 memory model, Rust\'s model. Defines rules about when changes to memory by one thread become visible to others, and what reorderings are permitted by compiler/CPU.<br><br><strong>Key orderings:</strong> Relaxed (no sync guarantees), Acquire/Release (establish happens-before), SeqCst (global order — safest, slowest). Wrong ordering = data races, subtle bugs.<br><br><strong>Pros of understanding:</strong> Write correct lock-free code. <strong>Cons:</strong> Very complex, architecture-dependent.',
+        avail: { 'C#': 'Volatile / Interlocked / MemoryBarrier', 'Python': 'GIL simplifies (but no formal model)', 'Go': 'sync package / happens-before rules', 'Rust': 'std::sync::atomic::Ordering', 'Java': 'Java Memory Model (JMM)', 'JS': 'Atomics memory ordering', 'C++': 'std::memory_order (C++11)' },
+        code: {
+          'C#': `using System.Threading;\nvolatile int flag = 0; // volatile: no reordering\n// Full barrier:\nThread.MemoryBarrier();\n// Acquire/Release via Interlocked:\nInterlocked.Exchange(ref flag, 1); // seq_cst`,
+          'Python': `# Python GIL acts as an implicit barrier.\n# No explicit memory model for CPython.\n# For multiprocessing: use Value/Array with locks.\nfrom multiprocessing import Value\nv = Value('i', 0)\nwith v.get_lock(): v.value += 1`,
+          'Go': `// Go memory model: synchronization via channels/sync\n// guarantees happens-before. Example:\nvar data int\ndone := make(chan bool)\ngo func() { data = 42; done <- true }() // write before send\n<-done                                   // recv happens-after\nfmt.Println(data) // guaranteed to see 42`,
+          'Rust': `use std::sync::atomic::{AtomicBool, Ordering};\nlet flag = AtomicBool::new(false);\n// Release: write is visible before this point to Acquire load\nflag.store(true, Ordering::Release);\n// Acquire: see all writes before paired Release\nflag.load(Ordering::Acquire);\n// SeqCst: total order, safest\nflag.store(true, Ordering::SeqCst);`,
+          'Java': `// volatile establishes happens-before:\nvolatile boolean flag = false;\n// Thread 1: data = 42; flag = true;\n// Thread 2: if(flag) assert data == 42; // guaranteed\n// VarHandle for fine-grained ordering (Java 9+):\nVarHandle.fullFence();`,
+          'JS': `// Atomics operations are always seq_cst.\nconst sab = new SharedArrayBuffer(8);\nconst buf = new Int32Array(sab);\nAtomics.store(buf, 0, 1);   // seq_cst store\nAtomics.load(buf, 0);        // seq_cst load`,
+          'C++': `#include <atomic>\nstd::atomic<int> x{0}, y{0};\n// Relaxed: just atomicity, no ordering:\nx.store(1, std::memory_order_relaxed);\n// Release/Acquire pair:\nx.store(1, std::memory_order_release); // writer\nx.load(std::memory_order_acquire);     // reader\n// SeqCst (default): global total order\nx.store(1); // same as seq_cst`
+        }
+      },
+      {
+        id: 'lockfree', level: 'adv', cats: ['synchronization', 'memory model'],
+        name: 'Lock-free / CAS (Compare-And-Swap)',
+        desc: '<strong>Origin:</strong> Hardware instruction (IBM 370, 1970s). CAS atomically reads a value, compares with expected, writes new value only if equal — fundamental to lock-free data structures.<br><br><strong>When to use:</strong> High-performance concurrent data structures (queues, stacks, counters) where mutex contention is a bottleneck.<br><br><strong>Pros:</strong> No blocking, progress guarantee (lock-free), very fast. <strong>Cons:</strong> ABA problem, complex correctness proofs, not always faster than mutex for low contention.',
+        avail: { 'C#': 'Interlocked.CompareExchange', 'Python': '- (GIL, not needed for simple ops)', 'Go': 'sync/atomic.CompareAndSwap*', 'Rust': 'compare_exchange on atomics', 'Java': 'AtomicInteger.compareAndSet', 'JS': 'Atomics.compareExchange', 'C++': 'std::atomic::compare_exchange_strong/weak' },
+        code: {
+          'C#': `int val = 0;\nint expected = 0, newVal = 1;\nint original = Interlocked.CompareExchange(\n    ref val, newVal, expected);\n// val is now 1 if it was 0; otherwise unchanged\nbool succeeded = (original == expected);`,
+          'Python': `# GIL makes simple CAS unnecessary in CPython.\n# For multiprocessing: use Value + Lock.`,
+          'Go': `import "sync/atomic"\nvar val int64 = 0\nswapped := atomic.CompareAndSwapInt64(&val, 0, 1)\n// swapped = true if val was 0 and is now 1`,
+          'Rust': `use std::sync::atomic::{AtomicI64, Ordering};\nlet val = AtomicI64::new(0);\nlet result = val.compare_exchange(\n    0, 1, Ordering::SeqCst, Ordering::Relaxed);\n// Ok(0) = success; Err(current) = failure`,
+          'Java': `AtomicInteger val = new AtomicInteger(0);\nboolean success = val.compareAndSet(0, 1);\n// val is 1 if it was 0; returns true on success`,
+          'JS': `const sab = new SharedArrayBuffer(4);\nconst ia = new Int32Array(sab);\nconst old = Atomics.compareExchange(ia, 0, 0, 1);\n// ia[0] = 1 if it was 0; returns old value`,
+          'C++': `std::atomic<int> val{0};\nint expected = 0;\nbool success = val.compare_exchange_strong(expected, 1);\n// val = 1 if it was 0; expected updated with actual value`
+        }
+      },
+      {
+        id: 'deadlock', level: 'adv', cats: ['synchronization'],
+        name: 'Deadlock / livelock prevention',
+        desc: '<strong>Origin:</strong> Classic OS problem. Deadlock: two or more threads wait for each other forever. Livelock: threads keep changing state in response to each other but make no progress.<br><br><strong>Prevention strategies:</strong> Lock ordering (always acquire locks in same order), timeout-based acquisition, lock-free algorithms, transactional memory, ownership types (Rust prevents at compile time).<br><br><strong>Rust advantage:</strong> Ownership + borrow checker prevents most data races at compile time, though logical deadlocks are still possible.',
+        avail: { 'C#': 'Monitor.TryEnter / lock ordering', 'Python': 'threading.RLock / lock ordering', 'Go': 'context timeout / select with default', 'Rust': 'borrow checker (compile-time)', 'Java': 'tryLock timeout / lock ordering', 'JS': 'single-threaded (most cases N/A)', 'C++': 'std::lock / lock ordering' },
+        code: {
+          'C#': `// TryEnter with timeout:\nif (Monitor.TryEnter(lockA, TimeSpan.FromSeconds(1)))\n    try { if (Monitor.TryEnter(lockB, TimeSpan.FromSeconds(1)))\n        try { /* work */ } finally { Monitor.Exit(lockB); } }\n    finally { Monitor.Exit(lockA); }\n// Best: always acquire locks in same global order`,
+          'Python': `# Lock ordering convention:\n# Always acquire lock_a before lock_b\nimport threading\nlock_a, lock_b = threading.Lock(), threading.Lock()\n# Use threading.Timer for timeout pattern\nwith lock_a:\n    with lock_b:\n        pass  # both held`,
+          'Go': `// Use context timeout to avoid infinite waits:\nctx, cancel := context.WithTimeout(ctx, time.Second)\ndefer cancel()\nselect {\ncase result := <-ch:\n    fmt.Println(result)\ncase <-ctx.Done():\n    fmt.Println("timed out")\n}`,
+          'Rust': `// Rust's borrow checker prevents data races at compile time.\n// Logical deadlocks possible with Mutex:\nlet a = Arc::new(Mutex::new(0));\nlet b = Arc::new(Mutex::new(0));\n// DEADLOCK: acquire a, then b in one thread; b then a in another\n// Prevention: always lock in the same order`,
+          'Java': `// tryLock with timeout:\nif (lockA.tryLock(1, TimeUnit.SECONDS)) {\n    try { if (lockB.tryLock(1, TimeUnit.SECONDS)) {\n        try { /* work */ } finally { lockB.unlock(); }\n    } } finally { lockA.unlock(); }\n}`,
+          'JS': `// JavaScript main thread can't deadlock (single-threaded).\n// Workers with SharedArrayBuffer + Atomics.wait can deadlock.\n// Prevention: always use timeouts with Atomics.waitAsync`,
+          'C++': `// std::lock acquires multiple locks without deadlock:\nstd::mutex ma, mb;\nstd::lock(ma, mb); // deadlock-safe\nstd::lock_guard<std::mutex> la(ma, std::adopt_lock);\nstd::lock_guard<std::mutex> lb(mb, std::adopt_lock);`
+        }
+      },
+      {
+        id: 'reactive', level: 'adv', cats: ['async/await', 'communication'],
+        name: 'Reactive streams / Rx',
+        desc: '<strong>Origin:</strong> Reactive Extensions (Rx) by Erik Meijer at Microsoft (~2009), then adopted across platforms (RxJava, RxJS, RxPY, etc.). Reactive Streams spec (2013) standardized backpressure. Treats async event streams like collections — composable operators (map, filter, merge, debounce, etc.).<br><br><strong>When to use:</strong> Complex async event pipelines, UI event handling, real-time data streams, combining multiple event sources.<br><br><strong>Pros:</strong> Rich operators, handles backpressure, composable. <strong>Cons:</strong> Steep learning curve, error handling complex.',
+        avail: { 'C#': 'System.Reactive (Rx.NET) / IAsyncEnumerable', 'Python': 'RxPY', 'Go': 'rxgo', 'Rust': 'futures::Stream / async-stream', 'Java': 'RxJava / Project Reactor / Flow API', 'JS': 'RxJS (most common)', 'C++': 'RxCpp' },
+        code: {
+          'C#': `using System.Reactive.Linq;\nvar clicks = Observable.FromEventPattern(btn, "Click");\nclicks\n    .Throttle(TimeSpan.FromMilliseconds(300))\n    .Select(_ => "clicked")\n    .Subscribe(Console.WriteLine);\n// IAsyncEnumerable (built-in reactive-like):\nawait foreach (var item in GetItemsAsync()) { }`,
+          'Python': `import rx\nfrom rx import operators as ops\nrx.of(1, 2, 3, 4, 5).pipe(\n    ops.filter(lambda x: x % 2 == 0),\n    ops.map(lambda x: x * 10)\n).subscribe(print)  # 20, 40`,
+          'Go': `import rxgo "github.com/reactivex/rxgo/v2"\nch := rxgo.Of(1, 2, 3, 4, 5).\n    Filter(func(i interface{}) bool { return i.(int)%2 == 0 }).\n    Map(func(_ context.Context, i interface{}) (interface{}, error) {\n        return i.(int) * 10, nil\n    })\nfor item := range ch.Observe() { fmt.Println(item.V) }`,
+          'Rust': `use futures::StreamExt;\nuse async_stream::stream;\nlet s = stream! { for i in 0..5 { yield i; } };\ns.filter(|x| futures::future::ready(x % 2 == 0))\n .map(|x| x * 10)\n .for_each(|x| async move { println!("{}", x) })\n .await;`,
+          'Java': `// RxJava:\nObservable.range(1, 5)\n    .filter(x -> x % 2 == 0)\n    .map(x -> x * 10)\n    .subscribe(System.out::println);\n// Project Reactor:\nFlux.range(1, 5)\n    .filter(x -> x % 2 == 0)\n    .map(x -> x * 10)\n    .subscribe(System.out::println);`,
+          'JS': `import { from } from 'rxjs';\nimport { filter, map } from 'rxjs/operators';\nfrom([1, 2, 3, 4, 5]).pipe(\n    filter(x => x % 2 === 0),\n    map(x => x * 10)\n).subscribe(console.log); // 20, 40`,
+          'C++': `// RxCpp:\n// auto values = rxcpp::observable<>::range(1, 5);\n// values.filter([](int n){ return n%2==0; })\n//       .map([](int n){ return n*10; })\n//       .subscribe([](int n){ std::cout << n << '\\n'; });`
+        }
+      }
+    ];
+
+    const LEVEL_ORDER = ['basic', 'inter', 'adv'];
+    const LEVEL_LABELS = { basic: 'Basic', inter: 'Intermediate', adv: 'Advanced' };
+    const LEVEL_CLASS = { basic: 'level-basic', inter: 'level-inter', adv: 'level-adv' };
+
+    let activeCategories = new Set(['all']);
+    let activeLevels = new Set(['all']);
+    let openCards = new Set();
+    let activeLangs = {};
+
+    // ===== Theme =====
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+      document.getElementById('theme-label').textContent = isDark ? 'Light' : 'Dark';
+      localStorage.setItem('acp-theme', isDark ? 'light' : 'dark');
+    }
+
+    // Restore theme
+    (function () {
+      const savedTheme = localStorage.getItem('acp-theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-icon').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+        document.getElementById('theme-label').textContent = savedTheme === 'dark' ? 'Dark' : 'Light';
+      }
+    })();
+
+    // ===== Hero language badges =====
+    function initHeroLangs() {
+      const container = document.getElementById('hero-langs');
+      LANGS.forEach(l => {
+        const el = document.createElement('span');
+        el.className = 'hero-lang';
+        el.innerHTML = `<span class="dot" style="background:${LANG_COLORS[l]}"></span>${l}`;
+        container.appendChild(el);
+      });
+    }
+
+    // ===== Stats =====
+    function renderStats() {
+      const container = document.getElementById('stats');
+      const counts = { basic: 0, inter: 0, adv: 0 };
+      data.forEach(d => counts[d.level]++);
+      container.innerHTML = `
+        <div class="stat"><div class="stat-label">Total Concepts</div><div class="stat-value">${data.length}</div></div>
+        <div class="stat"><div class="stat-label">Basic</div><div class="stat-value">${counts.basic}</div></div>
+        <div class="stat"><div class="stat-label">Intermediate</div><div class="stat-value">${counts.inter}</div></div>
+        <div class="stat"><div class="stat-label">Advanced</div><div class="stat-value">${counts.adv}</div></div>
+      `;
+    }
+
+    // ===== Filters =====
+    function getActiveCategories() {
+      return activeCategories.has('all') ? null : activeCategories;
+    }
+    function getActiveLevels() {
+      return activeLevels.has('all') ? null : activeLevels;
+    }
+
+    function matches(item) {
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const cats = getActiveCategories();
+      const lvls = getActiveLevels();
+      if (cats && !item.cats.some(c => cats.has(c))) return false;
+      if (lvls && !lvls.has(item.level)) return false;
+      if (q) {
+        const haystack = (item.name + ' ' + item.desc + ' ' + item.cats.join(' ') + ' ' + LEVEL_LABELS[item.level] + ' ' + Object.values(item.avail).join(' ')).toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    }
+
+    function initFilters() {
+      const catF = document.getElementById('cat-filters');
+      const lvlF = document.getElementById('level-filters');
+      catF.innerHTML = '';
+      lvlF.innerHTML = '';
+      const allCat = document.createElement('button');
+      allCat.className = 'tag-btn all active'; allCat.textContent = 'All categories';
+      allCat.onclick = () => { activeCategories = new Set(['all']); render(); };
+      catF.appendChild(allCat);
+      CATS.forEach(c => {
+        const b = document.createElement('button');
+        b.className = 'tag-btn'; b.textContent = c;
+        b.onclick = () => {
+          if (activeCategories.has('all')) activeCategories = new Set();
+          if (activeCategories.has(c)) activeCategories.delete(c);
+          else activeCategories.add(c);
+          if (!activeCategories.size) activeCategories = new Set(['all']);
+          render();
+        };
+        catF.appendChild(b);
+      });
+      const allLvl = document.createElement('button');
+      allLvl.className = 'tag-btn all active'; allLvl.textContent = 'All levels';
+      allLvl.onclick = () => { activeLevels = new Set(['all']); render(); };
+      lvlF.appendChild(allLvl);
+      ['basic', 'inter', 'adv'].forEach(l => {
+        const b = document.createElement('button');
+        b.className = 'tag-btn'; b.textContent = LEVEL_LABELS[l];
+        b.onclick = () => {
+          if (activeLevels.has('all')) activeLevels = new Set();
+          if (activeLevels.has(l)) activeLevels.delete(l);
+          else activeLevels.add(l);
+          if (!activeLevels.size) activeLevels = new Set(['all']);
+          render();
+        };
+        lvlF.appendChild(b);
+      });
+    }
+
+    function updateFilterButtons() {
+      document.querySelectorAll('#cat-filters .tag-btn').forEach(b => {
+        if (b.classList.contains('all')) b.classList.toggle('active', activeCategories.has('all'));
+        else b.classList.toggle('active', !activeCategories.has('all') && activeCategories.has(b.textContent));
+      });
+      document.querySelectorAll('#level-filters .tag-btn').forEach(b => {
+        if (b.classList.contains('all')) b.classList.toggle('active', activeLevels.has('all'));
+        else b.classList.toggle('active', !activeLevels.has('all') && activeLevels.has(['basic', 'inter', 'adv'].find(l => LEVEL_LABELS[l] === b.textContent)));
+      });
+    }
+
+    // ===== Card rendering =====
+    function makeCard(item) {
+      const card = document.createElement('div');
+      card.className = 'concept-card' + (openCards.has(item.id) ? ' open' : '');
+      card.dataset.id = item.id;
+
+      const hdr = document.createElement('div');
+      hdr.className = 'card-header';
+      hdr.innerHTML = `<span class="card-title">${item.name}</span>
+    <span class="card-cats">${item.cats.map(c => `<span class="cat-pill" style="background:${CAT_COLORS[c]}15;color:${CAT_COLORS[c]};border:1px solid ${CAT_COLORS[c]}30">${c}</span>`).join('')}</span>
+    <span class="level-badge ${LEVEL_CLASS[item.level]}">${LEVEL_LABELS[item.level]}</span>
+    <span class="chevron">▼</span>`;
+      hdr.onclick = () => { openCards.has(item.id) ? openCards.delete(item.id) : openCards.add(item.id); render(); };
+      card.appendChild(hdr);
+
+      if (!openCards.has(item.id)) return card;
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const avail = document.createElement('div');
+      avail.className = 'lang-grid';
+      LANGS.forEach(l => {
+        const cell = document.createElement('div');
+        cell.className = 'lang-cell';
+        const a = item.avail[l];
+        const color = LANG_COLORS[l];
+        cell.innerHTML = `<div class="lang-name" style="color:${color}">${l}</div>` +
+          (a ? `<div class="lang-status">${a}</div>` :
+            `<div class="lang-na">—</div>`);
+        avail.appendChild(cell);
+      });
+      body.appendChild(avail);
+
+      const desc = document.createElement('div');
+      desc.className = 'card-desc';
+      desc.innerHTML = item.desc;
+      body.appendChild(desc);
+
+      const codeSection = document.createElement('div');
+      codeSection.className = 'code-section';
+
+      const codeTabs = document.createElement('div');
+      codeTabs.className = 'code-tabs';
+      const codePanels = document.createElement('div');
+      const currentLang = activeLangs[item.id] || LANGS[0];
+      LANGS.forEach(l => {
+        const tab = document.createElement('button');
+        tab.className = 'code-tab' + (l === currentLang ? ' active' : '') + (!item.avail[l] ? ' na' : '');
+        const dot = document.createElement('span');
+        dot.className = 'lang-dot';
+        dot.style.background = LANG_COLORS[l];
+        tab.appendChild(dot);
+        tab.appendChild(document.createTextNode(l));
+        tab.onclick = () => { activeLangs[item.id] = l; render(); };
+        codeTabs.appendChild(tab);
+        const panel = document.createElement('div');
+        panel.className = 'code-panel' + (l === currentLang ? ' active' : '');
+        panel.innerHTML = `<pre data-lang="${l}">${escapeHtml(item.code[l] || '// Not available in ' + l)}</pre>`;
+        codePanels.appendChild(panel);
+      });
+      codeSection.appendChild(codeTabs);
+      codeSection.appendChild(codePanels);
+      body.appendChild(codeSection);
+      card.appendChild(body);
+      return card;
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function render() {
+      updateFilterButtons();
+      const root = document.getElementById('concepts-root');
+      root.innerHTML = '';
+      const filtered = data.filter(matches);
+      if (!filtered.length) {
+        root.innerHTML = `<div class="no-results">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-title">No concepts found</div>
+          <div class="empty-desc">Try adjusting your search or filters</div>
+        </div>`;
+        return;
+      }
+      const byLevel = { basic: [], inter: [], adv: [] };
+      filtered.forEach(item => byLevel[item.level].push(item));
+      LEVEL_ORDER.forEach(l => {
+        if (!byLevel[l].length) return;
+        const lbl = document.createElement('div');
+        lbl.className = 'section-label';
+        lbl.innerHTML = `${LEVEL_LABELS[l]} <span class="section-count">${byLevel[l].length}</span>`;
+        root.appendChild(lbl);
+        byLevel[l].forEach(item => root.appendChild(makeCard(item)));
+      });
+    }
+
+    // ===== Scroll to top =====
+    window.addEventListener('scroll', () => {
+      const btn = document.getElementById('scroll-top');
+      btn.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    // ===== Init =====
+    initHeroLangs();
+    renderStats();
+    initFilters();
+    render();
+  </script>
+</body>
+
+</html>

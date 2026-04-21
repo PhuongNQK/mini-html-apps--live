@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PlayMath – Purposeful Play</title>
+    <style>
+      :root {
+        --bg: #f7fafc;
+        --card: #ffffff;
+        --ink: #0f172a;
+        --muted: #6b7280;
+        --brand: #2563eb;
+        --brand-2: #22c55e;
+        --bad: #ef4444;
+        --good: #16a34a;
+        --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto,
+          Cantarell, Noto Sans, Avenir, Helvetica, Arial, "Apple Color Emoji",
+          "Segoe UI Emoji";
+      }
+      .app {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 16px 16px 90px;
+      }
+      header {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        margin: 16px 0 24px;
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: conic-gradient(
+          from 0deg,
+          #60a5fa,
+          #a7f3d0,
+          #fef3c7,
+          #fca5a5,
+          #60a5fa
+        );
+        box-shadow: var(--shadow);
+        position: relative;
+      }
+      .logo:after {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border-radius: 10px;
+        background: #fff;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(20px, 3vw, 28px);
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 16px;
+      }
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: var(--brand);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        transition: transform 0.04s ease, box-shadow 0.2s ease;
+      }
+      button.secondary {
+        background: #1118270d;
+        color: var(--ink);
+      }
+      button.ghost {
+        background: transparent;
+        box-shadow: none;
+      }
+      button:active {
+        transform: translateY(1px);
+      }
+      .pill {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        background: #1118270d;
+        padding: 6px 10px;
+        border-radius: 999px;
+      }
+      .game-tile {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .game-title {
+        font-weight: 800;
+        font-size: 18px;
+      }
+      .footbar {
+        position: fixed;
+        bottom: 10px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+      }
+      .footbar .tray {
+        pointer-events: auto;
+        background: var(--ink);
+        color: #fff;
+        border-radius: 999px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 6px 10px;
+        box-shadow: var(--shadow);
+      }
+      .star {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+      }
+      .hidden {
+        display: none !important;
+      }
+      .flex {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .center {
+        display: grid;
+        place-items: center;
+      }
+      .big {
+        font-size: clamp(26px, 4.8vw, 40px);
+        font-weight: 900;
+      }
+      .num {
+        font-variant-numeric: tabular-nums;
+      }
+      .dot {
+        width: 26px;
+        height: 26px;
+        border-radius: 13px;
+        background: #11182710;
+        border: 2px solid #0f172a20;
+      }
+      .panel {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+      .tile {
+        min-width: 80px;
+        min-height: 80px;
+        border-radius: 16px;
+        background: #11182748;
+        display: grid;
+        place-items: center;
+        font-size: 30px;
+        font-weight: 800;
+        cursor: pointer;
+        border: 2px solid transparent;
+        color: black;
+      }
+      .tile.correct {
+        background: #16a34a1a;
+        border-color: #16a34a80;
+      }
+      .tile.wrong {
+        background: #ef44441a;
+        border-color: #ef444480;
+      }
+      .coins {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .coin {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: #fde68a;
+        border: 3px solid #f59e0b;
+        cursor: pointer;
+        font-weight: 900;
+      }
+      .price {
+        font-weight: 900;
+      }
+      .bar {
+        height: 10px;
+        background: #e5e7eb;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      .bar > span {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--brand), var(--brand-2));
+        width: 0;
+      }
+      .sr {
+        position: absolute;
+        left: -9999px;
+      }
+      .dialog {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.4);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .dialog.open {
+        display: flex;
+      }
+      .sheet {
+        max-width: 820px;
+        width: 100%;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+      label {
+        display: block;
+        font-weight: 700;
+        margin: 8px 0;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      select {
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+      .note {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      /* Tetris mini grid */
+      .tetris {
+        display: grid;
+        grid-template-columns: repeat(6, 30px);
+        grid-auto-rows: 30px;
+        gap: 2px;
+        justify-content: center;
+        background: #f3f4f6;
+        padding: 8px;
+        border-radius: 12px;
+      }
+      .cell {
+        width: 30px;
+        height: 30px;
+        background: #e5e7eb;
+        border-radius: 6px;
+      }
+      .cell.on {
+        background: #60a5fa;
+      }
+      .controls {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 8px;
+      }
+      .silhouette {
+        width: 95px;
+        height: 95px;
+        border: 2px dashed #cbd5e1;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+      .shape {
+        width: 80px;
+        height: 80px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-weight: 900;
+        color: #111;
+        background: #c7d2fe;
+        cursor: grab;
+      }
+      .shape.triangle {
+        clip-path: polygon(50% 5%, 5% 95%, 95% 95%);
+        background: #fca5a5;
+      }
+      .shape.circle {
+        border-radius: 50%;
+        background: #a7f3d0;
+      }
+      .shape.diamond {
+        clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        background: #fed7aa;
+      }
+      .shape.star {
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        background: #e0e7ff;
+      }
+      .shape.heart {
+        background: #fbcfe8;
+        clip-path: polygon(20% 12%, 40% 0%, 60% 0%, 80% 12%, 80% 32%, 80% 52%, 50% 80%, 20% 52%, 20% 32%);
+      }
+      .testpass {
+        color: #16a34a;
+      }
+      .testfail {
+        color: #ef4444;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <header>
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1 id="title">
+              PlayMath <span class="muted">— Purposeful Play</span>
+            </h1>
+            <div class="pill">
+              <span>🌱 5–7</span><span>•</span><span>Offline</span><span>•</span
+              ><span>No sign‑in</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex">
+          <select id="langSel" title="Language"></select>
+          <button
+            id="parentBtn"
+            class="secondary"
+            aria-haspopup="dialog"
+          ></button>
+          <button
+            id="resetBtn"
+            class="ghost"
+            title="Erase local progress"
+          ></button>
+        </div>
+      </header>
+
+      <section class="card">
+        <div
+          class="flex"
+          style="justify-content: space-between; align-items: center"
+        >
+          <div>
+            <div class="big" id="chooseGame"></div>
+            <div class="muted">
+              <span id="tagline"></span>
+              <span class="note" id="grantNote"></span>
+            </div>
+          </div>
+          <div class="center" aria-hidden="true">
+            <svg
+              class="star"
+              width="80"
+              height="80"
+              viewBox="0 0 24 24"
+              fill="#fbbf24"
+            >
+              <path
+                d="M12 2l2.9 6.3 6.9.6-5.2 4.6 1.6 6.8L12 17l-6.2 3.3 1.6-6.8L2.2 8.9l6.9-.6L12 2z"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div class="grid" id="gameGrid"></div>
+      </section>
+
+      <section class="card" style="margin-top: 16px">
+        <div
+          class="flex"
+          style="justify-content: space-between; align-items: center"
+        >
+          <div>
+            <div class="game-title" id="sessionProgress"></div>
+            <div class="muted" id="sessionHint"></div>
+          </div>
+          <div class="pill"><span class="num" id="stars">0</span> ⭐</div>
+        </div>
+        <div class="bar" style="margin-top: 8px">
+          <span id="progressBar"></span>
+        </div>
+      </section>
+
+      <div id="screen" class="card" style="margin-top: 16px"></div>
+
+      <div class="footbar">
+        <div class="tray"><span id="status">Ready</span></div>
+      </div>
+    </div>
+
+    <!-- Parent Modal -->
+    <div
+      class="dialog"
+      id="parentDlg"
+      role="dialog"
+      aria-labelledby="parentTitle"
+      aria-modal="true"
+    >
+      <div class="sheet">
+        <div
+          class="flex"
+          style="justify-content: space-between; align-items: center"
+        >
+          <div>
+            <div id="parentTitle" class="game-title"></div>
+            <div class="muted" id="parentHint"></div>
+          </div>
+          <button id="closeParent" class="secondary"></button>
+        </div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 10px;
+          "
+        >
+          <div class="card" style="box-shadow: none">
+            <label for="diff" id="lblDiff"></label>
+            <input id="diff" type="range" min="1" max="5" step="1" />
+            <div class="muted" id="diffNote"></div>
+            <label id="lblEnable"></label>
+            <div class="flex" style="flex-wrap: wrap">
+              <label
+                ><input
+                  type="checkbox"
+                  class="toggleGame"
+                  value="subitizing"
+                  checked />
+                <span id="lblSub"></span
+              ></label>
+              <label
+                ><input
+                  type="checkbox"
+                  class="toggleGame"
+                  value="bonds"
+                  checked />
+                <span id="lblBonds"></span
+              ></label>
+              <label
+                ><input
+                  type="checkbox"
+                  class="toggleGame"
+                  value="numberline"
+                  checked />
+                <span id="lblPath"></span
+              ></label>
+              <label
+                ><input
+                  type="checkbox"
+                  class="toggleGame"
+                  value="store"
+                  checked />
+                <span id="lblStore"></span
+              ></label>
+              <label
+                ><input
+                  type="checkbox"
+                  class="toggleGame"
+                  value="shapes"
+                  checked />
+                <span id="lblShapes"></span
+              ></label>
+              <label
+                ><input
+                  type="checkbox"
+                  class="toggleGame"
+                  value="clock"
+                  checked />
+                <span id="lblClock"></span
+              ></label>
+              <label
+                ><input
+                  type="checkbox"
+                  class="toggleGame"
+                  value="tetris"
+                  checked />
+                <span id="lblTetris"></span
+              ></label>
+            </div>
+            <label for="rounds" id="lblRounds"></label>
+            <input id="rounds" type="range" min="3" max="8" step="1" />
+          </div>
+          <div class="card" style="box-shadow: none">
+            <div class="flex">
+              <button id="exportBtn"></button
+              ><button id="importBtn" class="secondary"></button
+              ><button id="testBtn" class="secondary">Self‑test</button>
+            </div>
+            <textarea
+              id="jsonBox"
+              rows="10"
+              style="width: 100%; margin-top: 8px"
+            ></textarea>
+            <div class="note" id="jsonNote"></div>
+            <div id="testOut" class="note" style="margin-top: 8px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /*
+Fix: Tetris ReferenceError (Cannot access 'y' before initialization)
+- Declare y/x before calling spawn(); assign piece after.
+Added: lightweight self‑tests to catch regressions.
+*/
+
+      // ==== i18n ===============================================================
+      const L = {
+        en: {
+          parent: "Parent Mode",
+          close: "Close",
+          reset: "Reset",
+          chooseGame: "Choose a game",
+          tagline: "Short, joyful rounds with clear goals and feedback.",
+          grantNote:
+            'Inspired by Adam Grant’s "play purposefully" — clear goals, choice, quick feedback, reflection.',
+          sessionProgress: "Session Progress",
+          sessionHint:
+            "Finish rounds to earn a star. Reflection appears at the end.",
+          diff: "Difficulty (auto‑adapts in play)",
+          diffNote: "1 = gentle • 5 = spicy",
+          enable: "Enable games",
+          rounds: "Rounds per ⭐",
+          export: "Export Progress",
+          import: "Import",
+          jsonNote: "Copy/paste JSON to save or restore.",
+          ready: "Ready to play!",
+          sub: "Dot Pop",
+          bonds: "Number Bonds",
+          path: "Treasure Path",
+          store: "Tiny Store",
+          shapes: "Shape Puzzle",
+          clock: "Clock Match",
+          tetris: "Mini Tetris",
+          goalHowMany: "Goal: How many dots?",
+          goalMake: "Goal: Make ",
+          goalStart: "Start",
+          goalTreasure: "Treasure",
+          goalPay: "Goal: Pay ",
+          success: "You did it!",
+          almost: "Almost there",
+          tip: "Tip: Re‑read the goal. Try a different approach.",
+          back: "Choose Game",
+          again: "Play Again",
+          tryAgain: "Try Again",
+          done: "Done",
+          undo: "Undo",
+          reflectTitle: "Reflection Break",
+          reflectHint: "Quick chat prompts (1 min):",
+          r1: "What strategy helped you win a round?",
+          r2: "If it was tricky, what will you try next time?",
+          lang: "Language",
+        },
+        vi: {
+          parent: "Chế độ Phụ huynh",
+          close: "Đóng",
+          reset: "Xoá tiến trình",
+          chooseGame: "Chọn trò chơi",
+          tagline: "Ván chơi ngắn, vui và có mục tiêu rõ ràng.",
+          grantNote:
+            "Lấy cảm hứng từ “chơi có chủ đích” của Adam Grant — mục tiêu rõ, tự chọn, phản hồi nhanh, suy ngẫm.",
+          sessionProgress: "Tiến độ phiên chơi",
+          sessionHint:
+            "Hoàn thành vài ván để nhận ⭐. Có phần suy ngẫm ở cuối.",
+          diff: "Độ khó (tự điều chỉnh khi chơi)",
+          diffNote: "1 = nhẹ • 5 = cay",
+          enable: "Bật trò chơi",
+          rounds: "Số ván cho mỗi ⭐",
+          export: "Xuất tiến trình",
+          import: "Nhập",
+          jsonNote: "Sao chép/dán JSON để lưu hoặc khôi phục.",
+          ready: "Sẵn sàng!",
+          sub: "Đếm chấm",
+          bonds: "Cặp số tạo tổng",
+          path: "Đường Kho báu",
+          store: "Cửa hàng tí hon",
+          shapes: "Ghép hình",
+          clock: "Đồng hồ",
+          tetris: "Tetris nhỏ",
+          goalHowMany: "Mục tiêu: Có bao nhiêu chấm?",
+          goalMake: "Mục tiêu: Tạo ",
+          goalStart: "Điểm đầu",
+          goalTreasure: "Kho báu",
+          goalPay: "Mục tiêu: Trả ",
+          success: "Tuyệt vời!",
+          almost: "Gần đúng rồi",
+          tip: "Mẹo: Đọc lại mục tiêu. Thử cách khác.",
+          back: "Chọn trò",
+          again: "Chơi lại",
+          tryAgain: "Thử lại",
+          done: "Xong",
+          undo: "Hoàn tác",
+          reflectTitle: "Tạm nghỉ suy ngẫm",
+          reflectHint: "Câu hỏi nhanh (1 phút):",
+          r1: "Chiến lược nào giúp con thắng?",
+          r2: "Lần sau con sẽ thử gì?",
+          lang: "Ngôn ngữ",
+        },
+      };
+      function mixText(key) {
+        const e = L.en[key] || key,
+          v = L.vi[key] || key;
+        return `${e} / ${v}`;
+      }
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => [...document.querySelectorAll(s)];
+      const persisted = JSON.parse(localStorage.getItem("playmath_v2") || "{}");
+      const S = Object.assign(
+        {
+          diff: 2,
+          roundsPerStar: 5,
+          stars: 0,
+          progress: 0,
+          enabled: {
+            subitizing: true,
+            bonds: true,
+            numberline: true,
+            store: true,
+            shapes: true,
+            clock: true,
+            tetris: true,
+          },
+          lang: "en",
+          currentGame: null,
+          currentRound: 0,
+          totalRoundsForCurrentGame: 0,
+        },
+        persisted
+      );
+      function t(key) {
+        if (S.lang === "en") return L.en[key] || key;
+        if (S.lang === "vi") return L.vi[key] || key;
+        return mixText(key);
+      }
+      function save() {
+        localStorage.setItem("playmath_v2", JSON.stringify(S));
+      }
+
+      // ==== Sound effects ======================================================
+      let AC = null;
+      function ctx() {
+        return (
+          AC || (AC = new (window.AudioContext || window.webkitAudioContext)())
+        );
+      }
+      function tone(freq, dur = 0.14, when = 0, type = "sine", vol = 0.06) {
+        const a = ctx(),
+          o = a.createOscillator(),
+          g = a.createGain();
+        o.type = type;
+        o.frequency.value = freq;
+        g.gain.value = vol;
+        o.connect(g).connect(a.destination);
+        o.start(a.currentTime + when);
+        o.stop(a.currentTime + when + dur);
+      }
+      function sfx(name) {
+        if (name === "good") {
+          [880, 1175, 1568].forEach((f, i) =>
+            tone(f, 0.12, i * 0.12, "triangle")
+          );
+        } else if (name === "bad") {
+          [196, 174, 131].forEach((f, i) =>
+            tone(f, 0.18, i * 0.12, "sawtooth", 0.07)
+          );
+        } else if (name === "click") {
+          tone(660, 0.05, 0, "square", 0.03);
+        } else if (name === "coin") {
+          [523, 659].forEach((f, i) => tone(f, 0.08, i * 0.07, "square"));
+        } else if (name === "star") {
+          [523, 659, 784, 1047].forEach((f, i) =>
+            tone(f, 0.1, i * 0.1, "triangle")
+          );
+        }
+      }
+      function setStatus(msg) {
+        $("#status").textContent = msg;
+      }
+      function setProgress() {
+        const pct = Math.min(
+          100,
+          ((S.progress % S.roundsPerStar) / S.roundsPerStar) * 100
+        );
+        $("#progressBar").style.width = pct + "%";
+        $("#stars").textContent = S.stars;
+      }
+
+      // ==== Games registry =====================================================
+      const Games = {};
+
+      // Subitizing – Dot Pop
+      Games.subitizing = {
+        title: () => t("sub"),
+        icon: "🔵",
+        desc: () => t("tagline"),
+        round() {
+          const max = 4 + S.diff * 2;
+          const n = rand(1, Math.min(12, max));
+          const choices = shuffle(
+            unique([n, rand(1, 12), rand(1, 12), rand(1, 12)])
+          )
+            .slice(0, 4)
+            .sort((a, b) => a - b);
+          const dots = Array.from(
+            { length: n },
+            () => '<div class="dot"></div>'
+          ).join("");
+          $("#screen").innerHTML = `
+      <div class="flex" style="justify-content:space-between;align-items:center">
+        <div class="game-title">🔵 ${this.title()}</div>
+        <div class="pill">${t("goalHowMany")}</div>
+      </div>
+      <div class="panel" style="margin:14px 0">${dots}</div>
+      <div class="panel" role="group">
+        ${choices
+          .map((c) => `<button class="tile" data-v="${c}">${c}</button>`)
+          .join("")}
+      </div>`;
+          $$("#screen .tile").forEach(
+            (btn) =>
+              (btn.onclick = () => {
+                sfx("click");
+                grade(+btn.dataset.v === n, btn);
+              })
+          );
+        },
+      };
+
+      // Number Bonds
+      Games.bonds = {
+        title: () => t("bonds"),
+        icon: "🌸",
+        desc: () => t("tagline"),
+        round() {
+          // Make target random even for same difficulty level
+          const minTarget = 4 + S.diff;
+          const maxTarget = 8 + S.diff * 2;
+          const target = rand(minTarget, maxTarget);
+          const a = rand(0, target),
+            b = target - a;
+          const parts = shuffle(
+            unique([
+              a,
+              b,
+              rand(0, target),
+              rand(0, target),
+              rand(0, target),
+              rand(0, target),
+            ])
+          ).slice(0, 6);
+          $("#screen").innerHTML = `
+      <div class="flex" style="justify-content:space-between;align-items:center">
+        <div class="game-title">🌸 ${this.title()}</div>
+        <div class="pill">${t(
+          "goalMake"
+        )}<strong class="num">${target}</strong></div>
+      </div>
+      <div class="panel" style="margin:10px 0 14px">
+        <div class="tile" id="dropA" style="min-width:100px">⬇︎</div>
+        <div class="tile" aria-hidden="true" style="pointer-events:none">+</div>
+        <div class="tile" id="dropB" style="min-width:100px">⬇︎</div>
+        <div class="tile" aria-hidden="true" style="pointer-events:none">=</div>
+        <div class="tile" aria-hidden="true" style="pointer-events:none">${target}</div>
+      </div>
+      <div class="panel">${parts
+        .map(
+          (v) =>
+            `<button draggable="true" class="tile" data-v="${v}">${v}</button>`
+        )
+        .join("")}</div>`;
+          let A = null,
+            B = null;
+          $$("#screen .tile[draggable]").forEach((el) =>
+            el.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("text/plain", el.dataset.v);
+              sfx("click");
+            })
+          );
+          ["dropA", "dropB"].forEach((id) => {
+            const box = $("#" + id);
+            box.addEventListener("dragover", (e) => e.preventDefault());
+            box.addEventListener("drop", (e) => {
+              e.preventDefault();
+              const v = +e.dataTransfer.getData("text/plain");
+              box.textContent = v;
+              box.dataset.v = v;
+              if (id === "dropA") A = v;
+              else B = v;
+              if (A != null && B != null) grade(A + B === target, box);
+            });
+          });
+        },
+      };
+
+      // Number Line – Treasure Path
+      Games.numberline = {
+        title: () => t("path"),
+        icon: "🗺️",
+        desc: () => t("tagline"),
+        round() {
+          const span = 10 + S.diff * 5;
+          const start = rand(0, 5);
+          const target = rand(start + 3, start + span);
+          let pos = start;
+          const stepChoices = shuffle([1, 2, 3, 4, 5, 10, -1, -2, -3]).slice(
+            0,
+            5
+          );
+          $("#screen").innerHTML = `
+      <div class="flex" style="justify-content:space-between;align-items:center">
+        <div class="game-title">🗺️ ${this.title()}</div>
+        <div class="pill">${t(
+          "goalStart"
+        )} <span class="num">${start}</span> → ${t(
+            "goalTreasure"
+          )} <span class="num">${target}</span></div>
+      </div>
+      <div class="center" style="margin:8px 0 6px"><div class="muted">You are at <strong id="pos" class="num">${pos}</strong></div></div>
+      <div class="panel">${stepChoices
+        .map(
+          (v) =>
+            `<button class="tile" data-v="${v}">${
+              v > 0 ? "+" : ""
+            }${v}</button>`
+        )
+        .join("")}</div>
+      <div class="center" style="margin-top:8px"><button id="done" class="secondary">${t(
+        "done"
+      )}</button></div>`;
+          $$("#screen .tile").forEach(
+            (btn) =>
+              (btn.onclick = () => {
+                pos += +btn.dataset.v;
+                $("#pos").textContent = pos;
+                sfx("click");
+              })
+          );
+          $("#done").onclick = () => grade(pos === target, $("#done"));
+        },
+      };
+
+      // Tiny Store – coin counting
+      Games.store = {
+        title: () => t("store"),
+        icon: "🛒",
+        desc: () => t("tagline"),
+        round() {
+          const denom = [1, 2, 5, 10];
+          const max = 10 + S.diff * 5;
+          const price = rand(4, max);
+          let paid = 0;
+          const stack = [];
+          $("#screen").innerHTML = `
+      <div class="flex" style="justify-content:space-between;align-items:center">
+        <div class="game-title">🛒 ${this.title()}</div>
+        <div class="pill">${t(
+          "goalPay"
+        )}<span class="price num">${price}</span></div>
+      </div>
+      <div class="center" style="margin:12px 0">Paid: <strong id="paid" class="num">0</strong></div>
+      <div class="coins">${denom
+        .map((v) => `<button class="coin" data-v="${v}">${v}</button>`)
+        .join("")}</div>
+      <div class="center" style="margin-top:10px"><button id="undo" class="secondary">${t(
+        "undo"
+      )}</button> <button id="payDone">${t("done")}</button></div>`;
+          $$("#screen .coin").forEach(
+            (c) =>
+              (c.onclick = () => {
+                paid += +c.dataset.v;
+                stack.push(+c.dataset.v);
+                $("#paid").textContent = paid;
+                sfx("coin");
+              })
+          );
+          $("#undo").onclick = () => {
+            if (stack.length) {
+              paid -= stack.pop();
+              $("#paid").textContent = paid;
+            }
+          };
+          $("#payDone").onclick = () => grade(paid === price, $("#payDone"));
+        },
+      };
+
+      // NEW: Shape Puzzle – drag to silhouettes
+      Games.shapes = {
+        title: () => t("shapes"),
+        icon: "🧩",
+        desc: () => t("tagline"),
+        round() {
+          // More shape kinds and random ordering
+          const allKinds = ["square", "triangle", "circle", "diamond", "star", "heart"];
+          const numShapes = Math.min(3 + Math.floor(S.diff / 2), 5);
+          const pick = shuffle(allKinds).slice(0, numShapes);
+          const shuffledTargets = shuffle([...pick]); // randomize target positions
+          const shuffledShapes = shuffle([...pick]); // randomize shape positions
+          
+          $("#screen").innerHTML = `
+      <div class="flex" style="justify-content:space-between;align-items:center"><div class="game-title">🧩 ${this.title()}</div><div class="pill">Match shapes to the outlines</div></div>
+      <div class="panel" style="margin:8px 0">${shuffledTargets
+        .map((k) => `<div class="silhouette" data-k="${k}">${k}</div>`)
+        .join("")}</div>
+      <div class="panel">${shuffledShapes
+        .map(
+          (k) => `<div draggable="true" class="shape ${k}" data-k="${k}"></div>`
+        )
+        .join("")}</div>`;
+          let placed = 0;
+          $$("#screen .shape").forEach((el) =>
+            el.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("text/plain", el.dataset.k);
+              sfx("click");
+            })
+          );
+          $$("#screen .silhouette").forEach((box) => {
+            box.addEventListener("dragover", (e) => e.preventDefault());
+            box.addEventListener("drop", (e) => {
+              e.preventDefault();
+              const k = e.dataTransfer.getData("text/plain");
+              if (k === box.dataset.k && !box.dataset.done) {
+                box.dataset.done = "1";
+                box.textContent = "✔";
+                placed++;
+                sfx("good");
+                if (placed === pick.length) grade(true, box);
+              } else {
+                sfx("bad");
+              }
+            });
+          });
+        },
+      };
+
+      // NEW: Clock Match – choose the correct time
+      Games.clock = {
+        title: () => t("clock"),
+        icon: "⏰",
+        desc: () => t("tagline"),
+        round() {
+          const h = rand(1, 12),
+            m = [0, 15, 30, 45][rand(0, 3)];
+          const correct = `${pad(h)}:${pad(m)}`;
+          const opts = shuffle(
+            unique([
+              correct,
+              `${pad(rand(1, 12))}:${pad([0, 15, 30, 45][rand(0, 3)])}`,
+              `${pad(rand(1, 12))}:${pad([0, 15, 30, 45][rand(0, 3)])}`,
+            ])
+          ).slice(0, 3);
+          const clockSVG = drawClock(h, m);
+          $("#screen").innerHTML = `
+      <div class="flex" style="justify-content:space-between;align-items:center"><div class="game-title">⏰ ${this.title()}</div><div class="pill">What time is it?</div></div>
+      <div class="center" style="margin:6px 0">${clockSVG}</div>
+      <div class="panel">${opts
+        .map((o) => `<button class="tile" data-v="${o}">${o}</button>`)
+        .join("")}</div>`;
+          $$("#screen .tile").forEach(
+            (b) =>
+              (b.onclick = () => {
+                sfx("click");
+                grade(b.dataset.v === correct, b);
+              })
+          );
+        },
+      };
+      function pad(n) {
+        return String(n).padStart(2, "0");
+      }
+      function drawClock(h, m) {
+        const angH = ((h % 12) + m / 60) * 30 - 90,
+          angM = m * 6 - 90;
+        return `<svg width="160" height="160" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#fff" stroke="#cbd5e1" stroke-width="3"/><line x1="50" y1="50" x2="${
+          50 + 28 * Math.cos((angH * Math.PI) / 180)
+        }" y2="${
+          50 + 28 * Math.sin((angH * Math.PI) / 180)
+        }" stroke="#111" stroke-width="4" stroke-linecap="round"/><line x1="50" y1="50" x2="${
+          50 + 38 * Math.cos((angM * Math.PI) / 180)
+        }" y2="${
+          50 + 38 * Math.sin((angM * Math.PI) / 180)
+        }" stroke="#111" stroke-width="3" stroke-linecap="round"/></svg>`;
+      }
+
+      // NEW: Mini Tetris (fixed init order to avoid TDZ error)
+      Games.tetris = {
+        title: () => t("tetris"),
+        icon: "🧱",
+        desc: () => t("tagline"),
+        round() {
+          const W = 6,
+            H = 10;
+          const grid = Array.from({ length: H }, () => Array(W).fill(0));
+          const shapes = [
+            [
+              [1, 1],
+              [1, 1],
+            ],
+            [[1, 1, 1, 1]],
+            [
+              [1, 1, 1],
+              [0, 1, 0],
+            ],
+          ]; // O, I, T
+          let y = 0,
+            x = 2,
+            over = false,
+            timer = null,
+            piece = null; // declare y/x BEFORE spawn
+          function spawn() {
+            y = 0;
+            x = 2;
+            return shapes[rand(0, shapes.length - 1)];
+          }
+          piece = spawn();
+          $(
+            "#screen"
+          ).innerHTML = `<div class="flex" style="justify-content:space-between;align-items:center"><div class="game-title">🧱 ${this.title()}</div><div class="pill">Fill a row!</div></div><div id="well" class="tetris"></div><div class="controls"><button id="left">◀︎</button><button id="rotate">⟲</button><button id="drop">⬇︎</button><button id="right">▶︎</button></div><div class="center" style="margin-top:8px"><button id="done" class="secondary">${t(
+            "done"
+          )}</button></div>`;
+          draw();
+          advance();
+          $("#left").onclick = () => {
+            sfx("click");
+            if (can(x - 1, y, piece)) x--;
+            draw();
+          };
+          $("#right").onclick = () => {
+            sfx("click");
+            if (can(x + 1, y, piece)) x++;
+            draw();
+          };
+          $("#rotate").onclick = () => {
+            sfx("click");
+            const rotated = rotate90(piece);
+            if (can(x, y, rotated)) piece = rotated;
+            draw();
+          };
+          $("#drop").onclick = () => {
+            sfx("click");
+            if (can(x, y + 1, piece)) y++;
+            else lock();
+            draw();
+          };
+          $("#done").onclick = () => grade(true, $("#done"));
+          function rotate90(matrix) {
+            const rows = matrix.length;
+            const cols = matrix[0].length;
+            const rotated = Array.from({ length: cols }, () => Array(rows).fill(0));
+            for (let r = 0; r < rows; r++) {
+              for (let c = 0; c < cols; c++) {
+                rotated[c][rows - 1 - r] = matrix[r][c];
+              }
+            }
+            return rotated;
+          }
+          function can(nx, ny, p) {
+            for (let r = 0; r < p.length; r++) {
+              for (let c = 0; c < p[0].length; c++) {
+                if (!p[r][c]) continue;
+                const gx = nx + c,
+                  gy = ny + r;
+                if (gx < 0 || gx >= W || gy >= H) return false;
+                if (gy >= 0 && grid[gy][gx]) return false;
+              }
+            }
+            return true;
+          }
+          function lock() {
+            for (let r = 0; r < piece.length; r++) {
+              for (let c = 0; c < piece[0].length; c++) {
+                if (piece[r][c]) {
+                  grid[y + r][x + c] = 1;
+                }
+              }
+            }
+            clearLines();
+            piece = spawn();
+            if (!can(x, y, piece)) {
+              over = true;
+              grade(true, $("#done"));
+              sfx("star");
+              clearInterval(timer);
+            }
+          }
+          function clearLines() {
+            let cleared = 0;
+            for (let r = H - 1; r >= 0; r--) {
+              if (grid[r].every((v) => v)) {
+                grid.splice(r, 1);
+                grid.unshift(Array(W).fill(0));
+                r++;
+                cleared++;
+              }
+            }
+            if (cleared) {
+              sfx("good");
+              S.progress++;
+              setProgress();
+            }
+          }
+          function advance() {
+            timer = setInterval(() => {
+              if (over) return;
+              if (can(x, y + 1, piece)) y++;
+              else {
+                lock();
+              }
+              draw();
+            }, 700 - Math.min(500, S.diff * 80));
+          }
+          function draw() {
+            const el = $("#well");
+            el.innerHTML = "";
+            for (let r = 0; r < H; r++) {
+              for (let c = 0; c < W; c++) {
+                const d = document.createElement("div");
+                d.className = "cell" + (grid[r][c] ? " on" : "");
+                el.appendChild(d);
+              }
+            }
+            for (let r = 0; r < piece.length; r++) {
+              for (let c = 0; c < piece[0].length; c++) {
+                if (piece[r][c]) {
+                  const idx = (y + r) * W + (x + c);
+                  const cell = el.children[idx];
+                  if (cell) cell.classList.add("on");
+                }
+              }
+            }
+          }
+        },
+      };
+
+      // ==== Utilities & shared flow ===========================================
+      function rand(a, b) {
+        return Math.floor(Math.random() * (b - a + 1)) + a;
+      }
+      function shuffle(arr) {
+        return arr.sort(() => Math.random() - 0.5);
+      }
+      function unique(arr) {
+        return [...new Set(arr)];
+      }
+
+      function buildGrid() {
+        const grid = $("#gameGrid");
+        grid.innerHTML = "";
+        for (const key of Object.keys(Games)) {
+          if (!S.enabled[key]) continue;
+          const g = Games[key];
+          const tile = document.createElement("div");
+          tile.className = "game-tile card";
+          tile.innerHTML = `<div class="flex" style="justify-content:space-between;align-items:center"><div class="game-title">${
+            g.icon
+          } ${g.title()}</div><button data-key="${key}">${
+            t("back").split(" ")[0] || "Play"
+          }</button></div><div class="muted">${g.desc()}</div>`;
+          tile.querySelector("button").onclick = () => startRound(key);
+          grid.appendChild(tile);
+        }
+      }
+      function startRound(key) {
+        // If starting a new game session, randomize number of rounds
+        if (S.currentGame !== key) {
+          S.currentGame = key;
+          S.currentRound = 0;
+          S.totalRoundsForCurrentGame = rand(5, 10);
+        }
+        S.currentRound++;
+        setStatus(`${t("ready")} (Round ${S.currentRound}/${S.totalRoundsForCurrentGame})`);
+        Games[key].round();
+      }
+      function finishRound(win) {
+        if (win) {
+          S.progress++;
+          sfx("good");
+          setStatus(t("success"));
+        } else {
+          sfx("bad");
+          setStatus(t("almost"));
+        }
+        
+        // Check if this game session is complete
+        const gameSessionComplete = win && S.currentRound >= S.totalRoundsForCurrentGame;
+        
+        const finished = S.progress % S.roundsPerStar === 0 && win;
+        if (finished) {
+          S.stars++;
+          sfx("star");
+          reflect();
+        }
+        
+        // Reset game session if complete
+        if (gameSessionComplete) {
+          S.currentGame = null;
+          S.currentRound = 0;
+          S.totalRoundsForCurrentGame = 0;
+        }
+        
+        save();
+        setProgress();
+      }
+      function grade(ok, el) {
+        el && el.classList.add(ok ? "correct" : "wrong");
+        setTimeout(() => {
+          finishRound(ok);
+          $("#screen").innerHTML = ok ? successCard() : tryAgainCard();
+        }, 280);
+      }
+      function successCard() {
+        const gameSessionComplete = S.currentGame && S.currentRound >= S.totalRoundsForCurrentGame;
+        const continueText = gameSessionComplete ? t("back") : "Continue";
+        const actionFn = gameSessionComplete ? "buildGrid()" : `startRound('${S.currentGame}')`;
+        
+        return `<div class="center" style="gap:12px"><div style="font-size:48px">🎉</div><div class="big">${t(
+          "success"
+        )}</div><div class="muted">${gameSessionComplete ? 'Game session complete! Pick another game.' : `Round ${S.currentRound}/${S.totalRoundsForCurrentGame} complete.`}</div><div class="flex"><button onclick="buildGrid()">${t(
+          "back"
+        )}</button><button class="secondary" onclick="${actionFn}">${continueText}</button></div></div>`;
+      }
+      function tryAgainCard() {
+        return `<div class="center" style="gap:12px"><div style="font-size:48px">🤔</div><div class="big">${t(
+          "almost"
+        )}</div><div class="muted">${t(
+          "tip"
+        )}</div><div class="flex"><button onclick="buildGrid()">${t(
+          "back"
+        )}</button><button class="secondary" onclick="startRound('${S.currentGame}')">${t(
+          "tryAgain"
+        )}</button></div></div>`;
+      }
+      function reflect() {
+        $(
+          "#screen"
+        ).innerHTML = `<div class="card" style="box-shadow:none"><div class="game-title">⭐ ${t(
+          "reflectTitle"
+        )}</div><p class="muted">${t("reflectHint")}</p><ul><li>${t(
+          "r1"
+        )}</li><li>${t(
+          "r2"
+        )}</li></ul><div class="flex"><button onclick="buildGrid()">${t(
+          "back"
+        )}</button></div></div>`;
+      }
+
+      // ==== Parent, Language & Self‑tests =====================================
+      function refreshTexts() {
+        $("#parentBtn").textContent = t("parent");
+        $("#resetBtn").textContent = t("reset");
+        $("#chooseGame").textContent = t("chooseGame");
+        $("#tagline").textContent = t("tagline");
+        $("#grantNote").textContent = t("grantNote");
+        $("#sessionProgress").textContent = t("sessionProgress");
+        $("#sessionHint").textContent = t("sessionHint");
+        $("#status").textContent = t("ready");
+        $("#parentTitle").textContent = t("parent");
+        $("#parentHint").textContent = t("tagline");
+        $("#closeParent").textContent = t("close");
+        $("#lblDiff").textContent = t("diff");
+        $("#diffNote").textContent = t("diffNote");
+        $("#lblEnable").textContent = t("enable");
+        $("#lblSub").textContent = t("sub");
+        $("#lblBonds").textContent = t("bonds");
+        $("#lblPath").textContent = t("path");
+        $("#lblStore").textContent = t("store");
+        $("#lblShapes").textContent = t("shapes");
+        $("#lblClock").textContent = t("clock");
+        $("#lblTetris").textContent = t("tetris");
+        $("#lblRounds").textContent = t("rounds");
+        $("#exportBtn").textContent = t("export");
+        $("#importBtn").textContent = t("import");
+        $("#jsonNote").textContent = t("jsonNote");
+        $("#langSel").title = t("lang");
+        buildGrid();
+      }
+      function openParent() {
+        $("#parentDlg").classList.add("open");
+        $("#diff").value = S.diff;
+        $("#rounds").value = S.roundsPerStar;
+        $$(".toggleGame").forEach((cb) => (cb.checked = !!S.enabled[cb.value]));
+        $("#jsonBox").value = JSON.stringify(S, null, 2);
+      }
+      $("#parentBtn").onclick = openParent;
+      $("#closeParent").onclick = () =>
+        $("#parentDlg").classList.remove("open");
+      $("#diff").oninput = (e) => {
+        S.diff = +e.target.value;
+        save();
+      };
+      $("#rounds").oninput = (e) => {
+        S.roundsPerStar = +e.target.value;
+        save();
+        setProgress();
+      };
+      $$(".toggleGame").forEach(
+        (cb) =>
+          (cb.onchange = (e) => {
+            S.enabled[cb.value] = cb.checked;
+            save();
+            buildGrid();
+          })
+      );
+      $("#exportBtn").onclick = () => {
+        $("#jsonBox").value = JSON.stringify(S, null, 2);
+        $("#jsonBox").select();
+        navigator.clipboard?.writeText($("#jsonBox").value);
+      };
+      $("#importBtn").onclick = () => {
+        try {
+          const data = JSON.parse($("#jsonBox").value);
+          Object.assign(S, data);
+          save();
+          buildGrid();
+          setProgress();
+          alert("Imported!");
+        } catch {
+          alert("Invalid JSON");
+        }
+      };
+      $("#resetBtn").onclick = () => {
+        if (confirm("Reset all progress?")) {
+          localStorage.removeItem("playmath_v2");
+          location.reload();
+        }
+      };
+
+      // Language selector
+      const langSel = $("#langSel");
+      [
+        ["en", "English"],
+        ["vi", "Tiếng Việt"],
+        ["mix", "Mixed / Trộn"],
+      ].forEach(([v, lab]) => {
+        const o = document.createElement("option");
+        o.value = v;
+        o.textContent = lab;
+        langSel.appendChild(o);
+      });
+      langSel.value = S.lang;
+      langSel.onchange = () => {
+        S.lang = langSel.value;
+        save();
+        refreshTexts();
+      };
+
+      // Self‑tests
+      function runSelfTests() {
+        const out = [];
+        function test(name, fn) {
+          try {
+            fn();
+            out.push(`✅ ${name}`);
+          } catch (e) {
+            out.push(`❌ ${name}: ${e.message}`);
+          }
+        }
+        test("i18n mixed text contains slash", () => {
+          S.lang = "mix";
+          if (!t("parent").includes("/")) throw new Error("no slash");
+          S.lang = langSel.value;
+        });
+        test("Clock SVG renders", () => {
+          const svg = drawClock(3, 30);
+          if (!svg.includes("<svg")) throw new Error("no svg");
+        });
+        test("Sound good() does not throw", () => {
+          sfx("good");
+        });
+        test("LocalStorage save()", () => {
+          save();
+          if (!localStorage.getItem("playmath_v2"))
+            throw new Error("not saved");
+        });
+        test("Tetris round smoke test (no ReferenceError)", () => {
+          Games.tetris.round();
+        });
+        $("#testOut").innerHTML = out
+          .map(
+            (x) =>
+              `<div class="${
+                x.startsWith("✅") ? "testpass" : "testfail"
+              }">${x}</div>`
+          )
+          .join("");
+      }
+      $("#testBtn").onclick = runSelfTests;
+
+      // Init
+      setProgress();
+      refreshTexts();
+      buildGrid();
+    </script>
+  </body>
+</html>

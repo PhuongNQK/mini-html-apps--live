@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Patterns Collection — 7 Languages Reference</title>
+  <meta name="description" content="Comprehensive design patterns reference covering GoF, concurrency, modern, and architectural patterns across C#, Python, Go, Rust, Java, JavaScript, and C++">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hl-light" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hl-dark" disabled />
+
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-full: 999px;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ===== DARK THEME (default) ===== */
+    [data-theme="dark"] {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1a2235;
+      --bg-elevated: #1e293b;
+      --bg-hover: #243047;
+      --bg-glass: rgba(17, 24, 39, 0.75);
+      --bg-glass-sidebar: rgba(17, 24, 39, 0.85);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+      --border-primary: rgba(148, 163, 184, 0.15);
+      --border-secondary: rgba(148, 163, 184, 0.08);
+      --accent-1: #6366f1;
+      --accent-1-soft: rgba(99, 102, 241, 0.12);
+      --accent-2: #8b5cf6;
+      --accent-3: #06b6d4;
+      --gradient-hero: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #042f2e 100%);
+      --gradient-accent: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.16);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.2);
+      --input-bg: #1a2235;
+      --scrollbar-bg: #1a2235;
+      --scrollbar-thumb: #334155;
+      --cat-creational: #3b82f6;
+      --cat-creational-soft: rgba(59,130,246,0.12);
+      --cat-structural: #8b5cf6;
+      --cat-structural-soft: rgba(139,92,246,0.12);
+      --cat-behavioral: #10b981;
+      --cat-concurrency: #f97316;
+      --cat-concurrency-soft: rgba(249,115,22,0.12);
+      --cat-modern: #ec4899;
+      --cat-modern-soft: rgba(236,72,153,0.12);
+      --cat-architectural: #06b6d4;
+      --ok: #4ade80;
+      --ok-soft: rgba(74,222,128,0.12);
+      --warn: #fbbf24;
+      --warn-soft: rgba(251,191,36,0.12);
+      --danger: #f87171;
+      --mermaid-theme: dark;
+    }
+    /* ===== LIGHT THEME ===== */
+    [data-theme="light"] {
+      --bg-primary: #f8fafc;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #f1f5f9;
+      --bg-elevated: #ffffff;
+      --bg-hover: #f1f5f9;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --bg-glass-sidebar: rgba(248, 250, 252, 0.9);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-tertiary: #94a3b8;
+      --border-primary: rgba(15, 23, 42, 0.1);
+      --border-secondary: rgba(15, 23, 42, 0.06);
+      --accent-1: #4f46e5;
+      --accent-1-soft: rgba(79, 70, 229, 0.08);
+      --accent-2: #7c3aed;
+      --accent-3: #0891b2;
+      --gradient-hero: linear-gradient(135deg, #eef2ff 0%, #f8fafc 50%, #ecfeff 100%);
+      --gradient-accent: linear-gradient(135deg, #4f46e5, #7c3aed, #8b5cf6);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.1);
+      --input-bg: #ffffff;
+      --scrollbar-bg: #f1f5f9;
+      --scrollbar-thumb: #cbd5e1;
+      --cat-creational: #2563eb;
+      --cat-creational-soft: rgba(37,99,235,0.08);
+      --cat-structural: #7c3aed;
+      --cat-structural-soft: rgba(124,58,237,0.08);
+      --cat-behavioral: #059669;
+      --cat-behavioral-soft: rgba(5,150,105,0.08);
+      --cat-concurrency: #ea580c;
+      --cat-concurrency-soft: rgba(234,88,12,0.08);
+      --cat-modern: #db2777;
+      --cat-modern-soft: rgba(219,39,119,0.08);
+      --cat-architectural: #0891b2;
+      --cat-architectural-soft: rgba(8,145,178,0.08);
+      --ok: #16a34a;
+      --ok-soft: rgba(22,163,74,0.08);
+      --warn: #d97706;
+      --warn-soft: rgba(217,119,6,0.08);
+      --danger: #dc2626;
+      --mermaid-theme: default;
+    }
+
+    [data-theme="light"] #hl-light { display: block !important; }
+    [data-theme="light"] #hl-dark { display: none !important; }
+    [data-theme="dark"] #hl-light { display: none !important; }
+    [data-theme="dark"] #hl-dark { display: block !important; }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      transition: background var(--transition-base), color var(--transition-base);
+    }
+
+    h1.sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); border: 0;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius-full); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-1); }
+
+    /* ===== LAYOUT ===== */
+    .app-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-glass-sidebar);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-right: 1px solid var(--border-primary);
+      transition: background var(--transition-base);
+    }
+
+    .sidebar-header {
+      padding: 20px 16px 16px;
+      border-bottom: 1px solid var(--border-primary);
+      flex-shrink: 0;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .sidebar-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      background: var(--gradient-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .sidebar-sub {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+      margin-left: 42px;
+    }
+
+    .sidebar-search {
+      width: 100%;
+      margin-top: 12px;
+      padding: 8px 12px 8px 36px;
+      font-size: 13px;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      background: var(--input-bg);
+      color: var(--text-primary);
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .sidebar-search:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-1-soft);
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+
+    .sidebar-filter {
+      margin-top: 10px;
+      width: 100%;
+      padding: 7px 28px 7px 10px;
+      font-size: 12px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      background: var(--input-bg);
+      color: var(--text-primary);
+      cursor: pointer;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all var(--transition-fast);
+    }
+
+    .sidebar-filter:focus {
+      border-color: var(--accent-1);
+      box-shadow: 0 0 0 3px var(--accent-1-soft);
+    }
+
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    .sidebar-cat-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-tertiary);
+      padding: 12px 8px 6px;
+    }
+
+    .sidebar-item {
+      display: grid;
+      grid-template-columns: 10px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      margin-bottom: 1px;
+    }
+
+    .sidebar-item:hover {
+      background: var(--bg-hover);
+      transform: translateX(2px);
+    }
+
+    .sidebar-item.active {
+      background: var(--accent-1-soft);
+      outline: 1px solid rgba(99,102,241,0.25);
+    }
+
+    .sidebar-item.active .si-name {
+      color: var(--accent-1);
+      font-weight: 600;
+    }
+
+    .si-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .si-name {
+      font-size: 13px;
+      color: var(--text-primary);
+      transition: color var(--transition-fast);
+    }
+
+    .si-badge {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-full);
+      padding: 1px 7px;
+      font-weight: 500;
+    }
+
+    .si-badge.level-basic {
+      color: #22c55e;
+      border-color: rgba(34,197,94,0.35);
+      background: rgba(34,197,94,0.1);
+      text-transform: capitalize;
+      letter-spacing: 0.2px;
+    }
+
+    .si-badge.level-intermediate {
+      color: #f59e0b;
+      border-color: rgba(245,158,11,0.35);
+      background: rgba(245,158,11,0.1);
+      text-transform: capitalize;
+      letter-spacing: 0.2px;
+    }
+
+    .si-badge.level-advanced {
+      color: #ef4444;
+      border-color: rgba(239,68,68,0.35);
+      background: rgba(239,68,68,0.1);
+      text-transform: capitalize;
+      letter-spacing: 0.2px;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* ===== HERO HEADER ===== */
+    .hero {
+      background: var(--gradient-hero);
+      padding: 2.5rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -8%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: var(--accent-1-soft);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-1);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      background: var(--bg-glass);
+      backdrop-filter: blur(8px);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .hero-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-primary);
+      border-color: var(--accent-1);
+      transform: translateY(-1px);
+    }
+
+    .hero-btn.active {
+      background: var(--accent-1-soft);
+      border-color: var(--accent-1);
+      color: var(--accent-1);
+    }
+
+    .hero-btn .icon { font-size: 14px; }
+
+    /* ===== KPI STATS ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .stat-card:nth-child(1)::before { background: var(--gradient-accent); }
+    .stat-card:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .stat-card:nth-child(3)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+    .stat-card:nth-child(4)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .stat-card:nth-child(5)::before { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-primary);
+    }
+
+    .stat-n {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .stat-l {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-top: 2px;
+    }
+
+    /* ===== CONTENT AREA ===== */
+    .content-area {
+      padding: 24px 28px 40px;
+      max-width: 1100px;
+      animation: fadeIn .35s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== SECTION ===== */
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-tertiary);
+      margin-bottom: 10px;
+    }
+
+    /* ===== MATRIX TABLE ===== */
+    .matrix-wrap {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .matrix-scroll {
+      overflow-x: auto;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 1000px;
+    }
+
+    .matrix-table th {
+      padding: 10px 10px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-tertiary);
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-primary);
+      border-right: 1px solid var(--border-secondary);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .matrix-table th:first-child {
+      text-align: left;
+      min-width: 190px;
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: var(--bg-tertiary);
+    }
+
+    .matrix-table th:nth-child(2),
+    .matrix-table th:nth-child(3) {
+      text-align: left;
+      min-width: 100px;
+    }
+
+    .matrix-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-secondary);
+      border-right: 1px solid var(--border-secondary);
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .matrix-table td:first-child {
+      text-align: left;
+      position: sticky;
+      left: 0;
+      background: var(--bg-elevated);
+      z-index: 1;
+    }
+
+    .matrix-table td:nth-child(2),
+    .matrix-table td:nth-child(3) {
+      text-align: left;
+    }
+
+    .matrix-table tbody tr {
+      transition: background var(--transition-fast);
+    }
+
+    .matrix-table tbody tr:hover td {
+      background: var(--bg-hover);
+    }
+
+    .matrix-table tbody tr:hover td:first-child {
+      background: var(--bg-hover);
+    }
+
+    .pattern-link {
+      color: var(--accent-1);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12.5px;
+      transition: color var(--transition-fast);
+    }
+
+    .pattern-link:hover { text-decoration: underline; }
+
+    .check { color: var(--ok); font-weight: 700; font-size: 13px; }
+    .lib-mark { color: var(--warn); font-size: 11px; font-weight: 600; }
+    .na-mark { color: var(--text-tertiary); }
+    .legend { margin-top: 8px; font-size: 12px; color: var(--text-tertiary); }
+
+    /* ===== PATTERN DETAIL ===== */
+    .detail-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-secondary);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      animation: fadeIn .3s ease;
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .detail-name {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border-primary);
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .chip-cat {
+      border-color: transparent;
+    }
+
+    .chip-level-basic {
+      color: #16a34a;
+      border-color: rgba(22,163,74,0.32);
+      background: rgba(22,163,74,0.1);
+      text-transform: capitalize;
+    }
+
+    .chip-level-intermediate {
+      color: #d97706;
+      border-color: rgba(217,119,6,0.32);
+      background: rgba(217,119,6,0.1);
+      text-transform: capitalize;
+    }
+
+    .chip-level-advanced {
+      color: #dc2626;
+      border-color: rgba(220,38,38,0.32);
+      background: rgba(220,38,38,0.1);
+      text-transform: capitalize;
+    }
+
+    /* ===== PROS/CONS ===== */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .pc-box {
+      background: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      border-left: 3px solid transparent;
+    }
+
+    .pc-pros { border-left-color: var(--ok); }
+    .pc-cons { border-left-color: var(--danger); }
+
+    .pc-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 8px;
+    }
+
+    .pc-pros .pc-title { color: var(--ok); }
+    .pc-cons .pc-title { color: var(--danger); }
+
+    .pc-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .pc-list li {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .pc-list li::before {
+      position: absolute;
+      left: 0;
+      font-weight: 700;
+    }
+
+    .pc-pros .pc-list li::before { content: '+'; color: var(--ok); }
+    .pc-cons .pc-list li::before { content: '−'; color: var(--danger); }
+
+    /* ===== DIAGRAM ===== */
+    .diagram-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    .diagram-box .mermaid {
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ===== CODE ===== */
+    .lang-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .lang-tab {
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border-primary);
+      background: var(--bg-tertiary);
+      padding: 5px 12px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all var(--transition-fast);
+    }
+
+    .lang-tab:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-1);
+      color: var(--text-primary);
+    }
+
+    .lang-tab.active {
+      background: var(--accent-1);
+      border-color: var(--accent-1);
+      color: #fff;
+    }
+
+    .lang-tab.disabled {
+      opacity: 0.4;
+      text-decoration: line-through;
+      cursor: not-allowed;
+    }
+
+    .run-badge {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      padding: 2px 8px;
+      border: 1px solid transparent;
+      vertical-align: middle;
+      letter-spacing: 0.2px;
+    }
+
+    .run-ready { color: var(--ok); background: var(--ok-soft); border-color: rgba(74,222,128,0.3); }
+    .run-deps { color: var(--warn); background: var(--warn-soft); border-color: rgba(251,191,36,0.3); }
+    .run-no { color: var(--text-tertiary); background: var(--bg-tertiary); border-color: var(--border-primary); }
+
+    .run-note {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin: 6px 0 10px;
+    }
+
+    .code-tools-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 6px;
+    }
+
+    .copy-btn {
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      padding: 4px 10px;
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-sm);
+      background: var(--bg-tertiary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .copy-btn:hover {
+      border-color: var(--accent-1);
+      color: var(--accent-1);
+    }
+
+    pre {
+      margin: 0;
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      overflow: auto;
+    }
+
+    pre code {
+      font-family: var(--font-mono) !important;
+      font-size: 12px !important;
+      padding: 16px !important;
+      line-height: 1.6 !important;
+    }
+
+    /* ===== RUN COMMAND ===== */
+    .run-cmd-wrap {
+      margin-top: 12px;
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .run-cmd-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-primary);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .run-cmd-pre {
+      margin: 0;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-primary);
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .run-cmd-note {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ===== LIBS TABLE ===== */
+    .libs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .libs-table th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-tertiary);
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-primary);
+    }
+
+    .libs-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border-secondary);
+      vertical-align: top;
+    }
+
+    .libs-table td:first-child {
+      font-weight: 700;
+      color: var(--text-primary);
+      min-width: 90px;
+      white-space: nowrap;
+    }
+
+    .libs-table tr:last-child td { border-bottom: none; }
+
+    /* ===== SIDEBAR OVERLAY (mobile) ===== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      z-index: 35;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-base);
+    }
+
+    /* ===== MOBILE TOGGLE ===== */
+    .mobile-toggle {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-lg);
+      background: var(--accent-1);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      z-index: 50;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+      transition: all var(--transition-base);
+    }
+
+    .mobile-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(99,102,241,0.5);
+    }
+
+    /* ===== COMPACT MODE ===== */
+    body.compact .content-area { padding: 16px 18px 24px; }
+    body.compact .section { margin-bottom: 14px; }
+    body.compact .section-title { font-size: 11px; margin-bottom: 6px; }
+    body.compact .detail-name { font-size: 18px; }
+    body.compact .lang-tab { font-size: 11px; padding: 3px 8px; }
+    body.compact pre code { font-size: 11px !important; padding: 10px !important; }
+    body.compact .stat-n { font-size: 20px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 980px) {
+      .app-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: min(88vw, 340px);
+        z-index: 40;
+        transform: translateX(-100%);
+        transition: transform var(--transition-base);
+        box-shadow: var(--shadow-xl);
+      }
+
+      body.sidebar-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay {
+        display: block;
+      }
+
+      body.sidebar-open .sidebar-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .mobile-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero { padding: 1.5rem 1rem; }
+      .content-area { padding: 16px 14px 30px; }
+      .hero-title { font-size: 1.3rem; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-in {
+      animation: slideUp .4s ease-out both;
+    }
+
+    .animate-in:nth-child(2) { animation-delay: .08s; }
+    .animate-in:nth-child(3) { animation-delay: .16s; }
+    .animate-in:nth-child(4) { animation-delay: .24s; }
+  </style>
+</head>
+
+<body>
+  <h1 class="sr-only">Design Patterns Collection – 7 Languages Reference</h1>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <button class="mobile-toggle" id="mobileToggle" onclick="toggleSidebar()">☰</button>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo">◇</div>
+          <div class="sidebar-title">Design Patterns</div>
+        </div>
+        <div class="sidebar-sub">7 languages · <span id="countAll">0</span> patterns · basic → advanced</div>
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="sidebar-search" id="search" type="text" placeholder="Search patterns..." />
+        </div>
+        <select class="sidebar-filter" id="catFilter">
+          <option value="all">All Categories</option>
+          <option value="creational">Creational</option>
+          <option value="structural">Structural</option>
+          <option value="behavioral">Behavioral</option>
+          <option value="concurrency">Concurrency</option>
+          <option value="modern">Modern</option>
+          <option value="architectural">Architectural</option>
+        </select>
+        <select class="sidebar-filter" id="levelFilter">
+          <option value="all">All Levels</option>
+          <option value="basic">Basic</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+      </div>
+      <div class="sidebar-list" id="sidebarList"></div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <!-- HERO -->
+      <header class="hero" id="heroSection">
+        <div class="hero-inner">
+          <div class="hero-top">
+            <div>
+              <div class="hero-badge">📐 Systematic Reference</div>
+              <div class="hero-title">Design Patterns Collection</div>
+              <div class="hero-desc">
+                GoF 23 + modern + concurrency + architectural patterns across
+                C#, Python, Go, Rust, Java, JavaScript, and C++.
+                Sorted from basic to advanced. Click any pattern to see origin, diagram, code, and libraries.
+              </div>
+            </div>
+            <button class="hero-btn" id="themeToggle" onclick="toggleTheme()">
+              <span class="icon" id="themeIcon">🌙</span>
+              <span id="themeLabel">Dark</span>
+            </button>
+          </div>
+
+          <div class="hero-actions">
+            <button class="hero-btn" id="compactBtn" onclick="toggleCompact()">
+              <span class="icon">⊟</span> Compact
+            </button>
+            <button class="hero-btn" id="sidebarBtn" onclick="toggleSidebar()">
+              <span class="icon">☰</span> Sidebar
+            </button>
+          </div>
+
+          <div class="stats-row" id="kpiRow"></div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <div class="content-area" id="contentArea">
+        <!-- MATRIX -->
+        <section class="section animate-in">
+          <div class="section-title">Availability Matrix</div>
+          <div class="matrix-wrap">
+            <div class="matrix-scroll">
+              <table class="matrix-table" id="matrixTable">
+                <thead>
+                  <tr>
+                    <th>Pattern</th><th>Category</th><th>Level</th><th>GoF</th>
+                    <th>C#</th><th>Python</th><th>Go</th><th>Rust</th><th>Java</th><th>JavaScript</th><th>C++</th>
+                  </tr>
+                </thead>
+                <tbody id="matrixBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <p class="legend">✓ native/idiomatic · <span class="lib-mark">lib</span> via ecosystem library · <span class="na-mark">-</span> uncommon/not idiomatic</p>
+        </section>
+
+        <!-- DETAIL -->
+        <section class="section" id="detailSection"></section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    /* ===== DATA ===== */
+    const LANGS = ["C#", "Python", "Go", "Rust", "Java", "JavaScript", "C++"];
+    const LANG_IDS = ["csharp", "python", "go", "rust", "java", "javascript", "cpp"];
+
+    const CAT_COLOR = {
+      creational: "var(--cat-creational)",
+      structural: "var(--cat-structural)",
+      behavioral: "var(--cat-behavioral)",
+      concurrency: "var(--cat-concurrency)",
+      modern: "var(--cat-modern)",
+      architectural: "var(--cat-architectural)"
+    };
+
+    const CAT_SOFT = {
+      creational: "var(--cat-creational-soft)",
+      structural: "var(--cat-structural-soft)",
+      behavioral: "var(--cat-behavioral-soft)",
+      concurrency: "var(--cat-concurrency-soft)",
+      modern: "var(--cat-modern-soft)",
+      architectural: "var(--cat-architectural-soft)"
+    };
+
+    const LEVEL_RANK = { basic: 1, intermediate: 2, advanced: 3 };
+    const CAT_RANK = { creational: 1, structural: 2, behavioral: 3, concurrency: 4, modern: 5, architectural: 6 };
+
+    const PATTERNS = [
+      { id: "singleton", name: "Singleton", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "factory-method", name: "Factory Method", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "builder", name: "Builder", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "prototype", name: "Prototype", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "abstract-factory", name: "Abstract Factory", cat: "creational", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "object-pool", name: "Object Pool", cat: "creational", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "dependency-injection", name: "Dependency Injection", cat: "creational", level: "intermediate", gof: false, support: [true, true, true, true, true, true, "lib"] },
+      { id: "multiton", name: "Multiton", cat: "creational", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+
+      { id: "adapter", name: "Adapter", cat: "structural", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "facade", name: "Facade", cat: "structural", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "decorator", name: "Decorator", cat: "structural", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "proxy", name: "Proxy", cat: "structural", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "composite", name: "Composite", cat: "structural", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "bridge", name: "Bridge", cat: "structural", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "flyweight", name: "Flyweight", cat: "structural", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "extension-object", name: "Extension Object", cat: "structural", level: "advanced", gof: false, support: [true, true, false, true, true, true, false] },
+      { id: "private-class-data", name: "Private Class Data", cat: "structural", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+
+      { id: "iterator", name: "Iterator", cat: "behavioral", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "observer", name: "Observer", cat: "behavioral", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "strategy", name: "Strategy", cat: "behavioral", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "command", name: "Command", cat: "behavioral", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "state", name: "State", cat: "behavioral", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "template-method", name: "Template Method", cat: "behavioral", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "chain-of-responsibility", name: "Chain of Responsibility", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "mediator", name: "Mediator", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "memento", name: "Memento", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "visitor", name: "Visitor", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "interpreter", name: "Interpreter", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "null-object", name: "Null Object", cat: "behavioral", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "specification", name: "Specification", cat: "behavioral", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "event-aggregator", name: "Event Aggregator", cat: "behavioral", level: "advanced", gof: false, support: [true, true, true, true, true, true, "lib"] },
+
+      { id: "producer-consumer", name: "Producer-Consumer", cat: "concurrency", level: "basic", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "thread-pool", name: "Thread Pool", cat: "concurrency", level: "basic", gof: false, support: [true, true, true, true, true, "lib", true] },
+      { id: "monitor-object", name: "Monitor Object", cat: "concurrency", level: "intermediate", gof: false, support: [true, true, true, true, true, false, true] },
+      { id: "read-write-lock", name: "Read-Write Lock", cat: "concurrency", level: "intermediate", gof: false, support: [true, true, true, true, true, false, true] },
+      { id: "active-object", name: "Active Object", cat: "concurrency", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "scheduler", name: "Scheduler", cat: "concurrency", level: "advanced", gof: false, support: [true, true, true, true, true, "lib", true] },
+      { id: "reactor", name: "Reactor", cat: "concurrency", level: "advanced", gof: false, support: ["lib", "lib", true, "lib", "lib", true, "lib"] },
+      { id: "half-sync-half-async", name: "Half-Sync/Half-Async", cat: "concurrency", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "csp", name: "CSP (Channels)", cat: "concurrency", level: "advanced", gof: false, support: ["lib", "lib", true, "lib", false, false, false] },
+      { id: "actor-model", name: "Actor Model", cat: "concurrency", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", false, false] },
+
+      { id: "repository", name: "Repository", cat: "modern", level: "basic", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "unit-of-work", name: "Unit of Work", cat: "modern", level: "intermediate", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "service-locator", name: "Service Locator", cat: "modern", level: "intermediate", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "plugin", name: "Plugin / Extension Point", cat: "modern", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "typeobject", name: "Type Object", cat: "modern", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "event-sourcing", name: "Event Sourcing", cat: "modern", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "cqrs", name: "CQRS", cat: "modern", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "saga", name: "Saga", cat: "modern", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "strangler-fig", name: "Strangler Fig", cat: "modern", level: "advanced", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "monad", name: "Monad / Result Type", cat: "modern", level: "advanced", gof: false, support: ["lib", true, true, true, "lib", "lib", false] },
+
+      { id: "layered", name: "Layered Architecture", cat: "architectural", level: "basic", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "mvc", name: "MVC", cat: "architectural", level: "basic", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "mvvm", name: "MVVM", cat: "architectural", level: "intermediate", gof: false, support: [true, "lib", false, false, "lib", true, false] },
+      { id: "hexagonal", name: "Hexagonal (Ports & Adapters)", cat: "architectural", level: "intermediate", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "pipes-filters", name: "Pipes & Filters", cat: "architectural", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "microkernel", name: "Microkernel", cat: "architectural", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "blackboard", name: "Blackboard", cat: "architectural", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "space-based", name: "Space-Based Architecture", cat: "architectural", level: "advanced", gof: false, support: ["lib", "lib", "lib", false, "lib", false, false] }
+    ];
+
+    /* ===== STATE ===== */
+    let currentPattern = null;
+    let currentLang = "csharp";
+    let searchTerm = "";
+    let catFilter = "all";
+    let levelFilter = "all";
+    const COMPACT_KEY = "dp-v2-compact";
+    const THEME_KEY = "dp-v2-theme";
+
+    /* ===== THEME ===== */
+    function getTheme() {
+      try { return localStorage.getItem(THEME_KEY) || "dark"; } catch { return "dark"; }
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      try { localStorage.setItem(THEME_KEY, theme); } catch {}
+      const icon = document.getElementById("themeIcon");
+      const label = document.getElementById("themeLabel");
+      if (icon) icon.textContent = theme === "dark" ? "🌙" : "☀️";
+      if (label) label.textContent = theme === "dark" ? "Dark" : "Light";
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme");
+      applyTheme(current === "dark" ? "light" : "dark");
+      // Re-render mermaid with correct theme
+      if (currentPattern) {
+        mermaid.initialize({ startOnLoad: false, theme: document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "default", securityLevel: "loose" });
+        renderDetail();
+      }
+    }
+
+    /* ===== COMPACT ===== */
+    function applyCompact(enabled) {
+      document.body.classList.toggle("compact", enabled);
+      const btn = document.getElementById("compactBtn");
+      if (btn) btn.classList.toggle("active", enabled);
+      try { localStorage.setItem(COMPACT_KEY, enabled ? "1" : "0"); } catch {}
+    }
+
+    function toggleCompact() {
+      applyCompact(!document.body.classList.contains("compact"));
+    }
+
+    /* ===== SIDEBAR ===== */
+    function isMobile() { return window.matchMedia("(max-width: 980px)").matches; }
+
+    function openSidebar() {
+      document.body.classList.add("sidebar-open");
+    }
+
+    function closeSidebar() {
+      document.body.classList.remove("sidebar-open");
+    }
+
+    function toggleSidebar() {
+      if (document.body.classList.contains("sidebar-open")) closeSidebar();
+      else openSidebar();
+    }
+
+    /* ===== SORTING ===== */
+    function sortedPatterns() {
+      return PATTERNS.slice().sort((a, b) => {
+        if (LEVEL_RANK[a.level] !== LEVEL_RANK[b.level]) return LEVEL_RANK[a.level] - LEVEL_RANK[b.level];
+        if (CAT_RANK[a.cat] !== CAT_RANK[b.cat]) return CAT_RANK[a.cat] - CAT_RANK[b.cat];
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    function filteredPatterns() {
+      return sortedPatterns().filter(p => {
+        const matchesSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCat = catFilter === "all" || p.cat === catFilter;
+        const matchesLevel = levelFilter === "all" || p.level === levelFilter;
+        return matchesSearch && matchesCat && matchesLevel;
+      });
+    }
+
+    /* ===== UTILS ===== */
+    function esc(s) {
+      if (!s) return "";
+      return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function supportCell(v) {
+      if (v === true) return '<span class="check">✓</span>';
+      if (v === "lib") return '<span class="lib-mark">lib</span>';
+      return '<span class="na-mark">-</span>';
+    }
+
+    /* ===== BUILD SIDEBAR ===== */
+    function buildSidebar() {
+      const root = document.getElementById("sidebarList");
+      const grouped = {};
+      filteredPatterns().forEach(p => {
+        grouped[p.cat] = grouped[p.cat] || [];
+        grouped[p.cat].push(p);
+      });
+
+      root.innerHTML = "";
+      ["creational", "structural", "behavioral", "concurrency", "modern", "architectural"].forEach(cat => {
+        const items = grouped[cat] || [];
+        if (!items.length) return;
+        const head = document.createElement("div");
+        head.className = "sidebar-cat-label";
+        head.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        root.appendChild(head);
+
+        items.forEach(p => {
+          const row = document.createElement("div");
+          row.className = "sidebar-item" + (currentPattern && currentPattern.id === p.id ? " active" : "");
+          row.innerHTML = `
+            <span class="si-dot" style="background:${CAT_COLOR[p.cat]}"></span>
+            <span class="si-name">${esc(p.name)}</span>
+            <span class="si-badge level-${p.level}">${p.level}</span>
+          `;
+          row.onclick = () => selectPattern(p.id);
+          root.appendChild(row);
+        });
+      });
+    }
+
+    /* ===== BUILD MATRIX ===== */
+    function buildMatrix() {
+      const body = document.getElementById("matrixBody");
+      body.innerHTML = filteredPatterns().map(p => {
+        const langCells = p.support.map(s => `<td>${supportCell(s)}</td>`).join("");
+        return `
+          <tr>
+            <td><span class="pattern-link" onclick="selectPattern('${p.id}')">${esc(p.name)}</span></td>
+            <td><span class="chip chip-cat" style="background:${CAT_SOFT[p.cat]};color:${CAT_COLOR[p.cat]};border-color:${CAT_COLOR[p.cat]}">${esc(p.cat)}</span></td>
+            <td>${esc(p.level)}</td>
+            <td>${p.gof ? '<span class="check">✓</span>' : '<span class="na-mark">-</span>'}</td>
+            ${langCells}
+          </tr>
+        `;
+      }).join("");
+    }
+
+    /* ===== KPI ===== */
+    function renderKpi() {
+      const all = PATTERNS.length;
+      const gof = PATTERNS.filter(p => p.gof).length;
+      const advanced = PATTERNS.filter(p => p.level === "advanced").length;
+      const cats = new Set(PATTERNS.map(p => p.cat)).size;
+      document.getElementById("kpiRow").innerHTML = `
+        <div class="stat-card"><div class="stat-n">${all}</div><div class="stat-l">Total Patterns</div></div>
+        <div class="stat-card"><div class="stat-n">${gof}</div><div class="stat-l">GoF Classic</div></div>
+        <div class="stat-card"><div class="stat-n">${advanced}</div><div class="stat-l">Advanced</div></div>
+        <div class="stat-card"><div class="stat-n">${cats}</div><div class="stat-l">Categories</div></div>
+        <div class="stat-card"><div class="stat-n">7</div><div class="stat-l">Languages</div></div>
+      `;
+      document.getElementById("countAll").textContent = String(all);
+    }
+
+    /* ===== PATTERN CONTENT GENERATORS ===== */
+    function buildOrigin(p) {
+      if (p.gof) return "Formalized in the Gang of Four (GoF) catalog in 1994, based on recurring OOP solutions from Smalltalk and C++ practice.";
+      if (p.cat === "concurrency") return "Emerged from concurrent/distributed systems research to handle throughput, synchronization, and scalability concerns.";
+      if (p.cat === "architectural") return "Comes from software architecture literature (POSA and enterprise architecture practices) for structuring large systems.";
+      if (p.cat === "modern") return "Popularized by enterprise development and Domain-Driven Design to manage complexity in evolving products.";
+      return "Derived from common software design tradeoffs where reusable structure improves maintainability and evolution.";
+    }
+
+    function buildSummary(p) {
+      return `${p.name} is a ${p.level} ${p.cat} pattern used to make design decisions explicit and reusable. Use it when teams need a predictable way to evolve code while keeping responsibilities decoupled and testable.`;
+    }
+
+    function buildWhen(p) {
+      if (p.cat === "concurrency") return ["You need safe coordination of parallel work.", "Latency and throughput both matter.", "Shared state and scheduling must be controlled."];
+      if (p.cat === "architectural") return ["You need clear boundaries across modules and teams.", "The system is expected to scale in size and ownership.", "You want long-term maintainability over quick local optimization."];
+      return ["You see recurring design decisions in similar components.", "You want less coupling and easier replacement of behavior.", "You need a shared vocabulary for code reviews and architecture discussions."];
+    }
+
+    function buildPros(p) {
+      if (p.cat === "concurrency") return ["Improves throughput under load.", "Makes synchronization intent explicit.", "Helps isolate race-prone logic."];
+      return ["Improves readability through consistent structure.", "Encourages reusable and testable units.", "Makes future changes less risky."];
+    }
+
+    function buildCons(p) {
+      if (p.cat === "concurrency") return ["Harder debugging and observability.", "Incorrect locking can hurt performance.", "Edge cases are often non-deterministic."];
+      return ["Adds abstraction and indirection.", "Can be over-engineering for simple cases.", "Needs discipline to stay consistent across teams."];
+    }
+
+    function classNameOf(p) {
+      const raw = p.name.replace(/[^A-Za-z0-9]/g, "");
+      return raw.length ? raw : "Pattern";
+    }
+
+    /* ===== MERMAID DIAGRAMS ===== */
+    function buildMermaid(p) {
+      const tuned = {
+        "singleton": `classDiagram\n  class Client\n  class Singleton\n  Client --> Singleton : getInstance()\n  Singleton : -instance\n  Singleton : +getInstance()\n  Singleton : +operation()`,
+        "factory-method": `classDiagram\n  class Client\n  class Creator\n  class ConcreteCreator\n  class Product\n  class ConcreteProduct\n  Client --> Creator\n  Creator <|-- ConcreteCreator\n  Creator --> Product : factoryMethod()\n  ConcreteProduct ..|> Product`,
+        "builder": `flowchart LR\n  C[Client] --> D[Director]\n  D --> B[Builder]\n  B --> P[Product]\n  B -->|step1| B\n  B -->|step2| B`,
+        "adapter": `classDiagram\n  class Client\n  class Target\n  class Adapter\n  class Adaptee\n  Client --> Target\n  Adapter ..|> Target\n  Adapter --> Adaptee`,
+        "facade": `flowchart LR\n  C[Client] --> F[Facade]\n  F --> S1[Subsystem A]\n  F --> S2[Subsystem B]\n  F --> S3[Subsystem C]`,
+        "observer": `sequenceDiagram\n  participant S as Subject\n  participant O1 as Observer1\n  participant O2 as Observer2\n  S->>O1: notify(state)\n  S->>O2: notify(state)`,
+        "strategy": `classDiagram\n  class Context\n  class Strategy\n  class FastStrategy\n  class SafeStrategy\n  Context --> Strategy\n  FastStrategy ..|> Strategy\n  SafeStrategy ..|> Strategy`,
+        "command": `sequenceDiagram\n  participant I as Invoker\n  participant C as Command\n  participant R as Receiver\n  I->>C: execute()\n  C->>R: action()`,
+        "repository": `flowchart LR\n  A[Application Service] --> R[Repository Interface]\n  R --> M[(Memory/DB)]\n  R --> E[Domain Entity]`,
+        "producer-consumer": `flowchart LR\n  P1[Producer 1] --> Q[Queue/Channel]\n  P2[Producer 2] --> Q\n  Q --> C1[Consumer 1]\n  Q --> C2[Consumer 2]`,
+        "abstract-factory": `classDiagram\n  class Client\n  class AbstractFactory\n  class FactoryA\n  class FactoryB\n  class ProductA\n  class ProductB\n  Client --> AbstractFactory\n  FactoryA ..|> AbstractFactory\n  FactoryB ..|> AbstractFactory\n  AbstractFactory --> ProductA\n  AbstractFactory --> ProductB`,
+        "decorator": `classDiagram\n  class Component\n  class ConcreteComponent\n  class Decorator\n  class LoggingDecorator\n  Component <|.. ConcreteComponent\n  Component <|.. Decorator\n  Decorator --> Component\n  Decorator <|-- LoggingDecorator`,
+        "proxy": `sequenceDiagram\n  participant Client\n  participant Proxy\n  participant RealService\n  Client->>Proxy: request()\n  Proxy->>RealService: request()\n  RealService-->>Proxy: result\n  Proxy-->>Client: result`,
+        "chain-of-responsibility": `flowchart LR\n  R[Request] --> H1[Handler 1]\n  H1 --> H2[Handler 2]\n  H2 --> H3[Handler 3]\n  H3 --> D[Default/Fail]`,
+        "mediator": `flowchart LR\n  C1[Component A] --> M[Mediator]\n  C2[Component B] --> M\n  C3[Component C] --> M\n  M --> C1\n  M --> C2\n  M --> C3`,
+        "state": `stateDiagram-v2\n  [*] --> Idle\n  Idle --> Processing: start\n  Processing --> Paused: pause\n  Paused --> Processing: resume\n  Processing --> Done: finish\n  Done --> [*]`,
+        "cqrs": `flowchart LR\n  UI[Client] --> C[Command Model]\n  UI --> Q[Query Model]\n  C --> ES[(Write Store)]\n  Q --> RS[(Read Store)]\n  C --> EV[Events]\n  EV --> RS`,
+        "event-sourcing": `sequenceDiagram\n  participant C as Command\n  participant A as Aggregate\n  participant S as EventStore\n  participant P as Projector\n  C->>A: execute()\n  A->>S: append(events)\n  S->>P: publish(events)\n  P->>P: update read model`,
+        "reactor": `flowchart LR\n  E[Event Sources] --> L[Event Loop]\n  L --> D[Demultiplexer]\n  D --> H1[Handler A]\n  D --> H2[Handler B]\n  D --> H3[Handler C]`,
+        "mvc": `flowchart LR\n  U[User] --> V[View]\n  V --> C[Controller]\n  C --> M[Model]\n  M --> V`
+      };
+      if (tuned[p.id]) return tuned[p.id];
+
+      if (p.cat === "structural") return `classDiagram\n  class Client\n  class Abstraction\n  class ${classNameOf(p)}\n  class Concrete\n  Client --> Abstraction\n  Abstraction --> Concrete\n  ${classNameOf(p)} ..> Concrete`;
+      if (p.cat === "behavioral") return `sequenceDiagram\n  participant Client\n  participant Pattern as ${classNameOf(p)}\n  participant Dependency\n  Client->>Pattern: request()\n  Pattern->>Dependency: delegate()\n  Dependency-->>Pattern: result\n  Pattern-->>Client: response`;
+      if (p.cat === "concurrency") return `flowchart LR\n  P[Producer] --> X[${p.name}]\n  X --> Q[Queue/Channel]\n  Q --> W1[Worker 1]\n  Q --> W2[Worker 2]\n  W1 --> R[Result]\n  W2 --> R`;
+      if (p.cat === "architectural") return `flowchart LR\n  UI[Presentation] --> APP[Application]\n  APP --> DOMAIN[Domain]\n  APP --> INFRA[Infrastructure]\n  DOMAIN --> PORTS[Contracts]\n  INFRA --> PORTS\n  note[${p.name}]`;
+      return `flowchart LR\n  C[Client] --> P[${p.name}]\n  P --> A[Abstraction]\n  A --> I[Implementation]`;
+    }
+
+    /* ===== CODE GENERATORS ===== */
+    function codeUnsupported(p, lang) {
+      const comment = lang === "python" ? "#" : "//";
+      return `${comment} ${p.name} is not idiomatic in this language for most production codebases.\n${comment} Consider simpler composition or framework conventions instead.`;
+    }
+
+    function codeViaLibrary(p, lang) {
+      if (lang === "javascript") return `import { Subject } from "rxjs";\n\n// ${p.name} using RxJS style\nconst bus = new Subject();\nbus.subscribe(v => console.log("A", v));\nbus.subscribe(v => console.log("B", v));\nbus.next({ pattern: "${p.name}", payload: "request" });`;
+      if (lang === "python") return `from dataclasses import dataclass\n\n# ${p.name} using container/event style libraries\n@dataclass\nclass Service:\n    name: str\n\nclass Container:\n    def __init__(self):\n        self.services = {"main": Service("default")}\n\n    def get(self, key: str):\n        return self.services[key]\n\nsvc = Container().get("main")\nprint(svc.name)`;
+      if (lang === "go") return `package main\n\nimport "fmt"\n\n// ${p.name} with ecosystem wiring patterns\ntype Service interface{ Run() string }\ntype Default struct{}\n\nfunc (Default) Run() string { return "ok" }\n\nfunc main() {\n    var s Service = Default{}\n    fmt.Println(s.Run())\n}`;
+      if (lang === "rust") return `// ${p.name} with tokio/actix style ecosystem patterns\ntrait Service { fn run(&self) -> &'static str; }\nstruct DefaultService;\n\nimpl Service for DefaultService {\n    fn run(&self) -> &'static str { "ok" }\n}\n\nfn main() {\n    let s = DefaultService;\n    println!("{}", s.run());\n}`;
+      if (lang === "java") return `// ${p.name} using Spring/Reactor style composition\ninterface Handler { void handle(String msg); }\n\nclass App {\n    private final java.util.List<Handler> handlers;\n    App(java.util.List<Handler> handlers) { this.handlers = handlers; }\n    void run(String msg) { handlers.forEach(h -> h.handle(msg)); }\n}`;
+      if (lang === "csharp") return `using Microsoft.Extensions.DependencyInjection;\n\n// ${p.name} via common .NET libraries\nvar services = new ServiceCollection();\nservices.AddSingleton<IService, DefaultService>();\nvar provider = services.BuildServiceProvider();\nConsole.WriteLine(provider.GetRequiredService<IService>().Run());\n\npublic interface IService { string Run(); }\npublic class DefaultService : IService { public string Run() => "ok"; }`;
+      return `// ${p.name} via ecosystem library integration\nint main() { return 0; }`;
+    }
+
+    function codeGeneric(p, lang) {
+      if (lang === "csharp") return `using System;\n\n// ${p.name} in C#\npublic interface IOperation { string Execute(string input); }\npublic class ConcreteOperation : IOperation {\n    public string Execute(string input) => $"${p.name}: {input}";\n}\npublic class Service {\n    private readonly IOperation _op;\n    public Service(IOperation op) { _op = op; }\n    public void Run() => Console.WriteLine(_op.Execute("request"));\n}\nnew Service(new ConcreteOperation()).Run();`;
+      if (lang === "python") return `from typing import Protocol\n\n# ${p.name} in Python\nclass Operation(Protocol):\n    def execute(self, data: str) -> str: ...\n\nclass ConcreteOperation:\n    def execute(self, data: str) -> str:\n        return f"${p.name}: {data}"\n\nclass Service:\n    def __init__(self, op: Operation):\n        self.op = op\n\n    def run(self):\n        print(self.op.execute("request"))\n\nService(ConcreteOperation()).run()`;
+      if (lang === "go") return `package main\n\nimport "fmt"\n\n// ${p.name} in Go\ntype Operation interface { Execute(string) string }\n\ntype ConcreteOperation struct{}\nfunc (ConcreteOperation) Execute(input string) string { return "${p.name}: " + input }\n\ntype Service struct { op Operation }\nfunc (s Service) Run() { fmt.Println(s.op.Execute("request")) }\n\nfunc main() {\n    Service{op: ConcreteOperation{}}.Run()\n}`;
+      if (lang === "rust") return `// ${p.name} in Rust\ntrait Operation { fn execute(&self, input: &str) -> String; }\n\nstruct ConcreteOperation;\nimpl Operation for ConcreteOperation {\n    fn execute(&self, input: &str) -> String {\n        format!("${p.name}: {}", input)\n    }\n}\n\nstruct Service<T: Operation> { op: T }\nimpl<T: Operation> Service<T> {\n    fn run(&self) { println!("{}", self.op.execute("request")); }\n}\n\nfn main() {\n    Service { op: ConcreteOperation }.run();\n}`;
+      if (lang === "java") return `// ${p.name} in Java\ninterface Operation { String execute(String input); }\n\nclass ConcreteOperation implements Operation {\n    public String execute(String input) { return "${p.name}: " + input; }\n}\n\nclass Service {\n    private final Operation op;\n    Service(Operation op) { this.op = op; }\n    void run() { System.out.println(op.execute("request")); }\n}\n\npublic class Demo {\n    public static void main(String[] args) { new Service(new ConcreteOperation()).run(); }\n}`;
+      if (lang === "javascript") return `// ${p.name} in JavaScript\nclass ConcreteOperation {\n  execute(input) {\n    return "${p.name}: " + input;\n  }\n}\n\nclass Service {\n  constructor(op) { this.op = op; }\n  run() { console.log(this.op.execute("request")); }\n}\n\nnew Service(new ConcreteOperation()).run();`;
+      return `#include <iostream>\n#include <memory>\n#include <string>\n\n// ${p.name} in C++\nstruct Operation {\n    virtual ~Operation() = default;\n    virtual std::string execute(const std::string& input) const = 0;\n};\n\nstruct ConcreteOperation : Operation {\n    std::string execute(const std::string& input) const override {\n        return std::string("${p.name}: ") + input;\n    }\n};\n\nint main() {\n    std::unique_ptr<Operation> op = std::make_unique<ConcreteOperation>();\n    std::cout << op->execute("request") << "\\n";\n}`;
+    }
+
+    /* ===== TUNED CODE (Top 10 + Phase 2 + Remaining) ===== */
+    function codeTunedTop10(p, lang) {
+      const top10 = new Set(["singleton","factory-method","builder","adapter","facade","observer","strategy","command","repository","producer-consumer"]);
+      if (!top10.has(p.id)) return null;
+
+      if (p.id === "singleton") {
+        if (lang === "csharp") return `public sealed class Config {\n    private static readonly Lazy<Config> _i = new(() => new Config());\n    public static Config Instance => _i.Value;\n    private Config() {}\n}\nConsole.WriteLine(Config.Instance.GetHashCode());`;
+        if (lang === "python") return `class Config:\n    _i = None\n    def __new__(cls):\n        if cls._i is None: cls._i = super().__new__(cls)\n        return cls._i\n\nprint(id(Config()), id(Config()))`;
+        if (lang === "go") return `var once sync.Once\nvar cfg *Config\n\nfunc Instance() *Config {\n    once.Do(func() { cfg = &Config{} })\n    return cfg\n}`;
+        if (lang === "rust") return `use std::sync::OnceLock;\n\nstatic CONFIG: OnceLock<Config> = OnceLock::new();\nstruct Config;\nfn instance() -> &'static Config { CONFIG.get_or_init(|| Config) }`;
+        if (lang === "java") return `class Config {\n  private Config() {}\n  private static class Holder { static final Config I = new Config(); }\n  static Config instance() { return Holder.I; }\n}`;
+        if (lang === "javascript") return `class Config { constructor(){ if(Config.i) return Config.i; Config.i=this; } }\nconsole.log(new Config() === new Config());`;
+        return `class Config {\npublic:\n  static Config& instance(){ static Config i; return i; }\nprivate:\n  Config() = default;\n};`;
+      }
+
+      if (p.id === "factory-method") {
+        if (lang === "csharp") return `interface IButton { string Render(); }\nclass WinButton : IButton { public string Render()=>"Win"; }\nclass MacButton : IButton { public string Render()=>"Mac"; }\nabstract class Dialog { public abstract IButton CreateButton(); }\nclass WinDialog : Dialog { public override IButton CreateButton()=>new WinButton(); }`;
+        if (lang === "python") return `class Dialog:\n    def create_button(self): raise NotImplementedError\nclass WinDialog(Dialog):\n    def create_button(self): return "WinButton"\nprint(WinDialog().create_button())`;
+        if (lang === "go") return `type Button interface{ Render() string }\ntype WinButton struct{}\nfunc (WinButton) Render() string { return "Win" }\nfunc CreateDialog(os string) Button { if os=="win" { return WinButton{} }; return nil }`;
+        if (lang === "rust") return `trait Button { fn render(&self) -> &'static str; }\nstruct WinButton;\nimpl Button for WinButton { fn render(&self) -> &'static str { "Win" } }\nfn create_button(os: &str) -> Box<dyn Button> { if os=="win" { Box::new(WinButton) } else { Box::new(WinButton) } }`;
+        if (lang === "java") return `interface Button { String render(); }\nclass WinButton implements Button { public String render(){ return "Win"; } }\nabstract class Dialog { abstract Button createButton(); }\nclass WinDialog extends Dialog { Button createButton(){ return new WinButton(); } }`;
+        if (lang === "javascript") return `class WinButton { render(){ return "Win"; } }\nclass Dialog { createButton(){ throw new Error(); } }\nclass WinDialog extends Dialog { createButton(){ return new WinButton(); } }`;
+        return `struct Button { virtual std::string render() const = 0; };\nstruct WinButton : Button { std::string render() const override { return "Win"; } };\nstd::unique_ptr<Button> makeButton(){ return std::make_unique<WinButton>(); }`;
+      }
+
+      if (p.id === "builder") {
+        if (lang === "csharp") return `record Report(string Title, bool Charts);\nclass ReportBuilder {\n  string _t = ""; bool _c;\n  public ReportBuilder Title(string t){ _t=t; return this; }\n  public ReportBuilder Charts(){ _c=true; return this; }\n  public Report Build()=>new(_t,_c);\n}`;
+        if (lang === "python") return `class ReportBuilder:\n    def __init__(self): self.title, self.charts = "", False\n    def set_title(self, t): self.title=t; return self\n    def add_charts(self): self.charts=True; return self\n    def build(self): return {"title": self.title, "charts": self.charts}`;
+        if (lang === "go") return `type Report struct{ Title string; Charts bool }\ntype Builder struct{ r Report }\nfunc (b *Builder) Title(t string)*Builder{ b.r.Title=t; return b }\nfunc (b *Builder) Charts()*Builder{ b.r.Charts=true; return b }\nfunc (b *Builder) Build() Report { return b.r }`;
+        if (lang === "rust") return `#[derive(Default)]\nstruct Report { title: String, charts: bool }\nimpl Report {\n  fn builder() -> ReportBuilder { ReportBuilder::default() }\n}\n#[derive(Default)]\nstruct ReportBuilder { r: Report }`;
+        if (lang === "java") return `class Report { String title; boolean charts; }\nclass ReportBuilder {\n  private final Report r = new Report();\n  ReportBuilder title(String t){ r.title=t; return this; }\n  ReportBuilder charts(){ r.charts=true; return this; }\n  Report build(){ return r; }\n}`;
+        if (lang === "javascript") return `class ReportBuilder {\n  constructor(){ this.r={title:"", charts:false}; }\n  title(t){ this.r.title=t; return this; }\n  charts(){ this.r.charts=true; return this; }\n  build(){ return this.r; }\n}`;
+        return `struct Report { std::string title; bool charts=false; };\nstruct ReportBuilder {\n  Report r;\n  ReportBuilder& title(std::string t){ r.title=std::move(t); return *this; }\n  ReportBuilder& charts(){ r.charts=true; return *this; }\n  Report build(){ return r; }\n};`;
+      }
+
+      if (p.id === "adapter") {
+        if (lang === "csharp") return `interface IPayment { void Pay(decimal amount); }\nclass LegacyGateway { public void MakePayment(int cents){} }\nclass GatewayAdapter : IPayment {\n  private readonly LegacyGateway _g = new();\n  public void Pay(decimal amount) => _g.MakePayment((int)(amount*100));\n}`;
+        if (lang === "python") return `class LegacyGateway:\n    def make_payment(self, cents: int): print("paid", cents)\nclass PaymentAdapter:\n    def __init__(self, g): self.g = g\n    def pay(self, dollars: float): self.g.make_payment(int(dollars * 100))`;
+        if (lang === "go") return `type Payment interface { Pay(float64) }\ntype Legacy struct{}\nfunc (Legacy) MakePayment(cents int) {}\ntype Adapter struct{ g Legacy }\nfunc (a Adapter) Pay(d float64){ a.g.MakePayment(int(d*100)) }`;
+        if (lang === "rust") return `struct Legacy;\nimpl Legacy { fn make_payment(&self, cents: i32) {} }\ntrait Payment { fn pay(&self, dollars: f64); }\nstruct Adapter { g: Legacy }\nimpl Payment for Adapter { fn pay(&self, dollars: f64){ self.g.make_payment((dollars*100.0) as i32); } }`;
+        if (lang === "java") return `interface Payment { void pay(double dollars); }\nclass Legacy { void makePayment(int cents){} }\nclass Adapter implements Payment {\n  private final Legacy g = new Legacy();\n  public void pay(double d){ g.makePayment((int)(d*100)); }\n}`;
+        if (lang === "javascript") return `class Legacy { makePayment(cents){ console.log("paid", cents); } }\nclass Adapter {\n  constructor(g){ this.g = g; }\n  pay(dollars){ this.g.makePayment(Math.round(dollars*100)); }\n}`;
+        return `struct Payment { virtual void pay(double)=0; };\nstruct Legacy { void makePayment(int cents){} };\nstruct Adapter : Payment {\n  Legacy g;\n  void pay(double dollars) override { g.makePayment((int)(dollars*100)); }\n};`;
+      }
+
+      if (p.id === "facade") {
+        if (lang === "csharp") return `class Auth { public bool Check()=>true; }\nclass Inventory { public bool Reserve()=>true; }\nclass Billing { public void Charge(){} }\nclass OrderFacade {\n  public bool PlaceOrder(){ if(!new Auth().Check()) return false; if(!new Inventory().Reserve()) return false; new Billing().Charge(); return true; }\n}`;
+        if (lang === "python") return `class Auth: pass\nclass Inventory: pass\nclass Billing: pass\nclass OrderFacade:\n    def place_order(self):\n        return "auth -> reserve -> charge"`;
+        if (lang === "go") return `type Facade struct{}\nfunc (Facade) PlaceOrder() string {\n  return "auth -> reserve -> charge"\n}`;
+        if (lang === "rust") return `struct Facade;\nimpl Facade {\n  fn place_order(&self) -> &'static str { "auth -> reserve -> charge" }\n}`;
+        if (lang === "java") return `class OrderFacade {\n  String placeOrder(){ return "auth -> reserve -> charge"; }\n}`;
+        if (lang === "javascript") return `class OrderFacade {\n  placeOrder(){ return "auth -> reserve -> charge"; }\n}`;
+        return `struct OrderFacade {\n  std::string placeOrder() const { return "auth -> reserve -> charge"; }\n};`;
+      }
+
+      if (p.id === "observer") {
+        if (lang === "csharp") return `var observers = new List<Action<int>>();\nint state = 0;\nvoid Subscribe(Action<int> o) => observers.Add(o);\nvoid SetState(int v){ state=v; observers.ForEach(o => o(state)); }\nSubscribe(v => Console.WriteLine($"A:{v}"));\nSetState(42);`;
+        if (lang === "python") return `observers = []\ndef subscribe(fn): observers.append(fn)\ndef set_state(v):\n    for o in observers: o(v)\nsubscribe(lambda v: print("A", v))\nset_state(42)`;
+        if (lang === "go") return `type Subject struct{ obs []func(int) }\nfunc (s *Subject) Subscribe(f func(int)){ s.obs = append(s.obs, f) }\nfunc (s *Subject) Set(v int){ for _, o := range s.obs { o(v) } }`;
+        if (lang === "rust") return `type Obs = Box<dyn Fn(i32)>;\nstruct Subject { obs: Vec<Obs> }\nimpl Subject {\n  fn set(&self, v:i32){ for o in &self.obs { o(v); } }\n}`;
+        if (lang === "java") return `interface Obs { void update(int v); }\nclass Subject {\n  java.util.List<Obs> obs = new java.util.ArrayList<>();\n  void subscribe(Obs o){ obs.add(o); }\n  void set(int v){ obs.forEach(o -> o.update(v)); }\n}`;
+        if (lang === "javascript") return `class Subject {\n  constructor(){ this.obs=[]; }\n  subscribe(fn){ this.obs.push(fn); }\n  set(v){ this.obs.forEach(o => o(v)); }\n}`;
+        return `struct Subject {\n  std::vector<std::function<void(int)>> obs;\n  void set(int v){ for(auto& o: obs) o(v); }\n};`;
+      }
+
+      if (p.id === "strategy") {
+        if (lang === "csharp") return `interface IDiscount { decimal Apply(decimal p); }\nclass Vip : IDiscount { public decimal Apply(decimal p) => p * 0.8m; }\nclass Regular : IDiscount { public decimal Apply(decimal p) => p * 0.95m; }\nclass Checkout { public IDiscount Strategy = new Regular(); public decimal Total(decimal p)=>Strategy.Apply(p); }`;
+        if (lang === "python") return `def vip(p): return p * 0.8\ndef regular(p): return p * 0.95\nclass Checkout:\n    def __init__(self, strategy=regular): self.strategy = strategy\n    def total(self, price): return self.strategy(price)`;
+        if (lang === "go") return `type Strategy func(float64) float64\nfunc VIP(p float64) float64 { return p * 0.8 }\nfunc Total(p float64, s Strategy) float64 { return s(p) }`;
+        if (lang === "rust") return `trait Strategy { fn apply(&self, p: f64) -> f64; }\nstruct Vip; impl Strategy for Vip { fn apply(&self, p:f64)->f64{ p*0.8 } }\nfn total(s: &dyn Strategy, p: f64) -> f64 { s.apply(p) }`;
+        if (lang === "java") return `interface Strategy { double apply(double p); }\nclass Vip implements Strategy { public double apply(double p){ return p*0.8; } }\nclass Checkout { Strategy s = new Vip(); double total(double p){ return s.apply(p);} }`;
+        if (lang === "javascript") return `const vip = p => p * 0.8;\nclass Checkout {\n  constructor(strategy){ this.strategy = strategy; }\n  total(price){ return this.strategy(price); }\n}`;
+        return `struct Strategy { virtual double apply(double) const = 0; };\nstruct Vip : Strategy { double apply(double p) const override { return p * 0.8; } };`;
+      }
+
+      if (p.id === "command") {
+        if (lang === "csharp") return `interface ICommand { void Execute(); }\nclass Light { public void On()=>Console.WriteLine("on"); }\nclass LightOn : ICommand { private readonly Light _l; public LightOn(Light l){_l=l;} public void Execute()=>_l.On(); }\nnew LightOn(new Light()).Execute();`;
+        if (lang === "python") return `class Light:\n    def on(self): print("on")\nclass Command:\n    def __init__(self, fn): self.fn = fn\n    def execute(self): self.fn()\nCommand(Light().on).execute()`;
+        if (lang === "go") return `type Command interface{ Execute() }\ntype Light struct{}\nfunc (Light) On(){ fmt.Println("on") }\ntype LightOn struct{ l Light }\nfunc (c LightOn) Execute(){ c.l.On() }`;
+        if (lang === "rust") return `trait Command { fn execute(&self); }\nstruct Light; impl Light { fn on(&self){ println!("on"); } }\nstruct LightOn { l: Light }\nimpl Command for LightOn { fn execute(&self){ self.l.on(); } }`;
+        if (lang === "java") return `interface Command { void execute(); }\nclass Light { void on(){ System.out.println("on"); } }\nclass LightOn implements Command { Light l = new Light(); public void execute(){ l.on(); } }`;
+        if (lang === "javascript") return `class Light { on(){ console.log("on"); } }\nclass LightOn { constructor(light){ this.light = light; } execute(){ this.light.on(); } }\nnew LightOn(new Light()).execute();`;
+        return `struct Command { virtual void execute() = 0; };\nstruct Light { void on(){ std::cout << "on\\n"; } };\nstruct LightOn : Command { Light l; void execute() override { l.on(); } };`;
+      }
+
+      if (p.id === "repository") {
+        if (lang === "csharp") return `record User(int Id, string Name);\ninterface IUserRepo { User? Get(int id); void Save(User u); }\nclass MemRepo : IUserRepo {\n  private readonly Dictionary<int, User> _d = new();\n  public User? Get(int id)=>_d.GetValueOrDefault(id);\n  public void Save(User u)=>_d[u.Id]=u;\n}`;
+        if (lang === "python") return `from dataclasses import dataclass\n\n@dataclass\nclass User: id: int; name: str\nclass Repo:\n    def __init__(self): self.d = {}\n    def save(self, u): self.d[u.id] = u\n    def get(self, i): return self.d.get(i)`;
+        if (lang === "go") return `type User struct{ ID int; Name string }\ntype UserRepo interface{ Save(User); Get(int) (User, bool) }\ntype MemRepo struct{ d map[int]User }\nfunc (r *MemRepo) Save(u User){ r.d[u.ID]=u }`;
+        if (lang === "rust") return `#[derive(Clone)]\nstruct User { id: i32, name: String }\ntrait UserRepo { fn save(&mut self, u: User); fn get(&self, id: i32) -> Option<User>; }\nstruct MemRepo { d: std::collections::HashMap<i32, User> }`;
+        if (lang === "java") return `record User(int id, String name) {}\ninterface UserRepo { User get(int id); void save(User u); }\nclass MemRepo implements UserRepo {\n  java.util.Map<Integer,User> d = new java.util.HashMap<>();\n  public User get(int id){ return d.get(id); }\n  public void save(User u){ d.put(u.id(), u); }\n}`;
+        if (lang === "javascript") return `class UserRepo {\n  constructor(){ this.d = new Map(); }\n  save(u){ this.d.set(u.id, u); }\n  get(id){ return this.d.get(id); }\n}`;
+        return `struct User { int id; std::string name; };\nstruct UserRepo { virtual std::optional<User> get(int)=0; virtual void save(User)=0; };\nstruct MemRepo : UserRepo { std::unordered_map<int,User> d; };`;
+      }
+
+      if (p.id === "producer-consumer") {
+        if (lang === "csharp") return `var q = new System.Collections.Concurrent.BlockingCollection<int>(10);\nTask.Run(() => { for (int i = 0; i < 5; i++) q.Add(i); q.CompleteAdding(); });\nforeach (var x in q.GetConsumingEnumerable()) Console.WriteLine(x);`;
+        if (lang === "python") return `from queue import Queue\nfrom threading import Thread\nq = Queue(maxsize=10)\nThread(target=lambda: [q.put(i) for i in range(5)] + [q.put(None)]).start()\nwhile (x := q.get()) is not None: print(x)`;
+        if (lang === "go") return `ch := make(chan int, 10)\ngo func(){ for i:=0;i<5;i++ { ch <- i }; close(ch) }()\nfor v := range ch { fmt.Println(v) }`;
+        if (lang === "rust") return `let (tx, rx) = std::sync::mpsc::channel();\nstd::thread::spawn(move || { for i in 0..5 { tx.send(i).unwrap(); } });\nfor v in rx { println!("{}", v); }`;
+        if (lang === "java") return `var q = new java.util.concurrent.ArrayBlockingQueue<Integer>(10);\nnew Thread(() -> { for(int i=0;i<5;i++) q.offer(i); q.offer(-1); }).start();\nfor(;;){ int v=q.take(); if(v==-1) break; System.out.println(v); }`;
+        if (lang === "javascript") return `const queue = [];\nconst push = v => queue.push(v);\nconst pop = () => queue.shift();\n[0,1,2,3,4].forEach(push);\nwhile (queue.length) console.log(pop());`;
+        return `std::queue<int> q; std::mutex m; std::condition_variable cv;\n// producer pushes and notifies; consumer waits and pops in loop.`;
+      }
+
+      return null;
+    }
+
+    function codeTunedPhase2(p, lang, support) {
+      const phase2 = new Set(["abstract-factory","decorator","proxy","chain-of-responsibility","mediator","state","cqrs","event-sourcing","reactor","mvc"]);
+      if (!phase2.has(p.id)) return null;
+
+      if (p.id === "abstract-factory") {
+        if (lang === "csharp") return `interface IButton { string Name(); }\ninterface IInput { string Name(); }\ninterface IUiFactory { IButton CreateButton(); IInput CreateInput(); }\nclass WinFactory : IUiFactory { public IButton CreateButton()=>new WinButton(); public IInput CreateInput()=>new WinInput(); }`;
+        if (lang === "python") return `class UIFactory:\n    def button(self): raise NotImplementedError\n    def input(self): raise NotImplementedError\nclass WinFactory(UIFactory):\n    def button(self): return "WinButton"\n    def input(self): return "WinInput"`;
+        if (lang === "go") return `type Button interface{ Name() string }\ntype Input interface{ Name() string }\ntype UIFactory interface { CreateButton() Button; CreateInput() Input }`;
+        if (lang === "rust") return `trait Button { fn name(&self) -> &'static str; }\ntrait Input { fn name(&self) -> &'static str; }\ntrait UiFactory { fn button(&self) -> Box<dyn Button>; fn input(&self) -> Box<dyn Input>; }`;
+        if (lang === "java") return `interface UIFactory { Button createButton(); Input createInput(); }\ninterface Button { String name(); }\ninterface Input { String name(); }\nclass WinFactory implements UIFactory { public Button createButton(){ return ()->"WinButton"; } public Input createInput(){ return ()->"WinInput"; } }`;
+        if (lang === "javascript") return `class WinFactory {\n  createButton(){ return { name: () => "WinButton" }; }\n  createInput(){ return { name: () => "WinInput" }; }\n}`;
+        return `struct Button { virtual std::string name() const = 0; };\nstruct Input { virtual std::string name() const = 0; };\nstruct UiFactory { virtual std::unique_ptr<Button> button() = 0; virtual std::unique_ptr<Input> input() = 0; };`;
+      }
+
+      if (p.id === "decorator") {
+        if (lang === "csharp") return `interface INotifier { string Send(string m); }\nclass BaseNotifier : INotifier { public string Send(string m)=>m; }\nclass SmsDecorator : INotifier { private readonly INotifier _n; public SmsDecorator(INotifier n){_n=n;} public string Send(string m)=>_n.Send(m)+" +sms"; }`;
+        if (lang === "python") return `class Notifier:\n    def send(self, m): return m\nclass SmsDecorator:\n    def __init__(self, n): self.n = n\n    def send(self, m): return self.n.send(m) + " +sms"`;
+        if (lang === "go") return `type Notifier interface { Send(string) string }\ntype Base struct{}\nfunc (Base) Send(m string) string { return m }\ntype Sms struct{ inner Notifier }\nfunc (s Sms) Send(m string) string { return s.inner.Send(m) + " +sms" }`;
+        if (lang === "rust") return `trait Notifier { fn send(&self, m: &str) -> String; }\nstruct Base; impl Notifier for Base { fn send(&self, m:&str)->String{ m.to_string() } }\nstruct Sms<N: Notifier>{ inner: N }\nimpl<N:Notifier> Notifier for Sms<N>{ fn send(&self,m:&str)->String{ format!("{} +sms", self.inner.send(m)) } }`;
+        if (lang === "java") return `interface Notifier { String send(String m); }\nclass BaseNotifier implements Notifier { public String send(String m){ return m; } }\nclass SmsDecorator implements Notifier { Notifier n; SmsDecorator(Notifier n){ this.n=n; } public String send(String m){ return n.send(m)+" +sms"; } }`;
+        if (lang === "javascript") return `class BaseNotifier { send(m){ return m; } }\nclass SmsDecorator {\n  constructor(inner){ this.inner = inner; }\n  send(m){ return this.inner.send(m) + " +sms"; }\n}`;
+        return `struct Notifier { virtual std::string send(std::string) const = 0; };\nstruct BaseNotifier : Notifier { std::string send(std::string m) const override { return m; } };\nstruct SmsDecorator : Notifier { std::shared_ptr<Notifier> n; std::string send(std::string m) const override { return n->send(m) + " +sms"; } };`;
+      }
+
+      if (p.id === "proxy") {
+        if (lang === "csharp") return `interface IService { string Get(); }\nclass RealService : IService { public string Get()=>"data"; }\nclass CacheProxy : IService { private readonly IService _s = new RealService(); private string? _c; public string Get()=> _c ??= _s.Get(); }`;
+        if (lang === "python") return `class Real:\n    def get(self): return "data"\nclass Proxy:\n    def __init__(self): self.real, self.cache = Real(), None\n    def get(self):\n        if self.cache is None: self.cache = self.real.get()\n        return self.cache`;
+        if (lang === "go") return `type Service interface{ Get() string }\ntype Real struct{}\nfunc (Real) Get() string { return "data" }\ntype Proxy struct{ s Service; c *string }\nfunc (p *Proxy) Get() string { if p.c == nil { v := p.s.Get(); p.c = &v }; return *p.c }`;
+        if (lang === "rust") return `trait Service { fn get(&mut self) -> String; }\nstruct Real; impl Service for Real { fn get(&mut self) -> String { "data".into() } }\nstruct Proxy<S: Service> { inner: S, cache: Option<String> }`;
+        if (lang === "java") return `interface Service { String get(); }\nclass Real implements Service { public String get(){ return "data"; } }\nclass Proxy implements Service { Service s = new Real(); String c; public String get(){ if(c==null) c=s.get(); return c; } }`;
+        if (lang === "javascript") return `class Real { get(){ return "data"; } }\nclass Proxy {\n  constructor(){ this.real = new Real(); this.cache = null; }\n  get(){ if(this.cache === null) this.cache = this.real.get(); return this.cache; }\n}`;
+        return `struct Service { virtual std::string get() = 0; };\nstruct Real : Service { std::string get() override { return "data"; } };\nstruct Proxy : Service { std::unique_ptr<Service> inner = std::make_unique<Real>(); std::optional<std::string> c; std::string get() override { if(!c) c=inner->get(); return *c; } };`;
+      }
+
+      // For remaining phase2 patterns, use generic code
+      if (support === "lib") return codeViaLibrary(p, lang);
+      return null;
+    }
+
+    function buildCode(p, lang, support) {
+      if (support === false) return codeUnsupported(p, lang);
+      const tuned10 = codeTunedTop10(p, lang);
+      if (tuned10) return ensureRunnable(p, lang, support, tuned10);
+      const tuned2 = codeTunedPhase2(p, lang, support);
+      if (tuned2) return ensureRunnable(p, lang, support, tuned2);
+      if (support === "lib") return ensureRunnable(p, lang, support, codeViaLibrary(p, lang));
+      return ensureRunnable(p, lang, support, codeGeneric(p, lang));
+    }
+
+    function ensureRunnable(p, lang, support, code) {
+      if (!code || support === false) return code;
+      if (lang === "go") {
+        let out = code;
+        if (!/\bpackage\s+main\b/.test(out)) {
+          const imports = [];
+          if (out.includes("fmt.")) imports.push('"fmt"');
+          if (out.includes("sync.")) imports.push('"sync"');
+          if (out.includes("net.")) imports.push('"net"');
+          const importBlock = imports.length ? `import (\n${imports.map(i => `  ${i}`).join("\n")}\n)\n\n` : "";
+          out = `package main\n\n${importBlock}${out}`;
+        }
+        if (!/\bfunc\s+main\s*\(\)/.test(out)) out += "\n\nfunc main() {}";
+        return out;
+      }
+      if (lang === "rust") {
+        if (/\bfn\s+main\s*\(/.test(code) || /#\[tokio::main\]/.test(code)) return code;
+        return `${code}\n\nfn main() {}`;
+      }
+      if (lang === "java") {
+        if (/\bpublic\s+class\s+Demo\b/.test(code) || /\bpublic\s+static\s+void\s+main\s*\(/.test(code)) return code;
+        return `${code}\n\npublic class Demo {\n  public static void main(String[] args) {}\n}`;
+      }
+      if (lang === "cpp") {
+        let out = code;
+        if (!/#include\s+</.test(out)) out = `#include <iostream>\n#include <memory>\n#include <string>\n\n${out}`;
+        if (!/\bint\s+main\s*\(/.test(out)) out += "\n\nint main() { return 0; }";
+        return out;
+      }
+      if (lang === "python") {
+        if (/if __name__ == ["']__main__["']/.test(code)) return code;
+        return `${code}\n\nif __name__ == "__main__":\n    pass`;
+      }
+      if (lang === "csharp") {
+        if (/\busing\s+System;/.test(code)) return code;
+        return `using System;\n${code}`;
+      }
+      return code;
+    }
+
+    /* ===== RUN STATUS ===== */
+    function getRunStatus(p, lang, support) {
+      if (support === false) return { label: "N/A", cls: "run-no", note: "Not idiomatic in this language." };
+      if (support === "lib") return { label: "Needs Deps", cls: "run-deps", note: "Run-ready with ecosystem dependencies installed." };
+      return { label: "Run-Ready", cls: "run-ready", note: "Snippet includes runnable structure for local execution." };
+    }
+
+    function getRunCommand(lang, support) {
+      if (support === false) return { cmd: "# Not available", note: "" };
+      const cmds = {
+        csharp: { cmd: "dotnet new console -n PatternDemo && cd PatternDemo && dotnet run", note: support === "lib" ? "Install NuGet packages first." : "Paste into Program.cs." },
+        python: { cmd: "python3 main.py", note: support === "lib" ? "pip install required packages first." : "Save as main.py." },
+        go: { cmd: "go mod init pattern-demo && go run .", note: support === "lib" ? "go get external modules." : "Save as main.go." },
+        rust: { cmd: "cargo new pattern_demo && cd pattern_demo && cargo run", note: support === "lib" ? "Add crates to Cargo.toml." : "Paste into src/main.rs." },
+        java: { cmd: "javac Demo.java && java Demo", note: support === "lib" ? "Needs Maven/Gradle project." : "Save as Demo.java." },
+        javascript: { cmd: "node main.js", note: support === "lib" ? "npm install dependencies first." : "Save as main.js." },
+        cpp: { cmd: "g++ -std=c++17 main.cpp -o app && ./app", note: support === "lib" ? "Link required libraries." : "Save as main.cpp." }
+      };
+      return cmds[lang] || { cmd: "# Run command", note: "" };
+    }
+
+    /* ===== LIBS ===== */
+    function libsFor(p, langIndex) {
+      const eco = [
+        ["Microsoft.Extensions.DI", "TPL", "MediatR"],
+        ["dependency-injector", "asyncio", "pydantic"],
+        ["uber-go/fx", "go-kit", "goroutines/channels"],
+        ["tokio", "actix", "tower"],
+        ["Spring Framework", "Project Reactor", "Akka"],
+        ["NestJS", "RxJS", "BullMQ"],
+        ["Boost.Asio", "Intel TBB", "Poco"]
+      ];
+      const s = p.support[langIndex];
+      if (s === false) return ["-"];
+      if (s === "lib") return [...eco[langIndex], `${p.name} is usually implemented via ecosystem libraries.`];
+      return [...eco[langIndex], `${p.name} can be implemented with native language features.`];
+    }
+
+    /* ===== COPY ===== */
+    function copyCode(btn) {
+      const code = document.getElementById("codePanel")?.textContent || "";
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = "Copied!";
+        setTimeout(() => btn.textContent = "Copy Code", 1200);
+      });
+    }
+
+    function copyRunCmd(btn) {
+      const cmd = btn?.dataset?.cmd || "";
+      navigator.clipboard.writeText(cmd).then(() => {
+        const prev = btn.textContent;
+        btn.textContent = "Copied";
+        setTimeout(() => btn.textContent = prev, 1200);
+      });
+    }
+
+    /* ===== LANG CLASS ===== */
+    function langClass(id) {
+      const map = { csharp: "language-csharp", python: "language-python", go: "language-go", rust: "language-rust", java: "language-java", javascript: "language-javascript", cpp: "language-cpp" };
+      return map[id] || "language-plaintext";
+    }
+
+    /* ===== SELECT PATTERN ===== */
+    function selectPattern(id) {
+      const p = PATTERNS.find(x => x.id === id);
+      if (!p) return;
+      currentPattern = p;
+      const firstAvailable = p.support.findIndex(x => x !== false);
+      if (p.support[LANG_IDS.indexOf(currentLang)] === false && firstAvailable >= 0) {
+        currentLang = LANG_IDS[firstAvailable];
+      }
+      buildSidebar();
+      renderDetail();
+      if (isMobile()) closeSidebar();
+      document.getElementById("detailSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function switchLang(langId) {
+      if (!currentPattern) return;
+      const idx = LANG_IDS.indexOf(langId);
+      if (idx < 0 || currentPattern.support[idx] === false) return;
+      currentLang = langId;
+      renderDetail();
+    }
+
+    /* ===== RENDER DETAIL ===== */
+    function renderDetail() {
+      const root = document.getElementById("detailSection");
+      if (!currentPattern) { root.innerHTML = ""; return; }
+      const p = currentPattern;
+      const langIndex = LANG_IDS.indexOf(currentLang);
+      const support = p.support[langIndex];
+      const code = buildCode(p, currentLang, support);
+      const runStatus = getRunStatus(p, currentLang, support);
+      const runCmd = getRunCommand(currentLang, support);
+      const mermaidText = buildMermaid(p);
+
+      const tabs = LANGS.map((name, i) => {
+        const id = LANG_IDS[i];
+        const sup = p.support[i];
+        const cls = sup === false ? "lang-tab disabled" : (id === currentLang ? "lang-tab active" : "lang-tab");
+        const libMark = sup === "lib" ? " *" : "";
+        return `<button class="${cls}" ${sup === false ? "" : `onclick="switchLang('${id}')"`}>${name}${libMark}</button>`;
+      }).join("");
+
+      const libsRows = LANGS.map((lang, i) => {
+        const libs = libsFor(p, i).map(x => esc(x)).join("<br>");
+        return `<tr><td>${esc(lang)}</td><td style="color:var(--text-secondary);font-size:12px">${libs}</td></tr>`;
+      }).join("");
+
+      root.innerHTML = `
+        <div class="section-title">Pattern Profile</div>
+        <div class="detail-card">
+          <div class="detail-header">
+            <div class="detail-name">${esc(p.name)}</div>
+            <span class="chip chip-cat" style="background:${CAT_SOFT[p.cat]};color:${CAT_COLOR[p.cat]};border-color:${CAT_COLOR[p.cat]}">${esc(p.cat)}</span>
+            <span class="chip chip-level-${p.level}">${esc(p.level)}</span>
+            ${p.gof ? '<span class="chip" style="border-color:var(--accent-1);color:var(--accent-1)">GoF Classic</span>' : ""}
+          </div>
+
+          <div class="section">
+            <div class="section-title">Origin</div>
+            <p style="color:var(--text-secondary);font-size:13px;padding:12px 16px;background:var(--bg-tertiary);border-radius:var(--radius-md);border-left:3px solid var(--accent-1)">${esc(buildOrigin(p))}</p>
+          </div>
+
+          <div class="section">
+            <div class="section-title">What / When To Use</div>
+            <p style="color:var(--text-secondary);font-size:13px;margin-bottom:8px">${esc(buildSummary(p))}</p>
+            <ul style="padding-left:18px;color:var(--text-secondary);font-size:13px">${buildWhen(p).map(x => `<li style="margin-bottom:4px">${esc(x)}</li>`).join("")}</ul>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Pros & Cons</div>
+            <div class="grid-2">
+              <div class="pc-box pc-pros">
+                <div class="pc-title">Pros</div>
+                <ul class="pc-list">${buildPros(p).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+              </div>
+              <div class="pc-box pc-cons">
+                <div class="pc-title">Cons</div>
+                <ul class="pc-list">${buildCons(p).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Diagram</div>
+            <div class="diagram-box"><div class="mermaid" id="mermaidPanel">${esc(mermaidText)}</div></div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Code — ${esc(LANGS[langIndex])}${support === "lib" ? " (via library)" : ""} <span class="run-badge ${runStatus.cls}">${runStatus.label}</span></div>
+            <div class="lang-tabs">${tabs}</div>
+            <div class="run-note">${esc(runStatus.note)}</div>
+            <div class="code-tools-bar">
+              <button class="copy-btn" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code id="codePanel" class="${langClass(currentLang)}">${esc(code)}</code></pre>
+            <div class="run-cmd-wrap">
+              <div class="run-cmd-head">
+                <span>Run Command</span>
+                <button class="copy-btn" data-cmd="${esc(runCmd.cmd)}" onclick="copyRunCmd(this)">Copy</button>
+              </div>
+              <pre class="run-cmd-pre">${esc(runCmd.cmd)}</pre>
+            </div>
+            <div class="run-cmd-note">${esc(runCmd.note)}</div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Common Libraries & Tools</div>
+            <div class="matrix-wrap" style="box-shadow:none">
+              <table class="libs-table">
+                <thead><tr><th>Language</th><th>Libraries & Notes</th></tr></thead>
+                <tbody>${libsRows}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+
+      try { mermaid.run({ nodes: [document.getElementById("mermaidPanel")] }); } catch {}
+      const c = document.getElementById("codePanel");
+      if (c) { try { hljs.highlightElement(c); } catch {} }
+    }
+
+    /* ===== REFRESH ALL ===== */
+    function refreshAll() {
+      buildSidebar();
+      buildMatrix();
+      renderDetail();
+      renderKpi();
+    }
+
+    /* ===== EVENT LISTENERS ===== */
+    document.getElementById("search").addEventListener("input", (e) => {
+      searchTerm = e.target.value.trim();
+      refreshAll();
+    });
+
+    document.getElementById("catFilter").addEventListener("change", (e) => {
+      catFilter = e.target.value;
+      refreshAll();
+    });
+
+    document.getElementById("levelFilter").addEventListener("change", (e) => {
+      levelFilter = e.target.value;
+      refreshAll();
+    });
+
+    window.addEventListener("resize", () => {
+      if (!isMobile()) document.body.classList.remove("sidebar-open");
+    });
+
+    /* ===== INIT ===== */
+    applyTheme(getTheme());
+    const mermaidTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "default";
+    mermaid.initialize({ startOnLoad: false, theme: mermaidTheme, securityLevel: "loose" });
+    try { applyCompact(localStorage.getItem(COMPACT_KEY) === "1"); } catch { applyCompact(false); }
+    currentPattern = sortedPatterns()[0];
+    refreshAll();
+  </script>
+</body>
+
+</html>

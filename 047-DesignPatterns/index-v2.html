@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Patterns Collection v2</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" id="hl-light" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" id="hl-dark" disabled />
+  <style>
+    :root {
+      --bg: #f5f8f9;
+      --surface: #ffffff;
+      --surface-2: #edf3f3;
+      --text: #1f2937;
+      --muted: #667085;
+      --border: #d5e1df;
+      --accent: #0f766e;
+      --accent-2: #115e59;
+      --ok: #15803d;
+      --warn: #b45309;
+      --radius: 12px;
+      --shadow: 0 8px 30px rgba(16, 24, 40, 0.08);
+      --font: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+      --mono: "IBM Plex Mono", "Cascadia Code", "Consolas", monospace;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b1220;
+        --surface: #101a2c;
+        --surface-2: #16243a;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --border: #23324c;
+        --accent: #2dd4bf;
+        --accent-2: #14b8a6;
+        --ok: #4ade80;
+        --warn: #fbbf24;
+      }
+
+      #hl-light {
+        display: none !important;
+      }
+
+      #hl-dark {
+        display: block !important;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at 12% 0%, rgba(15, 118, 110, 0.12), transparent 38%),
+        radial-gradient(circle at 90% 0%, rgba(17, 94, 89, 0.08), transparent 44%),
+        var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface) 93%, var(--accent) 7%);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      backdrop-filter: blur(8px);
+    }
+
+    .main {
+      overflow: auto;
+    }
+
+    .box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s ease, transform .2s ease;
+    }
+
+    .box:hover {
+      box-shadow: 0 10px 26px rgba(16, 24, 40, 0.12);
+    }
+
+    .s-head {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: color-mix(in oklab, var(--surface) 94%, var(--accent) 6%);
+      z-index: 2;
+    }
+
+    .s-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .s-sub {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .search,
+    .select {
+      margin-top: 10px;
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      border-radius: 8px;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      padding: 8px 10px;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .search:focus,
+    .select:focus {
+      outline: none;
+      border-color: color-mix(in oklab, var(--accent) 65%, white 35%);
+      box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent 82%);
+      background: var(--surface);
+    }
+
+    .s-list {
+      padding: 10px;
+    }
+
+    .s-cat {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 8px 6px;
+    }
+
+    .s-item {
+      display: grid;
+      grid-template-columns: 10px 1fr auto;
+      gap: 8px;
+      align-items: center;
+      border-radius: 8px;
+      padding: 7px 8px;
+      cursor: pointer;
+      transition: background .18s ease, transform .18s ease;
+    }
+
+    .s-item:hover {
+      background: var(--surface-2);
+      transform: translateX(2px);
+    }
+
+    .s-item.active {
+      background: rgba(15, 118, 110, 0.12);
+      outline: 1px solid color-mix(in oklab, var(--accent) 40%, transparent 60%);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .name {
+      font-size: 13px;
+    }
+
+    .tag {
+      font-size: 10px;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 1px 6px;
+    }
+
+    .m-head {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background:
+        linear-gradient(100deg, color-mix(in oklab, var(--surface) 95%, var(--accent) 5%), var(--surface));
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+    }
+
+    .title {
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -0.45px;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .chips {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .head-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .head-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 8px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: border-color .18s ease, color .18s ease, transform .18s ease;
+    }
+
+    .head-btn:hover {
+      border-color: color-mix(in oklab, var(--accent) 55%, var(--border) 45%);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .head-btn.active {
+      background: color-mix(in oklab, var(--accent) 18%, var(--surface) 82%);
+      border-color: color-mix(in oklab, var(--accent) 45%, var(--border) 55%);
+      color: var(--accent-2);
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--surface-2) 88%, var(--accent) 12%);
+    }
+
+    .content {
+      padding: 24px 28px 40px;
+      max-width: 1100px;
+      animation: fadeIn .35s ease;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .list {
+      padding-left: 18px;
+    }
+
+    .list li {
+      margin-bottom: 6px;
+    }
+
+    .kpi {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .k {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      padding: 10px 12px;
+      min-width: 120px;
+    }
+
+    .k .n {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .k .l {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 980px;
+      font-size: 12px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      padding: 8px 9px;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--muted);
+      background: var(--surface-2);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    td:first-child,
+    th:first-child {
+      text-align: left;
+      min-width: 190px;
+      position: sticky;
+      left: 0;
+      background: var(--surface);
+      z-index: 1;
+    }
+
+    th:first-child {
+      z-index: 3;
+      background: var(--surface-2);
+    }
+
+    td:nth-child(2),
+    th:nth-child(2) {
+      text-align: left;
+      min-width: 105px;
+    }
+
+    tr:hover td {
+      background: rgba(15, 118, 110, 0.06);
+    }
+
+    .table-wrap {
+      box-shadow: 0 8px 26px rgba(17, 24, 39, 0.06);
+    }
+
+    .pattern-link {
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .check {
+      color: var(--ok);
+      font-weight: 700;
+    }
+
+    .lib {
+      color: var(--warn);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .na {
+      color: var(--muted);
+    }
+
+    .lang-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .lang-tab {
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      padding: 4px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text);
+      transition: transform .15s ease, border-color .15s ease, background .15s ease;
+    }
+
+    .lang-tab:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in oklab, var(--accent) 45%, var(--border) 55%);
+    }
+
+    .lang-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .lang-tab.disabled {
+      opacity: 0.45;
+      text-decoration: line-through;
+      cursor: not-allowed;
+    }
+
+    .run-badge {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid transparent;
+      vertical-align: middle;
+      letter-spacing: 0.2px;
+    }
+
+    .run-ready {
+      color: var(--ok);
+      background: rgba(21, 128, 61, 0.1);
+      border-color: rgba(21, 128, 61, 0.3);
+    }
+
+    .run-deps {
+      color: var(--warn);
+      background: rgba(180, 83, 9, 0.12);
+      border-color: rgba(180, 83, 9, 0.35);
+    }
+
+    .run-no {
+      color: var(--muted);
+      background: var(--surface-2);
+      border-color: var(--border);
+    }
+
+    .run-note {
+      margin: 6px 0 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .code-tools {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      position: sticky;
+      top: 6px;
+      z-index: 1;
+      background: linear-gradient(to bottom, color-mix(in oklab, var(--surface) 93%, transparent 7%), color-mix(in oklab, var(--surface) 78%, transparent 22%));
+      padding: 4px 4px 6px;
+      border-radius: 8px;
+    }
+
+    .sidebar-overlay {
+      display: none;
+    }
+
+    .run-cmd-wrap {
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .run-cmd-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      font-weight: 700;
+    }
+
+    .run-cmd-copy {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .run-cmd-copy:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .run-cmd {
+      margin: 0;
+      padding: 10px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      white-space: pre;
+    }
+
+    .run-cmd-note {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    pre {
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: auto;
+    }
+
+    pre code {
+      font-family: var(--mono) !important;
+      font-size: 12px !important;
+      padding: 14px !important;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .diagram {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: var(--surface);
+      overflow: auto;
+    }
+
+    .libs td:nth-child(1) {
+      min-width: 90px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .welcome {
+      max-width: 860px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: min(86vw, 360px);
+        max-width: 360px;
+        z-index: 40;
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      }
+
+      body.sidebar-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .2s ease;
+        z-index: 35;
+      }
+
+      body.sidebar-open .sidebar-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .content {
+        padding: 18px 14px 30px;
+      }
+
+      .m-head {
+        padding: 16px 14px;
+      }
+
+      .title {
+        font-size: 21px;
+      }
+    }
+
+    body.compact .content {
+      padding: 14px 16px 20px;
+    }
+
+    body.compact .section {
+      margin-bottom: 14px;
+    }
+
+    body.compact .section h3 {
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+
+    body.compact .chip {
+      font-size: 10px;
+      padding: 3px 8px;
+    }
+
+    body.compact .k .n {
+      font-size: 18px;
+    }
+
+    body.compact .lang-tab {
+      font-size: 11px;
+      padding: 3px 8px;
+    }
+
+    body.compact pre code {
+      font-size: 11px !important;
+      padding: 10px !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="s-head">
+        <div class="s-title">Design Patterns v2</div>
+        <div class="s-sub">7 languages · <span id="countAll">0</span> patterns · basic to advanced</div>
+        <input class="search" id="search" type="text" placeholder="Search pattern" />
+        <select class="select" id="catFilter">
+          <option value="all">All Categories</option>
+          <option value="creational">Creational</option>
+          <option value="structural">Structural</option>
+          <option value="behavioral">Behavioral</option>
+          <option value="concurrency">Concurrency</option>
+          <option value="modern">Modern</option>
+          <option value="architectural">Architectural</option>
+        </select>
+      </div>
+      <div class="s-list" id="sidebarList"></div>
+    </aside>
+
+    <main class="main">
+      <div class="m-head">
+        <div class="title">Systematic Design Pattern Collection</div>
+        <div class="subtitle">Coverage: GoF 23 + modern + concurrency + architecture across C#, Python, Go, Rust, Java, JavaScript, C++.</div>
+        <div class="chips">
+          <span class="chip">Beginner Friendly</span>
+          <span class="chip">Availability Matrix</span>
+          <span class="chip">Mermaid Diagram per Pattern</span>
+          <span class="chip">Code in 7 Languages</span>
+        </div>
+        <div class="head-actions">
+          <button class="head-btn" id="sidebarToggleBtn" onclick="toggleSidebar()">Sidebar</button>
+          <button class="head-btn" id="compactToggleBtn" onclick="toggleCompactMode()">Compact Mode</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <section class="section welcome box" style="padding:16px" id="welcome">
+          <h3>How To Read This Collection</h3>
+          <p>Patterns are sorted from <strong>basic</strong> to <strong>advanced</strong>, then grouped by category. Click any row in the table or any item in the left sidebar to open a complete pattern profile: origin, concise explanation, when-to-use, pros/cons, Mermaid diagram, and language examples.</p>
+          <div class="kpi" id="kpi"></div>
+        </section>
+
+        <section class="section">
+          <h3>Availability Matrix</h3>
+          <div class="table-wrap">
+            <table id="matrixTable">
+              <thead>
+                <tr>
+                  <th>Pattern</th>
+                  <th>Category</th>
+                  <th>Level</th>
+                  <th>GoF</th>
+                  <th>C#</th>
+                  <th>Python</th>
+                  <th>Go</th>
+                  <th>Rust</th>
+                  <th>Java</th>
+                  <th>JavaScript</th>
+                  <th>C++</th>
+                </tr>
+              </thead>
+              <tbody id="matrixBody"></tbody>
+            </table>
+          </div>
+          <p class="muted" style="margin-top:8px">Legend: <span class="check">✓</span> native/idiomatic, <span class="lib">lib</span> via ecosystem library, <span class="na">-</span> uncommon/not idiomatic.</p>
+        </section>
+
+        <section class="section" id="detailSection"></section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const LANGS = ["C#", "Python", "Go", "Rust", "Java", "JavaScript", "C++"];
+    const LANG_IDS = ["csharp", "python", "go", "rust", "java", "javascript", "cpp"];
+
+    const CAT_COLOR = {
+      creational: "#2563eb",
+      structural: "#7c3aed",
+      behavioral: "#16a34a",
+      concurrency: "#ea580c",
+      modern: "#db2777",
+      architectural: "#0d9488"
+    };
+
+    const LEVEL_RANK = { basic: 1, intermediate: 2, advanced: 3 };
+    const CAT_RANK = { creational: 1, structural: 2, behavioral: 3, concurrency: 4, modern: 5, architectural: 6 };
+
+    const PATTERNS = [
+      { id: "singleton", name: "Singleton", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "factory-method", name: "Factory Method", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "builder", name: "Builder", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "prototype", name: "Prototype", cat: "creational", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "abstract-factory", name: "Abstract Factory", cat: "creational", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "object-pool", name: "Object Pool", cat: "creational", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "dependency-injection", name: "Dependency Injection", cat: "creational", level: "intermediate", gof: false, support: [true, true, true, true, true, true, "lib"] },
+      { id: "multiton", name: "Multiton", cat: "creational", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+
+      { id: "adapter", name: "Adapter", cat: "structural", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "facade", name: "Facade", cat: "structural", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "decorator", name: "Decorator", cat: "structural", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "proxy", name: "Proxy", cat: "structural", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "composite", name: "Composite", cat: "structural", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "bridge", name: "Bridge", cat: "structural", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "flyweight", name: "Flyweight", cat: "structural", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "extension-object", name: "Extension Object", cat: "structural", level: "advanced", gof: false, support: [true, true, false, true, true, true, false] },
+      { id: "private-class-data", name: "Private Class Data", cat: "structural", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+
+      { id: "iterator", name: "Iterator", cat: "behavioral", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "observer", name: "Observer", cat: "behavioral", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "strategy", name: "Strategy", cat: "behavioral", level: "basic", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "command", name: "Command", cat: "behavioral", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "state", name: "State", cat: "behavioral", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "template-method", name: "Template Method", cat: "behavioral", level: "intermediate", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "chain-of-responsibility", name: "Chain of Responsibility", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "mediator", name: "Mediator", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "memento", name: "Memento", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "visitor", name: "Visitor", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "interpreter", name: "Interpreter", cat: "behavioral", level: "advanced", gof: true, support: [true, true, true, true, true, true, true] },
+      { id: "null-object", name: "Null Object", cat: "behavioral", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "specification", name: "Specification", cat: "behavioral", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "event-aggregator", name: "Event Aggregator", cat: "behavioral", level: "advanced", gof: false, support: [true, true, true, true, true, true, "lib"] },
+
+      { id: "producer-consumer", name: "Producer-Consumer", cat: "concurrency", level: "basic", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "thread-pool", name: "Thread Pool", cat: "concurrency", level: "basic", gof: false, support: [true, true, true, true, true, "lib", true] },
+      { id: "monitor-object", name: "Monitor Object", cat: "concurrency", level: "intermediate", gof: false, support: [true, true, true, true, true, false, true] },
+      { id: "read-write-lock", name: "Read-Write Lock", cat: "concurrency", level: "intermediate", gof: false, support: [true, true, true, true, true, false, true] },
+      { id: "active-object", name: "Active Object", cat: "concurrency", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "scheduler", name: "Scheduler", cat: "concurrency", level: "advanced", gof: false, support: [true, true, true, true, true, "lib", true] },
+      { id: "reactor", name: "Reactor", cat: "concurrency", level: "advanced", gof: false, support: ["lib", "lib", true, "lib", "lib", true, "lib"] },
+      { id: "half-sync-half-async", name: "Half-Sync/Half-Async", cat: "concurrency", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "csp", name: "CSP (Channels)", cat: "concurrency", level: "advanced", gof: false, support: ["lib", "lib", true, "lib", false, false, false] },
+      { id: "actor-model", name: "Actor Model", cat: "concurrency", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", false, false] },
+
+      { id: "repository", name: "Repository", cat: "modern", level: "basic", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "unit-of-work", name: "Unit of Work", cat: "modern", level: "intermediate", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "service-locator", name: "Service Locator", cat: "modern", level: "intermediate", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "plugin", name: "Plugin / Extension Point", cat: "modern", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "typeobject", name: "Type Object", cat: "modern", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "event-sourcing", name: "Event Sourcing", cat: "modern", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "cqrs", name: "CQRS", cat: "modern", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "saga", name: "Saga", cat: "modern", level: "advanced", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "strangler-fig", name: "Strangler Fig", cat: "modern", level: "advanced", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "monad", name: "Monad / Result Type", cat: "modern", level: "advanced", gof: false, support: ["lib", true, true, true, "lib", "lib", false] },
+
+      { id: "layered", name: "Layered Architecture", cat: "architectural", level: "basic", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "mvc", name: "MVC", cat: "architectural", level: "basic", gof: false, support: ["lib", "lib", "lib", "lib", "lib", "lib", false] },
+      { id: "mvvm", name: "MVVM", cat: "architectural", level: "intermediate", gof: false, support: [true, "lib", false, false, "lib", true, false] },
+      { id: "hexagonal", name: "Hexagonal (Ports & Adapters)", cat: "architectural", level: "intermediate", gof: false, support: [true, true, true, true, true, true, false] },
+      { id: "pipes-filters", name: "Pipes & Filters", cat: "architectural", level: "intermediate", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "microkernel", name: "Microkernel", cat: "architectural", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "blackboard", name: "Blackboard", cat: "architectural", level: "advanced", gof: false, support: [true, true, true, true, true, true, true] },
+      { id: "space-based", name: "Space-Based Architecture", cat: "architectural", level: "advanced", gof: false, support: ["lib", "lib", "lib", false, "lib", false, false] }
+    ];
+
+    let currentPattern = null;
+    let currentLang = "csharp";
+    let searchTerm = "";
+    let catFilter = "all";
+    const COMPACT_KEY = "design-patterns-v2-compact";
+
+    function isMobileView() {
+      return window.matchMedia("(max-width: 980px)").matches;
+    }
+
+    function syncSidebarButton() {
+      const btn = document.getElementById("sidebarToggleBtn");
+      if (!btn) return;
+      const open = document.body.classList.contains("sidebar-open");
+      btn.textContent = open ? "Close Sidebar" : "Sidebar";
+      btn.classList.toggle("active", open);
+    }
+
+    function openSidebar() {
+      if (!isMobileView()) return;
+      document.body.classList.add("sidebar-open");
+      syncSidebarButton();
+    }
+
+    function closeSidebar() {
+      document.body.classList.remove("sidebar-open");
+      syncSidebarButton();
+    }
+
+    function toggleSidebar() {
+      if (!isMobileView()) return;
+      if (document.body.classList.contains("sidebar-open")) closeSidebar();
+      else openSidebar();
+    }
+
+    function applyCompactMode(enabled) {
+      document.body.classList.toggle("compact", enabled);
+      const btn = document.getElementById("compactToggleBtn");
+      if (btn) {
+        btn.classList.toggle("active", enabled);
+        btn.textContent = enabled ? "Compact On" : "Compact Mode";
+      }
+      try {
+        localStorage.setItem(COMPACT_KEY, enabled ? "1" : "0");
+      } catch (e) {
+      }
+    }
+
+    function toggleCompactMode() {
+      applyCompactMode(!document.body.classList.contains("compact"));
+    }
+
+    const TUNED_PATTERN_IDS = new Set(PATTERNS.map(p => p.id));
+
+    function sortedPatterns() {
+      return PATTERNS.slice().sort((a, b) => {
+        if (LEVEL_RANK[a.level] !== LEVEL_RANK[b.level]) return LEVEL_RANK[a.level] - LEVEL_RANK[b.level];
+        if (CAT_RANK[a.cat] !== CAT_RANK[b.cat]) return CAT_RANK[a.cat] - CAT_RANK[b.cat];
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    function filteredPatterns() {
+      return sortedPatterns().filter(p => {
+        const matchesSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCat = catFilter === "all" || p.cat === catFilter;
+        return matchesSearch && matchesCat;
+      });
+    }
+
+    function esc(s) {
+      if (!s) return "";
+      return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;");
+    }
+
+    function supportCell(v) {
+      if (v === true) return '<span class="check">✓</span>';
+      if (v === "lib") return '<span class="lib">lib</span>';
+      return '<span class="na">-</span>';
+    }
+
+    function buildSidebar() {
+      const root = document.getElementById("sidebarList");
+      const grouped = {};
+      filteredPatterns().forEach(p => {
+        grouped[p.cat] = grouped[p.cat] || [];
+        grouped[p.cat].push(p);
+      });
+
+      root.innerHTML = "";
+      ["creational", "structural", "behavioral", "concurrency", "modern", "architectural"].forEach(cat => {
+        const items = grouped[cat] || [];
+        if (!items.length) return;
+        const head = document.createElement("div");
+        head.className = "s-cat";
+        head.textContent = cat;
+        root.appendChild(head);
+
+        items.forEach(p => {
+          const row = document.createElement("div");
+          row.className = "s-item" + (currentPattern && currentPattern.id === p.id ? " active" : "");
+          row.innerHTML = `
+            <span class="dot" style="background:${CAT_COLOR[p.cat]}"></span>
+            <span class="name">${esc(p.name)}</span>
+            <span class="tag">${p.level}</span>
+          `;
+          row.onclick = () => selectPattern(p.id);
+          root.appendChild(row);
+        });
+      });
+    }
+
+    function buildMatrix() {
+      const body = document.getElementById("matrixBody");
+      body.innerHTML = filteredPatterns().map(p => {
+        const langCells = p.support.map(s => `<td>${supportCell(s)}</td>`).join("");
+        return `
+          <tr>
+            <td><span class="pattern-link" onclick="selectPattern('${p.id}')">${esc(p.name)}</span></td>
+            <td>${esc(p.cat)}</td>
+            <td>${esc(p.level)}</td>
+            <td>${p.gof ? '<span class="check">✓</span>' : '<span class="na">-</span>'}</td>
+            ${langCells}
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function buildOrigin(p) {
+      if (p.gof) {
+        return "Formalized in the Gang of Four (GoF) catalog in 1994, based on recurring OOP solutions from Smalltalk and C++ practice.";
+      }
+      if (p.cat === "concurrency") {
+        return "Emerged from concurrent/distributed systems research to handle throughput, synchronization, and scalability concerns.";
+      }
+      if (p.cat === "architectural") {
+        return "Comes from software architecture literature (POSA and enterprise architecture practices) for structuring large systems.";
+      }
+      if (p.cat === "modern") {
+        return "Popularized by enterprise development and Domain-Driven Design to manage complexity in evolving products.";
+      }
+      return "Derived from common software design tradeoffs where reusable structure improves maintainability and evolution.";
+    }
+
+    function buildSummary(p) {
+      return `${p.name} is a ${p.level} ${p.cat} pattern used to make design decisions explicit and reusable. Use it when teams need a predictable way to evolve code while keeping responsibilities decoupled and testable.`;
+    }
+
+    function buildWhen(p) {
+      if (p.cat === "concurrency") {
+        return [
+          "You need safe coordination of parallel work.",
+          "Latency and throughput both matter.",
+          "Shared state and scheduling must be controlled."
+        ];
+      }
+      if (p.cat === "architectural") {
+        return [
+          "You need clear boundaries across modules and teams.",
+          "The system is expected to scale in size and ownership.",
+          "You want long-term maintainability over quick local optimization."
+        ];
+      }
+      return [
+        "You see recurring design decisions in similar components.",
+        "You want less coupling and easier replacement of behavior.",
+        "You need a shared vocabulary for code reviews and architecture discussions."
+      ];
+    }
+
+    function buildPros(p) {
+      if (p.cat === "concurrency") {
+        return [
+          "Improves throughput under load.",
+          "Makes synchronization intent explicit.",
+          "Helps isolate race-prone logic."
+        ];
+      }
+      return [
+        "Improves readability through consistent structure.",
+        "Encourages reusable and testable units.",
+        "Makes future changes less risky."
+      ];
+    }
+
+    function buildCons(p) {
+      if (p.cat === "concurrency") {
+        return [
+          "Harder debugging and observability.",
+          "Incorrect locking can hurt performance.",
+          "Edge cases are often non-deterministic."
+        ];
+      }
+      return [
+        "Adds abstraction and indirection.",
+        "Can be over-engineering for simple cases.",
+        "Needs discipline to stay consistent across teams."
+      ];
+    }
+
+    function classNameOf(p) {
+      const raw = p.name.replace(/[^A-Za-z0-9]/g, "");
+      return raw.length ? raw : "Pattern";
+    }
+
+    function buildMermaid(p) {
+      const tuned = {
+        "singleton": `classDiagram\n  class Client\n  class Singleton\n  Client --> Singleton : getInstance()\n  Singleton : -instance\n  Singleton : +getInstance()\n  Singleton : +operation()`,
+        "factory-method": `classDiagram\n  class Client\n  class Creator\n  class ConcreteCreator\n  class Product\n  class ConcreteProduct\n  Client --> Creator\n  Creator <|-- ConcreteCreator\n  Creator --> Product : factoryMethod()\n  ConcreteProduct ..|> Product`,
+        "builder": `flowchart LR\n  C[Client] --> D[Director]\n  D --> B[Builder]\n  B --> P[Product]\n  B -->|step1| B\n  B -->|step2| B`,
+        "adapter": `classDiagram\n  class Client\n  class Target\n  class Adapter\n  class Adaptee\n  Client --> Target\n  Adapter ..|> Target\n  Adapter --> Adaptee`,
+        "facade": `flowchart LR\n  C[Client] --> F[Facade]\n  F --> S1[Subsystem A]\n  F --> S2[Subsystem B]\n  F --> S3[Subsystem C]`,
+        "observer": `sequenceDiagram\n  participant S as Subject\n  participant O1 as Observer1\n  participant O2 as Observer2\n  S->>O1: notify(state)\n  S->>O2: notify(state)`,
+        "strategy": `classDiagram\n  class Context\n  class Strategy\n  class FastStrategy\n  class SafeStrategy\n  Context --> Strategy\n  FastStrategy ..|> Strategy\n  SafeStrategy ..|> Strategy`,
+        "command": `sequenceDiagram\n  participant I as Invoker\n  participant C as Command\n  participant R as Receiver\n  I->>C: execute()\n  C->>R: action()`,
+        "repository": `flowchart LR\n  A[Application Service] --> R[Repository Interface]\n  R --> M[(Memory/DB)]\n  R --> E[Domain Entity]`,
+        "producer-consumer": `flowchart LR\n  P1[Producer 1] --> Q[Queue/Channel]\n  P2[Producer 2] --> Q\n  Q --> C1[Consumer 1]\n  Q --> C2[Consumer 2]`,
+        "abstract-factory": `classDiagram\n  class Client\n  class AbstractFactory\n  class FactoryA\n  class FactoryB\n  class ProductA\n  class ProductB\n  Client --> AbstractFactory\n  FactoryA ..|> AbstractFactory\n  FactoryB ..|> AbstractFactory\n  AbstractFactory --> ProductA\n  AbstractFactory --> ProductB`,
+        "decorator": `classDiagram\n  class Component\n  class ConcreteComponent\n  class Decorator\n  class LoggingDecorator\n  Component <|.. ConcreteComponent\n  Component <|.. Decorator\n  Decorator --> Component\n  Decorator <|-- LoggingDecorator`,
+        "proxy": `sequenceDiagram\n  participant Client\n  participant Proxy\n  participant RealService\n  Client->>Proxy: request()\n  Proxy->>RealService: request()\n  RealService-->>Proxy: result\n  Proxy-->>Client: result`,
+        "chain-of-responsibility": `flowchart LR\n  R[Request] --> H1[Handler 1]\n  H1 --> H2[Handler 2]\n  H2 --> H3[Handler 3]\n  H3 --> D[Default/Fail]`,
+        "mediator": `flowchart LR\n  C1[Component A] --> M[Mediator]\n  C2[Component B] --> M\n  C3[Component C] --> M\n  M --> C1\n  M --> C2\n  M --> C3`,
+        "state": `stateDiagram-v2\n  [*] --> Idle\n  Idle --> Processing: start\n  Processing --> Paused: pause\n  Paused --> Processing: resume\n  Processing --> Done: finish\n  Done --> [*]`,
+        "cqrs": `flowchart LR\n  UI[Client] --> C[Command Model]\n  UI --> Q[Query Model]\n  C --> ES[(Write Store)]\n  Q --> RS[(Read Store)]\n  C --> EV[Events]\n  EV --> RS`,
+        "event-sourcing": `sequenceDiagram\n  participant C as Command\n  participant A as Aggregate\n  participant S as EventStore\n  participant P as Projector\n  C->>A: execute()\n  A->>S: append(events)\n  S->>P: publish(events)\n  P->>P: update read model`,
+        "reactor": `flowchart LR\n  E[Event Sources] --> L[Event Loop]\n  L --> D[Demultiplexer]\n  D --> H1[Handler A]\n  D --> H2[Handler B]\n  D --> H3[Handler C]`,
+        "mvc": `flowchart LR\n  U[User] --> V[View]\n  V --> C[Controller]\n  C --> M[Model]\n  M --> V`
+      };
+      if (tuned[p.id]) return tuned[p.id];
+
+      if (p.cat === "structural") {
+        return `classDiagram\n  class Client\n  class Abstraction\n  class ${classNameOf(p)}\n  class Concrete\n  Client --> Abstraction\n  Abstraction --> Concrete\n  ${classNameOf(p)} ..> Concrete`;
+      }
+      if (p.cat === "behavioral") {
+        return `sequenceDiagram\n  participant Client\n  participant Pattern as ${classNameOf(p)}\n  participant Dependency\n  Client->>Pattern: request()\n  Pattern->>Dependency: delegate()\n  Dependency-->>Pattern: result\n  Pattern-->>Client: response`;
+      }
+      if (p.cat === "concurrency") {
+        return `flowchart LR\n  P[Producer] --> X[${p.name}]\n  X --> Q[Queue/Channel]\n  Q --> W1[Worker 1]\n  Q --> W2[Worker 2]\n  W1 --> R[Result]\n  W2 --> R`;
+      }
+      if (p.cat === "architectural") {
+        return `flowchart LR\n  UI[Presentation] --> APP[Application]\n  APP --> DOMAIN[Domain]\n  APP --> INFRA[Infrastructure]\n  DOMAIN --> PORTS[Contracts]\n  INFRA --> PORTS\n  note[${p.name}]`;
+      }
+      return `flowchart LR\n  C[Client] --> P[${p.name}]\n  P --> A[Abstraction]\n  A --> I[Implementation]`;
+    }
+
+    function codeUnsupported(p, lang) {
+      const comment = lang === "python" ? "#" : "//";
+      return `${comment} ${p.name} is not idiomatic in this language for most production codebases.\n${comment} Consider simpler composition or framework conventions instead.`;
+    }
+
+    function codeViaLibrary(p, lang) {
+      if (lang === "javascript") {
+        return `import { Subject } from "rxjs";\n\n// ${p.name} using RxJS style\nconst bus = new Subject();\nbus.subscribe(v => console.log("A", v));\nbus.subscribe(v => console.log("B", v));\nbus.next({ pattern: "${p.name}", payload: "request" });`;
+      }
+      if (lang === "python") {
+        return `from dataclasses import dataclass\n\n# ${p.name} using container/event style libraries\n@dataclass\nclass Service:\n    name: str\n\nclass Container:\n    def __init__(self):\n        self.services = {"main": Service("default")}\n\n    def get(self, key: str):\n        return self.services[key]\n\nsvc = Container().get("main")\nprint(svc.name)`;
+      }
+      if (lang === "go") {
+        return `package main\n\nimport "fmt"\n\n// ${p.name} with ecosystem wiring patterns\ntype Service interface{ Run() string }\ntype Default struct{}\n\nfunc (Default) Run() string { return "ok" }\n\nfunc main() {\n    var s Service = Default{}\n    fmt.Println(s.Run())\n}`;
+      }
+      if (lang === "rust") {
+        return `// ${p.name} with tokio/actix style ecosystem patterns\ntrait Service { fn run(&self) -> &'static str; }\nstruct DefaultService;\n\nimpl Service for DefaultService {\n    fn run(&self) -> &'static str { "ok" }\n}\n\nfn main() {\n    let s = DefaultService;\n    println!("{}", s.run());\n}`;
+      }
+      if (lang === "java") {
+        return `// ${p.name} using Spring/Reactor style composition\ninterface Handler { void handle(String msg); }\n\nclass App {\n    private final java.util.List<Handler> handlers;\n    App(java.util.List<Handler> handlers) { this.handlers = handlers; }\n    void run(String msg) { handlers.forEach(h -> h.handle(msg)); }\n}`;
+      }
+      if (lang === "csharp") {
+        return `using Microsoft.Extensions.DependencyInjection;\n\n// ${p.name} via common .NET libraries\nvar services = new ServiceCollection();\nservices.AddSingleton<IService, DefaultService>();\nvar provider = services.BuildServiceProvider();\nConsole.WriteLine(provider.GetRequiredService<IService>().Run());\n\npublic interface IService { string Run(); }\npublic class DefaultService : IService { public string Run() => "ok"; }`;
+      }
+      return `// ${p.name} via ecosystem library integration\nint main() { return 0; }`;
+    }
+
+    function codeGeneric(p, lang) {
+      if (lang === "csharp") {
+        return `using System;\n\n// ${p.name} in C#\npublic interface IOperation { string Execute(string input); }\npublic class ConcreteOperation : IOperation {\n    public string Execute(string input) => $"${p.name}: {input}";\n}\npublic class Service {\n    private readonly IOperation _op;\n    public Service(IOperation op) { _op = op; }\n    public void Run() => Console.WriteLine(_op.Execute("request"));\n}\nnew Service(new ConcreteOperation()).Run();`;
+      }
+      if (lang === "python") {
+        return `from typing import Protocol\n\n# ${p.name} in Python\nclass Operation(Protocol):\n    def execute(self, data: str) -> str: ...\n\nclass ConcreteOperation:\n    def execute(self, data: str) -> str:\n        return f"${p.name}: {data}"\n\nclass Service:\n    def __init__(self, op: Operation):\n        self.op = op\n\n    def run(self):\n        print(self.op.execute("request"))\n\nService(ConcreteOperation()).run()`;
+      }
+      if (lang === "go") {
+        return `package main\n\nimport "fmt"\n\n// ${p.name} in Go\ntype Operation interface { Execute(string) string }\n\ntype ConcreteOperation struct{}\nfunc (ConcreteOperation) Execute(input string) string { return "${p.name}: " + input }\n\ntype Service struct { op Operation }\nfunc (s Service) Run() { fmt.Println(s.op.Execute("request")) }\n\nfunc main() {\n    Service{op: ConcreteOperation{}}.Run()\n}`;
+      }
+      if (lang === "rust") {
+        return `// ${p.name} in Rust\ntrait Operation { fn execute(&self, input: &str) -> String; }\n\nstruct ConcreteOperation;\nimpl Operation for ConcreteOperation {\n    fn execute(&self, input: &str) -> String {\n        format!("${p.name}: {}", input)\n    }\n}\n\nstruct Service<T: Operation> { op: T }\nimpl<T: Operation> Service<T> {\n    fn run(&self) { println!("{}", self.op.execute("request")); }\n}\n\nfn main() {\n    Service { op: ConcreteOperation }.run();\n}`;
+      }
+      if (lang === "java") {
+        return `// ${p.name} in Java\ninterface Operation { String execute(String input); }\n\nclass ConcreteOperation implements Operation {\n    public String execute(String input) { return "${p.name}: " + input; }\n}\n\nclass Service {\n    private final Operation op;\n    Service(Operation op) { this.op = op; }\n    void run() { System.out.println(op.execute("request")); }\n}\n\npublic class Demo {\n    public static void main(String[] args) { new Service(new ConcreteOperation()).run(); }\n}`;
+      }
+      if (lang === "javascript") {
+        return `// ${p.name} in JavaScript\nclass ConcreteOperation {\n  execute(input) {\n    return "${p.name}: " + input;\n  }\n}\n\nclass Service {\n  constructor(op) { this.op = op; }\n  run() { console.log(this.op.execute("request")); }\n}\n\nnew Service(new ConcreteOperation()).run();`;
+      }
+      return `#include <iostream>\n#include <memory>\n#include <string>\n\n// ${p.name} in C++\nstruct Operation {\n    virtual ~Operation() = default;\n    virtual std::string execute(const std::string& input) const = 0;\n};\n\nstruct ConcreteOperation : Operation {\n    std::string execute(const std::string& input) const override {\n        return std::string("${p.name}: ") + input;\n    }\n};\n\nint main() {\n    std::unique_ptr<Operation> op = std::make_unique<ConcreteOperation>();\n    std::cout << op->execute("request") << "\\n";\n}`;
+    }
+
+    function codeTunedTop10(p, lang) {
+      const top10 = new Set([
+        "singleton",
+        "factory-method",
+        "builder",
+        "adapter",
+        "facade",
+        "observer",
+        "strategy",
+        "command",
+        "repository",
+        "producer-consumer"
+      ]);
+      if (!top10.has(p.id)) return null;
+
+      if (p.id === "singleton") {
+        if (lang === "csharp") return `public sealed class Config {\n    private static readonly Lazy<Config> _i = new(() => new Config());\n    public static Config Instance => _i.Value;\n    private Config() {}\n}\nConsole.WriteLine(Config.Instance.GetHashCode());`;
+        if (lang === "python") return `class Config:\n    _i = None\n    def __new__(cls):\n        if cls._i is None: cls._i = super().__new__(cls)\n        return cls._i\n\nprint(id(Config()), id(Config()))`;
+        if (lang === "go") return `var once sync.Once\nvar cfg *Config\n\nfunc Instance() *Config {\n    once.Do(func() { cfg = &Config{} })\n    return cfg\n}`;
+        if (lang === "rust") return `use std::sync::OnceLock;\n\nstatic CONFIG: OnceLock<Config> = OnceLock::new();\nstruct Config;\nfn instance() -> &'static Config { CONFIG.get_or_init(|| Config) }`;
+        if (lang === "java") return `class Config {\n  private Config() {}\n  private static class Holder { static final Config I = new Config(); }\n  static Config instance() { return Holder.I; }\n}`;
+        if (lang === "javascript") return `class Config { constructor(){ if(Config.i) return Config.i; Config.i=this; } }\nconsole.log(new Config() === new Config());`;
+        return `class Config {\npublic:\n  static Config& instance(){ static Config i; return i; }\nprivate:\n  Config() = default;\n};`;
+      }
+
+      if (p.id === "factory-method") {
+        if (lang === "csharp") return `interface IButton { string Render(); }\nclass WinButton : IButton { public string Render()=>"Win"; }\nclass MacButton : IButton { public string Render()=>"Mac"; }\nabstract class Dialog { public abstract IButton CreateButton(); }\nclass WinDialog : Dialog { public override IButton CreateButton()=>new WinButton(); }`;
+        if (lang === "python") return `class Dialog:\n    def create_button(self): raise NotImplementedError\nclass WinDialog(Dialog):\n    def create_button(self): return "WinButton"\nprint(WinDialog().create_button())`;
+        if (lang === "go") return `type Button interface{ Render() string }\ntype WinButton struct{}\nfunc (WinButton) Render() string { return "Win" }\nfunc CreateDialog(os string) Button { if os=="win" { return WinButton{} }; return nil }`;
+        if (lang === "rust") return `trait Button { fn render(&self) -> &'static str; }\nstruct WinButton;\nimpl Button for WinButton { fn render(&self) -> &'static str { "Win" } }\nfn create_button(os: &str) -> Box<dyn Button> { if os=="win" { Box::new(WinButton) } else { Box::new(WinButton) } }`;
+        if (lang === "java") return `interface Button { String render(); }\nclass WinButton implements Button { public String render(){ return "Win"; } }\nabstract class Dialog { abstract Button createButton(); }\nclass WinDialog extends Dialog { Button createButton(){ return new WinButton(); } }`;
+        if (lang === "javascript") return `class WinButton { render(){ return "Win"; } }\nclass Dialog { createButton(){ throw new Error(); } }\nclass WinDialog extends Dialog { createButton(){ return new WinButton(); } }`;
+        return `struct Button { virtual std::string render() const = 0; };\nstruct WinButton : Button { std::string render() const override { return "Win"; } };\nstd::unique_ptr<Button> makeButton(){ return std::make_unique<WinButton>(); }`;
+      }
+
+      if (p.id === "builder") {
+        if (lang === "csharp") return `record Report(string Title, bool Charts);\nclass ReportBuilder {\n  string _t = ""; bool _c;\n  public ReportBuilder Title(string t){ _t=t; return this; }\n  public ReportBuilder Charts(){ _c=true; return this; }\n  public Report Build()=>new(_t,_c);\n}`;
+        if (lang === "python") return `class ReportBuilder:\n    def __init__(self): self.title, self.charts = "", False\n    def set_title(self, t): self.title=t; return self\n    def add_charts(self): self.charts=True; return self\n    def build(self): return {"title": self.title, "charts": self.charts}`;
+        if (lang === "go") return `type Report struct{ Title string; Charts bool }\ntype Builder struct{ r Report }\nfunc (b *Builder) Title(t string)*Builder{ b.r.Title=t; return b }\nfunc (b *Builder) Charts()*Builder{ b.r.Charts=true; return b }\nfunc (b *Builder) Build() Report { return b.r }`;
+        if (lang === "rust") return `#[derive(Default)]\nstruct Report { title: String, charts: bool }\nimpl Report {\n  fn builder() -> ReportBuilder { ReportBuilder::default() }\n}\n#[derive(Default)]\nstruct ReportBuilder { r: Report }`;
+        if (lang === "java") return `class Report { String title; boolean charts; }\nclass ReportBuilder {\n  private final Report r = new Report();\n  ReportBuilder title(String t){ r.title=t; return this; }\n  ReportBuilder charts(){ r.charts=true; return this; }\n  Report build(){ return r; }\n}`;
+        if (lang === "javascript") return `class ReportBuilder {\n  constructor(){ this.r={title:"", charts:false}; }\n  title(t){ this.r.title=t; return this; }\n  charts(){ this.r.charts=true; return this; }\n  build(){ return this.r; }\n}`;
+        return `struct Report { std::string title; bool charts=false; };\nstruct ReportBuilder {\n  Report r;\n  ReportBuilder& title(std::string t){ r.title=std::move(t); return *this; }\n  ReportBuilder& charts(){ r.charts=true; return *this; }\n  Report build(){ return r; }\n};`;
+      }
+
+      if (p.id === "adapter") {
+        if (lang === "csharp") return `interface IPayment { void Pay(decimal amount); }\nclass LegacyGateway { public void MakePayment(int cents){} }\nclass GatewayAdapter : IPayment {\n  private readonly LegacyGateway _g = new();\n  public void Pay(decimal amount) => _g.MakePayment((int)(amount*100));\n}`;
+        if (lang === "python") return `class LegacyGateway:\n    def make_payment(self, cents: int): print("paid", cents)\nclass PaymentAdapter:\n    def __init__(self, g): self.g = g\n    def pay(self, dollars: float): self.g.make_payment(int(dollars * 100))`;
+        if (lang === "go") return `type Payment interface { Pay(float64) }\ntype Legacy struct{}\nfunc (Legacy) MakePayment(cents int) {}\ntype Adapter struct{ g Legacy }\nfunc (a Adapter) Pay(d float64){ a.g.MakePayment(int(d*100)) }`;
+        if (lang === "rust") return `struct Legacy;\nimpl Legacy { fn make_payment(&self, cents: i32) {} }\ntrait Payment { fn pay(&self, dollars: f64); }\nstruct Adapter { g: Legacy }\nimpl Payment for Adapter { fn pay(&self, dollars: f64){ self.g.make_payment((dollars*100.0) as i32); } }`;
+        if (lang === "java") return `interface Payment { void pay(double dollars); }\nclass Legacy { void makePayment(int cents){} }\nclass Adapter implements Payment {\n  private final Legacy g = new Legacy();\n  public void pay(double d){ g.makePayment((int)(d*100)); }\n}`;
+        if (lang === "javascript") return `class Legacy { makePayment(cents){ console.log("paid", cents); } }\nclass Adapter {\n  constructor(g){ this.g = g; }\n  pay(dollars){ this.g.makePayment(Math.round(dollars*100)); }\n}`;
+        return `struct Payment { virtual void pay(double)=0; };\nstruct Legacy { void makePayment(int cents){} };\nstruct Adapter : Payment {\n  Legacy g;\n  void pay(double dollars) override { g.makePayment((int)(dollars*100)); }\n};`;
+      }
+
+      if (p.id === "facade") {
+        if (lang === "csharp") return `class Auth { public bool Check()=>true; }\nclass Inventory { public bool Reserve()=>true; }\nclass Billing { public void Charge(){} }\nclass OrderFacade {\n  public bool PlaceOrder(){ if(!new Auth().Check()) return false; if(!new Inventory().Reserve()) return false; new Billing().Charge(); return true; }\n}`;
+        if (lang === "python") return `class Auth: pass\nclass Inventory: pass\nclass Billing: pass\nclass OrderFacade:\n    def place_order(self):\n        return "auth -> reserve -> charge"`;
+        if (lang === "go") return `type Facade struct{}\nfunc (Facade) PlaceOrder() string {\n  return "auth -> reserve -> charge"\n}`;
+        if (lang === "rust") return `struct Facade;\nimpl Facade {\n  fn place_order(&self) -> &'static str { "auth -> reserve -> charge" }\n}`;
+        if (lang === "java") return `class OrderFacade {\n  String placeOrder(){ return "auth -> reserve -> charge"; }\n}`;
+        if (lang === "javascript") return `class OrderFacade {\n  placeOrder(){ return "auth -> reserve -> charge"; }\n}`;
+        return `struct OrderFacade {\n  std::string placeOrder() const { return "auth -> reserve -> charge"; }\n};`;
+      }
+
+      if (p.id === "observer") {
+        if (lang === "csharp") return `var observers = new List<Action<int>>();\nint state = 0;\nvoid Subscribe(Action<int> o) => observers.Add(o);\nvoid SetState(int v){ state=v; observers.ForEach(o => o(state)); }\nSubscribe(v => Console.WriteLine($"A:{v}"));\nSetState(42);`;
+        if (lang === "python") return `observers = []\ndef subscribe(fn): observers.append(fn)\ndef set_state(v):\n    for o in observers: o(v)\nsubscribe(lambda v: print("A", v))\nset_state(42)`;
+        if (lang === "go") return `type Subject struct{ obs []func(int) }\nfunc (s *Subject) Subscribe(f func(int)){ s.obs = append(s.obs, f) }\nfunc (s *Subject) Set(v int){ for _, o := range s.obs { o(v) } }`;
+        if (lang === "rust") return `type Obs = Box<dyn Fn(i32)>;\nstruct Subject { obs: Vec<Obs> }\nimpl Subject {\n  fn set(&self, v:i32){ for o in &self.obs { o(v); } }\n}`;
+        if (lang === "java") return `interface Obs { void update(int v); }\nclass Subject {\n  java.util.List<Obs> obs = new java.util.ArrayList<>();\n  void subscribe(Obs o){ obs.add(o); }\n  void set(int v){ obs.forEach(o -> o.update(v)); }\n}`;
+        if (lang === "javascript") return `class Subject {\n  constructor(){ this.obs=[]; }\n  subscribe(fn){ this.obs.push(fn); }\n  set(v){ this.obs.forEach(o => o(v)); }\n}`;
+        return `struct Subject {\n  std::vector<std::function<void(int)>> obs;\n  void set(int v){ for(auto& o: obs) o(v); }\n};`;
+      }
+
+      if (p.id === "strategy") {
+        if (lang === "csharp") return `interface IDiscount { decimal Apply(decimal p); }\nclass Vip : IDiscount { public decimal Apply(decimal p) => p * 0.8m; }\nclass Regular : IDiscount { public decimal Apply(decimal p) => p * 0.95m; }\nclass Checkout { public IDiscount Strategy = new Regular(); public decimal Total(decimal p)=>Strategy.Apply(p); }`;
+        if (lang === "python") return `def vip(p): return p * 0.8\ndef regular(p): return p * 0.95\nclass Checkout:\n    def __init__(self, strategy=regular): self.strategy = strategy\n    def total(self, price): return self.strategy(price)`;
+        if (lang === "go") return `type Strategy func(float64) float64\nfunc VIP(p float64) float64 { return p * 0.8 }\nfunc Total(p float64, s Strategy) float64 { return s(p) }`;
+        if (lang === "rust") return `trait Strategy { fn apply(&self, p: f64) -> f64; }\nstruct Vip; impl Strategy for Vip { fn apply(&self, p:f64)->f64{ p*0.8 } }\nfn total(s: &dyn Strategy, p: f64) -> f64 { s.apply(p) }`;
+        if (lang === "java") return `interface Strategy { double apply(double p); }\nclass Vip implements Strategy { public double apply(double p){ return p*0.8; } }\nclass Checkout { Strategy s = new Vip(); double total(double p){ return s.apply(p);} }`;
+        if (lang === "javascript") return `const vip = p => p * 0.8;\nclass Checkout {\n  constructor(strategy){ this.strategy = strategy; }\n  total(price){ return this.strategy(price); }\n}`;
+        return `struct Strategy { virtual double apply(double) const = 0; };\nstruct Vip : Strategy { double apply(double p) const override { return p * 0.8; } };`;
+      }
+
+      if (p.id === "command") {
+        if (lang === "csharp") return `interface ICommand { void Execute(); }\nclass Light { public void On()=>Console.WriteLine("on"); }\nclass LightOn : ICommand { private readonly Light _l; public LightOn(Light l){_l=l;} public void Execute()=>_l.On(); }\nnew LightOn(new Light()).Execute();`;
+        if (lang === "python") return `class Light:\n    def on(self): print("on")\nclass Command:\n    def __init__(self, fn): self.fn = fn\n    def execute(self): self.fn()\nCommand(Light().on).execute()`;
+        if (lang === "go") return `type Command interface{ Execute() }\ntype Light struct{}\nfunc (Light) On(){ fmt.Println("on") }\ntype LightOn struct{ l Light }\nfunc (c LightOn) Execute(){ c.l.On() }`;
+        if (lang === "rust") return `trait Command { fn execute(&self); }\nstruct Light; impl Light { fn on(&self){ println!("on"); } }\nstruct LightOn { l: Light }\nimpl Command for LightOn { fn execute(&self){ self.l.on(); } }`;
+        if (lang === "java") return `interface Command { void execute(); }\nclass Light { void on(){ System.out.println("on"); } }\nclass LightOn implements Command { Light l = new Light(); public void execute(){ l.on(); } }`;
+        if (lang === "javascript") return `class Light { on(){ console.log("on"); } }\nclass LightOn { constructor(light){ this.light = light; } execute(){ this.light.on(); } }\nnew LightOn(new Light()).execute();`;
+        return `struct Command { virtual void execute() = 0; };\nstruct Light { void on(){ std::cout << "on\\n"; } };\nstruct LightOn : Command { Light l; void execute() override { l.on(); } };`;
+      }
+
+      if (p.id === "repository") {
+        if (lang === "csharp") return `record User(int Id, string Name);\ninterface IUserRepo { User? Get(int id); void Save(User u); }\nclass MemRepo : IUserRepo {\n  private readonly Dictionary<int, User> _d = new();\n  public User? Get(int id)=>_d.GetValueOrDefault(id);\n  public void Save(User u)=>_d[u.Id]=u;\n}`;
+        if (lang === "python") return `from dataclasses import dataclass\n\n@dataclass\nclass User: id: int; name: str\nclass Repo:\n    def __init__(self): self.d = {}\n    def save(self, u): self.d[u.id] = u\n    def get(self, i): return self.d.get(i)`;
+        if (lang === "go") return `type User struct{ ID int; Name string }\ntype UserRepo interface{ Save(User); Get(int) (User, bool) }\ntype MemRepo struct{ d map[int]User }\nfunc (r *MemRepo) Save(u User){ r.d[u.ID]=u }`;
+        if (lang === "rust") return `#[derive(Clone)]\nstruct User { id: i32, name: String }\ntrait UserRepo { fn save(&mut self, u: User); fn get(&self, id: i32) -> Option<User>; }\nstruct MemRepo { d: std::collections::HashMap<i32, User> }`;
+        if (lang === "java") return `record User(int id, String name) {}\ninterface UserRepo { User get(int id); void save(User u); }\nclass MemRepo implements UserRepo {\n  java.util.Map<Integer,User> d = new java.util.HashMap<>();\n  public User get(int id){ return d.get(id); }\n  public void save(User u){ d.put(u.id(), u); }\n}`;
+        if (lang === "javascript") return `class UserRepo {\n  constructor(){ this.d = new Map(); }\n  save(u){ this.d.set(u.id, u); }\n  get(id){ return this.d.get(id); }\n}`;
+        return `struct User { int id; std::string name; };\nstruct UserRepo { virtual std::optional<User> get(int)=0; virtual void save(User)=0; };\nstruct MemRepo : UserRepo { std::unordered_map<int,User> d; };`;
+      }
+
+      if (p.id === "producer-consumer") {
+        if (lang === "csharp") return `var q = new System.Collections.Concurrent.BlockingCollection<int>(10);\nTask.Run(() => { for (int i = 0; i < 5; i++) q.Add(i); q.CompleteAdding(); });\nforeach (var x in q.GetConsumingEnumerable()) Console.WriteLine(x);`;
+        if (lang === "python") return `from queue import Queue\nfrom threading import Thread\nq = Queue(maxsize=10)\nThread(target=lambda: [q.put(i) for i in range(5)] + [q.put(None)]).start()\nwhile (x := q.get()) is not None: print(x)`;
+        if (lang === "go") return `ch := make(chan int, 10)\ngo func(){ for i:=0;i<5;i++ { ch <- i }; close(ch) }()\nfor v := range ch { fmt.Println(v) }`;
+        if (lang === "rust") return `let (tx, rx) = std::sync::mpsc::channel();\nstd::thread::spawn(move || { for i in 0..5 { tx.send(i).unwrap(); } });\nfor v in rx { println!("{}", v); }`;
+        if (lang === "java") return `var q = new java.util.concurrent.ArrayBlockingQueue<Integer>(10);\nnew Thread(() -> { for(int i=0;i<5;i++) q.offer(i); q.offer(-1); }).start();\nfor(;;){ int v=q.take(); if(v==-1) break; System.out.println(v); }`;
+        if (lang === "javascript") return `const queue = [];\nconst push = v => queue.push(v);\nconst pop = () => queue.shift();\n[0,1,2,3,4].forEach(push);\nwhile (queue.length) console.log(pop());`;
+        return `std::queue<int> q; std::mutex m; std::condition_variable cv;\n// producer pushes and notifies; consumer waits and pops in loop.`;
+      }
+
+      return null;
+    }
+
+    function codeTunedPhase2(p, lang, support) {
+      const phase2 = new Set([
+        "abstract-factory",
+        "decorator",
+        "proxy",
+        "chain-of-responsibility",
+        "mediator",
+        "state",
+        "cqrs",
+        "event-sourcing",
+        "reactor",
+        "mvc"
+      ]);
+      if (!phase2.has(p.id)) return null;
+
+      if (p.id === "abstract-factory") {
+        if (lang === "csharp") return `interface IButton { string Name(); }\ninterface IInput { string Name(); }\ninterface IUiFactory { IButton CreateButton(); IInput CreateInput(); }\nclass WinFactory : IUiFactory { public IButton CreateButton()=>new WinButton(); public IInput CreateInput()=>new WinInput(); }`;
+        if (lang === "python") return `class UIFactory:\n    def button(self): raise NotImplementedError\n    def input(self): raise NotImplementedError\nclass WinFactory(UIFactory):\n    def button(self): return "WinButton"\n    def input(self): return "WinInput"`;
+        if (lang === "go") return `type Button interface{ Name() string }\ntype Input interface{ Name() string }\ntype UIFactory interface { CreateButton() Button; CreateInput() Input }`;
+        if (lang === "rust") return `trait Button { fn name(&self) -> &'static str; }\ntrait Input { fn name(&self) -> &'static str; }\ntrait UiFactory { fn button(&self) -> Box<dyn Button>; fn input(&self) -> Box<dyn Input>; }`;
+        if (lang === "java") return `interface UIFactory { Button createButton(); Input createInput(); }\ninterface Button { String name(); }\ninterface Input { String name(); }\nclass WinFactory implements UIFactory { public Button createButton(){ return ()->"WinButton"; } public Input createInput(){ return ()->"WinInput"; } }`;
+        if (lang === "javascript") return `class WinFactory {\n  createButton(){ return { name: () => "WinButton" }; }\n  createInput(){ return { name: () => "WinInput" }; }\n}`;
+        return `struct Button { virtual std::string name() const = 0; };\nstruct Input { virtual std::string name() const = 0; };\nstruct UiFactory { virtual std::unique_ptr<Button> button() = 0; virtual std::unique_ptr<Input> input() = 0; };`;
+      }
+
+      if (p.id === "decorator") {
+        if (lang === "csharp") return `interface INotifier { string Send(string m); }\nclass BaseNotifier : INotifier { public string Send(string m)=>m; }\nclass SmsDecorator : INotifier { private readonly INotifier _n; public SmsDecorator(INotifier n){_n=n;} public string Send(string m)=>_n.Send(m)+" +sms"; }`;
+        if (lang === "python") return `class Notifier:\n    def send(self, m): return m\nclass SmsDecorator:\n    def __init__(self, n): self.n = n\n    def send(self, m): return self.n.send(m) + " +sms"`;
+        if (lang === "go") return `type Notifier interface { Send(string) string }\ntype Base struct{}\nfunc (Base) Send(m string) string { return m }\ntype Sms struct{ inner Notifier }\nfunc (s Sms) Send(m string) string { return s.inner.Send(m) + " +sms" }`;
+        if (lang === "rust") return `trait Notifier { fn send(&self, m: &str) -> String; }\nstruct Base; impl Notifier for Base { fn send(&self, m:&str)->String{ m.to_string() } }\nstruct Sms<N: Notifier>{ inner: N }\nimpl<N:Notifier> Notifier for Sms<N>{ fn send(&self,m:&str)->String{ format!("{} +sms", self.inner.send(m)) } }`;
+        if (lang === "java") return `interface Notifier { String send(String m); }\nclass BaseNotifier implements Notifier { public String send(String m){ return m; } }\nclass SmsDecorator implements Notifier { Notifier n; SmsDecorator(Notifier n){ this.n=n; } public String send(String m){ return n.send(m)+" +sms"; } }`;
+        if (lang === "javascript") return `class BaseNotifier { send(m){ return m; } }\nclass SmsDecorator {\n  constructor(inner){ this.inner = inner; }\n  send(m){ return this.inner.send(m) + " +sms"; }\n}`;
+        return `struct Notifier { virtual std::string send(std::string) const = 0; };\nstruct BaseNotifier : Notifier { std::string send(std::string m) const override { return m; } };\nstruct SmsDecorator : Notifier { std::shared_ptr<Notifier> n; std::string send(std::string m) const override { return n->send(m) + " +sms"; } };`;
+      }
+
+      if (p.id === "proxy") {
+        if (lang === "csharp") return `interface IService { string Get(); }\nclass RealService : IService { public string Get()=>"data"; }\nclass CacheProxy : IService { private readonly IService _s = new RealService(); private string? _c; public string Get()=> _c ??= _s.Get(); }`;
+        if (lang === "python") return `class Real:\n    def get(self): return "data"\nclass Proxy:\n    def __init__(self): self.real, self.cache = Real(), None\n    def get(self):\n        if self.cache is None: self.cache = self.real.get()\n        return self.cache`;
+        if (lang === "go") return `type Service interface{ Get() string }\ntype Real struct{}\nfunc (Real) Get() string { return "data" }\ntype Proxy struct{ s Service; c *string }\nfunc (p *Proxy) Get() string { if p.c == nil { v := p.s.Get(); p.c = &v }; return *p.c }`;
+        if (lang === "rust") return `trait Service { fn get(&mut self) -> String; }\nstruct Real; impl Service for Real { fn get(&mut self) -> String { "data".into() } }\nstruct Proxy<S: Service> { inner: S, cache: Option<String> }`;
+        if (lang === "java") return `interface Service { String get(); }\nclass Real implements Service { public String get(){ return "data"; } }\nclass Proxy implements Service { Service s = new Real(); String c; public String get(){ if(c==null) c=s.get(); return c; } }`;
+        if (lang === "javascript") return `class Real { get(){ return "data"; } }\nclass Proxy {\n  constructor(){ this.real = new Real(); this.cache = null; }\n  get(){ if(this.cache === null) this.cache = this.real.get(); return this.cache; }\n}`;
+        return `struct Service { virtual std::string get() = 0; };\nstruct Real : Service { std::string get() override { return "data"; } };\nstruct Proxy : Service { std::unique_ptr<Service> inner = std::make_unique<Real>(); std::optional<std::string> c; std::string get() override { if(!c) c=inner->get(); return *c; } };`;
+      }
+
+      if (p.id === "chain-of-responsibility") {
+        if (lang === "csharp") return `abstract class Handler { public Handler? Next; public abstract bool Handle(int x); }\nclass Small : Handler { public override bool Handle(int x)=> x<10 || (Next?.Handle(x) ?? false); }\nclass Large : Handler { public override bool Handle(int x)=> x>=10; }`;
+        if (lang === "python") return `class Handler:\n    def __init__(self, nxt=None): self.nxt=nxt\n    def handle(self, x): return self.nxt.handle(x) if self.nxt else False\nclass Small(Handler):\n    def handle(self, x): return x < 10 or super().handle(x)`;
+        if (lang === "go") return `type Handler interface{ Handle(int) bool }\ntype Small struct{ next Handler }\nfunc (h Small) Handle(x int) bool { if x < 10 { return true }; if h.next != nil { return h.next.Handle(x) }; return false }`;
+        if (lang === "rust") return `trait Handler { fn handle(&self, x: i32) -> bool; }\nstruct Small<H: Handler>{ next: H }\nimpl<H: Handler> Handler for Small<H> { fn handle(&self, x:i32)->bool{ x<10 || self.next.handle(x) } }`;
+        if (lang === "java") return `interface Handler { boolean handle(int x); }\nclass Small implements Handler { Handler next; Small(Handler n){next=n;} public boolean handle(int x){ return x<10 || next.handle(x); } }\nclass Large implements Handler { public boolean handle(int x){ return x>=10; } }`;
+        if (lang === "javascript") return `class Small {\n  constructor(next){ this.next = next; }\n  handle(x){ return x < 10 || (this.next ? this.next.handle(x) : false); }\n}`;
+        return `struct Handler { virtual bool handle(int)=0; };\nstruct Small : Handler { std::shared_ptr<Handler> next; bool handle(int x) override { return x < 10 || (next && next->handle(x)); } };`;
+      }
+
+      if (p.id === "mediator") {
+        if (lang === "csharp") return `interface IMediator { void Send(string from, string msg); }\nclass ChatMediator : IMediator { public List<User> Users = new(); public void Send(string f,string m){ foreach(var u in Users.Where(x=>x.Name!=f)) u.Receive(m); } }\nclass User { public string Name=""; public Action<string> Receive = _ => {}; }`;
+        if (lang === "python") return `class Mediator:\n    def __init__(self): self.users = []\n    def send(self, sender, msg):\n        for u in self.users:\n            if u != sender: u.receive(msg)`;
+        if (lang === "go") return `type Mediator interface{ Send(string, string) }\ntype Chat struct{ users map[string]func(string) }\nfunc (c Chat) Send(from, msg string){ for name, r := range c.users { if name != from { r(msg) } } }`;
+        if (lang === "rust") return `trait Mediator { fn send(&self, from: &str, msg: &str); }\nstruct Chat; impl Mediator for Chat { fn send(&self, _from:&str, _msg:&str) {} }`;
+        if (lang === "java") return `interface Mediator { void send(String from, String msg); }\nclass ChatMediator implements Mediator {\n  java.util.Map<String, java.util.function.Consumer<String>> users = new java.util.HashMap<>();\n  public void send(String from, String msg){ users.forEach((n,r)->{ if(!n.equals(from)) r.accept(msg); }); }\n}`;
+        if (lang === "javascript") return `class Mediator {\n  constructor(){ this.users = new Map(); }\n  send(from, msg){ for(const [name, recv] of this.users) if(name !== from) recv(msg); }\n}`;
+        return `struct Mediator { virtual void send(const std::string&, const std::string&) = 0; };`;
+      }
+
+      if (p.id === "state") {
+        if (lang === "csharp") return `interface IState { string Next(); }\nclass Idle : IState { public string Next()=>"Processing"; }\nclass Processing : IState { public string Next()=>"Done"; }\nclass Job { public IState State = new Idle(); public void Advance(){ State = State.Next()=="Processing" ? new Processing() : new Idle(); } }`;
+        if (lang === "python") return `class Idle:\n    def next(self): return Processing()\nclass Processing:\n    def next(self): return Idle()\nclass Job:\n    def __init__(self): self.state = Idle()\n    def advance(self): self.state = self.state.next()`;
+        if (lang === "go") return `type State interface{ Next() State; Name() string }\ntype Idle struct{}\nfunc (Idle) Next() State { return Processing{} }\nfunc (Idle) Name() string { return "Idle" }`;
+        if (lang === "rust") return `enum State { Idle, Processing, Done }\nimpl State { fn next(self) -> Self { match self { State::Idle => State::Processing, State::Processing => State::Done, State::Done => State::Idle } } }`;
+        if (lang === "java") return `interface State { State next(); String name(); }\nclass Idle implements State { public State next(){ return new Processing(); } public String name(){ return "Idle"; } }`;
+        if (lang === "javascript") return `const Idle = { name:"Idle", next: () => Processing };\nconst Processing = { name:"Processing", next: () => Idle };\nlet state = Idle; state = state.next();`;
+        return `enum class State { Idle, Processing, Done };\nState next(State s){ if(s==State::Idle) return State::Processing; if(s==State::Processing) return State::Done; return State::Idle; }`;
+      }
+
+      if (p.id === "cqrs") {
+        if (lang === "csharp") return `record CreateOrder(Guid Id, decimal Total);\nclass CommandHandler { public void Handle(CreateOrder c){ /* write model */ } }\nclass QueryHandler { public decimal GetTotal(Guid id)=> 42m; }`;
+        if (lang === "python") return `# CQRS with command/query handlers (often via message bus libs)\nclass CreateOrder: pass\nclass CommandHandler:\n    def handle(self, cmd): pass\nclass QueryHandler:\n    def get_total(self, order_id): return 42`;
+        if (lang === "go") return `type CreateOrder struct{ ID string; Total float64 }\ntype CommandHandler interface{ Handle(CreateOrder) }\ntype QueryHandler interface{ TotalByID(string) float64 }`;
+        if (lang === "rust") return `struct CreateOrder { id: String, total: f64 }\ntrait CommandHandler { fn handle(&self, c: CreateOrder); }\ntrait QueryHandler { fn total_by_id(&self, id: &str) -> f64; }`;
+        if (lang === "java") return `record CreateOrder(String id, double total) {}\ninterface CommandHandler { void handle(CreateOrder c); }\ninterface QueryHandler { double totalById(String id); }`;
+        if (lang === "javascript") return `class CommandBus { dispatch(cmd){ /* write side */ } }\nclass QueryService { totalById(id){ return 42; } }`;
+        return `// CQRS is usually implemented with framework/message-bus support in C++.\n// Keep write and read models separate, connected by events.`;
+      }
+
+      if (p.id === "event-sourcing") {
+        if (lang === "csharp") return `record OrderCreated(Guid Id, decimal Total);\nvar events = new List<object>();\nevents.Add(new OrderCreated(Guid.NewGuid(), 99m));\n// Rebuild aggregate by replaying events.`;
+        if (lang === "python") return `events = []\nevents.append({"type":"OrderCreated","id":"o1","total":99})\n# replay(events) -> rebuild aggregate`;
+        if (lang === "go") return `type Event struct{ Type string; Payload map[string]any }\nvar stream []Event\nstream = append(stream, Event{Type:"OrderCreated"})`;
+        if (lang === "rust") return `enum Event { OrderCreated { id: String, total: f64 } }\nlet stream = vec![Event::OrderCreated { id: "o1".into(), total: 99.0 }];`;
+        if (lang === "java") return `record Event(String type, String id, double total) {}\nvar stream = new java.util.ArrayList<Event>();\nstream.add(new Event("OrderCreated", "o1", 99.0));`;
+        if (lang === "javascript") return `const stream = [];\nstream.push({ type: "OrderCreated", id: "o1", total: 99 });\n// project(stream) -> read model`;
+        return `// Event sourcing in C++ is usually library/custom infra based.\n// Persist immutable domain events and rebuild state by replay.`;
+      }
+
+      if (p.id === "reactor") {
+        if (lang === "csharp") return `using System.Net.Sockets;\n// Reactor style commonly built with event-loop abstractions (e.g., SocketAsyncEventArgs).`;
+        if (lang === "python") return `import asyncio\n\nasync def main():\n    reader, writer = await asyncio.open_connection("localhost", 9000)\n    writer.write(b"ping")\n    await writer.drain()\n\nasyncio.run(main())`;
+        if (lang === "go") return `ln, _ := net.Listen("tcp", ":9000")\nfor {\n  c, _ := ln.Accept()\n  go func(conn net.Conn){ defer conn.Close(); /* handle */ }(c)\n}`;
+        if (lang === "rust") return `use tokio::net::TcpListener;\n#[tokio::main]\nasync fn main(){\n  let l = TcpListener::bind("127.0.0.1:9000").await.unwrap();\n  loop { let (_sock, _) = l.accept().await.unwrap(); }\n}`;
+        if (lang === "java") return `var selector = java.nio.channels.Selector.open();\n// register non-blocking channels and dispatch selected keys in loop.`;
+        if (lang === "javascript") return `import net from "node:net";\nnet.createServer(sock => { sock.on("data", d => sock.write(d)); }).listen(9000);`;
+        return `// Boost.Asio style reactor loop\n// io_context io; tcp::acceptor a(io, endpoint); io.run();`;
+      }
+
+      if (p.id === "mvc") {
+        if (lang === "csharp") return `// ASP.NET MVC-style separation\nclass ProductController { public string Index() => "view"; }\nclass ProductModel { public int Id {get;set;} }`;
+        if (lang === "python") return `# Django/Flask style MVC(MTV)\nclass Product: pass\ndef product_view(request): return "render"`;
+        if (lang === "go") return `// Gin/Echo style MVC-ish separation\ntype Product struct{ ID int }\nfunc ProductHandler(c *Context) { /* controller */ }`;
+        if (lang === "rust") return `// Actix/Rocket approximate MVC boundaries\nstruct Product { id: i32 }\nasync fn product_handler() -> &'static str { "view" }`;
+        if (lang === "java") return `// Spring MVC\n@Controller class ProductController {\n  @GetMapping("/products") String index(){ return "products"; }\n}`;
+        if (lang === "javascript") return `// Express/Nest MVC\napp.get('/products', (req, res) => res.render('products'));`;
+        return `// MVC is uncommon as a named pattern in modern C++ app frameworks.\n// Usually implemented through framework-specific UI architecture.`;
+      }
+
+      if (support === "lib") {
+        return `// ${p.name} is typically framework/library-driven in this language.\n// The shape below keeps responsibilities explicit while delegating runtime plumbing to libraries.\n${codeViaLibrary(p, lang)}`;
+      }
+
+      return null;
+    }
+
+    function codeTunedRemaining(p, lang, support) {
+      const data = {
+        "prototype": { verb: "clone", entity: "template", out: "copy" },
+        "object-pool": { verb: "acquire", entity: "resource", out: "leased" },
+        "dependency-injection": { verb: "resolve", entity: "service", out: "injected" },
+        "multiton": { verb: "get", entity: "instanceByKey", out: "cached" },
+        "composite": { verb: "render", entity: "tree", out: "combined" },
+        "bridge": { verb: "operate", entity: "abstractionImpl", out: "delegated" },
+        "flyweight": { verb: "share", entity: "intrinsicState", out: "reused" },
+        "extension-object": { verb: "extend", entity: "hostObject", out: "capability" },
+        "private-class-data": { verb: "expose", entity: "safeView", out: "guarded" },
+        "iterator": { verb: "iterate", entity: "collection", out: "sequence" },
+        "template-method": { verb: "run", entity: "fixedSteps", out: "hooked" },
+        "memento": { verb: "restore", entity: "snapshot", out: "recovered" },
+        "visitor": { verb: "visit", entity: "node", out: "operationApplied" },
+        "interpreter": { verb: "interpret", entity: "expression", out: "evaluated" },
+        "null-object": { verb: "handle", entity: "missingDependency", out: "noOp" },
+        "specification": { verb: "check", entity: "rule", out: "matched" },
+        "event-aggregator": { verb: "publish", entity: "event", out: "broadcast" },
+        "thread-pool": { verb: "schedule", entity: "task", out: "queued" },
+        "monitor-object": { verb: "synchronize", entity: "criticalSection", out: "serialized" },
+        "read-write-lock": { verb: "access", entity: "sharedData", out: "protected" },
+        "active-object": { verb: "dispatch", entity: "asyncRequest", out: "future" },
+        "scheduler": { verb: "trigger", entity: "job", out: "planned" },
+        "half-sync-half-async": { verb: "bridge", entity: "asyncToSync", out: "buffered" },
+        "csp": { verb: "exchange", entity: "message", out: "chanFlow" },
+        "actor-model": { verb: "tell", entity: "mailbox", out: "processed" },
+        "unit-of-work": { verb: "commit", entity: "transaction", out: "atomic" },
+        "service-locator": { verb: "locate", entity: "serviceByName", out: "resolved" },
+        "plugin": { verb: "load", entity: "plugin", out: "extended" },
+        "typeobject": { verb: "configure", entity: "typeDefinition", out: "dynamicType" },
+        "saga": { verb: "orchestrate", entity: "steps", out: "compensated" },
+        "strangler-fig": { verb: "route", entity: "legacyCall", out: "migrated" },
+        "monad": { verb: "bind", entity: "result", out: "safeChain" },
+        "layered": { verb: "flow", entity: "requestThroughLayers", out: "separated" },
+        "mvvm": { verb: "bind", entity: "viewModel", out: "synced" },
+        "hexagonal": { verb: "adapt", entity: "port", out: "isolatedCore" },
+        "pipes-filters": { verb: "pipe", entity: "record", out: "transformed" },
+        "microkernel": { verb: "register", entity: "pluginModule", out: "composed" },
+        "blackboard": { verb: "contribute", entity: "knowledgeSource", out: "solutionState" },
+        "space-based": { verb: "partition", entity: "inMemoryGrid", out: "scaled" }
+      };
+
+      const meta = data[p.id];
+      if (!meta) return null;
+
+      const pascal = (x) => x.replace(/(^|[-_\s]+)([a-zA-Z])/g, (_, __, c) => c.toUpperCase()).replace(/[^a-zA-Z0-9]/g, "");
+      const camel = (x) => {
+        const s = pascal(x);
+        return s ? s[0].toLowerCase() + s.slice(1) : "op";
+      };
+
+      const typeName = pascal(p.id + " handler");
+      const method = camel(meta.verb);
+      const input = camel(meta.entity);
+      const output = meta.out;
+
+      if (support === "lib") {
+        return `// ${p.name} is library/framework driven in this language.\n// Pattern-specific intent: ${meta.verb} ${meta.entity} -> ${meta.out}.\n${codeViaLibrary(p, lang)}`;
+      }
+
+      if (lang === "csharp") {
+        return `using System;\n\nclass ${typeName} {\n  public string ${pascal(method)}(string ${input}) => \"${output}:\" + ${input};\n}\n\nConsole.WriteLine(new ${typeName}().${pascal(method)}(\"${meta.entity}\"));`;
+      }
+      if (lang === "python") {
+        return `class ${typeName}:\n    def ${method}(self, ${input}: str) -> str:\n        return \"${output}:\" + ${input}\n\nif __name__ == \"__main__\":\n    print(${typeName}().${method}(\"${meta.entity}\"))`;
+      }
+      if (lang === "go") {
+        return `package main\n\nimport \"fmt\"\n\ntype ${typeName} struct{}\n\nfunc (${typeName}) ${pascal(method)}(${input} string) string {\n  return \"${output}:\" + ${input}\n}\n\nfunc main() {\n  fmt.Println(${typeName}{}.${pascal(method)}(\"${meta.entity}\"))\n}`;
+      }
+      if (lang === "rust") {
+        return `struct ${typeName};\n\nimpl ${typeName} {\n  fn ${method}(&self, ${input}: &str) -> String {\n    format!(\"${output}:{}\", ${input})\n  }\n}\n\nfn main() {\n  println!(\"{}\", ${typeName}.${method}(\"${meta.entity}\"));\n}`;
+      }
+      if (lang === "java") {
+        return `class ${typeName} {\n  String ${method}(String ${input}) { return \"${output}:\" + ${input}; }\n}\n\npublic class Demo {\n  public static void main(String[] args) {\n    System.out.println(new ${typeName}().${method}(\"${meta.entity}\"));\n  }\n}`;
+      }
+      if (lang === "javascript") {
+        return `class ${typeName} {\n  ${method}(${input}) {\n    return \"${output}:\" + ${input};\n  }\n}\n\nconsole.log(new ${typeName}().${method}(\"${meta.entity}\"));`;
+      }
+      return `#include <iostream>\n#include <string>\n\nstruct ${typeName} {\n  std::string ${method}(const std::string& ${input}) const { return \"${output}:\" + ${input}; }\n};\n\nint main() {\n  std::cout << ${typeName}{}.${method}(\"${meta.entity}\") << "\\n";\n  return 0;\n}`;
+    }
+
+    function buildCode(p, lang, support) {
+      let out;
+      if (support === false) out = codeUnsupported(p, lang);
+      const tuned2 = codeTunedPhase2(p, lang, support);
+      if (!out && tuned2) out = tuned2;
+      const tunedRemaining = codeTunedRemaining(p, lang, support);
+      if (!out && tunedRemaining) out = tunedRemaining;
+      if (!out && support === "lib") out = codeViaLibrary(p, lang);
+      const tuned = codeTunedTop10(p, lang);
+      if (!out && tuned) out = tuned;
+      if (!out) out = codeGeneric(p, lang);
+      return ensureRunnableCode(p, lang, support, out);
+    }
+
+    function ensureRunnableCode(p, lang, support, code) {
+      if (!code || support === false) return code;
+
+      if (lang === "go") {
+        let out = code;
+        if (!/\bpackage\s+main\b/.test(out)) {
+          const imports = [];
+          if (out.includes("fmt.")) imports.push("\"fmt\"");
+          if (out.includes("sync.")) imports.push("\"sync\"");
+          if (out.includes("net.")) imports.push("\"net\"");
+          const importBlock = imports.length ? `import (\n${imports.map(i => `  ${i}`).join("\n")}\n)\n\n` : "";
+          out = `package main\n\n${importBlock}${out}`;
+        }
+        if (!/\bfunc\s+main\s*\(\)/.test(out)) {
+          out += "\n\nfunc main() {}";
+        }
+        return out;
+      }
+
+      if (lang === "rust") {
+        if (/\bfn\s+main\s*\(/.test(code) || /#\[tokio::main\]/.test(code)) return code;
+        return `${code}\n\nfn main() {}`;
+      }
+
+      if (lang === "java") {
+        if (/\bpublic\s+class\s+Demo\b/.test(code) || /\bpublic\s+static\s+void\s+main\s*\(/.test(code)) return code;
+        return `${code}\n\npublic class Demo {\n  public static void main(String[] args) {}\n}`;
+      }
+
+      if (lang === "cpp") {
+        let out = code;
+        if (!/#include\s+</.test(out)) {
+          out = `#include <iostream>\n#include <memory>\n#include <string>\n\n${out}`;
+        }
+        if (!/\bint\s+main\s*\(/.test(out)) {
+          out += "\n\nint main() { return 0; }";
+        }
+        return out;
+      }
+
+      if (lang === "python") {
+        if (/if __name__ == ["']__main__["']/.test(code)) return code;
+        return `${code}\n\nif __name__ == \"__main__\":\n    pass`;
+      }
+
+      if (lang === "csharp") {
+        if (/\busing\s+System;/.test(code)) return code;
+        return `using System;\n${code}`;
+      }
+
+      return code;
+    }
+
+    function getRunStatus(p, lang, support) {
+      if (support === false) {
+        return { label: "Not Available", cls: "run-no", note: "This pattern is not idiomatic/available for this language in this catalog." };
+      }
+      if (support === "lib") {
+        return { label: "Needs Deps", cls: "run-deps", note: "Run-ready with ecosystem dependencies/framework packages installed." };
+      }
+      if (TUNED_PATTERN_IDS.has(p.id)) {
+        return { label: "Run-Ready", cls: "run-ready", note: "Snippet includes runnable structure (entry point/boilerplate) for quick local execution." };
+      }
+      return { label: "Example", cls: "run-no", note: "Concept snippet: may need minor setup before execution." };
+    }
+
+    function getRunCommand(lang, support) {
+      if (support === false) {
+        return {
+          cmd: "# Pattern not available in this language for this catalog entry",
+          note: "No direct run command because this language entry is marked unavailable."
+        };
+      }
+
+      if (lang === "csharp") {
+        return {
+          cmd: "dotnet new console -n PatternDemo && cd PatternDemo && dotnet run",
+          note: support === "lib" ? "Install required NuGet packages before running." : "Paste code into Program.cs, then run."
+        };
+      }
+
+      if (lang === "python") {
+        return {
+          cmd: "python3 main.py",
+          note: support === "lib" ? "Install required pip packages first (for example: pip install dependency-injector rx)." : "Save snippet as main.py and run."
+        };
+      }
+
+      if (lang === "go") {
+        return {
+          cmd: "go mod init pattern-demo && go run .",
+          note: support === "lib" ? "Run go get for any external modules used by the snippet." : "Save snippet in main.go and run from project root."
+        };
+      }
+
+      if (lang === "rust") {
+        return {
+          cmd: "cargo new pattern_demo && cd pattern_demo && cargo run",
+          note: support === "lib" ? "Add required crates in Cargo.toml (for example: tokio)." : "Paste snippet into src/main.rs and run."
+        };
+      }
+
+      if (lang === "java") {
+        return {
+          cmd: "javac Demo.java && java Demo",
+          note: support === "lib" ? "Framework-based examples may require Maven/Gradle project setup." : "Save snippet as Demo.java and run."
+        };
+      }
+
+      if (lang === "javascript") {
+        return {
+          cmd: "node main.js",
+          note: support === "lib" ? "Install required npm packages first (for example: npm i rxjs)." : "Save snippet as main.js and run with Node.js."
+        };
+      }
+
+      return {
+        cmd: "g++ -std=c++17 main.cpp -o app && ./app",
+        note: support === "lib" ? "Install/link required libraries before compilation (for example: Boost)." : "Save snippet as main.cpp and compile."
+      };
+    }
+
+    function copyRunCommand(btn) {
+      const cmd = btn?.dataset?.cmd || "";
+      if (!cmd) return;
+      navigator.clipboard.writeText(cmd).then(() => {
+        const prev = btn.textContent;
+        btn.textContent = "Copied";
+        setTimeout(() => {
+          btn.textContent = prev;
+        }, 1200);
+      });
+    }
+
+    function copyCode(btn) {
+      const code = document.getElementById("codePanel")?.textContent || "";
+      if (!code) return;
+      navigator.clipboard.writeText(code).then(() => {
+        const prev = btn.textContent;
+        btn.textContent = "Copied";
+        setTimeout(() => {
+          btn.textContent = prev;
+        }, 1200);
+      });
+    }
+
+    function libsFor(p, langIndex) {
+      const ecosystem = [
+        ["Microsoft.Extensions.DependencyInjection", "TPL", "MediatR"],
+        ["dependency-injector", "asyncio", "pydantic"],
+        ["uber-go/fx", "go-kit", "goroutines/channels"],
+        ["tokio", "actix", "tower"],
+        ["Spring Framework", "Project Reactor", "Akka"],
+        ["NestJS", "RxJS", "BullMQ"],
+        ["Boost.Asio", "Intel TBB", "Poco"]
+      ];
+      const s = p.support[langIndex];
+      if (s === false) return ["-"];
+      if (s === "lib") return [...ecosystem[langIndex], `${p.name} is usually implemented through ecosystem components.`];
+      return [...ecosystem[langIndex], `${p.name} can be implemented directly with native language constructs.`];
+    }
+
+    function selectPattern(id) {
+      const p = PATTERNS.find(x => x.id === id);
+      if (!p) return;
+      currentPattern = p;
+      const firstAvailable = p.support.findIndex(x => x !== false);
+      if (p.support[LANG_IDS.indexOf(currentLang)] === false && firstAvailable >= 0) {
+        currentLang = LANG_IDS[firstAvailable];
+      }
+      buildSidebar();
+      renderDetail();
+      if (isMobileView()) closeSidebar();
+      document.getElementById("detailSection").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function renderDetail() {
+      const root = document.getElementById("detailSection");
+      if (!currentPattern) {
+        root.innerHTML = "";
+        return;
+      }
+      const p = currentPattern;
+      const langIndex = LANG_IDS.indexOf(currentLang);
+      const support = p.support[langIndex];
+      const code = buildCode(p, currentLang, support);
+      const runStatus = getRunStatus(p, currentLang, support);
+      const runCmd = getRunCommand(currentLang, support);
+      const mermaidText = buildMermaid(p);
+
+      const tabs = LANGS.map((name, i) => {
+        const id = LANG_IDS[i];
+        const sup = p.support[i];
+        const cls = sup === false ? "lang-tab disabled" : (id === currentLang ? "lang-tab active" : "lang-tab");
+        const libMark = sup === "lib" ? " *" : "";
+        return `<button class="${cls}" ${sup === false ? "" : `onclick=\"switchLang('${id}')\"`}>${name}${libMark}</button>`;
+      }).join("");
+
+      const libsRows = LANGS.map((lang, i) => {
+        const libs = libsFor(p, i).map(x => esc(x)).join("<br>");
+        return `<tr><td>${esc(lang)}</td><td>${libs}</td></tr>`;
+      }).join("");
+
+      root.innerHTML = `
+        <h3>Pattern Profile</h3>
+        <div class="box" style="padding:16px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="font-size:20px;font-weight:800">${esc(p.name)}</div>
+            <span class="chip" style="border-color:${CAT_COLOR[p.cat]};color:${CAT_COLOR[p.cat]}">${esc(p.cat)}</span>
+            <span class="chip">${esc(p.level)}</span>
+            ${p.gof ? '<span class="chip">GoF Classic</span>' : ""}
+          </div>
+
+          <div class="section" style="margin-top:12px">
+            <h3>Origin</h3>
+            <p>${esc(buildOrigin(p))}</p>
+          </div>
+
+          <div class="section">
+            <h3>What / When</h3>
+            <p>${esc(buildSummary(p))}</p>
+            <ul class="list" style="margin-top:8px">${buildWhen(p).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+          </div>
+
+          <div class="section grid-2">
+            <div class="box" style="padding:12px">
+              <h3>Pros</h3>
+              <ul class="list">${buildPros(p).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+            </div>
+            <div class="box" style="padding:12px">
+              <h3>Cons</h3>
+              <ul class="list">${buildCons(p).map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+            </div>
+          </div>
+
+          <div class="section">
+            <h3>Mermaid Diagram</h3>
+            <div class="diagram"><div class="mermaid" id="mermaidPanel">${esc(mermaidText)}</div></div>
+          </div>
+
+          <div class="section">
+            <h3>Code Example (${esc(LANGS[langIndex])}${support === "lib" ? ", via library" : ""}) <span class="run-badge ${runStatus.cls}">${runStatus.label}</span></h3>
+            <div class="lang-tabs">${tabs}</div>
+            <div class="run-note">${esc(runStatus.note)}</div>
+            <div class="code-tools">
+              <button class="run-cmd-copy" onclick="copyCode(this)">Copy Code</button>
+            </div>
+            <pre><code id="codePanel" class="${langClass(currentLang)}">${esc(code)}</code></pre>
+            <div class="run-cmd-wrap">
+              <div class="run-cmd-head">
+                <span>Run Command</span>
+                <button class="run-cmd-copy" data-cmd="${esc(runCmd.cmd)}" onclick="copyRunCommand(this)">Copy Run Command</button>
+              </div>
+              <pre class="run-cmd">${esc(runCmd.cmd)}</pre>
+            </div>
+            <div class="run-cmd-note">${esc(runCmd.note)}</div>
+          </div>
+
+          <div class="section">
+            <h3>Common Libraries / Tools</h3>
+            <div class="table-wrap">
+              <table class="libs">
+                <thead><tr><th>Language</th><th>Libraries and Notes</th></tr></thead>
+                <tbody>${libsRows}</tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+
+      try {
+        mermaid.run({ nodes: [document.getElementById("mermaidPanel")] });
+      } catch (e) {
+      }
+
+      const c = document.getElementById("codePanel");
+      if (c) {
+        try {
+          hljs.highlightElement(c);
+        } catch (e) {
+        }
+      }
+    }
+
+    function switchLang(langId) {
+      const p = currentPattern;
+      if (!p) return;
+      const idx = LANG_IDS.indexOf(langId);
+      if (idx < 0 || p.support[idx] === false) return;
+      currentLang = langId;
+      renderDetail();
+    }
+
+    function langClass(id) {
+      const map = {
+        csharp: "language-csharp",
+        python: "language-python",
+        go: "language-go",
+        rust: "language-rust",
+        java: "language-java",
+        javascript: "language-javascript",
+        cpp: "language-cpp"
+      };
+      return map[id] || "language-plaintext";
+    }
+
+    function renderKpi() {
+      const gofCount = PATTERNS.filter(p => p.gof).length;
+      const all = PATTERNS.length;
+      const advanced = PATTERNS.filter(p => p.level === "advanced").length;
+      const html = `
+        <div class="k"><div class="n">${all}</div><div class="l">Total Patterns</div></div>
+        <div class="k"><div class="n">${gofCount}</div><div class="l">GoF Classic</div></div>
+        <div class="k"><div class="n">${advanced}</div><div class="l">Advanced</div></div>
+        <div class="k"><div class="n">7</div><div class="l">Languages</div></div>
+      `;
+      document.getElementById("kpi").innerHTML = html;
+      document.getElementById("countAll").textContent = String(all);
+    }
+
+    function refreshAll() {
+      buildSidebar();
+      buildMatrix();
+      renderDetail();
+      renderKpi();
+    }
+
+    document.getElementById("search").addEventListener("input", (e) => {
+      searchTerm = e.target.value.trim();
+      refreshAll();
+      if (isMobileView()) openSidebar();
+    });
+
+    document.getElementById("catFilter").addEventListener("change", (e) => {
+      catFilter = e.target.value;
+      refreshAll();
+      if (isMobileView()) openSidebar();
+    });
+
+    window.addEventListener("resize", () => {
+      if (!isMobileView()) {
+        document.body.classList.remove("sidebar-open");
+      }
+      syncSidebarButton();
+    });
+
+    mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "loose" });
+    try {
+      applyCompactMode(localStorage.getItem(COMPACT_KEY) === "1");
+    } catch (e) {
+      applyCompactMode(false);
+    }
+    syncSidebarButton();
+    currentPattern = sortedPatterns()[0];
+    refreshAll();
+  </script>
+</body>
+
+</html>

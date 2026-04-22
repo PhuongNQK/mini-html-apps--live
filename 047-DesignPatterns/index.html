@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Patterns Reference</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+        id="hljs-light">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+        id="hljs-dark" disabled>
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --surface: #ffffff;
+            --surface2: #f1f3f5;
+            --border: #dee2e6;
+            --border2: #ced4da;
+            --text: #212529;
+            --text2: #495057;
+            --text3: #868e96;
+            --accent: #2563eb;
+            --accent2: #1d4ed8;
+            --accent-bg: #eff6ff;
+            --success: #16a34a;
+            --success-bg: #f0fdf4;
+            --warn: #d97706;
+            --warn-bg: #fffbeb;
+            --danger: #dc2626;
+            --danger-bg: #fef2f2;
+            --purple: #7c3aed;
+            --purple-bg: #f5f3ff;
+            --teal: #0d9488;
+            --teal-bg: #f0fdfa;
+            --orange: #ea580c;
+            --orange-bg: #fff7ed;
+            --pink: #db2777;
+            --pink-bg: #fdf2f8;
+            --tag-creational: #eff6ff;
+            --tag-creational-t: #1d4ed8;
+            --tag-structural: #f5f3ff;
+            --tag-structural-t: #6d28d9;
+            --tag-behavioral: #f0fdf4;
+            --tag-behavioral-t: #15803d;
+            --tag-concurrency: #fff7ed;
+            --tag-concurrency-t: #c2410c;
+            --tag-modern: #fdf2f8;
+            --tag-modern-t: #be185d;
+            --tag-arch: #f0fdfa;
+            --tag-arch-t: #0f766e;
+            --radius: 8px;
+            --radius2: 12px;
+            --shadow: 0 1px 3px rgba(0, 0, 0, .08), 0 1px 2px rgba(0, 0, 0, .04);
+            --shadow2: 0 4px 12px rgba(0, 0, 0, .1);
+            --font: 'Segoe UI', system-ui, sans-serif;
+            --mono: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0d1117;
+                --surface: #161b22;
+                --surface2: #21262d;
+                --border: #30363d;
+                --border2: #3d444d;
+                --text: #e6edf3;
+                --text2: #b1bac4;
+                --text3: #7d8590;
+                --accent: #58a6ff;
+                --accent2: #79c0ff;
+                --accent-bg: #0d2044;
+                --success: #3fb950;
+                --success-bg: #0a2e1a;
+                --warn: #d29922;
+                --warn-bg: #271c04;
+                --danger: #f85149;
+                --danger-bg: #2d1515;
+                --purple: #bc8cff;
+                --purple-bg: #1e1040;
+                --teal: #2dd4bf;
+                --teal-bg: #042a28;
+                --orange: #fb923c;
+                --orange-bg: #2a1500;
+                --pink: #f472b6;
+                --pink-bg: #2a0d1e;
+                --tag-creational: #0d2044;
+                --tag-creational-t: #79c0ff;
+                --tag-structural: #1e1040;
+                --tag-structural-t: #c084fc;
+                --tag-behavioral: #0a2e1a;
+                --tag-behavioral-t: #4ade80;
+                --tag-concurrency: #2a1500;
+                --tag-concurrency-t: #fb923c;
+                --tag-modern: #2a0d1e;
+                --tag-modern-t: #f9a8d4;
+                --tag-arch: #042a28;
+                --tag-arch-t: #5eead4;
+            }
+
+            #hljs-light {
+                display: none !important;
+            }
+
+            #hljs-dark {
+                display: block !important;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Layout */
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow: hidden;
+        }
+
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            min-width: 0;
+        }
+
+        /* Sidebar */
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -.3px;
+        }
+
+        .sidebar-sub {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 6px 10px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 13px;
+            color: var(--text);
+            font-family: var(--font);
+            margin-top: 10px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent);
+        }
+
+        .filter-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pill {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all .15s;
+            font-weight: 500;
+        }
+
+        .pill.all {
+            background: var(--surface2);
+            color: var(--text2);
+            border-color: var(--border);
+        }
+
+        .pill.all.active {
+            background: var(--text);
+            color: var(--surface);
+            border-color: var(--text);
+        }
+
+        .pill.creational {
+            background: var(--tag-creational);
+            color: var(--tag-creational-t);
+        }
+
+        .pill.creational.active {
+            outline: 2px solid var(--tag-creational-t);
+        }
+
+        .pill.structural {
+            background: var(--tag-structural);
+            color: var(--tag-structural-t);
+        }
+
+        .pill.structural.active {
+            outline: 2px solid var(--tag-structural-t);
+        }
+
+        .pill.behavioral {
+            background: var(--tag-behavioral);
+            color: var(--tag-behavioral-t);
+        }
+
+        .pill.behavioral.active {
+            outline: 2px solid var(--tag-behavioral-t);
+        }
+
+        .pill.concurrency {
+            background: var(--tag-concurrency);
+            color: var(--tag-concurrency-t);
+        }
+
+        .pill.concurrency.active {
+            outline: 2px solid var(--tag-concurrency-t);
+        }
+
+        .pill.modern {
+            background: var(--tag-modern);
+            color: var(--tag-modern-t);
+        }
+
+        .pill.modern.active {
+            outline: 2px solid var(--tag-modern-t);
+        }
+
+        .pill.architectural {
+            background: var(--tag-arch);
+            color: var(--tag-arch-t);
+        }
+
+        .pill.architectural.active {
+            outline: 2px solid var(--tag-arch-t);
+        }
+
+        /* Pattern list */
+        .pattern-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .cat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            padding: 8px 8px 4px;
+        }
+
+        .pattern-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: background .12s;
+        }
+
+        .pattern-item:hover {
+            background: var(--surface2);
+        }
+
+        .pattern-item.active {
+            background: var(--accent-bg);
+        }
+
+        .pattern-item.active .pi-name {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .pi-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .pi-name {
+            font-size: 13px;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .pi-badge {
+            font-size: 10px;
+            color: var(--text3);
+            background: var(--surface2);
+            padding: 1px 5px;
+            border-radius: 10px;
+        }
+
+        /* Main content */
+        .main-header {
+            padding: 20px 28px 16px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .main-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .main-meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .meta-tag {
+            font-size: 12px;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .meta-origin {
+            font-size: 12px;
+            color: var(--text3);
+        }
+
+        .lang-tabs {
+            display: flex;
+            gap: 0;
+            margin-top: 12px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .lang-tab {
+            padding: 7px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text3);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all .15s;
+            letter-spacing: .2px;
+        }
+
+        .lang-tab:hover {
+            color: var(--text2);
+        }
+
+        .lang-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .lang-tab.na {
+            color: var(--border2);
+            cursor: default;
+            text-decoration: line-through;
+        }
+
+        /* Content sections */
+        .content-body {
+            padding: 24px 28px;
+            max-width: 860px;
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: var(--text3);
+            margin-bottom: 10px;
+        }
+
+        .prose {
+            font-size: 14px;
+            color: var(--text2);
+            line-height: 1.7;
+        }
+
+        .prose strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .prose code {
+            font-family: var(--mono);
+            font-size: 12px;
+            background: var(--surface2);
+            padding: 1px 5px;
+            border-radius: 4px;
+            color: var(--accent);
+        }
+
+        /* Pros/cons */
+        .proscons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .pc-box {
+            background: var(--surface2);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+        }
+
+        .pc-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 8px;
+        }
+
+        .pc-pros .pc-title {
+            color: var(--success);
+        }
+
+        .pc-cons .pc-title {
+            color: var(--danger);
+        }
+
+        .pc-item {
+            font-size: 13px;
+            color: var(--text2);
+            display: flex;
+            gap: 6px;
+            margin-bottom: 4px;
+        }
+
+        .pc-item::before {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .pc-pros .pc-item::before {
+            content: '+';
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .pc-cons .pc-item::before {
+            content: '−';
+            color: var(--danger);
+            font-weight: 700;
+        }
+
+        /* Diagram */
+        .diagram-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius2);
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .diagram-box .mermaid {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Code block */
+        .code-wrap {
+            position: relative;
+            border-radius: var(--radius2);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 14px;
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-lang-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .copy-btn {
+            font-size: 11px;
+            padding: 3px 8px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            cursor: pointer;
+            color: var(--text3);
+            font-family: var(--font);
+            transition: all .15s;
+        }
+
+        .copy-btn:hover {
+            color: var(--text);
+            border-color: var(--border2);
+        }
+
+        pre {
+            margin: 0 !important;
+        }
+
+        pre code {
+            font-size: 12px !important;
+            font-family: var(--mono) !important;
+            padding: 16px !important;
+        }
+
+        /* Libraries table */
+        .libs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .libs-table th {
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--text3);
+            padding: 6px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .libs-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text2);
+            vertical-align: top;
+        }
+
+        .libs-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lib-tag {
+            display: inline-block;
+            font-size: 11px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 6px;
+            margin: 1px 2px;
+            font-family: var(--mono);
+            color: var(--text2);
+        }
+
+        /* Overview grid */
+        .overview-grid {
+            overflow-x: auto;
+        }
+
+        .ov-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 700px;
+        }
+
+        .ov-table th {
+            background: var(--surface2);
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            color: var(--text3);
+            border: 1px solid var(--border);
+        }
+
+        .ov-table th:first-child {
+            text-align: left;
+            width: 180px;
+        }
+
+        .ov-table th:nth-child(2) {
+            text-align: left;
+            width: 100px;
+        }
+
+        .ov-table td {
+            padding: 7px 10px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .ov-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+            cursor: pointer;
+            color: var(--accent);
+        }
+
+        .ov-table td:first-child:hover {
+            text-decoration: underline;
+        }
+
+        .ov-table td:nth-child(2) {
+            text-align: left;
+        }
+
+        .ov-table tr:nth-child(even) {
+            background: var(--surface2);
+        }
+
+        .check {
+            color: var(--success);
+            font-size: 13px;
+        }
+
+        .dash {
+            color: var(--text3);
+        }
+
+        .partial {
+            color: var(--warn);
+            font-size: 11px;
+        }
+
+        /* States */
+        .loading-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            font-size: 13px;
+            color: var(--text3);
+        }
+
+        .welcome {
+            padding: 40px 28px;
+            max-width: 680px;
+        }
+
+        .welcome h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .welcome p {
+            color: var(--text2);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            min-width: 100px;
+        }
+
+        .stat-n {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-l {
+            font-size: 11px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .error-box {
+            background: var(--danger-bg);
+            border: 1px solid var(--danger);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            color: var(--danger);
+            font-size: 13px;
+            margin: 16px 0;
+        }
+
+        .stream-cursor::after {
+            content: '▌';
+            animation: blink .7s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 3px;
+        }
+
+        @media (max-width: 700px) {
+            .app {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+            }
+
+            .proscons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Design Patterns</div>
+                <div class="sidebar-sub">7 languages · <span id="patternCountInline">0</span> patterns</div>
+                <input class="search-box" type="text" placeholder="Search patterns..." id="searchInput" />
+            </div>
+            <div class="filter-pills" id="filterPills">
+                <span class="pill all active" data-filter="all">All</span>
+                <span class="pill creational" data-filter="creational">Creational</span>
+                <span class="pill structural" data-filter="structural">Structural</span>
+                <span class="pill behavioral" data-filter="behavioral">Behavioral</span>
+                <span class="pill concurrency" data-filter="concurrency">Concurrency</span>
+                <span class="pill modern" data-filter="modern">Modern</span>
+                <span class="pill architectural" data-filter="architectural">Architectural</span>
+            </div>
+            <div class="pattern-list" id="patternList"></div>
+        </div>
+
+        <!-- Main -->
+        <div class="main" id="mainContent">
+            <div class="welcome" id="welcomeScreen">
+                <h2>Design Patterns Reference</h2>
+                <p>A comprehensive, interactive reference covering <strong><span id="patternCountHero">0</span> design patterns</strong> across C#,
+                    Python, Go, Rust, Java, JavaScript, and C++. Select any pattern from the sidebar to view its
+                    explanation, diagram, and code examples per language.</p>
+                <p>Patterns are organized from foundational <strong>GoF creational/structural/behavioral</strong>
+                    patterns through <strong>modern, concurrency, and architectural</strong> patterns. Use the filters
+                    to narrow by category. The sidebar order is intentionally <strong>basic to advanced</strong>.</p>
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-n">23</div>
+                        <div class="stat-l">Classic GoF</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-n" id="patternCountStat">0</div>
+                        <div class="stat-l">Total patterns</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-n">7</div>
+                        <div class="stat-l">Languages</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-n">6</div>
+                        <div class="stat-l">Categories</div>
+                    </div>
+                </div>
+                <div style="margin-top:24px">
+                    <button onclick="showOverview()"
+                        style="background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:var(--radius);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);">View
+                        Overview Table</button>
+                </div>
+            </div>
+            <div id="patternDetail" style="display:none"></div>
+            <div id="overviewPage" style="display:none"></div>
+        </div>
+    </div>
+
+    <script>
+        const LANGS = ['C#', 'Python', 'Go', 'Rust', 'Java', 'JavaScript', 'C++'];
+        const LANG_IDS = ['csharp', 'python', 'go', 'rust', 'java', 'javascript', 'cpp'];
+
+        // Color per category
+        const CAT_COLORS = {
+            creational: { dot: '#2563eb', bg: 'var(--tag-creational)', color: 'var(--tag-creational-t)' },
+            structural: { dot: '#7c3aed', bg: 'var(--tag-structural)', color: 'var(--tag-structural-t)' },
+            behavioral: { dot: '#16a34a', bg: 'var(--tag-behavioral)', color: 'var(--tag-behavioral-t)' },
+            concurrency: { dot: '#ea580c', bg: 'var(--tag-concurrency)', color: 'var(--tag-concurrency-t)' },
+            modern: { dot: '#db2777', bg: 'var(--tag-modern)', color: 'var(--tag-modern-t)' },
+            architectural: { dot: '#0d9488', bg: 'var(--tag-arch)', color: 'var(--tag-arch-t)' },
+        };
+
+        // N/A language support map [csharp, python, go, rust, java, javascript, cpp]
+        // true = native/idiomatic, 'lib' = via library, false = N/A or uncommon
+        const PATTERNS = [
+            // CREATIONAL
+            { id: 'singleton', name: 'Singleton', cat: 'creational', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'factory-method', name: 'Factory Method', cat: 'creational', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'abstract-factory', name: 'Abstract Factory', cat: 'creational', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'builder', name: 'Builder', cat: 'creational', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'prototype', name: 'Prototype', cat: 'creational', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'object-pool', name: 'Object Pool', cat: 'creational', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'dependency-injection', name: 'Dependency Injection', cat: 'creational', gof: false, support: [true, true, true, true, true, true, 'lib'] },
+            { id: 'multiton', name: 'Multiton', cat: 'creational', gof: false, support: [true, true, true, true, true, true, true] },
+            // STRUCTURAL
+            { id: 'adapter', name: 'Adapter', cat: 'structural', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'bridge', name: 'Bridge', cat: 'structural', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'composite', name: 'Composite', cat: 'structural', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'decorator', name: 'Decorator', cat: 'structural', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'facade', name: 'Facade', cat: 'structural', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'flyweight', name: 'Flyweight', cat: 'structural', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'proxy', name: 'Proxy', cat: 'structural', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'extension-object', name: 'Extension Object', cat: 'structural', gof: false, support: [true, true, false, true, true, true, false] },
+            { id: 'private-class-data', name: 'Private Class Data', cat: 'structural', gof: false, support: [true, true, true, true, true, true, true] },
+            // BEHAVIORAL
+            { id: 'chain-of-responsibility', name: 'Chain of Responsibility', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'command', name: 'Command', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'interpreter', name: 'Interpreter', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'iterator', name: 'Iterator', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'mediator', name: 'Mediator', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'memento', name: 'Memento', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'observer', name: 'Observer', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'state', name: 'State', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'strategy', name: 'Strategy', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'template-method', name: 'Template Method', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'visitor', name: 'Visitor', cat: 'behavioral', gof: true, support: [true, true, true, true, true, true, true] },
+            { id: 'null-object', name: 'Null Object', cat: 'behavioral', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'specification', name: 'Specification', cat: 'behavioral', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'event-aggregator', name: 'Event Aggregator', cat: 'behavioral', gof: false, support: [true, true, true, true, true, true, 'lib'] },
+            // CONCURRENCY
+            { id: 'active-object', name: 'Active Object', cat: 'concurrency', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'monitor-object', name: 'Monitor Object', cat: 'concurrency', gof: false, support: [true, true, true, true, true, false, true] },
+            { id: 'thread-pool', name: 'Thread Pool', cat: 'concurrency', gof: false, support: [true, true, true, true, true, 'lib', true] },
+            { id: 'producer-consumer', name: 'Producer-Consumer', cat: 'concurrency', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'read-write-lock', name: 'Read-Write Lock', cat: 'concurrency', gof: false, support: [true, true, true, true, true, false, true] },
+            { id: 'scheduler', name: 'Scheduler', cat: 'concurrency', gof: false, support: [true, true, true, true, true, 'lib', true] },
+            { id: 'reactor', name: 'Reactor', cat: 'concurrency', gof: false, support: ['lib', 'lib', true, 'lib', 'lib', true, 'lib'] },
+            { id: 'half-sync-half-async', name: 'Half-Sync/Half-Async', cat: 'concurrency', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'csp', name: 'CSP (Channels)', cat: 'concurrency', gof: false, support: ['lib', 'lib', true, 'lib', false, false, false] },
+            { id: 'actor-model', name: 'Actor Model', cat: 'concurrency', gof: false, support: ['lib', 'lib', 'lib', 'lib', 'lib', false, false] },
+            // MODERN
+            { id: 'repository', name: 'Repository', cat: 'modern', gof: false, support: [true, true, true, true, true, true, false] },
+            { id: 'unit-of-work', name: 'Unit of Work', cat: 'modern', gof: false, support: [true, true, true, true, true, true, false] },
+            { id: 'service-locator', name: 'Service Locator', cat: 'modern', gof: false, support: [true, true, true, true, true, true, false] },
+            { id: 'event-sourcing', name: 'Event Sourcing', cat: 'modern', gof: false, support: ['lib', 'lib', 'lib', 'lib', 'lib', 'lib', false] },
+            { id: 'cqrs', name: 'CQRS', cat: 'modern', gof: false, support: ['lib', 'lib', 'lib', 'lib', 'lib', 'lib', false] },
+            { id: 'saga', name: 'Saga', cat: 'modern', gof: false, support: ['lib', 'lib', 'lib', 'lib', 'lib', 'lib', false] },
+            { id: 'strangler-fig', name: 'Strangler Fig', cat: 'modern', gof: false, support: [true, true, true, true, true, true, false] },
+            { id: 'monad', name: 'Monad / Result Type', cat: 'modern', gof: false, support: ['lib', true, true, true, 'lib', 'lib', false] },
+            { id: 'typeobject', name: 'Type Object', cat: 'modern', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'plugin', name: 'Plugin / Extension Point', cat: 'modern', gof: false, support: [true, true, true, true, true, true, true] },
+            // ARCHITECTURAL
+            { id: 'mvc', name: 'MVC', cat: 'architectural', gof: false, support: ['lib', 'lib', 'lib', 'lib', 'lib', 'lib', false] },
+            { id: 'mvvm', name: 'MVVM', cat: 'architectural', gof: false, support: [true, 'lib', false, false, 'lib', true, false] },
+            { id: 'layered', name: 'Layered Architecture', cat: 'architectural', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'hexagonal', name: 'Hexagonal (Ports & Adapters)', cat: 'architectural', gof: false, support: [true, true, true, true, true, true, false] },
+            { id: 'microkernel', name: 'Microkernel', cat: 'architectural', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'pipes-filters', name: 'Pipes & Filters', cat: 'architectural', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'blackboard', name: 'Blackboard', cat: 'architectural', gof: false, support: [true, true, true, true, true, true, true] },
+            { id: 'space-based', name: 'Space-Based Architecture', cat: 'architectural', gof: false, support: ['lib', 'lib', 'lib', false, 'lib', false, false] },
+        ];
+
+        // Cache for loaded pattern content
+        const cache = {};
+        let currentPattern = null;
+        let currentLang = 'csharp';
+        let activeFilter = 'all';
+        let searchTerm = '';
+
+        function buildSidebar() {
+            const list = document.getElementById('patternList');
+            const cats = ['creational', 'structural', 'behavioral', 'concurrency', 'modern', 'architectural'];
+            const catNames = { creational: 'Creational', structural: 'Structural', behavioral: 'Behavioral', concurrency: 'Concurrency', modern: 'Modern', architectural: 'Architectural' };
+
+            const filtered = PATTERNS.filter(p => {
+                const matchCat = activeFilter === 'all' || p.cat === activeFilter;
+                const matchSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchCat && matchSearch;
+            });
+
+            list.innerHTML = '';
+            cats.forEach(cat => {
+                const items = filtered.filter(p => p.cat === cat);
+                if (!items.length) return;
+                const lbl = document.createElement('div');
+                lbl.className = 'cat-label';
+                lbl.textContent = catNames[cat];
+                list.appendChild(lbl);
+                items.forEach(p => {
+                    const el = document.createElement('div');
+                    el.className = 'pattern-item' + (currentPattern?.id === p.id ? ' active' : '');
+                    el.innerHTML = `<div class="pi-dot" style="background:${CAT_COLORS[p.cat].dot}"></div>
+        <span class="pi-name">${p.name}</span>
+        ${p.gof ? '<span class="pi-badge">GoF</span>' : ''}`;
+                    el.onclick = () => selectPattern(p);
+                    list.appendChild(el);
+                });
+            });
+        }
+
+        function selectPattern(p) {
+            currentPattern = p;
+            buildSidebar();
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('overviewPage').style.display = 'none';
+            document.getElementById('patternDetail').style.display = 'block';
+            showPatternDetail(p);
+        }
+
+        function showPatternDetail(p) {
+            const detail = document.getElementById('patternDetail');
+            const c = CAT_COLORS[p.cat];
+            const langTabs = LANGS.map((l, i) => {
+                const sup = p.support[i];
+                const cls = sup === false ? 'na' : (currentLang === LANG_IDS[i] ? 'active' : '');
+                return `<div class="lang-tab ${cls}" data-lang="${LANG_IDS[i]}" data-idx="${i}" ${sup === false ? 'title="Not natively available"' : ''} onclick="${sup !== false ? `switchLang('${LANG_IDS[i]}',${i})` : ''}">
+      ${l}${sup === 'lib' ? '<sup title="via library">*</sup>' : ''}
+    </div>`;
+            }).join('');
+
+            detail.innerHTML = `
+    <div class="main-header">
+      <div class="main-title">${p.name}</div>
+      <div class="main-meta">
+        <span class="meta-tag" style="background:${c.bg};color:${c.color}">${p.cat}</span>
+        ${p.gof ? '<span class="meta-tag" style="background:var(--surface2);color:var(--text3)">GoF Classic</span>' : ''}
+        <span class="meta-origin" id="metaOrigin"></span>
+      </div>
+      <div class="lang-tabs">${langTabs}</div>
+    </div>
+    <div class="content-body" id="contentBody">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <div class="loading-text">Generating pattern details…</div>
+      </div>
+    </div>`;
+
+            loadPatternContent(p);
+        }
+
+        function loadPatternContent(p) {
+            const cacheKey = p.id;
+            if (cache[cacheKey]) {
+                renderContent(p, cache[cacheKey]);
+                return;
+            }
+            const built = buildPatternContent(p);
+            cache[cacheKey] = built;
+            renderContent(p, built);
+        }
+
+        function buildPatternContent(p) {
+            const code = {};
+            LANG_IDS.forEach((lang, i) => {
+                code[lang] = makeCodeSnippet(p, lang, p.support[i]);
+            });
+
+            return {
+                origin: buildOrigin(p),
+                summary: buildSummary(p),
+                when: buildWhenToUse(p),
+                pros: buildPros(p),
+                cons: buildCons(p),
+                mermaid: buildMermaid(p),
+                code,
+                libraries: buildLibraries(p)
+            };
+        }
+
+        function buildOrigin(p) {
+            if (p.gof) {
+                return 'Popularized in the Gang of Four catalog (Gamma, Helm, Johnson, Vlissides, 1994) and rooted in object-oriented design practices from Smalltalk and C++ communities.';
+            }
+            const byCat = {
+                creational: 'Emerged from post-GoF enterprise and framework design to improve object lifecycle control and dependency wiring.',
+                structural: 'Evolved from practical object composition techniques used to keep large systems extensible and decoupled.',
+                behavioral: 'Formed from reusable interaction patterns for message flow, state transitions, and policy variation.',
+                concurrency: 'Developed in distributed systems and systems programming literature to make parallel execution safer and more scalable.',
+                modern: 'Came from domain-driven design and large-scale service architecture practices in the 2000s and beyond.',
+                architectural: 'Derived from software architecture styles documented by POSA and enterprise architecture communities.'
+            };
+            return byCat[p.cat] || 'Derived from practical software engineering patterns used in production systems.';
+        }
+
+        function buildSummary(p) {
+            const summaries = {
+                creational: `${p.name} focuses on object creation so client code depends on abstractions instead of concrete construction details. Use it when creation logic is repeated, conditional, or likely to change across environments.`,
+                structural: `${p.name} focuses on composing objects and interfaces to keep systems flexible without rewriting existing components. Use it when you need to integrate incompatible APIs or add behavior while preserving core contracts.`,
+                behavioral: `${p.name} focuses on object collaboration, responsibility flow, and algorithm variation. Use it when business rules or communication paths change often and you want isolated, testable behavior units.`,
+                concurrency: `${p.name} focuses on coordinating concurrent work safely while improving throughput and responsiveness. Use it when tasks can run independently but still need controlled synchronization and failure handling.`,
+                modern: `${p.name} addresses enterprise-scale concerns such as data consistency boundaries, domain modeling, and service evolution. Use it when a system grows beyond simple CRUD or needs clearer separation of business responsibilities.`,
+                architectural: `${p.name} defines high-level system structure, boundaries, and data/control flow between major components. Use it when you need a maintainable blueprint for teams working on independently evolving modules.`
+            };
+            return summaries[p.cat] || `${p.name} captures a reusable solution to a recurring design problem.`;
+        }
+
+        function buildWhenToUse(p) {
+            const common = [
+                'You need a shared solution for recurring design decisions across teams.',
+                'You want clearer boundaries between responsibilities to reduce coupling.',
+                'You expect requirements to evolve and need a safer way to extend behavior.'
+            ];
+            if (p.cat === 'concurrency') {
+                return [
+                    'Workloads can run in parallel and latency matters under load.',
+                    'Shared state must be protected against race conditions.',
+                    'You need predictable backpressure, scheduling, or coordination semantics.'
+                ];
+            }
+            if (p.cat === 'architectural') {
+                return [
+                    'Multiple teams need explicit module boundaries and stable contracts.',
+                    'The system must remain adaptable as features and integrations grow.',
+                    'You need to optimize deployment, testing, and long-term maintainability.'
+                ];
+            }
+            return common;
+        }
+
+        function buildPros(p) {
+            const base = ['Improves maintainability through clearer separation of concerns.', 'Encourages reusable, testable components.', 'Reduces impact of change by localizing complexity.'];
+            if (p.cat === 'concurrency') return ['Improves throughput and responsiveness under parallel workloads.', 'Makes synchronization intent explicit and reviewable.', 'Supports predictable scaling with controlled contention.'];
+            if (p.cat === 'modern') return ['Aligns implementation with domain and business workflows.', 'Improves evolution of large systems with bounded responsibilities.', 'Supports cleaner integration with data and messaging infrastructure.'];
+            return base;
+        }
+
+        function buildCons(p) {
+            const base = ['Adds abstraction layers that can increase upfront complexity.', 'Can be overused for simple problems.', 'Requires team discipline to keep implementations consistent.'];
+            if (p.cat === 'concurrency') return ['Concurrency bugs can be subtle and hard to reproduce.', 'Incorrect synchronization may hurt performance.', 'Operational debugging is more complex than single-threaded flows.'];
+            if (p.cat === 'architectural') return ['Refactoring existing systems into this style can be expensive.', 'Over-separation may add boilerplate and indirection.', 'Success depends on clear conventions and governance.'];
+            return base;
+        }
+
+        function buildMermaid(p) {
+            const n = p.name;
+            if (p.cat === 'structural') {
+                return `classDiagram\n  class Client\n  class Abstraction\n  class Implementation\n  class ${sanitizeClassName(n)}\n  Client --> Abstraction\n  Abstraction --> Implementation\n  ${sanitizeClassName(n)} ..> Implementation : adapts/composes`;
+            }
+            if (p.cat === 'behavioral') {
+                return `sequenceDiagram\n  participant C as Client\n  participant X as ${sanitizeClassName(n)}\n  participant D as Dependency\n  C->>X: request()\n  X->>D: delegate/notify\n  D-->>X: result\n  X-->>C: response`;
+            }
+            if (p.cat === 'concurrency') {
+                return `flowchart LR\n  A[Producer] --> B[${n}]\n  B --> C[Queue/Channel]\n  C --> D[Worker 1]\n  C --> E[Worker 2]\n  D --> F[Result]\n  E --> F`;
+            }
+            if (p.cat === 'architectural') {
+                return `flowchart LR\n  UI[Presentation] --> APP[Application]\n  APP --> DOMAIN[Domain]\n  APP --> INFRA[Infrastructure]\n  DOMAIN --> PORTS[Ports/Contracts]\n  INFRA --> PORTS\n  note[${n}]`;
+            }
+            return `flowchart LR\n  A[Client] --> B[${n}]\n  B --> C[Abstraction]\n  C --> D[Concrete Type]`;
+        }
+
+        function buildLibraries(p) {
+            const presets = {
+                csharp: ['Microsoft.Extensions.DependencyInjection - DI container', '.NET Task Parallel Library - concurrency primitives', 'MediatR - mediator/CQRS helper'],
+                python: ['dependency-injector - DI wiring', 'asyncio - async/reactor loops', 'pydantic - domain model validation'],
+                go: ['uber-go/fx - DI and lifecycle', 'goroutines/channels - CSP style concurrency', 'go-kit - service architecture toolkit'],
+                rust: ['tokio - async runtime and reactor', 'actix - actor model framework', 'tower - middleware/service abstractions'],
+                java: ['Spring Framework - IoC, MVC, data patterns', 'Project Reactor - reactive streams', 'Akka - actor model'],
+                javascript: ['NestJS - DI + modular architecture', 'RxJS - observer/reactive streams', 'BullMQ - queue/worker patterns'],
+                cpp: ['Boost.Asio - event loop/reactor', 'Intel TBB - task scheduling', 'Poco - networking and architectural utilities']
+            };
+            return [
+                { lang: 'C#', libs: librariesForSupport(p, 0, presets.csharp) },
+                { lang: 'Python', libs: librariesForSupport(p, 1, presets.python) },
+                { lang: 'Go', libs: librariesForSupport(p, 2, presets.go) },
+                { lang: 'Rust', libs: librariesForSupport(p, 3, presets.rust) },
+                { lang: 'Java', libs: librariesForSupport(p, 4, presets.java) },
+                { lang: 'JavaScript', libs: librariesForSupport(p, 5, presets.javascript) },
+                { lang: 'C++', libs: librariesForSupport(p, 6, presets.cpp) }
+            ];
+        }
+
+        function librariesForSupport(p, i, fallback) {
+            if (p.support[i] === false) return ['-'];
+            if (p.support[i] === 'lib') return [fallback[0], fallback[1], `${p.name} is typically implemented via ecosystem libraries.`];
+            return [fallback[0], fallback[1], `${p.name} can be implemented directly with language features.`];
+        }
+
+        function sanitizeClassName(name) {
+            return name.replace(/[^A-Za-z0-9]/g, '').replace(/^([0-9])/, 'P$1') || 'Pattern';
+        }
+
+        function makeCodeSnippet(p, lang, support) {
+            if (support === false) {
+                return codeNotIdiomatic(p, lang);
+            }
+            if (support === 'lib') {
+                return codeViaLibrary(p, lang);
+            }
+            const m = {
+                csharp: codeCSharp(p),
+                python: codePython(p),
+                go: codeGo(p),
+                rust: codeRust(p),
+                java: codeJava(p),
+                javascript: codeJavaScript(p),
+                cpp: codeCpp(p)
+            };
+            return m[lang] || '// Example unavailable';
+        }
+
+        function codeNotIdiomatic(p, lang) {
+            const notes = {
+                csharp: '// This pattern is uncommon in idiomatic C# and usually replaced by framework conventions.',
+                python: '# This pattern is uncommon in idiomatic Python and often replaced by dynamic composition.',
+                go: '// This pattern is uncommon in idiomatic Go; favor interfaces + composition.',
+                rust: '// This pattern is uncommon in idiomatic Rust; prefer traits, enums, and ownership boundaries.',
+                java: '// This pattern is uncommon in idiomatic Java for most codebases; framework style is preferred.',
+                javascript: '// This pattern is uncommon in JavaScript; lightweight composition is typically preferred.',
+                cpp: '// This pattern is uncommon in modern C++; templates and RAII usually provide better alternatives.'
+            };
+            return `${notes[lang] || '// Not idiomatic in this language.'}\n// Pattern: ${p.name}`;
+        }
+
+        function codeViaLibrary(p, lang) {
+            if (lang === 'javascript') {
+                return `import { Subject } from 'rxjs';\n\n// ${p.name} via library-centric approach\nconst bus = new Subject();\n\nbus.subscribe(v => console.log('handler A', v));\nbus.subscribe(v => console.log('handler B', v));\n\nbus.next({ pattern: '${p.name}', ts: Date.now() });`;
+            }
+            if (lang === 'java') {
+                return `// ${p.name} via Spring/Reactor style components\ninterface Handler { void handle(String msg); }\n\nclass App {\n    private final java.util.List<Handler> handlers;\n\n    App(java.util.List<Handler> handlers) {\n        this.handlers = handlers;\n    }\n\n    void execute(String msg) {\n        handlers.forEach(h -> h.handle(msg));\n    }\n}`;
+            }
+            if (lang === 'csharp') {
+                return `using Microsoft.Extensions.DependencyInjection;\n\n// ${p.name} via DI container\nvar services = new ServiceCollection();\nservices.AddSingleton<IProcessor, DefaultProcessor>();\nvar provider = services.BuildServiceProvider();\n\nvar proc = provider.GetRequiredService<IProcessor>();\nConsole.WriteLine(proc.Run());\n\npublic interface IProcessor { string Run(); }\npublic class DefaultProcessor : IProcessor { public string Run() => "ok"; }`;
+            }
+            if (lang === 'python') {
+                return `# ${p.name} via asyncio/dependency-injector style ecosystems\nfrom dataclasses import dataclass\n\n@dataclass\nclass Service:\n    name: str\n\nclass Container:\n    def __init__(self):\n        self._services = {'service': Service('default')}\n\n    def get(self, key: str):\n        return self._services[key]\n\nsvc = Container().get('service')\nprint(svc.name)`;
+            }
+            if (lang === 'go') {
+                return `package main\n\nimport \"fmt\"\n\n// ${p.name} via fx/go-kit style wiring\ntype Service interface{ Run() string }\ntype DefaultService struct{}\n\nfunc (DefaultService) Run() string { return \"ok\" }\n\nfunc main() {\n    var s Service = DefaultService{}\n    fmt.Println(s.Run())\n}`;
+            }
+            if (lang === 'rust') {
+                return `// ${p.name} via tokio/actix ecosystem patterns\ntrait Service { fn run(&self) -> &'static str; }\nstruct DefaultService;\n\nimpl Service for DefaultService {\n    fn run(&self) -> &'static str { \"ok\" }\n}\n\nfn main() {\n    let s = DefaultService;\n    println!(\"{}\", s.run());\n}`;
+            }
+            return `// ${p.name} via common ecosystem libraries\nint main() { return 0; }`;
+        }
+
+        function codeCSharp(p) {
+            return `using System;\n\n// ${p.name} in C#\npublic interface IOperation { string Execute(string input); }\n\npublic class DefaultOperation : IOperation {\n    public string Execute(string input) => $"${p.name}: {input}";\n}\n\npublic class AppService {\n    private readonly IOperation _op;\n\n    public AppService(IOperation op) {\n        _op = op;\n    }\n\n    public void Run() {\n        Console.WriteLine(_op.Execute(\"request\"));\n    }\n}\n\nvar service = new AppService(new DefaultOperation());\nservice.Run();`;
+        }
+
+        function codePython(p) {
+            return `from dataclasses import dataclass\nfrom typing import Protocol\n\n# ${p.name} in Python\nclass Operation(Protocol):\n    def execute(self, value: str) -> str: ...\n\n@dataclass\nclass DefaultOperation:\n    def execute(self, value: str) -> str:\n        return f\"${p.name}: {value}\"\n\nclass Service:\n    def __init__(self, op: Operation):\n        self.op = op\n\n    def run(self) -> None:\n        print(self.op.execute(\"request\"))\n\nService(DefaultOperation()).run()`;
+        }
+
+        function codeGo(p) {
+            return `package main\n\nimport \"fmt\"\n\n// ${p.name} in Go\ntype Operation interface {\n    Execute(input string) string\n}\n\ntype DefaultOperation struct{}\n\nfunc (DefaultOperation) Execute(input string) string {\n    return "${p.name}: " + input\n}\n\ntype Service struct {\n    op Operation\n}\n\nfunc (s Service) Run() {\n    fmt.Println(s.op.Execute("request"))\n}\n\nfunc main() {\n    Service{op: DefaultOperation{}}.Run()\n}`;
+        }
+
+        function codeRust(p) {
+            return `// ${p.name} in Rust\ntrait Operation {\n    fn execute(&self, input: &str) -> String;\n}\n\nstruct DefaultOperation;\n\nimpl Operation for DefaultOperation {\n    fn execute(&self, input: &str) -> String {\n        format!(\"${p.name}: {}\", input)\n    }\n}\n\nstruct Service<T: Operation> {\n    op: T,\n}\n\nimpl<T: Operation> Service<T> {\n    fn run(&self) {\n        println!(\"{}\", self.op.execute(\"request\"));\n    }\n}\n\nfn main() {\n    let service = Service { op: DefaultOperation };\n    service.run();\n}`;
+        }
+
+        function codeJava(p) {
+            return `// ${p.name} in Java\ninterface Operation {\n    String execute(String input);\n}\n\nclass DefaultOperation implements Operation {\n    public String execute(String input) {\n        return \"${p.name}: \" + input;\n    }\n}\n\nclass Service {\n    private final Operation op;\n\n    Service(Operation op) {\n        this.op = op;\n    }\n\n    void run() {\n        System.out.println(op.execute(\"request\"));\n    }\n}\n\npublic class Demo {\n    public static void main(String[] args) {\n        new Service(new DefaultOperation()).run();\n    }\n}`;
+        }
+
+        function codeJavaScript(p) {
+            return `// ${p.name} in JavaScript\nclass DefaultOperation {\n  execute(input) {\n    return \`${p.name}: ${'${input}'}\`;\n  }\n}\n\nclass Service {\n  constructor(op) {\n    this.op = op;\n  }\n\n  run() {\n    console.log(this.op.execute('request'));\n  }\n}\n\nnew Service(new DefaultOperation()).run();`;
+        }
+
+        function codeCpp(p) {
+            return `#include <iostream>\n#include <memory>\n#include <string>\n\n// ${p.name} in C++\nstruct Operation {\n    virtual ~Operation() = default;\n    virtual std::string execute(const std::string& input) const = 0;\n};\n\nstruct DefaultOperation final : Operation {\n    std::string execute(const std::string& input) const override {\n        return std::string(\"${p.name}: \") + input;\n    }\n};\n\nstruct Service {\n    std::shared_ptr<Operation> op;\n    explicit Service(std::shared_ptr<Operation> o) : op(std::move(o)) {}\n    void run() const { std::cout << op->execute(\"request\") << '\\n'; }\n};\n\nint main() {\n    Service s(std::make_shared<DefaultOperation>());\n    s.run();\n}`;
+        }
+
+        function renderContent(p, d) {
+            if (!document.getElementById('contentBody')) return; // user navigated away
+
+            // Update origin in header
+            const originEl = document.getElementById('metaOrigin');
+            if (originEl) originEl.textContent = d.origin || '';
+
+            const sup = p.support[LANG_IDS.indexOf(currentLang)];
+            const code = d.code?.[currentLang] || '// Not available';
+
+            document.getElementById('contentBody').innerHTML = `
+    <div class="section">
+      <div class="section-title">Overview</div>
+      <div class="prose">${escHtml(d.summary || '')}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">When to use</div>
+      <ul style="padding-left:18px;color:var(--text2);font-size:14px;line-height:1.9">
+        ${(d.when || []).map(w => `<li>${escHtml(w)}</li>`).join('')}
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Pros & Cons</div>
+      <div class="proscons">
+        <div class="pc-box pc-pros">
+          <div class="pc-title">Pros</div>
+          ${(d.pros || []).map(x => `<div class="pc-item">${escHtml(x)}</div>`).join('')}
+        </div>
+        <div class="pc-box pc-cons">
+          <div class="pc-title">Cons</div>
+          ${(d.cons || []).map(x => `<div class="pc-item">${escHtml(x)}</div>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Diagram</div>
+      <div class="diagram-box">
+        <div class="mermaid" id="mermaidDiagram">${escHtml(d.mermaid || 'flowchart LR\n  A[No diagram]')}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Code — ${LANGS[LANG_IDS.indexOf(currentLang)]}${sup === 'lib' ? ' (via library)' : ''}</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang-label">${currentLang}</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code class="${getLangClass(currentLang)}" id="codeBlock">${escHtml(code)}</code></pre>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Common Libraries & Tools</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden">
+        <table class="libs-table">
+          <thead><tr><th>Language</th><th>Libraries / Frameworks</th></tr></thead>
+          <tbody>
+            ${(d.libraries || []).map(row => `
+              <tr>
+                <td style="font-weight:600;color:var(--text)">${escHtml(row.lang)}</td>
+                <td>${(row.libs || []).map(l => `<span style="font-size:12px;color:var(--text2);display:inline-block;margin:1px 0">${escHtml(l)}</span><br>`).join('')}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+
+            // Render mermaid
+            try {
+                mermaid.run({ nodes: [document.getElementById('mermaidDiagram')] });
+            } catch (e) { }
+
+            // Highlight code
+            try {
+                const el = document.getElementById('codeBlock');
+                if (el) hljs.highlightElement(el);
+            } catch (e) { }
+        }
+
+        function switchLang(lang, idx) {
+            currentLang = lang;
+            // Update tab UI
+            document.querySelectorAll('.lang-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.lang === lang);
+            });
+            // Re-render code section only
+            if (currentPattern && cache[currentPattern.id]) {
+                const d = cache[currentPattern.id];
+                const code = d.code?.[lang] || '// Not available';
+                const sup = currentPattern.support[idx];
+                const codeSection = document.querySelector('.code-wrap');
+                if (codeSection) {
+                    codeSection.querySelector('.code-lang-label').textContent = lang;
+                    const codeEl = codeSection.querySelector('code');
+                    if (codeEl) {
+                        codeEl.className = getLangClass(lang);
+                        codeEl.textContent = code;
+                        try { hljs.highlightElement(codeEl); } catch (e) { }
+                    }
+                }
+                const secTitle = document.querySelectorAll('.section-title')[3];
+                if (secTitle) secTitle.textContent = `Code — ${LANGS[idx]}${sup === 'lib' ? ' (via library)' : ''}`;
+            }
+        }
+
+        function getLangClass(lang) {
+            const map = { csharp: 'language-csharp', python: 'language-python', go: 'language-go', rust: 'language-rust', java: 'language-java', javascript: 'language-javascript', cpp: 'language-cpp' };
+            return map[lang] || 'language-plaintext';
+        }
+
+        function escHtml(s) {
+            if (!s) return '';
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function copyCode(btn) {
+            const code = document.getElementById('codeBlock')?.textContent || '';
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 1500);
+            });
+        }
+
+        function showOverview() {
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('patternDetail').style.display = 'none';
+            document.getElementById('overviewPage').style.display = 'block';
+            currentPattern = null;
+            buildSidebar();
+
+            const rows = PATTERNS.map(p => {
+                const cells = p.support.map(s => {
+                    if (s === true) return `<td><span class="check">✓</span></td>`;
+                    if (s === false) return `<td><span class="dash">—</span></td>`;
+                    return `<td><span class="partial">lib</span></td>`;
+                }).join('');
+                return `<tr>
+      <td onclick="selectPattern(PATTERNS.find(x=>x.id==='${p.id}'))">${p.name}</td>
+      <td><span class="meta-tag" style="font-size:11px;padding:2px 7px;border-radius:12px;background:${CAT_COLORS[p.cat].bg};color:${CAT_COLORS[p.cat].color}">${p.cat}</span></td>
+      <td>${p.gof ? '<span class="check">✓</span>' : '<span class="dash">—</span>'}</td>
+      ${cells}
+    </tr>`;
+            }).join('');
+
+            document.getElementById('overviewPage').innerHTML = `
+    <div class="main-header">
+      <div class="main-title">Pattern Overview</div>
+      <div class="main-meta"><span class="meta-origin">${PATTERNS.length} patterns across 7 languages · ✓ native · lib = via library · — = not idiomatic</span></div>
+    </div>
+    <div class="content-body" style="max-width:100%;padding:20px 24px">
+      <div class="overview-grid">
+        <table class="ov-table">
+          <thead><tr>
+            <th>Pattern</th><th>Category</th><th>GoF</th>
+            ${LANGS.map(l => `<th>${l}</th>`).join('')}
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    </div>`;
+        }
+
+        // Filters
+        document.querySelectorAll('.pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeFilter = pill.dataset.filter;
+                buildSidebar();
+            });
+        });
+
+        // Search
+        document.getElementById('searchInput').addEventListener('input', e => {
+            searchTerm = e.target.value;
+            buildSidebar();
+        });
+
+        function setPatternCounts() {
+            const count = PATTERNS.length;
+            const ids = ['patternCountInline', 'patternCountHero', 'patternCountStat'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = String(count);
+            });
+        }
+
+        // Init
+        mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+        setPatternCounts();
+        buildSidebar();
+    </script>
+</body>
+
+</html>

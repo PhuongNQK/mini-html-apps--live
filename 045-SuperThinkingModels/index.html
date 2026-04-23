@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Super Thinking – 300 Mô Hình Tư Duy</title>
-  <meta name="description" content="Bảng tổng hợp 300 mô hình tư duy trong Super Thinking, sắp xếp theo mức độ hữu dụng">
+  <meta name="description"
+    content="Bảng tổng hợp 300 mô hình tư duy trong Super Thinking, sắp xếp theo mức độ hữu dụng">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,10 +27,10 @@
       --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
       --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
       --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
-      --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+      --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
     }
 
     /* ===== DARK THEME (default) ===== */
@@ -104,13 +105,19 @@
       --scrollbar-bg: #f1f5f9;
       --scrollbar-thumb: #cbd5e1;
       --input-bg: #ffffff;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
-      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.08);
     }
 
     /* ===== RESET & BASE ===== */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       font-family: var(--font-sans);
@@ -123,23 +130,41 @@
     }
 
     .sr-only {
-      position: absolute; width: 1px; height: 1px;
-      padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0, 0, 0, 0); border: 0;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
 
     /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
-    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius-full); }
-    ::-webkit-scrollbar-thumb:hover { background: var(--accent-1); }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--scrollbar-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: var(--radius-full);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-1);
+    }
 
     /* ===== HERO HEADER ===== */
     .hero {
       background: var(--gradient-hero);
       padding: 3rem 2rem 2.5rem;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
     }
 
     .hero::before {
@@ -149,7 +174,7 @@
       right: -20%;
       width: 500px;
       height: 500px;
-      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
     }
@@ -161,7 +186,7 @@
       left: -10%;
       width: 400px;
       height: 400px;
-      background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
     }
@@ -208,11 +233,88 @@
       background-clip: text;
     }
 
-    .hero p {
+    .hero-desc {
       font-size: 15px;
       color: var(--text-secondary);
       max-width: 520px;
       line-height: 1.7;
+    }
+
+    .hero-term {
+      display: inline-block;
+      position: relative;
+      color: var(--accent-3);
+      font-weight: 600;
+      border-bottom: 1px dashed rgba(6, 182, 212, 0.6);
+      cursor: help;
+      outline: none;
+    }
+
+    .hero-term-popup {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 10px);
+      width: min(560px, 86vw);
+      max-height: min(70vh, 620px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      padding: 12px 14px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-primary);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      color: var(--text-secondary);
+      font-size: 13px;
+      line-height: 1.6;
+      z-index: 300;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .hero-term-popup::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 16px;
+      width: 10px;
+      height: 10px;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border-primary);
+      border-left: 1px solid var(--border-primary);
+      transform: rotate(45deg);
+    }
+
+    .hero-term-popup h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .hero-term-popup ul {
+      padding-left: 16px;
+      margin: 0;
+    }
+
+    .hero-term-popup li {
+      margin-bottom: 4px;
+    }
+
+    .hero-term-popup p {
+      margin-bottom: 6px;
+    }
+
+    .hero-term:hover .hero-term-popup,
+    .hero-term:focus .hero-term-popup,
+    .hero-term:focus-within .hero-term-popup {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     /* ===== THEME TOGGLE ===== */
@@ -240,7 +342,9 @@
       border-color: var(--accent-1);
     }
 
-    .theme-toggle .icon { font-size: 16px; }
+    .theme-toggle .icon {
+      font-size: 16px;
+    }
 
     /* ===== MAIN CONTENT ===== */
     .main {
@@ -293,7 +397,9 @@
       box-shadow: 0 0 0 3px var(--accent-1-soft);
     }
 
-    .search-wrap input:focus + .search-icon { color: var(--accent-1); }
+    .search-wrap input:focus+.search-icon {
+      color: var(--accent-1);
+    }
 
     .controls select {
       padding: 10px 32px 10px 14px;
@@ -341,16 +447,32 @@
     .stat::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 3px;
       border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     }
 
-    .stat:nth-child(1)::before { background: var(--gradient-accent); }
-    .stat:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
-    .stat:nth-child(3)::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-    .stat:nth-child(4)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-    .stat:nth-child(5)::before { background: linear-gradient(90deg, #94a3b8, #cbd5e1); }
+    .stat:nth-child(1)::before {
+      background: var(--gradient-accent);
+    }
+
+    .stat:nth-child(2)::before {
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+
+    .stat:nth-child(3)::before {
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    }
+
+    .stat:nth-child(4)::before {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24);
+    }
+
+    .stat:nth-child(5)::before {
+      background: linear-gradient(90deg, #94a3b8, #cbd5e1);
+    }
 
     .stat:hover {
       transform: translateY(-2px);
@@ -375,10 +497,21 @@
       letter-spacing: -0.02em;
     }
 
-    .stat:nth-child(2) .stat-value { color: var(--essential-text); }
-    .stat:nth-child(3) .stat-value { color: var(--high-text); }
-    .stat:nth-child(4) .stat-value { color: var(--medium-text); }
-    .stat:nth-child(5) .stat-value { color: var(--low-text); }
+    .stat:nth-child(2) .stat-value {
+      color: var(--essential-text);
+    }
+
+    .stat:nth-child(3) .stat-value {
+      color: var(--high-text);
+    }
+
+    .stat:nth-child(4) .stat-value {
+      color: var(--medium-text);
+    }
+
+    .stat:nth-child(5) .stat-value {
+      color: var(--low-text);
+    }
 
     /* ===== TABLE ===== */
     .table-wrap {
@@ -422,9 +555,13 @@
       position: relative;
     }
 
-    thead th:hover { color: var(--accent-1); }
+    thead th:hover {
+      color: var(--accent-1);
+    }
 
-    thead th.sorted { color: var(--accent-1); }
+    thead th.sorted {
+      color: var(--accent-1);
+    }
 
     thead th .sort-arrow {
       margin-left: 4px;
@@ -433,7 +570,9 @@
       transition: opacity var(--transition-fast);
     }
 
-    thead th.sorted .sort-arrow { opacity: 1; }
+    thead th.sorted .sort-arrow {
+      opacity: 1;
+    }
 
     tbody tr {
       border-bottom: 1px solid var(--border-secondary);
@@ -441,13 +580,17 @@
       cursor: pointer;
     }
 
-    tbody tr:last-child { border-bottom: none; }
+    tbody tr:last-child {
+      border-bottom: none;
+    }
 
     tbody tr:hover {
       background: var(--bg-hover);
     }
 
-    tbody tr:active { background: var(--accent-1-soft); }
+    tbody tr:active {
+      background: var(--accent-1-soft);
+    }
 
     td {
       padding: 14px 16px;
@@ -521,7 +664,9 @@
       border: 1px solid var(--border-secondary);
     }
 
-    .level-cell { white-space: nowrap; }
+    .level-cell {
+      white-space: nowrap;
+    }
 
     .badge {
       display: inline-flex;
@@ -574,7 +719,9 @@
       line-height: 1.6;
     }
 
-    .tags-cell { min-width: 100px; }
+    .tags-cell {
+      min-width: 100px;
+    }
 
     .tag {
       display: inline-block;
@@ -599,7 +746,11 @@
       text-align: center;
     }
 
-    .empty-icon { font-size: 48px; margin-bottom: 1rem; opacity: 0.5; }
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
 
     .empty-title {
       font-size: 16px;
@@ -617,7 +768,7 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       z-index: 100;
@@ -770,32 +921,102 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .hero { padding: 2rem 1rem 1.5rem; }
-      .main { padding: 1rem; }
-      .hero-top { flex-direction: column; gap: 1rem; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
-      .controls { flex-direction: column; }
-      .search-wrap { min-width: 100%; }
-      .controls select { width: 100%; }
-      .desc-cell { max-width: 200px; }
-      .modal-card { padding: 1.5rem; }
+      .hero {
+        padding: 2rem 1rem 1.5rem;
+      }
+
+      .main {
+        padding: 1rem;
+      }
+
+      .hero-top {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .hero-term-popup {
+        left: 50%;
+        transform: translate(-50%, 8px);
+      }
+
+      .hero-term:hover .hero-term-popup,
+      .hero-term:focus .hero-term-popup,
+      .hero-term:focus-within .hero-term-popup {
+        transform: translate(-50%, 0);
+      }
+
+      .hero-term-popup::before {
+        left: 50%;
+        margin-left: -5px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .search-wrap {
+        min-width: 100%;
+      }
+
+      .controls select {
+        width: 100%;
+      }
+
+      .desc-cell {
+        max-width: 200px;
+      }
+
+      .modal-card {
+        padding: 1.5rem;
+      }
     }
 
     @media (max-width: 480px) {
-      .stats { grid-template-columns: 1fr 1fr; }
-      td { padding: 10px 8px; font-size: 12px; }
-      .name-en { font-size: 12.5px; }
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      td {
+        padding: 10px 8px;
+        font-size: 12px;
+      }
+
+      .name-en {
+        font-size: 12.5px;
+      }
     }
 
     /* ===== ANIMATION ===== */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    .stats, .table-wrap { animation: fadeIn 0.5s ease-out; }
-    .stats { animation-delay: 0.1s; animation-fill-mode: both; }
-    .table-wrap { animation-delay: 0.2s; animation-fill-mode: both; }
+    .stats,
+    .table-wrap {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    .stats {
+      animation-delay: 0.1s;
+      animation-fill-mode: both;
+    }
+
+    .table-wrap {
+      animation-delay: 0.2s;
+      animation-fill-mode: both;
+    }
   </style>
 
   <!-- ===== HERO ===== -->
@@ -805,7 +1026,31 @@
         <div>
           <div class="hero-badge">📚 Super Thinking</div>
           <h2>300 Mô Hình Tư Duy</h2>
-          <p>Tổng hợp các mental models từ cuốn sách Super Thinking của Gabriel Weinberg & Lauren McCann, sắp xếp theo mức độ hữu dụng.</p>
+          <div class="hero-desc">Tổng hợp các <span class="hero-term" tabindex="0" role="button" aria-describedby="mentalModelsPopup">mô
+                hình tư duy
+              <div class="hero-term-popup" id="mentalModelsPopup" role="tooltip">
+                <h4>Mô hình tư duy là gì?</h4>
+
+                <p>Mô hình tư duy (mental model) là một khung nhận thức — cách não bộ đơn giản hóa và biểu diễn thực tế để giúp ta hiểu thế giới, ra quyết định và giải quyết vấn đề.</p>
+                <p>Hãy tưởng tượng não bạn không thể xử lý toàn bộ sự phức tạp của thực tế mỗi giây. Mô hình tư duy là những "bản đồ rút gọn" mà não dùng thay thế — đủ chính xác để hữu ích, đủ đơn giản để dùng nhanh.</p>
+                <p>Ví dụ thực tế: Khi bạn thấy giá cổ phiếu một công ty tăng mạnh liên tục 3 tháng và nghĩ "chắc sẽ tiếp tục tăng", bạn đang dùng mô hình tư duy "momentum". Nhưng nếu bạn nhớ đến Mean Reversion (hồi quy trung bình), bạn sẽ đặt câu hỏi ngược lại: liệu đây có phải lúc nên thận trọng hơn?</p>
+                <p>Có ba điểm quan trọng cần hiểu về chúng.</p>
+                <ul>
+                  <li>Thứ nhất, mọi mô hình đều sai theo nghĩa nào đó — chúng là xấp xỉ, không phải sự thật hoàn chỉnh. Câu nói nổi tiếng của George Box: "All models are wrong, but some are useful."</li>
+                  <li>Thứ hai, mô hình tư duy mạnh nhất không phải từ một lĩnh vực, mà là mạng lưới kết hợp nhiều lĩnh vực — đây chính là ý tưởng cốt lõi của Charlie Munger và cũng là lý do cuốn Super Thinking tổng hợp từ vật lý, sinh học, kinh tế, tâm lý học...</li>
+                  <li>Thứ ba, mô hình tư duy vô thức nguy hiểm hơn có ý thức — khi bạn không biết mình đang dùng mô hình nào, bạn không thể nhận ra khi nào nó sai.</li>
+                </ul>
+                <p>Sức mạnh thực sự đến khi bạn có đủ nhiều mô hình để chọn đúng công cụ cho đúng tình huống — giống như thợ mộc lành nghề không chỉ có búa.</p>
+                <p>Tóm lại, mô hình tư duy là:</p>
+                <ul>
+                  <li><strong>Khung suy nghĩ</strong> giúp bạn nhìn vấn đề rõ hơn.</li>
+                  <li><strong>Công cụ ra quyết định</strong> trong tình huống phức tạp và bất định.</li>
+                  <li><strong>Ngôn ngữ chung</strong> để học nhanh từ nhiều lĩnh vực khác nhau.</li>
+                </ul>
+              </div>
+            </span> từ cuốn sách Super Thinking (Siêu mô hình tư duy) của Gabriel Weinberg &
+            Lauren
+            McCann, sắp xếp theo mức độ hữu dụng.</div>
         </div>
         <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
           <span class="icon" id="themeIcon">☀️</span>
@@ -1229,7 +1474,7 @@
     }
 
     // Init theme
-    (function() {
+    (function () {
       const saved = localStorage.getItem('theme');
       if (saved) {
         document.documentElement.setAttribute('data-theme', saved);

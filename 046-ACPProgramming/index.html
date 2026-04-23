@@ -638,13 +638,22 @@
       border-top: 1px solid var(--border-tertiary);
     }
 
+    .code-tabs-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-tertiary);
+      background: var(--bg-tertiary);
+      padding-right: 8px;
+    }
+
     .code-tabs {
       display: flex;
       gap: 0;
-      border-bottom: 1px solid var(--border-tertiary);
       overflow-x: auto;
       padding: 0 8px;
-      background: var(--bg-tertiary);
+      flex: 1;
     }
 
     .code-tabs::-webkit-scrollbar { height: 2px; }
@@ -680,6 +689,27 @@
       color: var(--text-tertiary);
       cursor: default;
       opacity: 0.5;
+    }
+
+    .copy-code-btn {
+      font-size: 11px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      border: 1px solid var(--border-primary);
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      border-radius: var(--radius-full);
+      padding: 5px 10px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .copy-code-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-1);
+      background: var(--bg-hover);
     }
 
     .lang-dot {
@@ -1403,6 +1433,9 @@
       const codeSection = document.createElement('div');
       codeSection.className = 'code-section';
 
+      const codeTabsBar = document.createElement('div');
+      codeTabsBar.className = 'code-tabs-bar';
+
       const codeTabs = document.createElement('div');
       codeTabs.className = 'code-tabs';
       const codePanels = document.createElement('div');
@@ -1422,11 +1455,55 @@
         panel.innerHTML = `<pre data-lang="${l}">${escapeHtml(item.code[l] || '// Not available in ' + l)}</pre>`;
         codePanels.appendChild(panel);
       });
-      codeSection.appendChild(codeTabs);
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'copy-code-btn';
+      copyBtn.type = 'button';
+      copyBtn.textContent = 'Copy code';
+      copyBtn.onclick = async () => {
+        const selectedLang = activeLangs[item.id] || LANGS[0];
+        const codeText = item.code[selectedLang] || '// Not available in ' + selectedLang;
+        const ok = await copyTextToClipboard(codeText);
+        copyBtn.textContent = ok ? 'Copied!' : 'Copy failed';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy code';
+        }, 1200);
+      };
+
+      codeTabsBar.appendChild(codeTabs);
+      codeTabsBar.appendChild(copyBtn);
+      codeSection.appendChild(codeTabsBar);
       codeSection.appendChild(codePanels);
       body.appendChild(codeSection);
       card.appendChild(body);
       return card;
+    }
+
+    async function copyTextToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (error) {
+          // Fall back to execCommand when clipboard API fails.
+        }
+      }
+
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      let copied = false;
+      try {
+        copied = document.execCommand('copy');
+      } catch (error) {
+        copied = false;
+      }
+      document.body.removeChild(ta);
+      return copied;
     }
 
     function escapeHtml(s) {

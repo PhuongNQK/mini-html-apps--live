@@ -1,0 +1,945 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strategic Thinking & Game Theory</title>
+<meta name="description" content="Interactive strategic thinking and game theory reference with searchable concepts, matrices, and bilingual explanations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font-sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono','SF Mono',Consolas,monospace;
+  --radius-sm:8px;
+  --radius-md:12px;
+  --radius-lg:18px;
+  --radius-xl:24px;
+  --radius-full:999px;
+  --transition-fast:150ms cubic-bezier(0.4,0,0.2,1);
+  --transition-base:250ms cubic-bezier(0.4,0,0.2,1);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 10px 30px rgba(15,23,42,.08);
+  --shadow-lg:0 24px 60px rgba(15,23,42,.14);
+}
+[data-theme="dark"]{
+  --bg:#08111f;
+  --bg2:#0f1a2d;
+  --bg3:#16223a;
+  --panel:#101c31;
+  --panel-2:#15233e;
+  --glass:rgba(11,18,32,.72);
+  --text:#e8eef8;
+  --text2:#a6b6cf;
+  --text3:#70829d;
+  --border:rgba(148,163,184,.16);
+  --border2:rgba(148,163,184,.24);
+  --accent:#73a3ff;
+  --accent-2:#6ee7d8;
+  --accent-3:#f2c66d;
+  --accent-bg:rgba(115,163,255,.14);
+  --tag-bg:rgba(110,231,216,.1);
+  --tag-text:#9af1e7;
+  --hero-bg:linear-gradient(135deg,#111f3d 0%,#08111f 50%,#0a2530 100%);
+  --hero-accent:linear-gradient(135deg,#8bb0ff 0%,#6ee7d8 55%,#f2c66d 100%);
+  --card-shadow:0 20px 50px rgba(2,6,23,.35);
+  --input-bg:#13213a;
+  --code-bg:#0b1425;
+  --grid-pro:rgba(34,197,94,.14);
+  --grid-pro-text:#8ce6ad;
+  --grid-con:rgba(239,68,68,.14);
+  --grid-con-text:#ffb0b0;
+}
+[data-theme="light"]{
+  --bg:#f5f7fb;
+  --bg2:#ffffff;
+  --bg3:#edf2fa;
+  --panel:#ffffff;
+  --panel-2:#f8fbff;
+  --glass:rgba(255,255,255,.76);
+  --text:#152033;
+  --text2:#53627b;
+  --text3:#7f8da3;
+  --border:rgba(15,23,42,.08);
+  --border2:rgba(15,23,42,.14);
+  --accent:#3157d5;
+  --accent-2:#0f9f92;
+  --accent-3:#c78a1e;
+  --accent-bg:rgba(49,87,213,.1);
+  --tag-bg:#e8f8f5;
+  --tag-text:#147468;
+  --hero-bg:linear-gradient(135deg,#eef3ff 0%,#f6f9ff 55%,#eefdfb 100%);
+  --hero-accent:linear-gradient(135deg,#3157d5 0%,#0f9f92 55%,#c78a1e 100%);
+  --card-shadow:0 18px 40px rgba(15,23,42,.08);
+  --input-bg:#ffffff;
+  --code-bg:#f7f9fc;
+  --grid-pro:#edf9f0;
+  --grid-pro-text:#1b6b39;
+  --grid-con:#fff1f1;
+  --grid-con-text:#a33030;
+}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top right, rgba(115,163,255,.12), transparent 22%),
+    radial-gradient(circle at left 30%, rgba(110,231,216,.08), transparent 26%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--font-sans);
+  font-size:14px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.hero{
+  position:relative;
+  overflow:hidden;
+  background:var(--hero-bg);
+  border-bottom:1px solid var(--border);
+}
+.hero::before,.hero::after{
+  content:'';
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+}
+.hero::before{
+  width:520px;height:520px;top:-260px;right:-140px;
+  background:radial-gradient(circle, rgba(115,163,255,.18) 0%, transparent 70%);
+}
+.hero::after{
+  width:420px;height:420px;bottom:-240px;left:-80px;
+  background:radial-gradient(circle, rgba(110,231,216,.14) 0%, transparent 72%);
+}
+.hero-inner,.main{max-width:1240px;margin:0 auto;position:relative;z-index:1}
+.hero-inner{padding:3rem 2rem 2.25rem}
+.hero-top{display:flex;justify-content:space-between;gap:1.5rem;align-items:flex-start}
+.hero-copy{max-width:760px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;margin-bottom:1rem;
+  border-radius:var(--radius-full);
+  background:var(--accent-bg);
+  border:1px solid rgba(115,163,255,.18);
+  color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.hero-title{font-size:clamp(2rem,4vw,3.25rem);line-height:1.08;letter-spacing:-.04em;font-weight:800;margin-bottom:.75rem}
+.hero-title span{
+  background:var(--hero-accent);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.hero-desc{font-size:15px;color:var(--text2);max-width:640px;line-height:1.8}
+.hero-langs{display:flex;flex-wrap:wrap;gap:10px;margin-top:1.35rem}
+.hero-lang{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 12px;border-radius:var(--radius-full);
+  background:var(--glass);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--border);color:var(--text2);font-size:12px;font-weight:600;
+}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot-foundations{background:var(--accent)}
+.dot-tools{background:var(--accent-2)}
+.dot-patterns{background:var(--accent-3)}
+.header-actions{display:flex;flex-direction:column;gap:10px;align-items:stretch}
+.theme-toggle{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-width:132px;padding:10px 14px;border-radius:var(--radius-full);
+  background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  color:var(--text2);border:1px solid var(--border);cursor:pointer;
+  font:600 13px var(--font-sans);transition:all var(--transition-fast);
+}
+.theme-toggle:hover{border-color:var(--accent);color:var(--text);transform:translateY(-1px)}
+.theme-toggle .icon{font-size:15px}
+.main{padding:1.5rem 2rem 3rem}
+.toolbar-shell{
+  padding:1rem;background:var(--glass);border:1px solid var(--border);
+  border-radius:var(--radius-xl);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:var(--shadow-md);margin-bottom:1.2rem;
+}
+.toolbar-top{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1 1 320px}
+.search-wrap input{
+  width:100%;padding:12px 14px 12px 42px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--input-bg);color:var(--text);
+  font-size:14px;outline:none;transition:all var(--transition-fast);
+}
+.search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-bg)}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:15px}
+.controls{display:flex;gap:10px;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.filter-btn{
+  padding:7px 12px;border:1px solid var(--border);border-radius:var(--radius-full);
+  background:var(--panel);color:var(--text2);font-size:11px;font-weight:600;letter-spacing:.02em;
+  cursor:pointer;transition:all var(--transition-fast);
+}
+.filter-btn:hover{border-color:var(--accent);color:var(--text)}
+.filter-btn.active{background:var(--accent-bg);color:var(--accent);border-color:rgba(115,163,255,.34)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:1.25rem}
+.stat{
+  position:relative;overflow:hidden;padding:16px 18px;border-radius:var(--radius-lg);
+  border:1px solid var(--border);background:var(--panel);box-shadow:var(--shadow-sm);
+}
+.stat::before{content:'';position:absolute;inset:0 auto auto 0;height:3px;width:100%}
+.stat:nth-child(1)::before{background:var(--hero-accent)}
+.stat:nth-child(2)::before{background:linear-gradient(90deg,var(--accent-2),#8cf0e6)}
+.stat:nth-child(3)::before{background:linear-gradient(90deg,var(--accent),#9cbaff)}
+.stat:nth-child(4)::before{background:linear-gradient(90deg,var(--accent-3),#f1d79b)}
+.stat-label{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.stat-value{font-size:28px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--text)}
+.stat-note{margin-top:4px;font-size:12px;color:var(--text2)}
+.content{animation:fadeIn .45s ease-out}
+.section-header{margin:24px 0 12px;display:flex;align-items:center;gap:12px}
+.section-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3)}
+.section-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-lg);
+  margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow-sm);transition:all var(--transition-base);
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--border2)}
+.card.open{border-color:rgba(115,163,255,.3);box-shadow:var(--card-shadow)}
+.card-header{padding:16px 18px;cursor:pointer;display:flex;align-items:flex-start;gap:12px;transition:background var(--transition-fast)}
+.card-header:hover{background:var(--panel-2)}
+.card-left{flex:1}
+.card-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.card-name{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.badge{font-size:10px;padding:4px 9px;border-radius:var(--radius-full);white-space:nowrap;font-weight:700;border:1px solid transparent;letter-spacing:.03em}
+.badge-level-1{background:rgba(34,197,94,.12);color:#38c978;border-color:rgba(34,197,94,.2)}
+.badge-level-2{background:rgba(59,130,246,.12);color:#65a6ff;border-color:rgba(59,130,246,.2)}
+.badge-level-3{background:rgba(242,198,109,.16);color:#efc56b;border-color:rgba(242,198,109,.24)}
+.badge-cat{background:var(--tag-bg);color:var(--tag-text);border-color:rgba(110,231,216,.18)}
+.card-subtitle{font-size:12.5px;color:var(--text2);line-height:1.6}
+.card-arrow{color:var(--text3);font-size:16px;margin-top:2px;transition:transform .25s,color .25s}
+.card-arrow.open{transform:rotate(90deg);color:var(--accent)}
+.card-body{padding:0 18px 18px;border-top:1px solid var(--border);display:none;animation:slideDown .24s ease-out}
+.card-body.open{display:block}
+.card-body h4{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 6px}
+.card-body p{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:10px}
+.card-body .origin{font-size:12px;color:var(--text3);font-style:italic;margin-top:14px;padding:10px 12px;border-left:3px solid var(--accent);background:var(--accent-bg);border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.example-box{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;margin-top:8px;font-size:12.5px;color:var(--text2);line-height:1.75}
+.example-box strong{color:var(--text);font-weight:700}
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.pro-box,.con-box{border-radius:var(--radius-md);padding:10px 12px;font-size:12px;border:1px solid var(--border)}
+.pro-box{background:var(--grid-pro);color:var(--grid-pro-text)}
+.con-box{background:var(--grid-con);color:var(--grid-con-text)}
+.pro-box li,.con-box li{margin-left:14px;margin-bottom:3px}
+.no-results{padding:48px 20px;text-align:center;color:var(--text3);font-size:14px;border:1px dashed var(--border2);border-radius:var(--radius-lg);background:var(--panel)}
+.matrix-table{border-collapse:collapse;margin:10px 0 6px;font-size:12px;width:100%;overflow:hidden;border-radius:var(--radius-md)}
+.matrix-table td,.matrix-table th{border:1px solid var(--border2);padding:8px 10px;text-align:center}
+.matrix-table th{background:var(--bg3);font-weight:700;color:var(--text2)}
+.highlight-cell{background:var(--accent-bg);color:var(--accent);font-weight:700}
+@keyframes slideDown{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== AURORA BLOBS ===== */
+.aurora{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.aurora::before,.aurora::after,.aurora span{
+  position:absolute;border-radius:50%;filter:blur(90px);
+  animation:blobFloat 20s ease-in-out infinite alternate;
+}
+.aurora::before{content:'';width:760px;height:640px;top:-280px;right:-180px;
+  background:radial-gradient(circle,rgba(115,163,255,.18) 0%,transparent 65%);}
+.aurora::after{content:'';width:640px;height:520px;bottom:0;left:-120px;
+  background:radial-gradient(circle,rgba(110,231,216,.14) 0%,transparent 65%);
+  animation-delay:-10s;}
+.aurora span{display:block;width:500px;height:420px;top:40%;left:38%;
+  background:radial-gradient(circle,rgba(242,198,109,.1) 0%,transparent 65%);
+  animation-delay:-5s;animation-duration:26s;}
+[data-theme="light"] .aurora::before{background:radial-gradient(circle,rgba(49,87,213,.08) 0%,transparent 65%)}
+[data-theme="light"] .aurora::after{background:radial-gradient(circle,rgba(15,159,146,.07) 0%,transparent 65%)}
+[data-theme="light"] .aurora span{background:radial-gradient(circle,rgba(199,138,30,.06) 0%,transparent 65%)}
+@keyframes blobFloat{
+  0%  {transform:translate(0,0)      scale(1)   }
+  33% {transform:translate(40px,-30px) scale(1.08)}
+  66% {transform:translate(-20px,25px) scale(.97) }
+  100%{transform:translate(25px,40px) scale(1.04) }
+}
+
+/* ===== HERO GRID + BADGE PULSE ===== */
+.hero{
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(148,163,184,.04) 40px),
+    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(148,163,184,.04) 40px),
+    var(--hero-bg);
+}
+.hero-badge{animation:badgePulse 3.5s ease-in-out infinite}
+@keyframes badgePulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(115,163,255,.4)}
+  50%    {box-shadow:0 0 0 10px rgba(115,163,255,.0)}
+}
+.hero-lang{transition:all var(--transition-fast);cursor:default}
+.hero-lang:hover{border-color:var(--accent);transform:translateY(-2px);background:var(--accent-bg)}
+
+/* ===== CARD LEVEL ACCENT BORDER ===== */
+.card{border-left:3px solid transparent}
+.card[data-level="1"]{border-left-color:rgba(115,163,255,.32)}
+.card[data-level="2"]{border-left-color:rgba(110,231,216,.32)}
+.card[data-level="3"]{border-left-color:rgba(242,198,109,.32)}
+.card[data-level="1"]:hover{box-shadow:var(--shadow-md),-3px 0 22px rgba(115,163,255,.22);border-left-color:var(--accent)}
+.card[data-level="2"]:hover{box-shadow:var(--shadow-md),-3px 0 22px rgba(110,231,216,.2);border-left-color:var(--accent-2)}
+.card[data-level="3"]:hover{box-shadow:var(--shadow-md),-3px 0 22px rgba(242,198,109,.2);border-left-color:var(--accent-3)}
+.card[data-level="1"].open{border-left-color:var(--accent);box-shadow:var(--card-shadow),-3px 0 28px rgba(115,163,255,.28)}
+.card[data-level="2"].open{border-left-color:var(--accent-2);box-shadow:var(--card-shadow),-3px 0 28px rgba(110,231,216,.22)}
+.card[data-level="3"].open{border-left-color:var(--accent-3);box-shadow:var(--card-shadow),-3px 0 28px rgba(242,198,109,.22)}
+
+/* ===== CARD STAGGER ANIMATION ===== */
+.card{animation:cardRise .42s ease-out both}
+@keyframes cardRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== CARD NUMBER ===== */
+.card-num{
+  font:700 10px var(--font-mono);color:var(--text3);
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:2px 7px;
+  letter-spacing:.04em;flex-shrink:0;
+  transition:color var(--transition-fast),background var(--transition-fast);
+}
+.card:hover .card-num{color:var(--text2);background:var(--panel-2)}
+
+/* ===== STATS HOVER GLOW ===== */
+.stat{transition:all var(--transition-base);cursor:default}
+.stat:hover{transform:translateY(-3px)}
+.stat:nth-child(1):hover{box-shadow:0 12px 36px rgba(115,163,255,.2);border-color:rgba(115,163,255,.32)}
+.stat:nth-child(2):hover{box-shadow:0 12px 36px rgba(110,231,216,.18);border-color:rgba(110,231,216,.32)}
+.stat:nth-child(3):hover{box-shadow:0 12px 36px rgba(115,163,255,.15);border-color:rgba(115,163,255,.28)}
+.stat:nth-child(4):hover{box-shadow:0 12px 36px rgba(242,198,109,.15);border-color:rgba(242,198,109,.28)}
+.stat-icon{font-size:22px;display:block;margin-bottom:8px;line-height:1}
+
+/* ===== SCROLL TO TOP ===== */
+.scroll-top{
+  position:fixed;bottom:2rem;right:2rem;
+  width:46px;height:46px;border-radius:var(--radius-md);
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#fff;border:none;cursor:pointer;font-size:20px;font-weight:700;
+  box-shadow:0 6px 24px rgba(115,163,255,.5);
+  opacity:0;transform:translateY(16px) scale(.9);
+  transition:all var(--transition-base);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+}
+.scroll-top.visible{opacity:1;transform:translateY(0) scale(1)}
+.scroll-top:hover{transform:translateY(-3px) scale(1.06);box-shadow:0 12px 36px rgba(115,163,255,.6)}
+
+/* ===== FILTER GLOW ===== */
+.filter-btn:hover{box-shadow:0 0 0 3px var(--accent-bg)}
+.filter-btn.active{box-shadow:0 4px 18px rgba(115,163,255,.22)}
+
+/* ===== SECTION LABEL PILL ===== */
+.section-label{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 14px;border-radius:var(--radius-full);
+  border:1px solid var(--border);background:var(--panel);
+  white-space:nowrap;
+}
+
+/* ===== H4 EXTENDING LINE ===== */
+.card-body h4{display:flex;align-items:center;gap:8px}
+.card-body h4::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+
+/* ===== EXAMPLE BOX ACCENT LEFT ===== */
+.example-box{border-left:3px solid var(--accent-3)}
+
+/* ===== BOX TITLES ===== */
+.box-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.pro-title{color:var(--grid-pro-text)}
+.con-title{color:var(--grid-con-text)}
+
+/* ===== NO RESULTS ===== */
+.no-results{display:flex;flex-direction:column;align-items:center;gap:8px}
+.no-results::before{content:'🔍';font-size:40px;opacity:.45;display:block;margin-bottom:4px}
+
+@media (max-width: 860px){
+  .hero-inner{padding:2.25rem 1rem 1.75rem}
+  .main{padding:1rem 1rem 2.5rem}
+  .hero-top{flex-direction:column}
+  .header-actions{flex-direction:row;flex-wrap:wrap}
+}
+@media (max-width: 640px){
+  .toolbar-shell{padding:.875rem}
+  .stats{grid-template-columns:1fr 1fr}
+  .pros-cons{grid-template-columns:1fr}
+  .card-header,.card-body{padding-left:14px;padding-right:14px}
+  .hero-title{font-size:2rem}
+}
+@media (max-width: 480px){
+  .stats{grid-template-columns:1fr}
+  .theme-toggle{min-width:unset;flex:1}
+}
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><span></span></div>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-top">
+      <div class="hero-copy">
+        <div class="hero-badge">Strategic Reference</div>
+        <h1 class="hero-title" id="page-title"><span>Strategic Thinking</span> & Game Theory</h1>
+        <p class="hero-desc" id="hero-description">Browse strategic frameworks, game theory concepts, and decision tools with bilingual explanations, payoff tables, and practical scenarios.</p>
+        <div class="hero-langs">
+          <span class="hero-lang"><span class="dot dot-foundations"></span>Foundations</span>
+          <span class="hero-lang"><span class="dot dot-tools"></span>Decision Tools</span>
+          <span class="hero-lang"><span class="dot dot-patterns"></span>Strategic Patterns</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="theme-toggle" id="lang-btn" onclick="toggleLang()">
+          <span class="icon">🌐</span>
+          <span id="lang-label">Tiếng Việt</span>
+        </button>
+        <button class="theme-toggle" id="dark-btn" onclick="toggleDark()">
+          <span class="icon" id="dark-icon">☀</span>
+          <span id="dark-label">Light</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+  <section class="toolbar-shell">
+    <div class="toolbar-top">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="search" placeholder="Search concepts...">
+      </div>
+    </div>
+    <div class="filters" id="filters"></div>
+  </section>
+
+  <div class="stats" id="stats"></div>
+  <div class="content" id="content"></div>
+</main>
+
+<button class="scroll-top" id="scroll-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+let lang = 'en';
+let darkMode = true;
+let activeFilter = 'All';
+let searchTerm = '';
+
+const data = [
+  {
+    id:1, level:1, category:'Foundations',
+    name:{en:'Zero-Sum Game', vi:'Trò chơi tổng bằng không'},
+    short:{en:'One player\'s gain = another\'s loss', vi:'Lợi ích của người này = thiệt hại của người kia'},
+    origin:{en:'Formalized by John von Neumann in his 1928 paper on game theory.', vi:'Được chính thức hóa bởi John von Neumann năm 1928.'},
+    what:{en:'A game where total payoffs sum to zero — resources are fixed, and winning requires the other side to lose. Chess, poker, and negotiations over a fixed pie are classic examples.', vi:'Một trò chơi mà tổng lợi ích luôn bằng 0 — tài nguyên cố định, thắng có nghĩa là đối thủ thua.'},
+    when:{en:'Use this framing when resources are truly fixed (market share battles, territorial disputes, auctions). Avoid applying it to situations where both sides can create value.', vi:'Áp dụng khi tài nguyên thực sự cố định (tranh giành thị phần, đàm phán giá cố định). Không áp dụng khi cả hai bên có thể tạo thêm giá trị.'},
+    pros:{en:['Clarifies that cooperation is impossible', 'Forces focus on relative gains'], vi:['Làm rõ hợp tác không khả thi', 'Buộc tập trung vào lợi thế tương đối']},
+    cons:{en:['Over-applied to non-zero-sum situations', 'Ignores value creation potential'], vi:['Thường bị áp dụng sai vào tình huống không phải zero-sum', 'Bỏ qua tiềm năng tạo giá trị']},
+    example:{en:'<strong>Scenario:</strong> Two companies bid for the same government contract worth $10M. Every dollar Company A wins is a dollar Company B loses. Neither can "negotiate" a better total — the pie is fixed. <br><br><strong>Implication:</strong> The optimal strategy is purely competitive (not cooperative).', vi:'<strong>Ví dụ:</strong> Hai công ty đấu thầu một hợp đồng chính phủ trị giá 10 triệu USD. Mỗi đồng công ty A thắng là một đồng công ty B mất. Chiến lược tối ưu là thuần cạnh tranh.'},
+    matrix:null
+  },
+  {
+    id:2, level:1, category:'Foundations',
+    name:{en:'Non-Zero-Sum Game', vi:'Trò chơi tổng khác không'},
+    short:{en:'Both players can win or both can lose', vi:'Cả hai có thể cùng thắng hoặc cùng thua'},
+    origin:{en:'Central to modern cooperative game theory and economics, widely studied since the 1950s.', vi:'Trung tâm của lý thuyết trò chơi hợp tác hiện đại, nghiên cứu rộng rãi từ thập niên 1950.'},
+    what:{en:'Games where the sum of payoffs is not constant — cooperation can create more value than competition destroys. Most real-world strategic situations are non-zero-sum.', vi:'Trò chơi mà tổng lợi ích không cố định — hợp tác có thể tạo thêm giá trị. Hầu hết các tình huống thực tế đều là non-zero-sum.'},
+    when:{en:'Apply when there is potential for mutually beneficial agreements, trade, or partnerships. Key for business negotiations, international trade, and alliances.', vi:'Áp dụng khi có tiềm năng thoả thuận cùng có lợi. Quan trọng trong đàm phán kinh doanh, thương mại, và liên minh.'},
+    pros:{en:['Opens space for cooperation', 'Value creation is possible'], vi:['Mở không gian hợp tác', 'Có thể tạo thêm giá trị']},
+    cons:{en:['Players may still defect if trust is absent', 'Harder to analyze than zero-sum'], vi:['Người chơi vẫn có thể phản bội nếu thiếu tin tưởng', 'Khó phân tích hơn zero-sum']},
+    example:{en:'<strong>Scenario:</strong> Two neighboring businesses — a coffee shop and a bookstore — cooperate by cross-promoting each other. Coffee shop customers discover books; book browsers buy coffee. Total foot traffic for both increases beyond what either could achieve alone.<br><br><strong>Implication:</strong> The combined value ($150K/year) exceeds the sum of their individual optima ($80K + $80K is impossible alone, but achievable together).', vi:'<strong>Ví dụ:</strong> Quán cà phê và hiệu sách cạnh nhau hợp tác quảng bá cho nhau. Khách cà phê mua sách, khách sách uống cà phê. Tổng doanh thu tăng hơn khi hoạt động độc lập.'},
+    matrix:null
+  },
+  {
+    id:3, level:1, category:'Foundations',
+    name:{en:'Payoff Matrix', vi:'Ma trận lợi ích'},
+    short:{en:'Visual grid showing outcomes for all strategy combinations', vi:'Bảng hiển thị kết quả của mọi tổ hợp chiến lược'},
+    origin:{en:'Introduced by von Neumann and Morgenstern in "Theory of Games and Economic Behavior" (1944).', vi:'Giới thiệu bởi von Neumann và Morgenstern trong "Lý thuyết trò chơi và hành vi kinh tế" (1944).'},
+    what:{en:'A table where rows = Player 1\'s strategies, columns = Player 2\'s strategies, and cells = the payoffs for each combination (P1, P2). The fundamental tool for analyzing any strategic interaction.', vi:'Bảng trong đó hàng = chiến lược người chơi 1, cột = chiến lược người chơi 2, ô = lợi ích của mỗi tổ hợp.'},
+    when:{en:'Use whenever you need to compare strategy combinations systematically. Essential first step before finding Nash equilibria or dominant strategies.', vi:'Dùng khi cần so sánh các tổ hợp chiến lược một cách có hệ thống.'},
+    pros:{en:['Makes all outcomes visible at once', 'Foundation for Nash/dominant strategy analysis'], vi:['Hiển thị tất cả kết quả', 'Nền tảng cho phân tích Nash/chiến lược trội']},
+    cons:{en:['Impractical for many players or many strategies', 'Requires accurate payoff estimation'], vi:['Không thực tế với nhiều người chơi hoặc nhiều chiến lược', 'Yêu cầu ước lượng lợi ích chính xác']},
+    example:{en:'<strong>Scenario:</strong> Two airlines (A, B) each choose to offer High or Low fares:', vi:'<strong>Ví dụ:</strong> Hai hãng hàng không A và B mỗi bên chọn giá cao hoặc thấp:'},
+    matrix:{
+      cols:{en:['B: High', 'B: Low'], vi:['B: Cao', 'B: Thấp']},
+      rows:{en:['A: High', 'A: Low'], vi:['A: Cao', 'A: Thấp']},
+      cells:[['(8,8)','(2,10)'],['(10,2)','(4,4)']],
+      note:{en:'Each cell = (A\'s profit, B\'s profit). (10,2) means A chose Low while B chose High — A captures more passengers.', vi:'Mỗi ô = (lợi nhuận A, lợi nhuận B). (10,2) = A chọn thấp, B chọn cao — A giành nhiều khách hơn.'},
+      highlight:'(4,4)'
+    }
+  },
+  {
+    id:4, level:1, category:'Foundations',
+    name:{en:'Dominant Strategy', vi:'Chiến lược trội'},
+    short:{en:'A strategy that is best regardless of what others do', vi:'Chiến lược tốt nhất bất kể đối thủ làm gì'},
+    origin:{en:'Core concept in von Neumann & Morgenstern\'s framework; refined by Nash in the 1950s.', vi:'Khái niệm cốt lõi của von Neumann & Morgenstern; được Nash tinh chỉnh.'},
+    what:{en:'A strategy is dominant if it yields a higher payoff than all other strategies, no matter what opponents choose. A strictly dominant strategy is always best; a weakly dominant strategy is never worse and sometimes better.', vi:'Chiến lược trội là chiến lược mang lại lợi ích cao hơn mọi chiến lược khác, bất kể đối thủ chọn gì.'},
+    when:{en:'Identify dominant strategies first — if they exist, rational players will always choose them, simplifying the game enormously. Eliminate dominated strategies (the opposite of dominant) iteratively.', vi:'Luôn tìm chiến lược trội trước — người chơi hợp lý luôn chọn chúng.'},
+    pros:{en:['Simplifies analysis enormously', 'Predictive power is high'], vi:['Đơn giản hóa phân tích', 'Dự đoán hành vi chính xác']},
+    cons:{en:['Dominant strategies often don\'t exist', 'May lead to suboptimal collective outcomes'], vi:['Thường không tồn tại', 'Có thể dẫn đến kết quả tập thể kém tối ưu']},
+    example:{en:'<strong>Scenario:</strong> In the Prisoner\'s Dilemma, "Betray" is a dominant strategy for both players — it yields better individual outcomes whether the other cooperates or betrays. Even though both cooperating (2,2) beats both betraying (1,1), rational individuals choose to betray.<br><br><strong>Rule of thumb:</strong> If you find a dominant strategy, you\'ve solved the game for that player.', vi:'<strong>Ví dụ:</strong> Trong Thế lưỡng nan tù nhân, "Phản bội" là chiến lược trội — mang lại kết quả tốt hơn bất kể đối thủ làm gì.'},
+    matrix:null
+  },
+  {
+    id:5, level:1, category:'Core Concepts',
+    name:{en:"Prisoner's Dilemma", vi:'Thế lưỡng nan tù nhân'},
+    short:{en:'Classic conflict between individual and collective rationality', vi:'Xung đột kinh điển giữa hợp lý cá nhân và tập thể'},
+    origin:{en:'Formalized by Merrill Flood & Melvin Dresher (1950), named by Albert Tucker. One of the most studied models in social science.', vi:'Được công thức hóa bởi Flood & Dresher (1950), đặt tên bởi Tucker. Một trong các mô hình được nghiên cứu nhiều nhất.'},
+    what:{en:'Two players each choose to Cooperate or Defect. Individual incentives push both to defect, but mutual defection is worse for both than mutual cooperation. Shows why rational individuals may fail to cooperate even when cooperation benefits everyone.', vi:'Hai người chơi chọn Hợp tác hoặc Phản bội. Khuyến khích cá nhân đẩy cả hai phản bội, nhưng kết quả tập thể tệ hơn khi cùng hợp tác.'},
+    when:{en:'Apply to arms races, price wars, environmental agreements, cartel defection, advertising spending, and any situation where individual and collective incentives diverge.', vi:'Áp dụng cho chạy đua vũ trang, chiến tranh giá, thỏa thuận môi trường, cartel, và mọi tình huống khuyến khích cá nhân và tập thể mâu thuẫn.'},
+    pros:{en:['Explains real-world cooperation failures', 'Simple yet deeply insightful'], vi:['Giải thích thất bại hợp tác thực tế', 'Đơn giản nhưng sâu sắc']},
+    cons:{en:['One-shot version ignores repeated interaction', 'Real world rarely has perfectly symmetric payoffs'], vi:['Phiên bản một lần bỏ qua tương tác lặp lại', 'Thực tế hiếm khi có lợi ích đối xứng']},
+    example:{en:'<strong>Scenario:</strong> Two suspects are arrested. Each can Cooperate (stay silent) or Defect (betray). Outcomes:', vi:'<strong>Ví dụ:</strong> Hai nghi phạm bị bắt. Mỗi người có thể Im lặng hoặc Khai báo:'},
+    matrix:{
+      cols:{en:['B: Silent', 'B: Betray'], vi:['B: Im lặng', 'B: Khai báo']},
+      rows:{en:['A: Silent', 'A: Betray'], vi:['A: Im lặng', 'A: Khai báo']},
+      cells:[['(-1,-1)','(-3,0)'],['(0,-3)','(-2,-2)']],
+      note:{en:'Both betraying (-2,-2) is the Nash equilibrium, but both staying silent (-1,-1) is collectively better. This is the "tragedy" of the dilemma.', vi:'Cả hai khai báo (-2,-2) là cân bằng Nash, nhưng cả hai im lặng (-1,-1) tốt hơn cho tập thể.'},
+      highlight:'(-2,-2)'
+    }
+  },
+  {
+    id:6, level:1, category:'Core Concepts',
+    name:{en:'Nash Equilibrium', vi:'Cân bằng Nash'},
+    short:{en:'No player can gain by unilaterally changing strategy', vi:'Không ai có thể cải thiện kết quả bằng cách thay đổi chiến lược đơn phương'},
+    origin:{en:'Proven to exist in all finite games by John Nash in his 1950 PhD thesis at Princeton. Nash won the Nobel Prize in Economics (1994) for this work.', vi:'Được John Nash chứng minh tồn tại trong mọi trò chơi hữu hạn (1950). Nash đoạt giải Nobel Kinh tế 1994.'},
+    what:{en:'A set of strategies — one per player — where each player\'s strategy is a best response to the others\'. At equilibrium, no single player wants to deviate. Crucially, it may be collectively suboptimal (as in Prisoner\'s Dilemma).', vi:'Tập chiến lược — mỗi người một chiến lược — mà ở đó chiến lược mỗi người là phản ứng tốt nhất với chiến lược người khác. Tại cân bằng, không ai muốn thay đổi đơn phương.'},
+    when:{en:'Use to predict stable outcomes in any strategic interaction. In business: price competition equilibria, location choices, product positioning. Not always the "best" outcome — just the stable one.', vi:'Dùng để dự đoán kết quả ổn định trong bất kỳ tương tác chiến lược nào.'},
+    pros:{en:['Defines stable, predictable outcomes', 'Exists in all finite games (Nash\'s theorem)'], vi:['Xác định kết quả ổn định, có thể dự đoán', 'Tồn tại trong mọi trò chơi hữu hạn']},
+    cons:{en:['Can be multiple equilibria', 'May be suboptimal for all players', 'Assumes perfect rationality'], vi:['Có thể có nhiều cân bằng', 'Có thể kém tối ưu cho tất cả', 'Giả định lý trí hoàn hảo']},
+    example:{en:'<strong>Scenario:</strong> Two fast-food chains choose Downtown or Suburb location. If both go Downtown, they split city customers (6,6). If one goes each, they each serve their area well (8,8). If both go Suburb, they split suburban demand (4,4).<br><br>Nash equilibria: <em>Both Downtown</em> and <em>Both Suburb</em> are NOT equilibria (either can improve by moving). <em>One Downtown, One Suburb</em> is the Nash equilibrium — neither wants to swap. But coordination is needed to reach (8,8).', vi:'<strong>Ví dụ:</strong> Hai chuỗi fastfood chọn vị trí Trung tâm hay Ngoại ô. Cân bằng Nash = mỗi người một khu — không ai muốn đổi chỗ.'},
+    matrix:null
+  },
+  {
+    id:7, level:1, category:'Tools',
+    name:{en:'Decision Matrix', vi:'Ma trận quyết định'},
+    short:{en:'Score and weight multiple options across criteria', vi:'Chấm điểm và trọng số nhiều lựa chọn theo tiêu chí'},
+    origin:{en:'Operations research tool popularized in the 1960s; used in engineering, business, and military decision-making.', vi:'Công cụ nghiên cứu vận hành phổ biến từ thập niên 1960.'},
+    what:{en:'A table listing alternatives (rows) vs. criteria (columns). Each cell scores how well the option meets that criterion. Weights reflect criterion importance. Final weighted scores rank the alternatives.', vi:'Bảng liệt kê các lựa chọn (hàng) và tiêu chí (cột). Mỗi ô chấm điểm mức độ đáp ứng. Trọng số phản ánh tầm quan trọng. Điểm có trọng số xếp hạng các lựa chọn.'},
+    when:{en:'Use when choosing between multiple complex alternatives with conflicting criteria. Particularly powerful for team decisions — makes implicit assumptions explicit.', vi:'Dùng khi chọn giữa nhiều lựa chọn phức tạp với tiêu chí xung đột. Tốt cho quyết định nhóm.'},
+    pros:{en:['Makes trade-offs explicit and transparent', 'Reduces bias in group decisions'], vi:['Làm rõ đánh đổi', 'Giảm thiên lệch trong quyết định nhóm']},
+    cons:{en:['Results depend heavily on assigned weights', 'False sense of precision'], vi:['Kết quả phụ thuộc nhiều vào trọng số', 'Tạo cảm giác chính xác giả']},
+    example:{en:'<strong>Scenario:</strong> Choosing a CRM software. Criteria: Cost (weight 30%), Features (40%), Support (30%). Scoring 1–5:', vi:'<strong>Ví dụ:</strong> Chọn phần mềm CRM. Tiêu chí: Chi phí (30%), Tính năng (40%), Hỗ trợ (30%).'},
+    matrix:{
+      cols:{en:['Cost ×0.3','Features ×0.4','Support ×0.3','Total'], vi:['Chi phí ×0.3','Tính năng ×0.4','Hỗ trợ ×0.3','Tổng']},
+      rows:{en:['Product A','Product B','Product C'], vi:['Sản phẩm A','Sản phẩm B','Sản phẩm C']},
+      cells:[['4 → 1.2','3 → 1.2','5 → 1.5','3.9'],['3 → 0.9','5 → 2.0','3 → 0.9','3.8'],['5 → 1.5','4 → 1.6','4 → 1.2','4.3']],
+      note:{en:'Product C wins overall (4.3) despite not being best at any single criterion — a key insight the matrix reveals.', vi:'Sản phẩm C thắng tổng thể (4.3) dù không tốt nhất ở tiêu chí nào — đây là insight quan trọng ma trận tiết lộ.'},
+      highlight:'4.3'
+    }
+  },
+  {
+    id:8, level:1, category:'Tools',
+    name:{en:'Game Tree (Extensive Form)', vi:'Cây trò chơi (Dạng mở rộng)'},
+    short:{en:'Sequential game represented as a branching tree', vi:'Trò chơi tuần tự được biểu diễn dạng cây phân nhánh'},
+    origin:{en:'Developed in von Neumann\'s formalization of game theory; essential for analyzing sequential decisions.', vi:'Phát triển trong công trình của von Neumann; thiết yếu cho phân tích quyết định tuần tự.'},
+    what:{en:'A tree diagram where nodes are decision points, branches are choices, and terminal nodes show payoffs. Players are labeled at each node. Solves using backward induction: start from the end and work back to find optimal paths.', vi:'Sơ đồ cây trong đó nút = điểm quyết định, nhánh = lựa chọn, nút cuối = lợi ích. Giải bằng quy nạp ngược.'},
+    when:{en:'Use for sequential (not simultaneous) games where order matters: negotiations, mergers, R&D races, chess, auctions with multiple rounds.', vi:'Dùng cho trò chơi tuần tự khi thứ tự quan trọng: đàm phán, M&A, R&D, đấu thầu nhiều vòng.'},
+    pros:{en:['Models timing and information clearly', 'Backward induction reveals credible threats'], vi:['Mô hình hóa thời gian và thông tin rõ ràng', 'Quy nạp ngược tiết lộ mối đe dọa đáng tin cậy']},
+    cons:{en:['Exponentially complex with many moves', 'Assumes complete knowledge of payoffs'], vi:['Phức tạp theo hàm mũ với nhiều nước đi', 'Giả định biết đầy đủ lợi ích']},
+    example:{en:'<strong>Scenario:</strong> Company A decides whether to Enter a market. If A enters, incumbent B chooses to Fight or Accommodate. <br><br>Payoffs: (Enter, Fight) → A gets -2, B gets 0. (Enter, Accommodate) → A gets 5, B gets 3. (Stay Out) → A gets 0, B gets 8.<br><br><strong>Backward induction:</strong> At B\'s node, B prefers Accommodate (3 > 0). Knowing this, A enters (5 > 0). B\'s "fight" threat is not credible — A will enter regardless.', vi:'<strong>Ví dụ:</strong> Công ty A quyết định gia nhập thị trường. Nếu vào, B chọn Chiến đấu hay Nhường. Quy nạp ngược: B chọn Nhường (3>0), A biết vậy nên vào (5>0). Mối đe dọa "chiến đấu" của B không đáng tin.'},
+    matrix:null
+  },
+  {
+    id:9, level:2, category:'Core Concepts',
+    name:{en:'Mixed Strategy', vi:'Chiến lược hỗn hợp'},
+    short:{en:'Randomize over pure strategies to keep opponents guessing', vi:'Ngẫu nhiên hóa chiến lược thuần túy để giữ bí mật'},
+    origin:{en:'Proven necessary for Nash equilibrium existence by Nash (1950). Used extensively in sports, military, and auction theory.', vi:'Được Nash chứng minh là cần thiết cho cân bằng Nash (1950).'},
+    what:{en:'Instead of picking one strategy deterministically, a player randomizes — choosing each strategy with a specific probability. The optimal mixture makes opponents indifferent between their options, preventing exploitation.', vi:'Thay vì chọn một chiến lược cố định, người chơi ngẫu nhiên hóa theo xác suất. Hỗn hợp tối ưu khiến đối thủ thờ ơ giữa các lựa chọn.'},
+    when:{en:'Use when no pure strategy Nash equilibrium exists, or when predictability would be exploited (sports penalty kicks, military tactics, inspection regimes).', vi:'Dùng khi không có cân bằng Nash chiến lược thuần túy, hoặc khi dự đoán được sẽ bị khai thác.'},
+    pros:{en:['Ensures equilibrium exists in all games', 'Optimal when being predictable is costly'], vi:['Đảm bảo cân bằng tồn tại', 'Tối ưu khi bị đoán trước là bất lợi']},
+    cons:{en:['Hard to implement in practice', 'Requires computing exact probabilities'], vi:['Khó thực hiện trong thực tế', 'Cần tính xác suất chính xác']},
+    example:{en:'<strong>Scenario:</strong> Penalty kick. Kicker can go Left or Right; Goalkeeper dives Left or Right. If kicker always goes Left, goalkeeper always dives Left → kicker should switch. Pure strategy is unstable.<br><br>Nash mixed strategy: Research shows top-level penalty kicks are won ~50% left, ~50% right — both parties randomize. The kicker randomizes so the goalkeeper can\'t predict; the goalkeeper randomizes to cover both sides optimally.', vi:'<strong>Ví dụ:</strong> Phạt penalty. Người đá có thể sút Trái hoặc Phải; thủ môn lao Trái hoặc Phải. Chiến lược thuần túy không ổn định. Cân bằng hỗn hợp: mỗi bên ngẫu nhiên hóa để đối thủ không đoán được.'},
+    matrix:null
+  },
+  {
+    id:10, level:2, category:'Core Concepts',
+    name:{en:'Repeated Game & Folk Theorem', vi:'Trò chơi lặp lại & Định lý dân gian'},
+    short:{en:'Cooperation emerges when players interact repeatedly', vi:'Hợp tác xuất hiện khi người chơi tương tác nhiều lần'},
+    origin:{en:'Folk Theorem developed informally in 1950s game theory discussions; formalized by Aumann & Shapley (1976) and others.', vi:'Định lý dân gian phát triển phi chính thức thập niên 1950; chính thức hóa bởi Aumann & Shapley (1976).'},
+    what:{en:'When the same game is played repeatedly (especially infinitely), cooperation can be sustained as an equilibrium via the threat of future punishment. The Folk Theorem states: any feasible, individually rational payoff can be an equilibrium outcome in an infinitely repeated game if players are patient enough.', vi:'Khi trò chơi lặp lại (đặc biệt vô hạn), hợp tác có thể được duy trì bằng mối đe dọa trừng phạt trong tương lai.'},
+    when:{en:'Apply to ongoing business relationships, cartels, international agreements, and any multi-period interaction. The discount factor (how much players value the future) determines if cooperation is sustainable.', vi:'Áp dụng cho quan hệ kinh doanh lâu dài, cartel, hiệp định quốc tế.'},
+    pros:{en:['Explains real-world cooperation', 'Rich set of sustainable outcomes'], vi:['Giải thích hợp tác thực tế', 'Nhiều kết quả bền vững']},
+    cons:{en:['Requires sufficient patience (high discount factor)', 'Many equilibria — coordination problem'], vi:['Yêu cầu đủ kiên nhẫn', 'Nhiều cân bằng — vấn đề phối hợp']},
+    example:{en:'<strong>Scenario:</strong> Two airlines compete on the same route forever. In one-shot game, both choose Low prices (Prisoner\'s Dilemma). But in repeated interaction, Airline A threatens: "I will match your price today. If you undercut me, I will start a price war tomorrow that lasts 6 months."<br><br>If the damage from 6 months of war exceeds today\'s gain from undercutting, both maintain high prices. This is the <em>Grim Trigger</em> strategy — the basis of many cartel agreements.', vi:'<strong>Ví dụ:</strong> Hai hãng hàng không cạnh tranh mãi mãi. Hãng A đe dọa: "Nếu anh hạ giá, tôi sẽ khởi động chiến tranh giá 6 tháng." Nếu thiệt hại từ chiến tranh > lợi ích hôm nay, cả hai duy trì giá cao.'},
+    matrix:null
+  },
+  {
+    id:11, level:2, category:'Core Concepts',
+    name:{en:'Signaling Game', vi:'Trò chơi phát tín hiệu'},
+    short:{en:'Informed party sends signals to uninformed party', vi:'Bên có thông tin gửi tín hiệu cho bên không có thông tin'},
+    origin:{en:'Michael Spence\'s job market signaling model (1973), for which he won the Nobel Prize in Economics (2001). Foundational to information economics.', vi:'Mô hình tín hiệu thị trường lao động của Michael Spence (1973), đoạt Nobel Kinh tế 2001.'},
+    what:{en:'One player (Sender) has private information. They choose an action (signal) that may or may not convey that information. The other player (Receiver) observes the signal and updates beliefs. Key question: Is the signal credible? Costly signals are more credible.', vi:'Người gửi có thông tin riêng. Họ chọn hành động (tín hiệu) có thể hoặc không thể truyền thông tin. Người nhận quan sát tín hiệu và cập nhật niềm tin.'},
+    when:{en:'Apply to hiring (education signals ability), finance (dividends signal firm quality), auctions (bids signal valuations), and any asymmetric information situation.', vi:'Áp dụng cho tuyển dụng, tài chính, đấu thầu, và mọi tình huống thông tin bất cân xứng.'},
+    pros:{en:['Models real asymmetric information', 'Explains wasteful "credentialing"'], vi:['Mô hình hóa thông tin bất cân xứng thực tế', 'Giải thích "bằng cấp" lãng phí']},
+    cons:{en:['Multiple equilibria (pooling vs. separating)', 'Signal cost may exceed social benefit'], vi:['Nhiều cân bằng (gộp vs. tách biệt)', 'Chi phí tín hiệu có thể vượt lợi ích xã hội']},
+    example:{en:'<strong>Scenario:</strong> A job applicant gets a university degree. Does the degree signal intelligence, or does it just prove ability to complete tasks?<br><br>Spence\'s insight: Even if university teaches nothing relevant, getting a degree is a credible signal IF it is harder for low-ability workers to complete. High-ability workers can afford the cost (time, effort); low-ability workers cannot. Employers rationally pay graduates more because the degree filters by ability — even if no actual skill was taught.', vi:'<strong>Ví dụ:</strong> Ứng viên có bằng đại học. Bằng cấp phát tín hiệu trí thông minh hay chỉ chứng minh khả năng hoàn thành công việc? Spence: Ngay cả nếu đại học không dạy gì liên quan, bằng cấp vẫn là tín hiệu đáng tin nếu khó hơn cho người kém năng lực.'},
+    matrix:null
+  },
+  {
+    id:12, level:2, category:'Core Concepts',
+    name:{en:'Coordination Game & Focal Points', vi:'Trò chơi phối hợp & Điểm tụ điểm'},
+    short:{en:'Multiple Nash equilibria — players must coordinate on one', vi:'Nhiều cân bằng Nash — người chơi phải phối hợp chọn một'},
+    origin:{en:'Thomas Schelling\'s "The Strategy of Conflict" (1960) introduced focal points (Schelling points). Schelling won the Nobel Prize (2005).', vi:'Thomas Schelling "Chiến lược xung đột" (1960) giới thiệu điểm tụ điểm. Schelling đoạt Nobel 2005.'},
+    what:{en:'Games with multiple equilibria where players must converge on one without communication. Focal points (Schelling points) are equilibria that "stand out" due to salience, precedent, or cultural convention.', vi:'Trò chơi có nhiều cân bằng Nash. Điểm tụ điểm Schelling là cân bằng "nổi bật" do tính nổi bật, tiền lệ, hoặc quy ước văn hóa.'},
+    when:{en:'Apply to standard-setting (QWERTY keyboard, VHS vs Betamax), currency choice, meeting coordination, driving on the left/right side of the road, and any situation requiring tacit coordination.', vi:'Áp dụng cho thiết lập tiêu chuẩn, lựa chọn tiền tệ, phối hợp cuộc họp, và mọi tình huống cần phối hợp ngầm.'},
+    pros:{en:['Explains how coordination happens without communication', 'Predicts outcomes via salience'], vi:['Giải thích phối hợp không cần giao tiếp', 'Dự đoán kết quả qua tính nổi bật']},
+    cons:{en:['Focal point depends on culture/context', 'History can lock in suboptimal standards'], vi:['Điểm tụ điểm phụ thuộc văn hóa/bối cảnh', 'Lịch sử có thể khóa chuẩn kém tối ưu']},
+    example:{en:'<strong>Experiment:</strong> Schelling asked strangers: "You must meet someone in New York City tomorrow at noon. No prior arrangement. Where do you go?" The majority said: Grand Central Terminal, under the clock, at noon.<br><br>This was a focal point — not the uniquely rational answer, but the answer that "feels obvious" in context. Similarly, $100 feels more natural as a price than $99.73 even if both are Nash equilibria.', vi:'<strong>Thí nghiệm:</strong> Schelling hỏi người lạ: "Bạn phải gặp ai đó ở NYC ngày mai lúc 12h. Không có thỏa thuận trước. Bạn đến đâu?" Đa số nói: Grand Central Terminal. Đây là điểm tụ điểm — không phải câu trả lời duy nhất hợp lý, nhưng "rõ ràng" trong bối cảnh.'},
+    matrix:null
+  },
+  {
+    id:13, level:2, category:'Patterns',
+    name:{en:'Tit-for-Tat Strategy', vi:'Chiến lược ăn miếng trả miếng'},
+    short:{en:'Cooperate first, then mirror opponent\'s last move', vi:'Hợp tác trước, sau đó phản chiếu nước đi cuối của đối thủ'},
+    origin:{en:'Submitted by Anatol Rapoport to Robert Axelrod\'s computer tournament (1980). Won both rounds — the famous result in "The Evolution of Cooperation" (1984).', vi:'Anatol Rapoport gửi vào giải đấu máy tính của Axelrod (1980). Thắng cả hai vòng.'},
+    what:{en:'In repeated Prisoner\'s Dilemma: start by cooperating, then do whatever your opponent did last round. Simple (4 lines of code), nice (starts cooperating), retaliatory (punishes defection), forgiving (resumes cooperation), and clear (easy for opponents to model).', vi:'Trong tù nhân lặp lại: bắt đầu bằng hợp tác, sau đó làm gì đối thủ làm vòng trước. Đơn giản, tốt bụng, trả đũa, tha thứ, và rõ ràng.'},
+    when:{en:'Use in ongoing relationships where you cannot verify the other party\'s intentions. Business partnerships, negotiations, international relations, online reputation systems.', vi:'Dùng trong quan hệ lâu dài khi không thể xác minh ý định. Đối tác kinh doanh, đàm phán, quan hệ quốc tế.'},
+    pros:{en:['Never exploited in long run', 'Promotes cooperation without being naive', 'Wins in diverse populations'], vi:['Không bao giờ bị lợi dụng lâu dài', 'Thúc đẩy hợp tác mà không ngây thơ', 'Thắng trong quần thể đa dạng']},
+    cons:{en:['Can get stuck in retaliation cycles', 'Vulnerable to mistakes (noise)'], vi:['Có thể kẹt trong chu kỳ trả đũa', 'Dễ bị lỗi (nhiễu)']},
+    example:{en:'<strong>Scenario:</strong> Two suppliers interact each quarter. Round 1: Both cooperate (both charge fair prices). Round 2: Supplier B defects (overcharges). Round 3: A retaliates (refuses to renew contract). Round 4: B cooperates again. Round 5: A cooperates again.<br><br>Result: B learns defection is immediately punished. Long-run equilibrium: both cooperate. This is why business relationships often sustain without formal contracts — reputation and TfT dynamics enforce cooperation.', vi:'<strong>Ví dụ:</strong> Hai nhà cung cấp tương tác mỗi quý. Vòng 2: B phản bội. Vòng 3: A trả đũa. Vòng 4: B hợp tác lại. Vòng 5: A hợp tác lại. Kết quả: B học được rằng phản bội bị phạt ngay. Cân bằng dài hạn: cả hai hợp tác.'},
+    matrix:null
+  },
+  {
+    id:14, level:2, category:'Patterns',
+    name:{en:'Commitment & Credible Threats', vi:'Cam kết & Mối đe dọa đáng tin cậy'},
+    short:{en:'Binding yourself to a course of action changes opponents\' behavior', vi:'Ràng buộc bản thân vào hành động thay đổi hành vi đối thủ'},
+    origin:{en:'Thomas Schelling\'s work on "commitment devices" and credible threats in "The Strategy of Conflict" (1960). Extended by Reinhard Selten\'s subgame perfect equilibrium.', vi:'Thomas Schelling về "thiết bị cam kết" (1960). Mở rộng bởi lý thuyết cân bằng hoàn hảo của Reinhard Selten.'},
+    what:{en:'A threat is credible only if you would actually carry it out. Commitment devices (burning bridges, irreversible investments, public promises) make threats credible by removing your ability to back down — changing the game by limiting your own options.', vi:'Mối đe dọa chỉ đáng tin nếu bạn thực sự thực hiện. Thiết bị cam kết (đốt cầu, đầu tư không thể thu hồi) làm mối đe dọa đáng tin bằng cách loại bỏ khả năng rút lui.'},
+    when:{en:'Use when you need to deter an opponent\'s action. Key in: union strikes, military deterrence, contract terms, deadline negotiations, and competitive entry.', vi:'Dùng khi cần ngăn chặn hành động của đối thủ. Quan trọng trong: đình công, răn đe quân sự, điều khoản hợp đồng.'},
+    pros:{en:['Can deter without costly conflict', 'First-mover advantage'], vi:['Có thể ngăn chặn mà không cần xung đột', 'Lợi thế người đi trước']},
+    cons:{en:['Commitment that fails looks weak', 'Can escalate conflicts'], vi:['Cam kết thất bại trông yếu', 'Có thể leo thang xung đột']},
+    example:{en:'<strong>Scenario:</strong> A small retail chain threatens: "If you (a large chain) enter our region, we will start a price war." This threat may not be credible — a price war hurts both, and the small chain will likely back down.<br><br>But if the small chain publicly commits: "We have invested $5M in infrastructure to cut costs — we can sustain sub-cost pricing for 2 years," the threat becomes credible. The large chain may decide entry is unprofitable. <em>The investment itself is the weapon.</em>', vi:'<strong>Ví dụ:</strong> Chuỗi bán lẻ nhỏ đe dọa chiến tranh giá nếu chuỗi lớn vào thị trường. Đe dọa này không đáng tin nếu không có cam kết cụ thể. Nhưng nếu chuỗi nhỏ đầu tư 5 triệu USD vào cơ sở hạ tầng hạ chi phí, đe dọa trở nên đáng tin. Chuỗi lớn có thể quyết định không vào.'},
+    matrix:null
+  },
+  {
+    id:15, level:2, category:'Patterns',
+    name:{en:'Auction Theory & Winner\'s Curse', vi:'Lý thuyết đấu giá & Lời nguyền người chiến thắng'},
+    short:{en:'Winning an auction may signal you overbid', vi:'Thắng đấu giá có thể báo hiệu bạn đã trả giá quá cao'},
+    origin:{en:'Winner\'s Curse identified by Capen, Clapp & Campbell (1971) in oil field auctions. Auction theory formalized by William Vickrey (Nobel 1996) and later Milgrom & Wilson (Nobel 2020).', vi:'Winner\'s Curse được xác định (1971) trong đấu giá dầu. Lý thuyết đấu giá chính thức hóa bởi Vickrey (Nobel 1996) và Milgrom & Wilson (Nobel 2020).'},
+    what:{en:'In common-value auctions (where the item has the same true value for all), bidders with uncertain valuations each estimate independently. The winner is likely the most optimistic bidder — and thus likely overestimates value. Rational bidding requires shading your estimate downward.', vi:'Trong đấu giá giá trị chung, người thắng thường là người lạc quan nhất — và có thể đánh giá quá cao giá trị. Đấu giá hợp lý cần hạ thấp ước lượng.'},
+    when:{en:'Apply to M&A (acquiring firms often overpay), procurement auctions, resource extraction rights, sports free agency, and IPOs.', vi:'Áp dụng cho M&A, đấu thầu, quyền khai thác tài nguyên, và IPO.'},
+    pros:{en:['Explains systematic overpayment', 'Key for designing auctions'], vi:['Giải thích chi trả vượt mức', 'Quan trọng cho thiết kế đấu giá']},
+    cons:{en:['Less relevant in private-value auctions', 'Hard to quantify the curse ex ante'], vi:['Ít liên quan trong đấu giá giá trị riêng', 'Khó định lượng trước']},
+    example:{en:'<strong>Scenario:</strong> 10 companies bid for an oil field. Each gets an independent geological estimate. True value: $100M. Estimates range from $70M to $140M due to uncertainty. The highest bidder submits $140M — but the fact that they won means all others thought it was worth less. Expected value given that you won is lower than your estimate alone suggests.<br><br><strong>Rule:</strong> In common-value auctions, shade your bid below your estimate. The more bidders, the more you should shade.', vi:'<strong>Ví dụ:</strong> 10 công ty đấu giá một mỏ dầu. Giá trị thực: 100 triệu USD. Ước lượng dao động 70-140 triệu. Người thắng trả 140 triệu — nhưng việc thắng chứng tỏ tất cả người khác nghĩ giá trị thấp hơn. Quy tắc: Trong đấu giá giá trị chung, hạ thấp giá thầu dưới ước lượng của bạn.'},
+    matrix:null
+  },
+  {
+    id:16, level:2, category:'Tools',
+    name:{en:'SWOT Analysis', vi:'Phân tích SWOT'},
+    short:{en:'Map Strengths, Weaknesses, Opportunities, Threats', vi:'Lập bản đồ Điểm mạnh, Yếu, Cơ hội, Thách thức'},
+    origin:{en:'Developed at Stanford Research Institute in the 1960s by Albert Humphrey. One of the world\'s most widely used strategic tools.', vi:'Phát triển tại Stanford Research Institute thập niên 1960 bởi Albert Humphrey.'},
+    what:{en:'A 2×2 framework separating internal factors (Strengths, Weaknesses) from external factors (Opportunities, Threats). Converts unstructured analysis into an actionable strategic narrative.', vi:'Khung 2×2 phân tách yếu tố nội bộ (Điểm mạnh, Yếu) khỏi yếu tố bên ngoài (Cơ hội, Thách thức).'},
+    when:{en:'Use at the start of any strategic planning process, competitive analysis, or before entering a new market. Best used as a conversation starter, not a final answer.', vi:'Dùng ở đầu quy trình lập kế hoạch chiến lược, phân tích cạnh tranh.'},
+    pros:{en:['Fast, structured, universally understood', 'Good for team alignment'], vi:['Nhanh, có cấu trúc, được hiểu rộng rãi', 'Tốt cho liên kết nhóm']},
+    cons:{en:['Lists facts but doesn\'t prioritize', 'Can be superficial without quantification'], vi:['Liệt kê nhưng không ưu tiên', 'Có thể hời hợt nếu thiếu định lượng']},
+    example:{en:'<strong>Scenario:</strong> A Vietnamese fintech startup considering market expansion:<br><br>S: Strong mobile UX, low-cost infrastructure, local regulatory knowledge<br>W: Limited brand recognition, small team, no international banking license<br>O: 70% of SEA population unbanked, rising smartphone penetration<br>T: Major banks entering digital, regulatory tightening, BigTech competition<br><br><strong>Strategic insight:</strong> SO strategies (leverage strengths for opportunities) → target the unbanked with mobile-first products before incumbents adapt.', vi:'<strong>Ví dụ:</strong> Startup fintech Việt Nam xem xét mở rộng thị trường:<br>S: UX di động mạnh, chi phí thấp<br>W: Nhận diện thương hiệu hạn chế<br>O: 70% SEA chưa có tài khoản ngân hàng<br>T: Ngân hàng lớn vào số hóa, siết quy định'},
+    matrix:null
+  },
+  {
+    id:17, level:2, category:'Tools',
+    name:{en:'Porter\'s Five Forces', vi:'Năm lực lượng của Porter'},
+    short:{en:'Assess industry competitive intensity across five dimensions', vi:'Đánh giá cường độ cạnh tranh ngành theo năm chiều'},
+    origin:{en:'Michael Porter, Harvard Business School, "Competitive Strategy" (1980). One of the most influential strategy frameworks ever published.', vi:'Michael Porter, Harvard Business School, "Chiến lược cạnh tranh" (1980). Một trong các khung chiến lược có ảnh hưởng nhất từng xuất bản.'},
+    what:{en:'Five forces determine industry profitability: (1) Rivalry among existing competitors, (2) Threat of new entrants, (3) Bargaining power of suppliers, (4) Bargaining power of buyers, (5) Threat of substitutes. High forces = low industry profit.', vi:'Năm lực lượng xác định lợi nhuận ngành: (1) Cạnh tranh nội bộ, (2) Mối đe dọa từ người mới vào, (3) Sức mạnh nhà cung cấp, (4) Sức mạnh khách hàng, (5) Mối đe dọa từ sản phẩm thay thế.'},
+    when:{en:'Use before entering an industry, launching a product, or setting long-term pricing strategy. Answers: "Is this industry structurally attractive?"', vi:'Dùng trước khi vào ngành, ra sản phẩm, hoặc đặt chiến lược giá dài hạn.'},
+    pros:{en:['Comprehensive industry view', 'Identifies structural profitability drivers'], vi:['Quan điểm ngành toàn diện', 'Xác định động lực lợi nhuận cấu trúc']},
+    cons:{en:['Static — misses dynamic changes', 'Doesn\'t capture complementors (value from allies)'], vi:['Tĩnh — bỏ lỡ thay đổi động', 'Không nắm bắt các bên bổ sung (giá trị từ đồng minh)']},
+    example:{en:'<strong>Vietnamese steel industry analysis:</strong><br>Rivalry: High (Hoa Phat vs. Formosa vs. Tisco)<br>New entrants: Medium (high capital requirements but government incentives)<br>Supplier power: High (iron ore imports, Chinese raw material dependency)<br>Buyer power: Medium (many buyers but large buyers can negotiate)<br>Substitutes: Low (steel hard to replace in construction)<br><br><strong>Verdict:</strong> Moderate attractiveness. The key strategic lever is securing raw material supply chains to reduce supplier power.', vi:'<strong>Phân tích ngành thép Việt Nam:</strong><br>Cạnh tranh: Cao (Hòa Phát vs Formosa vs Tisco)<br>Người mới: Trung bình<br>Nhà cung cấp: Cao (quặng sắt nhập khẩu)<br>Khách hàng: Trung bình<br>Thay thế: Thấp<br>Kết luận: Hấp dẫn vừa phải. Đòn bẩy chính: đảm bảo chuỗi cung ứng nguyên liệu thô.'},
+    matrix:null
+  },
+  {
+    id:18, level:3, category:'Advanced Concepts',
+    name:{en:'Bayesian Game (Incomplete Information)', vi:'Trò chơi Bayes (Thông tin không đầy đủ)'},
+    short:{en:'Players have private "types" — uncertainty about opponents', vi:'Người chơi có "loại" riêng — không chắc chắn về đối thủ'},
+    origin:{en:'John Harsanyi formalized Bayesian games in a landmark 1967–68 series of papers. He shared the Nobel Prize with Nash and Selten (1994).', vi:'John Harsanyi chính thức hóa trò chơi Bayes 1967–68. Đoạt Nobel cùng Nash và Selten (1994).'},
+    what:{en:'Players have private information (their "type") — e.g., their cost, valuation, or intention — that others don\'t know. Players form beliefs (probability distributions) over others\' types and choose strategies to maximize expected utility. The solution concept is Bayesian Nash Equilibrium.', vi:'Người chơi có thông tin riêng ("loại") mà người khác không biết. Họ hình thành niềm tin (phân phối xác suất) về loại của người khác và chọn chiến lược tối đa hóa lợi ích kỳ vọng.'},
+    when:{en:'Use when players have asymmetric information about costs, quality, or type: sealed-bid auctions, insurance markets, hiring, and negotiation with private valuations.', vi:'Dùng khi người chơi có thông tin bất cân xứng về chi phí, chất lượng: đấu thầu kín, thị trường bảo hiểm, tuyển dụng.'},
+    pros:{en:['Handles realistic information asymmetries', 'Unifies signal, auction, and mechanism theory'], vi:['Xử lý bất cân xứng thông tin thực tế', 'Thống nhất lý thuyết tín hiệu, đấu giá, cơ chế']},
+    cons:{en:['Computationally complex', 'Sensitive to prior belief assumptions'], vi:['Phức tạp về tính toán', 'Nhạy cảm với giả định niềm tin ban đầu']},
+    example:{en:'<strong>Scenario:</strong> Used car market. Seller knows car quality (good or lemon); buyer doesn\'t. Sellers of good cars want $10K; sellers of lemons want $6K. Buyers value good cars at $12K and lemons at $5K.<br><br>Akerlof\'s insight (1970): At any pooled price, good-car sellers drop out (price too low). Only lemon sellers remain. Buyers anticipate this → offer only lemon prices → good cars disappear from market. This is <em>adverse selection</em> — a Bayesian game gone wrong.', vi:'<strong>Ví dụ:</strong> Thị trường xe cũ. Người bán biết chất lượng xe; người mua không. Akerlof (1970): Tại giá gộp bất kỳ, người bán xe tốt rút lui. Chỉ còn người bán xe tệ. Người mua biết điều này → chỉ trả giá xe tệ → xe tốt biến mất khỏi thị trường. Đây là lựa chọn bất lợi.'},
+    matrix:null
+  },
+  {
+    id:19, level:3, category:'Advanced Concepts',
+    name:{en:'Mechanism Design (Reverse Game Theory)', vi:'Thiết kế cơ chế (Lý thuyết trò chơi ngược)'},
+    short:{en:'Design rules of the game to achieve desired outcomes', vi:'Thiết kế luật chơi để đạt kết quả mong muốn'},
+    origin:{en:'Pioneered by Leonid Hurwicz, Eric Maskin, and Roger Myerson — all awarded the Nobel Prize in Economics (2007).', vi:'Tiên phong bởi Hurwicz, Maskin, và Myerson — đoạt Nobel 2007.'},
+    what:{en:'Instead of analyzing a game with given rules, mechanism design asks: what rules should we create to incentivize agents to behave in ways that achieve social or organizational goals — even when agents have private information and self-interested motives?', vi:'Thay vì phân tích trò chơi với luật đã cho, thiết kế cơ chế hỏi: luật nào nên tạo ra để khuyến khích tác nhân hành xử đạt mục tiêu xã hội — ngay cả khi họ có thông tin riêng và động cơ ích kỷ?'},
+    when:{en:'Apply to: auction design (Google\'s ad auctions), market design (matching residents to hospitals), tax system design, voting rules, and regulatory mechanisms.', vi:'Áp dụng cho: thiết kế đấu giá (đấu giá quảng cáo Google), thiết kế thị trường (kết nối nội trú với bệnh viện), thiết kế hệ thống thuế.'},
+    pros:{en:['Designs incentive-compatible systems', 'Key for policy and platform design'], vi:['Thiết kế hệ thống tương thích khuyến khích', 'Quan trọng cho chính sách và nền tảng']},
+    cons:{en:['Requires strong assumptions about agent preferences', 'Implementation gap between theory and practice'], vi:['Yêu cầu giả định mạnh về sở thích tác nhân', 'Khoảng cách thực thi giữa lý thuyết và thực hành']},
+    example:{en:'<strong>Scenario:</strong> Google\'s auction for search ads. Advertisers have private valuations. How to design the auction?<br><br>Key insight: A Vickrey-Clarke-Groves (VCG) mechanism makes truthful bidding a dominant strategy — you pay not your own bid, but the externality you impose on others. Result: Advertisers reveal true valuations, Google maximizes revenue and allocative efficiency simultaneously.<br><br>This is now the basis of a $200B/year digital advertising market.', vi:'<strong>Ví dụ:</strong> Đấu giá quảng cáo của Google. Cơ chế VCG (Vickrey-Clarke-Groves) khiến đấu thầu trung thực là chiến lược trội — bạn trả không phải giá thầu của mình mà ngoại tác bạn áp đặt lên người khác. Kết quả: Nhà quảng cáo tiết lộ định giá thực, Google tối đa hóa doanh thu và hiệu quả phân bổ.'},
+    matrix:null
+  },
+  {
+    id:20, level:3, category:'Advanced Concepts',
+    name:{en:'Evolutionary Game Theory', vi:'Lý thuyết trò chơi tiến hóa'},
+    short:{en:'Strategies evolve in populations through natural selection', vi:'Chiến lược tiến hóa trong quần thể qua chọn lọc tự nhiên'},
+    origin:{en:'John Maynard Smith & George Price (1973) introduced the Evolutionarily Stable Strategy (ESS). Applied to biology, sociology, and economics.', vi:'Maynard Smith & George Price (1973) giới thiệu Chiến lược Bền vững Tiến hóa (ESS).'},
+    what:{en:'Instead of rational individual choice, strategies spread or die out based on fitness (payoff relative to population). An Evolutionarily Stable Strategy (ESS) is one that, once established in a population, cannot be invaded by a mutant strategy. No longer assumes perfectly rational actors.', vi:'Thay vì lựa chọn cá nhân hợp lý, chiến lược lan rộng hoặc chết dựa trên mức độ phù hợp. ESS là chiến lược không thể bị xâm phạm bởi chiến lược đột biến.'},
+    when:{en:'Apply to: social norms, pricing conventions that persist, cultural evolution, biological cooperation, market dynamics where firms learn by imitation rather than optimization.', vi:'Áp dụng cho: chuẩn mực xã hội, quy ước giá tồn tại, tiến hóa văn hóa, động lực thị trường khi công ty học bằng bắt chước.'},
+    pros:{en:['No rationality assumption needed', 'Explains emergence of cooperation naturally'], vi:['Không cần giả định lý trí', 'Giải thích sự xuất hiện hợp tác tự nhiên']},
+    cons:{en:['Slow process — takes generations', 'Hard to map "fitness" to real payoffs'], vi:['Quá trình chậm — mất nhiều thế hệ', 'Khó ánh xạ "mức độ phù hợp" vào lợi ích thực']},
+    example:{en:'<strong>Scenario:</strong> Hawk-Dove game in a market. Firms can be Hawks (aggressive — compete hard, take resources by force) or Doves (passive — share and avoid conflict). All Hawks → everyone fights, high costs. All Doves → a Hawk invades and takes everything.<br><br>ESS: a mixed population of Hawks and Doves. If there are too many Hawks, Dove does better; if too many Doves, Hawk does better. The population stabilizes at the equilibrium ratio — without any individual planning it. This is why industries naturally reach a balance between aggressive and cooperative competitors.', vi:'<strong>Ví dụ:</strong> Trò chơi Diều hâu-Bồ câu trong thị trường. Công ty có thể là Diều hâu (cạnh tranh hung hăng) hoặc Bồ câu (thụ động, chia sẻ). ESS: quần thể hỗn hợp. Nếu quá nhiều Diều hâu, Bồ câu làm tốt hơn; ngược lại tương tự. Quần thể ổn định tại tỷ lệ cân bằng.'},
+    matrix:null
+  },
+  {
+    id:21, level:3, category:'Advanced Concepts',
+    name:{en:'Moral Hazard & Principal-Agent Problem', vi:'Rủi ro đạo đức & Vấn đề Ủy thác-Đại lý'},
+    short:{en:'Agents act differently when they don\'t bear full consequences', vi:'Tác nhân hành xử khác khi không chịu đầy đủ hậu quả'},
+    origin:{en:'Principal-agent theory formalized by Jensen & Meckling (1976) in corporate finance. Widely studied in economics, law, and organizational theory.', vi:'Lý thuyết ủy thác-đại lý chính thức hóa bởi Jensen & Meckling (1976) trong tài chính doanh nghiệp.'},
+    what:{en:'Principal (e.g., employer, shareholder) hires an Agent (employee, manager) whose interests may differ. Moral hazard: agent takes more risk or less effort once insured/employed. Adverse selection: bad types more likely to accept certain contracts. Solutions: monitoring, incentive alignment, screening.', vi:'Hiệu trưởng (nhà tuyển dụng, cổ đông) thuê Đại lý (nhân viên, quản lý) có thể khác lợi ích. Rủi ro đạo đức: đại lý chấp nhận nhiều rủi ro hơn hoặc nỗ lực ít hơn sau khi được bảo hiểm/thuê.'},
+    when:{en:'Apply to: CEO compensation design, insurance pricing, fund manager incentives, loan contracts, franchise agreements, and any delegation relationship.', vi:'Áp dụng cho: thiết kế lương CEO, định giá bảo hiểm, khuyến khích quản lý quỹ, hợp đồng vay, nhượng quyền.'},
+    pros:{en:['Explains why incentive design matters', 'Foundation of corporate governance'], vi:['Giải thích tại sao thiết kế khuyến khích quan trọng', 'Nền tảng quản trị doanh nghiệp']},
+    cons:{en:['Perfect contracts are impossible', 'Monitoring is costly'], vi:['Hợp đồng hoàn hảo là không thể', 'Giám sát tốn kém']},
+    example:{en:'<strong>Scenario:</strong> A fund manager is paid a fixed salary regardless of fund performance. Problem: they have little incentive to work hard or take prudent risks — moral hazard.<br><br>Solution 1: Performance fee (2% fixed + 20% of profits). Now the manager shares upside — more effort, aligned incentives.<br>Problem 2: Manager may take excessive risk to earn the 20% (options-like payoff). Solution 2: Clawback provisions + hurdle rate + co-investment requirement.<br><br>This is exactly how modern hedge fund contracts evolved — through iterative mechanism refinement.', vi:'<strong>Ví dụ:</strong> Quản lý quỹ được trả lương cố định. Vấn đề: Không có khuyến khích nỗ lực. Giải pháp 1: Phí hiệu suất (cố định 2% + 20% lợi nhuận). Vấn đề 2: Quản lý có thể chấp nhận rủi ro quá mức. Giải pháp 2: Điều khoản clawback + lãi suất rào + yêu cầu đồng đầu tư.'},
+    matrix:null
+  },
+  {
+    id:22, level:3, category:'Tools',
+    name:{en:'Minimax Algorithm', vi:'Thuật toán Minimax'},
+    short:{en:'Minimize your maximum possible loss in adversarial games', vi:'Tối thiểu hóa thiệt hại tối đa trong trò chơi đối kháng'},
+    origin:{en:'Mathematically proven by von Neumann in the Minimax Theorem (1928). Later automated for computer chess by Claude Shannon (1950) and others.', vi:'Von Neumann chứng minh toán học trong Định lý Minimax (1928). Tự động hóa cho cờ vua bởi Claude Shannon (1950).'},
+    what:{en:'In zero-sum two-player games: you (Maximizer) want to maximize your payoff; opponent (Minimizer) wants to minimize it. Minimax recursively evaluates all game tree paths, assuming the opponent plays optimally. Choose the move that maximizes your outcome under worst-case opponent play.', vi:'Trong trò chơi hai người tổng bằng không: bạn (Cực đại hóa) muốn tối đa hóa lợi ích; đối thủ (Cực tiểu hóa) muốn tối thiểu hóa. Minimax đánh giá đệ quy tất cả đường trong cây trò chơi.'},
+    when:{en:'Use in adversarial environments where opponent is rational and competitive: chess engines, poker AI, military planning, competitive bidding, adversarial ML.', vi:'Dùng trong môi trường đối kháng khi đối thủ hợp lý và cạnh tranh.'},
+    pros:{en:['Optimal under worst-case assumptions', 'Foundation of game AI'], vi:['Tối ưu dưới giả định trường hợp xấu nhất', 'Nền tảng AI trò chơi']},
+    cons:{en:['Exponential time complexity', 'Impractical without pruning (Alpha-Beta)'], vi:['Độ phức tạp thời gian mũ', 'Không thực tế nếu không cắt tỉa']},
+    example:{en:'<strong>Scenario:</strong> You\'re negotiating a salary. You can ask for $120K or $100K. The company can offer $80K or $100K. Your payoff = your salary; company payoff = -salary.<br><br>Minimax: Assume company minimizes your salary. If you ask $120K, company offers $80K → you get 80K. If you ask $100K, company offers $80K → you get $80K. But if asking $100K signals reasonableness, company may offer $100K.<br><br>In practice: Minimax justifies asking high (sets the anchor), but information about company\'s range is crucial.', vi:'<strong>Ví dụ:</strong> Bạn đàm phán lương. Có thể yêu cầu 120K hoặc 100K. Công ty có thể đề xuất 80K hoặc 100K. Minimax: Giả sử công ty tối thiểu hóa lương của bạn và chọn nước đi tối ưu tương ứng.'},
+    matrix:null
+  },
+  {
+    id:23, level:3, category:'Patterns',
+    name:{en:'Schelling Points & Convention Theory', vi:'Điểm Schelling & Lý thuyết quy ước'},
+    short:{en:'Shared expectations create self-enforcing conventions', vi:'Kỳ vọng chung tạo quy ước tự thực thi'},
+    origin:{en:'Schelling (1960) and David Lewis\'s "Convention" (1969) formalized how coordination norms emerge and persist without central enforcement.', vi:'Schelling (1960) và Lewis "Quy ước" (1969) chính thức hóa cách chuẩn mực phối hợp xuất hiện và tồn tại.'},
+    what:{en:'Once a focal point becomes established, it creates a self-reinforcing convention: everyone follows it because everyone expects everyone else to follow it. Breaking the convention is individually costly even if collectively suboptimal. Explains currency, language, traffic rules, and business standards.', vi:'Khi điểm tụ điểm được thiết lập, nó tạo quy ước tự củng cố: mọi người tuân theo vì kỳ vọng người khác tuân theo.'},
+    when:{en:'Apply to: setting industry standards, platform adoption, currency/unit conventions, social norms, and any winner-take-all coordination market.', vi:'Áp dụng cho: thiết lập tiêu chuẩn ngành, áp dụng nền tảng, quy ước tiền tệ/đơn vị.'},
+    pros:{en:['Explains persistence of suboptimal standards', 'Predicts winner-take-all dynamics'], vi:['Giải thích tiêu chuẩn kém tối ưu tồn tại', 'Dự đoán động lực thắng tất cả']},
+    cons:{en:['Hard to dislodge bad conventions', 'Lock-in can be very costly'], vi:['Khó loại bỏ quy ước xấu', 'Khóa chặt có thể rất tốn kém']},
+    example:{en:'<strong>Scenario:</strong> QWERTY keyboard was designed in 1873 to slow typists (prevent mechanical jamming). Dvorak layout (1936) is demonstrably faster. Yet QWERTY persists: every typist uses QWERTY because every employer expects QWERTY skills; every employer asks for QWERTY because all typists know QWERTY. No individual can profitably switch alone.<br><br><strong>Strategic lesson:</strong> To displace a Schelling convention, you must coordinate a simultaneous switch — which requires massive coordination costs or a dominant platform that can shift the equilibrium overnight (like iOS adoption shifting app stores).', vi:'<strong>Ví dụ:</strong> Bàn phím QWERTY được thiết kế năm 1873 để làm chậm máy đánh chữ. Bố cục Dvorak (1936) nhanh hơn rõ ràng. QWERTY vẫn tồn tại: mỗi người đánh máy dùng QWERTY vì mỗi nhà tuyển dụng kỳ vọng kỹ năng QWERTY.'},
+    matrix:null
+  },
+  {
+    id:24, level:3, category:'Patterns',
+    name:{en:'Tragedy of the Commons', vi:'Thảm kịch tài nguyên chung'},
+    short:{en:'Individual rational use destroys shared resources', vi:'Sử dụng hợp lý cá nhân phá hủy tài nguyên chung'},
+    origin:{en:'Garrett Hardin\'s essay "The Tragedy of the Commons" (1968) in Science. Extended by Elinor Ostrom\'s work on community governance (Nobel 2009).', vi:'Bài luận của Hardin (1968). Mở rộng bởi Elinor Ostrom về quản trị cộng đồng (Nobel 2009).'},
+    what:{en:'When a resource is shared (common pool), each individual rationally overuses it — because they capture the full benefit but share the cost with everyone. Without governance, the resource is exhausted. Solutions: privatization, regulation, or community governance (Ostrom).', vi:'Khi tài nguyên chung, mỗi cá nhân hợp lý sử dụng quá mức — hưởng lợi đầy đủ nhưng chia sẻ chi phí. Không có quản trị, tài nguyên cạn kiệt.'},
+    when:{en:'Apply to: overfishing, carbon emissions, traffic congestion, antibiotic resistance, open-source software maintenance, bandwidth sharing, and any shared infrastructure.', vi:'Áp dụng cho: đánh bắt quá mức, phát thải carbon, tắc đường, kháng kháng sinh, băng thông chung.'},
+    pros:{en:['Powerful explanatory model', 'Motivates governance design'], vi:['Mô hình giải thích mạnh mẽ', 'Thúc đẩy thiết kế quản trị']},
+    cons:{en:['Hardin overstated — communities often self-govern (Ostrom)', 'Solutions require political will'], vi:['Hardin quá cường điệu — cộng đồng thường tự quản (Ostrom)', 'Giải pháp đòi hỏi ý chí chính trị']},
+    example:{en:'<strong>Scenario:</strong> A Vietnamese fishing village has a shared lake. Each family can fish 5 or 10 tons per year. Lake can sustainably support 60 tons/year. With 10 families each fishing 10 tons = 100 tons → lake collapses in 3 years. Each family fishing 6 tons = 60 tons → sustainable forever.<br><br>Problem: Even if all agree to fish 6 tons, each family has incentive to cheat (fish 7 tons secretly). Ostrom\'s solution: Community-enforced quota with peer monitoring — same outcome as regulation but without external authority.', vi:'<strong>Ví dụ:</strong> Làng chài Việt Nam có hồ chung. Mỗi gia đình có thể đánh 5 hoặc 10 tấn/năm. Hồ chịu được 60 tấn/năm bền vững. Với 10 gia đình mỗi nhà 10 tấn = 100 tấn → hồ sụp đổ sau 3 năm. Giải pháp Ostrom: Hạn ngạch do cộng đồng thực thi với giám sát ngang hàng.'},
+    matrix:null
+  },
+  {
+    id:25, level:2, category:'Tools',
+    name:{en:'Expected Value & Decision Trees', vi:'Giá trị kỳ vọng & Cây quyết định'},
+    short:{en:'Probabilistic weighting of outcomes for risky decisions', vi:'Trọng số xác suất kết quả cho quyết định rủi ro'},
+    origin:{en:'Pascal and Fermat\'s correspondence on probability (1654). Decision trees formalized in operations research in the 1950s–60s.', vi:'Thư từ của Pascal và Fermat về xác suất (1654). Cây quyết định chính thức hóa trong nghiên cứu vận hành thập niên 1950-60.'},
+    what:{en:'Expected Value (EV) = Σ(probability × payoff) for each outcome. A decision tree maps decision nodes (choices) and chance nodes (probabilities) into a tree, computing EV at each branch to find the optimal path.', vi:'Giá trị kỳ vọng (EV) = Σ(xác suất × lợi ích) cho mỗi kết quả. Cây quyết định ánh xạ nút quyết định và nút cơ hội thành cây để tìm đường tối ưu.'},
+    when:{en:'Use for any decision under uncertainty: R&D investment, new product launches, legal settlement decisions, insurance choices, and portfolio allocation.', vi:'Dùng cho bất kỳ quyết định dưới bất định: đầu tư R&D, ra sản phẩm mới, quyết định dàn xếp pháp lý.'},
+    pros:{en:['Quantifies uncertainty explicitly', 'Reveals value of information'], vi:['Định lượng bất định', 'Tiết lộ giá trị thông tin']},
+    cons:{en:['Requires accurate probability estimates', 'Ignores risk aversion (use utility instead)'], vi:['Cần ước lượng xác suất chính xác', 'Bỏ qua e ngại rủi ro (dùng tiện ích thay thế)']},
+    example:{en:'<strong>Scenario:</strong> A pharma company considers Phase 3 clinical trial. Cost: $50M. P(success) = 40%. If succeeds: NPV = $300M. If fails: salvage = $0.<br><br>EV = 0.4 × $300M + 0.6 × $0 – $50M = $120M – $50M = <strong>+$70M</strong>. Proceed.<br><br>But if competitor enters: P(market success | trial success) drops to 25%. New EV = 0.4 × 0.25 × $300M + … – $50M = $30M – $50M = <strong>–$20M</strong>. Wait for competitive intelligence first.', vi:'<strong>Ví dụ:</strong> Công ty dược xem xét thử nghiệm lâm sàng Giai đoạn 3. Chi phí: 50 triệu USD. P(thành công) = 40%. Nếu thành công: NPV = 300 triệu. EV = 0.4 × 300 + 0.6 × 0 – 50 = +70 triệu. Tiến hành. Nhưng nếu đối thủ gia nhập, EV có thể âm.'},
+    matrix:null
+  },
+  {
+    id:26, level:1, category:'Patterns',
+    name:{en:'First-Mover vs. Second-Mover Advantage', vi:'Lợi thế người đi trước vs. người đi sau'},
+    short:{en:'Early entry vs. learning from competitors', vi:'Vào sớm vs. học từ đối thủ'},
+    origin:{en:'Widely studied in industrial organization economics since the 1980s; popularized by Marvin Lieberman and David Montgomery (1988).', vi:'Nghiên cứu rộng rãi trong kinh tế tổ chức công nghiệp từ thập niên 1980.'},
+    what:{en:'First-mover advantage: pioneer captures market share, sets standards, builds brand loyalty, and secures resources before competitors. Second-mover advantage: learn from pioneer\'s mistakes, free-ride on market education, exploit their weaknesses. Which dominates depends on switching costs, learning curves, and market structure.', vi:'Lợi thế người đi trước: tiên phong chiếm thị phần, đặt tiêu chuẩn, xây dựng lòng trung thành. Lợi thế người đi sau: học từ lỗi của tiên phong, ăn theo giáo dục thị trường, khai thác điểm yếu.'},
+    when:{en:'Use this analysis when deciding entry timing for new markets, products, or technologies. Consider: How fast does technology evolve? How strong are network effects? How loyal are early customers?', vi:'Dùng khi quyết định thời điểm gia nhập thị trường, sản phẩm, hoặc công nghệ mới.'},
+    pros:{en:['First-mover: brand equity, switching costs', 'Second-mover: lower risk, better information'], vi:['Đi trước: tài sản thương hiệu, chi phí chuyển đổi', 'Đi sau: rủi ro thấp hơn, thông tin tốt hơn']},
+    cons:{en:['First-mover: high cost, uncertain demand', 'Second-mover: may be locked out by strong network effects'], vi:['Đi trước: chi phí cao, cầu không chắc', 'Đi sau: có thể bị khóa bởi hiệu ứng mạng mạnh']},
+    example:{en:'<strong>First-mover wins:</strong> Amazon (e-commerce infrastructure, AWS), Google (search), Facebook (social graph). Strong network effects lock in users.<br><br><strong>Second-mover wins:</strong> Google beat Yahoo Search (learned from Yahoo\'s UX mistakes); iPhone beat Blackberry (learned what enterprise users actually wanted for consumer use); VHS beat Betamax (Sony moved first with better tech, JVC moved second with better distribution and longer recording).<br><br><strong>Rule of thumb:</strong> First-mover wins when network effects are strong. Second-mover wins when technology or market understanding improves rapidly.', vi:'<strong>Đi trước thắng:</strong> Amazon, Google, Facebook — hiệu ứng mạng mạnh khóa người dùng.<br><br><strong>Đi sau thắng:</strong> Google đánh bại Yahoo Search; iPhone đánh bại Blackberry; VHS đánh bại Betamax.<br><br>Quy tắc: Đi trước thắng khi hiệu ứng mạng mạnh. Đi sau thắng khi công nghệ tiến bộ nhanh.'},
+    matrix:null
+  }
+];
+
+const categories = ['All', ...new Set(data.map(d => d.category))];
+const levels = {1: {en:'Beginner', vi:'Cơ bản'}, 2:{en:'Intermediate', vi:'Trung cấp'}, 3:{en:'Nâng cao', vi:'Advanced'}};
+
+function toggleDark(){
+  darkMode = !darkMode;
+  syncTheme();
+}
+
+function toggleLang(){
+  lang = lang === 'en' ? 'vi' : 'en';
+  syncLanguage();
+  render();
+}
+
+function syncTheme(){
+  document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  document.getElementById('dark-label').textContent = darkMode ? 'Light' : 'Dark';
+  document.getElementById('dark-icon').textContent = darkMode ? '☀' : '☾';
+}
+
+function syncLanguage(){
+  document.getElementById('lang-label').textContent = lang === 'en' ? 'Tiếng Việt' : 'English';
+  document.getElementById('page-title').innerHTML = lang === 'en'
+    ? '<span>Strategic Thinking</span> & Game Theory'
+    : '<span>Tư duy chiến lược</span> & Lý thuyết trò chơi';
+  document.getElementById('hero-description').textContent = lang === 'en'
+    ? 'Browse strategic frameworks, game theory concepts, and decision tools with bilingual explanations, payoff tables, and practical scenarios.'
+    : 'Khám phá các khung tư duy chiến lược, khái niệm lý thuyết trò chơi, và công cụ ra quyết định với giải thích song ngữ, bảng payoff, và tình huống thực tế.';
+  document.getElementById('search').placeholder = lang === 'en' ? 'Search concepts...' : 'Tìm kiếm khái niệm...';
+}
+
+document.getElementById('search').addEventListener('input', function(){
+  searchTerm = this.value.toLowerCase();
+  render();
+});
+
+function setFilter(f){
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+  render();
+}
+
+function toggleCard(id){
+  const body = document.getElementById('body-'+id);
+  const arrow = document.getElementById('arrow-'+id);
+  const card = body.closest('.card');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+  card.classList.toggle('open', !isOpen);
+}
+
+function renderMatrix(m, lang){
+  if(!m) return '';
+  const cols = m.cols[lang];
+  const rows = m.rows[lang];
+  const cells = m.cells;
+  const note = m.note[lang];
+  const hi = m.highlight;
+  let h = `<table class="matrix-table"><tr><th></th>`;
+  cols.forEach(c => h += `<th>${c}</th>`);
+  h += '</tr>';
+  rows.forEach((r,i) => {
+    h += `<tr><th>${r}</th>`;
+    cells[i].forEach(cell => {
+      const isHi = cell === hi;
+      h += `<td ${isHi?'class="highlight-cell"':''}>${cell}</td>`;
+    });
+    h += '</tr>';
+  });
+  h += `</table><p style="font-size:11px;color:var(--text3);margin-top:4px">${note}</p>`;
+  return h;
+}
+
+function render(){
+  const filtered = data.filter(d => {
+    const matchCat = activeFilter === 'All' || d.category === activeFilter;
+    const q = searchTerm;
+    const matchSearch = !q || 
+      d.name.en.toLowerCase().includes(q) || 
+      d.name.vi.toLowerCase().includes(q) ||
+      d.what.en.toLowerCase().includes(q) ||
+      d.what.vi.toLowerCase().includes(q) ||
+      d.category.toLowerCase().includes(q);
+    return matchCat && matchSearch;
+  });
+
+  const byLevel = {1:[],2:[],3:[]};
+  filtered.forEach(d => byLevel[d.level].push(d));
+
+  const lvlLabel = {
+    1: {en:'⚡ Beginner — Foundations & Core Concepts', vi:'⚡ Cơ bản — Nền tảng & Khái niệm cốt lõi'},
+    2: {en:'🔬 Intermediate — Models & Tools', vi:'🔬 Trung cấp — Mô hình & Công cụ'},
+    3: {en:'🚀 Advanced — Theory & Mechanisms', vi:'🚀 Nâng cao — Lý thuyết & Cơ chế'}
+  };
+
+  let html = '';
+  if(filtered.length === 0){
+    html = `<div class="no-results">${lang==='en'?'No concepts found matching your search.':'Không tìm thấy khái niệm nào phù hợp.'}</div>`;
+  } else {
+    [1,2,3].forEach(lv => {
+      if(byLevel[lv].length === 0) return;
+      html += `<div class="section-header"><span class="section-line"></span><span class="section-label">${lvlLabel[lv][lang]}</span><span class="section-line"></span></div>`;
+      byLevel[lv].forEach((d, idx) => {
+        html += `
+        <div class="card" data-level="${d.level}" style="animation-delay:${idx * 55}ms">
+          <div class="card-header" onclick="toggleCard(${d.id})">
+            <div class="card-left">
+              <div class="card-title-row">
+                <span class="card-num">${String(d.id).padStart(2,'0')}</span>
+                <span class="card-name">${d.name[lang]}</span>
+                <span class="badge badge-level-${d.level}">${lang==='en'?levels[d.level].en:levels[d.level].vi}</span>
+                <span class="badge badge-cat">${d.category}</span>
+              </div>
+              <div class="card-subtitle">${d.short[lang]}</div>
+            </div>
+            <span class="card-arrow" id="arrow-${d.id}">›</span>
+          </div>
+          <div class="card-body" id="body-${d.id}">
+            <p class="origin">${d.origin[lang==='vi'&&d.origin.vi?'vi':'en']}</p>
+            <h4>${lang==='en'?'What it is':'Là gì'}</h4>
+            <p>${d.what[lang]}</p>
+            <h4>${lang==='en'?'When to use':'Khi nào dùng'}</h4>
+            <p>${d.when[lang]}</p>
+            <div class="pros-cons">
+              <div class="pro-box"><div class="box-title pro-title">✓ ${lang==='en'?'Strengths':'Điểm mạnh'}</div><ul>${d.pros[lang].map(p=>`<li>${p}</li>`).join('')}</ul></div>
+              <div class="con-box"><div class="box-title con-title">✗ ${lang==='en'?'Trade-offs':'Hạn chế'}</div><ul>${d.cons[lang].map(c=>`<li>${c}</li>`).join('')}</ul></div>
+            </div>
+            ${d.matrix ? `<h4>${lang==='en'?'Payoff Matrix / Table':'Ma trận lợi ích'}</h4>${renderMatrix(d.matrix, lang)}` : ''}
+            <h4>${lang==='en'?'Example / Scenario':'Ví dụ / Tình huống'}</h4>
+            <div class="example-box">${d.example[lang]}</div>
+          </div>
+        </div>`;
+      });
+    });
+  }
+
+  document.getElementById('content').innerHTML = html;
+
+  const visibleCategories = new Set(filtered.map(d => d.category)).size;
+  const currentFilter = activeFilter === 'All'
+    ? (lang === 'en' ? 'All categories' : 'Tất cả chủ đề')
+    : activeFilter;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat">
+      <span class="stat-icon">🧩</span>
+      <div class="stat-label">${lang==='en'?'Visible Concepts':'Khái niệm hiển thị'}</div>
+      <div class="stat-value">${filtered.length}</div>
+      <div class="stat-note">${lang==='en'?`of ${data.length} in the library`:`trên tổng số ${data.length} mục`}</div>
+    </div>
+    <div class="stat">
+      <span class="stat-icon">📂</span>
+      <div class="stat-label">${lang==='en'?'Categories':'Chủ đề'}</div>
+      <div class="stat-value">${visibleCategories}</div>
+      <div class="stat-note">${lang==='en'?'represented in results':'trong kết quả hiện tại'}</div>
+    </div>
+    <div class="stat">
+      <span class="stat-icon">🎯</span>
+      <div class="stat-label">${lang==='en'?'Filter':'Bộ lọc'}</div>
+      <div class="stat-value" style="font-size:${currentFilter.length>10?'16px':'28px'}">${currentFilter}</div>
+      <div class="stat-note">${lang==='en'?'current scope':'phạm vi đang xem'}</div>
+    </div>
+    <div class="stat">
+      <span class="stat-icon">🌐</span>
+      <div class="stat-label">${lang==='en'?'Language':'Ngôn ngữ'}</div>
+      <div class="stat-value">${lang === 'en' ? 'EN' : 'VI'}</div>
+      <div class="stat-note">${lang==='en'?'toggle for bilingual':'chuyển đổi song ngữ'}</div>
+    </div>`;
+}
+
+function buildFilters(){
+  const wrap = document.getElementById('filters');
+  wrap.innerHTML = categories.map(c => 
+    `<button class="filter-btn${c===activeFilter?' active':''}" data-f="${c}" onclick="setFilter('${c}')">${c}</button>`
+  ).join('');
+}
+
+buildFilters();
+syncTheme();
+syncLanguage();
+render();
+
+window.addEventListener('scroll', () => {
+  document.getElementById('scroll-top').classList.toggle('visible', window.scrollY > 320);
+});
+</script>
+</body>
+</html>

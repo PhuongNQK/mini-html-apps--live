@@ -208,6 +208,17 @@
       letter-spacing: 0.08em;
     }
 
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+    }
+
+    .table-wrap table {
+      min-width: 760px;
+    }
+
     .chips {
       display: flex;
       flex-wrap: wrap;
@@ -231,6 +242,7 @@
       gap: 14px;
       margin-top: 12px;
       position: relative;
+      min-width: 0;
     }
 
     .cards.has-maximized::before {
@@ -246,6 +258,9 @@
       border-radius: 16px;
       padding: 16px;
       position: relative;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
       background: color-mix(in srgb, var(--panel) 92%, var(--accent) 8%);
       opacity: 0;
       transform: translateY(10px);
@@ -374,6 +389,7 @@
       flex-wrap: wrap;
       gap: 6px;
       flex: 1;
+      min-width: 0;
     }
 
     .code-tools {
@@ -381,6 +397,13 @@
       display: flex;
       align-items: flex-start;
       gap: 8px;
+      flex-wrap: wrap;
+      width: 100%;
+      min-width: 0;
+    }
+
+    #sectionCards .section-body > .section-body-inner {
+      overflow-x: visible;
     }
 
     .lang-btn {
@@ -494,13 +517,59 @@
       }
       #search { grid-column: span 2; }
     }
-    @media (max-width: 540px) {
-      .controls {
-        grid-template-columns: 1fr 1fr;
+    @media (max-width: 760px) {
+      .hero {
+        position: static;
       }
-      #search { grid-column: span 2; }
-      #langToggle, #themeToggle { padding: 10px 8px; font-size: 0.85rem; }
+      .controls {
+        grid-template-columns: 1fr;
+      }
+      #search { grid-column: auto; }
+      #langToggle, #themeToggle {
+        width: 100%;
+      }
+      .table-wrap table {
+        min-width: 640px;
+      }
+      .cards {
+        grid-template-columns: 1fr;
+      }
+      .card {
+        padding: 14px;
+      }
+      .card h3 {
+        align-items: flex-start;
+        flex-direction: column;
+        padding-right: 0;
+      }
+      .card h3 .chip {
+        max-width: 100%;
+        white-space: normal;
+      }
+      .copy-btn {
+        margin-left: 0;
+      }
+      .code-tools {
+        align-items: stretch;
+      }
+    }
+    @media (max-width: 540px) {
+      .wrap {
+        width: min(1180px, 96vw);
+      }
+      .hero,
+      .section {
+        padding: 16px;
+      }
+      .controls {
+        grid-template-columns: 1fr;
+      }
+      #search { grid-column: auto; }
+      #langToggle, #themeToggle { padding: 10px 8px; font-size: 0.85rem; width: 100%; }
       .cards { grid-template-columns: 1fr; }
+      .table-wrap table {
+        min-width: 560px;
+      }
       .card.is-maximized {
         top: 8px;
         left: 8px;
@@ -535,18 +604,20 @@
     <section class="section" id="sectionTable">
       <h2 id="tableTitle"></h2>
       <div class="section-body"><div class="section-body-inner">
-        <table>
-          <thead>
-            <tr>
-              <th id="thName"></th>
-              <th id="thCategory"></th>
-              <th id="thUse"></th>
-              <th id="thComplexity"></th>
-              <th id="thLevel"></th>
-            </tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th id="thName"></th>
+                <th id="thCategory"></th>
+                <th id="thUse"></th>
+                <th id="thComplexity"></th>
+                <th id="thLevel"></th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
       </div></div>
     </section>
 
@@ -4525,12 +4596,14 @@ int[] MoDistinct(int[] a, (int l,int r,int id)[] q){ int n=a.Length, B=(int)Math
         </tr>`).join("");
 
       els.categoryTableContainer.innerHTML = `
-        <table class="cat-table">
-          <thead>
-            <tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>`;
+        <div class="table-wrap">
+          <table class="cat-table">
+            <thead>
+              <tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
     }
 
     const hljsLang = {

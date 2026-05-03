@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Atlas - Comprehensive Cloud Services Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #dddddd;
+            --accent-color: #0066cc;
+            --accent-hover: #0052a3;
+            --table-header: #f0f0f0;
+            --table-row-alt: #f9f9f9;
+        }
+
+        body.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #444444;
+            --accent-color: #4da6ff;
+            --accent-hover: #66b3ff;
+            --table-header: #333333;
+            --table-row-alt: #252525;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--accent-color), #00ccff);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        button {
+            padding: 0.7rem 1.5rem;
+            border: 2px solid var(--accent-color);
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            background-color: var(--table-header);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--table-row-alt);
+        }
+
+        tr:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .category-label {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bb-label {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .bb-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+        }
+
+        .bb-tag {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        .bb-section {
+            margin-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 0.8rem;
+        }
+
+        .bb-section summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-color);
+            list-style: none;
+            user-select: none;
+        }
+
+        .bb-section summary::before {
+            content: '▶ ';
+            font-size: 0.75rem;
+        }
+
+        details[open] .bb-section summary::before {
+            content: '▼ ';
+        }
+
+        .bb-card {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid #e67e22;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .bb-card h4 {
+            color: #e67e22;
+        }
+
+        .nav-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-bar a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            border: 1px solid var(--accent-color);
+            transition: all 0.2s;
+        }
+
+        .nav-bar a:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .provider-card {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--accent-color);
+            transition: transform 0.3s;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .provider-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-row {
+            margin: 0.8rem 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .info-value {
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.6rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>☁️ Cloud Atlas</h1>
+        <p id="pageSubtitle">Comprehensive Cloud Services Comparison Across Major Providers</p>
+    </header>
+
+    <div class="controls">
+        <button onclick="toggleDarkMode()" id="themeBtn">🌙 Dark Mode</button>
+        <button onclick="toggleLanguage()" id="langBtn">🌐 Việt</button>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search cloud services..." onkeyup="filterServices()">
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="#sec-providers">Providers</a>
+        <a href="#sec-services">Services</a>
+        <a href="#sec-comparison">Service Comparison</a>
+        <a href="#sec-buildingblocks">Building Blocks</a>
+        <a href="#sec-bbcomparison">BB Comparison</a>
+        <a href="#sec-takeaways">Takeaways</a>
+    </nav>
+
+    <main>
+        <!-- Provider Overview Section -->
+        <div class="section" id="sec-providers">
+            <h2 id="providerTitle">Cloud Providers Overview</h2>
+            <table id="providerTable">
+                <thead>
+                    <tr>
+                        <th>Provider</th>
+                        <th>Founded</th>
+                        <th>Origin</th>
+                        <th>Target Market</th>
+                        <th>Market Share</th>
+                        <th>Service Categories</th>
+                    </tr>
+                </thead>
+                <tbody id="providerTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Core Cloud Services Section -->
+        <div class="section" id="sec-services">
+            <h2 id="servicesTitle">Core Cloud Services Explained</h2>
+            <p id="servicesSubtitle"></p>
+            <div id="servicesContainer"></div>
+        </div>
+
+        <!-- Detailed Provider Comparison Section -->
+        <div class="section" id="sec-comparison">
+            <h2 id="comparisonTitle">Cloud Services by Provider - Detailed Comparison</h2>
+            <table id="comparisonTable">
+                <thead>
+                    <tr>
+                        <th>Cloud Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba</th>
+                        <th>IBM</th>
+                        <th>Oracle</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Building-Block Concepts & Tools Reference -->
+        <div class="section" id="sec-buildingblocks">
+            <h2 id="bbTitle">Building-Block Concepts & Tools</h2>
+            <p id="bbSubtitle"></p>
+            <div id="bbContainer"></div>
+        </div>
+
+        <!-- Building-Block Tools by Provider -->
+        <div class="section" id="sec-bbcomparison">
+            <h2 id="bbCompTitle">Building-Block Tools by Provider — Detailed Comparison</h2>
+            <table id="bbCompTable">
+                <thead>
+                    <tr>
+                        <th>Concept / Tool</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba</th>
+                        <th>IBM</th>
+                        <th>Oracle</th>
+                    </tr>
+                </thead>
+                <tbody id="bbCompTableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="section" id="sec-takeaways">
+            <h2 id="takeawaysTitle">Key Takeaways</h2>
+            <div class="comparison-grid" id="takeawaysGrid"></div>
+        </div>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

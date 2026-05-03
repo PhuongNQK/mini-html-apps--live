@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Services Reference Guide - Enhanced UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #8b5cf6;
+            --background-color: #ffffff;
+            --text-color: #374151;
+            --border-color: #e5e7eb;
+            --hover-color: #f3f4f6;
+            --header-bg: #f9fafb;
+            --search-bg: #f3f4f6;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition-speed: 0.3s;
+        }
+
+        .dark-mode {
+            --background-color: #1f2937;
+            --text-color: #f9fafb;
+            --border-color: #374151;
+            --hover-color: #374151;
+            --header-bg: #111827;
+            --search-bg: #374151;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: all var(--transition-speed) ease;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container i {
+            font-size: 2.5rem;
+        }
+
+        .logo-container h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .control-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .control-btn i {
+            font-size: 1rem;
+        }
+
+        /* Search Section */
+        .search-container {
+            background-color: var(--search-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .search-container h2 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        /* Stats Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .dark-mode .stat-card {
+            background: linear-gradient(135deg, #1e293b, #334155);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .stat-card p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .stat-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        /* Main Content */
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px 12px 0 0;
+            margin-bottom: 0;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            font-size: 1.2rem;
+        }
+
+        /* Table Styles */
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            box-shadow: var(--card-shadow);
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--background-color);
+        }
+
+        .comparison-table thead {
+            background-color: var(--header-bg);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            text-align: left;
+            transition: background-color var(--transition-speed) ease;
+        }
+
+        .comparison-table th {
+            font-weight: 600;
+            background-color: var(--header-bg);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .comparison-table tr:hover {
+            background-color: var(--hover-color);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .dark-mode .comparison-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Service Cards */
+        .service-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .service-card {
+            background-color: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .service-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .service-category {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .service-description {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .price-tag {
+            background-color: #dcfce6;
+            color: #166534;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .price-tag {
+            background-color: #166534;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .service-cards-container {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 15px;
+            }
+            
+            .logo-container h1 {
+                font-size: 1.5rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-container {
+                padding: 15px;
+            }
+            
+            #searchInput {
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+            
+            .service-cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section-title {
+                font-size: 1.2rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            
+            .stat-card {
+                padding: 15px;
+            }
+            
+            .stat-card p {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .service-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <i class="fas fa-cloud"></i>
+                <h1>Cloud Services Reference Guide</h1>
+            </div>
+            <div class="controls">
+                <button class="control-btn" onclick="toggleLanguage()">
+                    <i class="fas fa-language"></i> English
+                </button>
+                <button class="control-btn" onclick="toggleTheme()">
+                    <i class="fas fa-moon"></i> Light Mode
+                </button>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <h2><i class="fas fa-search"></i> Search Cloud Services</h2>
+            <div style="position: relative;">
+                <input type="text" id="searchInput" placeholder="Search by service name, provider, or description..." onkeyup="filterServices()">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="fas fa-globe-americas"></i>
+                </div>
+                <h3>Providers</h3>
+                <p>8 Cloud Providers</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h3>Services</h3>
+                <p>30+ Cloud Services</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Market Share</h3>
+                <p>50%+ Combined</p>
+            </div>
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Customers</h3>
+                <p>50+ Million</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="section-title">
+                <i class="fas fa-table"></i> Cloud Provider Overview
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Provider</th>
+                        <th>Target Market / Users</th>
+                        <th>Market Share</th>
+                        <th>User Base</th>
+                        <th>Origin</th>
+                        <th>Key Strategies</th>
+                        <th>Service Categories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>AWS</strong></td>
+                        <td>Enterprise, startups, developers</td>
+                        <td>32% (2023)</td>
+                        <td>Over 16 million customers</td>
+                        <td>US (2006)</td>
+                        <td>Infrastructure, AI/ML, hybrid cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, Analytics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Azure</strong></td>
+                        <td>Enterprise, hybrid cloud users</td>
+                        <td>19% (2023)</td>
+                        <td>Over 10 million customers</td>
+                        <td>US (2008)</td>
+                        <td>Enterprise integration, hybrid cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, IoT</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GCP</strong></td>
+                        <td>Developers, data scientists</td>
+                        <td>12% (2023)</td>
+                        <td>Over 6 million customers</td>
+                        <td>US (2008)</td>
+                        <td>Data analytics, AI/ML, container services</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, Big Data</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alibaba Cloud</strong></td>
+                        <td>Asia-Pacific businesses, e-commerce</td>
+                        <td>10% (2023)</td>
+                        <td>Over 2 million customers</td>
+                        <td>China (2009)</td>
+                        <td>Global expansion, enterprise cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, E-commerce</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IBM Cloud</strong></td>
+                        <td>Enterprise, hybrid cloud users</td>
+                        <td>5% (2023)</td>
+                        <td>Over 1 million customers</td>
+                        <td>US (2013)</td>
+                        <td>Enterprise solutions, AI, hybrid cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, Blockchain</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Oracle Cloud</strong></td>
+                        <td>Enterprise, ERP users</td>
+                        <td>4% (2023)</td>
+                        <td>Over 5 million customers</td>
+                        <td>US (2016)</td>
+                        <td>Database, enterprise applications</td>
+                        <td>IaaS, PaaS, SaaS, Database, AI/ML</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Salesforce</strong></td>
+                        <td>CRM, SaaS users</td>
+                        <td>2% (2023)</td>
+                        <td>Over 18 million customers</td>
+                        <td>US (2009)</td>
+                        <td>Customer relationship management</td>
+                        <td>SaaS, AI/ML, Analytics</td>
+                    </tr>
+                    <tr>
+                        <td><strong>DigitalOcean</strong></td>
+                        <td>Developers, small businesses</td>
+                        <td>0.5% (2023)</td>
+                        <td>Over 2 million customers</td>
+                        <td>US (2012)</td>
+                        <td>Simplified cloud, developer-first</td>
+                        <td>IaaS, PaaS, SaaS, Container Services</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <div class="section-title">
+                <i class="fas fa-server"></i> Infrastructure Services
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Virtual Machines</strong></td>
+                        <td>EC2</td>
+                        <td>Virtual Machines</td>
+                        <td>Compute Engine</td>
+                        <td>ECS</td>
+                        <td>VPC</td>
+                        <td>Compute</td>
+                        <td>-</td>
+                        <td>Droplets</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Storage</strong></td>
+                        <td>S3, EBS</td>
+                        <td>Storage Accounts</td>
+                        <td>Cloud Storage</td>
+                        <td>OSS, NAS</td>
+                        <td>Block Storage</td>
+                        <td>Storage</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Networking</strong></td>
+                        <td>VPC, Route 53</td>
+                        <td>Virtual Networks</td>
+                        <td>VPC</td>
+                        <td>VPC, CDN</td>
+                        <td>Network Services</td>
+                        <td>Networking</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <div class="section-title">
+                <i class="fas fa-cogs"></i> Platform & Software Services
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Database</strong></td>
+                        <td>RDS, DynamoDB</td>
+                        <td>Azure SQL Database</td>
+                        <td>Cloud SQL, Spanner</td>
+                        <td>RDS, PolarDB</td>
+                        <td>Database Service</td>
+                        <td>Database Cloud</td>
+                        <td>Force.com</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Container Services</strong></td>
+                        <td>ECS, EKS</td>
+                        <td>Azure Container Instances</td>
+                        <td>Cloud Run, GKE</td>
+                        <td>ACK, ASK</td>
+                        <td>Container Service</td>
+                        <td>Container Engine</td>
+                        <td>-</td>
+                        <td>Kubernetes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Serverless</strong></td>
+                        <td>Lambda</td>
+                        <td>Azure Functions</td>
+                        <td>Cloud Functions</td>
+                        <td>FC</td>
+                        <td>OpenWhisk</td>
+                        <td>Functions</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <div class="section-title">
+                <i class="fas fa-robot"></i> AI & Machine Learning Services
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ML Platform</strong></td>
+                        <td>SageMaker</td>
+                        <td>Azure ML</td>
+                        <td>AI Platform</td>
+                        <td>PAI</td>
+                        <td>Watson AI</td>
+                        <td>AI Platform</td>
+                        <td>Service Cloud</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NLP</strong></td>
+                        <td>Comprehend</td>
+                        <td>Azure Text Analytics</td>
+                        <td>Natural Language API</td>
+                        <td>NLP</td>
+                        <td>Watson Natural Language Understanding</td>
+                        <td>Natural Language Processing</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Computer Vision</strong></td>
+                        <td>Rekognition</td>
+                        <td>Azure Computer Vision</td>
+                        <td>Cloud Vision API</td>
+                        <td>OCR, Face Recognition</td>
+                        <td>Watson Visual Recognition</td>
+                        <td>Computer Vision</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <div class="section-title">
+                <i class="fas fa-chart-bar"></i> Data & Analytics Services
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Big Data Processing</strong></td>
+                        <td>EMR, Redshift</td>
+                        <td>Azure HDInsight</td>
+                        <td>Dataflow, BigQuery</td>
+                        <td>MaxCompute, ODPS</td>
+                        <td>Watson Analytics</td>
+                        <td>Big Data</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stream Processing</strong></td>
+                        <td>Kinesis</td>
+                        <td>Azure Stream Analytics</td>
+                        <td>Dataflow</td>
+                        <td>Stream Compute</td>
+                        <td>Event Streams</td>
+                        <td>Streaming</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Analytics</strong></td>
+                        <td>QuickSight, Athena</td>
+                        <td>Azure Synapse Analytics</td>
+                        <td>BigQuery, Looker</td>
+                        <td>QuickSight, MaxCompute</td>
+                        <td>Watson Analytics</td>
+                        <td>Analytics</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section">
+            <div class="section-title">
+                <i class="fas fa-database"></i> Detailed Cloud Service Descriptions
+            </div>
+            
+            <div class="service-cards-container">
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Virtual Machines</h3>
+                        <span class="service-category">Infrastructure</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Introduced by Amazon in 2006 as part of AWS
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Elastic Compute Cloud (EC2) provides scalable compute capacity in the cloud.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Users can launch virtual machines with various configurations and operating systems.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For running applications that require dedicated computing resources or need full control over the operating system.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">IaaS</span>
+                            <span class="tag">Compute</span>
+                        </div>
+                        <div class="price-tag">$0.01 - $4.50/hour</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Storage (S3)</h3>
+                        <span class="service-category">Infrastructure</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Amazon Simple Storage Service (S3) launched in 2006 as part of AWS
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Object storage service for storing and retrieving any amount of data.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Data is stored in buckets with key-value pairs, providing RESTful API access.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For storing large amounts of unstructured data, backup and archive, content delivery.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">IaaS</span>
+                            <span class="tag">Storage</span>
+                        </div>
+                        <div class="price-tag">$0.023/GB/month</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Database (RDS)</h3>
+                        <span class="service-category">Platform</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Relational Database Service launched in 2009 by AWS
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Managed database service supporting multiple engines (MySQL, PostgreSQL, Oracle).
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Provides automated backups, patching, and scaling with minimal administration.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For applications requiring relational database capabilities with managed infrastructure.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">PaaS</span>
+                            <span class="tag">Database</span>
+                        </div>
+                        <div class="price-tag">$0.12 - $1.50/hour</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Serverless (Lambda)</h3>
+                        <span class="service-category">Platform</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> AWS Lambda launched in 2014 as part of AWS Serverless Computing
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Event-driven compute service that runs code in response to triggers.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Code is executed in response to events like HTTP requests, database changes, or scheduled tasks.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For event-driven applications, microservices, or any code that should run only when needed.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">Serverless</span>
+                            <span class="tag">Compute</span>
+                        </div>
+                        <div class="price-tag">$0.20/million reqs</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Machine Learning (SageMaker)</h3>
+                        <span class="service-category">AI/ML</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Amazon SageMaker launched in 2017 as part of AWS AI/ML services
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Fully managed service for building, training, and deploying machine learning models.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Provides built-in algorithms, Jupyter notebooks, and automated ML capabilities.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For developers and data scientists who want to build ML models without infrastructure management.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">AI/ML</span>
+                            <span class="tag">Platform</span>
+                        </div>
+                        <div class="price-tag">$0.10 - $2.00/hour</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Big Data Processing (EMR)</h3>
+                        <span class="service-category">Analytics</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Amazon EMR launched in 2009 based on Apache Hadoop ecosystem
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Managed Hadoop service for processing large data sets.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Runs Hadoop, Spark, Hive, Pig, and other big data frameworks on scalable clusters.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For processing large volumes of data using distributed computing frameworks.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">Big Data</span>
+                            <span class="tag">Analytics</span>
+                        </div>
+                        <div class="price-tag">$0.10 - $0.25/hour</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Container Services (ECS/EKS)</h3>
+                        <span class="service-category">Infrastructure</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Amazon ECS launched in 2014, EKS in 2017 as part of AWS container services
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Container orchestration services for deploying and managing containerized applications.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> ECS manages container deployment and orchestration, EKS provides Kubernetes compatibility.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For running microservices or containerized applications at scale.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">Container</span>
+                            <span class="tag">IaaS</span>
+                        </div>
+                        <div class="price-tag">$0.05 - $0.15/container</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Content Delivery (CloudFront)</h3>
+                        <span class="service-category">Infrastructure</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Amazon CloudFront launched in 2008 as part of AWS CDN services
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Global content delivery network for fast delivery of web and video content.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Distributes content from edge locations worldwide to reduce latency.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For delivering web content, video streaming, or any content that benefits from global distribution.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">CDN</span>
+                            <span class="tag">Networking</span>
+                        </div>
+                        <div class="price-tag">$0.08 - $0.15/GB</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Analytics (QuickSight)</h3>
+                        <span class="service-category">Analytics</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Amazon QuickSight launched in 2016 as part of AWS Business Intelligence
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Business intelligence service for creating visualizations and dashboards.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Provides interactive dashboards, automated insights, and data visualization tools.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For business users who want to analyze data and create visual reports.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">Analytics</span>
+                            <span class="tag">Business</span>
+                        </div>
+                        <div class="price-tag">$10 - $25/user/month</div>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-header">
+                        <h3 class="service-title">Event Streaming (Kinesis)</h3>
+                        <span class="service-category">Data</span>
+                    </div>
+                    <div class="service-description">
+                        <strong>Origin:</strong> Amazon Kinesis launched in 2014 as part of AWS real-time data processing
+                    </div>
+                    <div class="service-description">
+                        <strong>What it is:</strong> Service for real-time processing of streaming data.
+                    </div>
+                    <div class="service-description">
+                        <strong>How it works:</strong> Collects, processes, and analyzes real-time data streams from various sources.
+                    </div>
+                    <div class="service-description">
+                        <strong>When to use:</strong> For applications that need real-time data processing or analytics.
+                    </div>
+                    <div class="service-meta">
+                        <div class="service-tags">
+                            <span class="tag">Streaming</span>
+                            <span class="tag">Data</span>
+                        </div>
+                        <div class="price-tag">$0.025/GB ingested</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Language toggle functionality
+            let currentLanguage = 'en';
+            
+            function toggleLanguage() {
+                const button = document.querySelector('.control-btn:first-child');
+                if (currentLanguage === 'en') {
+                    button.innerHTML = '<i class="fas fa-language"></i> Tiếng Việt';
+                    currentLanguage = 'vi';
+                } else {
+                    button.innerHTML = '<i class="fas fa-language"></i> English';
+                    currentLanguage = 'en';
+                }
+            }
+
+            // Theme toggle functionality
+            function toggleTheme() {
+                const body = document.body;
+                const button = document.querySelector('.control-btn:last-child');
+                
+                if (body.classList.contains('dark-mode')) {
+                    body.classList.remove('dark-mode');
+                    button.innerHTML = '<i class="fas fa-moon"></i> Light Mode';
+                } else {
+                    body.classList.add('dark-mode');
+                    button.innerHTML = '<i class="fas fa-sun"></i> Dark Mode';
+                }
+            }
+
+            // Search functionality
+            function filterServices() {
+                const input = document.getElementById('searchInput');
+                const filter = input.value.toLowerCase();
+                const cards = document.querySelectorAll('.service-card');
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('.service-title').textContent.toLowerCase();
+                    const description = card.querySelector('.service-description').textContent.toLowerCase();
+                    
+                    if (title.includes(filter) || description.includes(filter)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            // Initial setup
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add search input event listener
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', filterServices);
+                }
+                
+                // Add hover effect to all cards
+                const cards = document.querySelectorAll('.service-card');
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                    });
+                    
+                    card.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                    });
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

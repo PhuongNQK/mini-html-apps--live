@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Services Collection</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #111827;
+    --bg3: #1a2332;
+    --bg4: #243044;
+    --border: rgba(99,179,237,0.15);
+    --border2: rgba(99,179,237,0.3);
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --text3: #64748b;
+    --accent: #63b3ed;
+    --accent2: #4299e1;
+    --accent3: #2b6cb0;
+    --green: #68d391;
+    --green2: #48bb78;
+    --yellow: #f6e05e;
+    --orange: #f6ad55;
+    --red: #fc8181;
+    --purple: #b794f4;
+    --pink: #f687b3;
+    --teal: #4fd1c5;
+    --radius: 8px;
+    --radius-lg: 12px;
+    --transition: 0.2s ease;
+  }
+  [data-theme="light"] {
+    --bg: #f0f4f8;
+    --bg2: #ffffff;
+    --bg3: #e8edf4;
+    --bg4: #d1dce9;
+    --border: rgba(30,80,140,0.12);
+    --border2: rgba(30,80,140,0.25);
+    --text: #1a202c;
+    --text2: #4a5568;
+    --text3: #718096;
+    --accent: #2b6cb0;
+    --accent2: #3182ce;
+    --accent3: #63b3ed;
+    --green: #276749;
+    --green2: #2f855a;
+    --yellow: #744210;
+    --orange: #c05621;
+    --red: #c53030;
+    --purple: #553c9a;
+    --pink: #97266d;
+    --teal: #2c7a7b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 60px;
+  }
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .logo span { color: var(--text); }
+  .search-wrap {
+    flex: 1;
+    max-width: 420px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 7px 12px 7px 36px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input::placeholder { color: var(--text3); }
+  .search-icon {
+    position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    color: var(--text3); pointer-events: none;
+  }
+  .header-controls { display: flex; gap: 8px; margin-left: auto; }
+  .btn-control {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 5px 12px;
+    color: var(--text2);
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+  .btn-control:hover { background: var(--bg4); color: var(--text); border-color: var(--border2); }
+  .btn-control.active { background: var(--accent3); color: white; border-color: var(--accent2); }
+
+  /* NAV TABS */
+  .nav-tabs {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 0;
+    padding: 0 2rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 12px 18px;
+    font-size: 13.5px;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN LAYOUT */
+  main { padding: 2rem; max-width: 1400px; margin: 0 auto; }
+
+  /* SECTIONS */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: border-color var(--transition);
+  }
+  .card:hover { border-color: var(--border2); }
+
+  /* PROVIDER GRID */
+  .provider-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .provider-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .provider-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .provider-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 1rem;
+  }
+  .provider-logo {
+    width: 40px; height: 40px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; flex-shrink: 0;
+  }
+  .provider-name { font-size: 15px; font-weight: 600; }
+  .provider-tagline { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .meta-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;
+  }
+  .meta-item { background: var(--bg3); border-radius: var(--radius); padding: 8px 10px; }
+  .meta-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+  .meta-value { font-size: 13px; font-weight: 500; }
+  .share-bar {
+    height: 4px; background: var(--bg4); border-radius: 2px; margin: 10px 0 4px;
+    overflow: hidden;
+  }
+  .share-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+  .share-label { font-size: 11px; color: var(--text3); }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
+  .tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 100px;
+    background: var(--bg3); color: var(--text2); border: 1px solid var(--border);
+  }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead { background: var(--bg3); }
+  th {
+    padding: 10px 14px; text-align: left; font-weight: 600;
+    color: var(--text2); font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.5px; border-bottom: 1px solid var(--border);
+    white-space: nowrap; cursor: pointer; user-select: none;
+  }
+  th:hover { color: var(--accent); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg3); }
+  .sort-icon { margin-left: 4px; opacity: 0.4; font-size: 10px; }
+  th.sorted .sort-icon { opacity: 1; color: var(--accent); }
+
+  /* SERVICE CARDS */
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .service-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    transition: all var(--transition);
+  }
+  .service-card:hover { border-color: var(--border2); }
+  .service-card-header {
+    display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;
+  }
+  .service-name { font-size: 14px; font-weight: 600; }
+  .complexity-badge {
+    font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 500; flex-shrink: 0;
+  }
+  .complexity-basic { background: rgba(104,211,145,0.15); color: var(--green); }
+  .complexity-intermediate { background: rgba(246,173,85,0.15); color: var(--orange); }
+  .complexity-advanced { background: rgba(252,129,129,0.15); color: var(--red); }
+  .service-category { font-size: 11px; color: var(--accent); margin-bottom: 6px; font-weight: 500; }
+  .service-desc { font-size: 12.5px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
+  .service-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+  .service-meta-item {
+    font-size: 11px; padding: 3px 8px; border-radius: var(--radius);
+    background: var(--bg3); color: var(--text3);
+  }
+  .service-meta-item strong { color: var(--text2); }
+
+  /* SECTION HEADER */
+  .section-header { margin-bottom: 1.5rem; }
+  .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+  .section-subtitle { color: var(--text2); font-size: 14px; }
+
+  /* FILTERS */
+  .filter-bar {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; align-items: center;
+  }
+  .filter-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+  .filter-btn {
+    padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 500;
+    border: 1px solid var(--border); background: transparent; color: var(--text2);
+    cursor: pointer; transition: all var(--transition); font-family: inherit;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+  /* COMPARISON TABLE */
+  .comp-table-wrap { overflow-x: auto; margin-top: 1.5rem; }
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 900px; }
+  .comp-table th, .comp-table td {
+    padding: 8px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top;
+  }
+  .comp-table thead th {
+    background: var(--bg3); font-weight: 600; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); white-space: nowrap;
+  }
+  .comp-table .row-header {
+    background: var(--bg3); font-weight: 600; color: var(--text); white-space: nowrap;
+  }
+  .comp-table tbody tr:hover td { background: rgba(99,179,237,0.04); }
+  .available { color: var(--green); font-size: 11px; }
+  .not-available { color: var(--text3); font-size: 11px; }
+  .provider-col { font-size: 11px; color: var(--text2); }
+
+  /* HERO STATS */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px; margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem; text-align: center;
+  }
+  .stat-number { font-size: 2rem; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  /* COLLAPSIBLE */
+  .collapse-btn {
+    width: 100%; text-align: left; background: var(--bg3);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 10px 14px; font-size: 13px; font-weight: 600; color: var(--text);
+    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    transition: all var(--transition); font-family: inherit; margin-bottom: 4px;
+  }
+  .collapse-btn:hover { background: var(--bg4); border-color: var(--border2); }
+  .collapse-content { display: none; padding: 12px 0; }
+  .collapse-content.open { display: block; }
+
+  /* DETAIL PANEL */
+  .detail-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 200; align-items: flex-start; justify-content: center; padding: 2rem;
+    overflow-y: auto;
+  }
+  .detail-overlay.open { display: flex; }
+  .detail-panel {
+    background: var(--bg2); border: 1px solid var(--border2);
+    border-radius: 16px; padding: 2rem; max-width: 680px; width: 100%;
+    margin: auto; position: relative;
+  }
+  .close-btn {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+    width: 30px; height: 30px; cursor: pointer; color: var(--text2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: all var(--transition);
+  }
+  .close-btn:hover { background: var(--bg4); }
+
+  /* PROS CONS */
+  .pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .pros, .cons {
+    background: var(--bg3); border-radius: var(--radius); padding: 12px;
+  }
+  .pros-title { color: var(--green); font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .cons-title { color: var(--red); font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+  .pros li, .cons li {
+    font-size: 12px; color: var(--text2); margin-bottom: 4px;
+    padding-left: 14px; position: relative; list-style: none;
+  }
+  .pros li::before { content: '+'; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+  .cons li::before { content: '−'; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* HIGHLIGHT */
+  .highlight { background: rgba(99,179,237,0.25); border-radius: 2px; }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center; padding: 3rem; color: var(--text3);
+    font-size: 14px; display: none;
+  }
+
+  .category-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; padding: 2px 8px; border-radius: 100px;
+    font-weight: 500;
+  }
+
+  /* Colored provider badges */
+  .badge-aws { background: rgba(255,153,0,0.15); color: #f6ad55; }
+  .badge-azure { background: rgba(0,120,212,0.15); color: #63b3ed; }
+  .badge-gcp { background: rgba(66,133,244,0.15); color: #7ecef6; }
+  .badge-alibaba { background: rgba(255,102,0,0.15); color: #fc8181; }
+  .badge-ibm { background: rgba(0,62,215,0.15); color: #b794f4; }
+  .badge-oracle { background: rgba(200,16,46,0.15); color: #fc8181; }
+  .badge-salesforce { background: rgba(0,161,224,0.15); color: #4fd1c5; }
+  .badge-do { background: rgba(0,105,255,0.15); color: #90cdf4; }
+
+  @media (max-width: 768px) {
+    header { padding: 0 1rem; gap: 8px; }
+    main { padding: 1rem; }
+    .search-wrap { max-width: 200px; }
+    .pros-cons { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+
+<header>
+  <div class="logo">☁ Cloud<span>Atlas</span></div>
+  <div class="search-wrap">
+    <span class="search-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </span>
+    <input type="text" id="globalSearch" placeholder="Search services, providers…" oninput="onSearch(this.value)">
+  </div>
+  <div class="header-controls">
+    <button class="btn-control" id="langBtn" onclick="toggleLang()">🌐 Tiếng Việt</button>
+    <button class="btn-control" id="themeBtn" onclick="toggleTheme()">☀️ Light</button>
+  </div>
+</header>
+
+<nav class="nav-tabs">
+  <div class="tab active" onclick="showTab('overview')" id="tab-overview" data-en="Overview" data-vi="Tổng quan">Overview</div>
+  <div class="tab" onclick="showTab('providers')" id="tab-providers" data-en="Providers" data-vi="Nhà cung cấp">Providers</div>
+  <div class="tab" onclick="showTab('services')" id="tab-services" data-en="Services Catalog" data-vi="Danh mục dịch vụ">Services Catalog</div>
+  <div class="tab" onclick="showTab('comparison')" id="tab-comparison" data-en="Comparison" data-vi="So sánh">Comparison</div>
+  <div class="tab" onclick="showTab('concepts')" id="tab-concepts" data-en="Concepts &amp; Tools" data-vi="Khái niệm &amp; Công cụ">Concepts &amp; Tools</div>
+</nav>
+
+<main>
+
+<!-- OVERVIEW -->
+<section class="section active" id="section-overview">
+  <div class="section-header">
+    <div class="section-title" data-en="Cloud Services Atlas" data-vi="Bản đồ dịch vụ đám mây">Cloud Services Atlas</div>
+    <div class="section-subtitle" data-en="A comprehensive guide to cloud computing across 8 major providers — from basic storage to advanced AI." data-vi="Hướng dẫn toàn diện về điện toán đám mây từ 8 nhà cung cấp lớn — từ lưu trữ cơ bản đến AI nâng cao.">A comprehensive guide to cloud computing across 8 major providers — from basic storage to advanced AI.</div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-number">8</div><div class="stat-label" data-en="Cloud Providers" data-vi="Nhà cung cấp">Cloud Providers</div></div>
+    <div class="stat-card"><div class="stat-number">60+</div><div class="stat-label" data-en="Service Categories" data-vi="Danh mục dịch vụ">Service Categories</div></div>
+    <div class="stat-card"><div class="stat-number">$650B+</div><div class="stat-label" data-en="Combined Market Cap" data-vi="Vốn hóa thị trường">Combined Market Cap</div></div>
+    <div class="stat-card"><div class="stat-number">~33%</div><div class="stat-label" data-en="AWS Market Share" data-vi="Thị phần AWS">AWS Market Share</div></div>
+  </div>
+
+  <div class="card" style="margin-bottom: 1rem;">
+    <div style="font-size: 14px; font-weight: 600; margin-bottom: 12px;" data-en="What is Cloud Computing?" data-vi="Điện toán đám mây là gì?">What is Cloud Computing?</div>
+    <p style="font-size: 13px; color: var(--text2); line-height: 1.7;" data-en="Cloud computing delivers computing resources — servers, storage, databases, networking, software, analytics, and intelligence — over the internet ('the cloud') on a pay-as-you-go basis. Instead of owning hardware, you rent capacity from a provider and only pay for what you use." data-vi="Điện toán đám mây cung cấp tài nguyên máy tính — máy chủ, lưu trữ, cơ sở dữ liệu, mạng, phần mềm, phân tích và trí tuệ nhân tạo — qua internet ('đám mây') theo mô hình trả theo mức sử dụng. Thay vì sở hữu phần cứng, bạn thuê năng lực từ nhà cung cấp và chỉ trả tiền cho những gì bạn dùng.">
+      Cloud computing delivers computing resources — servers, storage, databases, networking, software, analytics, and intelligence — over the internet ("the cloud") on a pay-as-you-go basis. Instead of owning hardware, you rent capacity from a provider and only pay for what you use.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 1rem;">
+      <div style="background: var(--bg3); border-radius: var(--radius); padding: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 4px;">IaaS</div>
+        <div style="font-size: 12px; color: var(--text2);" data-en="Infrastructure as a Service — Virtual machines, storage, networking. You manage the OS and up." data-vi="Hạ tầng dưới dạng dịch vụ — Máy ảo, lưu trữ, mạng. Bạn quản lý từ HĐH trở lên.">Infrastructure as a Service — Virtual machines, storage, networking. You manage the OS and up.</div>
+      </div>
+      <div style="background: var(--bg3); border-radius: var(--radius); padding: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--purple); margin-bottom: 4px;">PaaS</div>
+        <div style="font-size: 12px; color: var(--text2);" data-en="Platform as a Service — Managed runtime, middleware, dev tools. You manage your app and data." data-vi="Nền tảng dưới dạng dịch vụ — Runtime, middleware, công cụ phát triển được quản lý. Bạn quản lý ứng dụng và dữ liệu.">Platform as a Service — Managed runtime, middleware, dev tools. You manage your app and data.</div>
+      </div>
+      <div style="background: var(--bg3); border-radius: var(--radius); padding: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--green); margin-bottom: 4px;">SaaS</div>
+        <div style="font-size: 12px; color: var(--text2);" data-en="Software as a Service — Full applications delivered over the internet. Provider manages everything." data-vi="Phần mềm dưới dạng dịch vụ — Ứng dụng đầy đủ qua internet. Nhà cung cấp quản lý tất cả.">Software as a Service — Full applications delivered over the internet. Provider manages everything.</div>
+      </div>
+      <div style="background: var(--bg3); border-radius: var(--radius); padding: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--orange); margin-bottom: 4px;">Serverless / FaaS</div>
+        <div style="font-size: 12px; color: var(--text2);" data-en="Run code without managing servers. Auto-scales, pay only for execution time." data-vi="Chạy code không cần quản lý máy chủ. Tự động mở rộng, chỉ trả tiền theo thời gian thực thi.">Run code without managing servers. Auto-scales, pay only for execution time.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-size: 14px; font-weight: 600; margin-bottom: 12px;" data-en="Market Share Overview (2024)" data-vi="Tổng quan thị phần (2024)">Market Share Overview (2024)</div>
+    <div id="shareChart"></div>
+  </div>
+</section>
+
+<!-- PROVIDERS -->
+<section class="section" id="section-providers">
+  <div class="section-header">
+    <div class="section-title" data-en="Cloud Providers" data-vi="Nhà cung cấp đám mây">Cloud Providers</div>
+    <div class="section-subtitle" data-en="Detailed profiles of the 8 major cloud platforms." data-vi="Hồ sơ chi tiết của 8 nền tảng đám mây lớn.">Detailed profiles of the 8 major cloud platforms.</div>
+  </div>
+
+  <div class="provider-grid" id="providerGrid"></div>
+
+  <div style="margin-top: 2rem;">
+    <div style="font-size: 14px; font-weight: 600; margin-bottom: 1rem;" data-en="Side-by-Side Comparison" data-vi="So sánh trực tiếp">Side-by-Side Comparison</div>
+    <div class="table-wrap">
+      <table id="providerTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable('providerTable',0)" data-en="Provider" data-vi="Nhà cung cấp">Provider <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('providerTable',1)" data-en="Founded" data-vi="Thành lập">Founded <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('providerTable',2)" data-en="Market Share" data-vi="Thị phần">Market Share <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('providerTable',3)" data-en="Target Market" data-vi="Thị trường mục tiêu">Target Market <span class="sort-icon">↕</span></th>
+            <th data-en="Key Strength" data-vi="Điểm mạnh chính">Key Strength</th>
+            <th data-en="Service Categories" data-vi="Danh mục dịch vụ">Service Categories</th>
+            <th data-en="Best For" data-vi="Phù hợp nhất với">Best For</th>
+          </tr>
+        </thead>
+        <tbody id="providerTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="section-services">
+  <div class="section-header">
+    <div class="section-title" data-en="Services Catalog" data-vi="Danh mục dịch vụ">Services Catalog</div>
+    <div class="section-subtitle" data-en="Generalized cloud services from basic to advanced, with explanations, use cases, and cost estimates." data-vi="Các dịch vụ đám mây từ cơ bản đến nâng cao, với giải thích, trường hợp sử dụng và ước tính chi phí.">Generalized cloud services from basic to advanced, with explanations, use cases, and cost estimates.</div>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label" data-en="Complexity:" data-vi="Độ phức tạp:">Complexity:</span>
+    <button class="filter-btn active" onclick="filterServices('all','complexity')" data-en="All" data-vi="Tất cả">All</button>
+    <button class="filter-btn" onclick="filterServices('Basic','complexity')" data-en="Basic" data-vi="Cơ bản">Basic</button>
+    <button class="filter-btn" onclick="filterServices('Intermediate','complexity')" data-en="Intermediate" data-vi="Trung cấp">Intermediate</button>
+    <button class="filter-btn" onclick="filterServices('Advanced','complexity')" data-en="Advanced" data-vi="Nâng cao">Advanced</button>
+    <span class="filter-label" style="margin-left: 12px;" data-en="Category:" data-vi="Danh mục:">Category:</span>
+    <button class="filter-btn active" onclick="filterServices('all','category')" data-en="All" data-vi="Tất cả">All</button>
+    <button class="filter-btn" onclick="filterServices('Compute','category')">Compute</button>
+    <button class="filter-btn" onclick="filterServices('Storage','category')">Storage</button>
+    <button class="filter-btn" onclick="filterServices('Database','category')">Database</button>
+    <button class="filter-btn" onclick="filterServices('Networking','category')">Networking</button>
+    <button class="filter-btn" onclick="filterServices('AI/ML','category')">AI/ML</button>
+    <button class="filter-btn" onclick="filterServices('Security','category')">Security</button>
+    <button class="filter-btn" onclick="filterServices('DevOps','category')">DevOps</button>
+  </div>
+
+  <div class="service-grid" id="serviceGrid"></div>
+  <div class="no-results" id="noResults" data-en="No services match your filter." data-vi="Không có dịch vụ phù hợp.">No services match your filter.</div>
+</section>
+
+<!-- COMPARISON -->
+<section class="section" id="section-comparison">
+  <div class="section-header">
+    <div class="section-title" data-en="Service Comparison" data-vi="So sánh dịch vụ">Service Comparison</div>
+    <div class="section-subtitle" data-en="How each provider maps to generalized cloud services — with provider-specific names and notes." data-vi="Cách mỗi nhà cung cấp ánh xạ sang các dịch vụ đám mây tổng quát — với tên và ghi chú theo từng nhà cung cấp.">How each provider maps to generalized cloud services — with provider-specific names and notes.</div>
+  </div>
+
+  <div class="filter-bar" id="compFilterBar">
+    <span class="filter-label" data-en="Category:" data-vi="Danh mục:">Category:</span>
+    <button class="filter-btn active" onclick="filterComp('all')">All</button>
+    <button class="filter-btn" onclick="filterComp('Compute')">Compute</button>
+    <button class="filter-btn" onclick="filterComp('Storage')">Storage</button>
+    <button class="filter-btn" onclick="filterComp('Database')">Database</button>
+    <button class="filter-btn" onclick="filterComp('Networking')">Networking</button>
+    <button class="filter-btn" onclick="filterComp('AI/ML')">AI/ML</button>
+    <button class="filter-btn" onclick="filterComp('Security')">Security</button>
+    <button class="filter-btn" onclick="filterComp('DevOps')">DevOps</button>
+    <button class="filter-btn" onclick="filterComp('Analytics')">Analytics</button>
+  </div>
+
+  <div class="comp-table-wrap">
+    <table class="comp-table" id="compTable">
+      <thead>
+        <tr>
+          <th style="min-width:140px" data-en="Service" data-vi="Dịch vụ">Service</th>
+          <th style="min-width:80px" data-en="Category" data-vi="Danh mục">Category</th>
+          <th class="badge-aws" style="min-width:110px">AWS</th>
+          <th class="badge-azure" style="min-width:110px">Azure</th>
+          <th class="badge-gcp" style="min-width:110px">GCP</th>
+          <th class="badge-alibaba" style="min-width:110px">Alibaba</th>
+          <th class="badge-ibm" style="min-width:110px">IBM</th>
+          <th class="badge-oracle" style="min-width:110px">Oracle</th>
+          <th class="badge-salesforce" style="min-width:110px">Salesforce</th>
+          <th class="badge-do" style="min-width:110px">DigitalOcean</th>
+        </tr>
+      </thead>
+      <tbody id="compTableBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CONCEPTS & TOOLS -->
+<section class="section" id="section-concepts">
+  <div class="section-header">
+    <div class="section-title" data-en="Building-Block Concepts &amp; Tools" data-vi="Khái niệm &amp; Công cụ nền tảng">Building-Block Concepts &amp; Tools</div>
+    <div class="section-subtitle" data-en="The fundamental technologies, protocols, and tools that power cloud services — with origin, explanation, use cases, and cross-provider admin comparison." data-vi="Các công nghệ, giao thức và công cụ nền tảng tạo nên dịch vụ đám mây — với nguồn gốc, giải thích, trường hợp sử dụng và so sánh quản trị theo nhà cung cấp.">The fundamental technologies, protocols, and tools that power cloud services — with origin, explanation, use cases, and cross-provider admin comparison.</div>
+  </div>
+
+  <div class="filter-bar" id="conceptsFilterBar">
+    <span class="filter-label" data-en="Domain:" data-vi="Lĩnh vực:">Domain:</span>
+    <button class="filter-btn active" onclick="filterConcepts('all')">All</button>
+    <button class="filter-btn" onclick="filterConcepts('Compute')">Compute</button>
+    <button class="filter-btn" onclick="filterConcepts('Storage')">Storage</button>
+    <button class="filter-btn" onclick="filterConcepts('Networking')">Networking</button>
+    <button class="filter-btn" onclick="filterConcepts('Database')">Database</button>
+    <button class="filter-btn" onclick="filterConcepts('Security')">Security</button>
+    <button class="filter-btn" onclick="filterConcepts('DevOps')">DevOps</button>
+    <button class="filter-btn" onclick="filterConcepts('AI/ML')">AI/ML</button>
+  </div>
+
+  <div style="margin-bottom:1.5rem">
+    <div style="font-size:14px;font-weight:600;margin-bottom:1rem" data-en="Catalog" data-vi="Danh mục">Catalog</div>
+    <div class="service-grid" id="conceptsGrid"></div>
+    <div class="no-results" id="conceptsNoResults" data-en="No concepts match your filter." data-vi="Không có khái niệm nào phù hợp.">No concepts match your filter.</div>
+  </div>
+
+  <div style="margin-top:2.5rem">
+    <div style="font-size:14px;font-weight:600;margin-bottom:6px" data-en="Admin &amp; Tooling Comparison" data-vi="So sánh công cụ quản trị">Admin &amp; Tooling Comparison</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:1rem" data-en="How each provider exposes admin interfaces, CLIs, SDKs, and tooling for each concept." data-vi="Cách mỗi nhà cung cấp cung cấp giao diện quản trị, CLI, SDK và công cụ cho từng khái niệm.">How each provider exposes admin interfaces, CLIs, SDKs, and tooling for each concept.</div>
+    <div class="filter-bar" id="conceptsCompFilterBar">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" onclick="filterConceptsComp('all')">All</button>
+      <button class="filter-btn" onclick="filterConceptsComp('Compute')">Compute</button>
+      <button class="filter-btn" onclick="filterConceptsComp('Storage')">Storage</button>
+      <button class="filter-btn" onclick="filterConceptsComp('Networking')">Networking</button>
+      <button class="filter-btn" onclick="filterConceptsComp('Database')">Database</button>
+      <button class="filter-btn" onclick="filterConceptsComp('Security')">Security</button>
+      <button class="filter-btn" onclick="filterConceptsComp('DevOps')">DevOps</button>
+      <button class="filter-btn" onclick="filterConceptsComp('AI/ML')">AI/ML</button>
+    </div>
+    <div class="comp-table-wrap">
+      <table class="comp-table" id="conceptsCompTable">
+        <thead>
+          <tr>
+            <th style="min-width:160px">Concept / Tool</th>
+            <th style="min-width:80px">Domain</th>
+            <th style="min-width:100px">Parent Service</th>
+            <th class="badge-aws" style="min-width:130px">AWS</th>
+            <th class="badge-azure" style="min-width:130px">Azure</th>
+            <th class="badge-gcp" style="min-width:130px">GCP</th>
+            <th class="badge-alibaba" style="min-width:110px">Alibaba</th>
+            <th class="badge-ibm" style="min-width:110px">IBM</th>
+            <th class="badge-oracle" style="min-width:110px">Oracle</th>
+            <th class="badge-do" style="min-width:110px">DigitalOcean</th>
+          </tr>
+        </thead>
+        <tbody id="conceptsCompBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detailPanel">
+    <button class="close-btn" onclick="closeDetail()">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+
+const providers = [
+  {
+    id:'aws', name:'Amazon Web Services', short:'AWS', tagline:'The pioneer and market leader',
+    logo:'🟧', color:'#f6ad55', badge:'badge-aws',
+    founded:2006, origin:'USA', parent:'Amazon.com',
+    marketShare:33, users:'~1M+ active customers', revenue:'~$107B (2024)',
+    target:'Enterprises, startups, government, all segments',
+    strategy:'Broadest service catalog, first-mover advantage, deep enterprise penetration, aggressive pricing tiers',
+    strengths:'Widest service range, largest ecosystem, most mature, global regions',
+    bestFor:'Any scale — from startups to Fortune 500',
+    categories:['Compute','Storage','Database','Networking','AI/ML','Security','Analytics','IoT','DevOps','Serverless','Edge'],
+    description:'AWS launched in 2006 with Simple Storage Service (S3) and EC2, pioneering the modern cloud. It remains the clear market leader with over 200 fully-featured services across every domain of computing.'
+  },
+  {
+    id:'azure', name:'Microsoft Azure', short:'Azure', tagline:'Enterprise favorite with Microsoft ecosystem',
+    logo:'🔷', color:'#63b3ed', badge:'badge-azure',
+    founded:2010, origin:'USA', parent:'Microsoft',
+    marketShare:22, users:'~95% of Fortune 500 use Azure',
+    revenue:'~$105B (FY2024)', target:'Enterprises, hybrid cloud, Microsoft shops',
+    strategy:'Deep Microsoft ecosystem integration (Office 365, Teams, Windows), hybrid cloud leadership, enterprise agreements',
+    strengths:'Active Directory, hybrid cloud, compliance certifications, enterprise SLAs',
+    bestFor:'Companies already using Microsoft products',
+    categories:['Compute','Storage','Database','Networking','AI/ML','Security','Analytics','DevOps','Hybrid Cloud','Serverless'],
+    description:'Azure launched in 2010 and rapidly became the second-largest provider, largely by integrating with the vast existing Microsoft enterprise customer base.'
+  },
+  {
+    id:'gcp', name:'Google Cloud Platform', short:'GCP', tagline:'Big data, AI, and Kubernetes-native',
+    logo:'🔵', color:'#7ecef6', badge:'badge-gcp',
+    founded:2011, origin:'USA', parent:'Alphabet/Google',
+    marketShare:11, users:'~10,000+ enterprise customers',
+    revenue:'~$33B (2024)', target:'Data-driven companies, AI/ML teams, startups',
+    strategy:'AI/ML leadership, data analytics, Kubernetes (which Google invented), open source, competitive pricing',
+    strengths:'AI/ML tools, BigQuery, Kubernetes, network infrastructure, data analytics',
+    bestFor:'Data teams, AI/ML workloads, companies using Google services',
+    categories:['Compute','Storage','Database','Networking','AI/ML','Analytics','Security','DevOps','Serverless','IoT'],
+    description:'Google Cloud leverages Google\'s massive internal infrastructure and AI research to offer best-in-class data analytics, AI, and container orchestration services.'
+  },
+  {
+    id:'alibaba', name:'Alibaba Cloud', short:'Alibaba', tagline:'Asia-Pacific\'s dominant cloud',
+    logo:'🟥', color:'#fc8181', badge:'badge-alibaba',
+    founded:2009, origin:'China', parent:'Alibaba Group',
+    marketShare:4, users:'~4M+ customers', revenue:'~$11B (2024)',
+    target:'APAC enterprises, Chinese market, e-commerce',
+    strategy:'Dominance in China, APAC expansion, e-commerce optimization, competitive global pricing',
+    strengths:'Chinese market access, strong in APAC, e-commerce/retail optimized, cost-competitive',
+    bestFor:'Companies expanding into China and APAC markets',
+    categories:['Compute','Storage','Database','Networking','AI/ML','Security','Analytics','CDN','IoT'],
+    description:'Alibaba Cloud is the world\'s 4th largest provider and dominant in China/APAC. Born from Alibaba\'s own e-commerce infrastructure needs during Singles Day scale events.'
+  },
+  {
+    id:'ibm', name:'IBM Cloud', short:'IBM', tagline:'Hybrid cloud & enterprise heritage',
+    logo:'🟦', color:'#b794f4', badge:'badge-ibm',
+    founded:2013, origin:'USA', parent:'IBM',
+    marketShare:3, users:'Enterprise-focused', revenue:'~$6B (2024)',
+    target:'Large enterprises, financial services, regulated industries',
+    strategy:'Hybrid cloud (via Red Hat OpenShift), AI with Watson, enterprise-grade compliance, mainframe integration',
+    strengths:'Enterprise compliance, Watson AI, Red Hat integration, legacy system support',
+    bestFor:'Financial services, healthcare, heavily regulated industries',
+    categories:['Compute','Storage','Database','Networking','AI/ML','Security','DevOps','Hybrid Cloud','Blockchain'],
+    description:'IBM Cloud (formerly SoftLayer + Bluemix) focuses on hybrid cloud after acquiring Red Hat in 2019, targeting enterprises that need to bridge legacy on-premises systems with modern cloud.'
+  },
+  {
+    id:'oracle', name:'Oracle Cloud', short:'Oracle', tagline:'Database-first enterprise cloud',
+    logo:'🔴', color:'#fc8181', badge:'badge-oracle',
+    founded:2016, origin:'USA', parent:'Oracle Corporation',
+    marketShare:2, users:'Enterprise Oracle customers', revenue:'~$8B (FY2024)',
+    target:'Oracle database customers, ERP users, enterprises',
+    strategy:'Migrate existing Oracle DB customers to OCI, competitive autonomous database, aggressive pricing against AWS/Azure',
+    strengths:'Autonomous Database, Oracle ERP integration, price-performance ratio for DB workloads',
+    bestFor:'Existing Oracle customers, database-heavy workloads',
+    categories:['Compute','Storage','Database','Networking','AI/ML','Security','Analytics','ERP/SaaS'],
+    description:'Oracle Cloud Infrastructure (OCI) was completely rebuilt from the ground up starting in 2016. Oracle leverages its massive installed base of database and ERP customers to drive cloud adoption.'
+  },
+  {
+    id:'salesforce', name:'Salesforce', short:'Salesforce', tagline:'CRM and enterprise SaaS leader',
+    logo:'☁️', color:'#4fd1c5', badge:'badge-salesforce',
+    founded:1999, origin:'USA', parent:'Salesforce Inc.',
+    marketShare:'SaaS-focused', users:'~150,000+ customers',
+    revenue:'~$34B (FY2024)', target:'Sales, marketing, service teams of any size',
+    strategy:'CRM dominance, platform ecosystem (AppExchange), AI with Einstein, acquisitions (Slack, Tableau, MuleSoft)',
+    strengths:'CRM, customer data platform, AI-powered sales tools, large partner ecosystem',
+    bestFor:'Sales-driven organizations, customer service teams',
+    categories:['CRM','Analytics','AI/ML','Integration','PaaS','SaaS','Automation','Collaboration'],
+    description:'Salesforce pioneered the SaaS model in 1999 and became the world\'s largest CRM vendor. It is less of a traditional IaaS/PaaS cloud and more of a dominant SaaS+PaaS platform ecosystem.'
+  },
+  {
+    id:'do', name:'DigitalOcean', short:'DO', tagline:'Developer-friendly simplicity',
+    logo:'🔵', color:'#90cdf4', badge:'badge-do',
+    founded:2011, origin:'USA', parent:'Independent (NYSE: DOCN)',
+    marketShare:'<1%', users:'~600,000+ customers',
+    revenue:'~$762M (2024)', target:'Developers, SMBs, startups',
+    strategy:'Radical simplicity, predictable pricing, great documentation, developer community, affordable',
+    strengths:'Ease of use, transparent pricing, strong docs, great for learning/small projects',
+    bestFor:'Developers, indie hackers, small businesses, learning cloud',
+    categories:['Compute','Storage','Database','Networking','Kubernetes','Serverless'],
+    description:'DigitalOcean was founded in 2011 to make cloud simple and affordable for developers. It deliberately avoids the overwhelming complexity of AWS/Azure, offering straightforward pricing and excellent documentation.'
+  }
+];
+
+const services = [
+  // COMPUTE - BASIC
+  {id:'vm', name:'Virtual Machines', category:'Compute', complexity:'Basic', origin:'VMware popularized virtualization in the early 2000s; cloud VMs arrived with AWS EC2 in 2006.',
+   desc:'A virtual machine (VM) is an emulated computer that runs on shared physical hardware. You choose CPU, RAM, and OS, then pay hourly. VMs are the foundation of cloud computing — everything else builds on top of them.',
+   when:'Hosting websites, running applications, migrating on-premises servers to the cloud.',
+   cost:'$5–$500+/month depending on size. A small VM (1 vCPU, 1GB RAM) costs ~$5–10/month.',
+   pros:['Full control over OS and software','Wide OS support (Linux, Windows)','Familiar to sysadmins','Resizable anytime'],
+   cons:['You manage OS updates & security patches','Can be over-provisioned','More expensive than serverless for bursty workloads'],
+   tags:['IaaS','Foundational']
+  },
+  {id:'objstorage', name:'Object Storage', category:'Storage', complexity:'Basic', origin:'Amazon S3 launched in 2006, pioneering the flat, scalable object storage model now used everywhere.',
+   desc:'Store and retrieve any amount of data (files, images, videos, backups) as "objects" in "buckets." Unlike file systems, objects are accessed via HTTP URL. Infinitely scalable, 99.999999999% durability.',
+   when:'Static website hosting, backups, storing user uploads, data lakes, CDN origin.',
+   cost:'~$0.02–0.025/GB/month for storage. Data egress (outbound) costs extra (~$0.05–0.09/GB).',
+   pros:['Virtually unlimited scale','Extremely low cost','High durability','Web-accessible'],
+   cons:['Not for frequent small writes (latency)','Egress costs add up','No file-system semantics'],
+   tags:['IaaS','Pay-per-use']
+  },
+  {id:'dns', name:'Managed DNS', category:'Networking', complexity:'Basic', origin:'DNS has existed since 1983; cloud providers offer managed DNS with programmable APIs and global anycast networks.',
+   desc:'Translates domain names (example.com) to IP addresses. Cloud DNS is globally distributed, highly available, and programmable via API. Routes traffic to the nearest healthy endpoint.',
+   when:'Any website or API that needs a domain name. Also used for traffic routing (blue-green, geolocation, failover).',
+   cost:'~$0.50–$0.80 per hosted zone/month + ~$0.40/million queries.',
+   pros:['99.99%+ uptime SLA','Global propagation in seconds','Health checks & routing policies'],
+   cons:['TTL caching can slow changes','Vendor lock-in for advanced routing'],
+   tags:['Networking','Foundational']
+  },
+  {id:'cdn', name:'Content Delivery Network (CDN)', category:'Networking', complexity:'Basic', origin:'Akamai pioneered CDN in 1998; cloud providers built integrated CDNs starting in the 2010s.',
+   desc:'A globally distributed network of servers that caches your content (images, CSS, JS, videos) close to users, reducing latency. Requests are served from the nearest "edge" location instead of your origin server.',
+   when:'Any public website or app serving global users. Especially critical for media, e-commerce, and SaaS.',
+   cost:'~$0.01–0.085/GB depending on region and volume. Most providers offer free tiers.',
+   pros:['Dramatically reduces latency','Protects origin from traffic spikes','Built-in DDoS protection'],
+   cons:['Cache invalidation complexity','Cost on high-traffic sites','Debugging cached content'],
+   tags:['Networking','Performance']
+  },
+  {id:'reldb', name:'Relational Database (Managed)', category:'Database', complexity:'Basic', origin:'Relational databases date to 1970 (Codd/IBM); AWS RDS launched in 2009 as the first fully-managed cloud DB service.',
+   desc:'A fully managed relational database (MySQL, PostgreSQL, SQL Server, Oracle) with automated backups, patching, failover, and scaling. You query it with standard SQL; the provider handles operations.',
+   when:'Any application with structured data: e-commerce, SaaS, ERP, user accounts.',
+   cost:'~$15–200+/month for small to medium instances. Includes storage, backups, multi-AZ.',
+   pros:['No DBA needed for ops','Automatic backups & point-in-time restore','High availability options'],
+   cons:['Vertical scaling limits','More expensive than self-managed','Less control over engine tuning'],
+   tags:['Database','SQL','Managed']
+  },
+
+  // COMPUTE - INTERMEDIATE
+  {id:'serverless', name:'Serverless Functions (FaaS)', category:'Compute', complexity:'Intermediate', origin:'AWS Lambda launched in 2014, introducing event-driven serverless computing to the mainstream.',
+   desc:'Run code in response to events (HTTP request, file upload, message) without managing servers. The platform scales from 0 to millions of requests automatically. You pay only per invocation and execution time.',
+   when:'Event-driven workflows, APIs with variable traffic, data processing pipelines, scheduled tasks.',
+   cost:'~$0.20/million requests + $0.00001667/GB-second. Very cheap at low scale; watch out at high RPS.',
+   pros:['Zero server management','Auto-scales to zero (no idle cost)','Event-driven architecture','Very cheap for bursty workloads'],
+   cons:['Cold starts (latency on first invocation)','Execution time limits (15 min AWS)','Harder to debug','Vendor lock-in'],
+   tags:['Serverless','FaaS','Event-driven']
+  },
+  {id:'containers', name:'Container Orchestration (Kubernetes)', category:'Compute', complexity:'Intermediate', origin:'Google released Kubernetes as open source in 2014, based on internal Borg system. Now the industry standard.',
+   desc:'Kubernetes automatically deploys, scales, and manages containerized applications across a cluster of VMs. Managed Kubernetes services (EKS, AKS, GKE) handle the control plane, so you only manage worker nodes and apps.',
+   when:'Microservices architectures, teams already using Docker, needing portability across clouds.',
+   cost:'Control plane: ~$0–$0.10/hour. Worker nodes: same as VMs. Load balancers: ~$0.025/hour.',
+   pros:['Industry standard, portable','Self-healing, auto-scaling','Large ecosystem'],
+   cons:['Significant operational complexity','Steep learning curve','Overkill for simple apps'],
+   tags:['Containers','DevOps','Kubernetes']
+  },
+  {id:'nosql', name:'NoSQL Database', category:'Database', complexity:'Intermediate', origin:'Amazon DynamoDB (2012) popularized managed NoSQL. Born from need for extreme scale beyond what RDBMS could handle (Dynamo paper, 2007).',
+   desc:'Stores data as key-value pairs, documents (JSON), wide-column, or graph formats — not rows and columns. Designed for massive scale, flexible schemas, and high-speed lookups. Different types: document, key-value, columnar, graph.',
+   when:'Real-time gaming, IoT data, session stores, catalogs with flexible attributes, social graphs.',
+   cost:'DynamoDB: ~$1.25/million writes, $0.25/million reads. Pay-per-request or provisioned.',
+   pros:['Massive horizontal scale','Flexible schema','Sub-millisecond latency','Auto-scaling'],
+   cons:['No JOINs (complex queries harder)','Eventual consistency tradeoffs','Vendor-specific query languages'],
+   tags:['Database','NoSQL','Scale']
+  },
+  {id:'lb', name:'Load Balancer', category:'Networking', complexity:'Intermediate', origin:'Hardware load balancers (F5, Cisco) preceded cloud; AWS ELB in 2009 brought it as a managed service.',
+   desc:'Distributes incoming traffic across multiple servers to ensure no single server is overwhelmed. Provides health checks, auto-routing, SSL termination, and horizontal scaling. Types: application (L7), network (L4), gateway.',
+   when:'Any production application running on multiple instances. Required for high availability.',
+   cost:'~$0.008–0.025/LCU-hour + hourly base fee (~$0.016/hour). ~$18/month minimum.',
+   pros:['Essential for HA','SSL offloading','Health checks & auto-failover','Scales transparently'],
+   cons:['Added cost','Additional network hop','Session affinity complexity'],
+   tags:['Networking','HA','Scaling']
+  },
+  {id:'vpc', name:'Virtual Private Cloud (VPC)', category:'Networking', complexity:'Intermediate', origin:'AWS VPC launched in 2009, enabling isolated private networks in the cloud, replacing the original "EC2-Classic" flat network.',
+   desc:'A logically isolated virtual network you define within the cloud provider. You control IP ranges, subnets, routing tables, network gateways, and security groups. It\'s your private datacenter in the cloud.',
+   when:'Any production workload. All cloud resources should live in a VPC for security.',
+   cost:'The VPC itself is free. You pay for NAT Gateways (~$0.045/hour + $0.045/GB), VPN connections (~$0.05/hour), etc.',
+   pros:['Full network isolation','Fine-grained security controls','Peering across VPCs','Hybrid cloud via VPN/Direct Connect'],
+   cons:['Complex networking concepts','Misconfiguration risks','NAT gateway costs add up'],
+   tags:['Networking','Security','IaaS']
+  },
+  {id:'cache', name:'In-Memory Cache', category:'Database', complexity:'Intermediate', origin:'Redis open-sourced in 2009; Memcached since 2003. Cloud managed cache services started ~2011 (AWS ElastiCache).',
+   desc:'Ultra-fast in-memory data store (Redis or Memcached) for caching frequently-accessed data, session management, pub/sub messaging, and leaderboards. Data lives in RAM — reads/writes in microseconds.',
+   when:'Speed up database queries, session storage, rate limiting, real-time leaderboards, pub/sub.',
+   cost:'~$15–200+/month depending on instance size. Redis: ~$0.017/hour for small cache node.',
+   pros:['Sub-millisecond response times','Reduces database load dramatically','Rich data structures (Redis)'],
+   cons:['Data is volatile (lost on restart, unless persisted)','Memory is expensive','Cache invalidation is hard'],
+   tags:['Database','Cache','Performance']
+  },
+  {id:'queue', name:'Message Queue / Event Streaming', category:'DevOps', complexity:'Intermediate', origin:'Message queuing goes back to IBM MQ (1993). AWS SQS (2006) brought it to the cloud. Kafka (2011) popularized event streaming.',
+   desc:'Asynchronously passes messages between services. Queues (SQS) deliver each message once to one consumer. Streams (Kafka/Kinesis) let multiple consumers replay an event log. Decouples producers from consumers.',
+   when:'Microservices communication, order processing, async workflows, event-driven architectures, log ingestion.',
+   cost:'SQS: ~$0.40/million requests. Kinesis: ~$0.015/shard-hour + $0.014/million records.',
+   pros:['Decouples services','Buffers traffic spikes','At-least-once delivery guarantees','Retry logic built in'],
+   cons:['Added complexity','Eventual consistency','Message ordering tradeoffs'],
+   tags:['DevOps','Messaging','Async']
+  },
+  {id:'objectblock', name:'Block Storage (Persistent Disk)', category:'Storage', complexity:'Intermediate', origin:'Network-attached block storage for VMs; AWS EBS launched with EC2 in 2006.',
+   desc:'Persistent disk volumes attached to virtual machines — like hard drives in the cloud. High-performance SSD or HDD volumes that persist independently of the VM. Used as the boot disk or for databases.',
+   when:'VM storage, database files (requires low latency I/O), large file workloads attached to a single server.',
+   cost:'SSD: ~$0.08–0.10/GB/month. HDD: ~$0.04–0.05/GB/month.',
+   pros:['Low latency block I/O','Persistent across VM restarts','Snapshotable for backup','High IOPS options'],
+   cons:['Attached to one VM at a time (usually)','More expensive than object storage','Must manage disk size'],
+   tags:['Storage','IaaS','VM']
+  },
+
+  // ADVANCED
+  {id:'ml', name:'Machine Learning Platform', category:'AI/ML', complexity:'Advanced', origin:'AWS SageMaker (2017) and Google AI Platform (2018) brought ML training/serving to the cloud. Previously required specialized HPC clusters.',
+   desc:'End-to-end platforms for building, training, deploying, and monitoring machine learning models. Includes managed Jupyter notebooks, distributed training on GPU clusters, model registry, A/B testing, and serving infrastructure.',
+   when:'Teams building custom ML models: recommendation engines, fraud detection, image recognition, NLP.',
+   cost:'Training: GPU instance hours ($0.90–$30+/hour for V100/A100). Inference endpoints: ~$0.10–1/hour.',
+   pros:['No need to manage ML infrastructure','Pre-built algorithms & frameworks','Auto-scaling inference'],
+   cons:['Complex and expensive','Vendor lock-in risk','Requires ML expertise to use well'],
+   tags:['AI/ML','Advanced','GPU']
+  },
+  {id:'llm', name:'Managed AI / LLM APIs', category:'AI/ML', complexity:'Advanced', origin:'OpenAI\'s GPT-3 API (2020) launched the LLM-as-a-service model. Cloud providers now offer hosted LLMs (Claude, GPT-4, Gemini, Llama) via simple REST APIs.',
+   desc:'Pre-trained large language models accessible via API — no training required. Send text in, get intelligent text out. Use cases: chatbots, content generation, code assistance, summarization, classification.',
+   when:'Building AI-powered features without ML expertise. Chatbots, document analysis, semantic search.',
+   cost:'~$0.001–0.06 per 1K tokens depending on model. Claude Sonnet: ~$0.003/1K input tokens.',
+   pros:['No ML expertise needed','State-of-the-art capabilities immediately','Easy REST API integration'],
+   cons:['Expensive at scale','Privacy concerns (data sent to provider)','Model updates can change behavior'],
+   tags:['AI/ML','LLM','API']
+  },
+  {id:'datawarehouse', name:'Data Warehouse', category:'Analytics', complexity:'Advanced', origin:'Traditional DWH (Teradata, Oracle) cost millions. Google BigQuery (2010) and AWS Redshift (2012) democratized petabyte-scale analytics.',
+   desc:'A columnar database optimized for analytical queries (OLAP) over massive datasets — billions of rows. Separates storage from compute for cost efficiency. Query petabytes with SQL in seconds.',
+   when:'Business intelligence, reporting dashboards, historical trend analysis, data lake analytics.',
+   cost:'BigQuery: $5/TB queried (on-demand). Redshift: ~$0.25/hour for small cluster. Snowflake: ~$2–4/credit.',
+   pros:['SQL-based, familiar interface','Petabyte scale','Separate storage/compute pricing','BI tool integration'],
+   cons:['Cold query costs (BigQuery per-scan)','Complex for operational (OLTP) queries','Data ingestion pipeline required'],
+   tags:['Analytics','SQL','Big Data']
+  },
+  {id:'servicemesh', name:'Service Mesh', category:'DevOps', complexity:'Advanced', origin:'Istio open-sourced by Google/IBM/Lyft in 2017. Emerged to solve microservices networking complexity at scale.',
+   desc:'Infrastructure layer for managing microservice-to-service communication. Provides traffic management, mTLS encryption between services, circuit breaking, retries, canary deployments, and distributed tracing — without code changes.',
+   when:'Large microservices deployments (10+ services) needing fine-grained traffic control and observability.',
+   cost:'Control plane is free (open source). Compute overhead on sidecars adds ~5–15% resource usage.',
+   pros:['Zero-trust security between services','Deep observability','Traffic shaping without code changes'],
+   cons:['Significant operational complexity','Learning curve','Resource overhead','Debugging is hard'],
+   tags:['DevOps','Microservices','Kubernetes']
+  },
+  {id:'waf', name:'Web Application Firewall (WAF) & DDoS Protection', category:'Security', complexity:'Intermediate', origin:'WAFs emerged in early 2000s for PCI compliance. Cloud WAFs (AWS Shield, CloudFlare) democratized enterprise-grade DDoS protection.',
+   desc:'Protects web applications from OWASP Top 10 attacks (SQL injection, XSS, CSRF) at layer 7, and absorbs large-scale DDoS attacks. Rules-based and increasingly ML-powered to detect novel attack patterns.',
+   when:'Any public-facing application, especially those handling sensitive data or financial transactions.',
+   cost:'WAF: ~$5/month + $0.60/million requests + $5/rule. DDoS Advanced: $3,000/month (AWS Shield Advanced).',
+   pros:['Automatic protection from common attacks','DDoS mitigation up to Tbps','Compliance support (PCI DSS, HIPAA)'],
+   cons:['False positives can block legitimate traffic','Advanced tier very expensive','Complex rule management'],
+   tags:['Security','Networking','Compliance']
+  },
+  {id:'iam', name:'Identity & Access Management (IAM)', category:'Security', complexity:'Intermediate', origin:'AWS IAM launched in 2011. Before cloud IAM, LDAP/Active Directory handled enterprise identity. Cloud IAM extends RBAC to APIs and cloud resources.',
+   desc:'Controls who (users, services, machines) can do what on which resources. Fine-grained policies attach to users, groups, and roles. Supports MFA, temporary credentials, and cross-account access. The security foundation of every cloud deployment.',
+   when:'Every cloud deployment — this is non-negotiable. Every service and user needs least-privilege IAM policies.',
+   cost:'Free for the IAM service itself. Advanced features (SSO, identity center) may have costs.',
+   pros:['Granular permission control','Auditable access logs','Cross-service and cross-account support','MFA support'],
+   cons:['Complex JSON policies','Misconfiguration leads to breaches','Hard to audit at scale','Policy bloat over time'],
+   tags:['Security','Foundational','Compliance']
+  },
+  {id:'cicd', name:'CI/CD Pipeline', category:'DevOps', complexity:'Intermediate', origin:'Jenkins (2005) started the modern CI wave. Cloud-native CI/CD (AWS CodePipeline 2015, GitHub Actions 2019) removed infrastructure management.',
+   desc:'Automates testing, building, and deploying code changes. CI runs tests on every commit; CD automatically deploys passing builds to staging or production. Enables teams to ship multiple times per day safely.',
+   when:'Any software team. Even solo developers benefit from automated testing and deployment.',
+   cost:'GitHub Actions: 2,000 free minutes/month; ~$0.008/additional minute. AWS CodeBuild: ~$0.005/build-minute.',
+   pros:['Faster release cycles','Catch bugs early','Consistent deployments','Audit trail'],
+   cons:['Setup time investment','Infrastructure to manage','Flaky tests slow teams'],
+   tags:['DevOps','Automation','Development']
+  },
+  {id:'monitoring', name:'Observability & Monitoring', category:'DevOps', complexity:'Intermediate', origin:'Nagios (1999) pioneered infrastructure monitoring. The "three pillars" of observability (metrics, logs, traces) framework emerged ~2016. Datadog (2010) and cloud-native tools followed.',
+   desc:'Collects and visualizes metrics (CPU, latency), logs (structured application output), and distributed traces (request paths across microservices). Alerts teams when things go wrong. The "three pillars" of observability.',
+   when:'All production systems. You need visibility into what your infrastructure is actually doing.',
+   cost:'AWS CloudWatch: ~$0.30/metric/month + $0.50/GB logs ingested. Datadog: ~$15–23/host/month.',
+   pros:['Rapid incident detection and resolution','Capacity planning data','SLA compliance monitoring'],
+   cons:['Log costs at scale','Alert fatigue if poorly tuned','Multiple tools needed for full observability'],
+   tags:['DevOps','Operations','Observability']
+  },
+  {id:'infracod', name:'Infrastructure as Code (IaC)', category:'DevOps', complexity:'Advanced', origin:'Terraform (2014) by HashiCorp and AWS CloudFormation (2011) pioneered declarative cloud infrastructure. Inspired by GitOps principles.',
+   desc:'Define and provision cloud infrastructure using configuration files (HCL, YAML, JSON) rather than clicking through consoles. Infrastructure becomes version-controlled, repeatable, and reviewable like application code.',
+   when:'Any team managing more than a handful of cloud resources. Essential for consistency across environments.',
+   cost:'Terraform and OpenTofu are free/open source. Terraform Cloud: $20/user/month for advanced features.',
+   pros:['Reproducible environments','Disaster recovery speed','Drift detection','Code review for infra changes'],
+   cons:['State file management complexity','Learning curve (HCL)','Slow plan/apply cycles for large infra'],
+   tags:['DevOps','Automation','Advanced']
+  },
+  {id:'api', name:'API Gateway', category:'Networking', complexity:'Intermediate', origin:'AWS API Gateway launched in 2015, making it trivial to expose Lambda functions and backend services as REST/WebSocket APIs at scale.',
+   desc:'A managed service that acts as the front door for your backend APIs. Handles authentication, rate limiting, SSL termination, request/response transformation, caching, and routing — all without writing infrastructure code.',
+   when:'Exposing microservices or serverless functions as APIs, building public developer platforms, mobile app backends.',
+   cost:'~$1–3.50/million API calls + $0.09/GB data transfer.',
+   pros:['Handles auth, rate limiting out of box','Auto-scaling','WebSocket support','Pay-per-call pricing'],
+   cons:['Cold starts with Lambda integration','Complex configuration for advanced cases','Cost scales with API traffic'],
+   tags:['Networking','API','Serverless']
+  },
+  {id:'filestorage', name:'Shared File Storage', category:'Storage', complexity:'Intermediate', origin:'NFS has existed since 1984. Cloud managed file systems (AWS EFS 2015) brought elastic NFS/SMB to cloud without managing file servers.',
+   desc:'Managed NFS (Network File System) or SMB file shares that can be mounted simultaneously by multiple VMs. Unlike block storage, multiple instances can read/write the same files concurrently. Fully elastic — grows automatically.',
+   when:'Applications sharing files across multiple servers: media processing, content management, ERP shared storage.',
+   cost:'AWS EFS: ~$0.30/GB/month (Standard). Azure Files: ~$0.02–0.06/GB/month.',
+   pros:['Multi-attach (many VMs simultaneously)','Elastic (no pre-provisioning)','Works with legacy apps'],
+   cons:['More expensive than block storage','Higher latency than block (NFS overhead)','Not suitable for databases'],
+   tags:['Storage','NFS','Shared']
+  },
+  {id:'edgecompute', name:'Edge Computing / CDN Functions', category:'Compute', complexity:'Advanced', origin:'Cloudflare Workers (2017) and AWS Lambda@Edge (2016) pioneered running code at CDN edge nodes. Reduces latency by running logic near users.',
+   desc:'Execute code at the network edge — in CDN PoPs worldwide — instead of a central datacenter. Enables <10ms response times globally for auth, A/B testing, request rewriting, personalization, and bot detection.',
+   when:'Globally distributed apps needing low latency everywhere. A/B testing, authentication at the edge, geo-routing.',
+   cost:'Cloudflare Workers: free for 100K req/day; $5/10M requests. AWS Lambda@Edge: $0.60/million requests.',
+   pros:['Sub-10ms latency globally','Runs close to user','No servers to manage','Scales globally instantly'],
+   cons:['Limited runtime (memory, CPU, time)','Debugging distributed edge code','Cold start at some PoPs'],
+   tags:['Compute','Edge','Serverless']
+  },
+  {id:'datastream', name:'Real-Time Data Streaming', category:'Analytics', complexity:'Advanced', origin:'Apache Kafka (LinkedIn, 2011) defined the event streaming paradigm. AWS Kinesis (2013) brought managed streaming to the cloud.',
+   desc:'Ingest, process, and analyze high-volume data streams in real time — millions of events/second. Used for clickstream analytics, fraud detection, IoT telemetry, log aggregation, and event sourcing.',
+   when:'IoT devices sending telemetry, real-time dashboards, fraud detection, clickstream analytics.',
+   cost:'Kinesis Data Streams: $0.015/shard-hour + $0.014/million records. Kafka (MSK): $0.21/broker-hour.',
+   pros:['Process millions of events/second','Real-time insights','Decoupled producers/consumers','Replay capability'],
+   cons:['Complex operational model','Expensive at scale','Requires stream processing expertise'],
+   tags:['Analytics','Streaming','Real-time']
+  },
+  {id:'backup', name:'Backup & Disaster Recovery', category:'Storage', complexity:'Intermediate', origin:'Cloud backup replaced tape backup from ~2012 (AWS Glacier). Multi-region DR became accessible to SMBs via managed services around 2014.',
+   desc:'Automated backup of VMs, databases, file systems, and container workloads with scheduled snapshots, cross-region replication, and point-in-time restore. DR services replicate entire workloads to secondary regions for failover.',
+   when:'Every production workload. RPO (recovery point objective) and RTO (recovery time objective) requirements dictate tier.',
+   cost:'Storage: ~$0.004/GB/month (archival). AWS Backup: charged per backup storage used.',
+   pros:['Automated, policy-based backups','Cross-region for DR','Immutable backup options','Compliance audit logs'],
+   cons:['Restore time can be long for large datasets','Costs scale with data volume','DR requires runbook testing'],
+   tags:['Storage','Compliance','DR']
+  },
+  {id:'secretmgr', name:'Secrets Management', category:'Security', complexity:'Intermediate', origin:'HashiCorp Vault (2015) popularized centralized secrets management. AWS Secrets Manager and Azure Key Vault followed with cloud-native managed solutions.',
+   desc:'Centrally stores, rotates, and controls access to secrets: database passwords, API keys, TLS certificates, SSH keys. Automatically rotates credentials and logs every access. Prevents secrets from being hardcoded in code.',
+   when:'Every application that needs credentials. Never hardcode secrets in code or environment variables.',
+   cost:'AWS Secrets Manager: $0.40/secret/month + $0.05/10K API calls.',
+   pros:['Automatic secret rotation','Full audit trail','Fine-grained access control','Eliminates credential sprawl'],
+   cons:['Additional latency for secret retrieval','Cost at large secret count','Application integration required'],
+   tags:['Security','Compliance','DevOps']
+  }
+];
+
+// Comparison data: for each service, what each provider calls it
+const compData = [
+  {service:'Virtual Machines', category:'Compute', aws:'EC2', azure:'Virtual Machines', gcp:'Compute Engine', alibaba:'ECS', ibm:'Virtual Servers', oracle:'Compute Instances', salesforce:'—', do:'Droplets'},
+  {service:'Object Storage', category:'Storage', aws:'S3', azure:'Blob Storage', gcp:'Cloud Storage', alibaba:'OSS', ibm:'Cloud Object Storage', oracle:'Object Storage', salesforce:'Files (limited)', do:'Spaces'},
+  {service:'Managed DNS', category:'Networking', aws:'Route 53', azure:'Azure DNS', gcp:'Cloud DNS', alibaba:'DNS', ibm:'IBM Cloud DNS', oracle:'OCI DNS', salesforce:'—', do:'Managed DNS'},
+  {service:'CDN', category:'Networking', aws:'CloudFront', azure:'Azure CDN', gcp:'Cloud CDN', alibaba:'Alibaba CDN', ibm:'Akamai (partner)', oracle:'OCI CDN', salesforce:'—', do:'CDN (Spaces edge)'},
+  {service:'Managed Relational DB', category:'Database', aws:'RDS / Aurora', azure:'Azure SQL / Database for PostgreSQL', gcp:'Cloud SQL / AlloyDB', alibaba:'ApsaraDB RDS', ibm:'Db2 on Cloud', oracle:'Autonomous DB / Base DB', salesforce:'—', do:'Managed Databases'},
+  {service:'Serverless Functions', category:'Compute', aws:'Lambda', azure:'Azure Functions', gcp:'Cloud Functions / Cloud Run', alibaba:'Function Compute', ibm:'IBM Cloud Functions', oracle:'Functions', salesforce:'Apex (custom)', do:'Functions (beta)'},
+  {service:'Kubernetes (Managed)', category:'Compute', aws:'EKS', azure:'AKS', gcp:'GKE', alibaba:'ACK', ibm:'IKS (Red Hat OpenShift)', oracle:'OKE', salesforce:'—', do:'DOKS'},
+  {service:'NoSQL Database', category:'Database', aws:'DynamoDB', azure:'Cosmos DB', gcp:'Firestore / Bigtable', alibaba:'Table Store / Lindorm', ibm:'Cloudant (CouchDB)', oracle:'NoSQL DB', salesforce:'—', do:'—'},
+  {service:'Load Balancer', category:'Networking', aws:'ALB / NLB / ELB', azure:'Application Gateway / Load Balancer', gcp:'Cloud Load Balancing', alibaba:'SLB / ALB', ibm:'Load Balancer for VPC', oracle:'Load Balancer', salesforce:'—', do:'Load Balancers'},
+  {service:'Virtual Private Cloud', category:'Networking', aws:'VPC', azure:'Virtual Network (VNet)', gcp:'VPC', alibaba:'VPC', ibm:'VPC', oracle:'VCN', salesforce:'—', do:'VPC'},
+  {service:'In-Memory Cache', category:'Database', aws:'ElastiCache (Redis/Memcached)', azure:'Azure Cache for Redis', gcp:'Memorystore', alibaba:'ApsaraDB for Redis', ibm:'IBM Cloud Databases for Redis', oracle:'OCI Cache', salesforce:'Platform Cache', do:'Managed Redis (DBaaS)'},
+  {service:'Message Queue', category:'DevOps', aws:'SQS / SNS / Kinesis', azure:'Service Bus / Event Hubs', gcp:'Pub/Sub / Cloud Tasks', alibaba:'MNS / Message Queue', ibm:'IBM MQ / Event Streams', oracle:'Streaming / Queue', salesforce:'Platform Events', do:'—'},
+  {service:'Block Storage', category:'Storage', aws:'EBS', azure:'Managed Disks', gcp:'Persistent Disk', alibaba:'Block Storage', ibm:'Block Storage for VPC', oracle:'Block Volume', salesforce:'—', do:'Block Storage'},
+  {service:'ML Platform', category:'AI/ML', aws:'SageMaker', azure:'Azure ML', gcp:'Vertex AI', alibaba:'PAI (Platform of AI)', ibm:'Watson Studio / AutoAI', oracle:'OCI Data Science', salesforce:'Einstein AI (custom)', do:'—'},
+  {service:'Managed LLM / AI API', category:'AI/ML', aws:'Bedrock (Claude, Titan, Llama…)', azure:'Azure OpenAI Service', gcp:'Vertex AI (Gemini, Claude…)', alibaba:'Tongyi Qianwen API', ibm:'watsonx.ai', oracle:'OCI Generative AI', salesforce:'Einstein GPT / Agentforce', do:'—'},
+  {service:'Data Warehouse', category:'Analytics', aws:'Redshift', azure:'Synapse Analytics', gcp:'BigQuery', alibaba:'MaxCompute', ibm:'Db2 Warehouse / Netezza', oracle:'Autonomous Data Warehouse', salesforce:'Tableau CRM / Data Cloud', do:'—'},
+  {service:'Web App Firewall & DDoS', category:'Security', aws:'WAF + Shield', azure:'WAF + DDoS Protection', gcp:'Cloud Armor', alibaba:'WAF + Anti-DDoS', ibm:'Web Application Firewall', oracle:'WAF + DDoS', salesforce:'(handled by Salesforce infra)', do:'Cloudflare (partner)'},
+  {service:'IAM', category:'Security', aws:'IAM', azure:'Azure AD / Entra ID', gcp:'Cloud IAM', alibaba:'RAM (Resource Access Mgmt)', ibm:'IAM (Identity & Access)', oracle:'IAM', salesforce:'Identity / Profile / Permission Sets', do:'Teams & RBAC'},
+  {service:'CI/CD Pipeline', category:'DevOps', aws:'CodePipeline / CodeBuild / CodeDeploy', azure:'Azure DevOps / GitHub Actions', gcp:'Cloud Build / Cloud Deploy', alibaba:'EDAS / Cloud Pipeline', ibm:'Tekton Pipelines (Red Hat)', oracle:'DevOps Service', salesforce:'Salesforce DevOps Center', do:'App Platform deploy'},
+  {service:'Monitoring & Observability', category:'DevOps', aws:'CloudWatch + X-Ray', azure:'Azure Monitor + App Insights', gcp:'Cloud Monitoring + Trace', alibaba:'Cloud Monitor / ARMS', ibm:'IBM Instana / Log Analysis', oracle:'OCI Monitoring / APM', salesforce:'Event Monitoring', do:'Monitoring (basic)'},
+  {service:'Infrastructure as Code', category:'DevOps', aws:'CloudFormation / CDK', azure:'ARM Templates / Bicep', gcp:'Deployment Manager / Config Connector', alibaba:'ROS', ibm:'Schematics (Terraform)', oracle:'OCI Resource Manager', salesforce:'Metadata API / Salesforce DX', do:'Terraform provider'},
+  {service:'API Gateway', category:'Networking', aws:'API Gateway', azure:'API Management', gcp:'Apigee / Cloud Endpoints', alibaba:'API Gateway', ibm:'API Connect', oracle:'API Gateway', salesforce:'Experience Cloud / Connected App', do:'App Platform routes'},
+  {service:'Shared File Storage', category:'Storage', aws:'EFS / FSx', azure:'Azure Files / NetApp Files', gcp:'Filestore', alibaba:'NAS', ibm:'File Storage for VPC', oracle:'File Storage', salesforce:'—', do:'—'},
+  {service:'Secrets Management', category:'Security', aws:'Secrets Manager / SSM Parameter Store', azure:'Key Vault', gcp:'Secret Manager', alibaba:'KMS / Secrets Manager', ibm:'Secrets Manager', oracle:'Vault', salesforce:'Named Credentials', do:'—'},
+  {service:'Real-Time Streaming', category:'Analytics', aws:'Kinesis / MSK (Kafka)', azure:'Event Hubs', gcp:'Dataflow / Pub/Sub', alibaba:'DataHub / Flink', ibm:'IBM Event Streams (Kafka)', oracle:'OCI Streaming', salesforce:'—', do:'—'},
+  {service:'Backup & DR', category:'Storage', aws:'AWS Backup / S3 Glacier', azure:'Azure Backup / Site Recovery', gcp:'Backup for GKE / Persistent Disk snapshots', alibaba:'HBR (Hybrid Backup Recovery)', ibm:'IBM Backup Recovery', oracle:'Block Volume Backups / Autonomous DB backup', salesforce:'(handled by Salesforce infra)', do:'Snapshots (manual)'},
+];
+
+// Building-block concepts and tools data
+const concepts = [
+  // ── COMPUTE ──
+  {id:'hypervisor', name:'Hypervisor / Virtualization', domain:'Compute', parentService:'Virtual Machines',
+   origin:'IBM CP-40 (1967) first virtualized hardware; VMware commercialized x86 virtualization in 1999. Type-1 hypervisors (bare-metal) power all cloud VMs.',
+   desc:'Software that partitions physical hardware into isolated Virtual Machines. Type-1 (bare-metal) hypervisors like KVM, Xen, and Hyper-V run directly on hardware. Each VM gets dedicated vCPUs, RAM, and disk — isolated from others on the same host.',
+   when:'Every time you launch a cloud VM, a hypervisor is running underneath. You do not interact with it directly, but understanding it explains VM sizing, noisy-neighbor issues, and dedicated host offerings.',
+   cost:'Included in VM price. Dedicated hosts remove noisy-neighbor risk at ~$1.50–7/hour.',
+   pros:['Strong workload isolation','Run multiple OS types on one host','Live migration of VMs'],
+   cons:['Overhead vs bare metal (usually <5%)','Shared host can cause noisy-neighbor I/O spikes'],
+   tags:['Virtualization','IaaS']
+  },
+  {id:'containerd', name:'Container Runtime (Docker / containerd)', domain:'Compute', parentService:'Kubernetes',
+   origin:'Docker launched in 2013 and popularized Linux containers. containerd, the runtime Docker is built on, became the Kubernetes default runtime in 2020.',
+   desc:'A container runtime packages an application and all its dependencies into a single, portable image. The runtime (containerd) pulls images from registries, creates isolated namespaces, and manages container lifecycles on each node.',
+   when:'You need reproducible, portable app packaging. Nearly all cloud workloads today use containers, whether via Kubernetes, serverless platforms, or managed container services.',
+   cost:'Open source and free. Container registry storage: ~$0.10/GB/month.',
+   pros:['Immutable, reproducible builds','Fast startup vs VMs','Lightweight (shares OS kernel)','Huge ecosystem'],
+   cons:['Less isolation than VMs (shared kernel)','Image sprawl if not managed','Registry management overhead'],
+   tags:['Containers','DevOps']
+  },
+  {id:'autoscaling', name:'Auto-Scaling', domain:'Compute', parentService:'Virtual Machines',
+   origin:'AWS Auto Scaling launched in 2009 as a companion to EC2. It introduced the concept of scaling policies based on CloudWatch metrics — now a standard feature across all providers.',
+   desc:'Automatically adds or removes compute instances based on defined rules (CPU%, request rate, custom metrics). Horizontal scaling adds more instances; vertical scaling changes instance size. Ensures you pay only for what you need while handling traffic spikes.',
+   when:'Any stateless web application or API tier. Combine with load balancer for zero-downtime scaling.',
+   cost:'Auto-scaling itself is free. You pay for the instances that are running.',
+   pros:['Handles traffic spikes automatically','Reduces cost during low traffic','High availability'],
+   cons:['Stateful apps require session handling','Scale-out latency (boot time)','Complex warm-up for stateful caches'],
+   tags:['Scaling','Automation']
+  },
+  {id:'ami', name:'Machine Image / Snapshot (AMI)', domain:'Compute', parentService:'Virtual Machines',
+   origin:'AWS AMI (Amazon Machine Image) concept launched in 2006. Snapshots and images allow you to capture and replicate server state — the foundation of immutable infrastructure.',
+   desc:'A pre-configured server template (OS + software + configs) used to launch identical VM instances. Snapshots capture the disk state at a point in time for backup or cloning. Images are shared, versioned, and can be made public or private.',
+   when:'Creating golden images for your app servers, bootstrapping identical instances in auto-scaling groups, disaster recovery.',
+   cost:'~$0.05–0.10/GB/month to store images/snapshots.',
+   pros:['Instant reproducibility','Fast server provisioning','Foundation for immutable infrastructure'],
+   cons:['Images become stale (software not patched)','Storage costs accumulate','Requires image management discipline'],
+   tags:['IaaS','DevOps']
+  },
+
+  // ── STORAGE ──
+  {id:'s3protocol', name:'S3 API Protocol', domain:'Storage', parentService:'Object Storage',
+   origin:'Amazon defined the S3 REST API in 2006. It became the de facto standard for object storage — nearly every cloud provider and on-premises storage system now supports S3-compatible APIs.',
+   desc:'A REST API standard for storing and retrieving objects. Operations: PUT (upload), GET (download), DELETE, LIST. Uses HTTP with authentication via signed requests (AWS Sig V4). "S3-compatible" means any tool that speaks S3 protocol works across providers.',
+   when:'Any application that stores or retrieves files. S3 compatibility means tools like rclone, MinIO, and most backup software work across providers.',
+   cost:'Included in object storage pricing — no extra charge for the API itself.',
+   pros:['Universal standard — works with any S3-compatible client','Simple HTTP interface','Large ecosystem of compatible tools'],
+   cons:['Not optimized for small, frequent writes','Eventual consistency in some older implementations','Authentication complexity'],
+   tags:['API','Standard','Storage']
+  },
+  {id:'replication', name:'Data Replication & Durability', domain:'Storage', parentService:'Object Storage',
+   origin:'Google\'s Bigtable paper (2006) and Amazon\'s Dynamo paper (2007) formalized replication strategies. S3\'s 11-9s durability comes from erasure coding across multiple AZs.',
+   desc:'Cloud storage achieves high durability by replicating data across multiple physical locations. Erasure coding splits data into fragments distributed across drives/racks. Cross-region replication copies data to another geography for DR. Replication factor and consistency model trade latency vs durability.',
+   when:'Always active in managed storage. You choose the replication tier: single-AZ (cheap), multi-AZ (HA), cross-region (DR).',
+   cost:'Single-AZ: base price. Multi-AZ: +20–30%. Cross-region: +replication data transfer costs (~$0.02/GB).',
+   pros:['Transparent — no application changes needed','Configurable RPO tiers','Protects against hardware failure'],
+   cons:['Cross-region replication adds latency','Higher cost','Eventual consistency in multi-region writes'],
+   tags:['Durability','HA','DR']
+  },
+  {id:'lifecycle', name:'Storage Lifecycle Policies', domain:'Storage', parentService:'Object Storage',
+   origin:'AWS S3 Lifecycle (2012) introduced automated tiering. Inspired by HSM (Hierarchical Storage Management) from the mainframe era — automatically moving cold data to cheaper media.',
+   desc:'Rules that automatically transition objects between storage tiers based on age or access patterns. Example: move to Infrequent Access after 30 days, to Archive (Glacier) after 90 days, delete after 7 years. Reduces cost without manual intervention.',
+   when:'Any bucket with data that grows over time and becomes less frequently accessed (logs, backups, analytics archives).',
+   cost:'Free to configure. Retrieval fees apply for archived tiers: ~$0.01/GB retrieval from Glacier.',
+   pros:['Automatic cost optimization','No code changes needed','Compliance data retention support'],
+   cons:['Archive retrieval latency (minutes to hours)','Transition costs between tiers','Object minimum duration charges'],
+   tags:['Cost','Automation','Storage']
+  },
+  {id:'iops', name:'IOPS & Storage Performance', domain:'Storage', parentService:'Block Storage',
+   origin:'IOPS (Input/Output Operations Per Second) is a traditional storage benchmark from SAN/NAS systems. Cloud block storage exposes configurable IOPS, making performance tunable and purchasable.',
+   desc:'IOPS measures how many read/write operations per second a storage volume can perform. Throughput (MB/s) measures bandwidth. Cloud block storage lets you provision IOPS independently of volume size. Critical for databases: insufficient IOPS causes query slowdowns.',
+   when:'Sizing EBS volumes for RDS, choosing SSD vs HDD for your database tier, diagnosing slow DB performance.',
+   cost:'AWS GP3: 3000 IOPS free, additional at $0.005/provisioned IOPS/month. IO2: $0.065/IOPS/month.',
+   pros:['Predictable, guaranteed performance','Independent sizing from capacity','Can be adjusted without downtime'],
+   cons:['Easy to under-provision (causes DB issues)','Cost adds up with high IOPS requirements','Burst credits can be exhausted'],
+   tags:['Performance','Database','Storage']
+  },
+
+  // ── NETWORKING ──
+  {id:'bgp', name:'BGP & Anycast', domain:'Networking', parentService:'Managed DNS',
+   origin:'BGP (Border Gateway Protocol) is the routing protocol of the internet, standardized in 1989. Anycast uses BGP to route users to the nearest server — the technique behind all modern CDN and DNS systems.',
+   desc:'Anycast assigns the same IP address to multiple servers worldwide. BGP routing ensures traffic goes to the geographically nearest healthy node. This is how Route 53, CloudFront, and all CDN systems achieve global low-latency without user configuration.',
+   when:'Understanding why your DNS or CDN requests are fast. Also relevant when choosing between anycast-based and unicast-based DNS providers.',
+   cost:'Included in DNS/CDN service pricing.',
+   pros:['Automatic geographic routing','DDoS resilience (attack traffic absorbed across PoPs)','No client configuration needed'],
+   cons:['BGP hijacking risks','Anycast complicates stateful connections','Not suitable for stateful TCP sessions'],
+   tags:['Networking','Protocol','CDN']
+  },
+  {id:'ssl', name:'TLS/SSL & Certificate Management', domain:'Networking', parentService:'Load Balancer',
+   origin:'SSL was created by Netscape in 1995; TLS 1.0 followed in 1999. Let\'s Encrypt (2015) democratized free certificates. Cloud providers now offer automated certificate provisioning and renewal.',
+   desc:'TLS (Transport Layer Security) encrypts data in transit between clients and servers. Cloud load balancers handle SSL termination — decrypting HTTPS at the edge so backend servers see plain HTTP. Certificate Manager services automate provisioning, renewal, and deployment.',
+   when:'Every public-facing application requires HTTPS. TLS termination at the load balancer is standard. Use managed certificates to avoid manual renewal work.',
+   cost:'Managed certificates are free (AWS ACM, GCP-managed certs). You only pay for the load balancer.',
+   pros:['Free managed certificates with auto-renewal','No manual cert management','Modern TLS versions enforced'],
+   cons:['Certificate propagation takes minutes','Private CA management for internal services costs more','mTLS adds complexity'],
+   tags:['Security','Networking','Protocol']
+  },
+  {id:'subnet', name:'Subnets & CIDR', domain:'Networking', parentService:'Virtual Private Cloud',
+   origin:'CIDR (Classless Inter-Domain Routing) replaced classful networking in 1993. In cloud, subnets segment your VPC into smaller IP ranges — public-facing vs private, across availability zones.',
+   desc:'A subnet is a range of IP addresses within your VPC (defined in CIDR notation, e.g. 10.0.1.0/24). Public subnets have internet routes; private subnets do not. Resources in private subnets access the internet via NAT Gateway. Subnets span one availability zone for isolation.',
+   when:'Designing any cloud network. Best practice: web/LB tier in public subnets, app tier and databases in private subnets.',
+   cost:'Subnets are free. NAT Gateway for private subnet internet access: ~$0.045/hour + $0.045/GB.',
+   pros:['Network segmentation for security','AZ-level fault isolation','Enables private resources (no public IP needed)'],
+   cons:['CIDR planning mistakes are hard to fix','NAT Gateway costs add up','Complex routing tables in large architectures'],
+   tags:['Networking','Security','IaaS']
+  },
+  {id:'secgroup', name:'Security Groups & Network ACLs', domain:'Networking', parentService:'Virtual Private Cloud',
+   origin:'AWS introduced Security Groups with EC2 in 2006. They are stateful virtual firewalls at the instance level. NACLs (Network Access Control Lists) are stateless and operate at the subnet level.',
+   desc:'Security Groups are stateful firewalls attached to individual resources — you define inbound/outbound rules by port, protocol, and source IP/SG. NACLs are stateless subnet-level firewalls. Together they implement defense-in-depth network security.',
+   when:'Every cloud resource should have security groups. Principle of least privilege: only open necessary ports.',
+   cost:'Free. Security group rules have limits per resource (usually 60–100 rules per SG).',
+   pros:['Granular per-resource firewall rules','Reference other SGs as sources (dynamic, portable)','No IP management needed for intra-VPC traffic'],
+   cons:['Rules accumulate and become hard to audit','Stateful SGs don\'t log traffic (need VPC Flow Logs)','Misconfiguration exposes resources'],
+   tags:['Security','Networking']
+  },
+  {id:'privatelink', name:'Private Connectivity (VPN / Direct Connect / Private Link)', domain:'Networking', parentService:'Virtual Private Cloud',
+   origin:'AWS Direct Connect launched in 2012 to address enterprises needing dedicated lines to AWS. PrivateLink (2017) enabled private service endpoints without public internet.',
+   desc:'Three options for private connectivity: (1) VPN — encrypted tunnel over internet (~$0.05/hour), (2) Direct Connect / ExpressRoute — dedicated fiber from on-premises to cloud (latency: <5ms, guaranteed BW), (3) PrivateLink — access cloud services via private IP without leaving VPC backbone.',
+   when:'Enterprise hybrid cloud, regulated industries needing dedicated lines, accessing managed services privately.',
+   cost:'VPN: ~$36–72/month. Direct Connect: ~$0.03–0.30/GB + port fee (~$216/month for 1Gbps).',
+   pros:['Avoids public internet exposure','Consistent low-latency for hybrid workloads','Required for some compliance frameworks'],
+   cons:['High cost for dedicated connections','Long provisioning time for Direct Connect (days–weeks)','Complex BGP routing setup'],
+   tags:['Networking','Hybrid','Enterprise']
+  },
+
+  // ── DATABASE ──
+  {id:'acidtrans', name:'ACID Transactions', domain:'Database', parentService:'Managed Relational DB',
+   origin:'The ACID properties (Atomicity, Consistency, Isolation, Durability) were formalized by Jim Gray in 1981. They define what makes a database transaction reliable and are the foundation of relational databases.',
+   desc:'ACID guarantees: Atomicity (all-or-nothing), Consistency (data integrity rules always hold), Isolation (concurrent transactions don\'t see each other\'s partial work), Durability (committed data survives crashes). Relational DBs enforce ACID by default. NoSQL often trades ACID for speed.',
+   when:'Any financial transaction, inventory update, or multi-step operation that must not partially succeed.',
+   cost:'Included in managed relational DB pricing.',
+   pros:['Data integrity guaranteed','Predictable behavior under failure','Multi-row transaction support'],
+   cons:['Slower than eventual-consistency systems','Scaling ACID across distributed nodes is hard','Two-phase commit adds latency'],
+   tags:['Database','Reliability']
+  },
+  {id:'readsreplica', name:'Read Replicas & Replication Lag', domain:'Database', parentService:'Managed Relational DB',
+   origin:'MySQL binary log replication (1998) enabled read replicas. Cloud-managed read replicas (AWS RDS Multi-AZ, 2010) automated failover and replica management.',
+   desc:'Read replicas are copies of your primary database that handle read-only queries. They replicate from the primary asynchronously — there is always some replication lag (usually milliseconds). Multi-AZ replicas are synchronous and used for automatic failover (not read scaling).',
+   when:'Read-heavy workloads (reporting dashboards, analytics queries). Offload reads to replicas to reduce primary DB load.',
+   cost:'Each replica is a full DB instance at regular DB pricing. ~$0.018–0.50/hour depending on size.',
+   pros:['Scale read capacity independently','Geographic replicas for lower-latency reads globally','Near-zero downtime failover (Multi-AZ)'],
+   cons:['Replication lag — replicas may be slightly stale','Writes still go to single primary','Adds cost proportional to replica count'],
+   tags:['Database','HA','Scaling']
+  },
+  {id:'connectionpool', name:'Connection Pooling', domain:'Database', parentService:'Managed Relational DB',
+   origin:'Database connection pooling (PgBouncer for PostgreSQL, 1999; HikariCP for Java) became critical as web applications scaled. Cloud providers offer managed poolers (RDS Proxy, 2020) to solve serverless connection exhaustion.',
+   desc:'Opening a new database connection is expensive (20–100ms). A connection pool maintains a set of pre-opened connections and reuses them. Critical for serverless/Lambda — without pooling, each invocation opens a new connection, exhausting the DB\'s connection limit.',
+   when:'Any application with high request rates, especially serverless functions. RDS Proxy is mandatory for Lambda + RDS.',
+   cost:'RDS Proxy: ~$0.015/vCPU-hour of protected DB. PgBouncer is free/open source.',
+   pros:['Prevents connection exhaustion','Reduces connection overhead latency','Multiplexes many app connections to few DB connections'],
+   cons:['Connection poolers add another component to manage','Some DB features incompatible with poolers','PgBouncer doesn\'t support all PostgreSQL commands'],
+   tags:['Database','Performance','Serverless']
+  },
+  {id:'partitioning', name:'Sharding & Partitioning', domain:'Database', parentService:'NoSQL Database',
+   origin:'Database sharding was popularized by large-scale web properties (Flickr, Twitter) in the mid-2000s. DynamoDB (2012) made transparent, automatic sharding mainstream as a managed service.',
+   desc:'Sharding splits data across multiple database nodes by a partition key — each shard owns a range of keys. Partitioning in NoSQL distributes data automatically. Choosing a good partition key is critical: a hot partition (uneven key distribution) causes one shard to receive all traffic while others idle.',
+   when:'Data volumes too large for a single node, or write throughput exceeds single-node capacity.',
+   cost:'Included in NoSQL DB pricing — you pay for RCUs/WCUs (DynamoDB) or storage per node.',
+   pros:['Horizontal scale beyond single-node limits','Independent scaling of partitions','Automatic in managed NoSQL services'],
+   cons:['Partition key choice is irreversible / hard to change','Hot partitions kill performance','Cross-partition queries are expensive'],
+   tags:['Database','Scale','NoSQL']
+  },
+
+  // ── SECURITY ──
+  {id:'zerotrust', name:'Zero Trust Security Model', domain:'Security', parentService:'IAM',
+   origin:'John Kindervag at Forrester coined "Zero Trust" in 2010. Google\'s BeyondCorp (2014) implemented it internally. Cloud-native architectures accelerated its adoption as the perimeter-based model broke down.',
+   desc:'"Never trust, always verify" — every request must be authenticated and authorized regardless of network location. No implicit trust for requests from inside the network. Implemented via mutual TLS between services, short-lived credentials, continuous verification, and micro-segmentation.',
+   when:'Any modern cloud architecture. Especially important as services span multiple clouds and employees work remotely.',
+   cost:'Conceptual model — costs depend on tools: IAM policies (free), service mesh for mTLS (compute overhead), SSO provider (~$2–8/user/month).',
+   pros:['Eliminates insider threat risks','Works well in multi-cloud environments','Reduces blast radius of breaches'],
+   cons:['Complex to implement fully','Performance overhead from continuous verification','Requires cultural change'],
+   tags:['Security','Architecture']
+  },
+  {id:'kms', name:'Key Management Service (KMS) & Encryption', domain:'Security', parentService:'Secrets Management',
+   origin:'Hardware Security Modules (HSMs) have existed since the 1970s. Cloud KMS services (AWS KMS 2014, Azure Key Vault 2015) democratized enterprise-grade key management without requiring physical HSM hardware.',
+   desc:'Manages cryptographic keys used to encrypt data at rest and in transit. Envelope encryption: data is encrypted with a data encryption key (DEK), and the DEK is encrypted with a key encryption key (KEK) stored in KMS. AWS KMS keys never leave the service — all crypto operations happen inside the HSM.',
+   when:'Encrypting S3 objects, EBS volumes, database storage, and any sensitive data. Required for HIPAA, PCI DSS, and SOC 2 compliance.',
+   cost:'AWS KMS: $1/key/month + $0.03/10K API requests.',
+   pros:['Keys never exposed to application code','Automatic key rotation','Audit trail for every key usage','FIPS 140-2 validated hardware'],
+   cons:['Adds latency to encryption operations','Complex key hierarchy management','Region-locked by default (cross-region replication needs planning)'],
+   tags:['Security','Compliance','Encryption']
+  },
+  {id:'oauthoidc', name:'OAuth 2.0 & OIDC', domain:'Security', parentService:'IAM',
+   origin:'OAuth 1.0 launched in 2007 to solve API authorization without sharing passwords. OAuth 2.0 (2012) simplified it. OIDC (OpenID Connect, 2014) adds identity on top of OAuth — the foundation of modern SSO.',
+   desc:'OAuth 2.0 is an authorization framework: "this app can access these resources on your behalf." OIDC (OpenID Connect) adds authentication on top: "this is who you are." Used for "Sign in with Google/Microsoft," SSO between enterprise apps, and machine-to-machine API access via client credentials flow.',
+   when:'Building any app that needs user login, SSO, or third-party API access. Standard for federating identity with cloud providers.',
+   cost:'Protocol is free. Identity providers (Okta, Auth0) charge ~$0.03–0.12/MAU.',
+   pros:['Industry standard — huge ecosystem','Delegates auth to trusted providers','Short-lived tokens reduce risk'],
+   cons:['Complex to implement correctly (many flows)','Token revocation is not instant','Refresh token management requires care'],
+   tags:['Security','Authentication','Protocol']
+  },
+
+  // ── DEVOPS ──
+  {id:'gitops', name:'GitOps', domain:'DevOps', parentService:'CI/CD Pipeline',
+   origin:'GitOps was coined by Weaveworks in 2017. It applies Git as the single source of truth for both application code and infrastructure state — triggering deployments via pull requests rather than manual commands.',
+   desc:'GitOps is an operational model where all desired system state is declared in Git. A reconciliation loop (ArgoCD, Flux) continuously compares Git state to actual cluster state and applies diffs. Every change is a PR — auditable, reversible, peer-reviewed.',
+   when:'Kubernetes deployments, infrastructure management, teams wanting full audit trail and self-healing infrastructure.',
+   cost:'ArgoCD and Flux are open source and free. Hosted options (ArgoCD Cloud) start at ~$0.05/resource-hour.',
+   pros:['Full audit trail (Git history = deploy history)','Easy rollback via git revert','Self-healing — drift automatically corrected','PR-based change management'],
+   cons:['Git repo becomes critical infrastructure','Secrets management in Git requires external tools','Learning curve for non-developers on ops team'],
+   tags:['DevOps','Automation','Kubernetes']
+  },
+  {id:'bluegreen', name:'Blue/Green & Canary Deployments', domain:'DevOps', parentService:'CI/CD Pipeline',
+   origin:'Blue/green deployments were described by Martin Fowler in 2010. Canary releases (named after canaries in coal mines) gradually roll out changes. Both are now first-class features of cloud deployment services.',
+   desc:'Blue/green: run two identical environments. Switch traffic instantly from old (blue) to new (green) version. Canary: gradually shift a percentage of traffic to new version (5% → 25% → 100%) while monitoring error rates. Both enable zero-downtime deployments with instant rollback.',
+   when:'Production deployments of any high-traffic service. Canary is preferred for gradual validation; blue/green for instant cutover.',
+   cost:'Blue/green doubles infrastructure costs during deployment window. Canary uses weighted routing (no extra infra).',
+   pros:['Zero-downtime deployments','Instant rollback','Canary catches issues before full rollout'],
+   cons:['Blue/green doubles cost temporarily','Database schema changes complicate both strategies','Requires stateless applications or session stickiness'],
+   tags:['DevOps','Deployment','Reliability']
+  },
+  {id:'observ3', name:'The Three Pillars: Metrics, Logs, Traces', domain:'DevOps', parentService:'Observability & Monitoring',
+   origin:'Peter Bourgon\'s blog post "Metrics, tracing, and logging" (2017) codified the three pillars. OpenTelemetry (2019) unified the collection standards for all three.',
+   desc:'Metrics: numeric time-series data (CPU%, request latency P99, error rate). Logs: timestamped text records of events. Traces: distributed request spans showing how a request flowed through microservices with timing per hop. Together they answer: what happened, why, and where the bottleneck is.',
+   when:'Any production system. Start with metrics + logs (easier). Add distributed tracing when you have 3+ services and can\'t diagnose latency.',
+   cost:'OpenTelemetry SDK is free. Backend storage costs: ~$0.30/GB logs ingested (CloudWatch), ~$0.10/10K traces (X-Ray).',
+   pros:['Systematic approach to debugging','OpenTelemetry is vendor-neutral','Traces eliminate guesswork in microservices'],
+   cons:['Logs are expensive at scale','Trace sampling hides rare issues','Alert fatigue if thresholds poorly set'],
+   tags:['DevOps','Observability','Reliability']
+  },
+  {id:'terraform', name:'Terraform / HCL', domain:'DevOps', parentService:'Infrastructure as Code',
+   origin:'HashiCorp released Terraform in 2014 with HCL (HashiCorp Configuration Language). It became the dominant multi-cloud IaC tool, with OpenTofu (2023) emerging as the open-source fork after HashiCorp changed licensing.',
+   desc:'Terraform uses declarative HCL config files to describe infrastructure. Running `terraform plan` shows what will change; `terraform apply` executes it. State files track what Terraform manages. Providers translate HCL into API calls for 3,000+ cloud and SaaS resources.',
+   when:'Managing cloud infrastructure for any organization. Especially valuable for multi-cloud or when you need reproducible environments.',
+   cost:'Terraform CLI: free. Terraform Cloud: free for up to 500 resources, then $20/user/month.',
+   pros:['Multi-cloud (one tool for AWS, Azure, GCP)','Plan preview before apply','Large provider ecosystem','Drift detection'],
+   cons:['State file is critical and can get corrupted','HCL has quirks and limited loops/conditionals','Slow for large state files'],
+   tags:['DevOps','IaC','Automation']
+  },
+  {id:'helm', name:'Helm (Kubernetes Package Manager)', domain:'DevOps', parentService:'Kubernetes',
+   origin:'Helm was created by Deis in 2015 and donated to CNCF in 2018. It solved the problem of packaging, versioning, and deploying sets of Kubernetes manifests — like apt/yum for Kubernetes.',
+   desc:'Helm packages Kubernetes YAML manifests into versioned "charts." A chart defines a deployable application with configurable values. `helm install` deploys a chart; `helm upgrade` updates it; `helm rollback` reverts. Helm Hub provides thousands of pre-built charts for common software.',
+   when:'Deploying any application on Kubernetes, especially community software (Nginx, Prometheus, databases). Managing multiple environment configurations.',
+   cost:'Free and open source.',
+   pros:['Packages complex multi-manifest apps into one command','Versioned releases with rollback','Reusable across environments with values files'],
+   cons:['Charts can be complex to write','Template logic in YAML is awkward','Helm 2 required Tiller (security issues, now fixed in v3)'],
+   tags:['DevOps','Kubernetes','Packaging']
+  },
+
+  // ── AI/ML ──
+  {id:'gpu', name:'GPU Instances & Accelerators', domain:'AI/ML', parentService:'ML Platform',
+   origin:'NVIDIA CUDA (2007) enabled GPU computing for non-graphics tasks. AWS launched GPU instances in 2010 (CG1 cluster instances). TPUs (Google, 2016) pushed custom AI accelerator hardware into the cloud.',
+   desc:'GPUs (Graphics Processing Units) excel at parallel matrix math — exactly what neural network training requires. Cloud GPU instances provide NVIDIA A100/H100 or Google TPUs without buying hardware. Model training is measured in GPU-hours; larger models need clusters of hundreds of GPUs.',
+   when:'Training deep learning models (anything above simple ML). Inference for large models. Real-time image/video processing.',
+   cost:'NVIDIA T4: ~$0.35–0.53/hour. A100 80GB: ~$3.67/hour. H100 SXM5: ~$6–10/hour. Spot pricing saves 60–70%.',
+   pros:['10–100x faster than CPU for matrix operations','Spot instances greatly reduce training cost','Managed ML platforms handle cluster orchestration'],
+   cons:['Very expensive at scale','GPU availability can be limited','Requires CUDA expertise for custom kernels'],
+   tags:['AI/ML','Compute','Hardware']
+  },
+  {id:'vectordb', name:'Vector Databases & Embeddings', domain:'AI/ML', parentService:'Managed LLM / AI API',
+   origin:'Word2Vec (Google, 2013) popularized embeddings. Pinecone (2019) and pgvector (2021) emerged as AI applications needed efficient similarity search at scale. Became mainstream with the LLM/RAG boom of 2023.',
+   desc:'Embeddings are numerical representations of text, images, or other data in high-dimensional vector space — semantically similar items are geometrically close. Vector databases (Pinecone, Weaviate, pgvector) index these and support ANN (Approximate Nearest Neighbor) search — finding similar items in milliseconds across millions of vectors.',
+   when:'Building RAG (Retrieval Augmented Generation) for LLMs, semantic search, recommendation engines, image similarity search.',
+   cost:'pgvector (open source) runs on your existing PostgreSQL. Pinecone: free tier + $0.096/hour for pods.',
+   pros:['Enables semantic search beyond keyword matching','Essential for RAG architectures','pgvector keeps vectors in your existing DB'],
+   cons:['ANN search trades exactness for speed','Index rebuild time for large collections','Embedding model choice affects quality significantly'],
+   tags:['AI/ML','Database','LLM']
+  },
+  {id:'modelserving', name:'Model Serving & Inference', domain:'AI/ML', parentService:'ML Platform',
+   origin:'TensorFlow Serving (Google, 2016) pioneered production ML model serving. SageMaker endpoints (2017) made it managed. vLLM (2023) dramatically improved LLM inference throughput.',
+   desc:'Model serving exposes trained ML models as REST or gRPC APIs. Key concepts: latency (P50/P99 inference time), throughput (requests/second), batching (amortize GPU cost across multiple requests), and model versioning (A/B test models in production). LLM serving adds concepts like KV cache, tensor parallelism, and speculative decoding.',
+   when:'Productionizing any ML model — moving from notebook to API. Autoscaling inference endpoints match capacity to request volume.',
+   cost:'SageMaker real-time endpoints: ~$0.10–7/hour depending on instance. Serverless inference: $0.20/1M invocations.',
+   pros:['Auto-scaling to match demand','Model A/B testing built in','Blue/green deployment for model updates'],
+   cons:['Cold start latency for serverless inference','GPU instances expensive to keep warm','Batching logic adds complexity'],
+   tags:['AI/ML','API','Deployment']
+  },
+];
+
+// Add building-block concept IDs to each service
+const serviceConceptMap = {
+  'vm': ['hypervisor','autoscaling','ami'],
+  'objstorage': ['s3protocol','replication','lifecycle'],
+  'dns': ['bgp'],
+  'cdn': ['bgp','ssl'],
+  'reldb': ['acidtrans','readsreplica','connectionpool'],
+  'serverless': ['autoscaling','connectionpool'],
+  'containers': ['containerd','helm','bluegreen'],
+  'nosql': ['partitioning','replication'],
+  'lb': ['ssl','bluegreen','autoscaling'],
+  'vpc': ['subnet','secgroup','privatelink'],
+  'cache': ['replication','connectionpool'],
+  'queue': ['replication'],
+  'objectblock': ['iops','replication'],
+  'ml': ['gpu','modelserving'],
+  'llm': ['vectordb','modelserving','gpu'],
+  'datawarehouse': ['partitioning','replication'],
+  'waf': ['ssl','zerotrust'],
+  'iam': ['oauthoidc','zerotrust','kms'],
+  'cicd': ['gitops','bluegreen','terraform'],
+  'monitoring': ['observ3'],
+  'infracod': ['terraform','gitops'],
+  'api': ['ssl','oauthoidc'],
+  'filestorage': ['replication','iops'],
+  'secretmgr': ['kms','oauthoidc'],
+  'datastream': ['partitioning','replication'],
+  'backup': ['replication','lifecycle'],
+};
+
+// Admin/tooling comparison per concept
+const conceptsCompData = [
+  {concept:'Hypervisor / Virtualization', domain:'Compute', parentService:'Virtual Machines',
+   aws:'EC2 Nitro hypervisor. Console, CLI (aws ec2), CloudFormation, AWS CDK',
+   azure:'Hyper-V based. Azure Portal, az CLI, ARM Templates, Bicep',
+   gcp:'KVM-based. Cloud Console, gcloud CLI, Deployment Manager',
+   alibaba:'Apsara hypervisor. Alibaba Cloud Console, Alibaba CLI',
+   ibm:'KVM/PowerVM. IBM Cloud Console, ibmcloud CLI',
+   oracle:'KVM-based. OCI Console, OCI CLI, Resource Manager',
+   do:'KVM-based. DigitalOcean Control Panel, doctl CLI'},
+  {concept:'Container Runtime', domain:'Compute', parentService:'Kubernetes',
+   aws:'EKS uses containerd. ECR for registry. eksctl, kubectl, Helm',
+   azure:'AKS uses containerd. ACR for registry. az aks, kubectl, Helm',
+   gcp:'GKE uses containerd. Artifact Registry. gcloud container, kubectl, Helm',
+   alibaba:'ACK uses containerd. ACR registry. aliyun cs CLI, kubectl',
+   ibm:'IKS / OpenShift (CRI-O). IBM CR. ibmcloud ks, kubectl',
+   oracle:'OKE uses containerd. OCIR registry. oci ce, kubectl',
+   do:'DOKS uses containerd. DOCR registry. doctl, kubectl'},
+  {concept:'Auto-Scaling', domain:'Compute', parentService:'Virtual Machines',
+   aws:'Auto Scaling Groups. Target tracking / step / scheduled policies. CloudWatch metrics',
+   azure:'VMSS (Virtual Machine Scale Sets). Azure Monitor metrics',
+   gcp:'Managed Instance Groups (MIGs). Autoscaler with Cloud Monitoring metrics',
+   alibaba:'Auto Scaling (ESS). CloudMonitor metrics',
+   ibm:'IBM Cloud Auto Scale. Monitoring metrics',
+   oracle:'Instance Pool Autoscaling. OCI Monitoring metrics',
+   do:'App Platform auto-scale. Manual Droplet resize'},
+  {concept:'Machine Image / Snapshot', domain:'Compute', parentService:'Virtual Machines',
+   aws:'AMIs (Amazon Machine Images). EBS Snapshots. AWS Backup, EC2 Image Builder',
+   azure:'Azure Managed Images. Snapshots. Azure Compute Gallery',
+   gcp:'Custom Images. Persistent Disk Snapshots. Image families',
+   alibaba:'Custom Images. Disk Snapshots. Image replication across regions',
+   ibm:'IBM Cloud Custom Images. Volume Snapshots',
+   oracle:'Custom Images. Block Volume Backups. Boot volume backups',
+   do:'Droplet Snapshots. Custom Images. Backups (weekly auto-snapshot)'},
+  {concept:'S3 API Protocol', domain:'Storage', parentService:'Object Storage',
+   aws:'Native S3. aws s3 / aws s3api CLI. S3 SDK (all languages)',
+   azure:'Blob Storage with S3-compatible API via MinIO gateway. az storage CLI',
+   gcp:'Cloud Storage (GCS). JSON & XML APIs. S3 interoperability mode',
+   alibaba:'OSS with S3-compatible API endpoint. ossutil CLI',
+   ibm:'COS with S3-compatible API. ibmcloud cos CLI',
+   oracle:'Object Storage with S3-compatible endpoint. oci os CLI',
+   do:'Spaces (S3-compatible). s3cmd, aws CLI with custom endpoint, doctl'},
+  {concept:'Data Replication & Durability', domain:'Storage', parentService:'Object Storage',
+   aws:'S3 Standard: 3+ AZs. CRR (Cross-Region Replication). S3 Replication console',
+   azure:'LRS/ZRS/GRS/RA-GRS tiers. Storage replication config in Portal',
+   gcp:'Regional / Dual-region / Multi-region storage classes. gsutil rsync',
+   alibaba:'LRS/ZRS/GRS tiers. OSS console replication config',
+   ibm:'Regional / Cross-region tiers. IBM Cloud Console',
+   oracle:'Data Durability 11 nines. Regional replication in OCI console',
+   do:'Spaces: 3× replication within datacenter. No cross-region replication'},
+  {concept:'Storage Lifecycle Policies', domain:'Storage', parentService:'Object Storage',
+   aws:'S3 Lifecycle rules (console or JSON policy). Tiers: S3 → IA → Glacier → Deep Archive',
+   azure:'Azure Blob Lifecycle Management (Portal or ARM). Hot → Cool → Archive tiers',
+   gcp:'Cloud Storage Lifecycle rules (JSON or console). Standard → Nearline → Coldline → Archive',
+   alibaba:'OSS Lifecycle rules. Standard → IA → Archive → Cold Archive',
+   ibm:'Object Storage Lifecycle policies. Standard → Vault → Cold Vault',
+   oracle:'Object Storage Lifecycle policies. Standard → Infrequent Access → Archive',
+   do:'No lifecycle tiers. Manual deletion only'},
+  {concept:'IOPS & Storage Performance', domain:'Storage', parentService:'Block Storage',
+   aws:'EBS: GP3 (configurable IOPS/throughput), IO2 Block Express. CloudWatch Volume metrics',
+   azure:'Premium SSD, Ultra Disk (configurable IOPS). Azure Monitor disk metrics',
+   gcp:'Persistent Disk: Standard/Balanced/SSD/Extreme. Cloud Monitoring IOPS metrics',
+   alibaba:'ESSD (Enterprise SSD) with PL tiers. CloudMonitor disk metrics',
+   ibm:'Block Storage for VPC: tiered IOPS profiles. IBM Cloud Monitoring',
+   oracle:'Block Volume: Balanced/Higher Performance/Ultra High Performance. OCI Monitoring',
+   do:'Block Storage: SSD only (~5000 IOPS). Basic metrics in dashboard'},
+  {concept:'BGP & Anycast', domain:'Networking', parentService:'Managed DNS',
+   aws:'Route 53 anycast DNS. BGP for Direct Connect. Route 53 Resolver',
+   azure:'Azure DNS anycast. BGP for ExpressRoute. Azure Private DNS Resolver',
+   gcp:'Cloud DNS anycast. BGP for Cloud Interconnect. DNS policies',
+   alibaba:'Alibaba DNS anycast network. BGP for Express Connect',
+   ibm:'IBM Cloud DNS with anycast. BGP for Direct Link',
+   oracle:'OCI DNS anycast. BGP for FastConnect',
+   do:'Managed DNS with GeoDNS. No BGP-level control'},
+  {concept:'TLS/SSL & Certificate Management', domain:'Networking', parentService:'Load Balancer',
+   aws:'ACM (free certs, auto-renew). ALB/CloudFront TLS termination. Certificate import for non-ACM',
+   azure:'App Service Managed Certs (free). Key Vault cert storage. Front Door TLS',
+   gcp:'Google-managed SSL certs (free). Certificate Manager. Load Balancer TLS policies',
+   alibaba:'SSL Certificates Service. ALB TLS offload. Auto-renewal for paid certs',
+   ibm:'Secrets Manager for certs. IAD (IBM App Delivery Controller) TLS',
+   oracle:'OCI Certificates service. Load Balancer TLS termination. Let\'s Encrypt integration',
+   do:'Let\'s Encrypt via App Platform (auto). LB TLS. Certificate import for custom certs'},
+  {concept:'Subnets & CIDR', domain:'Networking', parentService:'Virtual Private Cloud',
+   aws:'VPC subnets. Subnet routing tables. VPC Wizard or CLI/CDK',
+   azure:'VNet subnets. Azure Portal, az network vnet subnet CLI',
+   gcp:'VPC subnets (auto or custom mode). gcloud compute networks CLI',
+   alibaba:'VPC VSwitches. Alibaba Cloud Console, Terraform provider',
+   ibm:'VPC Subnets. ibmcloud is subnet CLI',
+   oracle:'VCN Subnets (public/private). OCI Console, Terraform OCI provider',
+   do:'VPC subnets. doctl compute domain. Network CIDR via Console'},
+  {concept:'Security Groups & Network ACLs', domain:'Networking', parentService:'Virtual Private Cloud',
+   aws:'Security Groups (stateful, per-instance). NACLs (stateless, per-subnet). VPC Flow Logs',
+   azure:'NSGs (Network Security Groups). Application Security Groups. NSG Flow Logs',
+   gcp:'VPC Firewall Rules. Hierarchical firewall policies. VPC Flow Logs',
+   alibaba:'Security Groups. Network ACLs. VPC Flow Logs',
+   ibm:'VPC Security Groups. Network ACLs. Flow Log Collectors',
+   oracle:'Security Lists + Network Security Groups. VCN Flow Logs',
+   do:'Cloud Firewalls (inbound/outbound rules). VPC firewall rules'},
+  {concept:'Private Connectivity', domain:'Networking', parentService:'Virtual Private Cloud',
+   aws:'VPN Gateway, Direct Connect, Transit Gateway, AWS PrivateLink, VPC Peering',
+   azure:'VPN Gateway, ExpressRoute, Azure Private Link, VNet Peering',
+   gcp:'Cloud VPN, Cloud Interconnect, Private Service Connect, VPC Peering',
+   alibaba:'VPN Gateway, Express Connect, Private Link, VPC Peering',
+   ibm:'VPN for VPC, Direct Link, Transit Gateway, Private Service Endpoints',
+   oracle:'VPN Connect, FastConnect, OCI Private Access Gateway, Local/Remote Peering',
+   do:'VPC Peering. No dedicated interconnect. Partner solutions for private links'},
+  {concept:'ACID Transactions', domain:'Database', parentService:'Managed Relational DB',
+   aws:'RDS (MySQL/PostgreSQL/Oracle/MSSQL). Aurora (MySQL/PostgreSQL compatible)',
+   azure:'Azure SQL Database, Azure Database for PostgreSQL/MySQL',
+   gcp:'Cloud SQL (MySQL/PostgreSQL/SQL Server). AlloyDB (PostgreSQL-compatible)',
+   alibaba:'ApsaraDB RDS (MySQL/PostgreSQL/MSSQL/Oracle)',
+   ibm:'IBM Db2 on Cloud. IBM Cloud Databases for PostgreSQL/MySQL',
+   oracle:'Oracle Autonomous Database, Base Database Service, MySQL HeatWave',
+   do:'Managed Databases (PostgreSQL, MySQL, Redis)'},
+  {concept:'Read Replicas & Replication', domain:'Database', parentService:'Managed Relational DB',
+   aws:'RDS Read Replicas (async). Multi-AZ (sync, failover). Aurora Global DB (cross-region)',
+   azure:'Read Replicas for PostgreSQL/MySQL. Active Geo-Replication for Azure SQL',
+   gcp:'Cloud SQL Read Replicas. AlloyDB Read Pools. Cross-region replicas',
+   alibaba:'ApsaraDB RDS Read-only instances. Cross-region disaster recovery',
+   ibm:'Db2 HADR replication. Read-only standby. IBM Cloud Databases replicas',
+   oracle:'Autonomous DB Data Guard. Standby DBs. Read Replicas for MySQL HeatWave',
+   do:'PostgreSQL/MySQL standby nodes. Automated failover. No cross-region replica'},
+  {concept:'Connection Pooling', domain:'Database', parentService:'Managed Relational DB',
+   aws:'RDS Proxy (PgBouncer-based). Supports MySQL/PostgreSQL/MariaDB/MSSQL',
+   azure:'Azure Database connection pooling (PgBouncer for flexible PostgreSQL)',
+   gcp:'Cloud SQL Proxy (IAM-based connection manager). AlloyDB Auth Proxy',
+   alibaba:'ApsaraDB PolarProxy (connection pooling built into PolarDB)',
+   ibm:'IBM Cloud Databases connection limits. External PgBouncer on customer side',
+   oracle:'Universal Connection Pool (UCP) for Oracle. ProxySQL for MySQL HeatWave',
+   do:'PgBouncer built into Managed PostgreSQL (connection-mode pooling)'},
+  {concept:'Sharding & Partitioning', domain:'Database', parentService:'NoSQL Database',
+   aws:'DynamoDB auto-partitioning by partition key. DAX for caching',
+   azure:'Cosmos DB partition key design. Automatic partitioning. Request Units (RU)',
+   gcp:'Bigtable row key design. Firestore collection partitioning. Spanner sharding',
+   alibaba:'Table Store partition key. PolarDB-X distributed sharding',
+   ibm:'Cloudant partitioned queries. IBM Db2 range partitioning',
+   oracle:'Oracle NoSQL shard management. Oracle Autonomous DB automatic partitioning',
+   do:'No managed NoSQL. Use self-hosted MongoDB/Redis on Droplet'},
+  {concept:'Zero Trust Security', domain:'Security', parentService:'IAM',
+   aws:'AWS Organizations SCPs. IAM Conditions. VPC endpoint policies. AWS Verified Access',
+   azure:'Azure AD Conditional Access. PIM (Privileged Identity Management). Entra ID',
+   gcp:'BeyondCorp Enterprise (Google\'s native zero trust). Context-aware access',
+   alibaba:'RAM with resource groups. Cloud SSO. Zero Trust Network Access',
+   ibm:'IBM Security Verify. Context-based access. IBM Zero Trust principles',
+   oracle:'OCI Zero Trust Packet Routing. Cloud Guard. Oracle Access Management',
+   do:'Basic Teams/RBAC. Recommend third-party IdP for zero trust'},
+  {concept:'KMS & Encryption', domain:'Security', parentService:'Secrets Management',
+   aws:'AWS KMS (FIPS 140-2 L3). CloudHSM for dedicated HSM. Envelope encryption default',
+   azure:'Azure Key Vault (keys/secrets/certs). Dedicated HSM. Customer-Managed Keys (CMK)',
+   gcp:'Cloud KMS. Cloud HSM (FIPS 140-2 L3). CSEK (Customer-Supplied Encryption Keys)',
+   alibaba:'Alibaba KMS. HSM service. Alibaba Key Pair service',
+   ibm:'IBM Key Protect. Hyper Protect Crypto Services (FIPS 140-2 L4 — highest in cloud)',
+   oracle:'OCI Vault (KMS). Dedicated KMS. External KMS (Thales, Fortanix) support',
+   do:'Volume/Spaces encryption with provider-managed keys. No customer-managed KMS'},
+  {concept:'OAuth 2.0 & OIDC', domain:'Security', parentService:'IAM',
+   aws:'Amazon Cognito (user pools + identity pools). IAM Identity Center (SSO). OIDC federation',
+   azure:'Azure AD / Entra ID. B2C for customer-facing auth. MSAL SDK',
+   gcp:'Identity Platform (Firebase Auth). Cloud Identity. Workforce Identity Federation',
+   alibaba:'Alibaba Cloud IDaaS. RAM OIDC federation. Alibaba Cloud SSO',
+   ibm:'IBM App ID. IBM Security Verify. OIDC/SAML federation',
+   oracle:'Oracle IDCS. OCI IAM with identity domains. OIDC/SAML support',
+   do:'No built-in IdP. Recommend Auth0/Okta. GitHub/Google OAuth for console login'},
+  {concept:'GitOps', domain:'DevOps', parentService:'CI/CD Pipeline',
+   aws:'AWS CodePipeline + CodeBuild. EKS + Flux/ArgoCD. Proton for environment templates',
+   azure:'Azure DevOps + GitOps with Flux (Arc-enabled clusters). GitHub Actions + AKS',
+   gcp:'Cloud Deploy + Cloud Build. Anthos Config Management (GitOps for GKE)',
+   alibaba:'EDAS GitOps support. ACK + Flux. Alibaba DevOps pipeline',
+   ibm:'OpenShift GitOps (ArgoCD-based, Red Hat). IBM Toolchain + Tekton',
+   oracle:'OCI DevOps + GitOps. OKE + Flux/ArgoCD',
+   do:'App Platform Git-based deploys. DOKS + self-managed ArgoCD/Flux'},
+  {concept:'Blue/Green & Canary', domain:'DevOps', parentService:'CI/CD Pipeline',
+   aws:'CodeDeploy (blue/green for EC2/ECS/Lambda). ALB weighted target groups for canary',
+   azure:'Azure App Service deployment slots. Azure Pipelines canary strategy. Traffic split',
+   gcp:'Cloud Deploy canary strategy. Cloud Run traffic splitting. GKE rolling updates',
+   alibaba:'EDAS canary release. ALB weighted routing. ACK rolling/canary update',
+   ibm:'IBM Cloud Code Engine traffic splitting. OpenShift Argo Rollouts',
+   oracle:'OCI DevOps blue/green and canary deployment pipelines',
+   do:'App Platform deployment strategies (rolling). Manual via LB weighted rules'},
+  {concept:'Three Pillars: Metrics/Logs/Traces', domain:'DevOps', parentService:'Observability & Monitoring',
+   aws:'CloudWatch (metrics+logs). X-Ray (traces). OpenTelemetry Collector. CloudWatch Dashboards',
+   azure:'Azure Monitor (metrics+logs). Application Insights (APM+traces). Log Analytics Workspace',
+   gcp:'Cloud Monitoring (metrics). Cloud Logging. Cloud Trace. Google-managed Prometheus',
+   alibaba:'Cloud Monitor (metrics). Log Service (SLS). ARMS (APM+traces)',
+   ibm:'IBM Instana (full-stack APM). IBM Log Analysis. IBM Cloud Monitoring (Sysdig)',
+   oracle:'OCI Monitoring (metrics). OCI Logging. APM + Trace Explorer',
+   do:'Basic Monitoring (metrics). No built-in log management or tracing. Use Grafana/Loki/Tempo'},
+  {concept:'Terraform / HCL', domain:'DevOps', parentService:'Infrastructure as Code',
+   aws:'CloudFormation (native, JSON/YAML). CDK (TypeScript/Python/Java). Terraform AWS provider',
+   azure:'ARM Templates / Bicep (native). Terraform AzureRM provider. Pulumi Azure provider',
+   gcp:'Deployment Manager (YAML, native). Terraform Google provider. Config Connector (k8s-based)',
+   alibaba:'ROS (Resource Orchestration Service). Terraform Alibaba provider',
+   ibm:'IBM Cloud Schematics (Terraform-as-a-service). Terraform IBM provider',
+   oracle:'OCI Resource Manager (Terraform-as-a-service). Terraform OCI provider',
+   do:'No native IaC. Terraform DigitalOcean provider. Pulumi DO provider'},
+  {concept:'Helm (Kubernetes)', domain:'DevOps', parentService:'Kubernetes',
+   aws:'EKS supports Helm. EKS Add-ons (Helm under the hood). AWS App Mesh Helm charts',
+   azure:'AKS supports Helm. Azure Marketplace Helm charts. Flux Helm Controller',
+   gcp:'GKE supports Helm. GKE Add-ons. Config Connector as Helm alternative',
+   alibaba:'ACK supports Helm. Alibaba Cloud App Catalog (Helm charts)',
+   ibm:'IKS/OpenShift supports Helm. Red Hat OperatorHub as alternative',
+   oracle:'OKE supports Helm. Oracle Helm charts for Oracle software',
+   do:'DOKS supports Helm. DigitalOcean Marketplace (1-click Helm installs)'},
+  {concept:'GPU Instances & Accelerators', domain:'AI/ML', parentService:'ML Platform',
+   aws:'P4/P5 (A100/H100). G5 (A10G). Inf2 (Inferentia). EC2 UltraClusters for LLM training',
+   azure:'NC-series (A100). ND-series (H100). Azure AI infrastructure. NDv5 for LLM',
+   gcp:'A2/A3 (A100/H100). TPU v4/v5 (unique to GCP). Cloud TPU Pods for LLM training',
+   alibaba:'GPU instances (A100/V100/T4). Lingjun GPU cluster (high-speed interconnect)',
+   ibm:'GPU instances (V100/A100). IBM Power-based AI accelerators',
+   oracle:'GPU instances (A100/H100). OCI Supercluster (RDMA networking, up to 65k GPUs)',
+   do:'GPU Droplets (H100). Limited GPU regions. Good for inference workloads'},
+  {concept:'Vector Databases & Embeddings', domain:'AI/ML', parentService:'Managed LLM / AI API',
+   aws:'Aurora PostgreSQL + pgvector. OpenSearch k-NN. Bedrock Knowledge Bases',
+   azure:'Azure AI Search (vector store). Cosmos DB vector search. pgvector on PostgreSQL',
+   gcp:'Vertex AI Vector Search (ANN Service). AlloyDB pgvector. Spanner vector search',
+   alibaba:'OpenSearch Vector. AnalyticDB for PostgreSQL + pgvector',
+   ibm:'Watson Discovery (vector search). Milvus on IBM Cloud',
+   oracle:'Oracle Database 23ai (native vector). AI Vector Search. pgvector',
+   do:'Managed PostgreSQL + pgvector. Self-hosted Qdrant/Weaviate on Droplets'},
+  {concept:'Model Serving & Inference', domain:'AI/ML', parentService:'ML Platform',
+   aws:'SageMaker Real-time/Async/Serverless Endpoints. Bedrock for managed LLMs',
+   azure:'Azure ML Online Endpoints. Azure OpenAI Service. Azure AI Foundry',
+   gcp:'Vertex AI Prediction (online/batch). Model Registry. Vertex AI Gemini API',
+   alibaba:'PAI-EAS (Elastic Algorithm Service). Tongyi model serving',
+   ibm:'Watson Machine Learning deployment spaces. watsonx.ai model serving',
+   oracle:'OCI Data Science Model Deployment. OCI Generative AI (served LLMs)',
+   do:'No managed model serving. Use GPU Droplets with custom serving (vLLM, Triton)'},
+];
+
+// ===================== STATE =====================
+let currentLang = 'en';
+let currentTheme = 'dark';
+let servicesComplexityFilter = 'all';
+let servicesCategoryFilter = 'all';
+let compCategoryFilter = 'all';
+let conceptsDomainFilter = 'all';
+let conceptsCompDomainFilter = 'all';
+
+// ===================== RENDER =====================
+
+function renderProviderCards() {
+  const grid = document.getElementById('providerGrid');
+  grid.innerHTML = providers.map(p => `
+    <div class="provider-card" onclick="showProviderDetail('${p.id}')">
+      <div class="provider-header">
+        <div class="provider-logo ${p.badge}" style="font-size:20px;">${p.logo}</div>
+        <div>
+          <div class="provider-name">${p.name}</div>
+          <div class="provider-tagline">${p.tagline}</div>
+        </div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-item"><div class="meta-label">Founded</div><div class="meta-value">${p.founded}</div></div>
+        <div class="meta-item"><div class="meta-label">Origin</div><div class="meta-value">${p.origin}</div></div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-item"><div class="meta-label">Revenue</div><div class="meta-value" style="font-size:12px">${p.revenue}</div></div>
+        <div class="meta-item"><div class="meta-label">Users</div><div class="meta-value" style="font-size:12px">${typeof p.marketShare === 'number' ? p.marketShare+'%' : p.marketShare}</div></div>
+      </div>
+      ${typeof p.marketShare === 'number' ? `
+      <div class="share-bar"><div class="share-fill" style="width:${p.marketShare*2}%; background: ${p.color};"></div></div>
+      <div class="share-label">~${p.marketShare}% cloud market share</div>` : ''}
+      <div class="tag-list">${p.categories.slice(0,5).map(c=>`<span class="tag">${c}</span>`).join('')}</div>
+    </div>
+  `).join('');
+}
+
+function renderProviderTable() {
+  const tbody = document.getElementById('providerTableBody');
+  tbody.innerHTML = providers.map(p => `
+    <tr>
+      <td><strong>${p.short}</strong><br><span style="font-size:11px;color:var(--text3)">${p.name}</span></td>
+      <td>${p.founded}</td>
+      <td>${typeof p.marketShare === 'number' ? p.marketShare+'%' : p.marketShare}</td>
+      <td style="font-size:12px">${tv(p,'target')}</td>
+      <td style="font-size:12px;color:var(--accent)">${tv(p,'strengths')}</td>
+      <td><div class="tag-list">${p.categories.slice(0,4).map(c=>`<span class="tag">${c}</span>`).join('')}</div></td>
+      <td style="font-size:12px;color:var(--green)">${tv(p,'bestFor')}</td>
+    </tr>
+  `).join('');
+}
+
+function renderServiceCards() {
+  const grid = document.getElementById('serviceGrid');
+  const filtered = services.filter(s => {
+    const cMatch = servicesComplexityFilter === 'all' || s.complexity === servicesComplexityFilter;
+    const catMatch = servicesCategoryFilter === 'all' || s.category === servicesCategoryFilter;
+    return cMatch && catMatch;
+  });
+  const noRes = document.getElementById('noResults');
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noRes.style.display = 'block';
+    return;
+  }
+  noRes.style.display = 'none';
+  grid.innerHTML = filtered.map(s => `
+    <div class="service-card" onclick="showServiceDetail('${s.id}')">
+      <div class="service-card-header">
+        <div class="service-name">${s.name}</div>
+        <span class="complexity-badge complexity-${s.complexity.toLowerCase()}">${s.complexity}</span>
+      </div>
+      <div class="service-category">${s.category}</div>
+      <div class="service-desc">${s.desc.substring(0, 120)}…</div>
+      <div class="service-meta">
+        <div class="service-meta-item"><strong>Cost:</strong> ${s.cost.split('.')[0].substring(0,30)}…</div>
+        ${s.tags.map(t=>`<div class="service-meta-item">${t}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCompTable() {
+  const tbody = document.getElementById('compTableBody');
+  const filtered = compCategoryFilter === 'all' ? compData : compData.filter(r => r.category === compCategoryFilter);
+  tbody.innerHTML = filtered.map(row => `
+    <tr>
+      <td class="row-header">${row.service}</td>
+      <td><span class="category-chip" style="background:var(--bg4);color:var(--text2)">${row.category}</span></td>
+      <td class="${row.aws === '—' ? 'not-available' : 'available provider-col'}">${row.aws}</td>
+      <td class="${row.azure === '—' ? 'not-available' : 'available provider-col'}">${row.azure}</td>
+      <td class="${row.gcp === '—' ? 'not-available' : 'available provider-col'}">${row.gcp}</td>
+      <td class="${row.alibaba === '—' ? 'not-available' : 'available provider-col'}">${row.alibaba}</td>
+      <td class="${row.ibm === '—' ? 'not-available' : 'available provider-col'}">${row.ibm}</td>
+      <td class="${row.oracle === '—' ? 'not-available' : 'available provider-col'}">${row.oracle}</td>
+      <td class="${row.salesforce === '—' ? 'not-available' : 'available provider-col'}">${row.salesforce}</td>
+      <td class="${row.do === '—' ? 'not-available' : 'available provider-col'}">${row.do}</td>
+    </tr>
+  `).join('');
+}
+
+function renderShareChart() {
+  const container = document.getElementById('shareChart');
+  const data = providers.filter(p => typeof p.marketShare === 'number');
+  const colors = ['#f6ad55','#63b3ed','#7ecef6','#fc8181','#b794f4','#f6ad55','#4fd1c5','#90cdf4'];
+  const max = 35;
+  container.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;">` +
+    data.map((p,i) => `
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="min-width:70px;font-size:12px;font-weight:500;color:var(--text2)">${p.short}</div>
+        <div style="flex:1;background:var(--bg3);border-radius:3px;height:24px;overflow:hidden;position:relative;">
+          <div style="height:100%;width:${(p.marketShare/max)*100}%;background:${colors[i]};border-radius:3px;display:flex;align-items:center;padding:0 8px;transition:width 1s ease;">
+            <span style="font-size:11px;font-weight:600;color:${currentTheme==='dark'?'#0a0e1a':'#fff'}">${p.marketShare}%</span>
+          </div>
+        </div>
+        <div style="min-width:80px;font-size:11px;color:var(--text3)">${p.revenue.split('(')[0].trim()}</div>
+      </div>
+    `).join('') + `</div>`;
+}
+
+function renderConcepts() {
+  const grid = document.getElementById('conceptsGrid');
+  const noRes = document.getElementById('conceptsNoResults');
+  const filtered = conceptsDomainFilter === 'all' ? concepts : concepts.filter(c => c.domain === conceptsDomainFilter);
+  if (filtered.length === 0) { grid.innerHTML = ''; noRes.style.display = 'block'; return; }
+  noRes.style.display = 'none';
+  grid.innerHTML = filtered.map(c => `
+    <div class="service-card" onclick="showConceptDetail('${c.id}')">
+      <div class="service-card-header">
+        <div class="service-name">${c.name}</div>
+        <span class="complexity-badge" style="background:rgba(183,148,244,0.15);color:var(--purple);font-size:10px;padding:2px 8px;border-radius:100px">${c.domain}</span>
+      </div>
+      <div class="service-category" style="color:var(--teal)">Used by: ${c.parentService}</div>
+      <div class="service-desc">${c.desc.substring(0,120)}…</div>
+      <div class="service-meta">
+        ${c.tags.map(t=>`<div class="service-meta-item">${t}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderConceptsComp() {
+  const tbody = document.getElementById('conceptsCompBody');
+  const filtered = conceptsCompDomainFilter === 'all' ? conceptsCompData : conceptsCompData.filter(r => r.domain === conceptsCompDomainFilter);
+  tbody.innerHTML = filtered.map(row => `
+    <tr>
+      <td class="row-header" style="cursor:pointer;color:var(--accent)" onclick="showConceptDetail('${concepts.find(c=>c.name===row.concept)?.id||''}')">${row.concept}</td>
+      <td><span class="category-chip" style="background:var(--bg4);color:var(--text2)">${row.domain}</span></td>
+      <td style="font-size:11px;color:var(--teal)">${row.parentService}</td>
+      <td class="provider-col">${row.aws}</td>
+      <td class="provider-col">${row.azure}</td>
+      <td class="provider-col">${row.gcp}</td>
+      <td class="provider-col">${row.alibaba}</td>
+      <td class="provider-col">${row.ibm}</td>
+      <td class="provider-col">${row.oracle}</td>
+      <td class="provider-col">${row.do}</td>
+    </tr>
+  `).join('');
+}
+
+function filterConcepts(val) {
+  conceptsDomainFilter = val;
+  document.querySelectorAll('#conceptsFilterBar .filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#conceptsFilterBar .filter-btn').forEach(b => {
+    if ((b.getAttribute('onclick')||'').includes(`'${val}'`)) b.classList.add('active');
+  });
+  renderConcepts();
+}
+
+function filterConceptsComp(val) {
+  conceptsCompDomainFilter = val;
+  document.querySelectorAll('#conceptsCompFilterBar .filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#conceptsCompFilterBar .filter-btn').forEach(b => {
+    if ((b.getAttribute('onclick')||'').includes(`'${val}'`)) b.classList.add('active');
+  });
+  renderConceptsComp();
+}
+
+function showConceptDetail(id) {
+  if (!id) return;
+  const c = concepts.find(x => x.id === id);
+  if (!c) return;
+  const compRow = conceptsCompData.find(r => r.concept === c.name);
+  const panel = document.getElementById('detailContent');
+  panel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem">
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;margin-bottom:4px">${tv(c,'name')||c.name}</div>
+        <div style="font-size:12px;color:var(--teal)">${tl('Used by:')} ${c.parentService}</div>
+      </div>
+      <span style="background:rgba(183,148,244,0.15);color:var(--purple);font-size:12px;padding:4px 12px;border-radius:100px;font-weight:500">${c.domain}</span>
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--purple);font-weight:600;margin-bottom:4px">${tl('ORIGIN')}</div>
+      <div style="font-size:12.5px;color:var(--text2)">${tv(c,'origin')||c.origin}</div>
+    </div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">${tv(c,'desc')||c.desc}</p>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--yellow);font-weight:600;margin-bottom:4px">${tl('WHEN TO USE')}</div>
+      <div style="font-size:12.5px;color:var(--text2)">${tv(c,'when')||c.when}</div>
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--orange);font-weight:600;margin-bottom:4px">${tl('COST ESTIMATE')}</div>
+      <div style="font-size:12.5px;color:var(--text2)">${tv(c,'cost')||c.cost}</div>
+    </div>
+    <div class="pros-cons">
+      <div class="pros"><div class="pros-title">${tl('PROS')}</div><ul>${(tv(c,'pros')||c.pros).map(p=>`<li>${p}</li>`).join('')}</ul></div>
+      <div class="cons"><div class="cons-title">${tl('CONS')}</div><ul>${(tv(c,'cons')||c.cons).map(con=>`<li>${con}</li>`).join('')}</ul></div>
+    </div>
+    ${compRow ? `
+    <div style="margin-top:1rem">
+      <div style="font-size:11px;color:var(--text3);font-weight:600;margin-bottom:8px">${tl('PROVIDER ADMIN & TOOLING')}</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        ${[['AWS',compRow.aws,'badge-aws'],['Azure',compRow.azure,'badge-azure'],['GCP',compRow.gcp,'badge-gcp'],['Alibaba',compRow.alibaba,'badge-alibaba'],['IBM',compRow.ibm,'badge-ibm'],['Oracle',compRow.oracle,'badge-oracle'],['DigitalOcean',compRow.do,'badge-do']].map(([n,v,cls])=>`
+          <div style="padding:6px 8px;background:var(--bg3);border-radius:5px">
+            <span class="category-chip ${cls}" style="font-size:11px;margin-right:8px">${n}</span>
+            <span style="font-size:12px;color:var(--text2)">${v}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>` : ''}
+  `;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+// ===================== DETAIL PANELS =====================
+
+function showProviderDetail(id) {
+  const p = providers.find(x => x.id === id);
+  if (!p) return;
+  const panel = document.getElementById('detailContent');
+  panel.innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.5rem;">
+      <div class="provider-logo ${p.badge}" style="width:52px;height:52px;font-size:24px;">${p.logo}</div>
+      <div>
+        <div style="font-size:1.2rem;font-weight:700">${p.name}</div>
+        <div style="font-size:13px;color:var(--text3)">${tv(p,'tagline')}</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem">${tv(p,'description')||p.description}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem">
+      ${[['Founded',p.founded],['Origin',p.origin],['Parent',p.parent],['Revenue',p.revenue],['Market Share',typeof p.marketShare==='number'?p.marketShare+'%':p.marketShare],['Customers',p.users]].map(([k,v])=>`
+        <div class="meta-item"><div class="meta-label">${k}</div><div class="meta-value" style="font-size:13px">${v}</div></div>
+      `).join('')}
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:10px">
+      <div style="font-size:11px;color:var(--accent);font-weight:600;margin-bottom:4px">${tl('STRATEGY')}</div>
+      <div style="font-size:13px;color:var(--text2)">${tv(p,'strategy')||p.strategy}</div>
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:10px">
+      <div style="font-size:11px;color:var(--green);font-weight:600;margin-bottom:4px">${tl('BEST FOR')}</div>
+      <div style="font-size:13px;color:var(--text2)">${tv(p,'bestFor')||p.bestFor}</div>
+    </div>
+    <div><div style="font-size:11px;color:var(--text3);font-weight:600;margin-bottom:6px">${tl('SERVICE CATEGORIES')}</div>
+    <div class="tag-list">${p.categories.map(c=>`<span class="tag">${c}</span>`).join('')}</div></div>
+  `;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function showServiceDetail(id) {
+  const s = services.find(x => x.id === id);
+  if (!s) return;
+  const comp = compData.find(c => c.service === s.name);
+  const panel = document.getElementById('detailContent');
+  panel.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem">
+      <div>
+        <div style="font-size:1.1rem;font-weight:700;margin-bottom:4px">${tv(s,'name')||s.name}</div>
+        <div style="font-size:12px;color:var(--accent)">${s.category}</div>
+      </div>
+      <span class="complexity-badge complexity-${s.complexity.toLowerCase()}" style="font-size:12px;padding:4px 12px">${s.complexity}</span>
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--purple);font-weight:600;margin-bottom:4px">${tl('ORIGIN')}</div>
+      <div style="font-size:12.5px;color:var(--text2)">${tv(s,'origin')||s.origin}</div>
+    </div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">${tv(s,'desc')||s.desc}</p>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--yellow);font-weight:600;margin-bottom:4px">${tl('WHEN TO USE')}</div>
+      <div style="font-size:12.5px;color:var(--text2)">${tv(s,'when')||s.when}</div>
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius);padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;color:var(--orange);font-weight:600;margin-bottom:4px">${tl('COST ESTIMATE')}</div>
+      <div style="font-size:12.5px;color:var(--text2)">${tv(s,'cost')||s.cost}</div>
+    </div>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="pros-title">${tl('PROS')}</div>
+        <ul>${(tv(s,'pros')||s.pros).map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>
+      <div class="cons">
+        <div class="cons-title">${tl('CONS')}</div>
+        <ul>${(tv(s,'cons')||s.cons).map(c=>`<li>${c}</li>`).join('')}</ul>
+      </div>
+    </div>
+    ${comp ? `
+    <div style="margin-top:1rem">
+      <div style="font-size:11px;color:var(--text3);font-weight:600;margin-bottom:8px">${tl('PROVIDER-SPECIFIC NAMES')}</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        ${[['AWS',comp.aws,'badge-aws'],['Azure',comp.azure,'badge-azure'],['GCP',comp.gcp,'badge-gcp'],['Alibaba',comp.alibaba,'badge-alibaba'],['IBM',comp.ibm,'badge-ibm'],['Oracle',comp.oracle,'badge-oracle'],['Salesforce',comp.salesforce,'badge-salesforce'],['DigitalOcean',comp.do,'badge-do']].map(([n,v,cls])=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:var(--bg3);border-radius:5px">
+            <span class="category-chip ${cls}" style="font-size:11px">${n}</span>
+            <span style="font-size:12px;color:${v==='—'?'var(--text3)':'var(--text)'}">${v}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>` : ''}
+    ${(serviceConceptMap[s.id]||[]).length > 0 ? `
+    <div style="margin-top:1rem">
+      <div style="font-size:11px;color:var(--text3);font-weight:600;margin-bottom:8px">${tl('BUILDING-BLOCK CONCEPTS & TOOLS')}</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        ${(serviceConceptMap[s.id]||[]).map(cid => {
+          const c = concepts.find(x => x.id === cid);
+          if (!c) return '';
+          return `<div style="background:var(--bg3);border-radius:var(--radius);padding:10px;cursor:pointer" onclick="closeDetail();setTimeout(()=>showConceptDetail('${c.id}'),50)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:600;color:var(--accent)">${tv(c,'name')||c.name}</span>
+              <span style="font-size:10px;background:rgba(183,148,244,0.15);color:var(--purple);padding:2px 8px;border-radius:100px">${c.domain}</span>
+            </div>
+            <div style="font-size:12px;color:var(--text2)">${(tv(c,'desc')||c.desc).substring(0,100)}… <span style="color:var(--accent)">${tl('→ details')}</span></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : ''}
+  `;
+  document.getElementById('detailOverlay').classList.add('open');
+}
+
+function closeDetail(e) {
+  if (!e || e.target === document.getElementById('detailOverlay')) {
+    document.getElementById('detailOverlay').classList.remove('open');
+  }
+}
+
+// ===================== CONTROLS =====================
+
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+function filterServices(val, type) {
+  if (type === 'complexity') {
+    servicesComplexityFilter = val;
+    document.querySelectorAll('.filter-bar .filter-btn').forEach(b => {
+      const txt = b.textContent.trim();
+      if (val === 'all' && (txt === 'All' || b.getAttribute('data-en') === 'All') && b.onclick.toString().includes('complexity')) b.classList.add('active');
+      else if (b.onclick.toString().includes(`'${val}','complexity'`)) b.classList.add('active');
+      else if (b.onclick.toString().includes('complexity')) b.classList.remove('active');
+    });
+  } else {
+    servicesCategoryFilter = val;
+  }
+  // simpler reset
+  document.querySelectorAll('#section-services .filter-btn').forEach(b => b.classList.remove('active'));
+  // re-activate correct ones
+  document.querySelectorAll('#section-services .filter-btn').forEach(b => {
+    const fn = b.getAttribute('onclick') || '';
+    if (fn.includes("'"+servicesComplexityFilter+"','complexity'") || 
+        (servicesComplexityFilter==='all' && fn.includes("'all','complexity'"))) b.classList.add('active');
+    if (fn.includes("'"+servicesCategoryFilter+"','category'") || 
+        (servicesCategoryFilter==='all' && fn.includes("'all','category'"))) b.classList.add('active');
+  });
+  renderServiceCards();
+}
+
+function filterComp(val) {
+  compCategoryFilter = val;
+  document.querySelectorAll('#compFilterBar .filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#compFilterBar .filter-btn').forEach(b => {
+    if ((b.getAttribute('onclick')||'').includes(`'${val}'`)) b.classList.add('active');
+  });
+  renderCompTable();
+}
+
+// ===================== VIETNAMESE TRANSLATIONS =====================
+const viTrans = {
+  'ORIGIN':'NGUỒN GỐC','WHEN TO USE':'KHI NÀO DÙNG','COST ESTIMATE':'ƯỚC TÍNH CHI PHÍ',
+  'PROS':'ƯU ĐIỂM','CONS':'NHƯỢC ĐIỂM','STRATEGY':'CHIẾN LƯỢC','BEST FOR':'PHÙ HỢP NHẤT',
+  'SERVICE CATEGORIES':'DANH MỤC DỊCH VỤ','PROVIDER-SPECIFIC NAMES':'TÊN THEO NHÀ CUNG CẤP',
+  'BUILDING-BLOCK CONCEPTS & TOOLS':'KHÁI NIỆM & CÔNG CỤ NỀN TẢNG',
+  'PROVIDER ADMIN & TOOLING':'QUẢN TRỊ & CÔNG CỤ THEO NHÀ CUNG CẤP',
+  'Used by:':'Dùng bởi:','→ details':'→ chi tiết',
+  'Founded':'Thành lập','Revenue':'Doanh thu','Market Share':'Thị phần','Customers':'Khách hàng',
+};
+
+const viData = {
+  providers: {
+    aws:{ tagline:'Người tiên phong và dẫn đầu thị trường', target:'Doanh nghiệp, startup, chính phủ, mọi phân khúc', strategy:'Danh mục dịch vụ rộng nhất, lợi thế người đi trước, thâm nhập sâu doanh nghiệp, nhiều tầng giá', strengths:'Phạm vi dịch vụ rộng nhất, hệ sinh thái lớn nhất, nhiều vùng toàn cầu', bestFor:'Mọi quy mô — từ startup đến Fortune 500', description:'AWS ra mắt năm 2006 với S3 và EC2, tiên phong đám mây hiện đại. Vẫn dẫn đầu thị trường với hơn 200 dịch vụ đầy đủ tính năng trong mọi lĩnh vực điện toán.' },
+    azure:{ tagline:'Lựa chọn hàng đầu doanh nghiệp với hệ sinh thái Microsoft', target:'Doanh nghiệp, đám mây lai, tổ chức dùng Microsoft', strategy:'Tích hợp sâu Microsoft (Office 365, Teams, Windows), dẫn đầu đám mây lai, hợp đồng doanh nghiệp', strengths:'Active Directory, đám mây lai, chứng chỉ tuân thủ, SLA doanh nghiệp', bestFor:'Các công ty đã sử dụng sản phẩm Microsoft', description:'Azure ra mắt năm 2010 và nhanh chóng trở thành nhà cung cấp lớn thứ hai nhờ tích hợp với lượng khách hàng doanh nghiệp Microsoft khổng lồ.' },
+    gcp:{ tagline:'Dữ liệu lớn, AI và Kubernetes bản địa', target:'Công ty hướng dữ liệu, nhóm AI/ML, startup', strategy:'Dẫn đầu AI/ML, phân tích dữ liệu, Kubernetes (Google phát minh), mã nguồn mở, giá cạnh tranh', strengths:'Công cụ AI/ML, BigQuery, Kubernetes, hạ tầng mạng, phân tích dữ liệu', bestFor:'Nhóm dữ liệu, khối lượng AI/ML, công ty dùng dịch vụ Google', description:'Google Cloud tận dụng hạ tầng khổng lồ và nghiên cứu AI của Google để cung cấp phân tích dữ liệu, AI và điều phối container đẳng cấp nhất.' },
+    alibaba:{ tagline:'Đám mây thống trị Châu Á - Thái Bình Dương', target:'Doanh nghiệp APAC, thị trường Trung Quốc, thương mại điện tử', strategy:'Thống trị Trung Quốc, mở rộng APAC, tối ưu thương mại điện tử, giá cạnh tranh toàn cầu', strengths:'Tiếp cận thị trường Trung Quốc, mạnh ở APAC, tối ưu thương mại điện tử, giá cạnh tranh', bestFor:'Công ty mở rộng vào Trung Quốc và APAC', description:'Alibaba Cloud là nhà cung cấp lớn thứ 4 thế giới, thống trị Trung Quốc/APAC. Ra đời từ nhu cầu hạ tầng thương mại điện tử trong các sự kiện Ngày Độc thân.' },
+    ibm:{ tagline:'Đám mây lai và di sản doanh nghiệp', target:'Doanh nghiệp lớn, dịch vụ tài chính, ngành quy định chặt', strategy:'Đám mây lai (Red Hat OpenShift), AI Watson, tuân thủ doanh nghiệp, tích hợp mainframe', strengths:'Tuân thủ doanh nghiệp, Watson AI, tích hợp Red Hat, hỗ trợ hệ thống cũ', bestFor:'Dịch vụ tài chính, y tế, ngành bị quy định chặt chẽ', description:'IBM Cloud tập trung đám mây lai sau khi mua Red Hat năm 2019, nhắm doanh nghiệp cần kết nối hệ thống on-premises cũ với đám mây hiện đại.' },
+    oracle:{ tagline:'Đám mây doanh nghiệp lấy cơ sở dữ liệu làm trọng tâm', target:'Khách hàng Oracle Database, người dùng ERP, doanh nghiệp', strategy:'Di chuyển khách hàng Oracle DB sang OCI, cơ sở dữ liệu tự trị, giá cạnh tranh AWS/Azure', strengths:'Cơ sở dữ liệu tự trị, tích hợp Oracle ERP, hiệu suất/chi phí cho khối lượng DB', bestFor:'Khách hàng Oracle hiện tại, khối lượng công việc nặng về cơ sở dữ liệu', description:'Oracle Cloud Infrastructure (OCI) được xây dựng lại hoàn toàn từ năm 2016. Oracle tận dụng lượng khách hàng DB và ERP khổng lồ để thúc đẩy áp dụng đám mây.' },
+    salesforce:{ tagline:'Nền tảng CRM và SaaS doanh nghiệp hàng đầu', target:'Nhóm bán hàng, marketing, dịch vụ mọi quy mô', strategy:'Thống trị CRM, hệ sinh thái AppExchange, AI Einstein, mua lại Slack/Tableau/MuleSoft', strengths:'CRM, nền tảng dữ liệu khách hàng, công cụ bán hàng AI, hệ sinh thái đối tác lớn', bestFor:'Tổ chức hướng bán hàng, nhóm dịch vụ khách hàng', description:'Salesforce tiên phong SaaS năm 1999, trở thành nhà cung cấp CRM lớn nhất thế giới. Đây là hệ sinh thái SaaS+PaaS thống trị hơn là đám mây IaaS truyền thống.' },
+    do:{ tagline:'Sự đơn giản thân thiện với nhà phát triển', target:'Nhà phát triển, SMB, startup', strategy:'Đơn giản triệt để, giá minh bạch, tài liệu tốt, cộng đồng nhà phát triển, giá phải chăng', strengths:'Dễ sử dụng, giá minh bạch, tài liệu xuất sắc, lý tưởng cho học tập/dự án nhỏ', bestFor:'Nhà phát triển, indie hacker, doanh nghiệp nhỏ, học đám mây', description:'DigitalOcean thành lập 2011 để làm đám mây đơn giản và giá phải chăng. Cố tình tránh sự phức tạp của AWS/Azure, cung cấp giá minh bạch và tài liệu xuất sắc.' }
+  },
+  services: {
+    vm:{ name:'Máy ảo (VM)', origin:'VMware phổ biến ảo hóa đầu những năm 2000; máy ảo đám mây ra mắt với AWS EC2 năm 2006.', desc:'Máy ảo (VM) là máy tính mô phỏng chạy trên phần cứng vật lý chia sẻ. Bạn chọn CPU, RAM và hệ điều hành, trả theo giờ. VM là nền tảng của điện toán đám mây.', when:'Lưu trữ trang web, chạy ứng dụng, di chuyển máy chủ on-premises lên đám mây.', cost:'5–500+ USD/tháng tùy kích thước. VM nhỏ (1 vCPU, 1GB RAM) khoảng 5–10 USD/tháng.', pros:['Toàn quyền kiểm soát OS và phần mềm','Hỗ trợ nhiều OS (Linux, Windows)','Quen thuộc với quản trị hệ thống','Thay đổi kích thước bất cứ lúc nào'], cons:['Phải quản lý cập nhật OS và vá bảo mật','Có thể cấp phát thừa','Đắt hơn serverless cho khối lượng bùng nổ'] },
+    objstorage:{ name:'Lưu trữ đối tượng (Object Storage)', origin:'Amazon S3 ra mắt năm 2006, tiên phong mô hình lưu trữ đối tượng phẳng được dùng phổ biến ngày nay.', desc:'Lưu trữ và truy xuất dữ liệu tùy ý (tệp, ảnh, video, bản sao lưu) dưới dạng "đối tượng" trong "bucket". Truy cập qua URL HTTP. Có thể mở rộng vô hạn, độ bền 99,999999999%.', when:'Lưu trữ trang web tĩnh, sao lưu, lưu tệp tải lên, data lake, CDN origin.', cost:'~0,02–0,025 USD/GB/tháng. Chi phí egress thêm (~0,05–0,09 USD/GB).', pros:['Quy mô thực tế không giới hạn','Chi phí cực thấp','Độ bền cao','Truy cập qua web'], cons:['Không phù hợp ghi nhỏ thường xuyên','Chi phí egress tích lũy','Không có ngữ nghĩa hệ thống tệp'] },
+    dns:{ name:'DNS được quản lý', origin:'DNS tồn tại từ năm 1983; nhà cung cấp đám mây cung cấp DNS được quản lý với API lập trình và mạng anycast toàn cầu.', desc:'Dịch tên miền (example.com) thành địa chỉ IP. DNS đám mây phân phối toàn cầu, sẵn sàng cao và lập trình được qua API. Định tuyến lưu lượng đến điểm cuối khỏe mạnh gần nhất.', when:'Bất kỳ trang web hoặc API nào cần tên miền. Cũng dùng cho định tuyến lưu lượng (blue-green, địa lý, failover).', cost:'~0,50–0,80 USD/hosted zone/tháng + ~0,40 USD/triệu truy vấn.', pros:['SLA uptime 99,99%+','Lan truyền toàn cầu trong vài giây','Kiểm tra sức khỏe & chính sách định tuyến'], cons:['Bộ nhớ đệm TTL có thể làm chậm thay đổi','Phụ thuộc nhà cung cấp với định tuyến nâng cao'] },
+    cdn:{ name:'Mạng phân phối nội dung (CDN)', origin:'Akamai tiên phong CDN năm 1998; nhà cung cấp đám mây xây dựng CDN tích hợp từ những năm 2010.', desc:'Mạng máy chủ phân phối toàn cầu lưu cache nội dung (ảnh, CSS, JS, video) gần người dùng, giảm độ trễ. Yêu cầu phục vụ từ vị trí "edge" gần nhất thay vì máy chủ gốc.', when:'Bất kỳ trang web hoặc ứng dụng công cộng phục vụ người dùng toàn cầu. Đặc biệt quan trọng cho media, thương mại điện tử và SaaS.', cost:'~0,01–0,085 USD/GB tùy khu vực. Hầu hết nhà cung cấp có gói miễn phí.', pros:['Giảm độ trễ đáng kể','Bảo vệ origin khỏi đột biến lưu lượng','Bảo vệ DDoS tích hợp'], cons:['Phức tạp xóa cache','Chi phí cao trên site lưu lượng lớn','Gỡ lỗi nội dung được cache'] },
+    reldb:{ name:'CSDL quan hệ được quản lý', origin:'CSDL quan hệ có từ năm 1970 (Codd/IBM); AWS RDS ra mắt năm 2009 là dịch vụ DB đám mây được quản lý hoàn toàn đầu tiên.', desc:'CSDL quan hệ được quản lý hoàn toàn (MySQL, PostgreSQL, SQL Server, Oracle) với sao lưu tự động, vá lỗi, chuyển đổi dự phòng và mở rộng. Bạn truy vấn bằng SQL chuẩn; nhà cung cấp xử lý vận hành.', when:'Bất kỳ ứng dụng nào có dữ liệu có cấu trúc: thương mại điện tử, SaaS, ERP, tài khoản người dùng.', cost:'~15–200+ USD/tháng cho instance nhỏ đến vừa.', pros:['Không cần DBA cho vận hành','Sao lưu tự động & phục hồi điểm thời gian','Tùy chọn sẵn sàng cao'], cons:['Giới hạn mở rộng dọc','Đắt hơn tự quản lý','Ít kiểm soát điều chỉnh engine'] },
+    serverless:{ name:'Hàm serverless (FaaS)', origin:'AWS Lambda ra mắt năm 2014, đưa điện toán serverless hướng sự kiện vào dòng chính.', desc:'Chạy code để phản hồi sự kiện (yêu cầu HTTP, tải tệp, tin nhắn) mà không cần quản lý máy chủ. Nền tảng tự động mở rộng từ 0 đến hàng triệu yêu cầu. Chỉ trả tiền theo lần gọi và thời gian thực thi.', when:'Quy trình hướng sự kiện, API với lưu lượng biến thiên, pipeline xử lý dữ liệu, tác vụ theo lịch.', cost:'~0,20 USD/triệu yêu cầu + 0,00001667 USD/GB-giây. Rất rẻ ở quy mô thấp.', pros:['Không quản lý máy chủ','Tự mở rộng về 0 (không chi phí khi nhàn)','Kiến trúc hướng sự kiện','Rất rẻ cho khối lượng bùng nổ'], cons:['Cold start (độ trễ lần gọi đầu)','Giới hạn thời gian thực thi (15 phút AWS)','Khó gỡ lỗi hơn','Phụ thuộc nhà cung cấp'] },
+    containers:{ name:'Điều phối container (Kubernetes)', origin:'Google phát hành Kubernetes mã nguồn mở năm 2014, dựa trên hệ thống Borg nội bộ. Nay là tiêu chuẩn ngành.', desc:'Kubernetes tự động triển khai, mở rộng và quản lý ứng dụng container hóa trên cluster VM. Dịch vụ Kubernetes được quản lý (EKS, AKS, GKE) xử lý control plane, bạn chỉ quản lý worker node và ứng dụng.', when:'Kiến trúc microservices, nhóm đã dùng Docker, cần tính di động giữa các đám mây.', cost:'Control plane: ~0–0,10 USD/giờ. Worker node: như VM. Load balancer: ~0,025 USD/giờ.', pros:['Tiêu chuẩn ngành, có thể di chuyển','Tự phục hồi, tự mở rộng','Hệ sinh thái lớn'], cons:['Độ phức tạp vận hành đáng kể','Đường cong học tập dốc','Quá mức cho ứng dụng đơn giản'] },
+    nosql:{ name:'Cơ sở dữ liệu NoSQL', origin:'Amazon DynamoDB (2012) phổ biến NoSQL được quản lý. Ra đời từ nhu cầu mở rộng cực lớn vượt RDBMS (bài báo Dynamo, 2007).', desc:'Lưu dữ liệu dưới dạng key-value, tài liệu (JSON), wide-column hoặc đồ thị. Thiết kế cho quy mô lớn, schema linh hoạt và tra cứu tốc độ cao.', when:'Game thời gian thực, dữ liệu IoT, lưu phiên, catalog thuộc tính linh hoạt, đồ thị xã hội.', cost:'DynamoDB: ~1,25 USD/triệu ghi, 0,25 USD/triệu đọc.', pros:['Quy mô ngang khổng lồ','Schema linh hoạt','Độ trễ dưới mili giây','Tự mở rộng'], cons:['Không có JOIN (truy vấn phức tạp khó hơn)','Đánh đổi nhất quán cuối cùng','Ngôn ngữ truy vấn riêng nhà cung cấp'] },
+    lb:{ name:'Cân bằng tải (Load Balancer)', origin:'Load balancer phần cứng (F5, Cisco) có trước; AWS ELB năm 2009 đưa nó thành dịch vụ được quản lý.', desc:'Phân phối lưu lượng qua nhiều máy chủ để không máy chủ nào bị quá tải. Cung cấp kiểm tra sức khỏe, tự động định tuyến, chấm dứt SSL và mở rộng ngang.', when:'Bất kỳ ứng dụng production nào chạy trên nhiều instance. Cần thiết cho sẵn sàng cao.', cost:'~0,008–0,025 USD/LCU-giờ + phí giờ cơ bản. Tối thiểu ~18 USD/tháng.', pros:['Thiết yếu cho HA','Chấm dứt SSL','Kiểm tra sức khỏe & failover tự động','Mở rộng trong suốt'], cons:['Chi phí thêm','Hop mạng bổ sung','Phức tạp về session affinity'] },
+    vpc:{ name:'Đám mây riêng ảo (VPC)', origin:'AWS VPC ra mắt năm 2009, cho phép mạng riêng biệt trong đám mây, thay thế mạng phẳng EC2-Classic ban đầu.', desc:'Mạng ảo biệt lập bạn định nghĩa trong nhà cung cấp đám mây. Bạn kiểm soát dải IP, subnet, bảng định tuyến, cổng mạng và nhóm bảo mật. Đây là trung tâm dữ liệu riêng trên đám mây.', when:'Bất kỳ khối lượng công việc production nào. Tất cả tài nguyên đám mây nên nằm trong VPC để bảo mật.', cost:'VPC miễn phí. Trả cho NAT Gateway (~0,045 USD/giờ + 0,045 USD/GB), VPN (~0,05 USD/giờ).', pros:['Biệt lập mạng hoàn toàn','Kiểm soát bảo mật chi tiết','Peering giữa các VPC','Đám mây lai qua VPN/Direct Connect'], cons:['Khái niệm mạng phức tạp','Rủi ro cấu hình sai','Chi phí NAT gateway tích lũy'] },
+    cache:{ name:'Bộ nhớ đệm trong bộ nhớ (In-Memory Cache)', origin:'Redis mã nguồn mở năm 2009; Memcached từ năm 2003. Dịch vụ cache được quản lý đám mây bắt đầu ~2011.', desc:'Kho dữ liệu trong bộ nhớ siêu nhanh (Redis hoặc Memcached) để cache dữ liệu thường xuyên, quản lý phiên, pub/sub và bảng xếp hạng. Đọc/ghi trong micro giây.', when:'Tăng tốc truy vấn DB, lưu phiên, giới hạn tốc độ, bảng xếp hạng thời gian thực, pub/sub.', cost:'~15–200+ USD/tháng. Redis: ~0,017 USD/giờ cho cache node nhỏ.', pros:['Phản hồi dưới mili giây','Giảm đáng kể tải DB','Cấu trúc dữ liệu phong phú (Redis)'], cons:['Dữ liệu không bền vững (mất khi khởi động lại)','Bộ nhớ đắt tiền','Xóa cache khó'] },
+    queue:{ name:'Hàng đợi tin nhắn / Streaming sự kiện', origin:'Xếp hàng tin nhắn từ IBM MQ (1993). AWS SQS (2006) đưa lên đám mây. Kafka (2011) phổ biến hóa event streaming.', desc:'Truyền tin nhắn giữa dịch vụ bất đồng bộ. Hàng đợi (SQS) gửi mỗi tin nhắn một lần. Stream (Kafka/Kinesis) cho phép nhiều người tiêu dùng phát lại log sự kiện.', when:'Giao tiếp microservices, xử lý đơn hàng, quy trình bất đồng bộ, kiến trúc hướng sự kiện, nhập log.', cost:'SQS: ~0,40 USD/triệu yêu cầu. Kinesis: ~0,015 USD/shard-giờ + 0,014 USD/triệu bản ghi.', pros:['Tách biệt các dịch vụ','Đệm đột biến lưu lượng','Đảm bảo gửi ít nhất một lần','Logic thử lại tích hợp'], cons:['Thêm độ phức tạp','Nhất quán cuối cùng','Đánh đổi thứ tự tin nhắn'] },
+    objectblock:{ name:'Lưu trữ khối (Block Storage)', origin:'Lưu trữ khối đính kèm mạng cho VM; AWS EBS ra mắt với EC2 năm 2006.', desc:'Ổ đĩa ảo bền vững đính kèm vào máy ảo — như ổ cứng trên đám mây. SSD hoặc HDD hiệu suất cao tồn tại độc lập với VM.', when:'Lưu trữ VM, tệp CSDL (cần I/O độ trễ thấp), khối lượng tệp lớn đính kèm một máy chủ.', cost:'SSD: ~0,08–0,10 USD/GB/tháng. HDD: ~0,04–0,05 USD/GB/tháng.', pros:['I/O khối độ trễ thấp','Bền vững qua các lần khởi động lại VM','Có thể snapshot để sao lưu','Tùy chọn IOPS cao'], cons:['Thường đính kèm một VM tại một thời điểm','Đắt hơn object storage','Phải quản lý kích thước ổ đĩa'] },
+    ml:{ name:'Nền tảng Học máy (ML Platform)', origin:'AWS SageMaker (2017) và Google AI Platform (2018) đưa huấn luyện/phục vụ ML lên đám mây.', desc:'Nền tảng end-to-end xây dựng, huấn luyện, triển khai và giám sát mô hình học máy. Bao gồm notebook Jupyter được quản lý, huấn luyện phân tán trên GPU cluster, model registry và hạ tầng phục vụ.', when:'Nhóm xây dựng mô hình ML tùy chỉnh: công cụ đề xuất, phát hiện gian lận, nhận dạng ảnh, NLP.', cost:'Huấn luyện: giờ GPU (~0,90–30+ USD/giờ cho V100/A100). Inference endpoint: ~0,10–1 USD/giờ.', pros:['Không cần quản lý hạ tầng ML','Thuật toán & framework có sẵn','Tự mở rộng inference'], cons:['Phức tạp và đắt tiền','Rủi ro phụ thuộc nhà cung cấp','Cần chuyên môn ML'] },
+    llm:{ name:'AI được quản lý / API LLM', origin:'API GPT-3 của OpenAI (2020) ra mắt mô hình LLM-as-a-service. Nhà cung cấp nay cung cấp LLM hosted (Claude, GPT-4, Gemini) qua REST API đơn giản.', desc:'Mô hình ngôn ngữ lớn được huấn luyện sẵn, truy cập qua API — không cần huấn luyện. Gửi văn bản vào, nhận văn bản thông minh ra. Dùng cho: chatbot, tạo nội dung, hỗ trợ code, tóm tắt, phân loại.', when:'Xây dựng tính năng AI không cần chuyên môn ML. Chatbot, phân tích tài liệu, tìm kiếm ngữ nghĩa.', cost:'~0,001–0,06 USD/1K token tùy mô hình. Claude Sonnet: ~0,003 USD/1K token input.', pros:['Không cần chuyên môn ML','Năng lực tiên tiến ngay lập tức','Tích hợp REST API dễ dàng'], cons:['Đắt ở quy mô lớn','Lo ngại quyền riêng tư (dữ liệu gửi nhà cung cấp)','Cập nhật mô hình có thể thay đổi hành vi'] },
+    datawarehouse:{ name:'Kho dữ liệu (Data Warehouse)', origin:'DWH truyền thống (Teradata, Oracle) tốn hàng triệu đô. BigQuery (2010) và Redshift (2012) dân chủ hóa phân tích quy mô petabyte.', desc:'CSDL cột tối ưu cho truy vấn phân tích (OLAP) trên tập dữ liệu khổng lồ — hàng tỷ hàng. Tách biệt lưu trữ khỏi tính toán. Truy vấn petabyte bằng SQL trong vài giây.', when:'Business intelligence, dashboard báo cáo, phân tích xu hướng lịch sử, phân tích data lake.', cost:'BigQuery: 5 USD/TB truy vấn. Redshift: ~0,25 USD/giờ cho cluster nhỏ.', pros:['Dựa trên SQL, giao diện quen thuộc','Quy mô petabyte','Giá lưu trữ/tính toán tách biệt','Tích hợp công cụ BI'], cons:['Chi phí truy vấn lạnh (BigQuery theo scan)','Phức tạp cho truy vấn OLTP','Cần pipeline nhập dữ liệu'] },
+    servicemesh:{ name:'Service Mesh', origin:'Istio mã nguồn mở bởi Google/IBM/Lyft năm 2017. Ra đời để giải quyết phức tạp mạng microservices ở quy mô lớn.', desc:'Lớp hạ tầng quản lý giao tiếp service-to-service. Cung cấp quản lý lưu lượng, mã hóa mTLS, circuit breaking, retry, triển khai canary và distributed tracing — không cần thay đổi code.', when:'Triển khai microservices lớn (10+ service) cần kiểm soát lưu lượng và khả năng quan sát chi tiết.', cost:'Control plane miễn phí (mã nguồn mở). Overhead sidecar thêm ~5–15% tài nguyên.', pros:['Bảo mật zero-trust giữa các service','Khả năng quan sát sâu','Định hình lưu lượng không cần thay đổi code'], cons:['Phức tạp vận hành đáng kể','Đường cong học tập','Overhead tài nguyên','Gỡ lỗi khó'] },
+    waf:{ name:'WAF & Bảo vệ DDoS', origin:'WAF xuất hiện đầu những năm 2000 cho PCI. WAF đám mây dân chủ hóa bảo vệ DDoS cấp doanh nghiệp.', desc:'Bảo vệ ứng dụng web khỏi tấn công OWASP Top 10 (SQL injection, XSS, CSRF) ở lớp 7, và hấp thụ tấn công DDoS quy mô lớn. Dựa trên quy tắc và ML để phát hiện mẫu tấn công mới.', when:'Bất kỳ ứng dụng công cộng nào, đặc biệt xử lý dữ liệu nhạy cảm hoặc giao dịch tài chính.', cost:'WAF: ~5 USD/tháng + 0,60 USD/triệu yêu cầu. DDoS nâng cao: 3.000 USD/tháng.', pros:['Bảo vệ tự động khỏi tấn công phổ biến','Giảm thiểu DDoS đến Tbps','Hỗ trợ tuân thủ (PCI DSS, HIPAA)'], cons:['False positive có thể chặn lưu lượng hợp lệ','Tầng nâng cao rất đắt','Quản lý quy tắc phức tạp'] },
+    iam:{ name:'Quản lý danh tính & quyền truy cập (IAM)', origin:'AWS IAM ra mắt năm 2011. Trước đó LDAP/Active Directory xử lý danh tính doanh nghiệp.', desc:'Kiểm soát ai (người dùng, dịch vụ, máy) có thể làm gì trên tài nguyên nào. Chính sách chi tiết đính kèm người dùng, nhóm và vai trò. Hỗ trợ MFA, thông tin xác thực tạm thời và truy cập đa tài khoản.', when:'Mọi triển khai đám mây — bắt buộc. Mọi dịch vụ và người dùng cần chính sách IAM đặc quyền tối thiểu.', cost:'Dịch vụ IAM miễn phí. Tính năng nâng cao (SSO) có thể tốn thêm.', pros:['Kiểm soát quyền chi tiết','Log truy cập có thể kiểm tra','Hỗ trợ đa service và đa tài khoản','Hỗ trợ MFA'], cons:['Chính sách JSON phức tạp','Cấu hình sai dẫn đến vi phạm','Khó kiểm tra ở quy mô lớn','Bloat chính sách theo thời gian'] },
+    cicd:{ name:'Pipeline CI/CD', origin:'Jenkins (2005) bắt đầu làn sóng CI hiện đại. CI/CD cloud-native (AWS CodePipeline 2015, GitHub Actions 2019) loại bỏ quản lý hạ tầng.', desc:'Tự động hóa kiểm thử, xây dựng và triển khai thay đổi code. CI chạy kiểm thử trên mỗi commit; CD tự động triển khai build đạt lên staging hoặc production.', when:'Bất kỳ nhóm phần mềm nào. Ngay cả lập trình viên solo cũng hưởng lợi từ kiểm thử và triển khai tự động.', cost:'GitHub Actions: 2.000 phút miễn phí/tháng; ~0,008 USD/phút bổ sung.', pros:['Chu kỳ phát hành nhanh hơn','Phát hiện lỗi sớm','Triển khai nhất quán','Nhật ký kiểm tra'], cons:['Đầu tư thời gian thiết lập','Hạ tầng cần quản lý','Kiểm thử không ổn định làm chậm nhóm'] },
+    monitoring:{ name:'Khả năng quan sát & Giám sát', origin:'Nagios (1999) tiên phong giám sát hạ tầng. Khung "ba trụ cột" (metrics, log, trace) nổi lên ~2016.', desc:'Thu thập và trực quan hóa metrics (CPU, độ trễ), log (đầu ra ứng dụng có cấu trúc) và distributed trace. Cảnh báo nhóm khi có sự cố. Ba trụ cột của khả năng quan sát.', when:'Tất cả hệ thống production. Bạn cần khả năng hiển thị những gì hạ tầng đang làm.', cost:'AWS CloudWatch: ~0,30 USD/metric/tháng + 0,50 USD/GB log. Datadog: ~15–23 USD/host/tháng.', pros:['Phát hiện và giải quyết sự cố nhanh','Dữ liệu lập kế hoạch năng lực','Giám sát tuân thủ SLA'], cons:['Chi phí log ở quy mô lớn','Mệt mỏi cảnh báo nếu ngưỡng kém','Cần nhiều công cụ cho quan sát đầy đủ'] },
+    infracod:{ name:'Hạ tầng dưới dạng Code (IaC)', origin:'Terraform (2014) của HashiCorp và AWS CloudFormation (2011) tiên phong hạ tầng đám mây khai báo.', desc:'Định nghĩa và cung cấp hạ tầng đám mây bằng tệp cấu hình (HCL, YAML, JSON) thay vì click qua console. Hạ tầng trở thành code được kiểm soát phiên bản, có thể tái tạo.', when:'Bất kỳ nhóm nào quản lý hơn một số tài nguyên đám mây. Thiết yếu cho tính nhất quán giữa môi trường.', cost:'Terraform và OpenTofu miễn phí. Terraform Cloud: 20 USD/người dùng/tháng.', pros:['Môi trường có thể tái tạo','Tốc độ phục hồi thảm họa','Phát hiện drift','Xem xét code cho thay đổi hạ tầng'], cons:['Quản lý tệp state phức tạp','Đường cong học tập (HCL)','Chu kỳ plan/apply chậm cho hạ tầng lớn'] },
+    api:{ name:'API Gateway', origin:'AWS API Gateway ra mắt năm 2015, giúp dễ dàng expose Lambda và backend dưới dạng REST/WebSocket API ở quy mô lớn.', desc:'Dịch vụ được quản lý hoạt động như cửa trước cho backend API. Xử lý xác thực, giới hạn tốc độ, chấm dứt SSL, chuyển đổi request/response, caching và định tuyến.', when:'Expose microservices hoặc serverless function dưới dạng API, xây dựng nền tảng nhà phát triển công cộng, backend ứng dụng di động.', cost:'~1–3,50 USD/triệu lệnh gọi API + 0,09 USD/GB truyền dữ liệu.', pros:['Xử lý xác thực, giới hạn tốc độ sẵn sàng','Tự mở rộng','Hỗ trợ WebSocket','Giá theo mỗi lệnh gọi'], cons:['Cold start với tích hợp Lambda','Cấu hình phức tạp cho trường hợp nâng cao','Chi phí tăng với lưu lượng API'] },
+    filestorage:{ name:'Lưu trữ tệp chia sẻ (Shared File Storage)', origin:'NFS tồn tại từ năm 1984. AWS EFS 2015 đưa NFS/SMB co giãn lên đám mây không cần quản lý file server.', desc:'Chia sẻ tệp NFS hoặc SMB được quản lý, có thể mount đồng thời bởi nhiều VM. Nhiều instance có thể đọc/ghi cùng tệp cùng lúc. Hoàn toàn co giãn.', when:'Ứng dụng chia sẻ tệp qua nhiều máy chủ: xử lý media, quản lý nội dung, lưu trữ chia sẻ ERP.', cost:'AWS EFS: ~0,30 USD/GB/tháng. Azure Files: ~0,02–0,06 USD/GB/tháng.', pros:['Đa đính kèm (nhiều VM đồng thời)','Co giãn (không cần cấp phát trước)','Hoạt động với ứng dụng cũ'], cons:['Đắt hơn block storage','Độ trễ cao hơn block (overhead NFS)','Không phù hợp cho CSDL'] },
+    edgecompute:{ name:'Điện toán biên / CDN Functions', origin:'Cloudflare Workers (2017) và AWS Lambda@Edge (2016) tiên phong chạy code tại node CDN edge.', desc:'Thực thi code tại network edge — trong CDN PoP toàn cầu — thay vì datacenter trung tâm. Thời gian phản hồi <10ms toàn cầu cho xác thực, A/B testing, viết lại request, cá nhân hóa.', when:'Ứng dụng phân tán toàn cầu cần độ trễ thấp. A/B testing, xác thực tại edge, định tuyến địa lý.', cost:'Cloudflare Workers: miễn phí 100K req/ngày; 5 USD/10M yêu cầu. Lambda@Edge: 0,60 USD/triệu.', pros:['Độ trễ dưới 10ms toàn cầu','Chạy gần người dùng','Không quản lý máy chủ','Mở rộng toàn cầu ngay lập tức'], cons:['Runtime giới hạn (bộ nhớ, CPU, thời gian)','Gỡ lỗi code edge phân tán','Cold start tại một số PoP'] },
+    datastream:{ name:'Streaming dữ liệu thời gian thực', origin:'Apache Kafka (LinkedIn, 2011) định nghĩa mô hình event streaming. AWS Kinesis (2013) đưa streaming được quản lý lên đám mây.', desc:'Nhập, xử lý và phân tích luồng dữ liệu khối lượng lớn thời gian thực — hàng triệu sự kiện/giây. Dùng cho phân tích clickstream, phát hiện gian lận, telemetry IoT, tổng hợp log.', when:'Thiết bị IoT gửi telemetry, dashboard thời gian thực, phát hiện gian lận, phân tích clickstream.', cost:'Kinesis: 0,015 USD/shard-giờ + 0,014 USD/triệu bản ghi. Kafka (MSK): 0,21 USD/broker-giờ.', pros:['Xử lý hàng triệu sự kiện/giây','Thông tin thời gian thực','Producer/consumer được tách biệt','Khả năng phát lại'], cons:['Mô hình vận hành phức tạp','Đắt ở quy mô lớn','Cần chuyên môn stream processing'] },
+    backup:{ name:'Sao lưu & Phục hồi thảm họa', origin:'Sao lưu đám mây thay thế sao lưu băng từ ~2012 (AWS Glacier). DR đa vùng trở nên khả dụng cho SMB khoảng năm 2014.', desc:'Sao lưu tự động VM, CSDL, hệ thống tệp và container với snapshot theo lịch, sao chép đa vùng và khôi phục điểm thời gian.', when:'Mọi khối lượng công việc production. RPO và RTO quyết định tầng.', cost:'Lưu trữ: ~0,004 USD/GB/tháng (lưu trữ lạnh). AWS Backup: tính theo lưu trữ đã sử dụng.', pros:['Sao lưu tự động theo chính sách','Đa vùng cho DR','Tùy chọn sao lưu bất biến','Nhật ký kiểm tra tuân thủ'], cons:['Thời gian khôi phục dài cho tập dữ liệu lớn','Chi phí tăng theo khối lượng dữ liệu','DR cần kiểm thử runbook'] },
+    secretmgr:{ name:'Quản lý bí mật (Secrets Management)', origin:'HashiCorp Vault (2015) phổ biến quản lý bí mật tập trung. AWS Secrets Manager và Azure Key Vault theo sau.', desc:'Lưu trữ, xoay vòng và kiểm soát tập trung quyền truy cập bí mật: mật khẩu DB, khóa API, chứng chỉ TLS, khóa SSH. Tự động xoay vòng và ghi lại mọi lần truy cập.', when:'Mọi ứng dụng cần thông tin xác thực. Không bao giờ hardcode bí mật trong code hoặc biến môi trường.', cost:'AWS Secrets Manager: 0,40 USD/bí mật/tháng + 0,05 USD/10K lệnh gọi API.', pros:['Xoay vòng bí mật tự động','Nhật ký kiểm tra đầy đủ','Kiểm soát truy cập chi tiết','Loại bỏ phân tán thông tin xác thực'], cons:['Độ trễ bổ sung khi truy xuất bí mật','Chi phí với số lượng bí mật lớn','Cần tích hợp ứng dụng'] }
+  },
+  concepts: {
+    hypervisor:{ name:'Hypervisor / Ảo hóa', origin:'IBM CP-40 (1967) ảo hóa phần cứng đầu tiên; VMware thương mại hóa ảo hóa x86 năm 1999. Hypervisor loại 1 cung cấp sức mạnh cho tất cả VM đám mây.', desc:'Phần mềm phân chia phần cứng vật lý thành Máy ảo biệt lập. Hypervisor loại 1 (bare-metal) như KVM, Xen và Hyper-V chạy trực tiếp trên phần cứng. Mỗi VM được cấp vCPU, RAM và ổ đĩa riêng.', when:'Mỗi khi bạn khởi chạy VM đám mây. Hiểu hypervisor giải thích việc chọn kích thước VM, vấn đề noisy-neighbor và dịch vụ dedicated host.', cost:'Bao gồm trong giá VM. Dedicated host loại bỏ rủi ro noisy-neighbor với ~1,50–7 USD/giờ.', pros:['Cách ly khối lượng công việc mạnh','Chạy nhiều loại OS trên một host','Di chuyển trực tiếp VM'], cons:['Overhead so với bare metal (thường <5%)','Host chia sẻ có thể gây I/O noisy-neighbor'] },
+    containerd:{ name:'Container Runtime (Docker / containerd)', origin:'Docker ra mắt năm 2013 phổ biến Linux container. containerd trở thành runtime mặc định Kubernetes năm 2020.', desc:'Container runtime đóng gói ứng dụng và phụ thuộc vào image duy nhất, có thể di chuyển. Runtime kéo image từ registry, tạo namespace biệt lập và quản lý vòng đời container.', when:'Khi cần đóng gói ứng dụng có thể tái tạo, có thể di chuyển. Hầu hết khối lượng đám mây ngày nay dùng container.', cost:'Mã nguồn mở và miễn phí. Lưu trữ container registry: ~0,10 USD/GB/tháng.', pros:['Build bất biến, có thể tái tạo','Khởi động nhanh hơn VM','Nhẹ (chia sẻ kernel OS)','Hệ sinh thái lớn'], cons:['Cách ly kém hơn VM (kernel chia sẻ)','Lây lan image nếu không quản lý','Overhead quản lý registry'] },
+    autoscaling:{ name:'Tự động mở rộng (Auto-Scaling)', origin:'AWS Auto Scaling ra mắt năm 2009 như bổ sung cho EC2. Giới thiệu chính sách mở rộng dựa trên CloudWatch metrics.', desc:'Tự động thêm hoặc xóa compute instance dựa trên quy tắc đã định nghĩa (CPU%, tốc độ yêu cầu, metrics tùy chỉnh). Đảm bảo chỉ trả tiền cho những gì cần trong khi xử lý đột biến lưu lượng.', when:'Bất kỳ ứng dụng web hoặc tầng API không trạng thái nào. Kết hợp với load balancer để mở rộng không có downtime.', cost:'Bản thân auto-scaling miễn phí. Bạn trả tiền cho các instance đang chạy.', pros:['Tự động xử lý đột biến lưu lượng','Giảm chi phí khi lưu lượng thấp','Sẵn sàng cao'], cons:['Ứng dụng có trạng thái cần xử lý session','Độ trễ scale-out (thời gian khởi động)','Phức tạp khởi động nóng'] },
+    ami:{ name:'Machine Image / Snapshot (AMI)', origin:'Khái niệm AWS AMI ra mắt năm 2006. Snapshot và image cho phép nắm bắt và sao chép trạng thái máy chủ — nền tảng của hạ tầng bất biến.', desc:'Template máy chủ được cấu hình trước (OS + phần mềm + cấu hình) dùng để khởi chạy các instance VM giống nhau. Snapshot nắm bắt trạng thái ổ đĩa tại một thời điểm để sao lưu hoặc nhân bản.', when:'Tạo golden image cho app server, bootstrap instance trong auto-scaling group, phục hồi thảm họa.', cost:'~0,05–0,10 USD/GB/tháng để lưu trữ image/snapshot.', pros:['Tái tạo ngay lập tức','Cung cấp máy chủ nhanh','Nền tảng cho hạ tầng bất biến'], cons:['Image trở nên lỗi thời (phần mềm chưa vá)','Chi phí lưu trữ tích lũy','Cần kỷ luật quản lý image'] },
+    s3protocol:{ name:'Giao thức API S3', origin:'Amazon định nghĩa S3 REST API năm 2006. Trở thành tiêu chuẩn de facto cho lưu trữ đối tượng — gần như mọi nhà cung cấp nay đều hỗ trợ API tương thích S3.', desc:'Tiêu chuẩn REST API để lưu trữ và truy xuất đối tượng. Thao tác: PUT (tải lên), GET (tải xuống), DELETE, LIST. Dùng HTTP với xác thực qua yêu cầu ký (AWS Sig V4). "Tương thích S3" nghĩa là bất kỳ công cụ nào nói giao thức S3 đều hoạt động trên các nhà cung cấp.', when:'Bất kỳ ứng dụng nào lưu trữ hoặc truy xuất tệp. Tương thích S3 có nghĩa là công cụ như rclone, MinIO hoạt động trên các nhà cung cấp.', cost:'Bao gồm trong giá lưu trữ đối tượng — không tốn thêm cho bản thân API.', pros:['Tiêu chuẩn phổ quát — hoạt động với bất kỳ client S3 nào','Giao diện HTTP đơn giản','Hệ sinh thái công cụ tương thích lớn'], cons:['Không tối ưu cho ghi nhỏ thường xuyên','Nhất quán cuối cùng trong một số triển khai cũ','Phức tạp xác thực'] },
+    replication:{ name:'Sao chép dữ liệu & Độ bền', origin:'Bài báo Bigtable của Google (2006) và Dynamo (2007) hình thức hóa chiến lược sao chép. Độ bền 11-9s của S3 đến từ erasure coding qua nhiều AZ.', desc:'Lưu trữ đám mây đạt độ bền cao bằng cách sao chép dữ liệu qua nhiều vị trí vật lý. Erasure coding chia dữ liệu thành các mảnh phân phối qua các ổ/rack. Sao chép đa vùng sao chép sang địa lý khác cho DR.', when:'Luôn hoạt động trong lưu trữ được quản lý. Bạn chọn tầng sao chép: single-AZ (rẻ), multi-AZ (HA), cross-region (DR).', cost:'Single-AZ: giá cơ bản. Multi-AZ: +20–30%. Cross-region: thêm phí truyền dữ liệu (~0,02 USD/GB).', pros:['Trong suốt — không cần thay đổi ứng dụng','Tầng RPO có thể cấu hình','Bảo vệ khỏi lỗi phần cứng'], cons:['Sao chép đa vùng thêm độ trễ','Chi phí cao hơn','Nhất quán cuối cùng trong ghi đa vùng'] },
+    lifecycle:{ name:'Chính sách vòng đời lưu trữ', origin:'AWS S3 Lifecycle (2012) giới thiệu phân tầng tự động. Lấy cảm hứng từ HSM (Hierarchical Storage Management) thời mainframe.', desc:'Các quy tắc tự động chuyển đổi đối tượng giữa các tầng lưu trữ dựa trên tuổi hoặc mẫu truy cập. Ví dụ: chuyển sang Infrequent Access sau 30 ngày, sang Glacier sau 90 ngày, xóa sau 7 năm.', when:'Bất kỳ bucket nào có dữ liệu tăng theo thời gian và ít được truy cập hơn (log, sao lưu, lưu trữ phân tích).', cost:'Miễn phí để cấu hình. Phí truy xuất cho tầng lưu trữ: ~0,01 USD/GB từ Glacier.', pros:['Tối ưu hóa chi phí tự động','Không cần thay đổi code','Hỗ trợ lưu giữ dữ liệu tuân thủ'], cons:['Độ trễ truy xuất lưu trữ (phút đến giờ)','Chi phí chuyển đổi giữa các tầng','Phí thời gian tối thiểu đối tượng'] },
+    iops:{ name:'IOPS & Hiệu suất lưu trữ', origin:'IOPS là benchmark lưu trữ truyền thống từ hệ thống SAN/NAS. Lưu trữ khối đám mây expose IOPS có thể cấu hình, làm hiệu suất có thể điều chỉnh và mua được.', desc:'IOPS đo số lượng thao tác đọc/ghi mỗi giây một ổ đĩa có thể thực hiện. Throughput (MB/s) đo băng thông. Lưu trữ khối đám mây cho phép cấp phát IOPS độc lập với kích thước ổ đĩa.', when:'Định cỡ ổ EBS cho RDS, chọn SSD hay HDD cho tầng CSDL, chẩn đoán DB chậm.', cost:'AWS GP3: 3000 IOPS miễn phí, thêm 0,005 USD/IOPS/tháng. IO2: 0,065 USD/IOPS/tháng.', pros:['Hiệu suất dự đoán được, đảm bảo','Định cỡ độc lập với dung lượng','Điều chỉnh không có downtime'], cons:['Dễ cấp phát thiếu (gây vấn đề DB)','Chi phí tích lũy với IOPS cao','Burst credit có thể cạn kiệt'] },
+    bgp:{ name:'BGP & Anycast', origin:'BGP là giao thức định tuyến internet, chuẩn hóa năm 1989. Anycast dùng BGP để định tuyến người dùng đến máy chủ gần nhất — kỹ thuật đằng sau CDN và DNS hiện đại.', desc:'Anycast gán cùng địa chỉ IP cho nhiều máy chủ toàn cầu. Định tuyến BGP đảm bảo lưu lượng đến node khỏe mạnh gần nhất về mặt địa lý. Đây là cách Route 53, CloudFront và CDN đạt độ trễ thấp toàn cầu.', when:'Hiểu tại sao DNS hoặc CDN request nhanh. Liên quan khi chọn giữa nhà cung cấp DNS anycast và unicast.', cost:'Bao gồm trong giá dịch vụ DNS/CDN.', pros:['Định tuyến địa lý tự động','Khả năng phục hồi DDoS qua PoP','Không cần cấu hình client'], cons:['Rủi ro BGP hijacking','Anycast làm phức tạp kết nối stateful','Không phù hợp cho phiên TCP stateful'] },
+    ssl:{ name:'TLS/SSL & Quản lý chứng chỉ', origin:'SSL được tạo bởi Netscape năm 1995; TLS 1.0 theo sau năm 1999. Let\'s Encrypt (2015) dân chủ hóa chứng chỉ miễn phí.', desc:'TLS mã hóa dữ liệu truyền giữa client và máy chủ. Load balancer đám mây xử lý chấm dứt SSL — giải mã HTTPS tại edge. Certificate Manager tự động hóa cấp phát, gia hạn và triển khai.', when:'Mọi ứng dụng công cộng cần HTTPS. Chấm dứt TLS tại load balancer là tiêu chuẩn. Dùng chứng chỉ được quản lý để tránh gia hạn thủ công.', cost:'Chứng chỉ được quản lý miễn phí (AWS ACM, GCP). Chỉ trả cho load balancer.', pros:['Chứng chỉ miễn phí với tự động gia hạn','Không quản lý cert thủ công','Phiên bản TLS hiện đại được thực thi'], cons:['Lan truyền chứng chỉ mất vài phút','CA riêng cho dịch vụ nội bộ tốn thêm','mTLS thêm độ phức tạp'] },
+    subnet:{ name:'Subnet & CIDR', origin:'CIDR thay thế mạng theo lớp năm 1993. Trong đám mây, subnet phân đoạn VPC thành dải IP nhỏ hơn — public và private, qua các availability zone.', desc:'Subnet là dải địa chỉ IP trong VPC (ký hiệu CIDR, vd 10.0.1.0/24). Subnet public có route internet; subnet private thì không. Tài nguyên trong subnet private truy cập internet qua NAT Gateway.', when:'Thiết kế bất kỳ mạng đám mây nào. Thực tiễn tốt: web/LB trong subnet public, app tier và DB trong subnet private.', cost:'Subnet miễn phí. NAT Gateway: ~0,045 USD/giờ + 0,045 USD/GB.', pros:['Phân đoạn mạng cho bảo mật','Cách ly lỗi cấp AZ','Cho phép tài nguyên private'], cons:['Lỗi lập kế hoạch CIDR khó sửa','Chi phí NAT Gateway tích lũy','Bảng định tuyến phức tạp'] },
+    secgroup:{ name:'Security Group & Network ACL', origin:'AWS giới thiệu Security Group với EC2 năm 2006. Chúng là tường lửa ảo stateful ở cấp instance.', desc:'Security Group là tường lửa stateful đính kèm từng tài nguyên — định nghĩa quy tắc inbound/outbound theo port, giao thức và IP nguồn/SG. NACL là tường lửa stateless cấp subnet.', when:'Mọi tài nguyên đám mây nên có security group. Nguyên tắc đặc quyền tối thiểu: chỉ mở port cần thiết.', cost:'Miễn phí. Quy tắc SG có giới hạn (thường 60–100 quy tắc/SG).', pros:['Quy tắc tường lửa chi tiết theo tài nguyên','Tham chiếu SG khác làm nguồn','Không cần quản lý IP cho lưu lượng nội VPC'], cons:['Quy tắc tích lũy và khó kiểm tra','SG stateful không ghi log lưu lượng','Cấu hình sai expose tài nguyên'] },
+    privatelink:{ name:'Kết nối riêng (VPN / Direct Connect / Private Link)', origin:'AWS Direct Connect ra mắt năm 2012. PrivateLink (2017) cho phép endpoint dịch vụ private mà không qua internet công cộng.', desc:'Ba tùy chọn: (1) VPN — tunnel mã hóa qua internet, (2) Direct Connect/ExpressRoute — cáp quang riêng (<5ms, BW đảm bảo), (3) PrivateLink — truy cập dịch vụ qua IP riêng không rời backbone VPC.', when:'Đám mây lai doanh nghiệp, ngành có quy định cần đường dây riêng, truy cập dịch vụ được quản lý riêng tư.', cost:'VPN: ~36–72 USD/tháng. Direct Connect: ~0,03–0,30 USD/GB + phí port (~216 USD/tháng cho 1Gbps).', pros:['Tránh internet công cộng','Độ trễ thấp nhất quán','Yêu cầu bởi một số khung tuân thủ'], cons:['Chi phí cao cho kết nối riêng','Thời gian cung cấp Direct Connect lâu','Thiết lập định tuyến BGP phức tạp'] },
+    acidtrans:{ name:'Giao dịch ACID', origin:'Thuộc tính ACID được hình thức hóa bởi Jim Gray năm 1981. Định nghĩa điều gì làm giao dịch CSDL đáng tin cậy.', desc:'Đảm bảo ACID: Atomicity (tất cả hoặc không gì cả), Consistency (quy tắc toàn vẹn luôn đúng), Isolation (giao dịch đồng thời không thấy công việc một phần của nhau), Durability (dữ liệu đã commit tồn qua sự cố).', when:'Bất kỳ giao dịch tài chính, cập nhật tồn kho, hoặc thao tác nhiều bước không được thành công một phần.', cost:'Bao gồm trong giá DB quan hệ được quản lý.', pros:['Toàn vẹn dữ liệu được đảm bảo','Hành vi có thể dự đoán khi lỗi','Hỗ trợ giao dịch nhiều hàng'], cons:['Chậm hơn hệ thống nhất quán cuối cùng','Mở rộng ACID phân tán khó','Two-phase commit thêm độ trễ'] },
+    readsreplica:{ name:'Read Replica & Độ trễ sao chép', origin:'Sao chép binary log MySQL (1998) cho phép read replica. AWS RDS Multi-AZ (2010) tự động hóa failover và quản lý replica.', desc:'Read replica là bản sao DB chính xử lý truy vấn chỉ đọc. Sao chép không đồng bộ — luôn có độ trễ sao chép (thường mili giây). Replica Multi-AZ đồng bộ và dùng cho failover tự động.', when:'Khối lượng công việc đọc nặng (dashboard báo cáo, truy vấn phân tích). Offload đọc sang replica để giảm tải DB primary.', cost:'Mỗi replica là một instance DB đầy đủ. ~0,018–0,50 USD/giờ tùy kích thước.', pros:['Mở rộng dung lượng đọc độc lập','Replica địa lý cho độ trễ đọc thấp toàn cầu','Failover gần như không có downtime (Multi-AZ)'], cons:['Độ trễ sao chép — replica có thể hơi lỗi thời','Ghi vẫn đến primary duy nhất','Thêm chi phí tỉ lệ với số replica'] },
+    connectionpool:{ name:'Connection Pooling', origin:'PgBouncer cho PostgreSQL (1999) và HikariCP cho Java trở nên quan trọng khi ứng dụng web mở rộng. AWS RDS Proxy (2020) cung cấp pooler được quản lý.', desc:'Mở kết nối CSDL mới tốn kém (20–100ms). Connection pool duy trì tập hợp kết nối đã mở và tái sử dụng chúng. Quan trọng cho serverless/Lambda — không có pooling, mỗi lần gọi mở kết nối mới.', when:'Bất kỳ ứng dụng nào có tốc độ yêu cầu cao, đặc biệt serverless function. RDS Proxy bắt buộc cho Lambda + RDS.', cost:'RDS Proxy: ~0,015 USD/vCPU-giờ. PgBouncer miễn phí/mã nguồn mở.', pros:['Ngăn cạn kiệt kết nối','Giảm overhead độ trễ kết nối','Ghép nhiều kết nối app vào ít kết nối DB'], cons:['Pooler thêm component cần quản lý','Một số tính năng DB không tương thích','PgBouncer không hỗ trợ tất cả lệnh PostgreSQL'] },
+    partitioning:{ name:'Sharding & Phân vùng', origin:'Sharding CSDL được phổ biến bởi Flickr, Twitter vào giữa những năm 2000. DynamoDB (2012) làm sharding tự động trong suốt trở thành dịch vụ được quản lý chính thống.', desc:'Sharding chia dữ liệu qua nhiều node CSDL theo partition key — mỗi shard sở hữu một dải key. Phân vùng trong NoSQL phân phối dữ liệu tự động. Chọn partition key tốt là quan trọng: hot partition khiến một shard nhận tất cả lưu lượng.', when:'Khối lượng dữ liệu quá lớn cho một node, hoặc throughput ghi vượt dung lượng single-node.', cost:'Bao gồm trong giá DB NoSQL — trả cho RCU/WCU (DynamoDB) hoặc lưu trữ theo node.', pros:['Mở rộng ngang vượt giới hạn single-node','Mở rộng partition độc lập','Tự động trong dịch vụ NoSQL được quản lý'], cons:['Lựa chọn partition key không thể đảo ngược','Hot partition giết hiệu suất','Truy vấn đa partition đắt tiền'] },
+    zerotrust:{ name:'Mô hình bảo mật Zero Trust', origin:'John Kindervag tại Forrester đặt ra "Zero Trust" năm 2010. BeyondCorp của Google (2014) triển khai nội bộ. Kiến trúc cloud-native đẩy nhanh việc áp dụng.', desc:'"Không bao giờ tin tưởng, luôn xác minh" — mọi yêu cầu phải được xác thực và ủy quyền bất kể vị trí mạng. Triển khai qua mutual TLS, thông tin xác thực ngắn hạn, xác minh liên tục và micro-segmentation.', when:'Bất kỳ kiến trúc đám mây hiện đại nào. Đặc biệt quan trọng khi service trải dài nhiều đám mây và nhân viên làm việc từ xa.', cost:'Mô hình khái niệm. Chi phí phụ thuộc công cụ: IAM (miễn phí), service mesh (~overhead tính toán), SSO (~2–8 USD/người dùng/tháng).', pros:['Loại bỏ rủi ro insider threat','Hoạt động tốt trong đa đám mây','Giảm blast radius vi phạm'], cons:['Phức tạp để triển khai đầy đủ','Overhead hiệu suất từ xác minh liên tục','Yêu cầu thay đổi văn hóa'] },
+    kms:{ name:'Dịch vụ quản lý khóa (KMS) & Mã hóa', origin:'HSM tồn tại từ những năm 1970. AWS KMS (2014) và Azure Key Vault (2015) dân chủ hóa quản lý khóa cấp doanh nghiệp.', desc:'Quản lý khóa mật mã dùng để mã hóa dữ liệu khi lưu trữ và truyền. Mã hóa bao: dữ liệu mã hóa bằng DEK, DEK mã hóa bằng KEK lưu trong KMS. Khóa AWS KMS không bao giờ rời dịch vụ.', when:'Mã hóa đối tượng S3, ổ EBS, lưu trữ DB và dữ liệu nhạy cảm. Yêu cầu cho HIPAA, PCI DSS và SOC 2.', cost:'AWS KMS: 1 USD/khóa/tháng + 0,03 USD/10K yêu cầu API.', pros:['Khóa không expose cho code ứng dụng','Xoay vòng khóa tự động','Nhật ký kiểm tra cho mọi lần dùng khóa','Phần cứng FIPS 140-2'], cons:['Thêm độ trễ cho thao tác mã hóa','Quản lý phân cấp khóa phức tạp','Bị khóa theo vùng mặc định'] },
+    oauthoidc:{ name:'OAuth 2.0 & OIDC', origin:'OAuth 1.0 ra mắt năm 2007. OAuth 2.0 (2012) đơn giản hóa nó. OIDC (OpenID Connect, 2014) thêm danh tính trên OAuth — nền tảng của SSO hiện đại.', desc:'OAuth 2.0 là framework ủy quyền: "ứng dụng này có thể truy cập tài nguyên thay mặt bạn." OIDC thêm xác thực: "đây là bạn là ai." Dùng cho "Đăng nhập bằng Google/Microsoft," SSO và truy cập API machine-to-machine.', when:'Xây dựng bất kỳ ứng dụng nào cần đăng nhập người dùng, SSO hoặc truy cập API bên thứ ba.', cost:'Giao thức miễn phí. Nhà cung cấp danh tính (Okta, Auth0) tính ~0,03–0,12 USD/MAU.', pros:['Tiêu chuẩn ngành — hệ sinh thái khổng lồ','Ủy quyền xác thực cho nhà cung cấp đáng tin','Token ngắn hạn giảm rủi ro'], cons:['Phức tạp để triển khai đúng (nhiều luồng)','Thu hồi token không tức thì','Quản lý refresh token cần cẩn thận'] },
+    gitops:{ name:'GitOps', origin:'GitOps được Weaveworks đặt ra năm 2017. Áp dụng Git làm nguồn thực tế duy nhất cho cả code ứng dụng và trạng thái hạ tầng.', desc:'Mô hình vận hành nơi tất cả trạng thái hệ thống mong muốn được khai báo trong Git. Vòng lặp đối chiếu (ArgoCD, Flux) liên tục so sánh trạng thái Git với cluster thực tế và áp dụng sự khác biệt. Mọi thay đổi là một PR — có thể kiểm tra, đảo ngược, xem xét ngang hàng.', when:'Triển khai Kubernetes, quản lý hạ tầng, nhóm muốn nhật ký kiểm tra đầy đủ và hạ tầng tự phục hồi.', cost:'ArgoCD và Flux miễn phí. Tùy chọn hosted bắt đầu từ ~0,05 USD/resource-giờ.', pros:['Nhật ký kiểm tra đầy đủ (lịch sử Git = lịch sử triển khai)','Rollback dễ dàng qua git revert','Tự phục hồi — drift tự động được sửa','Quản lý thay đổi dựa trên PR'], cons:['Git repo trở thành hạ tầng quan trọng','Quản lý bí mật trong Git cần công cụ ngoài','Đường cong học tập cho người không phải developer'] },
+    bluegreen:{ name:'Triển khai Blue/Green & Canary', origin:'Blue/green được Martin Fowler mô tả năm 2010. Phát hành Canary (đặt tên theo chim hoàng anh trong mỏ than) dần dần rollout thay đổi.', desc:'Blue/green: chạy hai môi trường giống nhau. Chuyển lưu lượng ngay từ phiên bản cũ (blue) sang mới (green). Canary: dần dần chuyển tỷ lệ phần trăm lưu lượng sang phiên bản mới (5% → 25% → 100%) khi giám sát tỷ lệ lỗi.', when:'Triển khai production của bất kỳ service lưu lượng cao nào. Canary để xác nhận dần dần; blue/green để chuyển đổi ngay lập tức.', cost:'Blue/green nhân đôi chi phí hạ tầng trong cửa sổ triển khai. Canary dùng định tuyến có trọng số (không cần hạ tầng thêm).', pros:['Triển khai không có downtime','Rollback ngay lập tức','Canary phát hiện vấn đề trước rollout đầy đủ'], cons:['Blue/green tạm thời nhân đôi chi phí','Thay đổi schema DB làm phức tạp cả hai chiến lược','Yêu cầu ứng dụng không trạng thái'] },
+    observ3:{ name:'Ba trụ cột: Metrics, Log, Trace', origin:'Bài đăng blog của Peter Bourgon (2017) hệ thống hóa ba trụ cột. OpenTelemetry (2019) thống nhất các tiêu chuẩn thu thập cho cả ba.', desc:'Metrics: dữ liệu time-series số (CPU%, độ trễ P99, tỷ lệ lỗi). Logs: bản ghi văn bản có dấu thời gian. Traces: span yêu cầu phân tán cho thấy yêu cầu chạy qua microservices với thời gian mỗi bước.', when:'Bất kỳ hệ thống production nào. Bắt đầu với metrics + log. Thêm distributed tracing khi có 3+ service.', cost:'OpenTelemetry SDK miễn phí. Lưu trữ backend: ~0,30 USD/GB log (CloudWatch), ~0,10 USD/10K trace (X-Ray).', pros:['Cách tiếp cận có hệ thống để gỡ lỗi','OpenTelemetry độc lập nhà cung cấp','Trace loại bỏ phỏng đoán trong microservices'], cons:['Log đắt ở quy mô lớn','Trace sampling ẩn vấn đề hiếm gặp','Mệt mỏi cảnh báo nếu ngưỡng được đặt kém'] },
+    terraform:{ name:'Terraform / HCL', origin:'HashiCorp phát hành Terraform năm 2014 với HCL. Trở thành công cụ IaC đa đám mây thống trị, với OpenTofu (2023) là fork mã nguồn mở.', desc:'Terraform dùng tệp cấu hình HCL khai báo để mô tả hạ tầng. `terraform plan` cho thấy điều gì sẽ thay đổi; `terraform apply` thực thi nó. Provider dịch HCL thành lệnh gọi API cho 3.000+ tài nguyên.', when:'Quản lý hạ tầng đám mây cho bất kỳ tổ chức nào. Đặc biệt có giá trị cho đa đám mây hoặc môi trường có thể tái tạo.', cost:'Terraform CLI: miễn phí. Terraform Cloud: miễn phí cho đến 500 tài nguyên, sau đó 20 USD/người dùng/tháng.', pros:['Đa đám mây (một công cụ cho AWS, Azure, GCP)','Xem trước plan trước khi apply','Hệ sinh thái provider lớn','Phát hiện drift'], cons:['Tệp state quan trọng và có thể bị hỏng','HCL có quirk và vòng lặp hạn chế','Chậm cho tệp state lớn'] },
+    helm:{ name:'Helm (Trình quản lý gói Kubernetes)', origin:'Helm được tạo bởi Deis năm 2015 và quyên tặng cho CNCF năm 2018. Giải quyết đóng gói và triển khai tập hợp manifest Kubernetes — như apt/yum cho Kubernetes.', desc:'Helm đóng gói manifest Kubernetes YAML thành "chart" được quản lý phiên bản. `helm install` triển khai chart; `helm upgrade` cập nhật; `helm rollback` hoàn nguyên. Helm Hub cung cấp hàng nghìn chart có sẵn.', when:'Triển khai bất kỳ ứng dụng nào trên Kubernetes, đặc biệt phần mềm cộng đồng (Nginx, Prometheus, CSDL).', cost:'Miễn phí và mã nguồn mở.', pros:['Đóng gói ứng dụng nhiều manifest thành một lệnh','Phát hành được quản lý phiên bản với rollback','Tái sử dụng qua môi trường với tệp values'], cons:['Chart có thể phức tạp để viết','Logic template trong YAML awkward','Helm 2 yêu cầu Tiller (vấn đề bảo mật, nay đã sửa v3)'] },
+    gpu:{ name:'Instance GPU & Bộ tăng tốc', origin:'NVIDIA CUDA (2007) cho phép điện toán GPU phi đồ họa. AWS ra mắt instance GPU năm 2010. TPU (Google, 2016) đưa phần cứng bộ tăng tốc AI tùy chỉnh vào đám mây.', desc:'GPU vượt trội trong toán học ma trận song song — chính xác những gì huấn luyện mạng nơ-ron cần. Instance GPU đám mây cung cấp NVIDIA A100/H100 hoặc Google TPU mà không cần mua phần cứng.', when:'Huấn luyện mô hình deep learning. Inference cho mô hình lớn. Xử lý ảnh/video thời gian thực.', cost:'T4: ~0,35–0,53 USD/giờ. A100 80GB: ~3,67 USD/giờ. H100: ~6–10 USD/giờ. Spot giảm 60–70%.', pros:['Nhanh hơn 10–100x so với CPU cho thao tác ma trận','Instance spot giảm đáng kể chi phí huấn luyện','Nền tảng ML được quản lý xử lý điều phối cluster'], cons:['Rất đắt ở quy mô lớn','Tính khả dụng GPU có thể bị hạn chế','Cần chuyên môn CUDA cho kernel tùy chỉnh'] },
+    vectordb:{ name:'CSDL vector & Embedding', origin:'Word2Vec (Google, 2013) phổ biến hóa embedding. Pinecone (2019) và pgvector (2021) nổi lên khi ứng dụng AI cần tìm kiếm tương đồng. Trở nên chính thống với làn sóng LLM/RAG năm 2023.', desc:'Embedding là biểu diễn số của văn bản, ảnh hoặc dữ liệu trong không gian vector chiều cao — các mục tương tự về ngữ nghĩa thì gần nhau. CSDL vector index chúng và hỗ trợ tìm kiếm ANN trong mili giây.', when:'Xây dựng RAG cho LLM, tìm kiếm ngữ nghĩa, công cụ đề xuất, tìm kiếm tương đồng ảnh.', cost:'pgvector (mã nguồn mở) chạy trên PostgreSQL hiện có. Pinecone: gói miễn phí + 0,096 USD/giờ cho pod.', pros:['Cho phép tìm kiếm ngữ nghĩa vượt khớp từ khóa','Thiết yếu cho kiến trúc RAG','pgvector giữ vector trong DB hiện có'], cons:['Tìm kiếm ANN đánh đổi chính xác để lấy tốc độ','Thời gian rebuild index cho collection lớn','Lựa chọn mô hình embedding ảnh hưởng đáng kể chất lượng'] },
+    modelserving:{ name:'Phục vụ mô hình & Inference', origin:'TensorFlow Serving (Google, 2016) tiên phong phục vụ mô hình ML production. SageMaker endpoint (2017) làm cho nó được quản lý. vLLM (2023) cải thiện đáng kể throughput inference LLM.', desc:'Model serving expose mô hình ML đã huấn luyện dưới dạng REST hoặc gRPC API. Khái niệm chính: độ trễ (P50/P99), throughput (yêu cầu/giây), batching (phân bổ chi phí GPU) và quản lý phiên bản mô hình.', when:'Đưa bất kỳ mô hình ML nào vào production — chuyển từ notebook sang API. Endpoint tự mở rộng khớp dung lượng với khối lượng yêu cầu.', cost:'SageMaker real-time endpoint: ~0,10–7 USD/giờ. Serverless inference: 0,20 USD/triệu lần gọi.', pros:['Tự mở rộng theo nhu cầu','A/B testing mô hình tích hợp','Triển khai blue/green cho cập nhật mô hình'], cons:['Cold start độ trễ cho serverless inference','Instance GPU đắt để giữ nóng','Logic batching thêm độ phức tạp'] }
+  }
+};
+
+function attachVi() {
+  providers.forEach(p => { p._vi = viData.providers[p.id] || {}; });
+  services.forEach(s => { s._vi = viData.services[s.id] || {}; });
+  concepts.forEach(c => { c._vi = viData.concepts[c.id] || {}; });
+}
+attachVi();
+
+function tv(obj, field) {
+  if (!obj) return '';
+  if (currentLang === 'vi' && obj._vi && obj._vi[field] !== undefined) return obj._vi[field];
+  return obj[field] || '';
+}
+
+function tl(enStr) {
+  if (currentLang === 'vi' && viTrans[enStr]) return viTrans[enStr];
+  return enStr;
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'vi' : 'en';
+  const btn = document.getElementById('langBtn');
+  btn.textContent = currentLang === 'en' ? '🌐 Tiếng Việt' : '🌐 English';
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = el.getAttribute('data-' + currentLang) || el.getAttribute('data-en');
+  });
+  renderProviderCards();
+  renderProviderTable();
+  renderServiceCards();
+  renderCompTable();
+  renderConcepts();
+  renderConceptsComp();
+}
+
+
+function toggleTheme() {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', currentTheme);
+  const btn = document.getElementById('themeBtn');
+  btn.textContent = currentTheme === 'dark' ? '☀️ Light' : '🌙 Dark';
+  renderShareChart();
+}
+
+function onSearch(val) {
+  const q = val.toLowerCase().trim();
+  if (!q) {
+    document.querySelectorAll('.service-card, .provider-card').forEach(el => el.style.display = '');
+    document.getElementById('noResults').style.display = 'none';
+    document.getElementById('conceptsNoResults').style.display = 'none';
+    return;
+  }
+  if (q.length > 1) showTab('services');
+  document.querySelectorAll('#serviceGrid .service-card').forEach(el => {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+  const vis = [...document.querySelectorAll('#serviceGrid .service-card')].filter(e => e.style.display !== 'none');
+  document.getElementById('noResults').style.display = vis.length === 0 ? 'block' : 'none';
+}
+
+function sortTable(tableId, col) {
+  const table = document.getElementById(tableId);
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const th = table.querySelectorAll('th')[col];
+  const asc = th.dataset.sort !== 'asc';
+  table.querySelectorAll('th').forEach(t => { t.classList.remove('sorted'); t.dataset.sort = ''; });
+  th.classList.add('sorted');
+  th.dataset.sort = asc ? 'asc' : 'desc';
+  rows.sort((a, b) => {
+    const av = a.cells[col]?.textContent.trim() || '';
+    const bv = b.cells[col]?.textContent.trim() || '';
+    const an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// ===================== INIT =====================
+renderProviderCards();
+renderProviderTable();
+renderServiceCards();
+renderCompTable();
+renderShareChart();
+renderConcepts();
+renderConceptsComp();
+</script>
+</body>
+</html>

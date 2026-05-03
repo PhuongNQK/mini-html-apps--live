@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MPOT Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;600&family=Source+Sans+3:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script type="module" src="assets/js/app.js" defer></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: false, theme: "default", securityLevel: "loose" });
+      window.mermaid = mermaid;
+    </script>
+  </head>
+  <body>
+    <div class="container fade-in app-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="hero-kicker">Memory and Performance Optimization Atlas</p>
+          <h1 id="page-title"></h1>
+          <p id="page-subtitle"></p>
+        </div>
+        <div class="hero-tools">
+          <div class="controls">
+            <input id="search-input" type="search" />
+            <button id="locale-toggle" type="button">VI</button>
+            <button id="theme-toggle" type="button">Dark</button>
+          </div>
+          <div class="filters" aria-label="Filters">
+            <label class="filter-control">
+              <span id="level-filter-label"></span>
+              <select id="level-filter"></select>
+            </label>
+            <label class="filter-control">
+              <span id="category-filter-label"></span>
+              <select id="category-filter"></select>
+            </label>
+            <label class="filter-control">
+              <span id="language-filter-label"></span>
+              <select id="language-filter"></select>
+            </label>
+          </div>
+          <div class="hero-note">
+            <span class="hero-note-dot"></span>
+            <span>Search across techniques, concepts, and language-specific details.</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-grid">
+        <details class="panel panel-full section-panel" open>
+          <summary class="section-summary">
+            <div class="section-heading">
+              <h2 id="general-title"></h2>
+            </div>
+            <span class="section-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="section-body">
+            <div class="table-wrap table-wrap-tall">
+              <table id="general-comparison-table"></table>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel panel-full panel-techniques section-panel" open>
+          <summary class="section-summary">
+            <div class="section-heading">
+              <h2 id="techniques-title"></h2>
+            </div>
+            <span class="section-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="section-body">
+            <div id="techniques-container"></div>
+          </div>
+        </details>
+
+        <details class="panel panel-full section-panel" open>
+          <summary class="section-summary">
+            <div class="section-heading">
+              <h2 id="concepts-title"></h2>
+            </div>
+            <span class="section-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="section-body">
+            <div class="table-wrap table-wrap-tall">
+              <table id="concepts-table"></table>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel panel-full section-panel" open>
+          <summary class="section-summary">
+            <div class="section-heading">
+              <h2 id="detail-lang-title"></h2>
+            </div>
+            <span class="section-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="section-body">
+            <div class="table-wrap table-wrap-tall">
+              <table id="detailed-language-table"></table>
+            </div>
+          </div>
+        </details>
+
+        <details class="panel panel-full section-panel" open>
+          <summary class="section-summary">
+            <div class="section-heading">
+              <h2 id="detail-concept-title"></h2>
+            </div>
+            <span class="section-toggle" aria-hidden="true"></span>
+          </summary>
+          <div class="section-body">
+            <div class="table-wrap table-wrap-tall">
+              <table id="detailed-concept-table"></table>
+            </div>
+          </div>
+        </details>
+      </main>
+
+      <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top" title="Back to top">
+        ↑
+      </button>
+    </div>
+  </body>
+</html>

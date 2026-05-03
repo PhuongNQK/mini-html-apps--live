@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Tech - Comprehensive Cloud Services Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-color: #dddddd;
+            --accent-color: #0066cc;
+            --accent-hover: #0052a3;
+            --table-header: #f0f0f0;
+            --table-row-alt: #f9f9f9;
+        }
+
+        body.dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #444444;
+            --accent-color: #4da6ff;
+            --accent-hover: #66b3ff;
+            --table-header: #333333;
+            --table-row-alt: #252525;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--accent-color), #00ccff);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        button {
+            padding: 0.7rem 1.5rem;
+            border: 2px solid var(--accent-color);
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color 0.3s;
+        }
+
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem 0;
+            color: var(--text-primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        th {
+            background-color: var(--table-header);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--table-row-alt);
+        }
+
+        tr:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .service-card {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .service-card p {
+            margin: 0.5rem 0;
+            color: var(--text-secondary);
+        }
+
+        .category-label {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .provider-card {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 4px solid var(--accent-color);
+            transition: transform 0.3s;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .provider-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-row {
+            margin: 0.8rem 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .info-value {
+            color: var(--text-secondary);
+            margin-top: 0.3rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.6rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+
+        .language-note {
+            background-color: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Building-block styles */
+        .bb-section {
+            margin-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 0.8rem;
+        }
+
+        .bb-section summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--accent-color);
+            list-style: none;
+            user-select: none;
+        }
+
+        .bb-section summary::before {
+            content: '▶ ';
+            font-size: 0.75rem;
+        }
+
+        details[open] .bb-section summary::before {
+            content: '▼ ';
+        }
+
+        .bb-tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+        }
+
+        .bb-tag {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+
+        .bb-card {
+            background-color: var(--bg-secondary);
+            border-left: 4px solid #e67e22;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .bb-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .bb-card h4 {
+            color: #e67e22;
+            margin-bottom: 0.5rem;
+        }
+
+        .bb-card p {
+            margin: 0.4rem 0;
+            color: var(--text-secondary);
+        }
+
+        .bb-label {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-bar a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            border: 1px solid var(--accent-color);
+            transition: all 0.2s;
+        }
+
+        .nav-bar a:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>☁️ Cloud Atlas</h1>
+        <p>Comprehensive Cloud Services Comparison Across Major Providers</p>
+    </header>
+
+    <div class="controls">
+        <button onclick="toggleDarkMode()" id="themeBtn">🌙 Dark Mode</button>
+        <button onclick="toggleLanguage()" id="langBtn">🌐 عربي</button>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search cloud services..." onkeyup="filterServices()">
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="#sec-providers">Providers</a>
+        <a href="#sec-services">Services</a>
+        <a href="#sec-comparison">Service Comparison</a>
+        <a href="#sec-buildingblocks">Building Blocks</a>
+        <a href="#sec-bbcomparison">BB Comparison</a>
+        <a href="#sec-takeaways">Takeaways</a>
+    </nav>
+
+    <main>
+        <!-- Provider Overview Section -->
+        <div class="section">
+            <h2 id="providerTitle">Cloud Providers Overview</h2>
+            <div id="sec-providers"></div>
+            
+            <table id="providerTable">
+                <thead>
+                    <tr>
+                        <th id="th_provider">Provider</th>
+                        <th id="th_founded">Founded</th>
+                        <th id="th_origin">Origin</th>
+                        <th id="th_target">Target Market</th>
+                        <th id="th_market_share">Market Share</th>
+                        <th id="th_services">Service Categories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-provider="AWS">
+                        <td><strong>Amazon Web Services (AWS)</strong></td>
+                        <td>2006</td>
+                        <td>United States (Amazon Inc.)</td>
+                        <td>Enterprise, SMB, Startups, Developers</td>
+                        <td>~32% (Largest)</td>
+                        <td>Compute, Storage, Networking, AI/ML, Analytics, IoT</td>
+                    </tr>
+                    <tr data-provider="Azure">
+                        <td><strong>Microsoft Azure</strong></td>
+                        <td>2010</td>
+                        <td>United States (Microsoft)</td>
+                        <td>Enterprise, Microsoft Users, Hybrid Cloud</td>
+                        <td>~23%</td>
+                        <td>Compute, Storage, Networking, AI/ML, Developer Tools</td>
+                    </tr>
+                    <tr data-provider="GCP">
+                        <td><strong>Google Cloud Platform (GCP)</strong></td>
+                        <td>2011</td>
+                        <td>United States (Google)</td>
+                        <td>Data Analytics, AI/ML, Developers</td>
+                        <td>~11%</td>
+                        <td>Compute, Storage, AI/ML, Big Data, Analytics</td>
+                    </tr>
+                    <tr data-provider="Alibaba">
+                        <td><strong>Alibaba Cloud</strong></td>
+                        <td>2009</td>
+                        <td>China (Alibaba Group)</td>
+                        <td>Asia-Pacific, Enterprise, E-commerce</td>
+                        <td>~5% (Largest in China)</td>
+                        <td>Compute, Storage, Networking, Database, IoT</td>
+                    </tr>
+                    <tr data-provider="IBM">
+                        <td><strong>IBM Cloud</strong></td>
+                        <td>2013</td>
+                        <td>United States (IBM)</td>
+                        <td>Enterprise, Legacy Systems, Hybrid</td>
+                        <td>~3%</td>
+                        <td>Compute, Storage, Networking, AI, Quantum</td>
+                    </tr>
+                    <tr data-provider="Oracle">
+                        <td><strong>Oracle Cloud</strong></td>
+                        <td>2016</td>
+                        <td>United States (Oracle)</td>
+                        <td>Enterprise, Database-centric</td>
+                        <td>~2%</td>
+                        <td>Database, Compute, Storage, ERP, AI</td>
+                    </tr>
+                    <tr data-provider="Salesforce">
+                        <td><strong>Salesforce</strong></td>
+                        <td>1999</td>
+                        <td>United States (Salesforce)</td>
+                        <td>Enterprise CRM, Business Applications</td>
+                        <td>~2% (Specialized)</td>
+                        <td>CRM, Commerce, Service, Analytics, Platform</td>
+                    </tr>
+                    <tr data-provider="DigitalOcean">
+                        <td><strong>DigitalOcean</strong></td>
+                        <td>2011</td>
+                        <td>United States</td>
+                        <td>Developers, SMB, Simple Projects</td>
+                        <td>&lt;1%</td>
+                        <td>Compute, Storage, Networking, Managed Databases</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Core Cloud Services Section -->
+        <div class="section" id="sec-services">
+            <h2 id="servicesTitle">Core Cloud Services Explained</h2>
+            <p id="servicesSubtitle" style="color: var(--text-secondary); margin-bottom: 1rem;">Services are organized from basic to advanced</p>
+
+            <div id="servicesContainer">
+                <!-- Compute Services -->
+                <div class="service-card" data-category="compute" data-service="virtual-machines">
+                    <div class="category-label" id="cat_compute">COMPUTE</div>
+                    <h4 id="service_vm">Virtual Machines (VMs)</h4>
+                    <p><strong id="origin_label">Origin:</strong> <span id="origin_vm">From traditional data centers; virtualization technology popularized by VMware in the 1990s</span></p>
+                    <p><strong id="what_label">What it is:</strong> <span id="what_vm">On-demand computing resources where you rent entire virtual computer instances with configurable CPU, RAM, and storage</span></p>
+                    <p><strong id="when_label">When to use:</strong> <span id="when_vm">Legacy application migration, full control over OS, complex multi-tier applications, high computational needs</span></p>
+                    <p><strong id="pros_label">Pros:</strong> <span id="pros_vm">Full control, mature technology, wide OS support, scalable, cost-effective for sustained workloads</span></p>
+                    <p><strong id="cons_label">Cons:</strong> <span id="cons_vm">Requires OS maintenance, slower startup, less automatic scaling, higher baseline cost</span></p>
+                    <p><strong id="cost_label">Cost:</strong> <span id="cost_vm">$0.01-$5/hour depending on instance size; monthly bills typically $10-$500+</span></p>
+                    <details class="bb-section"><summary id="bb_label_vm">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Hypervisor (KVM/Xen)</span>
+                            <span class="bb-tag">vCPU / CPU Pinning</span>
+                            <span class="bb-tag">Virtual Disk (EBS/vHD)</span>
+                            <span class="bb-tag">Virtual NIC</span>
+                            <span class="bb-tag">AMI / VM Image</span>
+                            <span class="bb-tag">Auto Scaling Group</span>
+                            <span class="bb-tag">SSH Key Pair</span>
+                            <span class="bb-tag">Security Group / Firewall Rules</span>
+                            <span class="bb-tag">Spot / Preemptible Instance</span>
+                            <span class="bb-tag">Placement Group</span>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="service-card" data-category="compute" data-service="containers">
+                    <div class="category-label" id="cat_compute2">COMPUTE</div>
+                    <h4 id="service_containers">Container Services (Docker, Kubernetes)</h4>
+                    <p><strong id="origin_label2">Origin:</strong> <span id="origin_containers">Docker (2013); Kubernetes evolved from Google's internal Borg system, open-sourced in 2014</span></p>
+                    <p><strong id="what_label2">What it is:</strong> <span id="what_containers">Lightweight, portable application packaging with automatic orchestration and scaling</span></p>
+                    <p><strong id="when_label2">When to use:</strong> <span id="when_containers">Microservices architecture, rapid deployment, DevOps workflows, consistent dev/prod environments</span></p>
+                    <p><strong id="pros_label2">Pros:</strong> <span id="pros_containers">Lightweight, fast startup, excellent scalability, easier DevOps, cost-efficient, multi-cloud friendly</span></p>
+                    <p><strong id="cons_label2">Cons:</strong> <span id="cons_containers">Steep learning curve, complex orchestration, security considerations, requires container registry management</span></p>
+                    <p><strong id="cost_label2">Cost:</strong> <span id="cost_containers">$0.004-$0.25/hour for container instances; managed services $30-$200+/month</span></p>
+                    <details class="bb-section"><summary id="bb_label_containers">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Dockerfile</span>
+                            <span class="bb-tag">Container Image / Registry</span>
+                            <span class="bb-tag">Pod (Kubernetes)</span>
+                            <span class="bb-tag">ReplicaSet / Deployment</span>
+                            <span class="bb-tag">Service &amp; Ingress</span>
+                            <span class="bb-tag">Namespace</span>
+                            <span class="bb-tag">Helm Chart</span>
+                            <span class="bb-tag">kubectl / CLI</span>
+                            <span class="bb-tag">ConfigMap &amp; Secret</span>
+                            <span class="bb-tag">Persistent Volume (PV/PVC)</span>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="service-card" data-category="compute" data-service="serverless">
+                    <div class="category-label" id="cat_compute3">COMPUTE</div>
+                    <h4 id="service_serverless">Serverless/Functions (Lambda, Functions)</h4>
+                    <p><strong id="origin_label3">Origin:</strong> <span id="origin_serverless">AWS Lambda (2014); abstraction layer over containerization, inspired by functional programming</span></p>
+                    <p><strong id="what_label3">What it is:</strong> <span id="what_serverless">Write code without provisioning servers; automatically scales and charges only for execution time</span></p>
+                    <p><strong id="when_label3">When to use:</strong> <span id="when_serverless">Event-driven tasks, APIs, data processing, scheduled jobs, microservices, prototyping</span></p>
+                    <p><strong id="pros_label3">Pros:</strong> <span id="pros_serverless">Zero management, extreme scalability, pay-per-use pricing, fast deployment, ideal for spiky traffic</span></p>
+                    <p><strong id="cons_label3">Cons:</strong> <span id="cons_serverless">Cold start latency, execution time limits, vendor lock-in, complex debugging, cost unpredictable</span></p>
+                    <p><strong id="cost_label3">Cost:</strong> <span id="cost_serverless">$0.0000002/GB-second; typically $0-$100/month for most applications</span></p>
+                    <details class="bb-section"><summary id="bb_label_serverless">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Event Source / Trigger</span>
+                            <span class="bb-tag">Execution Context</span>
+                            <span class="bb-tag">Cold Start</span>
+                            <span class="bb-tag">Concurrency Limit</span>
+                            <span class="bb-tag">Timeout</span>
+                            <span class="bb-tag">Environment Variables</span>
+                            <span class="bb-tag">Layers / Extensions</span>
+                            <span class="bb-tag">API Gateway</span>
+                            <span class="bb-tag">Dead Letter Queue (DLQ)</span>
+                            <span class="bb-tag">IAM Role / Permission</span>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Storage Services -->
+                <div class="service-card" data-category="storage" data-service="object-storage">
+                    <div class="category-label" id="cat_storage">STORAGE</div>
+                    <h4 id="service_object">Object Storage (S3, Blob Storage)</h4>
+                    <p><strong id="origin_label4">Origin:</strong> <span id="origin_object">AWS S3 (2006); revolutionized data storage with REST API and unlimited scalability</span></p>
+                    <p><strong id="what_label4">What it is:</strong> <span id="what_object">Unlimited, scalable storage accessed via API/URLs; ideal for unstructured data like files, images, backups</span></p>
+                    <p><strong id="when_label4">When to use:</strong> <span id="when_object">Media storage, backups, log files, static website hosting, data lakes, archive</span></p>
+                    <p><strong id="pros_label4">Pros:</strong> <span id="pros_object">Unlimited scale, very cheap, 99.9%+ availability, built-in replication, easy to use</span></p>
+                    <p><strong id="cons_label4">Cons:</strong> <span id="cons_object">Not for frequently changing files, not ideal for databases, latency for small files, egress charges</span></p>
+                    <p><strong id="cost_label4">Cost:</strong> <span id="cost_object">$0.023/GB/month storage; data transfer charges apply</span></p>
+                    <details class="bb-section"><summary id="bb_label_object">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Bucket / Container</span>
+                            <span class="bb-tag">Object Key / Path</span>
+                            <span class="bb-tag">Storage Class (Standard/IA/Glacier)</span>
+                            <span class="bb-tag">Lifecycle Policy</span>
+                            <span class="bb-tag">Versioning</span>
+                            <span class="bb-tag">Presigned URL</span>
+                            <span class="bb-tag">Bucket Policy / ACL</span>
+                            <span class="bb-tag">Replication (CRR/SRR)</span>
+                            <span class="bb-tag">Multipart Upload</span>
+                            <span class="bb-tag">Event Notification</span>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="service-card" data-category="storage" data-service="databases">
+                    <div class="category-label" id="cat_storage2">STORAGE</div>
+                    <h4 id="service_databases">Managed Databases (RDS, Cloud SQL)</h4>
+                    <p><strong id="origin_label5">Origin:</strong> <span id="origin_databases">Traditional SQL databases (1970s); cloud versions started with Amazon RDS (2009)</span></p>
+                    <p><strong id="what_label5">What it is:</strong> <span id="what_databases">Pre-configured database engines (MySQL, PostgreSQL, Oracle) with automatic backups and scaling</span></p>
+                    <p><strong id="when_label5">When to use:</strong> <span id="when_databases">Structured data, relational requirements, ACID compliance, complex queries, traditional apps</span></p>
+                    <p><strong id="pros_label5">Pros:</strong> <span id="pros_databases">Managed backups, automatic scaling, high availability, minimal admin work</span></p>
+                    <p><strong id="cons_label5">Cons:</strong> <span id="cons_databases">Less flexible than self-managed, potential vendor lock-in, can be expensive at scale</span></p>
+                    <p><strong id="cost_label5">Cost:</strong> <span id="cost_databases">$0.04-$0.50/hour for instances; ~$30-$1000+/month depending on size</span></p>
+                    <details class="bb-section"><summary id="bb_label_databases">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">DB Instance / Cluster</span>
+                            <span class="bb-tag">Read Replica</span>
+                            <span class="bb-tag">Multi-AZ / HA</span>
+                            <span class="bb-tag">Automated Backup &amp; PITR</span>
+                            <span class="bb-tag">Parameter Group</span>
+                            <span class="bb-tag">Connection Pooling (PgBouncer/RDS Proxy)</span>
+                            <span class="bb-tag">Subnet Group / VPC</span>
+                            <span class="bb-tag">Storage Engine (InnoDB/MyRocks)</span>
+                            <span class="bb-tag">Slow Query Log</span>
+                            <span class="bb-tag">Snapshot &amp; Restore</span>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="service-card" data-category="storage" data-service="nosql">
+                    <div class="category-label" id="cat_storage3">STORAGE</div>
+                    <h4 id="service_nosql">NoSQL Databases (DynamoDB, Firestore)</h4>
+                    <p><strong id="origin_label6">Origin:</strong> <span id="origin_nosql">MongoDB (2009), Cassandra (Facebook, 2008); designed for modern, flexible data models</span></p>
+                    <p><strong id="what_label6">What it is:</strong> <span id="what_nosql">Non-relational databases with flexible schemas; optimized for scale and high-speed reads/writes</span></p>
+                    <p><strong id="when_label6">When to use:</strong> <span id="when_nosql">Real-time apps, IoT data, user profiles, flexible schemas, massive scale, rapid prototyping</span></p>
+                    <p><strong id="pros_label6">Pros:</strong> <span id="pros_nosql">Massive scalability, flexible schemas, very fast, great for real-time applications</span></p>
+                    <p><strong id="cons_label6">Cons:</strong> <span id="cons_nosql">Complex queries harder, no ACID guarantee, consistency trade-offs, learning curve</span></p>
+                    <p><strong id="cost_label6">Cost:</strong> <span id="cost_nosql">Pay-per-request: $1.25 per million requests; provisioned: ~$1/hour base</span></p>
+                    <details class="bb-section"><summary id="bb_label_nosql">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Partition Key / Sort Key</span>
+                            <span class="bb-tag">Document / Collection</span>
+                            <span class="bb-tag">Global Secondary Index (GSI)</span>
+                            <span class="bb-tag">Sharding</span>
+                            <span class="bb-tag">Eventual vs Strong Consistency</span>
+                            <span class="bb-tag">Time-to-Live (TTL)</span>
+                            <span class="bb-tag">Streams / Change Feed</span>
+                            <span class="bb-tag">Transactions (multi-item)</span>
+                            <span class="bb-tag">DAX / In-Memory Cache</span>
+                            <span class="bb-tag">Schema-on-read</span>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Networking Services -->
+                <div class="service-card" data-category="networking" data-service="cdn">
+                    <div class="category-label" id="cat_network">NETWORKING</div>
+                    <h4 id="service_cdn">Content Delivery Network (CDN)</h4>
+                    <p><strong id="origin_label7">Origin:</strong> <span id="origin_cdn">Akamai (1998); evolved to become standard infrastructure for fast content delivery</span></p>
+                    <p><strong id="what_label7">What it is:</strong> <span id="what_cdn">Global network of servers caching and serving your content from locations closest to users</span></p>
+                    <p><strong id="when_label7">When to use:</strong> <span id="when_cdn">Website acceleration, video streaming, global audience, static asset distribution</span></p>
+                    <p><strong id="pros_label7">Pros:</strong> <span id="pros_cdn">Dramatically faster for end-users, reduces origin server load, DDoS protection</span></p>
+                    <p><strong id="cons_label7">Cons:</strong> <span id="cons_cdn">Additional cost, cache invalidation complexity, not ideal for dynamic content</span></p>
+                    <p><strong id="cost_label7">Cost:</strong> <span id="cost_cdn">$0.085/GB for outbound data in US; $0.085-$0.50/GB globally</span></p>
+                    <details class="bb-section"><summary id="bb_label_cdn">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Edge / PoP Location</span>
+                            <span class="bb-tag">Origin Server</span>
+                            <span class="bb-tag">Cache-Control / TTL Headers</span>
+                            <span class="bb-tag">Cache Invalidation</span>
+                            <span class="bb-tag">Geo-Restriction</span>
+                            <span class="bb-tag">HTTPS / TLS Termination</span>
+                            <span class="bb-tag">WAF Integration</span>
+                            <span class="bb-tag">Signed URL / Signed Cookie</span>
+                            <span class="bb-tag">Anycast Routing</span>
+                            <span class="bb-tag">HTTP/2 &amp; HTTP/3</span>
+                        </div>
+                    </details>
+                </div>
+
+                <div class="service-card" data-category="networking" data-service="load-balancing">
+                    <div class="category-label" id="cat_network2">NETWORKING</div>
+                    <h4 id="service_lb">Load Balancing</h4>
+                    <p><strong id="origin_label8">Origin:</strong> <span id="origin_lb">Layer 4 load balancers (1990s); evolved to intelligent Layer 7 routing</span></p>
+                    <p><strong id="what_label8">What it is:</strong> <span id="what_lb">Automatically distributes incoming traffic across multiple backend servers for high availability</span></p>
+                    <p><strong id="when_label8">When to use:</strong> <span id="when_lb">Multi-region deployment, rolling updates, fault tolerance, scaling applications</span></p>
+                    <p><strong id="pros_label8">Pros:</strong> <span id="pros_lb">High availability, automatic failover, health checking, simple traffic distribution</span></p>
+                    <p><strong id="cons_label8">Cons:</strong> <span id="cons_lb">Additional latency, potential single point of failure if not configured properly</span></p>
+                    <p><strong id="cost_label8">Cost:</strong> <span id="cost_lb">$0.006/hour; ~$5-$20/month base; charges per LB rule</span></p>
+                    <details class="bb-section"><summary id="bb_label_lb">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Target Group / Backend Pool</span>
+                            <span class="bb-tag">Health Check</span>
+                            <span class="bb-tag">Listener Rule</span>
+                            <span class="bb-tag">Round-Robin / Least-Connections</span>
+                            <span class="bb-tag">Sticky Sessions</span>
+                            <span class="bb-tag">SSL/TLS Offloading</span>
+                            <span class="bb-tag">Cross-Zone Load Balancing</span>
+                            <span class="bb-tag">Layer 4 (TCP/UDP) vs Layer 7 (HTTP)</span>
+                            <span class="bb-tag">Connection Draining</span>
+                            <span class="bb-tag">Path-Based Routing</span>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- AI/ML Services -->
+                <div class="service-card" data-category="ai-ml" data-service="ml-platform">
+                    <div class="category-label" id="cat_aiml">AI/ML</div>
+                    <h4 id="service_ml">Machine Learning Platforms</h4>
+                    <p><strong id="origin_label9">Origin:</strong> <span id="origin_ml">TensorFlow (Google, 2015); cloud ML offerings started with AWS SageMaker (2017)</span></p>
+                    <p><strong id="what_label9">What it is:</strong> <span id="what_ml">Managed services for training, deploying, and managing ML models with pre-built algorithms</span></p>
+                    <p><strong id="when_label9">When to use:</strong> <span id="when_ml">Predictive analytics, computer vision, NLP, recommendation systems, classification tasks</span></p>
+                    <p><strong id="pros_label9">Pros:</strong> <span id="pros_ml">Pre-built models, automatic scaling, integrated with other services, reduced time to model</span></p>
+                    <p><strong id="cons_label9">Cons:</strong> <span id="cons_ml">Expensive at scale, vendor-specific models, learning curve steep, not always best custom models</span></p>
+                    <p><strong id="cost_label9">Cost:</strong> <span id="cost_ml">$0.30-$2.00 per GB for training; inference $0.0001-$0.001 per prediction</span></p>
+                    <details class="bb-section"><summary id="bb_label_ml">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Training Job / GPU Instance</span>
+                            <span class="bb-tag">Model Artifact / Registry</span>
+                            <span class="bb-tag">Feature Store</span>
+                            <span class="bb-tag">Data Labeling</span>
+                            <span class="bb-tag">Hyperparameter Tuning</span>
+                            <span class="bb-tag">Inference Endpoint</span>
+                            <span class="bb-tag">Notebook (Jupyter)</span>
+                            <span class="bb-tag">Pipeline / Workflow</span>
+                            <span class="bb-tag">AutoML</span>
+                            <span class="bb-tag">Model Monitoring &amp; Drift Detection</span>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Analytics Services -->
+                <div class="service-card" data-category="analytics" data-service="data-warehouse">
+                    <div class="category-label" id="cat_analytics">ANALYTICS</div>
+                    <h4 id="service_dw">Data Warehouse (BigQuery, Redshift)</h4>
+                    <p><strong id="origin_label10">Origin:</strong> <span id="origin_dw">Teradata (1979); cloud data warehouses emerged with Google BigQuery (2010)</span></p>
+                    <p><strong id="what_label10">What it is:</strong> <span id="what_dw">Massive-scale SQL database optimized for analytical queries and data aggregation</span></p>
+                    <p><strong id="when_label10">When to use:</strong> <span id="when_dw">Business intelligence, data analysis, report generation, petabyte-scale analytics</span></p>
+                    <p><strong id="pros_label10">Pros:</strong> <span id="pros_dw">Extreme scalability, SQL familiar to many, serverless, extremely fast queries</span></p>
+                    <p><strong id="cons_label10">Cons:</strong> <span id="cons_dw">Can be very expensive with large data scans, learning curve, not ideal for transactions</span></p>
+                    <p><strong id="cost_label10">Cost:</strong> <span id="cost_dw">$5-$40 per TB scanned; on-demand pricing preferred over reserved</span></p>
+                    <details class="bb-section"><summary id="bb_label_dw">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">Columnar Storage</span>
+                            <span class="bb-tag">Massively Parallel Processing (MPP)</span>
+                            <span class="bb-tag">Data Lake Integration</span>
+                            <span class="bb-tag">ETL / ELT Pipeline</span>
+                            <span class="bb-tag">Partitioning &amp; Clustering</span>
+                            <span class="bb-tag">Materialized View</span>
+                            <span class="bb-tag">Slot / DWU (Capacity unit)</span>
+                            <span class="bb-tag">BI Connector (Looker/PowerBI)</span>
+                            <span class="bb-tag">Workload Management</span>
+                            <span class="bb-tag">External Table / Federated Query</span>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- IoT Services -->
+                <div class="service-card" data-category="iot" data-service="iot-hub">
+                    <div class="category-label" id="cat_iot">IoT</div>
+                    <h4 id="service_iot">IoT Hub & Messaging</h4>
+                    <p><strong id="origin_label11">Origin:</strong> <span id="origin_iot">MQTT protocol (1999); cloud IoT services launched with AWS IoT (2015)</span></p>
+                    <p><strong id="what_label11">What it is:</strong> <span id="what_iot">Platform for connecting, managing, and processing data from billions of IoT devices</span></p>
+                    <p><strong id="when_label11">When to use:</strong> <span id="when_iot">Smart devices, sensor networks, real-time monitoring, device management at scale</span></p>
+                    <p><strong id="pros_label11">Pros:</strong> <span id="pros_iot">Massive device support, built-in security, real-time processing, device management</span></p>
+                    <p><strong id="cons_label11">Cons:</strong> <span id="cons_iot">Complex setup, steep learning curve, can be expensive with many device connections</span></p>
+                    <p><strong id="cost_label11">Cost:</strong> <span id="cost_iot">$5-$10/month per 1M device connections; data transfer charges apply</span></p>
+                    <details class="bb-section"><summary id="bb_label_iot">Building-Block Concepts &amp; Tools</summary>
+                        <div class="bb-tag-list">
+                            <span class="bb-tag">MQTT / AMQP Protocol</span>
+                            <span class="bb-tag">Device Shadow / Twin</span>
+                            <span class="bb-tag">Device Registry</span>
+                            <span class="bb-tag">Rules Engine</span>
+                            <span class="bb-tag">TLS / x.509 Certificate</span>
+                            <span class="bb-tag">OTA Firmware Update</span>
+                            <span class="bb-tag">Message Broker</span>
+                            <span class="bb-tag">Edge Computing / Greengrass</span>
+                            <span class="bb-tag">Time-Series Database</span>
+                            <span class="bb-tag">Device Fleet Management</span>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Provider Comparison Section -->
+        <div class="section" id="sec-comparison">
+            <h2 id="comparisonTitle">Cloud Services by Provider - Detailed Comparison</h2>
+            
+            <table id="comparisonTable">
+                <thead>
+                    <tr>
+                        <th id="th_service">Cloud Service</th>
+                        <th id="th_aws">AWS</th>
+                        <th id="th_azure">Azure</th>
+                        <th id="th_gcp">GCP</th>
+                        <th id="th_alibaba">Alibaba</th>
+                        <th id="th_ibm">IBM</th>
+                        <th id="th_oracle">Oracle</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonBody">
+                    <!-- Compute -->
+                    <tr data-service="virtual-machines" class="service-row">
+                        <td><strong>Virtual Machines</strong></td>
+                        <td>EC2<br><small>Most options, AutoScaling, spot instances</small></td>
+                        <td>Virtual Machines<br><small>Hybrid integration, Azure Stack</small></td>
+                        <td>Compute Engine<br><small>Per-second billing, sustained use discount</small></td>
+                        <td>ECS<br><small>Competitive pricing, Asian regions</small></td>
+                        <td>Virtual Servers<br><small>Good for legacy, VSI</small></td>
+                        <td>Compute<br><small>Optimized for Oracle DB workloads</small></td>
+                    </tr>
+
+                    <tr data-service="containers" class="service-row">
+                        <td><strong>Container Orchestration</strong></td>
+                        <td>ECS/EKS<br><small>ECS proprietary, EKS full Kubernetes</small></td>
+                        <td>AKS<br><small>Integrated with Microsoft services</small></td>
+                        <td>GKE<br><small>Most mature, native Kubernetes</small></td>
+                        <td>ACK<br><small>Kubernetes-based, fast growing</small></td>
+                        <td>IKS<br><small>Kubernetes on IBM Cloud</small></td>
+                        <td>No native offering<br><small>Use on Compute</small></td>
+                    </tr>
+
+                    <tr data-service="serverless" class="service-row">
+                        <td><strong>Serverless Functions</strong></td>
+                        <td>Lambda<br><small>Industry standard, 15min max</small></td>
+                        <td>Azure Functions<br><small>Flexible, good integration</small></td>
+                        <td>Cloud Functions<br><small>Multiple runtimes, 9min max</small></td>
+                        <td>Function Compute<br><small>Competitive pricing</small></td>
+                        <td>Functions<br><small>Limited ecosystem</small></td>
+                        <td>None<br><small>Not available</small></td>
+                    </tr>
+
+                    <!-- Storage -->
+                    <tr data-service="object-storage" class="service-row">
+                        <td><strong>Object Storage</strong></td>
+                        <td>S3<br><small>Industry standard, most features</small></td>
+                        <td>Blob Storage<br><small>Good performance, Azure ecosystem</small></td>
+                        <td>Cloud Storage<br><small>Excellent performance, multi-class</small></td>
+                        <td>OSS<br><small>Very cheap in Asia regions</small></td>
+                        <td>Object Storage<br><small>Basic offering</small></td>
+                        <td>Object Storage<br><small>OCI Cloud Object Storage</small></td>
+                    </tr>
+
+                    <tr data-service="databases" class="service-row">
+                        <td><strong>Managed SQL Database</strong></td>
+                        <td>RDS<br><small>Multiple engines, Multi-AZ</small></td>
+                        <td>SQL Database/Managed Instance<br><small>SQL Server strong</small></td>
+                        <td>Cloud SQL<br><small>MySQL/PostgreSQL focus, good integration</small></td>
+                        <td>RDS<br><small>MySQL/PostgreSQL, good pricing</small></td>
+                        <td>Databases for<br><small>Limited offerings</small></td>
+                        <td>Autonomous Database<br><small>Oracle DB specialized, expensive</small></td>
+                    </tr>
+
+                    <tr data-service="nosql" class="service-row">
+                        <td><strong>NoSQL Database</strong></td>
+                        <td>DynamoDB<br><small>Scale to any size, per-request billing</small></td>
+                        <td>Cosmos DB<br><small>Multi-model, global distribution</small></td>
+                        <td>Firestore/Datastore<br><small>Real-time, great for mobile</small></td>
+                        <td>TableStore<br><small>Competitive pricing</small></td>
+                        <td>Cloudant<br><small>Limited, JSON-based</small></td>
+                        <td>NoSQL Database<br><small>Basic offering</small></td>
+                    </tr>
+
+                    <!-- Networking -->
+                    <tr data-service="cdn" class="service-row">
+                        <td><strong>CDN</strong></td>
+                        <td>CloudFront<br><small>Well integrated, good performance</small></td>
+                        <td>Azure CDN<br><small>Multiple providers available</small></td>
+                        <td>Cloud CDN<br><small>Strong performance, Google networks</small></td>
+                        <td>CDN<br><small>Growing network, Asia strong</small></td>
+                        <td>None<br><small>Partner with Akamai</small></td>
+                        <td>CDN<br><small>OCI Web Application Firewall included</small></td>
+                    </tr>
+
+                    <tr data-service="load-balancing" class="service-row">
+                        <td><strong>Load Balancer</strong></td>
+                        <td>ELB (ALB/NLB)<br><small>Layer 4 & 7, DDoS protection</small></td>
+                        <td>Application Gateway/Load Balancer<br><small>Layer 7 strong</small></td>
+                        <td>Cloud Load Balancing<br><small>Global, 99.99% SLA</small></td>
+                        <td>Server Load Balancer<br><small>Cost effective</small></td>
+                        <td>Load Balancer<br><small>Basic Layer 4/7</small></td>
+                        <td>Load Balancer<br><small>Layer 4/7 options</small></td>
+                    </tr>
+
+                    <!-- AI/ML -->
+                    <tr data-service="ml-platform" class="service-row">
+                        <td><strong>ML Platform</strong></td>
+                        <td>SageMaker<br><small>Most comprehensive, notebooks included</small></td>
+                        <td>Machine Learning/Cognitive Services<br><small>Pre-built models for business</small></td>
+                        <td>Vertex AI<br><small>Auto ML, great integration</small></td>
+                        <td>Machine Learning Platform<br><small>Emerging platform</small></td>
+                        <td>Watson<br><small>Enterprise AI focus</small></td>
+                        <td>OML<br><small>Database-focused</small></td>
+                    </tr>
+
+                    <!-- Analytics -->
+                    <tr data-service="data-warehouse" class="service-row">
+                        <td><strong>Data Warehouse</strong></td>
+                        <td>Redshift<br><small>Mature, cost-effective, PostgreSQL-based</small></td>
+                        <td>Synapse Analytics<br><small>SQL-based, T-SQL support</small></td>
+                        <td>BigQuery<br><small>Serverless, most advanced, per-TB pricing</small></td>
+                        <td>Analytic Database<br><small>Growing capabilities</small></td>
+                        <td>Db2 Warehouse<br><small>Traditional, mature</small></td>
+                        <td>MySQL Heatwave<br><small>Analytics on MySQL</small></td>
+                    </tr>
+
+                    <!-- IoT -->
+                    <tr data-service="iot-hub" class="service-row">
+                        <td><strong>IoT Platform</strong></td>
+                        <td>AWS IoT Core<br><small>Mature, device management, rules engine</small></td>
+                        <td>Azure IoT Hub<br><small>Scalable, device twins</small></td>
+                        <td>Cloud IoT Core<br><small>Google-managed, integration with Pub/Sub</small></td>
+                        <td>IoT Platform<br><small>Growing capabilities</small></td>
+                        <td>Watson IoT Platform<br><small>Enterprise features</small></td>
+                        <td>IoT Production Monitoring<br><small>Limited offering</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Building-Block Concepts & Tools Reference -->
+        <div class="section" id="sec-buildingblocks">
+            <h2 id="bbTitle">Building-Block Concepts &amp; Tools</h2>
+            <p id="bbSubtitle" style="color: var(--text-secondary); margin-bottom: 1rem;">Foundational concepts and tools that underpin every cloud service, ordered from basic to advanced</p>
+
+            <div id="bbContainer">
+
+                <!-- Hypervisor -->
+                <div class="bb-card" data-category="compute" data-bb="hypervisor">
+                    <div class="bb-label">COMPUTE</div>
+                    <h4>Hypervisor (KVM / Xen / Hyper-V)</h4>
+                    <p><strong>Origin:</strong> IBM CP-40 (1967); open-source KVM merged into Linux kernel (2007)</p>
+                    <p><strong>What it is:</strong> Low-level firmware/software that abstracts physical hardware, enabling multiple VMs to share one physical host with isolated CPU, memory, and I/O</p>
+                    <p><strong>When to use:</strong> Underlies every VM-based cloud service; direct interaction rarely needed by end users unless running bare-metal or nested virtualisation</p>
+                    <p><strong>Pros:</strong> Strong isolation, mature, hardware-level performance; supports live migration</p>
+                    <p><strong>Cons:</strong> Overhead vs containers, requires hardware support (VT-x/AMD-V)</p>
+                    <p><strong>Cost:</strong> Included in VM pricing; no separate charge</p>
+                </div>
+
+                <!-- VM Image (AMI) -->
+                <div class="bb-card" data-category="compute" data-bb="vm-image">
+                    <div class="bb-label">COMPUTE</div>
+                    <h4>VM Image / AMI / Snapshot Template</h4>
+                    <p><strong>Origin:</strong> Disk imaging tools (Ghost, 1995); cloud AMI concept introduced by AWS (2006)</p>
+                    <p><strong>What it is:</strong> A pre-configured OS + software blueprint used to stamp out identical VM instances instantly</p>
+                    <p><strong>When to use:</strong> Golden-image pipelines, auto-scaling groups, reproducible environments</p>
+                    <p><strong>Pros:</strong> Fast provisioning, immutable infrastructure, easy rollback</p>
+                    <p><strong>Cons:</strong> Image drift if not rebuilt regularly; large storage size</p>
+                    <p><strong>Cost:</strong> Snapshot storage ~$0.05/GB/month</p>
+                </div>
+
+                <!-- Dockerfile / Container Image -->
+                <div class="bb-card" data-category="compute" data-bb="dockerfile">
+                    <div class="bb-label">COMPUTE</div>
+                    <h4>Dockerfile &amp; Container Image</h4>
+                    <p><strong>Origin:</strong> Docker Inc. (2013); based on Linux namespaces &amp; cgroups available since 2007</p>
+                    <p><strong>What it is:</strong> A text recipe (Dockerfile) that builds a layered, portable container image — the unit of deployment for containerised workloads</p>
+                    <p><strong>When to use:</strong> Any containerised application; CI/CD image build pipelines</p>
+                    <p><strong>Pros:</strong> Reproducible, small layers cached for speed, multi-arch support</p>
+                    <p><strong>Cons:</strong> Large images if not optimised; layers can expose secrets if not careful</p>
+                    <p><strong>Cost:</strong> Build compute cost only; registry storage ~$0.10/GB/month</p>
+                </div>
+
+                <!-- Kubernetes Pod -->
+                <div class="bb-card" data-category="compute" data-bb="k8s-pod">
+                    <div class="bb-label">COMPUTE</div>
+                    <h4>Kubernetes Pod, Deployment &amp; Service</h4>
+                    <p><strong>Origin:</strong> Google Borg (2003); open-sourced as Kubernetes (2014)</p>
+                    <p><strong>What it is:</strong> A Pod is the smallest deployable unit (one or more containers sharing network/storage). A Deployment manages replicas; a Service exposes them via stable DNS</p>
+                    <p><strong>When to use:</strong> Any containerised workload requiring self-healing, rolling updates, or horizontal scaling</p>
+                    <p><strong>Pros:</strong> Declarative, self-healing, huge ecosystem</p>
+                    <p><strong>Cons:</strong> YAML complexity, steep learning curve, cluster management overhead</p>
+                    <p><strong>Cost:</strong> Control plane $0.10/hour on EKS/GKE/AKS; worker nodes separate</p>
+                </div>
+
+                <!-- Helm Chart -->
+                <div class="bb-card" data-category="compute" data-bb="helm">
+                    <div class="bb-label">COMPUTE</div>
+                    <h4>Helm Chart</h4>
+                    <p><strong>Origin:</strong> Deis (2016); graduated CNCF project</p>
+                    <p><strong>What it is:</strong> A package manager for Kubernetes; bundles all K8s manifests into a versioned, parameterisable chart for easy install/upgrade/rollback</p>
+                    <p><strong>When to use:</strong> Packaging and distributing Kubernetes applications; environment-specific overrides via values.yaml</p>
+                    <p><strong>Pros:</strong> Versioned releases, templating, large public chart repository</p>
+                    <p><strong>Cons:</strong> Template complexity; Helm 2 Tiller security issues (resolved in Helm 3)</p>
+                    <p><strong>Cost:</strong> Free (open-source); no cloud-provider charge</p>
+                </div>
+
+                <!-- API Gateway -->
+                <div class="bb-card" data-category="compute" data-bb="api-gateway">
+                    <div class="bb-label">COMPUTE / NETWORKING</div>
+                    <h4>API Gateway</h4>
+                    <p><strong>Origin:</strong> AWS API Gateway (2015); concept from SOA ESBs (2000s)</p>
+                    <p><strong>What it is:</strong> A managed front-door for HTTP/WebSocket APIs: routing, auth, throttling, request transformation, caching, and metering in one service</p>
+                    <p><strong>When to use:</strong> Exposing Lambda functions, microservices, or REST/GraphQL APIs publicly or to internal consumers</p>
+                    <p><strong>Pros:</strong> Zero server management, built-in auth (JWT/OAuth), automatic throttling and docs</p>
+                    <p><strong>Cons:</strong> 29-second timeout on AWS; latency overhead; complex pricing</p>
+                    <p><strong>Cost:</strong> ~$3.50 per million REST API calls; WebSocket $1.00 per million messages</p>
+                </div>
+
+                <!-- Object Storage Bucket / Lifecycle -->
+                <div class="bb-card" data-category="storage" data-bb="bucket-lifecycle">
+                    <div class="bb-label">STORAGE</div>
+                    <h4>Storage Classes &amp; Lifecycle Policies</h4>
+                    <p><strong>Origin:</strong> AWS S3 Glacier (2012); extended with Intelligent-Tiering (2018)</p>
+                    <p><strong>What it is:</strong> Rules that automatically transition objects to cheaper tiers (e.g., Standard → Infrequent Access → Glacier) based on age or access patterns</p>
+                    <p><strong>When to use:</strong> Any data with decreasing access frequency; archive after 90/180 days</p>
+                    <p><strong>Pros:</strong> Automatic cost reduction, no code changes needed</p>
+                    <p><strong>Cons:</strong> Retrieval fees and delays for cold tiers; minimum storage durations apply</p>
+                    <p><strong>Cost:</strong> S3 Standard $0.023 → IA $0.0125 → Glacier $0.004/GB/month</p>
+                </div>
+
+                <!-- Connection Pooling -->
+                <div class="bb-card" data-category="storage" data-bb="connection-pooling">
+                    <div class="bb-label">STORAGE</div>
+                    <h4>Connection Pooling (PgBouncer / RDS Proxy)</h4>
+                    <p><strong>Origin:</strong> PgBouncer (2007); RDS Proxy (AWS, 2020)</p>
+                    <p><strong>What it is:</strong> A proxy that sits between application and database, multiplexing many app connections into a small pool of real DB connections — critical for serverless/Lambda environments</p>
+                    <p><strong>When to use:</strong> Serverless functions hitting a relational DB; apps with many short-lived connections</p>
+                    <p><strong>Pros:</strong> Prevents DB connection exhaustion; faster connection acquisition</p>
+                    <p><strong>Cons:</strong> Adds latency hop; does not support all SQL features in transaction mode</p>
+                    <p><strong>Cost:</strong> RDS Proxy $0.015/vCPU-hour of the underlying DB</p>
+                </div>
+
+                <!-- Read Replica -->
+                <div class="bb-card" data-category="storage" data-bb="read-replica">
+                    <div class="bb-label">STORAGE</div>
+                    <h4>Read Replica &amp; Multi-AZ</h4>
+                    <p><strong>Origin:</strong> MySQL replication (2001); cloud Multi-AZ by Amazon RDS (2010)</p>
+                    <p><strong>What it is:</strong> Read Replicas are async copies of a primary DB for read-scale. Multi-AZ is a synchronous standby for automatic failover with no data loss</p>
+                    <p><strong>When to use:</strong> Read Replica: read-heavy apps, reporting. Multi-AZ: any production database requiring HA</p>
+                    <p><strong>Pros:</strong> Read scale-out; zero-downtime failover with Multi-AZ</p>
+                    <p><strong>Cons:</strong> Replication lag on replicas; Multi-AZ doubles cost</p>
+                    <p><strong>Cost:</strong> Each replica ~same as primary instance cost</p>
+                </div>
+
+                <!-- NoSQL GSI / Sharding -->
+                <div class="bb-card" data-category="storage" data-bb="gsi-sharding">
+                    <div class="bb-label">STORAGE</div>
+                    <h4>Global Secondary Index (GSI) &amp; Sharding</h4>
+                    <p><strong>Origin:</strong> DynamoDB GSI (2013); consistent hashing sharding from Dynamo paper (Amazon, 2007)</p>
+                    <p><strong>What it is:</strong> GSI: an alternate index on different attributes enabling flexible query patterns. Sharding: distributing data across partitions by a hash key for horizontal scale</p>
+                    <p><strong>When to use:</strong> GSI: multiple access patterns on same table. Sharding: when a single partition cannot handle throughput</p>
+                    <p><strong>Pros:</strong> GSI adds query flexibility; sharding removes hotspots</p>
+                    <p><strong>Cons:</strong> GSIs add storage and write cost; poor shard-key choice causes hot partitions</p>
+                    <p><strong>Cost:</strong> DynamoDB GSI: same RCU/WCU cost as base table</p>
+                </div>
+
+                <!-- CDN Edge / Cache-Control -->
+                <div class="bb-card" data-category="networking" data-bb="cache-control">
+                    <div class="bb-label">NETWORKING</div>
+                    <h4>Cache-Control Headers &amp; TTL</h4>
+                    <p><strong>Origin:</strong> HTTP/1.1 spec RFC 2616 (1999)</p>
+                    <p><strong>What it is:</strong> HTTP response headers (Cache-Control, ETag, Last-Modified) that instruct CDN edge nodes and browsers how long to cache a resource before re-validating</p>
+                    <p><strong>When to use:</strong> Tuning CDN cache hit rate; differentiating static (long TTL) from dynamic (short/no-cache)</p>
+                    <p><strong>Pros:</strong> Zero infrastructure cost optimisation; dramatic reduction in origin load</p>
+                    <p><strong>Cons:</strong> Stale content risk; invalidation required after deploy</p>
+                    <p><strong>Cost:</strong> No direct cost; reduces egress charges by improving cache-hit ratio</p>
+                </div>
+
+                <!-- Health Check -->
+                <div class="bb-card" data-category="networking" data-bb="health-check">
+                    <div class="bb-label">NETWORKING</div>
+                    <h4>Health Check &amp; Circuit Breaker</h4>
+                    <p><strong>Origin:</strong> Load-balancer health probes (1990s); Circuit Breaker pattern by Michael Nygard (2007)</p>
+                    <p><strong>What it is:</strong> Health checks probe backend instances (HTTP/TCP/gRPC) at intervals; circuit breakers in service mesh stop routing to a failing service temporarily to prevent cascade failures</p>
+                    <p><strong>When to use:</strong> All production load-balanced services; microservices with external dependencies</p>
+                    <p><strong>Pros:</strong> Automatic removal of unhealthy nodes; prevents cascade failures</p>
+                    <p><strong>Cons:</strong> False positives can remove healthy nodes; requires tuning thresholds</p>
+                    <p><strong>Cost:</strong> Included in load-balancer pricing</p>
+                </div>
+
+                <!-- IAM Role -->
+                <div class="bb-card" data-category="security" data-bb="iam">
+                    <div class="bb-label">SECURITY</div>
+                    <h4>IAM Role &amp; Policy (Least Privilege)</h4>
+                    <p><strong>Origin:</strong> AWS IAM (2011); Zero Trust principles formalised by Google BeyondCorp (2014)</p>
+                    <p><strong>What it is:</strong> Identity &amp; Access Management defines WHO (identity) can do WHAT (action) on WHICH resource via JSON policy documents; roles are assumable without long-lived credentials</p>
+                    <p><strong>When to use:</strong> Always — every cloud resource should have the minimum required permissions; machine-to-machine auth</p>
+                    <p><strong>Pros:</strong> No static passwords; auditable; fine-grained control</p>
+                    <p><strong>Cons:</strong> Policy complexity; misconfiguration risk (over-permissive wildcard)</p>
+                    <p><strong>Cost:</strong> Free in all major providers</p>
+                </div>
+
+                <!-- VPC / Security Group -->
+                <div class="bb-card" data-category="networking" data-bb="vpc">
+                    <div class="bb-label">NETWORKING</div>
+                    <h4>VPC, Subnet &amp; Security Group</h4>
+                    <p><strong>Origin:</strong> AWS VPC (2009); inspired by traditional VLAN/firewall concepts</p>
+                    <p><strong>What it is:</strong> Virtual Private Cloud: a logically isolated network within a cloud region. Subnets split it into public/private zones. Security Groups act as stateful per-instance firewalls</p>
+                    <p><strong>When to use:</strong> All production workloads; needed to isolate databases from the internet</p>
+                    <p><strong>Pros:</strong> Network-level isolation, free, flexible CIDR ranges, peering between VPCs</p>
+                    <p><strong>Cons:</strong> Complex multi-VPC routing; NAT Gateway is expensive for high-egress workloads</p>
+                    <p><strong>Cost:</strong> VPC free; NAT Gateway ~$0.045/hour + $0.045/GB data</p>
+                </div>
+
+                <!-- Feature Store -->
+                <div class="bb-card" data-category="ai-ml" data-bb="feature-store">
+                    <div class="bb-label">AI/ML</div>
+                    <h4>Feature Store</h4>
+                    <p><strong>Origin:</strong> Uber Michelangelo (2017); AWS SageMaker Feature Store (2020)</p>
+                    <p><strong>What it is:</strong> A centralised repository for ML features — computed once, shared across multiple models. Provides offline (training) and online (low-latency inference) stores</p>
+                    <p><strong>When to use:</strong> Teams building multiple ML models that share common feature computations; preventing training-serving skew</p>
+                    <p><strong>Pros:</strong> Reduces redundant computation; consistency between training and inference</p>
+                    <p><strong>Cons:</strong> Added infra complexity; latency for online retrieval</p>
+                    <p><strong>Cost:</strong> SageMaker Feature Store ~$0.00027/write unit + $0.00018/read unit</p>
+                </div>
+
+                <!-- Columnar Storage / MPP -->
+                <div class="bb-card" data-category="analytics" data-bb="columnar">
+                    <div class="bb-label">ANALYTICS</div>
+                    <h4>Columnar Storage &amp; MPP</h4>
+                    <p><strong>Origin:</strong> MonetDB (1993); commercialised by Vertica, Redshift (2012)</p>
+                    <p><strong>What it is:</strong> Storing data column-by-column rather than row-by-row allows compression and skipping irrelevant columns. MPP distributes query execution across many nodes in parallel</p>
+                    <p><strong>When to use:</strong> Aggregation-heavy analytics, BI dashboards, large-scale data scans</p>
+                    <p><strong>Pros:</strong> 10-100× faster aggregations than row-store; high compression</p>
+                    <p><strong>Cons:</strong> Slow for single-row lookups; insert/update overhead</p>
+                    <p><strong>Cost:</strong> Included in data-warehouse pricing; affects query cost in BigQuery per TB scanned</p>
+                </div>
+
+                <!-- ETL / ELT Pipeline -->
+                <div class="bb-card" data-category="analytics" data-bb="etl">
+                    <div class="bb-label">ANALYTICS</div>
+                    <h4>ETL / ELT Pipeline</h4>
+                    <p><strong>Origin:</strong> ETL coined in the context of data warehousing (1970s); ELT shift enabled by cloud DW power (2010s)</p>
+                    <p><strong>What it is:</strong> ETL: Extract → Transform → Load. ELT: load raw data first, transform inside the warehouse. Tools: Apache Spark, dbt, AWS Glue, Fivetran</p>
+                    <p><strong>When to use:</strong> Moving data from operational systems into analytics stores; data normalisation and enrichment</p>
+                    <p><strong>Pros:</strong> ELT leverages DW compute power; decouples ingestion from transformation</p>
+                    <p><strong>Cons:</strong> Transformation complexity; data quality issues propagate downstream</p>
+                    <p><strong>Cost:</strong> AWS Glue $0.44/DPU-hour; self-managed Spark on EMR $0.015-$0.20/hour per node</p>
+                </div>
+
+                <!-- MQTT / Device Shadow -->
+                <div class="bb-card" data-category="iot" data-bb="mqtt">
+                    <div class="bb-label">IoT</div>
+                    <h4>MQTT Protocol &amp; Device Shadow / Twin</h4>
+                    <p><strong>Origin:</strong> MQTT invented by IBM (1999) for satellite pipelines; Device Shadow concept by AWS IoT (2015)</p>
+                    <p><strong>What it is:</strong> MQTT: lightweight publish-subscribe messaging over TCP, ideal for constrained devices. Device Shadow: a JSON document in the cloud mirroring the last-known and desired state of a physical device</p>
+                    <p><strong>When to use:</strong> IoT telemetry ingestion; offline device state synchronisation</p>
+                    <p><strong>Pros:</strong> Very low bandwidth; offline-resilient with Shadow; QoS levels</p>
+                    <p><strong>Cons:</strong> No built-in security (must layer TLS + auth); broker becomes SPOF without HA setup</p>
+                    <p><strong>Cost:</strong> AWS IoT: $0.30 per million messages (≤512 bytes)</p>
+                </div>
+
+                <!-- Time-Series DB -->
+                <div class="bb-card" data-category="iot" data-bb="timeseries">
+                    <div class="bb-label">IoT / ANALYTICS</div>
+                    <h4>Time-Series Database</h4>
+                    <p><strong>Origin:</strong> RRDtool (1999); InfluxDB (2013); AWS Timestream (2020)</p>
+                    <p><strong>What it is:</strong> A database optimised for sequential, timestamped data (sensor readings, metrics, events) with automatic downsampling, retention, and fast range queries</p>
+                    <p><strong>When to use:</strong> IoT sensor ingestion, application performance monitoring, financial tick data</p>
+                    <p><strong>Pros:</strong> Extreme write throughput; built-in aggregation functions; automatic data expiry</p>
+                    <p><strong>Cons:</strong> Not general-purpose; poor for complex relational queries; vendor lock-in</p>
+                    <p><strong>Cost:</strong> AWS Timestream $0.036/million writes; $0.01/GB/month storage</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Building-Block Tools by Provider -->
+        <div class="section" id="sec-bbcomparison">
+            <h2 id="bbCompTitle">Building-Block Tools by Provider — Detailed Comparison</h2>
+
+            <table id="bbCompTable">
+                <thead>
+                    <tr>
+                        <th id="bth_tool">Concept / Tool</th>
+                        <th id="bth_aws">AWS</th>
+                        <th id="bth_azure">Azure</th>
+                        <th id="bth_gcp">GCP</th>
+                        <th id="bth_alibaba">Alibaba</th>
+                        <th id="bth_ibm">IBM</th>
+                        <th id="bth_oracle">Oracle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Compute BBs -->
+                    <tr data-bb="hypervisor" class="service-row">
+                        <td><strong>Hypervisor</strong></td>
+                        <td>Nitro (KVM-based)<br><small>Custom security chip, near-bare-metal perf</small></td>
+                        <td>Hyper-V<br><small>Windows-native, Azure Stack integration</small></td>
+                        <td>KVM (custom)<br><small>Open-source base, live migration</small></td>
+                        <td>Apsara KVM<br><small>Custom fork optimised for Alibaba scale</small></td>
+                        <td>KVM / z/VM<br><small>Also supports IBM Z mainframe</small></td>
+                        <td>KVM<br><small>Optimised for Oracle workloads</small></td>
+                    </tr>
+                    <tr data-bb="vm-image" class="service-row">
+                        <td><strong>VM Image / Template</strong></td>
+                        <td>AMI (Amazon Machine Image)<br><small>Shared publicly or private, EBS/instance-store backed</small></td>
+                        <td>Azure Managed Image / Gallery<br><small>Compute Gallery for versioning</small></td>
+                        <td>Custom Image / Public Images<br><small>Image families, global or regional</small></td>
+                        <td>ECS Custom Image<br><small>Imported from VHD/QCOW2</small></td>
+                        <td>Custom Image<br><small>VSI/Bare Metal image snapshots</small></td>
+                        <td>Custom Image / OCI Boot Volume<br><small>Oracle-provided platform images</small></td>
+                    </tr>
+                    <tr data-bb="dockerfile" class="service-row">
+                        <td><strong>Container Registry</strong></td>
+                        <td>ECR (Elastic Container Registry)<br><small>Integrated with ECS/EKS, vulnerability scanning</small></td>
+                        <td>Azure Container Registry (ACR)<br><small>Geo-replication, content trust</small></td>
+                        <td>Artifact Registry / GCR<br><small>Multi-format, replaces Container Registry</small></td>
+                        <td>ACR (Alibaba Container Registry)<br><small>Enterprise Edition with security scan</small></td>
+                        <td>IBM Cloud Container Registry<br><small>Integrated with IKS</small></td>
+                        <td>OCI Container Registry<br><small>Included in OCI tenancy</small></td>
+                    </tr>
+                    <tr data-bb="k8s-pod" class="service-row">
+                        <td><strong>Managed Kubernetes</strong></td>
+                        <td>EKS<br><small>Fargate option, add-ons marketplace</small></td>
+                        <td>AKS<br><small>AAD integration, Azure Monitor</small></td>
+                        <td>GKE<br><small>Autopilot mode, fastest upgrades</small></td>
+                        <td>ACK<br><small>ASK (serverless K8s), growing</small></td>
+                        <td>IKS<br><small>Calico networking, stable</small></td>
+                        <td>OKE (Oracle Container Engine)<br><small>Free control plane</small></td>
+                    </tr>
+                    <tr data-bb="helm" class="service-row">
+                        <td><strong>App Deployment Packaging</strong></td>
+                        <td>CDK / CloudFormation + Helm<br><small>AWS CDK generates CFN; Helm for K8s</small></td>
+                        <td>Bicep / ARM + Helm<br><small>Bicep is declarative IaC; Helm for K8s</small></td>
+                        <td>Config Connector / Helm<br><small>Kubernetes-native GCP provisioning</small></td>
+                        <td>ROS (Resource Orchestration) + Helm<br><small>CFN-like templates</small></td>
+                        <td>Schematics (Terraform) + Helm<br><small>Powered by Terraform</small></td>
+                        <td>Resource Manager (Terraform) + Helm<br><small>HCL-based</small></td>
+                    </tr>
+                    <tr data-bb="api-gateway" class="service-row">
+                        <td><strong>API Gateway</strong></td>
+                        <td>Amazon API Gateway<br><small>REST/HTTP/WebSocket, usage plans</small></td>
+                        <td>Azure API Management<br><small>Developer portal, policy engine</small></td>
+                        <td>Cloud Endpoints / Apigee<br><small>Apigee for enterprise, gRPC support</small></td>
+                        <td>Alibaba API Gateway<br><small>Traffic throttling, plugin system</small></td>
+                        <td>API Connect<br><small>Full lifecycle API management</small></td>
+                        <td>OCI API Gateway<br><small>JWT/OAuth validation, routing</small></td>
+                    </tr>
+                    <!-- Storage BBs -->
+                    <tr data-bb="bucket-lifecycle" class="service-row">
+                        <td><strong>Storage Lifecycle / Tiering</strong></td>
+                        <td>S3 Lifecycle Rules / Intelligent-Tiering<br><small>Automatic, ML-driven tiering</small></td>
+                        <td>Azure Blob Lifecycle Management<br><small>Hot/Cool/Archive tiers</small></td>
+                        <td>Cloud Storage Object Lifecycle<br><small>Nearline/Coldline/Archive</small></td>
+                        <td>OSS Lifecycle &amp; IA/Archive<br><small>IA and Archive storage classes</small></td>
+                        <td>Object Storage Lifecycle<br><small>Standard/Vault/Cold Vault</small></td>
+                        <td>OCI Object Storage Lifecycle<br><small>Standard/Infrequent/Archive</small></td>
+                    </tr>
+                    <tr data-bb="connection-pooling" class="service-row">
+                        <td><strong>DB Connection Pooler / Proxy</strong></td>
+                        <td>RDS Proxy<br><small>Serverless-aware, IAM auth</small></td>
+                        <td>Azure SQL built-in pooling<br><small>No separate proxy; max connections per tier</small></td>
+                        <td>Cloud SQL Auth Proxy<br><small>IAM-based mTLS tunnel</small></td>
+                        <td>PolarDB Proxy<br><small>Built-in for PolarDB clusters</small></td>
+                        <td>N/A (use PgBouncer on VM)<br><small>Self-managed</small></td>
+                        <td>Database Connection Management<br><small>Built into Autonomous DB</small></td>
+                    </tr>
+                    <tr data-bb="read-replica" class="service-row">
+                        <td><strong>Read Replica / HA Mode</strong></td>
+                        <td>RDS Read Replica / Multi-AZ<br><small>Up to 15 replicas; AZ failover &lt;60s</small></td>
+                        <td>Azure SQL Geo-Replica / Zone Redundant<br><small>Active geo-replication, Business Critical tier</small></td>
+                        <td>Cloud SQL Read Replica / HA<br><small>Automatic failover replica</small></td>
+                        <td>RDS Read-Only Instance<br><small>Up to 5 replicas</small></td>
+                        <td>Db2 HADR<br><small>High Availability Disaster Recovery</small></td>
+                        <td>Data Guard (Autonomous DB)<br><small>Standby in different AD/region</small></td>
+                    </tr>
+                    <tr data-bb="gsi-sharding" class="service-row">
+                        <td><strong>NoSQL Index / Partition Strategy</strong></td>
+                        <td>DynamoDB GSI / LSI<br><small>GSI eventual-consistent; LSI strongly-consistent</small></td>
+                        <td>Cosmos DB Index Policy<br><small>Automatic indexing, custom paths</small></td>
+                        <td>Firestore Composite Index<br><small>Manual creation, unlimited single-field</small></td>
+                        <td>TableStore Secondary Index<br><small>Global and local secondary index</small></td>
+                        <td>Cloudant MapReduce Views<br><small>JavaScript-based views</small></td>
+                        <td>NoSQL Index / Shard Key<br><small>OCI NoSQL partitioned by shard key</small></td>
+                    </tr>
+                    <!-- Networking BBs -->
+                    <tr data-bb="cache-control" class="service-row">
+                        <td><strong>CDN Cache Policy / Invalidation</strong></td>
+                        <td>CloudFront Cache Policy / Invalidation API<br><small>Path-based invalidation; free 1000/month</small></td>
+                        <td>Azure CDN Purge<br><small>Per-URL or wildcard purge</small></td>
+                        <td>Cloud CDN Cache Invalidation<br><small>Pattern-based, near-instant</small></td>
+                        <td>Alibaba CDN Refresh<br><small>URL and directory refresh</small></td>
+                        <td>N/A (Akamai partner)<br><small>Akamai Fast Purge API</small></td>
+                        <td>OCI CDN Edge Policies<br><small>Rule-based caching</small></td>
+                    </tr>
+                    <tr data-bb="health-check" class="service-row">
+                        <td><strong>Health Check &amp; Auto-Healing</strong></td>
+                        <td>ELB Health Check + ASG replacement<br><small>Configurable interval/threshold</small></td>
+                        <td>Azure LB Probe + VMSS repair<br><small>Automatic repairs policy</small></td>
+                        <td>GCE Health Check + MIG repair<br><small>Managed Instance Group auto-healing</small></td>
+                        <td>SLB Health Check + ESS<br><small>Auto Scaling Service integration</small></td>
+                        <td>IBM LB Health Monitor<br><small>HTTP/HTTPS/TCP checks</small></td>
+                        <td>OCI LB Health Checker<br><small>Interval/timeout configurable</small></td>
+                    </tr>
+                    <tr data-bb="vpc" class="service-row">
+                        <td><strong>Virtual Network / VPC</strong></td>
+                        <td>VPC + Security Groups + NACLs<br><small>Default VPC; Transit Gateway for hub-spoke</small></td>
+                        <td>VNet + NSG + UDR<br><small>Hub-spoke via Virtual WAN</small></td>
+                        <td>VPC + Firewall Rules<br><small>Shared VPC, VPC Peering, Private Service Connect</small></td>
+                        <td>VPC + Security Group<br><small>Classic vs VPC network</small></td>
+                        <td>VPC + ACL<br><small>Limited features vs AWS/Azure</small></td>
+                        <td>VCN + Security List / NSG<br><small>Flexible, free peering within tenancy</small></td>
+                    </tr>
+                    <!-- IAM -->
+                    <tr data-bb="iam" class="service-row">
+                        <td><strong>Identity &amp; Access Management</strong></td>
+                        <td>AWS IAM + STS + Cognito<br><small>Roles, policies, federation, MFA</small></td>
+                        <td>Azure AD + RBAC + Managed Identity<br><small>AAD B2C for consumers</small></td>
+                        <td>Cloud IAM + Workload Identity<br><small>Org-level hierarchy, Workload Identity Federation</small></td>
+                        <td>RAM (Resource Access Mgmt)<br><small>Sub-accounts, STS tokens</small></td>
+                        <td>IBM IAM + Trusted Profiles<br><small>Service IDs, API keys</small></td>
+                        <td>OCI IAM + Policies<br><small>Compartments for resource scoping</small></td>
+                    </tr>
+                    <!-- AI/ML BBs -->
+                    <tr data-bb="feature-store" class="service-row">
+                        <td><strong>Feature Store</strong></td>
+                        <td>SageMaker Feature Store<br><small>Online (DynamoDB) + Offline (S3) stores</small></td>
+                        <td>Azure ML Feature Store<br><small>GA 2023, integrated with Azure ML SDK</small></td>
+                        <td>Vertex AI Feature Store<br><small>BigTable-backed online store</small></td>
+                        <td>PAI Feature Engineering<br><small>Part of PAI (Platform for AI)</small></td>
+                        <td>Watson Feature Engine<br><small>Limited; often use open-source Feast</small></td>
+                        <td>Not natively available<br><small>Use OCI Data Science + manual setup</small></td>
+                    </tr>
+                    <!-- Analytics BBs -->
+                    <tr data-bb="columnar" class="service-row">
+                        <td><strong>Columnar Engine / Execution</strong></td>
+                        <td>Redshift RA3 + AQUA<br><small>Managed storage, in-place query acceleration</small></td>
+                        <td>Synapse Dedicated Pool<br><small>CCI (Clustered Columnstore Index)</small></td>
+                        <td>BigQuery Capacitor format<br><small>Proprietary, Dremel execution engine</small></td>
+                        <td>AnalyticDB columnar<br><small>Real-time + historical hybrid</small></td>
+                        <td>Db2 Warehouse BLU Acceleration<br><small>In-memory columnar</small></td>
+                        <td>MySQL HeatWave<br><small>In-memory columnar accelerator for MySQL</small></td>
+                    </tr>
+                    <tr data-bb="etl" class="service-row">
+                        <td><strong>ETL / Data Pipeline</strong></td>
+                        <td>AWS Glue + Step Functions<br><small>Serverless Spark; visual ETL</small></td>
+                        <td>Azure Data Factory + Synapse Pipelines<br><small>GUI-driven, 90+ connectors</small></td>
+                        <td>Cloud Dataflow + Dataproc<br><small>Apache Beam (streaming+batch); managed Spark</small></td>
+                        <td>DataWorks + MaxCompute<br><small>Integrated data development platform</small></td>
+                        <td>IBM DataStage<br><small>Mature enterprise ETL</small></td>
+                        <td>OCI Data Integration + GoldenGate<br><small>GUI-based pipeline + CDC</small></td>
+                    </tr>
+                    <!-- IoT BBs -->
+                    <tr data-bb="mqtt" class="service-row">
+                        <td><strong>IoT Messaging / Protocol</strong></td>
+                        <td>AWS IoT Core (MQTT 3.1/5)<br><small>Rules Engine → 15+ targets</small></td>
+                        <td>Azure IoT Hub (MQTT/AMQP/HTTP)<br><small>Device-to-cloud &amp; cloud-to-device</small></td>
+                        <td>Cloud IoT Core (MQTT/HTTP)<br><small>Deprecated 2023 → Pub/Sub direct</small></td>
+                        <td>IoT Platform (MQTT)<br><small>Rules + stream processing</small></td>
+                        <td>Watson IoT Platform (MQTT)<br><small>Edge Analytics</small></td>
+                        <td>OCI IoT Cloud Service<br><small>MQTT broker, limited vs AWS/Azure</small></td>
+                    </tr>
+                    <tr data-bb="timeseries" class="service-row">
+                        <td><strong>Time-Series Storage</strong></td>
+                        <td>Amazon Timestream<br><small>Serverless, adaptive queries, magnetic tier</small></td>
+                        <td>Azure Data Explorer (ADX)<br><small>KQL language, excellent for logs+metrics</small></td>
+                        <td>Cloud Bigtable<br><small>Wide-column, sub-10ms latency at scale</small></td>
+                        <td>TSDB (Time Series DB)<br><small>Alibaba proprietary, IoT-optimised</small></td>
+                        <td>IBM Informix TimeSeries<br><small>Mature, niche market</small></td>
+                        <td>Oracle NoSQL / Autonomous JSON<br><small>Time-ordered query support</small></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Key Takeaways -->
+        <div class="section" id="sec-takeaways">
+            <h2 id="takeawaysTitle">Key Takeaways</h2>
+            <div class="comparison-grid">
+                <div class="provider-card">
+                    <h3>🏆 For Enterprise</h3>
+                    <div class="info-row">
+                        <div class="info-label" id="takeaway_enterprise">Best Choice: AWS or Azure</div>
+                        <div class="info-value" id="takeaway_enterprise_desc">Most comprehensive services, largest market share, best support, excellent for hybrid deployments</div>
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <h3>📊 For Data & Analytics</h3>
+                    <div class="info-row">
+                        <div class="info-label" id="takeaway_analytics">Best Choice: Google Cloud</div>
+                        <div class="info-value" id="takeaway_analytics_desc">BigQuery is unmatched for analytics, excellent machine learning, strong data integration</div>
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <h3>💰 For Cost-Conscious</h3>
+                    <div class="info-row">
+                        <div class="info-label" id="takeaway_cost">Best Choice: DigitalOcean or Alibaba</div>
+                        <div class="info-value" id="takeaway_cost_desc">Simpler pricing models, lower baseline costs, ideal for startups and small projects</div>
+                    </div>
+                </div>
+                <div class="provider-card">
+                    <h3>🚀 For Developers</h3>
+                    <div class="info-row">
+                        <div class="info-label" id="takeaway_dev">Best Choice: AWS or GCP</div>
+                        <div class="info-value" id="takeaway_dev_desc">Best tooling, largest community, most samples and documentation available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const translations = {
+            en: {
+                providerTitle: "Cloud Providers Overview",
+                th_provider: "Provider",
+                th_founded: "Founded",
+                th_origin: "Origin",
+                th_target: "Target Market",
+                th_market_share: "Market Share",
+                th_services: "Service Categories",
+                servicesTitle: "Core Cloud Services Explained",
+                servicesSubtitle: "Services are organized from basic to advanced",
+                cat_compute: "COMPUTE",
+                cat_storage: "STORAGE",
+                cat_network: "NETWORKING",
+                cat_aiml: "AI/ML",
+                cat_analytics: "ANALYTICS",
+                cat_iot: "IoT",
+                service_vm: "Virtual Machines (VMs)",
+                origin_label: "Origin:",
+                origin_vm: "From traditional data centers; virtualization technology popularized by VMware in the 1990s",
+                what_label: "What it is:",
+                what_vm: "On-demand computing resources where you rent entire virtual computer instances with configurable CPU, RAM, and storage",
+                when_label: "When to use:",
+                when_vm: "Legacy application migration, full control over OS, complex multi-tier applications, high computational needs",
+                pros_label: "Pros:",
+                pros_vm: "Full control, mature technology, wide OS support, scalable, cost-effective for sustained workloads",
+                cons_label: "Cons:",
+                cons_vm: "Requires OS maintenance, slower startup, less automatic scaling, higher baseline cost",
+                cost_label: "Cost:",
+                cost_vm: "$0.01-$5/hour depending on instance size; monthly bills typically $10-$500+",
+                service_containers: "Container Services (Docker, Kubernetes)",
+                origin_containers: "Docker (2013); Kubernetes evolved from Google's internal Borg system, open-sourced in 2014",
+                what_containers: "Lightweight, portable application packaging with automatic orchestration and scaling",
+                when_containers: "Microservices architecture, rapid deployment, DevOps workflows, consistent dev/prod environments",
+                pros_containers: "Lightweight, fast startup, excellent scalability, easier DevOps, cost-efficient, multi-cloud friendly",
+                cons_containers: "Steep learning curve, complex orchestration, security considerations, requires container registry management",
+                cost_containers: "$0.004-$0.25/hour for container instances; managed services $30-$200+/month",
+                service_serverless: "Serverless/Functions (Lambda, Functions)",
+                origin_serverless: "AWS Lambda (2014); abstraction layer over containerization, inspired by functional programming",
+                what_serverless: "Write code without provisioning servers; automatically scales and charges only for execution time",
+                when_serverless: "Event-driven tasks, APIs, data processing, scheduled jobs, microservices, prototyping",
+                pros_serverless: "Zero management, extreme scalability, pay-per-use pricing, fast deployment, ideal for spiky traffic",
+                cons_serverless: "Cold start latency, execution time limits, vendor lock-in, complex debugging, cost unpredictable",
+                cost_serverless: "$0.0000002/GB-second; typically $0-$100/month for most applications",
+                service_object: "Object Storage (S3, Blob Storage)",
+                origin_object: "AWS S3 (2006); revolutionized data storage with REST API and unlimited scalability",
+                what_object: "Unlimited, scalable storage accessed via API/URLs; ideal for unstructured data like files, images, backups",
+                when_object: "Media storage, backups, log files, static website hosting, data lakes, archive",
+                pros_object: "Unlimited scale, very cheap, 99.9%+ availability, built-in replication, easy to use",
+                cons_object: "Not for frequently changing files, not ideal for databases, latency for small files, egress charges",
+                cost_object: "$0.023/GB/month storage; data transfer charges apply",
+                service_databases: "Managed Databases (RDS, Cloud SQL)",
+                origin_databases: "Traditional SQL databases (1970s); cloud versions started with Amazon RDS (2009)",
+                what_databases: "Pre-configured database engines (MySQL, PostgreSQL, Oracle) with automatic backups and scaling",
+                when_databases: "Structured data, relational requirements, ACID compliance, complex queries, traditional apps",
+                pros_databases: "Managed backups, automatic scaling, high availability, minimal admin work",
+                cons_databases: "Less flexible than self-managed, potential vendor lock-in, can be expensive at scale",
+                cost_databases: "$0.04-$0.50/hour for instances; ~$30-$1000+/month depending on size",
+                service_nosql: "NoSQL Databases (DynamoDB, Firestore)",
+                origin_nosql: "MongoDB (2009), Cassandra (Facebook, 2008); designed for modern, flexible data models",
+                what_nosql: "Non-relational databases with flexible schemas; optimized for scale and high-speed reads/writes",
+                when_nosql: "Real-time apps, IoT data, user profiles, flexible schemas, massive scale, rapid prototyping",
+                pros_nosql: "Massive scalability, flexible schemas, very fast, great for real-time applications",
+                cons_nosql: "Complex queries harder, no ACID guarantee, consistency trade-offs, learning curve",
+                cost_nosql: "Pay-per-request: $1.25 per million requests; provisioned: ~$1/hour base",
+                service_cdn: "Content Delivery Network (CDN)",
+                origin_cdn: "Akamai (1998); evolved to become standard infrastructure for fast content delivery",
+                what_cdn: "Global network of servers caching and serving your content from locations closest to users",
+                when_cdn: "Website acceleration, video streaming, global audience, static asset distribution",
+                pros_cdn: "Dramatically faster for end-users, reduces origin server load, DDoS protection",
+                cons_cdn: "Additional cost, cache invalidation complexity, not ideal for dynamic content",
+                cost_cdn: "$0.085/GB for outbound data in US; $0.085-$0.50/GB globally",
+                service_lb: "Load Balancing",
+                origin_lb: "Layer 4 load balancers (1990s); evolved to intelligent Layer 7 routing",
+                what_lb: "Automatically distributes incoming traffic across multiple backend servers for high availability",
+                when_lb: "Multi-region deployment, rolling updates, fault tolerance, scaling applications",
+                pros_lb: "High availability, automatic failover, health checking, simple traffic distribution",
+                cons_lb: "Additional latency, potential single point of failure if not configured properly",
+                cost_lb: "$0.006/hour; ~$5-$20/month base; charges per LB rule",
+                service_ml: "Machine Learning Platforms",
+                origin_ml: "TensorFlow (Google, 2015); cloud ML offerings started with AWS SageMaker (2017)",
+                what_ml: "Managed services for training, deploying, and managing ML models with pre-built algorithms",
+                when_ml: "Predictive analytics, computer vision, NLP, recommendation systems, classification tasks",
+                pros_ml: "Pre-built models, automatic scaling, integrated with other services, reduced time to model",
+                cons_ml: "Expensive at scale, vendor-specific models, learning curve steep, not always best custom models",
+                cost_ml: "$0.30-$2.00 per GB for training; inference $0.0001-$0.001 per prediction",
+                service_dw: "Data Warehouse (BigQuery, Redshift)",
+                origin_dw: "Teradata (1979); cloud data warehouses emerged with Google BigQuery (2010)",
+                what_dw: "Massive-scale SQL database optimized for analytical queries and data aggregation",
+                when_dw: "Business intelligence, data analysis, report generation, petabyte-scale analytics",
+                pros_dw: "Extreme scalability, SQL familiar to many, serverless, extremely fast queries",
+                cons_dw: "Can be very expensive with large data scans, learning curve, not ideal for transactions",
+                cost_dw: "$5-$40 per TB scanned; on-demand pricing preferred over reserved",
+                service_iot: "IoT Hub & Messaging",
+                origin_iot: "MQTT protocol (1999); cloud IoT services launched with AWS IoT (2015)",
+                what_iot: "Platform for connecting, managing, and processing data from billions of IoT devices",
+                when_iot: "Smart devices, sensor networks, real-time monitoring, device management at scale",
+                pros_iot: "Massive device support, built-in security, real-time processing, device management",
+                cons_iot: "Complex setup, steep learning curve, can be expensive with many device connections",
+                cost_iot: "$5-$10/month per 1M device connections; data transfer charges apply",
+                comparisonTitle: "Cloud Services by Provider - Detailed Comparison",
+                th_service: "Cloud Service",
+                th_aws: "AWS",
+                th_azure: "Azure",
+                th_gcp: "GCP",
+                th_alibaba: "Alibaba",
+                th_ibm: "IBM",
+                th_oracle: "Oracle",
+                takeawaysTitle: "Key Takeaways",
+                takeaway_enterprise: "Best Choice: AWS or Azure",
+                takeaway_enterprise_desc: "Most comprehensive services, largest market share, best support, excellent for hybrid deployments",
+                takeaway_analytics: "Best Choice: Google Cloud",
+                takeaway_analytics_desc: "BigQuery is unmatched for analytics, excellent machine learning, strong data integration",
+                takeaway_cost: "Best Choice: DigitalOcean or Alibaba",
+                takeaway_cost_desc: "Simpler pricing models, lower baseline costs, ideal for startups and small projects",
+                takeaway_dev: "Best Choice: AWS or GCP",
+                takeaway_dev_desc: "Best tooling, largest community, most samples and documentation available",
+                // Building-blocks section
+                bbTitle: "Building-Block Concepts & Tools",
+                bbSubtitle: "Foundational concepts and tools that underpin every cloud service, ordered from basic to advanced",
+                bbCompTitle: "Building-Block Tools by Provider — Detailed Comparison",
+                bth_tool: "Concept / Tool",
+                bth_aws: "AWS",
+                bth_azure: "Azure",
+                bth_gcp: "GCP",
+                bth_alibaba: "Alibaba",
+                bth_ibm: "IBM",
+                bth_oracle: "Oracle",
+            },
+            vi: {
+                providerTitle: "Tổng Quan Nhà Cung Cấp Điện Toán Đám Mây",
+                th_provider: "Nhà Cung Cấp",
+                th_founded: "Thành Lập",
+                th_origin: "Nguồn Gốc",
+                th_target: "Thị Trường Mục Tiêu",
+                th_market_share: "Thị Phần",
+                th_services: "Danh Mục Dịch Vụ",
+                servicesTitle: "Dịch Vụ Điện Toán Đám Mây Cốt Lõi",
+                servicesSubtitle: "Các dịch vụ được sắp xếp từ cơ bản đến nâng cao",
+                cat_compute: "TÍNH TOÁN",
+                cat_storage: "LƯU TRỮ",
+                cat_network: "MẠNG",
+                cat_aiml: "AI/ML",
+                cat_analytics: "PHÂN TÍCH",
+                cat_iot: "IoT",
+                service_vm: "Máy Ảo (VMs)",
+                origin_label: "Nguồn Gốc:",
+                origin_vm: "Từ các trung tâm dữ liệu truyền thống; công nghệ ảo hóa được phổ biến bởi VMware vào những năm 1990",
+                what_label: "Nó là gì:",
+                what_vm: "Tài nguyên máy tính theo yêu cầu nơi bạn thuê toàn bộ các phiên bản máy tính ảo với CPU, RAM và lưu trữ có thể cấu hình",
+                when_label: "Khi nào sử dụng:",
+                when_vm: "Di chuyển ứng dụng cũ, kiểm soát toàn bộ hệ điều hành, các ứng dụng nhiều tầng phức tạp, nhu cầu tính toán cao",
+                pros_label: "Ưu điểm:",
+                pros_vm: "Kiểm soát đầy đủ, công nghệ trưởng thành, hỗ trợ OS rộng, có thể mở rộng, tiết kiệm chi phí cho khối lượng công việc bền bỉ",
+                cons_label: "Nhược điểm:",
+                cons_vm: "Yêu cầu bảo trì OS, khởi động chậm, tự động mở rộng ít, chi phí cơ sở cao hơn",
+                cost_label: "Chi phí:",
+                cost_vm: "$0.01-$5/giờ tùy thuộc vào kích thước instance; hóa đơn hàng tháng thường là $10-$500+",
+                service_containers: "Dịch Vụ Container (Docker, Kubernetes)",
+                origin_containers: "Docker (2013); Kubernetes phát triển từ hệ thống Borg nội bộ của Google, được mở mã năm 2014",
+                what_containers: "Đóng gói ứng dụng nhẹ, di động với orchestration tự động và tự động mở rộng",
+                when_containers: "Kiến trúc microservices, triển khai nhanh, quy trình DevOps, môi trường dev/prod nhất quán",
+                pros_containers: "Nhẹ, khởi động nhanh, khả năng mở rộng xuất sắc, DevOps dễ dàng, tiết kiệm chi phí, thân thiện đa đám mây",
+                cons_containers: "Đường cong học tập dốc, orchestration phức tạp, cân nhắc bảo mật, yêu cầu quản lý registry container",
+                cost_containers: "$0.004-$0.25/giờ cho các phiên bản container; dịch vụ quản lý $30-$200+/tháng",
+                service_serverless: "Serverless/Functions (Lambda, Functions)",
+                origin_serverless: "AWS Lambda (2014); lớp trừu tượng trên containerization, lấy cảm hứng từ lập trình hàm",
+                what_serverless: "Viết mã mà không cần cung cấp máy chủ; tự động mở rộng và chỉ tính phí cho thời gian thực thi",
+                when_serverless: "Các tác vụ được kích hoạt bằng sự kiện, API, xử lý dữ liệu, công việc được lên lịch, microservices, tạo mẫu",
+                pros_serverless: "Không quản lý, khả năng mở rộng cực kỳ, định giá trả khi sử dụng, triển khai nhanh, lý tưởng cho lưu lượng truy cập không đều",
+                cons_serverless: "Độ trễ khởi động lạnh, giới hạn thời gian thực thi, khóa nhà cung cấp, gỡ lỗi phức tạp, chi phí không thể đoán trước",
+                cost_serverless: "$0.0000002/GB-giây; thường là $0-$100/tháng cho hầu hết các ứng dụng",
+                service_object: "Lưu Trữ Đối Tượng (S3, Blob Storage)",
+                origin_object: "AWS S3 (2006); cách mạng hóa lưu trữ dữ liệu với REST API và khả năng mở rộng không giới hạn",
+                what_object: "Lưu trữ không giới hạn, có thể mở rộng được truy cập qua API/URL; lý tưởng cho dữ liệu phi cấu trúc như tệp, hình ảnh, sao lưu",
+                when_object: "Lưu trữ phương tiện, sao lưu, tệp nhật ký, lưu trữ trang web tĩnh, hồ dữ liệu, lưu trữ",
+                pros_object: "Quy mô không giới hạn, rất rẻ, tính khả dụng 99.9%+, sao chép tích hợp, dễ sử dụng",
+                cons_object: "Không phù hợp cho các tệp thay đổi thường xuyên, không lý tưởng cho cơ sở dữ liệu, độ trễ cho các tệp nhỏ, phí truyền dữ liệu",
+                cost_object: "$0.023/GB/tháng lưu trữ; phí truyền dữ liệu áp dụng",
+                service_databases: "Cơ Sở Dữ Liệu Được Quản Lý (RDS, Cloud SQL)",
+                origin_databases: "Cơ sở dữ liệu SQL truyền thống (những năm 1970); các phiên bản đám mây bắt đầu với Amazon RDS (2009)",
+                what_databases: "Các công cụ cơ sở dữ liệu được cấu hình trước (MySQL, PostgreSQL, Oracle) với sao lưu tự động và tự động mở rộng",
+                when_databases: "Dữ liệu có cấu trúc, yêu cầu relational, tuân thủ ACID, truy vấn phức tạp, ứng dụng truyền thống",
+                pros_databases: "Sao lưu được quản lý, tự động mở rộng, khả năng sẵn sàng cao, công việc quản trị tối thiểu",
+                cons_databases: "Ít linh hoạt hơn tự quản, khóa nhà cung cấp tiềm năng, có thể tốn kém ở quy mô lớn",
+                cost_databases: "$0.04-$0.50/giờ cho các instance; ~$30-$1000+/tháng tùy thuộc vào kích thước",
+                service_nosql: "Cơ Sở Dữ Liệu NoSQL (DynamoDB, Firestore)",
+                origin_nosql: "MongoDB (2009), Cassandra (Facebook, 2008); được thiết kế cho mô hình dữ liệu hiện đại, linh hoạt",
+                what_nosql: "Cơ sở dữ liệu không quan hệ với lược đồ linh hoạt; tối ưu hóa cho quy mô và đọc/ghi tốc độ cao",
+                when_nosql: "Ứng dụng thời gian thực, dữ liệu IoT, hồ sơ người dùng, lược đồ linh hoạt, quy mô lớn, tạo mẫu nhanh",
+                pros_nosql: "Khả năng mở rộng lớn, lược đồ linh hoạt, rất nhanh, tuyệt vời cho các ứng dụng thời gian thực",
+                cons_nosql: "Truy vấn phức tạp khó hơn, không đảm bảo ACID, sự cân bằng nhất quán, đường cong học tập",
+                cost_nosql: "Trả theo yêu cầu: $1.25 cho một triệu yêu cầu; cung cấp: ~$1/giờ cơ sở",
+                service_cdn: "Mạng Phân Phối Nội Dung (CDN)",
+                origin_cdn: "Akamai (1998); phát triển để trở thành cơ sở hạ tầng tiêu chuẩn để phân phối nội dung nhanh",
+                what_cdn: "Mạng toàn cầu các máy chủ lưu trữ và phục vụ nội dung của bạn từ các vị trí gần người dùng nhất",
+                when_cdn: "Tăng tốc độ trang web, phát trực tuyến video, khán giả toàn cầu, phân phối tài sản tĩnh",
+                pros_cdn: "Nhanh hơn đáng kể cho người dùng cuối, giảm tải máy chủ gốc, bảo vệ DDoS",
+                cons_cdn: "Chi phí bổ sung, phức tạp vô hiệu hóa bộ đệm, không lý tưởng cho nội dung động",
+                cost_cdn: "$0.085/GB cho dữ liệu gửi đi ở Mỹ; $0.085-$0.50/GB trên toàn cầu",
+                service_lb: "Cân Bằng Tải",
+                origin_lb: "Bộ cân bằng tải Lớp 4 (những năm 1990); phát triển thành định tuyến Lớp 7 thông minh",
+                what_lb: "Tự động phân phối lưu lượng truy cập đến các máy chủ backend để có tính khả dụng cao",
+                when_lb: "Triển khai nhiều khu vực, cập nhật rolling, khả năng chịu lỗi, ứng dụng caching",
+                pros_lb: "Khả năng sẵn sàng cao, chuyển đổi dự phòng tự động, kiểm tra sức khỏe, phân phối lưu lượng truy cập đơn giản",
+                cons_lb: "Độ trễ bổ sung, điểm lỗi duy nhất tiềm năng nếu không được cấu hình đúng cách",
+                cost_lb: "$0.006/giờ; ~$5-$20/tháng cơ sở; phí cho mỗi quy tắc LB",
+                service_ml: "Nền Tảng Học Máy",
+                origin_ml: "TensorFlow (Google, 2015); dịch vụ ML đám mây bắt đầu với AWS SageMaker (2017)",
+                what_ml: "Dịch vụ được quản lý để đào tạo, triển khai và quản lý các mô hình ML với các thuật toán được xây dựng sẵn",
+                when_ml: "Phân tích dự đoán, thị giác máy tính, xử lý ngôn ngữ tự nhiên, hệ thống đề xuất, tác vụ phân loại",
+                pros_ml: "Các mô hình được xây dựng sẵn, tự động mở rộng, tích hợp với các dịch vụ khác, giảm thời gian mô hình",
+                cons_ml: "Tốn kém ở quy mô lớn, các mô hình cụ thể của nhà cung cấp, đường cong học tập dốc, không phải lúc nào mô hình tốt nhất",
+                cost_ml: "$0.30-$2.00 trên GB để đào tạo; suy luận $0.0001-$0.001 cho mỗi dự đoán",
+                service_dw: "Kho Dữ Liệu (BigQuery, Redshift)",
+                origin_dw: "Teradata (1979); kho dữ liệu đám mây nổi lên với Google BigQuery (2010)",
+                what_dw: "Cơ sở dữ liệu SQL quy mô lớn tối ưu hóa cho truy vấn phân tích và tổng hợp dữ liệu",
+                when_dw: "Business intelligence, phân tích dữ liệu, tạo báo cáo, phân tích quy mô petabyte",
+                pros_dw: "Khả năng mở rộng cực kỳ, SQL quen thuộc với nhiều người, serverless, truy vấn cực nhanh",
+                cons_dw: "Có thể rất tốn kém với quét dữ liệu lớn, đường cong học tập, không lý tưởng cho giao dịch",
+                cost_dw: "$5-$40 mỗi TB được quét; định giá theo yêu cầu được ưa thích hơn dự trữ",
+                service_iot: "IoT Hub & Nhắn Tin",
+                origin_iot: "Giao thức MQTT (1999); dịch vụ IoT đám mây được khởi chạy với AWS IoT (2015)",
+                what_iot: "Nền tảng để kết nối, quản lý và xử lý dữ liệu từ hàng tỷ thiết bị IoT",
+                when_iot: "Thiết bị thông minh, mạng cảm biến, giám sát thời gian thực, quản lý thiết bị ở quy mô lớn",
+                pros_iot: "Hỗ trợ thiết bị lớn, bảo mật tích hợp, xử lý thời gian thực, quản lý thiết bị",
+                cons_iot: "Thiết lập phức tạp, đường cong học tập dốc, có thể tốn kém với nhiều kết nối thiết bị",
+                cost_iot: "$5-$10/tháng cho 1 triệu kết nối thiết bị; phí truyền dữ liệu áp dụng",
+                comparisonTitle: "Dịch Vụ Đám Mây Theo Nhà Cung Cấp - So Sánh Chi Tiết",
+                th_service: "Dịch Vụ Đám Mây",
+                th_aws: "AWS",
+                th_azure: "Azure",
+                th_gcp: "GCP",
+                th_alibaba: "Alibaba",
+                th_ibm: "IBM",
+                th_oracle: "Oracle",
+                takeawaysTitle: "Những Điểm Chính",
+                takeaway_enterprise: "Lựa Chọn Tốt Nhất: AWS hoặc Azure",
+                takeaway_enterprise_desc: "Dịch vụ toàn diện nhất, thị phần lớn nhất, hỗ trợ tốt nhất, triển khai hybrid xuất sắc",
+                takeaway_analytics: "Lựa Chọn Tốt Nhất: Google Cloud",
+                takeaway_analytics_desc: "BigQuery không có đối thủ cho phân tích, học máy xuất sắc, tích hợp dữ liệu mạnh",
+                takeaway_cost: "Lựa Chọn Tốt Nhất: DigitalOcean hoặc Alibaba",
+                takeaway_cost_desc: "Mô hình định giá đơn giản hơn, chi phí cơ sở thấp hơn, lý tưởng cho startups và dự án nhỏ",
+                takeaway_dev: "Lựa Chọn Tốt Nhất: AWS hoặc GCP",
+                takeaway_dev_desc: "Công cụ tốt nhất, cộng đồng lớn nhất, hầu hết các mẫu và tài liệu sẵn có",
+                // Building-blocks section
+                bbTitle: "Khái Niệm &amp; Công Cụ Nền Tảng",
+                bbSubtitle: "Các khái niệm và công cụ cơ bản làm nền tảng cho mọi dịch vụ đám mây, được sắp xếp từ cơ bản đến nâng cao",
+                bbCompTitle: "Công Cụ Nền Tảng Theo Nhà Cung Cấp — So Sánh Chi Tiết",
+                bth_tool: "Khái Niệm / Công Cụ",
+                bth_aws: "AWS",
+                bth_azure: "Azure",
+                bth_gcp: "GCP",
+                bth_alibaba: "Alibaba",
+                bth_ibm: "IBM",
+                bth_oracle: "Oracle",
+            }
+        };
+
+        let currentLanguage = 'en';
+        let darkMode = false;
+
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('themeBtn').textContent = darkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+            localStorage.setItem('darkMode', darkMode);
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'vi' : 'en';
+            updateLanguage();
+            localStorage.setItem('language', currentLanguage);
+        }
+
+        function updateLanguage() {
+            const trans = translations[currentLanguage];
+            document.getElementById('langBtn').textContent = currentLanguage === 'en' ? '🌐 Việt' : '🌐 English';
+            
+            // Update all elements with data attributes
+            for (const [key, value] of Object.entries(trans)) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
+            // Update search placeholder
+            document.getElementById('searchInput').placeholder = currentLanguage === 'en' ? 'Search cloud services...' : 'Tìm kiếm dịch vụ đám mây...';
+        }
+
+        function filterServices() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const serviceCards = document.querySelectorAll('.service-card, .bb-card');
+            const rows = document.querySelectorAll('tr[data-service], tr[data-bb]');
+            
+            let visibleCount = 0;
+
+            serviceCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm) || searchTerm === '') {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm) || searchTerm === '') {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            const containers = ['servicesContainer', 'bbContainer'];
+            containers.forEach(cid => {
+                const container = document.getElementById(cid);
+                if (!container) return;
+                const noRes = container.querySelector('.no-results');
+                const hasVisible = Array.from(container.querySelectorAll('.service-card, .bb-card')).some(c => !c.classList.contains('hidden'));
+                if (!hasVisible && searchTerm !== '') {
+                    if (!noRes) {
+                        const el = document.createElement('div');
+                        el.className = 'no-results';
+                        el.textContent = currentLanguage === 'en' ? 'No items found matching your search.' : 'Không tìm thấy mục nào phù hợp với tìm kiếm của bạn.';
+                        container.appendChild(el);
+                    }
+                } else {
+                    if (noRes) noRes.remove();
+                }
+            });
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            
+            if (savedDarkMode) {
+                darkMode = true;
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeBtn').textContent = '☀️ Light Mode';
+            }
+
+            currentLanguage = savedLanguage;
+            updateLanguage();
+        });
+    </script>
+</body>
+</html>

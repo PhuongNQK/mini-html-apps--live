@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Services Reference Guide</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #ffffff;
+            --text-color: #374151;
+            --border-color: #e5e7eb;
+            --hover-color: #f3f4f6;
+            --header-bg: #f9fafb;
+            --search-bg: #f3f4f6;
+        }
+
+        .dark-mode {
+            --background-color: #1f2937;
+            --text-color: #f9fafb;
+            --border-color: #374151;
+            --hover-color: #374151;
+            --header-bg: #111827;
+            --search-bg: #374151;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .search-container {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: var(--search-bg);
+            border-radius: 8px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            background-color: var(--header-bg);
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover {
+            background-color: var(--hover-color);
+        }
+
+        .category-section {
+            margin: 30px 0;
+        }
+
+        .category-title {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .service-card {
+            background-color: var(--header-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .service-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .service-description {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .service-details {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .dark-mode .comparison-table th,
+        .dark-mode .comparison-table td {
+            border-color: var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .comparison-table {
+                font-size: 0.9em;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 8px;
+            }
+        }
+
+        .key-features {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .price-tag {
+            background-color: #dcfce6;
+            color: #166534;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cloud Services Reference Guide</h1>
+            <div class="controls">
+                <button onclick="toggleLanguage()">English</button>
+                <button onclick="toggleTheme()">Light Mode</button>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search cloud services..." onkeyup="filterServices()">
+        </div>
+
+        <div class="key-features">
+            <h2>Cloud Provider Overview</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Provider</th>
+                        <th>Target Market / Users</th>
+                        <th>Market Share</th>
+                        <th>User Base</th>
+                        <th>Origin</th>
+                        <th>Key Strategies</th>
+                        <th>Service Categories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AWS</td>
+                        <td>Enterprise, startups, developers</td>
+                        <td>32% (2023)</td>
+                        <td>Over 16 million customers</td>
+                        <td>US (2006)</td>
+                        <td>Infrastructure, AI/ML, hybrid cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, Analytics</td>
+                    </tr>
+                    <tr>
+                        <td>Azure</td>
+                        <td>Enterprise, hybrid cloud users</td>
+                        <td>19% (2023)</td>
+                        <td>Over 10 million customers</td>
+                        <td>US (2008)</td>
+                        <td>Enterprise integration, hybrid cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, IoT</td>
+                    </tr>
+                    <tr>
+                        <td>GCP</td>
+                        <td>Developers, data scientists</td>
+                        <td>12% (2023)</td>
+                        <td>Over 6 million customers</td>
+                        <td>US (2008)</td>
+                        <td>Data analytics, AI/ML, container services</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, Big Data</td>
+                    </tr>
+                    <tr>
+                        <td>Alibaba Cloud</td>
+                        <td>Asia-Pacific businesses, e-commerce</td>
+                        <td>10% (2023)</td>
+                        <td>Over 2 million customers</td>
+                        <td>China (2009)</td>
+                        <td>Global expansion, enterprise cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, E-commerce</td>
+                    </tr>
+                    <tr>
+                        <td>IBM Cloud</td>
+                        <td>Enterprise, hybrid cloud users</td>
+                        <td>5% (2023)</td>
+                        <td>Over 1 million customers</td>
+                        <td>US (2013)</td>
+                        <td>Enterprise solutions, AI, hybrid cloud</td>
+                        <td>IaaS, PaaS, SaaS, AI/ML, Blockchain</td>
+                    </tr>
+                    <tr>
+                        <td>Oracle Cloud</td>
+                        <td>Enterprise, ERP users</td>
+                        <td>4% (2023)</td>
+                        <td>Over 5 million customers</td>
+                        <td>US (2016)</td>
+                        <td>Database, enterprise applications</td>
+                        <td>IaaS, PaaS, SaaS, Database, AI/ML</td>
+                    </tr>
+                    <tr>
+                        <td>Salesforce</td>
+                        <td>CRM, SaaS users</td>
+                        <td>2% (2023)</td>
+                        <td>Over 18 million customers</td>
+                        <td>US (2009)</td>
+                        <td>Customer relationship management</td>
+                        <td>SaaS, AI/ML, Analytics</td>
+                    </tr>
+                    <tr>
+                        <td>DigitalOcean</td>
+                        <td>Developers, small businesses</td>
+                        <td>0.5% (2023)</td>
+                        <td>Over 2 million customers</td>
+                        <td>US (2012)</td>
+                        <td>Simplified cloud, developer-first</td>
+                        <td>IaaS, PaaS, SaaS, Container Services</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Cloud Service Categories</h2>
+        <div class="category-section">
+            <div class="category-title">Infrastructure Services</div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Virtual Machines</td>
+                        <td>EC2</td>
+                        <td>Virtual Machines</td>
+                        <td>Compute Engine</td>
+                        <td>ECS</td>
+                        <td>VPC</td>
+                        <td>Compute</td>
+                        <td>-</td>
+                        <td>Droplets</td>
+                    </tr>
+                    <tr>
+                        <td>Storage</td>
+                        <td>S3, EBS</td>
+                        <td>Storage Accounts</td>
+                        <td>Cloud Storage</td>
+                        <td>OSS, NAS</td>
+                        <td>Block Storage</td>
+                        <td>Storage</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Networking</td>
+                        <td>VPC, Route 53</td>
+                        <td>Virtual Networks</td>
+                        <td>VPC</td>
+                        <td>VPC, CDN</td>
+                        <td>Network Services</td>
+                        <td>Networking</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title">Platform & Software Services</div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Database</td>
+                        <td>RDS, DynamoDB</td>
+                        <td>Azure SQL Database</td>
+                        <td>Cloud SQL, Spanner</td>
+                        <td>RDS, PolarDB</td>
+                        <td>Database Service</td>
+                        <td>Database Cloud</td>
+                        <td>Force.com</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Container Services</td>
+                        <td>ECS, EKS</td>
+                        <td>Azure Container Instances</td>
+                        <td>Cloud Run, GKE</td>
+                        <td>ACK, ASK</td>
+                        <td>Container Service</td>
+                        <td>Container Engine</td>
+                        <td>-</td>
+                        <td>Kubernetes</td>
+                    </tr>
+                    <tr>
+                        <td>Serverless</td>
+                        <td>Lambda</td>
+                        <td>Azure Functions</td>
+                        <td>Cloud Functions</td>
+                        <td>FC</td>
+                        <td>OpenWhisk</td>
+                        <td>Functions</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title">AI & Machine Learning Services</div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ML Platform</td>
+                        <td>SageMaker</td>
+                        <td>Azure ML</td>
+                        <td>AI Platform</td>
+                        <td>PAI</td>
+                        <td>Watson AI</td>
+                        <td>AI Platform</td>
+                        <td>Service Cloud</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>NLP</td>
+                        <td>Comprehend</td>
+                        <td>Azure Text Analytics</td>
+                        <td>Natural Language API</td>
+                        <td>NLP</td>
+                        <td>Watson Natural Language Understanding</td>
+                        <td>Natural Language Processing</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Computer Vision</td>
+                        <td>Rekognition</td>
+                        <td>Azure Computer Vision</td>
+                        <td>Cloud Vision API</td>
+                        <td>OCR, Face Recognition</td>
+                        <td>Watson Visual Recognition</td>
+                        <td>Computer Vision</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="category-section">
+            <div class="category-title">Data & Analytics Services</div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>AWS</th>
+                        <th>Azure</th>
+                        <th>GCP</th>
+                        <th>Alibaba Cloud</th>
+                        <th>IBM Cloud</th>
+                        <th>Oracle Cloud</th>
+                        <th>Salesforce</th>
+                        <th>DigitalOcean</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Big Data Processing</td>
+                        <td>EMR, Redshift</td>
+                        <td>Azure HDInsight</td>
+                        <td>Dataflow, BigQuery</td>
+                        <td>MaxCompute, ODPS</td>
+                        <td>Watson Analytics</td>
+                        <td>Big Data</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Stream Processing</td>
+                        <td>Kinesis</td>
+                        <td>Azure Stream Analytics</td>
+                        <td>Dataflow</td>
+                        <td>Stream Compute</td>
+                        <td>Event Streams</td>
+                        <td>Streaming</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Analytics</td>
+                        <td>QuickSight, Athena</td>
+                        <td>Azure Synapse Analytics</td>
+                        <td>BigQuery, Looker</td>
+                        <td>QuickSight, MaxCompute</td>
+                        <td>Watson Analytics</td>
+                        <td>Analytics</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Detailed Cloud Service Descriptions</h2>
+        <div class="service-card">
+            <div class="service-title">Virtual Machines</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Introduced by Amazon in 2006 as part of AWS
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Elastic Compute Cloud (EC2) provides scalable compute capacity in the cloud.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Users can launch virtual machines with various configurations and operating systems.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For running applications that require dedicated computing resources or need full control over the operating system.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Scalability, flexibility, pay-as-you-go pricing, various instance types.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Requires more management overhead compared to managed services, potential for cost overruns.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.01 - $4.50/hour depending on instance type and region.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Storage (S3)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon Simple Storage Service (S3) launched in 2006 as part of AWS
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Object storage service for storing and retrieving any amount of data.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Data is stored in buckets with key-value pairs, providing RESTful API access.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For storing large amounts of unstructured data, backup and archive, content delivery.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Highly durable, scalable, multiple storage classes, global accessibility.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Not suitable for low-latency applications, potential cost for frequent access.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.023/GB/month for standard storage, $0.0125/GB/month for reduced redundancy.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Database (RDS)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Relational Database Service launched in 2009 by AWS
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Managed database service supporting multiple engines (MySQL, PostgreSQL, Oracle).
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides automated backups, patching, and scaling with minimal administration.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For applications requiring relational database capabilities with managed infrastructure.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> High availability, automated backups, easy scaling, integrated with other AWS services.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Limited customization, potential for vendor lock-in, higher cost than self-managed.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.12 - $1.50/hour depending on instance type and database engine.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Serverless (Lambda)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS Lambda launched in 2014 as part of AWS Serverless Computing
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Event-driven compute service that runs code in response to triggers.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Code is executed in response to events like HTTP requests, database changes, or scheduled tasks.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For event-driven applications, microservices, or any code that should run only when needed.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> No server management, automatic scaling, pay-per-execution pricing.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Cold start delays, limited execution time (15 minutes max), debugging challenges.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.20 per million requests, $0.00001667 per GB-second for compute time.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Machine Learning (SageMaker)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon SageMaker launched in 2017 as part of AWS AI/ML services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Fully managed service for building, training, and deploying machine learning models.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides built-in algorithms, Jupyter notebooks, and automated ML capabilities.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For developers and data scientists who want to build ML models without infrastructure management.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> No infrastructure management, pre-built algorithms, easy deployment.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Can be expensive for small projects, limited customization options.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.10 - $2.00 per hour for training instances, $0.05 per hour for hosting.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Big Data Processing (EMR)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon EMR launched in 2009 based on Apache Hadoop ecosystem
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Managed Hadoop service for processing large data sets.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Runs Hadoop, Spark, Hive, Pig, and other big data frameworks on scalable clusters.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For processing large volumes of data using distributed computing frameworks.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Scalable, integrates with other AWS services, managed Hadoop ecosystem.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Higher cost than self-hosted solutions, complexity for simple use cases.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.10 - $0.25 per hour per core, plus storage and data transfer costs.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Container Services (ECS/EKS)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon ECS launched in 2014, EKS in 2017 as part of AWS container services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Container orchestration services for deploying and managing containerized applications.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> ECS manages container deployment and orchestration, EKS provides Kubernetes compatibility.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For running microservices or containerized applications at scale.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Fully managed, integrates with AWS services, easy scaling.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Vendor lock-in, additional costs for container management.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.05 - $0.15 per container instance, plus Kubernetes management fees.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Content Delivery (CloudFront)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon CloudFront launched in 2008 as part of AWS CDN services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Global content delivery network for fast delivery of web and video content.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Distributes content from edge locations worldwide to reduce latency.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For delivering web content, video streaming, or any content that benefits from global distribution.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Low latency, global distribution, DDoS protection, easy integration.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Additional cost for content delivery, limited customization options.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.08 - $0.15 per GB of data transferred, $0.0025 per request.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Analytics (QuickSight)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon QuickSight launched in 2016 as part of AWS Business Intelligence
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Business intelligence service for creating visualizations and dashboards.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides interactive dashboards, automated insights, and data visualization tools.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For business users who want to analyze data and create visual reports.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Easy to use, integrates with various data sources, real-time analytics.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Limited advanced analytics, cost per user increases with more users.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $10 - $25 per user/month for Standard edition, $50+ per user/month for Enterprise.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Event Streaming (Kinesis)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon Kinesis launched in 2014 as part of AWS real-time data processing
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Service for real-time processing of streaming data.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Collects, processes, and analyzes real-time data streams from various sources.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For applications that need real-time data processing or analytics.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Fully managed, scalable, integrates with other AWS services.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Limited control over processing logic, cost can increase with high data volume.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.025 per GB of data ingested, $0.01 per stream hour for processing.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Networking (VPC)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Virtual Private Cloud (VPC) launched in 2008 as part of AWS networking
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Isolated virtual network in the cloud for running AWS resources.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Users can define subnets, security groups, and route tables within their VPC.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For creating secure, isolated environments for applications and services.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Network isolation, security control, flexible configuration.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Requires more configuration than default networking, additional costs for VPC features.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.01 per VPC hour, $0.05 per subnet hour for network access.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Identity & Access Management (IAM)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS Identity and Access Management (IAM) launched in 2009 as core AWS service
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Service for controlling access to AWS resources with fine-grained permissions.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Allows creation of users, groups, roles, and policies to manage access.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For securing AWS resources and managing user permissions across organizations.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Granular control, multi-factor authentication support, integration with other services.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Complex configuration for large organizations, ongoing maintenance required.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> Free to use, no additional cost for IAM features.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Machine Learning (AI/ML)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS AI/ML services launched in 2015 as part of broader cloud AI strategy
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Comprehensive suite of machine learning tools and services for developers.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Includes pre-trained models, automated ML, and custom model building capabilities.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For developers and data scientists who want to integrate AI capabilities into applications.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Easy integration, pre-built models, comprehensive documentation.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Limited customization, cost can increase with high usage.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> Varies by service, from $0.01 - $5.00 per hour for training instances.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Disaster Recovery (S3 Glacier)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon Glacier launched in 2012 as part of AWS long-term storage
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Secure, durable, and cost-effective storage for backup and archiving.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides three retrieval options: Expedited, Standard, and Bulk for different recovery times.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For long-term backup, compliance archiving, or disaster recovery solutions.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Extremely low-cost storage, secure, durable for long-term retention.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Longer retrieval times, more complex to restore than standard storage.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.002 per GB/month for Glacier, $0.004 per GB/month for Glacier Deep Archive.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">API Gateway</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS API Gateway launched in 2014 as part of AWS API management
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Fully managed service for creating, publishing, and managing APIs.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides endpoints for web services, handles authentication, rate limiting, and monitoring.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For creating RESTful APIs or WebSocket APIs for mobile, web, and IoT applications.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Fully managed, built-in security, integration with other AWS services.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Cost increases with high request volume, limited customization for complex routing.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $3.50 per million API calls, $0.0001 per GB of data transferred.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Auto Scaling</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS Auto Scaling launched in 2009 as part of EC2 service features
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Service that automatically adjusts compute capacity to maintain performance.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Monitors application metrics and scales EC2 instances up or down based on defined policies.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For applications with variable workloads that need automatic scaling.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Cost optimization, automatic response to load changes, reduces manual intervention.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Potential for over-scaling, configuration complexity, limited policy options.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> Free to use, only charged for underlying EC2 instances and other services used.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Docker Container Services</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon ECS and EKS launched in 2014 and 2017 respectively as part of AWS container ecosystem
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Managed container services that simplify running Docker applications.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides orchestration for containerized applications using Docker containers.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For deploying microservices or containerized applications that require orchestration.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> No need to manage infrastructure, integrates with other AWS services, easy deployment.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Vendor lock-in, costs associated with container management.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.05 - $0.15 per container instance, plus Kubernetes management fees.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Web Application Firewall (WAF)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS WAF launched in 2015 as part of AWS security services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Security service that protects web applications from common web exploits.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Creates rules to block malicious traffic and protect against OWASP top 10 threats.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For protecting web applications from DDoS attacks, SQL injection, and XSS.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Easy to implement, protects against common threats, integrates with CloudFront.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> May block legitimate traffic, requires ongoing rule maintenance.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.005 per rule per hour, $0.02 per GB of traffic processed.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">EventBridge</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon EventBridge launched in 2019 as part of AWS event-driven architecture
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Service for routing events between AWS services and applications.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Processes events from sources and routes them to target services based on rules.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For building event-driven architectures that respond to system changes or external events.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Fully managed, integrates with all AWS services, easy to configure.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Cost increases with high event volume, limited customization of event routing.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.001 per event, $0.00005 per rule per hour.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">CodePipeline</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS CodePipeline launched in 2015 as part of AWS DevOps services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Continuous delivery service for automating software release processes.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Automates the build, test, and deployment process with customizable pipelines.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For teams that want to automate their software release process and reduce manual steps.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Easy to set up, integrates with other AWS services, provides visibility into pipeline execution.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Complex configurations for advanced use cases, limited customization of steps.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.01 per pipeline hour, $0.005 per pipeline execution.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">CloudWatch</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS CloudWatch launched in 2009 as part of AWS monitoring services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Monitoring and observability service for AWS resources and applications.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Collects metrics, logs, and events to provide insights into application performance.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For monitoring application performance, detecting issues, and gaining operational insights.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Comprehensive monitoring, integrates with all AWS services, built-in dashboards.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Can become expensive with high volume of data, requires configuration for effective use.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.30 per GB of data stored, $0.001 per metric stored.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Route 53</div>
+            <div class="service-description">
+                <strong>Origin:</strong> Amazon Route 53 launched in 2004 as part of AWS DNS services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Highly available and scalable DNS web service for directing traffic to applications.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Maps domain names to IP addresses and provides routing policies for traffic distribution.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For managing DNS records, routing traffic to applications, and providing failover capabilities.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Highly reliable, global service, easy to configure, supports health checks.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Cost increases with high query volume, limited customization for complex routing.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.50 per million queries, $0.05 per hosted zone.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">SNS (Simple Notification Service)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS SNS launched in 2009 as part of AWS messaging services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Messaging service that enables sending notifications to multiple endpoints.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Publishes messages to topics that subscribers can receive via email, SMS, or HTTP.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For sending real-time notifications or triggering workflows in response to events.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Simple to use, supports multiple endpoints, built-in integration with other services.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Not suitable for high-volume message delivery, limited message retention.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.50 per million messages, $0.00001 per message for delivery.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">SQS (Simple Queue Service)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS SQS launched in 2009 as part of AWS messaging services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Message queuing service that decouples applications and processes.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Stores messages in queues and delivers them to consumers when ready.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For building scalable applications that need to process messages asynchronously.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Fully managed, supports both standard and FIFO queues, built-in integration.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Message processing delays, cost increases with high queue usage.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.0004 per 1,000 messages for standard queues, $0.0001 per 1,000 messages for FIFO.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">Elastic Load Balancing</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS ELB launched in 2009 as part of EC2 services for traffic distribution
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Service that distributes incoming application traffic across multiple instances.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Automatically routes traffic to healthy instances based on load balancing algorithms.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For ensuring high availability and fault tolerance for applications.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Built-in health checks, automatic scaling, supports multiple load balancing types.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Additional cost for load balancing, configuration complexity for advanced use cases.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.02 per hour for each load balancer, $0.0001 per GB of data processed.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">CloudFormation</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS CloudFormation launched in 2010 as part of AWS infrastructure as code
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Service that enables creating and managing AWS resources through templates.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Uses JSON or YAML templates to define and provision infrastructure automatically.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For replicating environments, managing infrastructure as code, and ensuring consistency.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Infrastructure as code, version control support, easy environment replication.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Learning curve for template syntax, limited debugging capabilities.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> Free to use, no additional cost for template execution.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">EFS (Elastic File System)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS EFS launched in 2012 as part of AWS storage services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Scalable file storage service for use with EC2 instances.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides shared file storage that can be mounted to multiple EC2 instances simultaneously.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For applications that need shared file storage across multiple instances or servers.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Scalable, fully managed, supports concurrent access from multiple instances.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Higher cost than EBS, latency compared to local storage.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.03 per GB-month for provisioned storage, $0.01 per GB-month for provisioned throughput.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">CloudTrail</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS CloudTrail launched in 2012 as part of AWS security and compliance services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Service that logs AWS API calls and events for security monitoring and compliance.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Records API calls made to AWS services and stores them in log files.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For security auditing, compliance monitoring, and troubleshooting.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Comprehensive logging, integrates with other AWS services, provides audit trails.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Storage costs increase with large volumes of logs, requires ongoing analysis.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.10 per 1,000 log file events, $0.02 per GB of logs stored.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">KMS (Key Management Service)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS KMS launched in 2014 as part of AWS security services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Managed service for creating and controlling encryption keys.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides centralized key management and encryption for AWS services.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For protecting sensitive data at rest and ensuring compliance with encryption requirements.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Fully managed, integrates with other AWS services, supports key rotation.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Cost per key and usage, limited customization for key policies.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.03 per key per month, $0.005 per 1,000 key operations.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">RDS (Relational Database Service)</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS RDS launched in 2009 as part of AWS database services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Managed database service that supports multiple engines (MySQL, PostgreSQL, Oracle).
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides automated backups, patching, and scaling with minimal administration.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For applications requiring relational database capabilities with managed infrastructure.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> High availability, automated backups, easy scaling, integrated with other AWS services.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Limited customization, potential for vendor lock-in, higher cost than self-managed.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.12 - $1.50 per hour depending on instance type and database engine.
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-title">DynamoDB</div>
+            <div class="service-description">
+                <strong>Origin:</strong> AWS DynamoDB launched in 2012 as part of NoSQL database services
+            </div>
+            <div class="service-description">
+                <strong>What it is:</strong> Fully managed NoSQL database service with single-digit millisecond latency.
+            </div>
+            <div class="service-description">
+                <strong>How it works:</strong> Provides key-value and document storage with automatic scaling and indexing.
+            </div>
+            <div class="service-description">
+                <strong>When to use:</strong> For applications requiring high-performance, low-latency database operations.
+            </div>
+            <div class="service-description">
+                <strong>Pros:</strong> Fully managed, automatic scaling, low latency, built-in security features.
+            </div>
+            <div class="service-description">
+                <strong>Cons:</strong> Limited query capabilities, cost increases with high throughput usage.
+            </div>
+            <div class="service-description">
+                <strong>Cost:</strong> $0.25 per million read capacity units, $0.25 per million write capacity units.
+            </div>
+        </div>
+
+        <script>
+            // Language toggle functionality
+            let currentLanguage = 'en';
+            
+            function toggleLanguage() {
+                const button = document.querySelector('button:first-child');
+                if (currentLanguage === 'en') {
+                    button.textContent = 'Tiếng Việt';
+                    currentLanguage = 'vi';
+                    // In a real implementation, this would switch to Vietnamese content
+                } else {
+                    button.textContent = 'English';
+                    currentLanguage = 'en';
+                }
+            }
+
+            // Theme toggle functionality
+            function toggleTheme() {
+                const body = document.body;
+                const button = document.querySelector('button:last-child');
+                
+                if (body.classList.contains('dark-mode')) {
+                    body.classList.remove('dark-mode');
+                    button.textContent = 'Light Mode';
+                } else {
+                    body.classList.add('dark-mode');
+                    button.textContent = 'Dark Mode';
+                }
+            }
+
+            // Search functionality
+            function filterServices() {
+                const input = document.getElementById('searchInput');
+                const filter = input.value.toLowerCase();
+                const cards = document.querySelectorAll('.service-card');
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('.service-title').textContent.toLowerCase();
+                    const description = card.querySelector('.service-description').textContent.toLowerCase();
+                    
+                    if (title.includes(filter) || description.includes(filter)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Initial setup
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add search input event listener
+                const searchInput = document.getElementById('searchInput');
+                if (searchInput) {
+                    searchInput.addEventListener('input', filterServices);
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory and Performance Optimization Techniques (MPOTs)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #2c3e50;
+            --text-color: #333;
+            --border-color: #ddd;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --dark-text: #f8f9fa;
+            --dark-border: #4a5568;
+            --dark-card-bg: #2d3748;
+            --dark-table-bg: #1a202c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: var(--dark-text);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-container {
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .search-container input {
+            padding: 8px 12px 8px 30px;
+            border-radius: 20px;
+            border: none;
+            width: 250px;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .search-container input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+        }
+
+        .mode-toggle, .lang-toggle {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .mode-toggle:hover, .lang-toggle:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        .mode-toggle:focus, .lang-toggle:focus {
+            outline: none;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .tabs {
+            background-color: var(--dark-card-bg);
+            border: 1px solid var(--dark-border);
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .tab-btn {
+            background: var(--dark-card-bg);
+            color: #e2e8f0;
+            border: 1px solid var(--dark-border);
+        }
+
+        .tab-btn:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .tab-btn.active {
+            background-color: var(--secondary-color);
+            color: white;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        body.dark-mode .tab-content {
+            background-color: var(--dark-card-bg);
+            border: 1px solid var(--dark-border);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        body.dark-mode h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 20px 0 15px;
+        }
+
+        body.dark-mode h3 {
+            color: #3498db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        body.dark-mode table {
+            background-color: var(--dark-table-bg);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        body.dark-mode th, body.dark-mode td {
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        body.dark-mode th {
+            background-color: var(--dark-bg);
+            color: #f8f9fa;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+
+        body.dark-mode tr:nth-child(even) {
+            background-color: #1a202c;
+        }
+
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+
+        body.dark-mode tr:hover {
+            background-color: #2d3748;
+        }
+
+        .language-cell {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        body.dark-mode .language-cell {
+            color: #3498db;
+        }
+
+        .code-block {
+            background-color: #2d3436;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .code-header {
+            background-color: #34495e;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px 6px 0 0;
+            font-weight: bold;
+        }
+
+        .mermaid-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        body.dark-mode .mermaid-container {
+            background-color: var(--dark-card-bg);
+            border: 1px solid var(--dark-border);
+        }
+
+        .concept-description {
+            background-color: var(--light-bg);
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        body.dark-mode .concept-description {
+            background-color: #1a202c;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .pros-cons {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pros, .cons {
+            flex: 1;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .pros {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .cons {
+            background-color: #ffebee;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        body.dark-mode .pros {
+            background-color: #1a202c;
+        }
+
+        body.dark-mode .cons {
+            background-color: #1a202c;
+        }
+
+        .complexity {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        body.dark-mode .complexity {
+            background-color: #2d3748;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 2px;
+        }
+
+        .badge-basic {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-advanced {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge-regular {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        body.dark-mode .badge-basic {
+            background-color: #1a202c;
+            color: #27ae60;
+        }
+
+        body.dark-mode .badge-advanced {
+            background-color: #1a202c;
+            color: #e74c3c;
+        }
+
+        body.dark-mode .badge-regular {
+            background-color: #1a202c;
+            color: #f39c12;
+        }
+
+        .language-specific {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        body.dark-mode .language-specific {
+            background-color: #2d3748;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        body.dark-mode footer {
+            color: #a0aec0;
+        }
+
+        .category-section {
+            margin: 25px 0;
+        }
+
+        .category-header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        body.dark-mode .category-header {
+            background-color: #2980b9;
+        }
+
+        .search-results {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #fff3cd;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        body.dark-mode .search-results {
+            background-color: #2d3748;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+            }
+            
+            .header-content {
+                flex: 1 1 100%;
+            }
+            
+            .controls {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .search-container input {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+
+        /* Animation for search results */
+        @keyframes highlight {
+            0% { background-color: #fff3cd; }
+            100% { background-color: transparent; }
+        }
+
+        .highlight {
+            animation: highlight 1.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Memory and Performance Optimization Techniques (MPOTs)</h1>
+                <p class="subtitle">Comprehensive guide to MPOTs across C#, Python, Go, Rust, Java, JavaScript, and C++</p>
+            </div>
+            <div class="controls">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Search techniques...">
+                </div>
+                <button class="lang-toggle" id="langToggle">Vietnamese</button>
+                <button class="mode-toggle" id="modeToggle">🌙 Dark Mode</button>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="overview">Overview</button>
+            <button class="tab-btn" data-tab="generalized">Generalized MPOTs</button>
+            <button class="tab-btn" data-tab="building-blocks">Building-Block Concepts</button>
+            <button class="tab-btn" data-tab="comparison">Language Comparison</button>
+            <button class="tab-btn" data-tab="details">Detailed Analysis</button>
+        </div>
+
+        <div class="tab-content active" id="overview">
+            <h2>Introduction</h2>
+            <p>Memory and performance optimization techniques (MPOTs) are crucial for building efficient applications. This guide provides a comprehensive overview of various MPOTs across major programming languages: C#, Python, Go, Rust, Java, JavaScript, and C++. The content is organized systematically from basic to advanced techniques, with clear explanations, code examples, and comparative analysis.</p>
+            
+            <div class="concept-description">
+                <h3>Key Focus Areas</h3>
+                <ul>
+                    <li><strong>Memory Management:</strong> Efficient allocation, deallocation, and reuse of memory</li>
+                    <li><strong>Performance Optimization:</strong> Reducing execution time and improving throughput</li>
+                    <li><strong>Resource Efficiency:</strong> Minimizing memory usage and computational overhead</li>
+                    <li><strong>Scalability:</strong> Techniques that work well as applications grow</li>
+                </ul>
+            </div>
+
+            <h3>Techniques Covered</h3>
+            <p>This collection covers a wide range of MPOTs:</p>
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>Basic Techniques</h4>
+                    <ul>
+                        <li>Memory Pooling</li>
+                        <li>Lazy Loading</li>
+                        <li>Caching</li>
+                        <li>Data Structure Optimization</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>Advanced Techniques</h4>
+                    <ul>
+                        <li>Parallel Processing</li>
+                        <li>Vectorization</li>
+                        <li>Memory Layout Optimization</li>
+                        <li>Inlining</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Optimization Strategy</h3>
+            <div class="concept-description">
+                <p>Start with fundamental techniques and progressively move to more complex optimizations. Always profile before optimizing, as the most effective approach varies by use case and platform.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="generalized">
+            <h2>Generalized MPOTs Overview</h2>
+            
+            <div class="search-results" id="searchResults" style="display: none;"></div>
+            
+            <table id="generalized-table">
+                <thead>
+                    <tr>
+                        <th>Technique</th>
+                        <th>Description</th>
+                        <th>When to Use</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                        <th>Time Complexity</th>
+                        <th>Space Complexity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Memory Pooling</td>
+                        <td>Pre-allocate memory blocks for reuse to reduce allocation overhead</td>
+                        <td>High-frequency object creation, real-time systems</td>
+                        <td>Reduced GC pressure, faster allocation</td>
+                        <td>Memory overhead, complexity</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Lazy Loading</td>
+                        <td>Load data only when needed to reduce initial memory usage</td>
+                        <td>Large datasets, expensive operations</td>
+                        <td>Faster startup, reduced memory usage</td>
+                        <td>Delayed errors, complexity</td>
+                        <td>O(1) to O(n)</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>Caching</td>
+                        <td>Store computed results for reuse to avoid recomputation</td>
+                        <td>Expensive computations, repeated access</td>
+                        <td>Faster access times, reduced system load</td>
+                        <td>Memory usage, cache invalidation</td>
+                        <td>O(1) to O(n)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Data Structure Optimization</td>
+                        <td>Choose appropriate data structures for specific use cases</td>
+                        <td>Performance-critical sections</td>
+                        <td>Efficient operations, reduced memory footprint</td>
+                        <td>Implementation complexity</td>
+                        <td>Varies</td>
+                        <td>Varies</td>
+                    </tr>
+                    <tr>
+                        <td>Loop Optimization</td>
+                        <td>Reduce loop overhead and eliminate unnecessary work</td>
+                        <td>Performance-critical loops</td>
+                        <td>Faster execution, reduced overhead</td>
+                        <td>Code complexity</td>
+                        <td>O(n)</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Management</td>
+                        <td>Efficient allocation and deallocation of memory resources</td>
+                        <td>Long-running applications, systems programming</td>
+                        <td>Reduced fragmentation, better locality</td>
+                        <td>Platform dependency</td>
+                        <td>O(1) to O(n)</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>Parallel Processing</td>
+                        <td>Execute tasks concurrently to improve throughput</td>
+                        <td>CPU-bound operations, multi-core systems</td>
+                        <td>Better resource utilization, improved throughput</td>
+                        <td>Synchronization overhead, complexity</td>
+                        <td>O(n/p) where p is processors</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Garbage Collection Tuning</td>
+                        <td>Optimize automatic memory management behavior</td>
+                        <td>Long-running applications with strict latency requirements</td>
+                        <td>Reduced pause times, better performance</td>
+                        <td>Platform-specific, complexity</td>
+                        <td>Varies</td>
+                        <td>Varies</td>
+                    </tr>
+                    <tr>
+                        <td>Just-In-Time Compilation</td>
+                        <td>Compile code at runtime for optimization</td>
+                        <td>CPU-intensive applications</td>
+                        <td>Better performance, adaptive optimizations</td>
+                        <td>Warm-up period, complex implementation</td>
+                        <td>O(n) to O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Inlining</td>
+                        <td>Replace function calls with actual code to eliminate call overhead</td>
+                        <td>Small, frequently called functions</td>
+                        <td>Reduced call overhead, better performance</td>
+                        <td>Code size increase, reduced readability</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Vectorization</td>
+                        <td>Process multiple data elements simultaneously using SIMD instructions</td>
+                        <td>Numerical computations, array operations</td>
+                        <td>Improved performance through SIMD</td>
+                        <td>Hardware dependency, complexity</td>
+                        <td>O(n/p) where p is vector width</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Layout Optimization</td>
+                        <td>Arrange data for better cache locality and access patterns</td>
+                        <td>Cache-sensitive applications, real-time systems</td>
+                        <td>Improved cache hit rates, faster access</td>
+                        <td>Data structure modifications required</td>
+                        <td>O(1) to O(n)</td>
+                        <td>O(1) to O(n)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>Best Practices</h4>
+                    <ul>
+                        <li>Profile before optimization to identify actual bottlenecks</li>
+                        <li>Start with basic techniques and progress to advanced ones</li>
+                        <li>Consider language-specific characteristics when choosing techniques</li>
+                        <li>Measure impact to ensure optimizations are beneficial</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>Challenges</h4>
+                    <ul>
+                        <li>Complexity in implementation and maintenance</li>
+                        <li>Platform and hardware dependencies</li>
+                        <li>Potential for over-optimization</li>
+                        <li>Trade-offs between performance and code readability</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="building-blocks">
+            <h2>Building-Block Concepts and Tools</h2>
+            
+            <div class="search-results" id="searchResults2" style="display: none;"></div>
+            
+            <table id="building-blocks-table">
+                <thead>
+                    <tr>
+                        <th>Concept/Tool</th>
+                        <th>Description</th>
+                        <th>When to Use</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                        <th>Time Complexity</th>
+                        <th>Space Complexity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Stack Allocation</td>
+                        <td>Allocate memory on the call stack for fast access</td>
+                        <td>Small, short-lived objects</td>
+                        <td>Fast allocation/deallocation, no GC pressure</td>
+                        <td>Limited lifetime, stack overflow risk</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Heap Allocation</td>
+                        <td>Allocate memory on the heap for longer-lived objects</td>
+                        <td>Objects with longer lifetimes</td>
+                        <td>Flexible, persistent across function calls</td>
+                        <td>Potential GC pressure</td>
+                        <td>O(1) to O(n)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Pool</td>
+                        <td>Pre-allocated chunk of memory for reuse</td>
+                        <td>Frequent allocation/deallocation</td>
+                        <td>Reduced GC pressure, faster allocation</td>
+                        <td>Memory overhead, complexity</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Garbage Collector</td>
+                        <td>Automatic memory management system</td>
+                        <td>Managed languages (C#, Java, JS)</td>
+                        <td>No manual memory management required</td>
+                        <td>Potential pause times</td>
+                        <td>Varies</td>
+                        <td>Varies</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Arena</td>
+                        <td>Single contiguous memory block for allocation</td>
+                        <td>High-performance systems</td>
+                        <td>Fast allocation, reduced fragmentation</td>
+                        <td>Complex to manage</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Reference Counting</td>
+                        <td>Track object usage with reference counters</td>
+                        <td>C++ (shared_ptr), Python</td>
+                        <td>Fast deallocation, simple logic</td>
+                        <td>Performance overhead for counting, cycles</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Cycle Detection</td>
+                        <td>Identify circular references in reference counting systems</td>
+                        <td>Reference counting systems</td>
+                        <td>Prevents memory leaks</td>
+                        <td>Performance overhead, complexity</td>
+                        <td>O(n)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Thread-Safe Allocation</td>
+                        <td>Allocation methods that work in concurrent environments</td>
+                        <td>Multi-threaded applications</td>
+                        <td>Safe for concurrent use</td>
+                        <td>Synchronization overhead</td>
+                        <td>O(1) to O(n)</td>
+                        <td>O(1)</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Mapping</td>
+                        <td>Map files directly into memory space</td>
+                        <td>Large file handling, memory-mapped I/O</td>
+                        <td>Fast access to large data files</td>
+                        <td>System-specific limitations</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Views</td>
+                        <td>Provide access to memory without copying data</td>
+                        <td>Large array operations, interop scenarios</td>
+                        <td>Efficient memory usage</td>
+                        <td>Complex API design, limited to specific contexts</td>
+                        <td>O(1)</td>
+                        <td>O(n)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="comparison">
+            <h2>Language Comparison of Generalized MPOTs</h2>
+            
+            <div class="search-results" id="searchResults3" style="display: none;"></div>
+            
+            <table id="language-comparison-table">
+                <thead>
+                    <tr>
+                        <th>MPOT</th>
+                        <th>C#</th>
+                        <th>Python</th>
+                        <th>Go</th>
+                        <th>Rust</th>
+                        <th>Java</th>
+                        <th>JavaScript</th>
+                        <th>C++</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Memory Pooling</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Custom</td>
+                    </tr>
+                    <tr>
+                        <td>Lazy Loading</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Caching</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Data Structure Optimization</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Loop Optimization</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Management</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Parallel Processing</td>
+                        <td>Task Parallel Library (TPL)</td>
+                        <td>Threading, Multiprocessing</td>
+                        <td>Goroutines, Channels</td>
+                        <td>-</td>
+                        <td>Fork/Join Framework, Executor Service</td>
+                        <td>Web Workers, Node.js Clusters</td>
+                        <td>Threading, Parallel STL</td>
+                    </tr>
+                    <tr>
+                        <td>Garbage Collection Tuning</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Just-In-Time Compilation</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Inlining</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Vectorization</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Memory Layout Optimization</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="language-specific">
+                <h3>Language-Specific Characteristics</h3>
+                <p><strong>C#:</strong> Task Parallel Library (TPL) provides high-level constructs for parallelism, while the garbage collector offers generational collections and concurrent collection.</p>
+                <p><strong>Python:</strong> Lazy loading with <code>@property</code>, caching with <code>@lru_cache</code>, and memory management through reference counting and cycle detection.</p>
+                <p><strong>Go:</strong> Goroutines and channels provide lightweight concurrency, with a garbage collector that supports concurrent collection.</p>
+                <p><strong>Rust:</strong> Ownership and borrowing system ensures memory safety without garbage collector, with fine-grained control over memory layout.</p>
+                <p><strong>Java:</strong> Fork/Join Framework and Executor Service for thread pool management, with various garbage collection tuning options.</p>
+                <p><strong>JavaScript:</strong> Web Workers and Node.js Clusters for multi-threading, with garbage collection optimized for web environments.</p>
+                <p><strong>C++:</strong> Manual memory management with smart pointers (shared_ptr, unique_ptr), and custom allocators for memory pooling.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="details">
+            <h2>Detailed MPOT Analysis</h2>
+            
+            <div class="concept-description">
+                <h3>Memory Pooling</h3>
+                <p><strong>Context:</strong> Originated from systems programming and high-performance computing where frequent allocation/deallocation causes significant overhead.</p>
+                <p><strong>Explanation:</strong> Pre-allocate memory blocks and reuse them instead of frequent allocations. This reduces pressure on garbage collectors (in managed languages) or improves allocation speed in systems programming.</p>
+                <p><strong>How it works:</strong> Create a pool of fixed-size memory blocks, allocate from pool instead of system allocator, return to pool when done.</p>
+                <p><strong>When to use:</strong> When creating and destroying many small objects, in real-time systems where GC pauses must be avoided.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Reduced allocation overhead</li>
+                            <li>Better memory locality</li>
+                            <li>Reduced GC pressure</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons</h4>
+                        <ul>
+                            <li>Memory usage overhead (pool size)</li>
+                            <li>Complexity in managing pool state</li>
+                            <li>Risk of memory leaks if not properly managed</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis</h4>
+                    <p><strong>Time:</strong> O(1) for allocation/reuse</p>
+                    <p><strong>Space:</strong> O(n) where n is pool size</p>
+                </div>
+
+                <div class="mermaid-container">
+                    <h4>Concept Diagram</h4>
+                    <div class="mermaid">
+                        graph TD
+                            A[Memory Pool] --> B{Pool Manager}
+                            B --> C[Pre-allocated Blocks]
+                            C --> D[Allocation Requests]
+                            D --> E{Available Block?}
+                            E -->|Yes| F[Return Block]
+                            E -->|No| G[Create New Block]
+                            G --> H[Pool Size Limit?]
+                            H -->|Yes| I[Return Error]
+                            H -->|No| J[Create Block]
+                    </div>
+                </div>
+
+                <h4>Code Examples</h4>
+                <div class="code-block">
+                    <div class="code-header">C# - Memory Pool</div>
+                    <pre><code>using System;
+using System.Collections.Concurrent;
+
+public class MemoryPool&lt;T&gt;
+{
+    private readonly ConcurrentStack&lt;T&gt; _pool = new ConcurrentStack&lt;T&gt;();
+    private readonly Func&lt;T&gt; _factory;
+    
+    public MemoryPool(Func&lt;T&gt; factory)
+    {
+        _factory = factory;
+    }
+    
+    public T Rent()
+    {
+        return _pool.TryPop(out T item) ? item : _factory();
+    }
+    
+    public void Return(T item)
+    {
+        _pool.Push(item);
+    }
+}</code></pre>
+                </div>
+            </div>
+
+            <div class="concept-description">
+                <h3>Lazy Loading</h3>
+                <p><strong>Context:</strong> Originated from database systems and content delivery where loading all data upfront would be inefficient.</p>
+                <p><strong>Explanation:</strong> Delay the loading of data until it's actually required. This approach reduces initial memory usage and improves application startup time.</p>
+                <p><strong>How it works:</strong> Initialize a placeholder or proxy object, load actual data only when accessed, cache loaded data for subsequent access.</p>
+                <p><strong>When to use:</strong> Large datasets that aren't all needed immediately, expensive operations or resources.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Faster initial startup</li>
+                            <li>Reduced memory consumption</li>
+                            <li>Better resource utilization</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons</h4>
+                        <ul>
+                            <li>Delayed errors (accessing invalid data)</li>
+                            <li>Increase complexity in managing state</li>
+                            <li>Potential performance degradation due to loading</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis</h4>
+                    <p><strong>Time:</strong> O(1) to O(n) depending on actual data access</p>
+                    <p><strong>Space:</strong> O(1) for initial state, O(n) for loaded data</p>
+                </div>
+
+                <div class="mermaid-container">
+                    <h4>Concept Diagram</h4>
+                    <div class="mermaid">
+                        graph TD
+                            A[Lazy Object] --> B{Accessed?}
+                            B -->|No| C[Placeholder]
+                            C --> D[Load on Access]
+                            D --> E[Actual Data]
+                            E --> F[Return Data]
+                    </div>
+                </div>
+
+                <h4>Code Examples</h4>
+                <div class="code-block">
+                    <div class="code-header">JavaScript - Lazy Loading</div>
+                    <pre><code>class LazyLoader {
+    constructor(loaderFunction) {
+        this.loader = loaderFunction;
+        this.loaded = false;
+        this.data = null;
+    }
+    
+    getData() {
+        if (!this.loaded) {
+            this.data = this.loader();
+            this.loaded = true;
+        }
+        return this.data;
+    }
+}
+
+// Usage
+const lazyFileReader = new LazyLoader(() => {
+    console.log("Loading file...");
+    return "File content";
+});
+
+console.log("Before loading:", lazyFileReader.getData());</code></pre>
+                </div>
+            </div>
+
+            <div class="concept-description">
+                <h3>Caching</h3>
+                <p><strong>Context:</strong> Evolved from database systems and web servers to reduce repeated computations or data fetches.</p>
+                <p><strong>Explanation:</strong> Store computed results or frequently accessed data in a fast-access location to avoid recomputation or repeated fetches.</p>
+                <p><strong>How it works:</strong> Store key-value pairs of computed results, check cache before performing expensive operations, evict old entries to prevent memory overflow.</p>
+                <p><strong>When to use:</strong> Expensive computations (e.g., database queries, complex algorithms), data that's accessed multiple times.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Faster access to previously computed data</li>
+                            <li>Reduced system load (e.g., database queries)</li>
+                            <li>Improved response times</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons</h4>
+                        <ul>
+                            <li>Memory usage overhead</li>
+                            <li>Cache invalidation complexity</li>
+                            <li>Risk of stale data if not managed properly</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis</h4>
+                    <p><strong>Time:</strong> O(1) to O(n) depending on cache hit ratio</p>
+                    <p><strong>Space:</strong> O(n) where n is number of cached items</p>
+                </div>
+
+                <div class="mermaid-container">
+                    <h4>Concept Diagram</h4>
+                    <div class="mermaid">
+                        graph TD
+                            A[Cache Access] --> B{Cache Hit?}
+                            B -->|Yes| C[Return Cached Value]
+                            B -->|No| D[Compute Result]
+                            D --> E[Store in Cache]
+                            E --> F[Return Value]
+                    </div>
+                </div>
+
+                <h4>Code Examples</h4>
+                <div class="code-block">
+                    <div class="code-header">Python - Simple Cache</div>
+                    <pre><code>import functools
+from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.cache = OrderedDict()
+    
+    def get(self, key):
+        if key in self.cache:
+            # Move to end (most recently used)
+            self.cache.move_to_end(key)
+            return self.cache[key]
+        return -1
+    
+    def put(self, key, value):
+        if key in self.cache:
+            self.cache.move_to_end(key)
+        elif len(self.cache) >= self.capacity:
+            # Remove least recently used item
+            self.cache.popitem(last=False)
+        self.cache[key] = value
+
+# Usage with decorator
+@functools.lru_cache(maxsize=128)
+def expensive_function(n):
+    return n * n
+
+# Manual caching
+cache = LRUCache(3)
+cache.put("key1", "value1")
+print(cache.get("key1"))  # Returns "value1"</code></pre>
+                </div>
+            </div>
+
+            <div class="concept-description">
+                <h3>Parallel Processing</h3>
+                <p><strong>Context:</strong> Emerged with multi-core processors and the need to utilize multiple CPU cores effectively.</p>
+                <p><strong>Explanation:</strong> Distribute workload across multiple threads or processes to improve throughput and reduce execution time.</p>
+                <p><strong>How it works:</strong> Identify parallelizable tasks, distribute work among threads/processes, handle synchronization and data sharing appropriately.</p>
+                <p><strong>When to use:</strong> CPU-bound operations that can be parallelized, applications with independent computations.</p>
+                
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>Pros</h4>
+                        <ul>
+                            <li>Improved throughput on multi-core systems</li>
+                            <li>Better utilization of available hardware</li>
+                            <li>Reduced wall-clock execution time</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>Cons</h4>
+                        <ul>
+                            <li>Synchronization overhead and complexity</li>
+                            <li>Potential for race conditions and deadlocks</li>
+                            <li>Not all problems are easily parallelizable</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="complexity">
+                    <h4>Complexity Analysis</h4>
+                    <p><strong>Time:</strong> O(n/p) where p is number of processors (theoretical)</p>
+                    <p><strong>Space:</strong> O(n) for shared data structures</p>
+                </div>
+
+                <h4>Code Examples</h4>
+                <div class="code-block">
+                    <div class="code-header">Java - Parallel Processing</div>
+                    <pre><code>import java.util.concurrent.*;
+import java.util.stream.IntStream;
+
+public class ParallelProcessingExample {
+    public static void main(String[] args) {
+        // Using parallel streams
+        int[] numbers = IntStream.range(1, 1000000).toArray();
+        
+        // Sequential processing
+        long startTime = System.currentTimeMillis();
+        int sumSequential = IntStream.of(numbers).sum();
+        long sequentialTime = System.currentTimeMillis() - startTime;
+        
+        // Parallel processing
+        startTime = System.currentTimeMillis();
+        int sumParallel = IntStream.of(numbers).parallel().sum();
+        long parallelTime = System.currentTimeMillis() - startTime;
+        
+        System.out.println("Sequential: " + sequentialTime + "ms");
+        System.out.println("Parallel: " + parallelTime + "ms");
+        
+        // Using ForkJoinPool
+        ForkJoinPool pool = new ForkJoinPool();
+        int result = pool.invoke(new SumTask(numbers, 0, numbers.length));
+        pool.shutdown();
+    }
+    
+    static class SumTask extends RecursiveTask&lt;Integer&gt; {
+        private final int[] numbers;
+        private final int start;
+        private final int end;
+        
+        SumTask(int[] numbers, int start, int end) {
+            this.numbers = numbers;
+            this.start = start;
+            this.end = end;
+        }
+        
+        @Override
+        protected Integer compute() {
+            if (end - start &lt;= 1000) {
+                int sum = 0;
+                for (int i = start; i &lt; end; i++) {
+                    sum += numbers[i];
+                }
+                return sum;
+            } else {
+                int mid = (start + end) / 2;
+                SumTask left = new SumTask(numbers, start, mid);
+                SumTask right = new SumTask(numbers, mid, end);
+                
+                left.fork();
+                int rightResult = right.compute();
+                int leftResult = left.join();
+                
+                return leftResult + rightResult;
+            }
+        }
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Memory and Performance Optimization Techniques (MPOTs) Collection</p>
+            <p>Comprehensive guide to optimizing applications across major programming languages</p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize Mermaid
+        mermaid.initialize({startOnLoad:true, theme: 'default'});
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Handle code block highlighting (simplified)
+        document.querySelectorAll('.code-block').forEach(block => {
+            const code = block.querySelector('pre');
+            if (code) {
+                // Simple styling for better readability
+                code.style.background = '#2d3436';
+                code.style.color = '#f8f9fa';
+                code.style.padding = '15px';
+                code.style.borderRadius = '6px';
+                code.style.margin = '0';
+                code.style.overflowX = 'auto';
+            }
+        });
+
+        // Dark mode toggle
+        const modeToggle = document.getElementById('modeToggle');
+        modeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            modeToggle.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+        });
+
+        // Language toggle (simulated)
+        const langToggle = document.getElementById('langToggle');
+        langToggle.addEventListener('click', () => {
+            const currentText = langToggle.textContent;
+            langToggle.textContent = currentText === 'Vietnamese' ? 'English' : 'Vietnamese';
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchResults2 = document.getElementById('searchResults2');
+        const searchResults3 = document.getElementById('searchResults3');
+
+        // Search function
+        function performSearch(query) {
+            if (!query.trim()) {
+                searchResults.style.display = 'none';
+                searchResults2.style.display = 'none';
+                searchResults3.style.display = 'none';
+                return;
+            }
+
+            const queryLower = query.toLowerCase();
+            let results = [];
+            
+            // Search in table rows (generalized techniques)
+            const generalizedTable = document.getElementById('generalized-table');
+            if (generalizedTable) {
+                const rows = generalizedTable.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    for (let i = 0; i < cells.length; i++) {
+                        if (cells[i].textContent.toLowerCase().includes(queryLower)) {
+                            results.push({
+                                type: 'generalized',
+                                row: row,
+                                text: `Found in Generalized Techniques: ${cells[0].textContent}`
+                            });
+                            break;
+                        }
+                    }
+                });
+            }
+
+            // Search in building blocks table
+            const buildingBlocksTable = document.getElementById('building-blocks-table');
+            if (buildingBlocksTable) {
+                const rows = buildingBlocksTable.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    for (let i = 0; i < cells.length; i++) {
+                        if (cells[i].textContent.toLowerCase().includes(queryLower)) {
+                            results.push({
+                                type: 'building-blocks',
+                                row: row,
+                                text: `Found in Building Blocks: ${cells[0].textContent}`
+                            });
+                            break;
+                        }
+                    }
+                });
+            }
+
+            // Search in comparison table
+            const comparisonTable = document.getElementById('language-comparison-table');
+            if (comparisonTable) {
+                const rows = comparisonTable.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    for (let i = 0; i < cells.length; i++) {
+                        if (cells[i].textContent.toLowerCase().includes(queryLower)) {
+                            results.push({
+                                type: 'comparison',
+                                row: row,
+                                text: `Found in Language Comparison: ${cells[0].textContent}`
+                            });
+                            break;
+                        }
+                    }
+                });
+            }
+
+            // Display results
+            if (results.length > 0) {
+                searchResults.innerHTML = `Search Results for "${query}": ${results.length} matches found`;
+                searchResults.style.display = 'block';
+                searchResults2.innerHTML = `Search Results for "${query}": ${results.length} matches found`;
+                searchResults2.style.display = 'block';
+                searchResults3.innerHTML = `Search Results for "${query}": ${results.length} matches found`;
+                searchResults3.style.display = 'block';
+                
+                // Highlight matched rows
+                results.forEach(result => {
+                    result.row.classList.add('highlight');
+                    setTimeout(() => {
+                        result.row.classList.remove('highlight');
+                    }, 1500);
+                });
+            } else {
+                searchResults.style.display = 'none';
+                searchResults2.style.display = 'none';
+                searchResults3.style.display = 'none';
+            }
+        }
+
+        // Debounced search function
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(searchInput.value);
+            }, 300);
+        });
+
+        // Handle search results click to scroll to section
+        searchResults.addEventListener('click', function() {
+            const firstResult = this.nextElementSibling;
+            if (firstResult) {
+                firstResult.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Initialize search results as hidden
+        searchResults.style.display = 'none';
+        searchResults2.style.display = 'none';
+        searchResults3.style.display = 'none';
+    </script>
+</body>
+</html>

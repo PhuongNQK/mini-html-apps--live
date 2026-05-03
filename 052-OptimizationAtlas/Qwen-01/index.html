@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MPOT Collection | Memory & Performance Optimization</title>
+  <style>
+    :root {
+      --bg: #f8f9fa; --surface: #ffffff; --text: #1a1a1a; --text-muted: #6c757d;
+      --primary: #0d6efd; --border: #dee2e6; --code-bg: #f4f4f5;
+      --success: #198754; --warning: #ffc107; --danger: #dc3545;
+      --shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    [data-theme="dark"] {
+      --bg: #0d1117; --surface: #161b22; --text: #e6edf3; --text-muted: #8b949e;
+      --primary: #58a6ff; --border: #30363d; --code-bg: #0d1117;
+      --shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.5; transition: background 0.3s, color 0.3s; }
+    header { padding: 1rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
+    h1 { font-size: 1.4rem; }
+    .controls { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    button, input { padding: 0.5rem 0.75rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 0.375rem; cursor: pointer; font-size: 0.9rem; }
+    button:hover, input:focus { border-color: var(--primary); outline: none; }
+    .search { flex: 1; min-width: 200px; max-width: 400px; }
+    nav { display: flex; gap: 0.5rem; padding: 1rem; border-bottom: 1px solid var(--border); background: var(--surface); flex-wrap: wrap; }
+    .tab { padding: 0.5rem 1rem; border: 1px solid transparent; border-radius: 0.375rem; cursor: pointer; background: transparent; font-weight: 500; }
+    .tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+    main { max-width: 1400px; margin: 0 auto; padding: 1rem; }
+    .content-panel { display: none; }
+    .content-panel.active { display: block; }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); box-shadow: var(--shadow); border-radius: 0.5rem; overflow: hidden; font-size: 0.9rem; }
+    th, td { padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: color-mix(in srgb, var(--primary) 10%, var(--surface)); font-weight: 600; position: sticky; top: 0; }
+    tr:hover { background: color-mix(in srgb, var(--primary) 5%, var(--surface)); }
+    .badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; background: var(--warning); color: #000; }
+    .badge.basic { background: #d1e7dd; color: #0f5132; }
+    .badge.intermediate { background: #fff3cd; color: #664d03; }
+    .badge.advanced { background: #f8d7da; color: #842029; }
+    .mpot-card { background: var(--surface); border: 1px solid var(--border); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
+    .mpot-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
+    .code-block { background: var(--code-bg); border: 1px solid var(--border); border-radius: 0.375rem; padding: 0.5rem; margin: 0.5rem 0; font-family: ui-monospace, monospace; font-size: 0.85rem; overflow-x: auto; white-space: pre; }
+    .lang-tag { color: var(--primary); font-weight: bold; margin-right: 0.25rem; }
+    .hidden { display: none !important; }
+    .mermaid-container { margin: 1rem 0; text-align: center; }
+    footer { text-align: center; padding: 1rem; color: var(--text-muted); font-size: 0.8rem; margin-top: 2rem; }
+    @media (max-width: 768px) { table { display: block; overflow-x: auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 data-i18n="title">MPOT Collection</h1>
+    <div class="controls">
+      <input type="text" class="search" id="search" data-i18n-placeholder="search_ph" placeholder="Search techniques, concepts...">
+      <button id="lang-toggle">🇬🇧 / 🇻🇳</button>
+      <button id="theme-toggle">🌗 Theme</button>
+    </div>
+  </header>
+
+  <nav id="tabs"></nav>
+  <main id="app"></main>
+  <footer>MPOT Reference Collection • Data-driven & Extensible Architecture</footer>
+
+  <!-- ================= DATA LAYER ================= -->
+  <script id="mpot-data">
+    window.MPOT_DATA = {
+      i18n: {
+        en: {
+          title: "MPOT Collection", search_ph: "Search techniques, concepts, languages...",
+          tabs: ["Overview", "MPOT Details", "Building Blocks", "Language Comp.", "Tool Comp."],
+          complexity: ["Basic", "Intermediate", "Advanced"],
+          th: { id: "ID", name: "Name", lang: "Language/Tool", impl: "Implementation", chars: "Characteristics", origin: "Origin", usage: "When to Use", pros: "Pros", cons: "Cons", complexity: "Complexity", diag: "Concept Map", examples: "Examples" },
+          none: "-"
+        },
+        vi: {
+          title: "Bộ MPOT", search_ph: "Tìm kỹ thuật, khái niệm, ngôn ngữ...",
+          tabs: ["Tổng Quan", "Chi Tiết MPOT", "Khối Xây Dựng", "So Sánh Ngôn Ngữ", "So Sánh Công Cụ"],
+          complexity: ["Cơ Bản", "Trung Cấp", "Nâng Cao"],
+          th: { id: "ID", name: "Tên", lang: "Ngôn Ngữ/Công Cụ", impl: "Triển Khai", chars: "Đặc Điểm", origin: "Nguồn Gốc", usage: "Khi Nào Dùng", pros: "Ưu Điểm", cons: "Nhược Điểm", complexity: "Độ Phức Tạp", diag: "Sơ Đồ Khái Niệm", examples: "Ví Dụ" },
+          none: "-"
+        }
+      },
+      mpots: [
+        {
+          id: "pooling", complexity: 1, name: {en:"Object/Resource Pooling", vi:"Kỹ Thuật Pooling Đối Tượng"},
+          origin: "1990s Game Dev & Embedded Systems. Reduces allocator pressure.",
+          desc: "Pre-allocate and reuse expensive objects/resources instead of allocating/deallocating on every request.",
+          concepts: ["Memory Allocation", "Reference Queues"], how: "Maintains a stack/queue of free instances. Checkout on demand, return on release.",
+          usage: "Frequent short-lived object creation (network packets, UI elements, DB connections).",
+          pros: "Predictable latency, reduced GC pressure, cache-friendly contiguous memory.", cons: "Manual lifecycle tracking, risk of stale state, fixed capacity limits.",
+          complexity_analysis: "Time: O(1) get/release. Space: O(N) pre-alloc. Cost: Low runtime, Medium dev overhead.",
+          mermaid: "graph LR; A[Request] --> B{Pool Available?}; B -->|Yes| C[Checkout Obj]; B -->|No| D[Create New]; C --> E[Process]; D --> E; E --> F[Return to Pool]; F --> A",
+          impl: {
+            cs: "System.Buffers.ArrayPool<T>.Shared", py: "collections.deque + __slots__", go: "sync.Pool",
+            rs: "bumpalo::Bump / slab::Slab", java: "org.apache.commons.pool2.ObjectPool", js: "custom Array + push/shift or Pool.js",
+            cpp: "boost::pool / std::pmr::monotonic_buffer_resource"
+          },
+          comp: { cs: "ArrayPool<T> (rent/return)", py: "No stdlib; manual queues", go: "sync.Pool (GC-assisted)", rs: "bump/arena allocs", java: "Commons Pool / ForkJoinPool", js: "Third-party libs", cpp: "boost::pool / custom arenas" }
+        },
+        {
+          id: "interning", complexity: 1, name: {en:"String/Value Interning", vi:"Kỹ Thuật Lưu Trữ Giá Trị Nội Bộ"},
+          origin: "Lisp & Java JVM. Deduplicates immutable values globally.",
+          desc: "Canonicalizes identical values into a single memory location, returning references instead of copies.",
+          concepts: ["Hash Maps", "Canonicalization", "Flyweight Pattern"], how: "Hash value -> check global registry -> return existing ref or store new.",
+          usage: "High-frequency string/token reuse (parsers, XML/JSON, identifiers).",
+          pros: "Memory deduplication, fast reference equality (==), cache locality.", cons: "Registry lock contention, unbounded growth if values are unique.",
+          complexity_analysis: "Time: O(1) avg lookup. Space: O(U) unique values. Cost: Low memory for high repetition.",
+          mermaid: "graph TD; S[New String] --> H{Hash Exists?}; H -->|Yes| R[Return Existing Ref]; H -->|No| D[Store in Registry]; D --> R",
+          impl: {
+            cs: "string.Intern()", py: "sys.intern()", go: "No direct (use map[string]struct{})", rs: "- (use interner crates like string-interner)",
+            java: "String.intern()", js: "Symbol() or WeakMap cache", cpp: "std::unordered_set<std::string_view>"
+          },
+          comp: { cs: "Intern pool (JIT aided)", py: "Small strings auto-interned", go: "Manual map or struct{} set", rs: "External crates", java: "JVM String Pool", js: "WeakRef/Symbol caching", cpp: "String views + sets" }
+        },
+        {
+          id: "arena", complexity: 2, name: {en:"Memory Arena / Region Allocation", vi:"Cấp Phát Vùng Bộ Nhớ (Arena)"},
+          origin: "Systems Programming & C. Bulk allocate, bulk free.",
+          desc: "Allocates a large contiguous block; sub-allocations are pointers into it. Entire region freed at once.",
+          concepts: ["Bump Allocation", "Pointer Arithmetic", "Scope Lifetimes"], how: "Move pointer forward for each alloc. Free resets pointer.",
+          usage: "Temporary parsing buffers, ASTs, frame-based game loops, request-scoped data.",
+          pros: "Extremely fast alloc/dealloc, zero fragmentation, cache locality.", cons: "No individual free, lifetime bound to region, memory waste if region oversized.",
+          complexity_analysis: "Time: O(1) alloc, O(1) free (region). Space: O(N) pre-reserved. Cost: Very high perf, strict lifetime model.",
+          mermaid: "graph LR; R[Region Alloc] --> P[Pointer]; P --> A1[Alloc A]; P --> A2[Alloc B]; P --> A3[Alloc C]; R --> F[Region Free (reset)]",
+          impl: {
+            cs: "System.IO.MemoryPool (limited)", py: "numpy arrays / memoryview slices", go: "arena allocator (Go 1.21+ experimental)",
+            rs: "bumpalo::Bump / typed-arena", java: "- (custom ByteBuffer or unsafe off-heap)", js: "ArrayBuffer + offset tracking", cpp: "std::pmr::monotonic_buffer_resource / boost::pool"
+          },
+          comp: { cs: "MemoryPool<T> (limited)", py: "NumPy/ctypes wrappers", go: "runtime/arena (new)", rs: "Native ecosystem", java: "Unsafe/ByteBuffer", js: "TypedArray offsets", cpp: "PMR / custom arenas" }
+        },
+        {
+          id: "zerocopy", complexity: 2, name: {en:"Zero-Copy Buffer Sharing", vi:"Chia Sẻ Bộ Nhớ Không Sao Chép"},
+          origin: "Linux Kernel (sendfile) & Network Stack. Avoid CPU copying data.",
+          desc: "Shares memory buffers across boundaries (processes, threads, layers) without duplicating bytes.",
+          concepts: ["Memory-Mapped I/O", "File Descriptors", "Buffer Views/Refs"], how: "Pass pointers/offsets/handles. Receiver reads/writes same physical pages.",
+          usage: "High-throughput I/O, serialization, streaming media, IPC.",
+          pros: "Minimal CPU cycles, high bandwidth, lower latency.", cons: "Complex lifetime/ownership, mutation hazards, OS/platform limits.",
+          complexity_analysis: "Time: O(1) share, O(D) read. Space: O(1) extra. Cost: High dev complexity, massive throughput gain.",
+          mermaid: "graph TD; P[Producer] --> M[Shared Memory / Buffer]; M --> C[Consumer]; C -->|Read| M; P -->|Write| M",
+          impl: {
+            cs: "Span<T> / Memory<T> + Pipe", py: "memoryview / mmap", go: "unsafe.Slice / reflect.SliceHeader", rs: "&[T], Cow<T>, Pin<&mut [u8]>",
+            java: "java.nio.ByteBuffer (direct)", js: "ArrayBuffer / SharedArrayBuffer", cpp: "std::span, mmap, boost::interprocess"
+          },
+          comp: { cs: "Span<T> (safe slice)", py: "memoryview (C-API)", go: "unsafe slicing", rs: "Lifetime guarantees", java: "DirectByteBuffer", js: "SharedArrayBuffer", cpp: "std::span / mmap" }
+        },
+        {
+          id: "simd", complexity: 3, name: {en:"SIMD Vectorization", vi:"Vector Hóa Song Song SIMD"},
+          origin: "Multimedia Processors (Intel MMX, ARM NEON). Process multiple data in one instruction.",
+          desc: "Executes identical operations on packed data elements using wide CPU registers.",
+          concepts: ["Register Width", "Data Alignment", "Auto-Vectorization"], how: "Compiler/JIT maps loops to vector instructions (AVX, SSE, NEON). Manual via intrinsics.",
+          usage: "Math heavy workloads, image processing, cryptography, ML inference.",
+          pros: "4x-8x+ throughput per core, reduces loop overhead.", cons: "Platform dependency, alignment penalties, complex fallback paths.",
+          complexity_analysis: "Time: O(N/W) where W=vector width. Space: O(N). Cost: High dev tuning, massive speedup.",
+          mermaid: "graph LR; A[Scalar Loop] --> C[Compiler/JIT]; C -->|Detects| D[Vector Pattern]; D --> E[Wide Register Ops]; E --> F[Result]",
+          impl: {
+            cs: "System.Runtime.Intrinsics", py: "NumPy / Numba / PyPy vector", go: "golang.org/x/exp/simd", rs: "core::arch / std::simd",
+            java: "Vector API (Panama Incubator)", js: "WebAssembly SIMD / Auto-vec V8", cpp: "std::simd, <immintrin.h>, #pragma omp simd"
+          },
+          comp: { cs: "Intrinsics API", py: "NumPy C-backend", go: "Exp SIMD pkg", rs: "Portable std::simd", java: "jdk.incubator.vector", js: "Wasm SIMD", cpp: "Native intrinsics" }
+        },
+        {
+          id: "escape", complexity: 3, name: {en:"Escape Analysis & Stack Allocation", vi:"Phân Tích Thoát & Cấp Phát Stack"},
+          origin: "Compiler Theory (Fortran 90, JVM HotSpot). Keep data off heap when possible.",
+          desc: "Compiler proves object doesn't outlive scope, allocates on stack/thread-local instead of heap.",
+          concepts: ["Scope Analysis", "Pointer Tracking", "Thread Local Storage"], how: "Static analysis traces references. If never escapes function/thread, uses stack.",
+          usage: "Tight loops, local structs, short-lived intermediates.",
+          pros: "Zero GC pressure, fast alloc/dealloc, better cache.", cons: "Compiler dependent, stack overflow risk for large data.",
+          complexity_analysis: "Time: Compile O(CFG). Runtime O(1). Space: Stack bound. Cost: Free (compiler), highly effective.",
+          mermaid: "graph TD; F[Function] --> V[Local Var]; V --> E{Escapes Scope?}; E -->|Yes| H[Heap Alloc]; E -->|No| S[Stack/TLS]; S --> F; H --> G[GC/Manual Free]",
+          impl: {
+            cs: "JIT Escape Analysis + ref struct", py: "Limited (PyPy tracing)", go: "Compiler escape analysis (go build -gcflags='-m')", rs: "Default stack, 'static lifetime prevents",
+            java: "HotSpot C2 EA", js: "V8 TurboFan EA (hidden classes)", cpp: "Auto stack, explicit 'new' heap"
+          },
+          comp: { cs: "ref structs stack-bound", py: "PyPy optimizes", go: "Compiler heuristic", rs: "Strict lifetimes", java: "C2 JIT EA", js: "V8 inline/stack", cpp: "Value semantics default" }
+        }
+      ],
+      blocks: [
+        { id: "gc_gen", name: {en:"Generational Garbage Collection", vi:"Thu Rác Phân Thế Hệ"}, origin: "1980s Lisp/Smalltalk JVM. Exploits 'infant mortality' rule.",
+          how: "Divides heap into generations. Young objects collected frequently (cheap). Old objects collected rarely (expensive).",
+          usage: "General-purpose memory management.", pros: "Low pause times, high throughput.", cons: "Complex tuning, memory overhead for barriers.",
+          complexity: "Time: O(Alive) young, O(All) full. Space: O(Heap). Cost: Runtime managed." },
+        { id: "cache_line", name: {en:"CPU Cache Line Awareness", vi:"Nhận Thức Dòng Bộ Đệm CPU"}, origin: "Hardware Architecture. CPUs fetch 64-byte blocks.",
+          how: "Aligns data to cache line boundaries. Avoids 'false sharing' where threads modify different vars in same line.",
+          usage: "Multi-threaded counters, AoS->SoA, hot paths.", pros: "Eliminates cache coherency traffic, huge multi-core speedup.", cons: "Padding waste, hardware-specific.",
+          complexity: "Time: L1 hit O(1). Space: +Padding. Cost: Low code, high perf gain." },
+        { id: "jit_pgo", name: {en:"JIT & Profile-Guided Optimization", vi:"Biên Dịch JIT & Tối Ưu Theo Hồ Sơ"}, origin: "HotSpot JVM / V8. Runtime profiling feeds compiler.",
+          how: "Interpreter profiles code. Hot paths compiled with type speculation, inlining, branch prediction hints.",
+          usage: "Long-running apps, dynamic languages.", pros: "Near-native speed, adapts to workload.", cons: "Cold start, memory for code cache, profiling overhead.",
+          complexity: "Time: Warmup + O(N). Space: Code Cache. Cost: High initial, low long-term." },
+        { id: "mem_align", name: {en:"Memory Alignment & Padding", vi:"Căn Chỉnh & Lấp Khoảng Bộ Nhớ"}, origin: "CPU Bus Widths. Aligned access = single instruction.",
+          how: "Places data at multiples of word size (4/8/16B). Adds padding to structs.",
+          usage: "SIMD, network protocols, low-level I/O.", pros: "Prevents bus errors, maximizes throughput.", cons: "Wasted bytes, struct size inflation.",
+          complexity: "Time: O(1) access. Space: +Padding %. Cost: Free compiler flag or explicit." },
+        { id: "lazy_eval", name: {en:"Lazy Evaluation / Deferred Execution", vi:"Đánh Giá Lười / Trì Hoãn Thực Thi"}, origin: "Functional Programming (Haskell, LINQ). Compute on demand.",
+          how: "Builds expression tree/iterator. Executes only when materialized.",
+          usage: "Large datasets, pipelines, UI rendering.", pros: "Skips unused work, enables infinite streams.", cons: "Hidden exceptions, stack buildup, debugging hard.",
+          complexity: "Time: Deferred until needed. Space: O(Closure/Tree). Cost: CPU saved if filtered early." }
+      ]
+    };
+  </script>
+
+  <!-- ================= RENDERING LOGIC ================= -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script id="renderer">
+    (function() {
+      const state = { lang: 'en', theme: 'light', tab: 0, filter: '' };
+      const $ = sel => document.querySelector(sel);
+      const $$ = sel => document.querySelectorAll(sel);
+      const data = window.MPOT_DATA;
+
+      // I18N & Theme
+      function applyLang() {
+        const t = data.i18n[state.lang];
+        document.documentElement.lang = state.lang;
+        $$('#app *').forEach(el => { if(el.dataset.i18n) el.textContent = t[el.dataset.i18n]; if(el.dataset.i18nPh) el.placeholder = t[el.dataset.i18nPh]; });
+        renderTabs();
+        renderActiveTab();
+      }
+
+      function toggleTheme() {
+        state.theme = state.theme === 'light' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = state.theme;
+      }
+
+      function toggleLang() { state.lang = state.lang === 'en' ? 'vi' : 'en'; applyLang(); }
+
+      // Tabs
+      function renderTabs() {
+        const t = data.i18n[state.lang].tabs;
+        $('#tabs').innerHTML = t.map((name, i) => `<button class="tab ${i===state.tab?'active':''}" data-tab="${i}">${name}</button>`).join('');
+        $('#tabs').onclick = e => {
+          if(!e.target.dataset.tab) return;
+          state.tab = +e.target.dataset.tab;
+          renderTabs(); renderActiveTab();
+        };
+      }
+
+      function renderActiveTab() {
+        $$('main > section').forEach(s => s.classList.remove('active'));
+        const panels = ['overview', 'mpots', 'blocks', 'langcomp', 'toolcomp'];
+        let sec = $(`#${panels[state.tab]}`);
+        if(!sec) {
+          sec = document.createElement('section');
+          sec.id = panels[state.tab];
+          sec.className = 'content-panel active';
+          $('main').appendChild(sec);
+        } else {
+          sec.classList.add('active');
+        }
+        renderTabContent(state.tab, sec);
+      }
+
+      // Tables & Cards Generator
+      function filterRows(arr, term) {
+        if(!term) return arr;
+        const t = term.toLowerCase();
+        return arr.filter(o => JSON.stringify(o).toLowerCase().includes(t));
+      }
+
+      function renderTable(container, headers, rows) {
+        let h = '<thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+        h += rows.map(r => '<tr>' + r.map(c => `<td>${c || '-'}</td>`).join('') + '</tr>').join('');
+        h += '</tbody>';
+        container.innerHTML = `<table>${h}</table>`;
+      }
+
+      function renderTabContent(idx, container) {
+        const t = data.i18n[state.lang].th;
+        const th = [t.id, t.name, t.complexity];
+        const filter = state.filter;
+        let html = '';
+
+        if(idx === 0) { // Overview Comparison
+          const mpots = filterRows(data.mpots, filter).sort((a,b)=>a.complexity-b.complexity);
+          const rows = mpots.map(m => [
+            m.id,
+            m.name[state.lang],
+            `<span class="badge ${m.complexity===1?'basic':m.complexity===2?'intermediate':'advanced'}">${data.i18n[state.lang].complexity[m.complexity-1]}</span>`
+          ]);
+          renderTable(container, th, rows);
+        }
+        else if(idx === 1) { // MPOT Details
+          const mpots = filterRows(data.mpots, filter).sort((a,b)=>a.complexity-b.complexity);
+          container.innerHTML = '';
+          mpots.forEach(m => {
+            const div = document.createElement('div'); div.className = 'mpot-card';
+            const examplesHtml = ['cs','py','go','rs','java','js','cpp'].map(lang => 
+              `<div class="code-block"><span class="lang-tag">[${lang.toUpperCase()}]</span>${m.impl[lang]}</div>`
+            ).join('');
+            const mermaidId = `mermaid-${m.id}-${idx}`;
+            div.innerHTML = `
+              <div class="mpot-header"><h2>${m.name[state.lang]}</h2><span class="badge ${m.complexity===1?'basic':m.complexity===2?'intermediate':'advanced'}">${data.i18n[state.lang].complexity[m.complexity-1]}</span></div>
+              <p><b>${t.origin}:</b> ${m.origin}</p>
+              <p><b>${t.usage}:</b> ${m.usage}</p>
+              <p><b>${t.complexity}:</b> ${m.complexity_analysis}</p>
+              <p><b>${t.pros}:</b> ${m.pros}</p>
+              <p><b>${t.cons}:</b> ${m.cons}</p>
+              <div class="mermaid-container" id="${mermaidId}"></div>
+              <h3>${t.examples}</h3>${examplesHtml}
+            `;
+            container.appendChild(div);
+            mermaid.render('svg-'+mermaidId, m.mermaid).then(({svg}) => { $(`#${mermaidId}`).innerHTML = svg; }).catch(e => { $(`#${mermaidId}`).innerHTML = `<small>Diagram parse error</small>`; });
+          });
+        }
+        else if(idx === 2) { // Blocks
+          const blocks = filterRows(data.blocks, filter);
+          const rows = blocks.map(b => [
+            b.id, b.name[state.lang], b.origin,
+            `${b.how} | ${b.pros} | ${b.cons}`,
+            b.complexity
+          ]);
+          renderTable(container, [t.id, t.name, t.origin, `${t.how} / ${t.pros} / ${t.cons}`, t.complexity], rows);
+        }
+        else if(idx === 3) { // Lang Comp
+          const mpots = filterRows(data.mpots, filter).sort((a,b)=>a.complexity-b.complexity);
+          const langs = ['cs','py','go','rs','java','js','cpp'];
+          const headers = [t.id, t.name, ...langs.map(l=>l.toUpperCase())];
+          const rows = mpots.map(m => [m.id, m.name[state.lang], ...langs.map(l => m.comp[l])]);
+          renderTable(container, headers, rows);
+        }
+        else if(idx === 4) { // Tool Comp
+          const blocks = filterRows(data.blocks, filter);
+          const headers = [t.id, t.name, "C#", "Python", "Go", "Rust", "Java", "JS", "C++"];
+          const impls = { gc_gen:["Generational GC","gc / gc.disable","GOGC","bump/typed-arena (manual)","HotSpot G1/ZGC/Shenandoah","V8 Orinoco/Generational","custom/BDWGC"], cache_line:["Align(64)/Padding","__attribute__((aligned(64)))","runtime/internal/sys.CachelinePad","#[repr(align(64))]","@Contended / JOL","Align(64) padding","alignas(64) std::vector"], jit_pgo:["Tiered JIT/PGO","PyPy JIT / Numba","go build -buildmode=plugin","-C opt-level=3 -C target-cpu=native","-XX:+UseJIT","V8 TurboFan/PGO","clang -flto -fprofile-generate"], mem_align:["struct layout","struct.pack('P',...)", "unsafe.Alignof","#![repr(C, align)]","Unsafe.allocateMemory/align","new ArrayBuffer(n, align)","alignas(16) struct"], lazy_eval:["IEnumerable/Yield","Generators/itertools","Channels/iter","Iterators/Streams","java.util.stream.Stream","Iterators/generators","std::ranges / coroutines"]};
+          const rows = blocks.map(b => {
+            const key = b.id;
+            return [b.id, b.name[state.lang], ...(impls[key] || Array(7).fill(t.none))];
+          });
+          renderTable(container, headers, rows);
+        }
+      }
+
+      // Search
+      $('#search').addEventListener('input', e => {
+        state.filter = e.target.value.trim();
+        renderActiveTab();
+      });
+
+      // Init
+      mermaid.initialize({ startOnLoad: false, theme: state.theme === 'dark' ? 'dark' : 'default' });
+      $('#theme-toggle').onclick = toggleTheme;
+      $('#lang-toggle').onclick = toggleLang;
+      applyLang();
+    })();
+  </script>
+</body>
+</html>

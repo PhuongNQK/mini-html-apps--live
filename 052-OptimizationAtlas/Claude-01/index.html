@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MPOT Collection — Memory & Performance Optimization Techniques</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS — Dark & Light Themes
+   ============================================================ */
+:root {
+  --transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+[data-theme="dark"] {
+  --bg:      #0e0f11;
+  --bg2:     #14161a;
+  --bg3:     #1c1f25;
+  --bg4:     #22262e;
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.14);
+  --text:    #e8e6e0;
+  --text2:   #9b9892;
+  --text3:   #5a5855;
+  --accent:  #c8f0a0;
+  --accent2: #5dd4a8;
+  --accent3: #f0c060;
+  --accent4: #e07060;
+  --accent5: #70b0f0;
+  --green:   #6dc98a;
+  --red:     #e07060;
+  --code-bg: #090a0c;
+  --shadow:  0 4px 24px rgba(0,0,0,0.4);
+  --shadow2: 0 2px 8px rgba(0,0,0,0.3);
+  --sidebar-bg: #11131a;
+}
+[data-theme="light"] {
+  --bg:      #f4f3ef;
+  --bg2:     #ffffff;
+  --bg3:     #eceae4;
+  --bg4:     #e2e0d8;
+  --border:  rgba(0,0,0,0.09);
+  --border2: rgba(0,0,0,0.18);
+  --text:    #1a1916;
+  --text2:   #4a4845;
+  --text3:   #8a8885;
+  --accent:  #3a8a10;
+  --accent2: #1a7a58;
+  --accent3: #905a00;
+  --accent4: #b03020;
+  --accent5: #205090;
+  --green:   #1a7a38;
+  --red:     #b03020;
+  --code-bg: #f8f7f3;
+  --shadow:  0 4px 24px rgba(0,0,0,0.1);
+  --shadow2: 0 2px 8px rgba(0,0,0,0.06);
+  --sidebar-bg: #eceae3;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 15px; line-height: 1.65;
+  transition: var(--transition);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.shell { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 242px; min-width: 242px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  position: sticky; top: 0; height: 100vh;
+  overflow-y: auto; flex-shrink: 0;
+  display: flex; flex-direction: column;
+  transition: var(--transition);
+}
+.main { flex: 1; min-width: 0; padding: 2.5rem 3rem; }
+.main-inner { max-width: 1180px; }
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.sidebar-header {
+  padding: 1.25rem 1.1rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 20px; font-weight: 600;
+  color: var(--accent); letter-spacing: -0.5px;
+}
+.sidebar-sub {
+  font-size: 10.5px; color: var(--text3);
+  margin-top: 2px; letter-spacing: 0.6px;
+  text-transform: uppercase;
+  transition: color 0.25s;
+}
+
+/* Search inside sidebar */
+.sidebar-search {
+  padding: 0.75rem 1.1rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.search-wrap {
+  position: relative;
+}
+.search-icon {
+  position: absolute; left: 9px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3); font-size: 13px;
+  pointer-events: none;
+}
+.search-input {
+  width: 100%; padding: 6px 9px 6px 28px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 7px; color: var(--text);
+  font-size: 12.5px; font-family: inherit;
+  outline: none; transition: var(--transition);
+}
+.search-input:focus { border-color: var(--border2); }
+.search-input::placeholder { color: var(--text3); }
+.search-clear {
+  position: absolute; right: 8px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  color: var(--text3); font-size: 14px; padding: 0;
+  display: none;
+}
+.search-clear.visible { display: block; }
+
+/* Nav */
+.nav-section { padding: 0.8rem 0 0.3rem; }
+.nav-section-label {
+  font-size: 9.5px; letter-spacing: 1.2px;
+  text-transform: uppercase; color: var(--text3);
+  padding: 0 1.1rem 0.35rem;
+  transition: color 0.25s;
+}
+.nav-item {
+  display: flex; align-items: center;
+  padding: 5px 1.1rem; font-size: 13px;
+  color: var(--text2); cursor: pointer;
+  transition: all 0.14s; border-left: 2px solid transparent;
+  text-decoration: none; gap: 6px;
+}
+.nav-item:hover { color: var(--text); background: var(--bg3); }
+.nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(100,200,80,0.06); }
+[data-theme="light"] .nav-item.active { background: rgba(50,130,10,0.07); }
+.nav-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--bg4); border: 1px solid var(--border);
+  border-radius: 10px; font-size: 10px; min-width: 20px;
+  padding: 0 5px; color: var(--text3);
+  font-family: 'JetBrains Mono', monospace;
+  margin-left: auto;
+}
+
+/* Sidebar controls (bottom) */
+.sidebar-controls {
+  margin-top: auto; padding: 0.8rem 1.1rem 1rem;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 7px;
+}
+.ctrl-row {
+  display: flex; gap: 5px;
+}
+.ctrl-btn {
+  flex: 1; padding: 5px 0; font-size: 11.5px;
+  font-family: inherit; border-radius: 6px;
+  cursor: pointer; transition: all 0.15s;
+  border: 1px solid var(--border);
+  background: var(--bg3); color: var(--text2);
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.ctrl-btn:hover { border-color: var(--border2); color: var(--text); }
+.ctrl-btn.active {
+  background: var(--accent); color: #0e0f11;
+  border-color: transparent; font-weight: 500;
+}
+[data-theme="light"] .ctrl-btn.active { color: #fff; }
+.ctrl-label {
+  font-size: 10px; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--text3);
+  margin-bottom: 2px;
+}
+
+/* ============================================================
+   PAGES
+   ============================================================ */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+.hero { margin-bottom: 2.8rem; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+.hero-tag { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.7rem; }
+.hero-title { font-family: 'Fraunces', serif; font-size: 38px; font-weight: 600; color: var(--text); line-height: 1.15; margin-bottom: 0.7rem; }
+.hero-title span { color: var(--accent); }
+.hero-desc { font-size: 14.5px; color: var(--text2); max-width: 620px; line-height: 1.75; }
+
+.section-title { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 0.3rem; line-height: 1.2; }
+.section-sub { color: var(--text2); font-size: 14px; margin-bottom: 1.8rem; line-height: 1.6; }
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+  display: inline-flex; align-items: center;
+  border-radius: 20px; font-size: 10.5px; font-weight: 500;
+  padding: 2px 9px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-basic     { background: rgba(109,201,138,0.12); color: var(--green); border: 1px solid rgba(109,201,138,0.2); }
+.badge-intermediate { background: rgba(240,192,96,0.12); color: var(--accent3); border: 1px solid rgba(240,192,96,0.2); }
+.badge-advanced  { background: rgba(224,112,96,0.12); color: var(--accent4); border: 1px solid rgba(224,112,96,0.2); }
+.badge-cat       { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); }
+
+/* ============================================================
+   META / STATS CARDS
+   ============================================================ */
+.meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; margin-top: 0.9rem; }
+.meta-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem 0.9rem; transition: var(--transition); }
+.meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text3); margin-bottom: 0.3rem; }
+.meta-value { font-size: 14px; color: var(--accent3); font-family: 'JetBrains Mono', monospace; }
+
+/* ============================================================
+   HOME CATEGORY CARDS
+   ============================================================ */
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 0.85rem; }
+.cat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; transition: var(--transition); }
+.cat-card:hover { border-color: var(--border2); }
+.cat-card-name { font-size: 14px; font-weight: 500; margin-bottom: 0.3rem; }
+.cat-card-desc { font-size: 12.5px; color: var(--text2); line-height: 1.55; }
+
+.how-to-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.3rem; margin-top: 1.8rem; font-size: 13.5px; color: var(--text2); line-height: 1.75; transition: var(--transition); }
+.how-to-box strong { color: var(--text); }
+.how-to-box em { color: var(--accent2); font-style: normal; }
+
+/* ============================================================
+   FILTER BAR
+   ============================================================ */
+.filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.4rem; align-items: center; }
+.filter-label { font-size: 11.5px; color: var(--text3); margin-right: 2px; }
+.filter-btn {
+  padding: 4px 11px; font-size: 12px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 20px; cursor: pointer; color: var(--text2);
+  transition: all 0.14s; font-family: inherit;
+}
+.filter-btn:hover { color: var(--text); border-color: var(--border2); }
+.filter-btn.active { background: rgba(100,200,80,0.1); border-color: var(--accent); color: var(--accent); }
+[data-theme="light"] .filter-btn.active { background: rgba(50,130,10,0.09); }
+.filter-sep { width: 1px; height: 20px; background: var(--border); align-self: center; }
+
+/* ============================================================
+   MPOT CARDS
+   ============================================================ */
+.mpot-grid { display: flex; flex-direction: column; gap: 1.2rem; }
+.mpot-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.2s, var(--transition); }
+.mpot-card:hover { border-color: var(--border2); }
+.mpot-header { padding: 1.1rem 1.3rem 0.9rem; cursor: pointer; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; user-select: none; }
+.mpot-header:hover { background: rgba(128,128,128,0.03); }
+.mpot-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text3); min-width: 28px; padding-top: 5px; }
+.mpot-name { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+.mpot-origin { font-size: 11.5px; color: var(--text3); font-style: italic; margin-bottom: 0.45rem; }
+.mpot-summary { font-size: 13.5px; color: var(--text2); line-height: 1.6; }
+.mpot-badges { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 0.55rem; }
+.mpot-chevron { color: var(--text3); font-size: 16px; transition: transform 0.22s; flex-shrink: 0; margin-top: 6px; }
+.mpot-card.open .mpot-chevron { transform: rotate(180deg); }
+.mpot-body { display: none; border-top: 1px solid var(--border); }
+.mpot-card.open .mpot-body { display: block; }
+
+/* Tabs inside card */
+.mpot-tabs { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
+.mpot-tab { padding: 0.55rem 1rem; font-size: 12.5px; color: var(--text2); cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.14s; font-family: inherit; background: none; border-top: none; border-left: none; border-right: none; }
+.mpot-tab:hover { color: var(--text); }
+.mpot-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.mpot-panel { display: none; padding: 1.3rem 1.4rem; }
+.mpot-panel.active { display: block; }
+
+/* Explanation content */
+.explain-text { font-size: 13.5px; color: var(--text2); line-height: 1.75; margin-bottom: 0.9rem; }
+.pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-top: 1rem; }
+@media (max-width: 640px) { .pros-cons { grid-template-columns: 1fr; } }
+.pro-list, .con-list { background: var(--bg3); border-radius: 8px; padding: 0.75rem 0.9rem; transition: var(--transition); }
+.pro-list h4 { color: var(--green); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.45rem; }
+.con-list h4 { color: var(--red); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.45rem; }
+.pro-list li, .con-list li { font-size: 12.5px; color: var(--text2); margin-left: 1rem; margin-bottom: 2px; line-height: 1.55; }
+
+/* Code panel */
+.lang-tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 0.7rem; }
+.lang-tab {
+  padding: 3px 10px; font-size: 11.5px;
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 20px; cursor: pointer; color: var(--text2);
+  transition: all 0.14s;
+}
+.lang-tab:hover { color: var(--text); border-color: var(--border2); }
+.lang-tab.active { background: rgba(100,200,80,0.1); border-color: var(--accent); color: var(--accent); }
+[data-theme="light"] .lang-tab.active { background: rgba(50,130,10,0.09); }
+.code-meta { font-size: 11.5px; color: var(--text3); margin-bottom: 0.35rem; font-family: 'JetBrains Mono', monospace; }
+.code-meta span { color: var(--accent2); }
+.code-block-wrap { position: relative; }
+pre {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.9rem 1rem;
+  overflow-x: auto; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; line-height: 1.75; color: var(--text);
+  transition: var(--transition);
+}
+.copy-btn {
+  position: absolute; top: 0.5rem; right: 0.5rem;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 5px; padding: 2px 8px; font-size: 10.5px;
+  color: var(--text3); cursor: pointer; transition: all 0.14s;
+  font-family: inherit;
+}
+.copy-btn:hover { color: var(--text); border-color: var(--border2); }
+
+/* No results */
+.no-results { text-align: center; padding: 3rem 1rem; color: var(--text3); font-size: 14px; }
+.no-results .no-icon { font-size: 32px; margin-bottom: 0.5rem; }
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+.table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left; padding: 0.55rem 0.9rem;
+  background: var(--bg3); color: var(--text2);
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.8px;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+  transition: var(--transition);
+}
+td { padding: 0.55rem 0.9rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text2); line-height: 1.5; transition: var(--transition); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(128,128,128,0.03); }
+td.name-col { color: var(--text); font-weight: 500; white-space: nowrap; }
+td.dash { color: var(--text3); text-align: center; }
+td.yes { color: var(--green); text-align: center; font-weight: 500; }
+td.partial { color: var(--accent3); text-align: center; font-weight: 500; }
+td.lang-specific { font-size: 12px; }
+.table-note { margin-top: 0.7rem; font-size: 11.5px; color: var(--text3); }
+
+/* ============================================================
+   BUILDING BLOCKS GRID
+   ============================================================ */
+.bb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.9rem; }
+.bb-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; transition: var(--transition); }
+.bb-card:hover { border-color: var(--border2); }
+.bb-name { font-size: 14.5px; font-weight: 500; color: var(--text); margin-bottom: 0.15rem; }
+.bb-area { font-size: 10.5px; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.45rem; }
+.bb-desc { font-size: 12.5px; color: var(--text2); line-height: 1.62; }
+
+/* ============================================================
+   LANGUAGE PROFILES
+   ============================================================ */
+.lang-compare-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 0.9rem; }
+.lang-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.2rem; transition: var(--transition); }
+.lang-card:hover { border-color: var(--border2); }
+.lang-name { font-family: 'Fraunces', serif; font-size: 20px; color: var(--accent); margin-bottom: 0.8rem; }
+.lang-row { display: flex; gap: 0.6rem; margin-bottom: 0.5rem; align-items: flex-start; }
+.lang-row-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text3); min-width: 72px; padding-top: 2px; flex-shrink: 0; }
+.lang-row-val { font-size: 12.5px; color: var(--text2); line-height: 1.55; }
+
+/* ============================================================
+   SEARCH HIGHLIGHT
+   ============================================================ */
+mark { background: rgba(200,240,100,0.25); color: inherit; border-radius: 2px; }
+[data-theme="light"] mark { background: rgba(100,180,10,0.2); }
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ══════════════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════════════ -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo" data-i18n="appName">MPOT</div>
+      <div class="sidebar-sub" data-i18n="appSub">Optimization Techniques</div>
+    </div>
+
+    <!-- Search -->
+    <div class="sidebar-search">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input
+          id="global-search"
+          class="search-input"
+          type="text"
+          data-i18n-placeholder="searchPlaceholder"
+          placeholder="Search techniques…"
+          autocomplete="off"
+        />
+        <button class="search-clear" id="search-clear-btn" aria-label="Clear search">✕</button>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="nav-section">
+      <div class="nav-section-label" data-i18n="navOverview">Overview</div>
+      <a class="nav-item active" data-page="home" data-i18n="navIntro">Introduction</a>
+      <a class="nav-item" data-page="overview-table" data-i18n="navQuickCompare">Quick Comparison</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label" data-i18n="navTechniques">Techniques</div>
+      <a class="nav-item" data-page="mpots">
+        <span data-i18n="navAll">All Techniques</span>
+        <span class="nav-badge" id="mpot-count"></span>
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-label" data-i18n="navReference">Reference</div>
+      <a class="nav-item" data-page="building-blocks" data-i18n="navBuildingBlocks">Building Blocks</a>
+      <a class="nav-item" data-page="lang-compare" data-i18n="navLangProfiles">Language Profiles</a>
+      <a class="nav-item" data-page="bb-compare" data-i18n="navConceptCompare">Concept Comparison</a>
+    </div>
+
+    <!-- Controls -->
+    <div class="sidebar-controls">
+      <!-- Theme toggle -->
+      <div>
+        <div class="ctrl-label" data-i18n-theme-label>Theme</div>
+        <div class="ctrl-row">
+          <button class="ctrl-btn active" id="btn-dark" onclick="setTheme('dark')">
+            🌙 <span data-i18n="toggleDark">Dark</span>
+          </button>
+          <button class="ctrl-btn" id="btn-light" onclick="setTheme('light')">
+            ☀️ <span data-i18n="toggleLight">Light</span>
+          </button>
+        </div>
+      </div>
+      <!-- Language toggle -->
+      <div>
+        <div class="ctrl-label" data-i18n-lang-label>Language</div>
+        <div class="ctrl-row">
+          <button class="ctrl-btn active" id="btn-en" onclick="setLang('en')">
+            🇬🇧 EN
+          </button>
+          <button class="ctrl-btn" id="btn-vi" onclick="setLang('vi')">
+            🇻🇳 VI
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════ -->
+  <main class="main">
+  <div class="main-inner">
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+      <div class="hero">
+        <div class="hero-tag" data-i18n="tagline">Reference Collection · v1.0</div>
+        <h1 class="hero-title">
+          <span data-i18n="heroTitle1">Memory &amp; Performance</span><br>
+          <span data-i18n="heroTitle2">Optimization Techniques</span>
+        </h1>
+        <p class="hero-desc" data-i18n="heroDesc"></p>
+      </div>
+
+      <div class="section-title" data-i18n="whatIsMpot">What is an MPOT?</div>
+      <p class="section-sub" data-i18n="whatIsMpotDesc"></p>
+
+      <div class="meta-grid" style="margin-bottom:2rem">
+        <div class="meta-card"><div class="meta-label" data-i18n="statTech">Techniques</div><div class="meta-value" id="stat-mpots">—</div></div>
+        <div class="meta-card"><div class="meta-label" data-i18n="statLangs">Languages</div><div class="meta-value">7</div></div>
+        <div class="meta-card"><div class="meta-label" data-i18n="statBlocks">Building Blocks</div><div class="meta-value" id="stat-bb">—</div></div>
+        <div class="meta-card"><div class="meta-label" data-i18n="statDifficulty">Difficulty Range</div><div class="meta-value" data-i18n="difficultyRange">Basic → Advanced</div></div>
+      </div>
+
+      <div class="section-title" style="font-size:20px;margin-bottom:0.3rem" data-i18n="catTitle">Technique Categories</div>
+      <p style="color:var(--text2);font-size:13.5px;margin-bottom:1rem;line-height:1.6" data-i18n="catDesc"></p>
+      <div class="cat-grid" id="cat-grid"></div>
+
+      <div class="how-to-box">
+        <strong data-i18n="howToUse">How to use this collection:</strong>
+        <span data-i18n="howToUseDesc"></span>
+      </div>
+    </div>
+
+    <!-- OVERVIEW TABLE PAGE -->
+    <div id="page-overview-table" class="page">
+      <div class="section-title" data-i18n="overviewTitle">Quick Comparison Table</div>
+      <p class="section-sub" data-i18n="overviewDesc"></p>
+      <div id="overview-table-container"></div>
+    </div>
+
+    <!-- ALL TECHNIQUES PAGE -->
+    <div id="page-mpots" class="page">
+      <div class="section-title" data-i18n="techPageTitle">All Techniques</div>
+      <p class="section-sub" data-i18n="techPageDesc"></p>
+      <div class="filter-bar" id="filter-bar"></div>
+      <div class="mpot-grid" id="mpot-grid-container"></div>
+      <div class="no-results" id="no-results" style="display:none">
+        <div class="no-icon">🔍</div>
+        <div data-i18n="noResults">No techniques match your search.</div>
+      </div>
+    </div>
+
+    <!-- BUILDING BLOCKS PAGE -->
+    <div id="page-building-blocks" class="page">
+      <div class="section-title" data-i18n="bbTitle">Building Blocks</div>
+      <p class="section-sub" data-i18n="bbDesc"></p>
+      <div class="bb-grid" id="bb-grid-container"></div>
+    </div>
+
+    <!-- LANGUAGE PROFILES PAGE -->
+    <div id="page-lang-compare" class="page">
+      <div class="section-title" data-i18n="langTitle">Language Profiles</div>
+      <p class="section-sub" data-i18n="langDesc"></p>
+      <div class="lang-compare-grid" id="lang-compare-container"></div>
+    </div>
+
+    <!-- CONCEPT COMPARISON PAGE -->
+    <div id="page-bb-compare" class="page">
+      <div class="section-title" data-i18n="bbCompareTitle">Building Block Comparison</div>
+      <p class="section-sub" data-i18n="bbCompareDesc"></p>
+      <div id="bb-compare-table"></div>
+    </div>
+
+  </div><!-- /main-inner -->
+  </main>
+</div><!-- /shell -->
+
+<script type="module">
+import { MPOTS, BUILDING_BLOCKS, LANG_FEATURES, LANGUAGES } from './data.js';
+import { T, MPOT_VI, BB_VI } from './translations.js';
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let currentLang   = 'en';
+let currentTheme  = 'dark';
+let activeLevel   = 'all';
+let activeCat     = 'all';
+let searchQuery   = '';
+let builtPages    = new Set();
+
+// ═══════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════
+window.setTheme = function(theme) {
+  currentTheme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+  document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+};
+
+// ═══════════════════════════════════════════
+// LANGUAGE / i18n
+// ═══════════════════════════════════════════
+window.setLang = function(lang) {
+  currentLang = lang;
+  document.documentElement.setAttribute('data-lang', lang);
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+
+  // Apply static i18n strings
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (T[lang][key] !== undefined) el.placeholder = T[lang][key];
+  });
+
+  // Rebuild dynamic content
+  builtPages.clear();
+  renderHomeCats();
+  renderFilterBar();
+  renderMpots(true);
+  if (document.getElementById('page-overview-table').classList.contains('active')) renderOverviewTable();
+  if (document.getElementById('page-building-blocks').classList.contains('active')) renderBB();
+  if (document.getElementById('page-lang-compare').classList.contains('active')) renderLangCompare();
+  if (document.getElementById('page-bb-compare').classList.contains('active')) renderBBCompare();
+};
+
+function t(key) { return T[currentLang][key] || T['en'][key] || key; }
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function navigate(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add('active');
+
+  if (pageId === 'mpots')           renderMpots();
+  if (pageId === 'overview-table')  renderOverviewTable();
+  if (pageId === 'building-blocks') renderBB();
+  if (pageId === 'lang-compare')    renderLangCompare();
+  if (pageId === 'bb-compare')      renderBBCompare();
+}
+document.querySelectorAll('.nav-item[data-page]').forEach(el => {
+  el.addEventListener('click', () => navigate(el.dataset.page));
+});
+
+// ═══════════════════════════════════════════
+// SEARCH (global)
+// ═══════════════════════════════════════════
+const searchInput = document.getElementById('global-search');
+const clearBtn    = document.getElementById('search-clear-btn');
+
+searchInput.addEventListener('input', () => {
+  searchQuery = searchInput.value.trim().toLowerCase();
+  clearBtn.classList.toggle('visible', searchQuery.length > 0);
+  // Auto-navigate to techniques if we have a query
+  if (searchQuery.length > 0) navigate('mpots');
+  else filterMpots();
+  filterMpots();
+});
+clearBtn.addEventListener('click', () => {
+  searchInput.value = '';
+  searchQuery = '';
+  clearBtn.classList.remove('visible');
+  filterMpots();
+});
+
+// ═══════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function highlight(text, query) {
+  if (!query) return escHtml(text);
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return escHtml(text).replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+function levelBadge(l) {
+  if (l === 1) return `<span class="badge badge-basic">${t('badgeBasic')}</span>`;
+  if (l === 2) return `<span class="badge badge-intermediate">${t('badgeIntermediate')}</span>`;
+  return `<span class="badge badge-advanced">${t('badgeAdvanced')}</span>`;
+}
+function catBadge(c) {
+  return `<span class="badge badge-cat">${t(c)}</span>`;
+}
+function getMpotText(m) {
+  if (currentLang === 'vi' && MPOT_VI[m.id]) {
+    const vi = MPOT_VI[m.id];
+    return { name: vi.name, origin: vi.origin, summary: vi.summary, explanation: vi.explanation, pros: vi.pros, cons: vi.cons };
+  }
+  return { name: m.name, origin: m.origin, summary: m.summary, explanation: m.explanation, pros: m.pros, cons: m.cons };
+}
+function getBBText(b) {
+  if (currentLang === 'vi' && BB_VI[b.id]) {
+    return { name: BB_VI[b.id].name, description: BB_VI[b.id].description };
+  }
+  return { name: b.name, description: b.description };
+}
+
+// ═══════════════════════════════════════════
+// HOME — CATEGORIES
+// ═══════════════════════════════════════════
+const CAT_DATA = [
+  { key:'catMemLayout',  catKey:'memory-layout', color:'var(--accent5)' },
+  { key:'catAlloc',      catKey:'allocation',    color:'var(--accent2)' },
+  { key:'catCompute',    catKey:'computation',   color:'var(--accent3)' },
+  { key:'catIO',         catKey:'io',            color:'var(--accent)'  },
+  { key:'catRuntime',    catKey:'runtime',       color:'var(--accent4)' },
+  { key:'catConcurrency',catKey:'concurrency',   color:'var(--text2)'   },
+];
+function renderHomeCats() {
+  document.getElementById('cat-grid').innerHTML = CAT_DATA.map(c => `
+    <div class="cat-card">
+      <div class="cat-card-name" style="color:${c.color}">${t(c.key)}</div>
+      <div class="cat-card-desc">${t(c.key + 'Desc')}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// FILTER BAR
+// ═══════════════════════════════════════════
+function renderFilterBar() {
+  const bar = document.getElementById('filter-bar');
+  bar.innerHTML = `
+    <span class="filter-label">${t('filterLevel')}</span>
+    <button class="filter-btn ${activeLevel==='all'?'active':''}" data-filter-level="all">${t('filterAll')}</button>
+    <button class="filter-btn ${activeLevel==='1'?'active':''}" data-filter-level="1">${t('filterBasic')}</button>
+    <button class="filter-btn ${activeLevel==='2'?'active':''}" data-filter-level="2">${t('filterIntermediate')}</button>
+    <button class="filter-btn ${activeLevel==='3'?'active':''}" data-filter-level="3">${t('filterAdvanced')}</button>
+    <div class="filter-sep"></div>
+    <span class="filter-label">${t('filterCat')}</span>
+    <button class="filter-btn ${activeCat==='all'?'active':''}" data-filter-cat="all">${t('filterAll')}</button>
+    <button class="filter-btn ${activeCat==='memory-layout'?'active':''}" data-filter-cat="memory-layout">${t('filterMemLayout')}</button>
+    <button class="filter-btn ${activeCat==='allocation'?'active':''}" data-filter-cat="allocation">${t('filterAlloc')}</button>
+    <button class="filter-btn ${activeCat==='computation'?'active':''}" data-filter-cat="computation">${t('filterCompute')}</button>
+    <button class="filter-btn ${activeCat==='io'?'active':''}" data-filter-cat="io">${t('filterIO')}</button>
+    <button class="filter-btn ${activeCat==='runtime'?'active':''}" data-filter-cat="runtime">${t('filterRuntime')}</button>
+    <button class="filter-btn ${activeCat==='concurrency'?'active':''}" data-filter-cat="concurrency">${t('filterConcurrency')}</button>
+  `;
+  bar.querySelectorAll('[data-filter-level]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeLevel = btn.dataset.filterLevel;
+      renderFilterBar();
+      filterMpots();
+    });
+  });
+  bar.querySelectorAll('[data-filter-cat]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCat = btn.dataset.filterCat;
+      renderFilterBar();
+      filterMpots();
+    });
+  });
+}
+
+// ═══════════════════════════════════════════
+// MPOT GRID
+// ═══════════════════════════════════════════
+function renderMpots(force = false) {
+  const container = document.getElementById('mpot-grid-container');
+  if (builtPages.has('mpots') && !force) { filterMpots(); return; }
+  builtPages.add('mpots');
+
+  container.innerHTML = MPOTS.map((m, idx) => {
+    const tx = getMpotText(m);
+    return `
+    <div class="mpot-card" id="mpot-${m.id}" data-level="${m.level}" data-cat="${m.category}"
+         data-search-en="${(m.name+' '+m.summary+' '+m.category).toLowerCase()}"
+         data-search-vi="${((MPOT_VI[m.id]?.name||'')+' '+(MPOT_VI[m.id]?.summary||'')+' '+m.category).toLowerCase()}">
+      <div class="mpot-header" onclick="toggleMpot('${m.id}')">
+        <span class="mpot-num">${String(idx+1).padStart(2,'0')}</span>
+        <div style="flex:1">
+          <div class="mpot-name" data-mpot-name="${m.id}">${escHtml(tx.name)}</div>
+          <div class="mpot-origin" data-mpot-origin="${m.id}">${escHtml(tx.origin)}</div>
+          <div class="mpot-summary" data-mpot-summary="${m.id}">${escHtml(tx.summary)}</div>
+          <div class="mpot-badges">${levelBadge(m.level)}${catBadge(m.category)}</div>
+        </div>
+        <div class="mpot-chevron">▾</div>
+      </div>
+      <div class="mpot-body">
+        <div class="mpot-tabs">
+          <button class="mpot-tab active" onclick="switchTab('${m.id}','explain')" data-i18n-tab-explain="${m.id}">${t('tabExplain')}</button>
+          <button class="mpot-tab"        onclick="switchTab('${m.id}','code')"    data-i18n-tab-code="${m.id}">${t('tabCode')}</button>
+        </div>
+        <div class="mpot-panel active" id="tab-${m.id}-explain">
+          <p class="explain-text" data-mpot-explain="${m.id}">${escHtml(tx.explanation)}</p>
+          <div class="meta-grid">
+            <div class="meta-card"><div class="meta-label" data-i18n="labelTime">${t('labelTime')}</div><div class="meta-value">${escHtml(m.timeComplexity)}</div></div>
+            <div class="meta-card"><div class="meta-label" data-i18n="labelSpace">${t('labelSpace')}</div><div class="meta-value">${escHtml(m.spaceComplexity)}</div></div>
+          </div>
+          <div class="pros-cons">
+            <div class="pro-list"><h4 data-mpot-pros="${m.id}">✓ ${t('pros')}</h4><ul>${tx.pros.map(p=>`<li>${escHtml(p)}</li>`).join('')}</ul></div>
+            <div class="con-list"><h4 data-mpot-cons="${m.id}">✗ ${t('cons')}</h4><ul>${tx.cons.map(c=>`<li>${escHtml(c)}</li>`).join('')}</ul></div>
+          </div>
+        </div>
+        <div class="mpot-panel" id="tab-${m.id}-code">
+          <div class="lang-tabs">
+            ${LANGUAGES.map(l=>`<button class="lang-tab" data-mpot="${m.id}" data-lang="${l}" onclick="switchLang('${m.id}','${l}')">${l}</button>`).join('')}
+          </div>
+          <div id="code-${m.id}">
+            ${LANGUAGES.map(l => {
+              const impl = m.implementations[l];
+              return `<div class="code-lang-panel" data-lang="${l}" style="display:none">
+                <div class="code-meta">${t('labelLang')}: <span>${l}</span> · ${t('labelIdiom')}: <span>${impl ? escHtml(impl.name) : 'N/A'}</span></div>
+                <div class="code-block-wrap">
+                  <pre>${impl ? escHtml(impl.snippet) : '// No equivalent in ' + l}</pre>
+                  <button class="copy-btn" onclick="copyCode(this)" data-copy-label="${t('copy')}" data-copied-label="${t('copied')}">${t('copy')}</button>
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Activate first lang for each card
+  MPOTS.forEach(m => {
+    const firstLang = LANGUAGES[0];
+    const panel = document.querySelector(`#code-${m.id} [data-lang="${firstLang}"]`);
+    if (panel) panel.style.display = 'block';
+    const tab = document.querySelector(`.lang-tab[data-mpot="${m.id}"][data-lang="${firstLang}"]`);
+    if (tab) tab.classList.add('active');
+  });
+  filterMpots();
+}
+
+function filterMpots() {
+  const q = searchQuery;
+  const langKey = currentLang === 'vi' ? 'data-search-vi' : 'data-search-en';
+  let visibleCount = 0;
+
+  document.querySelectorAll('.mpot-card').forEach(card => {
+    const lvl = card.dataset.level;
+    const cat = card.dataset.cat;
+    const searchText = card.getAttribute(langKey) || card.getAttribute('data-search-en') || '';
+    const matchLevel = activeLevel === 'all' || String(lvl) === String(activeLevel);
+    const matchCat   = activeCat === 'all' || cat === activeCat;
+    const matchQuery = !q || searchText.includes(q);
+
+    const show = matchLevel && matchCat && matchQuery;
+    card.style.display = show ? '' : 'none';
+    if (show) {
+      visibleCount++;
+      // highlight search terms in card text
+      if (q) {
+        const mpotId = card.id.replace('mpot-','');
+        const m = MPOTS.find(x => x.id === mpotId);
+        if (m) {
+          const tx = getMpotText(m);
+          const nameEl    = card.querySelector(`[data-mpot-name="${mpotId}"]`);
+          const summaryEl = card.querySelector(`[data-mpot-summary="${mpotId}"]`);
+          if (nameEl)    nameEl.innerHTML    = highlight(tx.name, q);
+          if (summaryEl) summaryEl.innerHTML = highlight(tx.summary, q);
+        }
+      } else {
+        // reset highlights
+        const mpotId = card.id.replace('mpot-','');
+        const m = MPOTS.find(x => x.id === mpotId);
+        if (m) {
+          const tx = getMpotText(m);
+          const nameEl    = card.querySelector(`[data-mpot-name="${mpotId}"]`);
+          const summaryEl = card.querySelector(`[data-mpot-summary="${mpotId}"]`);
+          if (nameEl)    nameEl.textContent    = tx.name;
+          if (summaryEl) summaryEl.textContent = tx.summary;
+        }
+      }
+    }
+  });
+
+  document.getElementById('no-results').style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+// Update text content for language switch (already-built cards)
+function refreshMpotText() {
+  MPOTS.forEach(m => {
+    const card = document.getElementById('mpot-' + m.id);
+    if (!card) return;
+    const tx = getMpotText(m);
+    const nameEl    = card.querySelector(`[data-mpot-name="${m.id}"]`);
+    const originEl  = card.querySelector(`[data-mpot-origin="${m.id}"]`);
+    const summaryEl = card.querySelector(`[data-mpot-summary="${m.id}"]`);
+    const explainEl = card.querySelector(`[data-mpot-explain="${m.id}"]`);
+    const prosEl    = card.querySelector(`[data-mpot-pros="${m.id}"]`);
+    const consEl    = card.querySelector(`[data-mpot-cons="${m.id}"]`);
+    const prosListEl = prosEl?.closest('.pro-list')?.querySelector('ul');
+    const consListEl = consEl?.closest('.con-list')?.querySelector('ul');
+    if (nameEl)    nameEl.textContent    = tx.name;
+    if (originEl)  originEl.textContent  = tx.origin;
+    if (summaryEl) summaryEl.textContent = tx.summary;
+    if (explainEl) explainEl.textContent = tx.explanation;
+    if (prosEl)    prosEl.childNodes[1].textContent = ` ${t('pros')}`;
+    if (consEl)    consEl.childNodes[1].textContent = ` ${t('cons')}`;
+    if (prosListEl) prosListEl.innerHTML = tx.pros.map(p=>`<li>${escHtml(p)}</li>`).join('');
+    if (consListEl) consListEl.innerHTML = tx.cons.map(c=>`<li>${escHtml(c)}</li>`).join('');
+    // badges
+    const lvl = card.querySelector('.mpot-badges');
+    if (lvl) lvl.innerHTML = levelBadge(m.level) + catBadge(m.category);
+    // tab labels
+    const tabExplain = card.querySelector(`[data-i18n-tab-explain="${m.id}"]`);
+    const tabCode    = card.querySelector(`[data-i18n-tab-code="${m.id}"]`);
+    if (tabExplain) tabExplain.textContent = t('tabExplain');
+    if (tabCode)    tabCode.textContent    = t('tabCode');
+    // code meta labels
+    card.querySelectorAll('.code-meta').forEach(el => {
+      const lang = el.closest('.code-lang-panel')?.dataset.lang;
+      if (!lang) return;
+      const impl = m.implementations[lang];
+      el.innerHTML = `${t('labelLang')}: <span>${lang}</span> · ${t('labelIdiom')}: <span>${impl ? escHtml(impl.name) : 'N/A'}</span>`;
+    });
+    // copy buttons
+    card.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.setAttribute('data-copy-label', t('copy'));
+      btn.setAttribute('data-copied-label', t('copied'));
+      if (btn.textContent !== t('copied')) btn.textContent = t('copy');
+    });
+  });
+  // update search-vi attributes
+  MPOTS.forEach(m => {
+    const card = document.getElementById('mpot-' + m.id);
+    if (!card) return;
+    const vi = MPOT_VI[m.id];
+    if (vi) card.setAttribute('data-search-vi', ((vi.name||'')+' '+(vi.summary||'')+' '+m.category).toLowerCase());
+  });
+}
+
+window.toggleMpot = function(id) {
+  document.getElementById('mpot-' + id).classList.toggle('open');
+};
+window.switchTab = function(id, tab) {
+  const body = document.getElementById('mpot-' + id).querySelector('.mpot-body');
+  body.querySelectorAll('.mpot-tab').forEach((el, i)   => el.classList.toggle('active',   ['explain','code'][i] === tab));
+  body.querySelectorAll('.mpot-panel').forEach((el, i) => el.classList.toggle('active', ['explain','code'][i] === tab));
+};
+window.switchLang = function(mpotId, lang) {
+  document.querySelectorAll(`#code-${mpotId} .code-lang-panel`).forEach(p => p.style.display = 'none');
+  const target = document.querySelector(`#code-${mpotId} [data-lang="${lang}"]`);
+  if (target) target.style.display = 'block';
+  document.querySelectorAll(`.lang-tab[data-mpot="${mpotId}"]`).forEach(t => t.classList.remove('active'));
+  const tabEl = document.querySelector(`.lang-tab[data-mpot="${mpotId}"][data-lang="${lang}"]`);
+  if (tabEl) tabEl.classList.add('active');
+};
+window.copyCode = function(btn) {
+  const pre = btn.previousElementSibling;
+  navigator.clipboard.writeText(pre.textContent).then(() => {
+    const copied = btn.getAttribute('data-copied-label') || 'copied!';
+    const copy   = btn.getAttribute('data-copy-label')   || 'copy';
+    btn.textContent = copied;
+    setTimeout(() => btn.textContent = copy, 1600);
+  });
+};
+
+// ═══════════════════════════════════════════
+// OVERVIEW TABLE
+// ═══════════════════════════════════════════
+const SUPPORT_MATRIX = {
+  'stack-alloc':     [1,2,1,1,2,2,1],
+  'object-pooling':  [1,2,1,1,1,2,1],
+  'arena-allocator': [2,2,2,1,2,2,1],
+  'lazy-evaluation': [1,1,1,1,1,1,1],
+  'memoization':     [1,1,1,1,1,1,1],
+  'copy-on-write':   [1,1,2,1,1,1,1],
+  'cache-locality':  [1,1,1,1,1,1,1],
+  'simd':            [1,2,2,1,1,2,1],
+  'zero-copy':       [1,1,1,1,1,1,1],
+  'lock-free':       [1,2,1,1,1,2,1],
+  'string-interning':[1,1,2,2,1,2,2],
+  'compression':     [1,1,1,1,1,1,1],
+  'gc-tuning':       [1,1,1,0,1,1,0],
+};
+function renderOverviewTable() {
+  const container = document.getElementById('overview-table-container');
+  if (builtPages.has('overview-table')) return;
+  builtPages.add('overview-table');
+  const sym = {1:'✓', 2:'~', 0:'—'};
+  const cls = {1:'yes', 2:'partial', 0:'dash'};
+  let html = `<div class="table-wrap"><table>
+    <thead><tr>
+      <th>${t('colTechnique')}</th><th>${t('colLevel')}</th>
+      ${LANGUAGES.map(l=>`<th>${l}</th>`).join('')}
+    </tr></thead><tbody>`;
+  MPOTS.forEach(m => {
+    const tx = getMpotText(m);
+    const row = SUPPORT_MATRIX[m.id] || LANGUAGES.map(()=>0);
+    html += `<tr>
+      <td class="name-col">${escHtml(tx.name)}</td>
+      <td>${levelBadge(m.level)}</td>
+      ${row.map(s=>`<td class="${cls[s]}">${sym[s]}</td>`).join('')}
+    </tr>`;
+  });
+  html += `</tbody></table></div>
+  <p class="table-note">✓ native &nbsp;·&nbsp; ~ via library/workaround &nbsp;·&nbsp; — not applicable</p>`;
+  container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+// BUILDING BLOCKS
+// ═══════════════════════════════════════════
+function renderBB() {
+  const container = document.getElementById('bb-grid-container');
+  if (builtPages.has('bb')) { refreshBBText(); return; }
+  builtPages.add('bb');
+  container.innerHTML = BUILDING_BLOCKS.map(b => {
+    const bx = getBBText(b);
+    return `<div class="bb-card" id="bb-${b.id}">
+      <div class="bb-name" data-bb-name="${b.id}">${escHtml(bx.name)}</div>
+      <div class="bb-area">${escHtml(b.area)}</div>
+      <div class="bb-desc" data-bb-desc="${b.id}">${escHtml(bx.description)}</div>
+    </div>`;
+  }).join('');
+}
+function refreshBBText() {
+  BUILDING_BLOCKS.forEach(b => {
+    const bx = getBBText(b);
+    const nameEl = document.querySelector(`[data-bb-name="${b.id}"]`);
+    const descEl = document.querySelector(`[data-bb-desc="${b.id}"]`);
+    if (nameEl) nameEl.textContent = bx.name;
+    if (descEl) descEl.textContent = bx.description;
+  });
+}
+
+// ═══════════════════════════════════════════
+// LANGUAGE PROFILES
+// ═══════════════════════════════════════════
+const LANG_LABEL_KEYS = ['lgGC','lgMem','lgConcurrency','lgSIMD','lgZeroAlloc','lgNotes'];
+const LANG_FIELD_KEYS = ['gcModel','memModel','concurrency','simd','zeroalloc','notes'];
+function renderLangCompare() {
+  const container = document.getElementById('lang-compare-container');
+  if (builtPages.has('lang')) { refreshLangText(); return; }
+  builtPages.add('lang');
+  container.innerHTML = LANGUAGES.map(l => {
+    const f = LANG_FEATURES[l];
+    return `<div class="lang-card" id="lang-card-${l}">
+      <div class="lang-name">${l}</div>
+      ${LANG_FIELD_KEYS.map((fk, i) => `<div class="lang-row">
+        <div class="lang-row-label" data-lang-label="${l}-${fk}">${t(LANG_LABEL_KEYS[i])}</div>
+        <div class="lang-row-val">${escHtml(f[fk])}</div>
+      </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+function refreshLangText() {
+  LANGUAGES.forEach(l => {
+    LANG_FIELD_KEYS.forEach((fk, i) => {
+      const el = document.querySelector(`[data-lang-label="${l}-${fk}"]`);
+      if (el) el.textContent = t(LANG_LABEL_KEYS[i]);
+    });
+  });
+}
+
+// ═══════════════════════════════════════════
+// BB COMPARE TABLE
+// ═══════════════════════════════════════════
+const BB_LANG_DATA = {
+  'cache-line': ['alignas/StructLayout','numpy align','cacheline padding (manual)','#[repr(align(64))]','@Contended annotation','ArrayBuffer alignment','alignas(64)'],
+  'cas': ['Interlocked.CompareExchange','multiprocessing (no CAS)','sync/atomic.CompareAndSwap','AtomicI64::compare_exchange','AtomicInteger.compareAndSet','Atomics.compareExchange','std::atomic::compare_exchange'],
+  'tlb': ['Large Pages via VirtualAlloc','mmap with MAP_HUGETLB','— (no direct control)','— (no direct control)','JVM large pages (-XX:+UseLargePages)','— (no direct control)','mmap(MAP_HUGETLB)'],
+  'heap': ['CLR GC heap / NativeMemory','CPython pymalloc','Go runtime heap','jemalloc/system (pluggable)','JVM heap / GC managed','V8 heap','ptmalloc/jemalloc/mimalloc'],
+  'jit': ['RyuJIT (.NET)','PyPy JIT (not CPython)','— (AOT compiled)','— (AOT compiled)','HotSpot C1/C2 JIT','V8 Turbofan','— (AOT compiled)'],
+  'escape-analysis': ['RyuJIT inlining+EA','— (not in CPython)','go compiler escape analysis','Rust borrow checker (static)','HotSpot JIT EA','V8 hidden class EA','Clang/GCC (limited)'],
+  'virtual-dispatch': ['interface/virtual (devirt by JIT)','duck typing (monomorphic)','interface (statically devirt)','dyn trait (vtable) / generics','interface / invokevirtual','prototype chain','virtual + vtable'],
+  'hugepages': ['VirtualAllocExNuma (Windows)','mmap MAP_HUGETLB','runtime.SetBlockProfileRate / mmap','— (manual via mmap)','-XX:+UseLargePages','— (no direct control)','mmap(MAP_HUGETLB)'],
+  'mmap-concept': ['MemoryMappedFile','mmap module','syscall.Mmap','memmap2 crate','MappedByteBuffer (FileChannel)','— (Node.js mmap via C addon)','mmap() syscall'],
+  'write-barrier': ['GC write barrier (auto)','Ref counting incref/decref','GC tri-color barrier (auto)','— (no GC, no barrier)','G1GC card table (auto)','V8 incremental GC barrier','— (no GC)'],
+  'prefetch': ['Unsafe.ReadUnaligned / Sse.Prefetch','— (no direct access)','— (no direct API)','core::arch::x86_64::_mm_prefetch','Unsafe.prefetchRead (Hotspot)','— (no direct API)','__builtin_prefetch / _mm_prefetch'],
+  'branch-predict': ['[[likely]] pattern (C# 12)','— (GIL limits benefit)','branch prediction via profiling','std::hint::likely()','JIT profiling (C2)','V8 feedback-based','[[likely]]/[[unlikely]] (C++20)'],
+};
+function renderBBCompare() {
+  const container = document.getElementById('bb-compare-table');
+  if (builtPages.has('bb-compare')) return;
+  builtPages.add('bb-compare');
+  let html = `<div class="table-wrap"><table>
+    <thead><tr>
+      <th>${t('colConcept')}</th><th>${t('colArea')}</th>
+      ${LANGUAGES.map(l=>`<th>${l}</th>`).join('')}
+    </tr></thead><tbody>`;
+  BUILDING_BLOCKS.forEach(b => {
+    const bx  = getBBText(b);
+    const row = BB_LANG_DATA[b.id] || LANGUAGES.map(()=>'—');
+    html += `<tr>
+      <td class="name-col">${escHtml(bx.name)}</td>
+      <td style="font-size:11.5px;color:var(--text3)">${escHtml(b.area)}</td>
+      ${row.map(v => v==='—'||v.startsWith('—')
+        ? `<td class="dash lang-specific">${v}</td>`
+        : `<td class="lang-specific">${escHtml(v)}</td>`).join('')}
+    </tr>`;
+  });
+  html += `</tbody></table></div>`;
+  container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════
+// OVERRIDE setLang to also refresh built pages
+// ═══════════════════════════════════════════
+const _origSetLang = window.setLang;
+window.setLang = function(lang) {
+  currentLang = lang;
+  document.documentElement.setAttribute('data-lang', lang);
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-vi').classList.toggle('active', lang === 'vi');
+
+  // Static i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (T[lang][key] !== undefined) el.textContent = T[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (T[lang][key] !== undefined) el.placeholder = T[lang][key];
+  });
+
+  // Dynamic content
+  renderHomeCats();
+  renderFilterBar();
+  if (builtPages.has('mpots'))       refreshMpotText();
+  if (builtPages.has('bb'))          refreshBBText();
+  if (builtPages.has('lang'))        refreshLangText();
+  // overview-table and bb-compare are pure EN (code identifiers), so no rebuild needed
+  filterMpots();
+};
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+document.getElementById('stat-mpots').textContent = MPOTS.length;
+document.getElementById('stat-bb').textContent    = BUILDING_BLOCKS.length;
+document.getElementById('mpot-count').textContent = MPOTS.length;
+
+renderHomeCats();
+renderFilterBar();
+renderMpots();
+
+// Apply initial i18n pass
+document.querySelectorAll('[data-i18n]').forEach(el => {
+  const key = el.dataset.i18n;
+  if (T['en'][key] !== undefined) el.textContent = T['en'][key];
+});
+</script>
+</body>
+</html>

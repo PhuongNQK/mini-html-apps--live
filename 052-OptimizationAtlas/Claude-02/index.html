@@ -406,17 +406,8 @@ body {
 .matrix-table tr:hover td:not(:first-child) { background: var(--bg3); }
 
 /* ── BB GRID ── */
-.bb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-.bb-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 10px; overflow: hidden;
-  transition: border-color 0.2s, transform 0.15s;
-  cursor: pointer;
-}
-.bb-card:hover { border-color: #1aaee9; transform: translateY(-2px); }
-.bb-card-header { padding: 14px 16px; background: var(--bg3); display: flex; align-items: center; gap: 10px; }
-.bb-card-body { padding: 14px 16px; font-size: 13px; color: var(--text2); display: none; }
-.bb-card-body.open { display: block; }
+/* ── BB cards now use .card styles — no separate bb-grid/bb-card needed ── */
+
 
 /* ── SEARCH HIGHLIGHT ── */
 .highlight { background: rgba(240,180,41,0.3); color: var(--gold); border-radius: 2px; padding: 0 1px; }
@@ -648,7 +639,7 @@ body {
     <!-- BUILDING BLOCKS -->
     <section class="section-anchor" id="section-bb">
       <div class="section-title" id="title-bb">🔩 Building Blocks</div>
-      <div class="bb-grid" id="bb-container"></div>
+      <div id="bb-container"></div>
     </section>
 
     <!-- TECHNIQUES -->
@@ -11075,53 +11066,84 @@ function renderBuildingBlocks() {
   const l = state.lang;
   const q = state.search.toLowerCase();
 
+  // BBs are filtered by search text only (they have no level/category filter)
+  // If a category filter is active that doesn't apply to BBs, hide them all
+  const catFilter = state.filterCategory;
+  const lvlFilter = state.filterLevel;
+
   let html = '';
+  let anyVisible = false;
+
   for (const bb of MPOT_DATA.buildingBlocks) {
+    // Apply search filter
     const d = bb[l];
-    const nameMatch = !q || d.name.toLowerCase().includes(q);
-    const bodyMatch = !q || d.origin.toLowerCase().includes(q) || d.mechanism.toLowerCase().includes(q);
+    const nameMatch  = !q || d.name.toLowerCase().includes(q);
+    const bodyMatch  = !q || d.origin.toLowerCase().includes(q)
+                          || d.mechanism.toLowerCase().includes(q)
+                          || (bb.category || '').includes(q);
     if (!nameMatch && !bodyMatch) continue;
 
+    // Level filter: BBs have no level — hide if a level filter is active
+    if (lvlFilter) continue;
+
+    // Category filter: match bb.category if set
+    if (catFilter && bb.category !== catFilter) continue;
+
+    anyVisible = true;
     const isOpen = state.expandedCards.has(bb.id);
+    const activePaneId = state.activeBBTabs[bb.id] || 'overview';
+    const tabs = L().tabs;
+
     html += `
-    <div class="bb-card ${isOpen?'expanded':''}" id="card-${bb.id}">
-      <div class="bb-card-header" onclick="toggleCard('${bb.id}')">
+    <div class="card ${isOpen?'expanded':''}" id="card-${bb.id}">
+      <div class="card-header" onclick="toggleCard('${bb.id}')">
         <span class="badge badge-bb">BB</span>
-        <span style="font-weight:600;font-size:14px;flex:1">${highlight(d.name, state.search)}</span>
+        <span class="cat-chip">${bb.category || ''}</span>
+        <span class="card-title">${highlight(d.name, state.search)}</span>
         <span class="card-chevron">▼</span>
       </div>
-      <div class="bb-card-body ${isOpen?'open':''}" id="body-${bb.id}">
-        <div class="origin-box">
-          <strong>${L().origin}</strong>
-          ${highlight(d.origin, state.search)}
+      <div class="card-body ${isOpen?'open':''}" id="body-${bb.id}">
+        <div class="tabs">
+          ${['overview','diagram'].map(tab =>
+            `<button class="tab-btn ${activePaneId===tab?'active':''}" onclick="switchPane('${bb.id}','${tab}')">${tabs[tab]}</button>`
+          ).join('')}
         </div>
-        <p style="font-size:13px;color:var(--text2);margin-bottom:12px">${highlight(d.mechanism, state.search)}</p>
-        <div class="when-box">
-          <strong>${L().whenToUse}</strong>
-          ${highlight(d.whenToUse, state.search)}
-        </div>
-        <div class="pros-cons">
-          <div class="pros-list">
-            <h4>${L().pros}</h4>
-            ${d.pros.map(p=>`<li>${safeEsc(p)}</li>`).join('')}
+
+        <div class="tab-pane ${activePaneId==='overview'?'active':''}" id="pane-${bb.id}-overview">
+          <div class="origin-box">
+            <strong>${L().origin}</strong>
+            ${highlight(d.origin, state.search)}
+            <br><br><em style="color:var(--text3);font-size:12px">${highlight(d.mechanism, state.search)}</em>
           </div>
-          <div class="cons-list">
-            <h4>${L().cons}</h4>
-            ${d.cons.map(c=>`<li>${safeEsc(c)}</li>`).join('')}
+          <div class="when-box">
+            <strong>${L().whenToUse}</strong>
+            ${highlight(d.whenToUse, state.search)}
+          </div>
+          <div class="pros-cons">
+            <div class="pros-list"><h4>${L().pros}</h4>${d.pros.map(p=>`<li>${safeEsc(p)}</li>`).join('')}</div>
+            <div class="cons-list"><h4>${L().cons}</h4>${d.cons.map(c=>`<li>${safeEsc(c)}</li>`).join('')}</div>
+          </div>
+          <div class="complexity-grid">
+            <div class="complexity-item"><label>${L().timeComplexity}</label><span>${safeEsc(d.complexity.time)}</span></div>
+            <div class="complexity-item"><label>${L().spaceComplexity}</label><span>${safeEsc(d.complexity.space)}</span></div>
+            <div class="complexity-item"><label>${L().costComplexity}</label><span>${safeEsc(d.complexity.cost)}</span></div>
+          </div>
+          ${renderLangSupport(bb.langSupport)}
+        </div>
+
+        <div class="tab-pane ${activePaneId==='diagram'?'active':''}" id="pane-${bb.id}-diagram">
+          <div class="mermaid-wrap" id="diagram-${bb.id}">
+            <div style="color:var(--text3);font-size:13px">Click to render diagram…</div>
           </div>
         </div>
-        <div class="complexity-grid">
-          <div class="complexity-item"><label>${L().timeComplexity}</label><span>${safeEsc(d.complexity.time)}</span></div>
-          <div class="complexity-item"><label>${L().spaceComplexity}</label><span>${safeEsc(d.complexity.space)}</span></div>
-          <div class="complexity-item"><label>${L().costComplexity}</label><span>${safeEsc(d.complexity.cost)}</span></div>
-        </div>
-        ${renderDiagram(bb)}
-        ${renderLangSupport(bb.langSupport)}
       </div>
     </div>`;
   }
-  container.innerHTML = html || '<div class="no-results"><span>🔩</span><p>No building blocks match.</p></div>';
-  renderPendingDiagrams();
+
+  container.innerHTML = html || (anyVisible ? '' :
+    `<div class="no-results"><span>🔩</span><p>No building blocks match.</p></div>`);
+
+  return anyVisible;
 }
 
 function renderLangSupport(ls) {
@@ -11220,7 +11242,7 @@ function renderTechCard(t, l, q) {
         <div class="code-wrapper">
           ${LANGS.map(lang => {
             const code = t.code ? t.code[lang] || '' : '';
-            return `<div class="code-block ${activeLang===lang?'active':''}" id="code-${t.id}-${lang.replace(/[^a-z0-9]/gi,'_')}">${safeEsc(code)}</div>`;
+            return `<div class="code-block ${activeLang===lang?'active':''}" id="code-${t.id}-${lang.replace(/[^a-z0-9]/gi,'_')}">${highlightCode(code)}</div>`;
           }).join('')}
           <button class="copy-btn" onclick="copyCode('${t.id}','${activeLang}')">Copy</button>
         </div>
@@ -11984,11 +12006,19 @@ const TECH_DIAGRAMS = {
 async function renderTechDiagram(techId) {
   const el = document.getElementById(`diagram-${techId}`);
   if (!el) return;
-  const diagram = TECH_DIAGRAMS[techId];
+
+  // Look up diagram: technique TECH_DIAGRAMS first, then BB inline .diagram field
+  let diagram = TECH_DIAGRAMS[techId];
   if (!diagram) {
-    el.innerHTML = `<div style="color:var(--text3);font-size:13px;padding:20px">No diagram available for this technique.</div>`;
+    const bb = MPOT_DATA.buildingBlocks.find(b => b.id === techId);
+    diagram = bb?.diagram || null;
+  }
+
+  if (!diagram) {
+    el.innerHTML = `<div style="color:var(--text3);font-size:13px;padding:20px">No diagram available.</div>`;
     return;
   }
+
   el.innerHTML = `<div style="color:var(--text3);font-size:12px">Rendering…</div>`;
   try {
     const id = `mtech-${techId.replace(/-/g,'_')}_${Date.now()}`;
@@ -12000,28 +12030,68 @@ async function renderTechDiagram(techId) {
 }
 
 // ─── RENDER SIDEBAR TOC ─────────────────────────────────────
+// ─── SIDEBAR ACTIVE ITEM ─────────────────────────────────────
+function setActiveSidebarItem(cardId) {
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  // Find by data-id attribute (set during renderTOC)
+  const match = document.querySelector(`.sidebar-item[data-id="${cardId}"]`);
+  if (match) {
+    match.classList.add('active');
+    // Scroll sidebar item into view without moving main content
+    match.scrollIntoView({ block: 'nearest' });
+  }
+}
+
+// ─── TOC (filter-aware) ──────────────────────────────────────
 function renderTOC() {
   const l = state.lang;
+  const q = state.search.toLowerCase();
+  const lvlFilter  = state.filterLevel;
+  const catFilter  = state.filterCategory;
 
-  // BB TOC
+  // ── Building blocks ──
   const bbContainer = document.getElementById('toc-bb');
-  bbContainer.innerHTML = MPOT_DATA.buildingBlocks.map(bb=>
-    `<div class="sidebar-item" onclick="scrollToSection('card-${bb.id}')">
+  let bbHtml = '';
+  for (const bb of MPOT_DATA.buildingBlocks) {
+    const d = bb[l];
+    // Mirror BB visibility logic from renderBuildingBlocks
+    if (lvlFilter) continue;
+    if (catFilter && bb.category !== catFilter) continue;
+    const nameMatch = !q || d.name.toLowerCase().includes(q);
+    const bodyMatch = !q || d.origin.toLowerCase().includes(q) || d.mechanism.toLowerCase().includes(q);
+    if (!nameMatch && !bodyMatch) continue;
+    bbHtml += `<div class="sidebar-item" data-id="${bb.id}"
+        onclick="sidebarClick('${bb.id}')">
       <span class="level-dot dot-bb"></span>
       <span>${bb[l].name}</span>
-    </div>`
-  ).join('');
+    </div>`;
+  }
+  bbContainer.innerHTML = bbHtml;
 
-  // Techniques TOC
+  // ── Techniques ──
   const levels = ['foundational','intermediate','advanced','expert'];
-  const levelColors = { foundational:'dot-foundational', intermediate:'dot-intermediate', advanced:'dot-advanced', expert:'dot-expert' };
+  const levelColors = {
+    foundational:'dot-foundational', intermediate:'dot-intermediate',
+    advanced:'dot-advanced', expert:'dot-expert'
+  };
   let tocHtml = '';
   for (const level of levels) {
-    const techs = MPOT_DATA.techniques.filter(t=>t.level===level);
+    if (lvlFilter && lvlFilter !== level) continue;
+    const techs = MPOT_DATA.techniques.filter(t => {
+      if (t.level !== level) return false;
+      if (catFilter && t.category !== catFilter) return false;
+      if (!q) return true;
+      const d = t[l];
+      return d.name.toLowerCase().includes(q)
+          || d.origin.toLowerCase().includes(q)
+          || d.mechanism.toLowerCase().includes(q)
+          || (t.tags||[]).some(tag => tag.includes(q));
+    });
     if (!techs.length) continue;
     tocHtml += `<div class="sidebar-label">${L().sections[level]}</div>`;
-    tocHtml += techs.map(t=>
-      `<div class="sidebar-item" onclick="scrollToSection('card-${t.id}')">
+    tocHtml += techs.map(t =>
+      `<div class="sidebar-item" data-id="${t.id}"
+          onclick="sidebarClick('${t.id}')">
         <span class="level-dot ${levelColors[level]}"></span>
         <span>${t[l].name}</span>
       </div>`
@@ -12030,13 +12100,24 @@ function renderTOC() {
   document.getElementById('toc-techniques').innerHTML = tocHtml;
 }
 
+// Called when sidebar item is clicked:
+// highlights the item AND scrolls main area to the card
+function sidebarClick(id) {
+  setActiveSidebarItem(id);
+  const el = document.getElementById(`card-${id}`);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (!state.expandedCards.has(id)) toggleCard(id);
+  }
+}
+
 // ─── INTERACTIONS ────────────────────────────────────────────
 function toggleCard(id) {
   if (state.expandedCards.has(id)) {
     state.expandedCards.delete(id);
   } else {
     state.expandedCards.add(id);
-    // Render diagram if diagram pane was active
+    setActiveSidebarItem(id);  // highlight sidebar when card opened
     const activePaneId = state.activeBBTabs[id] || 'overview';
     if (activePaneId === 'diagram') {
       setTimeout(() => renderTechDiagram(id), 50);
@@ -12076,12 +12157,26 @@ function switchLang(techId, lang) {
 }
 
 function copyCode(techId, lang) {
-  const el = document.getElementById(`code-${techId}-${lang.replace(/[^a-z0-9]/gi,'_')}`);
-  if (!el) return;
-  const text = el.textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = el.parentElement?.querySelector('.copy-btn');
-    if (btn) { btn.textContent = 'Copied!'; setTimeout(()=>btn.textContent='Copy', 2000); }
+  // Search techniques first, then building blocks
+  const item = MPOT_DATA.techniques.find(t => t.id === techId)
+            || MPOT_DATA.buildingBlocks.find(b => b.id === techId);
+
+  // Pull raw source from data if found; otherwise fall back to DOM text content
+  // (strip HTML tags from textContent as a safety net)
+  let raw = item?.code?.[lang] || '';
+  if (!raw) {
+    const langKey = lang.replace(/[^a-z0-9]/gi, '_');
+    const el = document.getElementById(`code-${techId}-${langKey}`);
+    raw = el ? el.textContent : '';
+  }
+
+  navigator.clipboard.writeText(raw).then(() => {
+    const langKey = lang.replace(/[^a-z0-9]/gi, '_');
+    const el = document.getElementById(`code-${techId}-${langKey}`);
+    const btn = el?.parentElement?.querySelector('.copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => btn.textContent = 'Copy', 2000); }
+  }).catch(() => {
+    // Clipboard API unavailable — silently ignore
   });
 }
 
@@ -12089,25 +12184,37 @@ function scrollToSection(id) {
   const el = document.getElementById(id);
   if (el) {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    // Auto-expand if it's a card
-    if (!state.expandedCards.has(id.replace('card-',''))) {
-      const cardId = id.replace('card-','');
-      if (id.startsWith('card-')) toggleCard(cardId);
+    if (id.startsWith('card-')) {
+      const cardId = id.replace('card-', '');
+      if (!state.expandedCards.has(cardId)) toggleCard(cardId);
+      setActiveSidebarItem(cardId);
     }
   }
 }
 
 // ─── SEARCH & FILTER ────────────────────────────────────────
 function applyFiltersAndRender() {
+  renderTOC();             // sidebar mirrors main area filters
   renderBuildingBlocks();
   renderTechniques();
+  // Re-attach scroll spy to newly rendered cards
+  setTimeout(() => window._reattachScrollSpy?.(), 100);
 }
 
-document.getElementById('search-input').addEventListener('input', e => {
+// Debounce helper
+function debounce(fn, ms) {
+  let timer;
+  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
+}
+
+// Search: debounced 500ms after last keypress
+const debouncedSearch = debounce(e => {
   state.search = e.target.value.trim();
   applyFiltersAndRender();
-});
+}, 500);
+document.getElementById('search-input').addEventListener('input', debouncedSearch);
 
+// Filters: instant (user already committed by selecting)
 document.getElementById('filter-level').addEventListener('change', e => {
   state.filterLevel = e.target.value;
   applyFiltersAndRender();
@@ -12129,10 +12236,9 @@ document.getElementById('lang-toggle').addEventListener('click', () => {
   document.documentElement.setAttribute('lang', state.lang);
   updateLangToggle();
   updateMeta();
-  renderTOC();
-  applyFiltersAndRender();
-  renderMatrix();
   updateFiltersI18n();
+  applyFiltersAndRender();  // includes renderTOC()
+  renderMatrix();
 });
 
 function updateLangToggle() {
@@ -12195,75 +12301,158 @@ function checkViewport() {
 window.addEventListener('resize', checkViewport);
 
 // ─── SYNTAX HIGHLIGHTING ────────────────────────────────────
-// Lightweight tokenizer for common patterns across 7 languages
-function applySyntaxHighlight() {
-  document.querySelectorAll('.code-block').forEach(block => {
-    if (block.dataset.highlighted) return;
-    block.dataset.highlighted = '1';
-    let code = block.innerHTML;
+// Runs on RAW source code BEFORE HTML escaping.
+// Returns highlighted HTML string ready to inject into .code-block.
+function highlightCode(rawCode) {
+  // Tokenise line by line to handle comments correctly
+  return rawCode.split('\n').map(line => {
+    // 1. Detect and split off a trailing line comment
+    //    (// for C-family/Go/Rust/JS, # for Python, -- for SQL/Lua)
+    //    But don't trip on http:// — require // at word boundary or start
+    let commentPart = '';
+    let codePart = line;
 
-    // Comments (single-line)
-    code = code.replace(/(\/\/[^\n]*|#[^\n]*|--[^\n]*)/g,
-      '<span class="sh-cmt">$1</span>');
+    // Find first real line-comment start (not inside a string)
+    const cmtMatch = line.match(/(?<![:/])(\/\/|(?:^|\s)#(?!\d)|--(?!\w))(.*)$/);
+    if (cmtMatch) {
+      const idx = cmtMatch.index + (cmtMatch[0].startsWith(' ') || cmtMatch[0].startsWith('\t') ? 1 : 0);
+      codePart    = line.slice(0, idx);
+      commentPart = line.slice(idx);
+    }
 
-    // Strings
-    code = code.replace(/(&quot;[^&]*?&quot;|&#39;[^&#]*?&#39;|`[^`]*?`)/g,
-      '<span class="sh-str">$1</span>');
+    // 2. Process the non-comment portion token by token
+    codePart = tokenise(codePart);
 
-    // Keywords (common across languages)
-    const kws = /\b(func|fn|fun|function|def|class|struct|interface|impl|pub|let|var|const|mut|return|if|else|for|while|match|switch|case|new|async|await|static|void|int|float|bool|string|byte|char|true|false|null|nil|None|self|this|import|from|use|package|namespace|type|enum|trait|extends|implements|override|readonly|private|public|protected|unsafe|extern|defer|go|select|chan|ref|in|of|throw|try|catch|finally|with|yield|where|as|is|typeof|sizeof|alignof|offsetof|template|typename|auto|inline|virtual|abstract)\b/g;
-    code = code.replace(kws, '<span class="sh-kw">$1</span>');
+    // 3. Escape and wrap the comment
+    if (commentPart) {
+      commentPart = `<span class="sh-cmt">${esc(commentPart)}</span>`;
+    }
 
-    // Numbers
-    code = code.replace(/\b(\d+\.?\d*[fFdDlLuU]*)\b/g,
-      '<span class="sh-num">$1</span>');
-
-    // Function calls
-    code = code.replace(/\b([a-zA-Z_][a-zA-Z0-9_]*)(?=\s*\()/g,
-      '<span class="sh-fn">$1</span>');
-
-    block.innerHTML = code;
-  });
+    return codePart + commentPart;
+  }).join('\n');
 }
+
+// Tokeniser: handles strings, keywords, numbers, function calls
+function tokenise(raw) {
+  const KEYWORDS = new Set([
+    'func','fn','fun','function','def','class','struct','interface','impl',
+    'pub','let','var','const','mut','return','if','else','elif','for','while',
+    'match','switch','case','default','new','async','await','static','void',
+    'int','float','double','bool','string','str','byte','char','long','short',
+    'true','false','null','nil','None','True','False','self','this',
+    'import','from','use','package','namespace','type','enum','trait',
+    'extends','implements','override','readonly','private','public','protected',
+    'unsafe','extern','defer','go','select','chan','ref','in','of',
+    'throw','try','catch','finally','with','yield','where','as','is',
+    'typeof','sizeof','alignof','offsetof','template','typename',
+    'auto','inline','virtual','abstract','override','sealed','static',
+    'lambda','pass','break','continue','do','goto','volatile','register',
+    'unsigned','signed','except','raise','del','global','nonlocal',
+    'and','or','not','instanceof','super','throws','final',
+  ]);
+
+  let out = '';
+  let i = 0;
+  while (i < raw.length) {
+    // String: double-quoted
+    if (raw[i] === '"') {
+      let j = i + 1;
+      while (j < raw.length && !(raw[j] === '"' && raw[j-1] !== '\\')) j++;
+      j = Math.min(j + 1, raw.length);
+      out += `<span class="sh-str">${esc(raw.slice(i, j))}</span>`;
+      i = j; continue;
+    }
+    // String: single-quoted
+    if (raw[i] === "'") {
+      let j = i + 1;
+      while (j < raw.length && !(raw[j] === "'" && raw[j-1] !== '\\')) j++;
+      j = Math.min(j + 1, raw.length);
+      out += `<span class="sh-str">${esc(raw.slice(i, j))}</span>`;
+      i = j; continue;
+    }
+    // String: backtick template (JS/Go)
+    if (raw[i] === '`') {
+      let j = i + 1;
+      while (j < raw.length && raw[j] !== '`') j++;
+      j = Math.min(j + 1, raw.length);
+      out += `<span class="sh-str">${esc(raw.slice(i, j))}</span>`;
+      i = j; continue;
+    }
+    // Identifier or keyword
+    if (/[a-zA-Z_$]/.test(raw[i])) {
+      let j = i;
+      while (j < raw.length && /[a-zA-Z0-9_$]/.test(raw[j])) j++;
+      const word = raw.slice(i, j);
+      // Check if followed by ( → function call
+      let k = j;
+      while (k < raw.length && (raw[k] === ' ' || raw[k] === '\t')) k++;
+      if (raw[k] === '(') {
+        out += `<span class="sh-fn">${esc(word)}</span>`;
+      } else if (KEYWORDS.has(word)) {
+        out += `<span class="sh-kw">${esc(word)}</span>`;
+      } else {
+        out += esc(word);
+      }
+      i = j; continue;
+    }
+    // Number: integer or float (not preceded by a word char)
+    if (/[0-9]/.test(raw[i]) && (i === 0 || !/[a-zA-Z_$]/.test(raw[i-1]))) {
+      let j = i;
+      while (j < raw.length && /[0-9a-fA-FxXbBoO._eEfFdDlLuU]/.test(raw[j])) j++;
+      out += `<span class="sh-num">${esc(raw.slice(i, j))}</span>`;
+      i = j; continue;
+    }
+    // Any other character: escape and emit as-is
+    out += esc(raw[i]);
+    i++;
+  }
+  return out;
+}
+
+// HTML escape helper — reuses the existing `esc` const defined above
+// (no redeclaration needed)
+
+// No-op stub — highlighting now happens at render time via highlightCode()
+function applySyntaxHighlight() { /* intentionally empty */ }
 
 // ─── ACTIVE TOC TRACKING ────────────────────────────────────
 function setupScrollSpy() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-          item.classList.remove('active');
-        });
-        // Find matching TOC item
-        document.querySelectorAll('.sidebar-item').forEach(item => {
-          if (item.getAttribute('onclick')?.includes(id)) {
-            item.classList.add('active');
-          }
-        });
-      }
-    });
-  }, { rootMargin: `-${64}px 0px -60% 0px`, threshold: 0 });
+  let scrollSpyObserver = null;
 
-  // Observe all cards
-  document.querySelectorAll('.card, .bb-card').forEach(el => observer.observe(el));
+  function attach() {
+    if (scrollSpyObserver) scrollSpyObserver.disconnect();
+    scrollSpyObserver = new IntersectionObserver((entries) => {
+      // Pick the topmost intersecting card
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible.length > 0) {
+        const id = visible[0].target.id.replace('card-', '');
+        setActiveSidebarItem(id);
+      }
+    }, { rootMargin: `-${64}px 0px -55% 0px`, threshold: 0 });
+
+    document.querySelectorAll('.card').forEach(el => scrollSpyObserver.observe(el));
+  }
+
+  attach();
+  // Re-attach after each render (new cards may appear)
+  window._reattachScrollSpy = attach;
 }
 
 // ─── KEYBOARD SHORTCUTS ─────────────────────────────────────
 document.addEventListener('keydown', e => {
-  // Cmd/Ctrl + K → focus search
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
     e.preventDefault();
     document.getElementById('search-input').focus();
     document.getElementById('search-input').select();
   }
-  // Escape → clear search
   if (e.key === 'Escape') {
     const inp = document.getElementById('search-input');
     if (document.activeElement === inp) {
       inp.value = '';
       state.search = '';
-      applyFiltersAndRender();
+      applyFiltersAndRender();  // immediate clear, no debounce
       inp.blur();
     }
   }
@@ -12288,27 +12477,10 @@ function boot() {
   checkViewport();
   updateMeta();
   updateLangToggle();
-  renderTOC();
-  renderBuildingBlocks();
-  renderTechniques();
+  applyFiltersAndRender();  // renders TOC + BBs + techniques
   renderMatrix();
-  setTimeout(() => {
-    applySyntaxHighlight();
-    setupScrollSpy();
-  }, 300);
+  setTimeout(setupScrollSpy, 300);
 }
-
-// Re-apply syntax highlight after renders
-const _origRenderBB = renderBuildingBlocks;
-renderBuildingBlocks = function() {
-  _origRenderBB();
-  setTimeout(applySyntaxHighlight, 150);
-};
-const _origRenderTech = renderTechniques;
-renderTechniques = function() {
-  _origRenderTech();
-  setTimeout(applySyntaxHighlight, 150);
-};
 
 boot();
 </script>

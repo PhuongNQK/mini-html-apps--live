@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Application Architecture Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+/* ══════════════════ CSS VARIABLES / THEME ══════════════════ */
+:root {
+  --bg: #0a0a0f;
+  --bg2: #111118;
+  --bg3: #1a1a26;
+  --border: #2a2a3d;
+  --border2: #3a3a5a;
+  --text: #e8e8f4;
+  --text2: #9090b8;
+  --text3: #5a5a80;
+  --accent: #6c63ff;
+  --accent2: #a78bfa;
+  --accent3: #38bdf8;
+  --green: #34d399;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --orange: #fb923c;
+  --card: #13131f;
+  --code-bg: #0d0d1a;
+  --shadow: 0 4px 24px rgba(108,99,255,0.08);
+  --radius: 10px;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+[data-theme="light"] {
+  --bg: #f4f4fa;
+  --bg2: #ffffff;
+  --bg3: #ededf7;
+  --border: #d4d4e8;
+  --border2: #b8b8d4;
+  --text: #1a1a2e;
+  --text2: #4a4a6a;
+  --text3: #8a8aaa;
+  --card: #ffffff;
+  --code-bg: #f0f0fa;
+  --shadow: 0 4px 24px rgba(108,99,255,0.1);
+}
+
+/* ══════════════════ RESET & BASE ══════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  font-size:14px;
+  transition:background .3s,color .3s;
+}
+a{color:var(--accent2);text-decoration:none;}
+a:hover{text-decoration:underline;}
+h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;line-height:1.2;}
+code,pre{font-family:var(--font-mono);}
+
+/* ══════════════════ SCROLLBAR ══════════════════ */
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--accent);}
+
+/* ══════════════════ LAYOUT ══════════════════ */
+.app-shell{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{
+  width:260px;min-width:260px;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:sticky;top:0;height:100vh;
+  overflow-y:auto;z-index:100;
+  transition:background .3s;
+}
+.sidebar-logo{
+  padding:20px 20px 12px;
+  border-bottom:1px solid var(--border);
+}
+.sidebar-logo h1{font-size:17px;color:var(--accent2);letter-spacing:-.3px;}
+.sidebar-logo p{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--font-mono);}
+.sidebar-nav{padding:12px 0;flex:1;}
+.nav-section-label{
+  font-size:10px;font-weight:600;letter-spacing:1.5px;
+  color:var(--text3);padding:8px 20px 4px;
+  text-transform:uppercase;font-family:var(--font-mono);
+}
+.nav-item{
+  display:block;padding:7px 20px;
+  font-size:13px;color:var(--text2);
+  cursor:pointer;transition:all .15s;
+  border-left:2px solid transparent;
+}
+.nav-item:hover,.nav-item.active{
+  color:var(--accent2);
+  background:rgba(108,99,255,0.06);
+  border-left-color:var(--accent);
+}
+.sidebar-controls{
+  padding:12px 20px;
+  border-top:1px solid var(--border);
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+
+/* MAIN CONTENT */
+.main{flex:1;overflow-x:auto;padding:0;}
+.section{
+  padding:32px 36px;
+  border-bottom:1px solid var(--border);
+  display:none;
+}
+.section.active{display:block;}
+
+/* ══════════════════ TOPBAR ══════════════════ */
+.topbar{
+  position:sticky;top:0;z-index:90;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:10px 20px;
+  display:flex;align-items:center;gap:12px;
+  backdrop-filter:blur(8px);
+}
+.search-wrap{
+  flex:1;position:relative;max-width:480px;
+}
+.search-wrap input{
+  width:100%;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:8px 36px 8px 14px;
+  font-family:var(--font-mono);
+  font-size:13px;color:var(--text);
+  outline:none;transition:border .2s;
+}
+.search-wrap input:focus{border-color:var(--accent);}
+.search-wrap input::placeholder{color:var(--text3);}
+.search-clear{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;
+  color:var(--text3);font-size:16px;display:none;
+}
+.search-clear.show{display:block;}
+.filter-group{display:flex;gap:6px;align-items:center;}
+.filter-select{
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--text2);padding:6px 10px;border-radius:var(--radius);
+  font-size:12px;outline:none;cursor:pointer;
+}
+.highlight{background:rgba(108,99,255,0.3);border-radius:2px;padding:0 1px;}
+
+/* ══════════════════ BUTTONS ══════════════════ */
+.btn{
+  padding:6px 14px;border-radius:var(--radius);
+  border:1px solid var(--border2);
+  background:var(--bg3);color:var(--text2);
+  font-size:12px;cursor:pointer;
+  font-family:var(--font-mono);
+  transition:all .15s;white-space:nowrap;
+}
+.btn:hover{border-color:var(--accent);color:var(--accent2);}
+.btn.active-btn{border-color:var(--accent);color:var(--accent2);background:rgba(108,99,255,0.1);}
+.btn-icon{padding:6px 10px;font-size:15px;}
+
+/* ══════════════════ SECTION HEADER ══════════════════ */
+.section-header{margin-bottom:24px;}
+.section-header h2{font-size:26px;color:var(--text);margin-bottom:6px;}
+.section-header p{color:var(--text2);font-size:13.5px;max-width:720px;}
+.tag{
+  display:inline-block;padding:2px 8px;
+  border-radius:4px;font-size:10px;
+  font-family:var(--font-mono);font-weight:600;
+  letter-spacing:.5px;
+}
+.tag-basic{background:rgba(52,211,153,0.12);color:var(--green);}
+.tag-intermediate{background:rgba(251,191,36,0.12);color:var(--yellow);}
+.tag-advanced{background:rgba(248,113,113,0.12);color:var(--red);}
+.tag-lang{background:rgba(55,189,248,0.12);color:var(--accent3);}
+
+/* ══════════════════ CARDS / AA CARDS ══════════════════ */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:18px;
+}
+.aa-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:border-color .2s,box-shadow .2s;
+}
+.aa-card:hover{border-color:var(--border2);box-shadow:var(--shadow);}
+.aa-card.hidden{display:none;}
+.card-head{
+  padding:16px 18px 12px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:10px;
+  cursor:pointer;
+}
+.card-icon{
+  width:36px;height:36px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.card-title{flex:1;}
+.card-title h3{font-size:14px;font-weight:700;color:var(--text);}
+.card-title .card-meta{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--font-mono);}
+.card-chevron{color:var(--text3);font-size:12px;transition:transform .2s;}
+.card-head[aria-expanded="true"] .card-chevron{transform:rotate(180deg);}
+.card-body{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;}
+.card-body.open{max-height:4000px;padding:16px 18px;}
+.card-body p{font-size:13px;color:var(--text2);margin-bottom:10px;}
+.card-body h4{font-size:12px;font-weight:600;color:var(--accent2);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.8px;font-family:var(--font-mono);}
+
+/* ══════════════════ TABLES ══════════════════ */
+.table-wrap{overflow-x:auto;margin:12px 0;border-radius:var(--radius);border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:12.5px;}
+thead{background:var(--bg3);}
+th{
+  padding:10px 14px;
+  text-align:left;font-weight:600;
+  color:var(--text2);font-family:var(--font-mono);
+  font-size:11px;letter-spacing:.5px;
+  border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+th.sortable{cursor:pointer;}
+th.sortable:hover{color:var(--accent2);}
+td{
+  padding:9px 14px;
+  border-bottom:1px solid var(--border);
+  color:var(--text2);vertical-align:top;
+}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(108,99,255,0.03);}
+td.lang-cell{font-family:var(--font-mono);font-size:11.5px;}
+td.na{color:var(--text3);font-style:italic;}
+tr.hidden{display:none;}
+
+/* ══════════════════ CODE BLOCKS ══════════════════ */
+.code-tabs{margin:8px 0;}
+.code-tab-btns{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:0;}
+.code-tab-btn{
+  padding:4px 12px;
+  font-size:11px;font-family:var(--font-mono);
+  background:var(--bg3);border:1px solid var(--border);
+  border-bottom:none;border-radius:6px 6px 0 0;
+  color:var(--text3);cursor:pointer;
+  transition:all .15s;
+}
+.code-tab-btn.active{background:var(--code-bg);color:var(--accent2);border-color:var(--border2);}
+.code-pane{display:none;}
+.code-pane.active{display:block;}
+pre{
+  background:var(--code-bg);
+  border:1px solid var(--border);
+  border-radius:0 var(--radius) var(--radius) var(--radius);
+  padding:14px 16px;
+  overflow-x:auto;
+  font-size:11.5px;
+  line-height:1.7;
+  color:#c9d1d9;
+}
+/* Syntax colors */
+.kw{color:#ff79c6;}
+.fn{color:#50fa7b;}
+.str{color:#f1fa8c;}
+.cm{color:#6272a4;}
+.ty{color:#8be9fd;}
+.nm{color:#ffb86c;}
+.op{color:#ff79c6;}
+
+/* ══════════════════ MERMAID ══════════════════ */
+.mermaid-wrap{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px;margin:8px 0;
+  overflow-x:auto;text-align:center;
+}
+.mermaid{font-size:13px;}
+
+/* ══════════════════ PROS/CONS ══════════════════ */
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0;}
+.pros-wrap,.cons-wrap{
+  background:var(--bg3);border-radius:8px;padding:12px 14px;
+}
+.pros-wrap{border-left:3px solid var(--green);}
+.cons-wrap{border-left:3px solid var(--red);}
+.pros-wrap h5{color:var(--green);font-size:11px;margin-bottom:6px;font-family:var(--font-mono);}
+.cons-wrap h5{color:var(--red);font-size:11px;margin-bottom:6px;font-family:var(--font-mono);}
+.pros-wrap li,.cons-wrap li{font-size:12px;color:var(--text2);list-style:none;padding:2px 0;padding-left:14px;position:relative;}
+.pros-wrap li::before{content:'✓';color:var(--green);position:absolute;left:0;font-size:10px;}
+.cons-wrap li::before{content:'✗';color:var(--red);position:absolute;left:0;font-size:10px;}
+
+/* ══════════════════ OVERVIEW / HERO ══════════════════ */
+.hero{
+  padding:48px 36px 36px;
+  background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);
+  border-bottom:1px solid var(--border);
+}
+.hero h1{font-size:38px;line-height:1.1;margin-bottom:12px;}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p{color:var(--text2);font-size:15px;max-width:680px;margin-bottom:20px;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.stat-box{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 20px;text-align:center;
+}
+.stat-box .num{font-size:28px;font-weight:800;font-family:var(--font-head);color:var(--accent2);}
+.stat-box .lbl{font-size:11px;color:var(--text3);font-family:var(--font-mono);}
+
+/* ══════════════════ MATRIX TABLE ══════════════════ */
+.matrix-wrap{overflow-x:auto;}
+.matrix-wrap table th:first-child,
+.matrix-wrap table td:first-child{
+  position:sticky;left:0;
+  background:var(--bg2);z-index:2;
+  border-right:1px solid var(--border);
+  min-width:160px;
+}
+.matrix-wrap table th{background:var(--bg3);}
+.cell-yes{color:var(--green);}
+.cell-partial{color:var(--yellow);}
+.cell-no{color:var(--text3);}
+.complexity-badge{
+  display:inline-block;width:8px;height:8px;
+  border-radius:50%;margin-right:4px;
+}
+
+/* ══════════════════ SPAMF BADGE ══════════════════ */
+.spamf-grid{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;}
+.spamf-badge{
+  padding:3px 8px;border-radius:4px;
+  font-size:10px;font-family:var(--font-mono);
+  font-weight:600;
+}
+.spamf-s{background:rgba(248,113,113,0.15);color:var(--red);}
+.spamf-p{background:rgba(251,191,36,0.15);color:var(--yellow);}
+.spamf-a{background:rgba(52,211,153,0.15);color:var(--green);}
+.spamf-m{background:rgba(55,189,248,0.15);color:var(--accent3);}
+.spamf-f{background:rgba(167,139,250,0.15);color:var(--accent2);}
+
+/* ══════════════════ COLLAPSIBLE TABLE ROW ══════════════════ */
+.expand-row td{padding:0!important;}
+.expand-inner{padding:16px;background:var(--bg3);}
+.expand-trigger{cursor:pointer;}
+.expand-trigger:hover td{color:var(--accent2)!important;}
+.row-expand-icon{transition:transform .2s;display:inline-block;}
+.row-expanded .row-expand-icon{transform:rotate(90deg);}
+
+/* ══════════════════ MOBILE ══════════════════ */
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .section{padding:20px 16px;}
+  .hero{padding:28px 16px;}
+  .cards-grid{grid-template-columns:1fr;}
+  .pros-cons{grid-template-columns:1fr;}
+  .hero h1{font-size:26px;}
+}
+
+/* ══════════════════ MISC ══════════════════ */
+.empty-msg{text-align:center;padding:40px;color:var(--text3);font-family:var(--font-mono);}
+.divider{height:1px;background:var(--border);margin:20px 0;}
+.info-box{
+  background:rgba(55,189,248,0.06);
+  border:1px solid rgba(55,189,248,0.2);
+  border-radius:var(--radius);
+  padding:12px 16px;margin:12px 0;
+  font-size:12.5px;color:var(--text2);
+}
+.warn-box{
+  background:rgba(251,191,36,0.06);
+  border:1px solid rgba(251,191,36,0.2);
+  border-radius:var(--radius);
+  padding:12px 16px;margin:12px 0;
+  font-size:12.5px;color:var(--text2);
+}
+.complexity-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);margin:3px 0;}
+.complexity-label{font-family:var(--font-mono);color:var(--text3);width:90px;font-size:11px;}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ DATA LAYER ══════════════════ -->
+<script>
+/* ─────────────────────────────────────────────────────────
+   DATA LAYER — All content stored here, separated from UI
+   ───────────────────────────────────────────────────────── */
+
+const I18N = {
+  en: {
+    appTitle: "App Architecture Reference",
+    appSubtitle: "7 languages · SPAMF-focused",
+    navHome: "Overview",
+    navMatrix: "Language Matrix",
+    navCatalog: "AA Catalog",
+    navBuilding: "Building Blocks",
+    navTooling: "Tooling & Impl.",
+    navGrouping: "By Category",
+    search: "Search architectures, concepts...",
+    filterLevel: "All Levels",
+    filterLang: "All Languages",
+    filterCat: "All Categories",
+    themeToggle: "Theme",
+    langToggle: "VI",
+    pros: "PROS",
+    cons: "CONS",
+    whenToUse: "When to Use",
+    complexity: "Complexity",
+    timeComplexity: "Time",
+    spaceComplexity: "Space",
+    costComplexity: "Cost",
+    diagram: "Architecture Diagram",
+    codeExamples: "Code Examples",
+    origin: "Origin / Context",
+    description: "Description",
+    spamfAnalysis: "SPAMF Analysis",
+    noResults: "No results found. Try a different search.",
+    stats: { aa: "Architectures", langs: "Languages", concepts: "Building Blocks", patterns: "Patterns" }
+  },
+  vi: {
+    appTitle: "Tham Khảo Kiến Trúc Ứng Dụng",
+    appSubtitle: "7 ngôn ngữ · Tập trung SPAMF",
+    navHome: "Tổng Quan",
+    navMatrix: "Ma Trận Ngôn Ngữ",
+    navCatalog: "Danh Mục KT",
+    navBuilding: "Khối Nền Tảng",
+    navTooling: "Công Cụ & Triển Khai",
+    navGrouping: "Theo Danh Mục",
+    search: "Tìm kiến trúc, khái niệm...",
+    filterLevel: "Tất Cả Cấp Độ",
+    filterLang: "Tất Cả Ngôn Ngữ",
+    filterCat: "Tất Cả Loại",
+    themeToggle: "Giao Diện",
+    langToggle: "EN",
+    pros: "ƯU ĐIỂM",
+    cons: "NHƯỢC ĐIỂM",
+    whenToUse: "Khi Nào Dùng",
+    complexity: "Độ Phức Tạp",
+    timeComplexity: "Thời Gian",
+    spaceComplexity: "Không Gian",
+    costComplexity: "Chi Phí",
+    diagram: "Sơ Đồ Kiến Trúc",
+    codeExamples: "Ví Dụ Code",
+    origin: "Nguồn Gốc / Bối Cảnh",
+    description: "Mô Tả",
+    spamfAnalysis: "Phân Tích SPAMF",
+    noResults: "Không tìm thấy kết quả. Thử từ khóa khác.",
+    stats: { aa: "Kiến Trúc", langs: "Ngôn Ngữ", concepts: "Khối Nền Tảng", patterns: "Mẫu Thiết Kế" }
+  }
+};
+
+const LANGS = ["C#","Python","Go","Rust","Java","JavaScript","C++"];
+
+/* ── APPLICATION ARCHITECTURES ── */
+const AA_DATA = [
+  {
+    id: "monolith",
+    level: "basic",
+    category: "web",
+    icon: "🏛️",
+    color: "#6c63ff",
+    name: { en: "Monolithic", vi: "Kiến Trúc Nguyên Khối" },
+    origin: { en: "1960s–80s mainframe/server era. Default style before distributed systems.", vi: "Thập niên 1960–80, kỷ nguyên máy chủ lớn. Phong cách mặc định trước hệ thống phân tán." },
+    desc: {
+      en: "All application components (UI, business logic, data access) packaged and deployed as a single unit. Simplest deployment model. Works well for small-to-medium applications with a single team.",
+      vi: "Tất cả thành phần ứng dụng (UI, logic nghiệp vụ, truy cập dữ liệu) được đóng gói và triển khai như một đơn vị duy nhất. Mô hình triển khai đơn giản nhất. Phù hợp cho ứng dụng nhỏ đến vừa với một nhóm."
+    },
+    when: {
+      en: "Startups, MVPs, small SaaS, internal tools, simple CRUD apps, teams < 10 devs.",
+      vi: "Khởi nghiệp, MVP, SaaS nhỏ, công cụ nội bộ, ứng dụng CRUD đơn giản, nhóm < 10 người."
+    },
+    spamf: {
+      S: { en: "Medium — single attack surface but blast radius is total", vi: "Trung bình — một bề mặt tấn công nhưng ảnh hưởng toàn bộ hệ thống" },
+      P: { en: "Medium — limited horizontal scaling; vertical scale only", vi: "Trung bình — mở rộng ngang hạn chế; chỉ mở rộng dọc" },
+      A: { en: "Low — single point of failure; full downtime on deploy", vi: "Thấp — điểm lỗi duy nhất; dừng hoàn toàn khi triển khai" },
+      M: { en: "High initially → Low at scale — codebase becomes unwieldy", vi: "Cao ban đầu → Thấp khi mở rộng — codebase trở nên khó quản lý" },
+      F: { en: "Low — tightly coupled; hard to change one part without affecting others", vi: "Thấp — kết nối chặt; khó thay đổi một phần mà không ảnh hưởng phần khác" }
+    },
+    complexity: { time: "O(1) startup", space: "Single process", cost: "Low — one server" },
+    diagram: `graph TD
+  UI[UI Layer] --> BL[Business Logic]
+  BL --> DAL[Data Access Layer]
+  DAL --> DB[(Database)]
+  style UI fill:#6c63ff,color:#fff
+  style BL fill:#a78bfa,color:#fff
+  style DAL fill:#38bdf8,color:#fff`,
+    code: {
+      "C#": `<span class="cm">// ASP.NET Core Monolith (Program.cs)</span>
+<span class="kw">var</span> builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext&lt;<span class="ty">AppDbContext</span>&gt;(o =>
+  o.UseSqlServer(builder.Configuration.GetConnectionString(<span class="str">"Default"</span>)));
+<span class="kw">var</span> app = builder.Build();
+app.MapControllers();
+app.Run();`,
+      "Python": `<span class="cm"># Flask Monolith</span>
+<span class="kw">from</span> flask <span class="kw">import</span> Flask
+<span class="kw">from</span> flask_sqlalchemy <span class="kw">import</span> SQLAlchemy
+
+app = Flask(__name__)
+db = SQLAlchemy(app)
+
+<span class="kw">class</span> <span class="ty">User</span>(db.Model):
+    id = db.Column(db.Integer, primary_key=<span class="kw">True</span>)
+    name = db.Column(db.String(<span class="nm">80</span>))
+
+<span class="kw">@</span>app.route(<span class="str">'/users'</span>)
+<span class="kw">def</span> <span class="fn">list_users</span>():
+    <span class="kw">return</span> [u.name <span class="kw">for</span> u <span class="kw">in</span> User.query.all()]`,
+      "Go": `<span class="cm">// Go Monolith with net/http</span>
+<span class="kw">package</span> main
+
+<span class="kw">import</span> (
+    <span class="str">"net/http"</span>
+    <span class="str">"database/sql"</span>
+    _ <span class="str">"github.com/lib/pq"</span>
+)
+
+<span class="kw">func</span> <span class="fn">main</span>() {
+    db, _ := sql.<span class="fn">Open</span>(<span class="str">"postgres"</span>, <span class="str">"..."</span>)
+    mux := http.<span class="fn">NewServeMux</span>()
+    mux.<span class="fn">HandleFunc</span>(<span class="str">"/users"</span>, <span class="fn">usersHandler</span>(db))
+    http.<span class="fn">ListenAndServe</span>(<span class="str">":8080"</span>, mux)
+}`,
+      "Rust": `<span class="cm">// Actix-web Monolith</span>
+<span class="kw">use</span> actix_web::{web, App, HttpServer};
+
+<span class="kw">async fn</span> <span class="fn">main</span>() -> std::io::Result&lt;()&gt; {
+    HttpServer::new(|| {
+        App::new()
+            .route(<span class="str">"/users"</span>, web::get().to(list_users))
+    })
+    .bind((<span class="str">"127.0.0.1"</span>, <span class="nm">8080</span>))?
+    .run()
+    .await
+}`,
+      "Java": `<span class="cm">// Spring Boot Monolith</span>
+<span class="kw">@SpringBootApplication</span>
+<span class="kw">public class</span> <span class="ty">App</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="ty">String</span>[] args) {
+        SpringApplication.<span class="fn">run</span>(App.<span class="kw">class</span>, args);
+    }
+}
+
+<span class="kw">@RestController</span>
+<span class="kw">class</span> <span class="ty">UserController</span> {
+    <span class="kw">@GetMapping</span>(<span class="str">"/users"</span>)
+    List&lt;<span class="ty">User</span>&gt; <span class="fn">list</span>() { <span class="kw">return</span> userRepo.<span class="fn">findAll</span>(); }
+}`,
+      "JavaScript": `<span class="cm">// Express Monolith</span>
+<span class="kw">const</span> express = <span class="fn">require</span>(<span class="str">'express'</span>);
+<span class="kw">const</span> { Sequelize } = <span class="fn">require</span>(<span class="str">'sequelize'</span>);
+<span class="kw">const</span> app = <span class="fn">express</span>();
+<span class="kw">const</span> db = <span class="kw">new</span> <span class="ty">Sequelize</span>(process.env.DB_URL);
+
+app.<span class="fn">get</span>(<span class="str">'/users'</span>, <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> users = <span class="kw">await</span> User.<span class="fn">findAll</span>();
+  res.<span class="fn">json</span>(users);
+});
+app.<span class="fn">listen</span>(<span class="nm">3000</span>);`,
+      "C++": `<span class="cm">// Crow C++ Monolith</span>
+<span class="kw">#include</span> <span class="str">"crow.h"</span>
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    crow::SimpleApp app;
+    CROW_ROUTE(app, <span class="str">"/users"</span>)([]{
+        <span class="cm">// Query DB and return JSON</span>
+        <span class="kw">return</span> crow::response(<span class="str">"[...]"</span>);
+    });
+    app.<span class="fn">port</span>(<span class="nm">8080</span>).<span class="fn">run</span>();
+}`
+    }
+  },
+  {
+    id: "layered",
+    level: "basic",
+    category: "web",
+    icon: "📚",
+    color: "#38bdf8",
+    name: { en: "Layered (N-Tier)", vi: "Kiến Trúc Phân Tầng (N-Tier)" },
+    origin: { en: "1990s enterprise, popularized by J2EE. Divides system into horizontal responsibility layers.", vi: "Doanh nghiệp thập niên 1990, phổ biến bởi J2EE. Chia hệ thống thành các tầng trách nhiệm ngang." },
+    desc: {
+      en: "Organizes code into stacked horizontal layers: Presentation → Business Logic → Data Access → Database. Each layer only communicates with adjacent layers. Enforces separation of concerns within a monolith.",
+      vi: "Tổ chức code thành các tầng ngang: Trình Bày → Logic Nghiệp Vụ → Truy Cập Dữ Liệu → Database. Mỗi tầng chỉ giao tiếp với tầng kề. Đảm bảo phân tách trách nhiệm trong monolith."
+    },
+    when: {
+      en: "Enterprise CRUD apps, teams with strict role separation, regulated industries (banking, insurance).",
+      vi: "Ứng dụng CRUD doanh nghiệp, nhóm phân công vai trò rõ ràng, ngành có quy định (ngân hàng, bảo hiểm)."
+    },
+    spamf: {
+      S: { en: "Medium — clear boundaries reduce accidental data exposure", vi: "Trung bình — ranh giới rõ ràng giảm nguy cơ lộ dữ liệu" },
+      P: { en: "Medium — layered overhead; not optimized for throughput", vi: "Trung bình — chi phí tầng; không tối ưu cho thông lượng" },
+      A: { en: "Low — still a single deployable unit", vi: "Thấp — vẫn là một đơn vị triển khai duy nhất" },
+      M: { en: "High — strict separation makes changes predictable", vi: "Cao — phân tách nghiêm ngặt làm thay đổi có thể đoán trước" },
+      F: { en: "Medium — can swap individual layers if interfaces are clean", vi: "Trung bình — có thể đổi từng tầng nếu interface rõ ràng" }
+    },
+    complexity: { time: "O(n) layers traversal", space: "Single process + layer objects", cost: "Low-medium" },
+    diagram: `graph TD
+  P[Presentation Layer\nMVC / REST] --> BL[Business Layer\nServices / Use Cases]
+  BL --> DA[Data Access Layer\nRepositories / ORM]
+  DA --> DB[(Database)]
+  style P fill:#38bdf8,color:#000
+  style BL fill:#6c63ff,color:#fff
+  style DA fill:#a78bfa,color:#fff`,
+    code: {
+      "C#": `<span class="cm">// Repository + Service pattern</span>
+<span class="kw">public interface</span> <span class="ty">IUserRepository</span> {
+    Task&lt;IEnumerable&lt;<span class="ty">User</span>&gt;&gt; <span class="fn">GetAllAsync</span>();
+}
+<span class="kw">public class</span> <span class="ty">UserService</span>(<span class="ty">IUserRepository</span> repo) {
+    <span class="kw">public</span> Task&lt;IEnumerable&lt;<span class="ty">User</span>&gt;&gt; <span class="fn">GetUsersAsync</span>() =>
+        repo.<span class="fn">GetAllAsync</span>();
+}
+<span class="kw">public class</span> <span class="ty">UserController</span>(<span class="ty">UserService</span> svc) : ControllerBase {
+    <span class="kw">[HttpGet]</span> <span class="kw">public async</span> Task&lt;IActionResult&gt; <span class="fn">Get</span>() =>
+        Ok(<span class="kw">await</span> svc.<span class="fn">GetUsersAsync</span>());
+}`,
+      "Python": `<span class="cm"># Repository + Service layers</span>
+<span class="kw">class</span> <span class="ty">UserRepository</span>:
+    <span class="kw">def</span> <span class="fn">get_all</span>(self): <span class="kw">return</span> db.query(User).all()
+
+<span class="kw">class</span> <span class="ty">UserService</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, repo: <span class="ty">UserRepository</span>):
+        self.repo = repo
+    <span class="kw">def</span> <span class="fn">list_users</span>(self): <span class="kw">return</span> self.repo.<span class="fn">get_all</span>()
+
+<span class="kw">class</span> <span class="ty">UserController</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, svc: <span class="ty">UserService</span>):
+        self.svc = svc
+    <span class="kw">def</span> <span class="fn">get_users</span>(self): <span class="kw">return</span> self.svc.<span class="fn">list_users</span>()`,
+      "Go": `<span class="cm">// Layered Go: Handler → Service → Repo</span>
+<span class="kw">type</span> <span class="ty">UserRepo</span> <span class="kw">interface</span> {
+    <span class="fn">FindAll</span>() ([]<span class="ty">User</span>, error)
+}
+<span class="kw">type</span> <span class="ty">UserService</span> <span class="kw">struct</span>{ repo <span class="ty">UserRepo</span> }
+<span class="kw">func</span> (s *<span class="ty">UserService</span>) <span class="fn">ListUsers</span>() ([]<span class="ty">User</span>, error) {
+    <span class="kw">return</span> s.repo.<span class="fn">FindAll</span>()
+}`,
+      "Rust": `<span class="cm">// Traits define layer contracts</span>
+<span class="kw">trait</span> <span class="ty">UserRepository</span>: <span class="ty">Send</span> + <span class="ty">Sync</span> {
+    <span class="kw">async fn</span> <span class="fn">find_all</span>(&self) -> Vec&lt;<span class="ty">User</span>&gt;;
+}
+<span class="kw">struct</span> <span class="ty">UserService</span>&lt;R: <span class="ty">UserRepository</span>&gt; { repo: R }
+<span class="kw">impl</span>&lt;R: <span class="ty">UserRepository</span>&gt; <span class="ty">UserService</span>&lt;R&gt; {
+    <span class="kw">async fn</span> <span class="fn">list</span>(&self) -> Vec&lt;<span class="ty">User</span>&gt; {
+        self.repo.<span class="fn">find_all</span>().await
+    }
+}`,
+      "Java": `<span class="cm">// Spring Layered Architecture</span>
+<span class="kw">@Repository</span>
+<span class="kw">public interface</span> <span class="ty">UserRepository</span> <span class="kw">extends</span> JpaRepository&lt;<span class="ty">User</span>,<span class="ty">Long</span>&gt; {}
+
+<span class="kw">@Service</span>
+<span class="kw">public class</span> <span class="ty">UserService</span> {
+    <span class="kw">private final</span> <span class="ty">UserRepository</span> repo;
+    <span class="kw">public</span> List&lt;<span class="ty">User</span>&gt; <span class="fn">listAll</span>() { <span class="kw">return</span> repo.<span class="fn">findAll</span>(); }
+}
+
+<span class="kw">@RestController</span>
+<span class="kw">public class</span> <span class="ty">UserController</span> {
+    <span class="kw">@GetMapping</span>(<span class="str">"/users"</span>)
+    List&lt;<span class="ty">User</span>&gt; <span class="fn">list</span>() { <span class="kw">return</span> service.<span class="fn">listAll</span>(); }
+}`,
+      "JavaScript": `<span class="cm">// Express Layered: Route → Service → Repo</span>
+<span class="kw">class</span> <span class="ty">UserRepository</span> {
+  <span class="kw">async</span> <span class="fn">findAll</span>() { <span class="kw">return</span> User.<span class="fn">findAll</span>(); }
+}
+<span class="kw">class</span> <span class="ty">UserService</span> {
+  <span class="kw">constructor</span>(repo) { this.repo = repo; }
+  <span class="kw">async</span> <span class="fn">list</span>() { <span class="kw">return</span> this.repo.<span class="fn">findAll</span>(); }
+}
+<span class="cm">// Route layer</span>
+router.<span class="fn">get</span>(<span class="str">'/users'</span>, <span class="kw">async</span> (req, res) => {
+  res.<span class="fn">json</span>(<span class="kw">await</span> userSvc.<span class="fn">list</span>());
+});`,
+      "C++": `<span class="cm">// Layered C++ with interfaces</span>
+<span class="kw">struct</span> <span class="ty">IUserRepo</span> {
+    <span class="kw">virtual</span> std::vector&lt;<span class="ty">User</span>&gt; <span class="fn">findAll</span>() = <span class="nm">0</span>;
+    <span class="kw">virtual</span> ~<span class="ty">IUserRepo</span>() = <span class="kw">default</span>;
+};
+<span class="kw">class</span> <span class="ty">UserService</span> {
+    <span class="ty">IUserRepo</span>& repo;
+<span class="kw">public</span>:
+    std::vector&lt;<span class="ty">User</span>&gt; <span class="fn">listAll</span>() { <span class="kw">return</span> repo.<span class="fn">findAll</span>(); }
+};`
+    }
+  },
+  {
+    id: "microservices",
+    level: "advanced",
+    category: "cloud",
+    icon: "🔬",
+    color: "#34d399",
+    name: { en: "Microservices", vi: "Kiến Trúc Vi Dịch Vụ" },
+    origin: { en: "Coined ~2011 by James Lewis/Martin Fowler at Netflix/Amazon scale. Born from SOA pain points.", vi: "Được đặt tên ~2011 bởi James Lewis/Martin Fowler tại quy mô Netflix/Amazon. Ra đời từ nỗi đau của SOA." },
+    desc: {
+      en: "System decomposed into small, independently deployable services each owning its data store. Services communicate via APIs (REST/gRPC) or async messaging. Teams own services end-to-end (Conway's Law alignment).",
+      vi: "Hệ thống phân rã thành các dịch vụ nhỏ, triển khai độc lập, mỗi dịch vụ sở hữu kho dữ liệu riêng. Giao tiếp qua API (REST/gRPC) hoặc nhắn tin bất đồng bộ."
+    },
+    when: {
+      en: "Large teams (50+ devs), products with distinct bounded contexts, need independent scaling per service, multi-team parallel development.",
+      vi: "Nhóm lớn (50+ người), sản phẩm có ngữ cảnh giới hạn rõ ràng, cần mở rộng độc lập theo dịch vụ, phát triển song song nhiều nhóm."
+    },
+    spamf: {
+      S: { en: "High — isolated blast radius, per-service auth, network segmentation", vi: "Cao — phạm vi ảnh hưởng cô lập, xác thực theo dịch vụ, phân đoạn mạng" },
+      P: { en: "High — independent scaling, right-size resources per service", vi: "Cao — mở rộng độc lập, phân bổ tài nguyên phù hợp cho từng dịch vụ" },
+      A: { en: "High — partial failures don't cascade (with circuit breakers)", vi: "Cao — lỗi một phần không lan rộng (với circuit breaker)" },
+      M: { en: "Medium — simpler per-service; but distributed systems complexity", vi: "Trung bình — đơn giản hơn mỗi dịch vụ; nhưng độ phức tạp hệ thống phân tán" },
+      F: { en: "High — swap/rewrite individual services independently", vi: "Cao — thay thế/viết lại từng dịch vụ độc lập" }
+    },
+    complexity: { time: "Network hops add latency", space: "Per-service memory + sidecar overhead", cost: "High — infra, service mesh, observability" },
+    diagram: `graph TD
+  GW[API Gateway] --> US[User Service]
+  GW --> OS[Order Service]
+  GW --> PS[Payment Service]
+  US --> UDB[(User DB)]
+  OS --> ODB[(Order DB)]
+  PS --> PDB[(Payment DB)]
+  OS -->|event| MQ[Message Bus]
+  PS -->|subscribe| MQ
+  style GW fill:#6c63ff,color:#fff
+  style MQ fill:#fbbf24,color:#000`,
+    code: {
+      "C#": `<span class="cm">// .NET Microservice with gRPC</span>
+<span class="kw">public class</span> <span class="ty">UserGrpcService</span> : <span class="ty">UserService.UserServiceBase</span> {
+    <span class="kw">public override async</span> Task&lt;<span class="ty">UserReply</span>&gt; <span class="fn">GetUser</span>(
+        <span class="ty">UserRequest</span> req, <span class="ty">ServerCallContext</span> ctx) {
+        <span class="kw">var</span> user = <span class="kw">await</span> _repo.<span class="fn">FindAsync</span>(req.Id);
+        <span class="kw">return new</span> <span class="ty">UserReply</span> { Id = user.Id, Name = user.Name };
+    }
+}`,
+      "Python": `<span class="cm"># FastAPI Microservice</span>
+<span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+<span class="kw">import</span> httpx
+
+app = <span class="fn">FastAPI</span>()
+
+<span class="kw">@</span>app.get(<span class="str">"/orders/{user_id}"</span>)
+<span class="kw">async def</span> <span class="fn">get_orders</span>(user_id: int):
+    <span class="cm"># Call User Service</span>
+    <span class="kw">async with</span> httpx.<span class="ty">AsyncClient</span>() <span class="kw">as</span> c:
+        user = <span class="kw">await</span> c.<span class="fn">get</span>(<span class="str">f"http://user-svc/users/{user_id}"</span>)
+    <span class="kw">return</span> {<span class="str">"user"</span>: user.json(), <span class="str">"orders"</span>: []}`,
+      "Go": `<span class="cm">// Go Microservice with gRPC</span>
+<span class="kw">type</span> <span class="ty">UserServer</span> <span class="kw">struct</span>{ pb.<span class="ty">UnimplementedUserServiceServer</span> }
+
+<span class="kw">func</span> (s *<span class="ty">UserServer</span>) <span class="fn">GetUser</span>(
+    ctx context.<span class="ty">Context</span>, req *pb.<span class="ty">UserRequest</span>) (*pb.<span class="ty">UserReply</span>, error) {
+    user := findUser(req.Id)
+    <span class="kw">return</span> &pb.<span class="ty">UserReply</span>{Name: user.Name}, <span class="kw">nil</span>
+}`,
+      "Rust": `<span class="cm">// Rust microservice with tonic (gRPC)</span>
+<span class="kw">pub struct</span> <span class="ty">UserService</span> { pool: <span class="ty">PgPool</span> }
+
+<span class="kw">#[tonic::async_trait]</span>
+<span class="kw">impl</span> <span class="ty">UserServiceTrait</span> <span class="kw">for</span> <span class="ty">UserService</span> {
+    <span class="kw">async fn</span> <span class="fn">get_user</span>(&self, req: Request&lt;<span class="ty">UserId</span>&gt;)
+        -> Result&lt;Response&lt;<span class="ty">UserReply</span>&gt;, Status&gt; {
+        <span class="kw">let</span> user = sqlx::query_as!(<span class="ty">User</span>, <span class="str">"SELECT * FROM users WHERE id=$1"</span>, req.into_inner().id)
+            .fetch_one(&self.pool).await?;
+        Ok(Response::new(<span class="ty">UserReply</span> { name: user.name }))
+    }
+}`,
+      "Java": `<span class="cm">// Spring Boot Microservice</span>
+<span class="kw">@SpringBootApplication</span>
+<span class="kw">@EnableFeignClients</span>
+<span class="kw">public class</span> <span class="ty">OrderService</span> { ... }
+
+<span class="kw">@FeignClient</span>(name=<span class="str">"user-service"</span>)
+<span class="kw">public interface</span> <span class="ty">UserClient</span> {
+    <span class="kw">@GetMapping</span>(<span class="str">"/users/{id}"</span>)
+    <span class="ty">UserDto</span> <span class="fn">getUser</span>(<span class="kw">@PathVariable</span> Long id);
+}`,
+      "JavaScript": `<span class="cm">// Node.js Microservice with message bus</span>
+<span class="kw">const</span> amqp = <span class="fn">require</span>(<span class="str">'amqplib'</span>);
+
+<span class="kw">async function</span> <span class="fn">startService</span>() {
+  <span class="kw">const</span> conn = <span class="kw">await</span> amqp.<span class="fn">connect</span>(<span class="str">'amqp://rabbitmq'</span>);
+  <span class="kw">const</span> ch = <span class="kw">await</span> conn.<span class="fn">createChannel</span>();
+  <span class="kw">await</span> ch.<span class="fn">assertQueue</span>(<span class="str">'order.created'</span>);
+  ch.<span class="fn">consume</span>(<span class="str">'order.created'</span>, msg => {
+    <span class="kw">const</span> order = JSON.<span class="fn">parse</span>(msg.content);
+    <span class="cm">// Process payment...</span>
+    ch.<span class="fn">ack</span>(msg);
+  });
+}`,
+      "C++": `<span class="cm">// C++ gRPC Microservice</span>
+<span class="kw">class</span> <span class="ty">UserServiceImpl</span> <span class="kw">final</span> : <span class="kw">public</span> <span class="ty">UserService::Service</span> {
+    Status <span class="fn">GetUser</span>(<span class="ty">ServerContext</span>* ctx,
+                 <span class="kw">const</span> <span class="ty">UserRequest</span>* req,
+                 <span class="ty">UserReply</span>* reply) <span class="kw">override</span> {
+        reply->set_name(<span class="fn">FindUser</span>(req->id()).name);
+        <span class="kw">return</span> Status::OK;
+    }
+};`
+    }
+  },
+  {
+    id: "event-driven",
+    level: "advanced",
+    category: "cloud",
+    icon: "⚡",
+    color: "#fbbf24",
+    name: { en: "Event-Driven", vi: "Kiến Trúc Hướng Sự Kiện" },
+    origin: { en: "Emerged from real-time systems and pub/sub patterns. Popularized by LinkedIn Kafka (2011), AWS SNS/SQS.", vi: "Xuất hiện từ hệ thống thời gian thực và mô hình pub/sub. Được phổ biến bởi Kafka của LinkedIn (2011), AWS SNS/SQS." },
+    desc: {
+      en: "Components communicate by producing and consuming events via a message broker. Producers don't know consumers. Enables loose coupling, temporal decoupling, and high scalability through async processing.",
+      vi: "Các thành phần giao tiếp bằng cách tạo và tiêu thụ sự kiện qua message broker. Producer không biết consumer. Cho phép kết nối lỏng, tách biệt thời gian và khả năng mở rộng cao qua xử lý bất đồng bộ."
+    },
+    when: {
+      en: "Real-time analytics, audit logs, integrating heterogeneous systems, high-throughput pipelines, IoT data ingestion.",
+      vi: "Phân tích thời gian thực, nhật ký kiểm tra, tích hợp hệ thống không đồng nhất, pipeline thông lượng cao, thu thập dữ liệu IoT."
+    },
+    spamf: {
+      S: { en: "High — producers/consumers isolated; event log as audit trail", vi: "Cao — producer/consumer cô lập; nhật ký sự kiện là dấu vết kiểm tra" },
+      P: { en: "Very High — async processing; consumers scale independently", vi: "Rất Cao — xử lý bất đồng bộ; consumer mở rộng độc lập" },
+      A: { en: "High — broker durability; consumers replay on failure", vi: "Cao — độ bền của broker; consumer phát lại khi lỗi" },
+      M: { en: "Medium — event schema evolution is complex; versioning required", vi: "Trung bình — tiến hóa schema sự kiện phức tạp; cần versioning" },
+      F: { en: "Very High — add consumers without changing producers", vi: "Rất Cao — thêm consumer mà không thay đổi producer" }
+    },
+    complexity: { time: "Near O(1) publish; variable consume lag", space: "Broker storage scales with retention", cost: "Medium — broker infra + consumer compute" },
+    diagram: `graph LR
+  P1[Order Service\nProducer] -->|order.placed| MQ[Kafka / RabbitMQ]
+  P2[Payment Svc\nProducer] -->|payment.completed| MQ
+  MQ -->|subscribe| C1[Notification Svc]
+  MQ -->|subscribe| C2[Analytics Svc]
+  MQ -->|subscribe| C3[Inventory Svc]
+  style MQ fill:#fbbf24,color:#000`,
+    code: {
+      "C#": `<span class="cm">// MassTransit + RabbitMQ</span>
+<span class="kw">public record</span> <span class="ty">OrderPlaced</span>(<span class="ty">Guid</span> OrderId, decimal Total);
+
+<span class="kw">public class</span> <span class="ty">OrderPlacedConsumer</span> : IConsumer&lt;<span class="ty">OrderPlaced</span>&gt; {
+    <span class="kw">public async</span> Task <span class="fn">Consume</span>(<span class="ty">ConsumeContext</span>&lt;<span class="ty">OrderPlaced</span>&gt; ctx) {
+        <span class="kw">await</span> _notifier.<span class="fn">SendAsync</span>(ctx.Message.OrderId);
+    }
+}`,
+      "Python": `<span class="cm"># Kafka with confluent-kafka</span>
+<span class="kw">from</span> confluent_kafka <span class="kw">import</span> Producer, Consumer
+
+producer = <span class="ty">Producer</span>({<span class="str">'bootstrap.servers'</span>: <span class="str">'kafka:9092'</span>})
+producer.<span class="fn">produce</span>(<span class="str">'order.placed'</span>, key=<span class="str">'order-1'</span>,
+               value=json.<span class="fn">dumps</span>({<span class="str">'total'</span>: <span class="nm">99.0</span>}))
+
+consumer = <span class="ty">Consumer</span>({<span class="str">'group.id'</span>: <span class="str">'notifications'</span>, ...})
+consumer.<span class="fn">subscribe</span>([<span class="str">'order.placed'</span>])
+<span class="kw">while True</span>:
+    msg = consumer.<span class="fn">poll</span>(<span class="nm">1.0</span>)
+    <span class="kw">if</span> msg: <span class="fn">process</span>(msg.<span class="fn">value</span>())`,
+      "Go": `<span class="cm">// Go Kafka producer with franz-go</span>
+<span class="kw">import</span> <span class="str">"github.com/twmb/franz-go/pkg/kgo"</span>
+
+cl, _ := kgo.<span class="fn">NewClient</span>(kgo.<span class="fn">SeedBrokers</span>(<span class="str">"kafka:9092"</span>))
+<span class="kw">defer</span> cl.<span class="fn">Close</span>()
+cl.<span class="fn">ProduceSync</span>(ctx, &kgo.<span class="ty">Record</span>{
+    Topic: <span class="str">"order.placed"</span>,
+    Value: payload,
+})`,
+      "Rust": `<span class="cm">// rdkafka producer</span>
+<span class="kw">use</span> rdkafka::producer::{FutureProducer, FutureRecord};
+
+producer.<span class="fn">send</span>(
+    FutureRecord::to(<span class="str">"order.placed"</span>)
+        .key(<span class="str">"order-1"</span>)
+        .payload(&payload_json),
+    Duration::from_secs(<span class="nm">5</span>),
+).await.unwrap();`,
+      "Java": `<span class="cm">// Spring Kafka</span>
+<span class="kw">@Component</span>
+<span class="kw">public class</span> <span class="ty">OrderProducer</span> {
+    <span class="kw">@Autowired</span> <span class="ty">KafkaTemplate</span>&lt;<span class="ty">String</span>,<span class="ty">OrderEvent</span>&gt; kafka;
+    <span class="kw">public void</span> <span class="fn">publish</span>(<span class="ty">OrderEvent</span> e) {
+        kafka.<span class="fn">send</span>(<span class="str">"order.placed"</span>, e.getId(), e);
+    }
+}
+<span class="kw">@KafkaListener</span>(topics=<span class="str">"order.placed"</span>, groupId=<span class="str">"notif"</span>)
+<span class="kw">public void</span> <span class="fn">handle</span>(<span class="ty">OrderEvent</span> e) { notifier.<span class="fn">send</span>(e); }`,
+      "JavaScript": `<span class="cm">// kafkajs producer/consumer</span>
+<span class="kw">const</span> { Kafka } = <span class="fn">require</span>(<span class="str">'kafkajs'</span>);
+<span class="kw">const</span> kafka = <span class="kw">new</span> <span class="ty">Kafka</span>({ brokers: [<span class="str">'kafka:9092'</span>] });
+<span class="kw">const</span> producer = kafka.<span class="fn">producer</span>();
+<span class="kw">await</span> producer.<span class="fn">connect</span>();
+<span class="kw">await</span> producer.<span class="fn">send</span>({
+  topic: <span class="str">'order.placed'</span>,
+  messages: [{ key: <span class="str">'o1'</span>, value: JSON.<span class="fn">stringify</span>(order) }]
+});`,
+      "C++": `<span class="cm">// librdkafka producer</span>
+<span class="kw">#include</span> <span class="str">&lt;librdkafka/rdkafkacpp.h&gt;</span>
+RdKafka::<span class="ty">Producer</span>* producer =
+  RdKafka::<span class="ty">Producer</span>::<span class="fn">create</span>(conf, errstr);
+RdKafka::<span class="ty">Topic</span>* topic =
+  RdKafka::<span class="ty">Topic</span>::<span class="fn">create</span>(producer, <span class="str">"order.placed"</span>, nullptr, errstr);
+producer-><span class="fn">produce</span>(topic, <span class="nm">0</span>,
+  RdKafka::<span class="ty">Producer</span>::RK_MSG_COPY,
+  payload.data(), payload.size(), <span class="kw">nullptr</span>, <span class="kw">nullptr</span>);`
+    }
+  },
+  {
+    id: "cqrs",
+    level: "advanced",
+    category: "cloud",
+    icon: "✂️",
+    color: "#f87171",
+    name: { en: "CQRS", vi: "Phân Tách Lệnh-Truy Vấn" },
+    origin: { en: "Coined by Greg Young (2010), built on Bertrand Meyer's Command-Query Separation (CQS). Often paired with Event Sourcing.", vi: "Được Greg Young đặt tên (2010), xây dựng trên CQS của Bertrand Meyer. Thường kết hợp với Event Sourcing." },
+    desc: {
+      en: "Separates read (Query) and write (Command) operations into distinct models and often different data stores. Write side is optimized for consistency; read side is optimized for query performance with denormalized projections.",
+      vi: "Tách biệt thao tác đọc (Query) và ghi (Command) thành các mô hình riêng biệt và thường là các kho dữ liệu khác nhau. Phía ghi tối ưu tính nhất quán; phía đọc tối ưu hiệu năng truy vấn với phép chiếu phi chuẩn hóa."
+    },
+    when: {
+      en: "High read/write ratio disparity, complex domain models, need for multiple read models, audit-heavy domains.",
+      vi: "Tỷ lệ đọc/ghi chênh lệch cao, mô hình miền phức tạp, cần nhiều mô hình đọc, miền cần kiểm tra nhiều."
+    },
+    spamf: {
+      S: { en: "High — separate command/query channels; easier authorization per path", vi: "Cao — kênh lệnh/truy vấn riêng biệt; ủy quyền dễ hơn theo từng đường" },
+      P: { en: "Very High — read models pre-computed; ultra-fast queries", vi: "Rất Cao — mô hình đọc được tính trước; truy vấn cực nhanh" },
+      A: { en: "High — read side stays up even if write side degrades", vi: "Cao — phía đọc vẫn hoạt động kể cả khi phía ghi suy giảm" },
+      M: { en: "Low — two codebases to maintain; eventual consistency is tricky", vi: "Thấp — hai codebase cần duy trì; nhất quán cuối cùng khó xử lý" },
+      F: { en: "High — add new projections without touching command side", vi: "Cao — thêm phép chiếu mới mà không ảnh hưởng phía lệnh" }
+    },
+    complexity: { time: "Writes O(1); Reads O(1) from projection", space: "2× data footprint (write + read models)", cost: "High — dual DB, projection workers" },
+    diagram: `graph LR
+  Client -->|Command| CS[Command Stack\nWrite DB]
+  Client -->|Query| QS[Query Stack\nRead DB\nDenormalized]
+  CS -->|Event| EP[Event Projector]
+  EP --> QS
+  style CS fill:#f87171,color:#fff
+  style QS fill:#34d399,color:#000
+  style EP fill:#fbbf24,color:#000`,
+    code: {
+      "C#": `<span class="cm">// MediatR CQRS</span>
+<span class="kw">public record</span> <span class="ty">CreateOrderCommand</span>(<span class="ty">Guid</span> UserId, decimal Total)
+  : IRequest&lt;<span class="ty">Guid</span>&gt;;
+<span class="kw">public record</span> <span class="ty">GetOrderQuery</span>(<span class="ty">Guid</span> Id) : IRequest&lt;<span class="ty">OrderDto</span>&gt;;
+
+<span class="kw">public class</span> <span class="ty">CreateOrderHandler</span> : IRequestHandler&lt;<span class="ty">CreateOrderCommand</span>,<span class="ty">Guid</span>&gt; {
+    <span class="kw">public async</span> Task&lt;<span class="ty">Guid</span>&gt; <span class="fn">Handle</span>(<span class="ty">CreateOrderCommand</span> cmd, <span class="ty">CancellationToken</span> ct) {
+        <span class="kw">var</span> order = <span class="kw">new</span> <span class="ty">Order</span>(cmd.UserId, cmd.Total);
+        <span class="kw">await</span> _writeRepo.<span class="fn">SaveAsync</span>(order, ct);
+        <span class="kw">await</span> _events.<span class="fn">PublishAsync</span>(<span class="kw">new</span> <span class="ty">OrderCreated</span>(order.Id));
+        <span class="kw">return</span> order.Id;
+    }
+}`,
+      "Python": `<span class="cm"># CQRS with separate read/write repos</span>
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="kw">@dataclass</span>
+<span class="kw">class</span> <span class="ty">CreateOrderCommand</span>:
+    user_id: int; total: float
+
+<span class="kw">class</span> <span class="ty">CommandHandler</span>:
+    <span class="kw">def</span> <span class="fn">handle</span>(self, cmd: <span class="ty">CreateOrderCommand</span>):
+        order = <span class="ty">Order</span>(cmd.user_id, cmd.total)
+        write_db.<span class="fn">save</span>(order)
+        event_bus.<span class="fn">publish</span>(<span class="ty">OrderCreated</span>(order.id))
+
+<span class="kw">class</span> <span class="ty">QueryHandler</span>:
+    <span class="kw">def</span> <span class="fn">get_order</span>(self, order_id: int):
+        <span class="kw">return</span> read_db.<span class="fn">query</span>(<span class="str">"SELECT * FROM order_view WHERE id=?"</span>, order_id)`,
+      "Go": `<span class="cm">// Go CQRS bus</span>
+<span class="kw">type</span> <span class="ty">CreateOrderCmd</span> <span class="kw">struct</span>{ UserID <span class="ty">string</span>; Total float64 }
+<span class="kw">type</span> <span class="ty">GetOrderQuery</span> <span class="kw">struct</span>{ ID <span class="ty">string</span> }
+
+<span class="kw">func</span> <span class="fn">HandleCreate</span>(cmd <span class="ty">CreateOrderCmd</span>) (<span class="ty">string</span>, error) {
+    id := uuid.<span class="fn">New</span>().<span class="fn">String</span>()
+    writeDB.<span class="fn">Save</span>(<span class="ty">Order</span>{ID: id, Total: cmd.Total})
+    eventBus.<span class="fn">Publish</span>(<span class="ty">OrderCreated</span>{ID: id})
+    <span class="kw">return</span> id, <span class="kw">nil</span>
+}`,
+      "Rust": `<span class="cm">// Rust CQRS with command/query traits</span>
+<span class="kw">trait</span> <span class="ty">Command</span> { <span class="kw">type</span> <span class="ty">Result</span>; }
+<span class="kw">trait</span> <span class="ty">Query</span> { <span class="kw">type</span> <span class="ty">Result</span>; }
+
+<span class="kw">struct</span> <span class="ty">CreateOrder</span> { user_id: <span class="ty">Uuid</span>, total: f64 }
+<span class="kw">impl</span> <span class="ty">Command</span> <span class="kw">for</span> <span class="ty">CreateOrder</span> { <span class="kw">type</span> <span class="ty">Result</span> = <span class="ty">Uuid</span>; }
+
+<span class="kw">async fn</span> <span class="fn">handle_create</span>(cmd: <span class="ty">CreateOrder</span>, db: &<span class="ty">PgPool</span>) -> <span class="ty">Uuid</span> {
+    <span class="kw">let</span> id = <span class="ty">Uuid</span>::new_v4();
+    sqlx::query!(<span class="str">"INSERT INTO orders VALUES($1,$2)"</span>, id, cmd.total)
+        .execute(db).await.unwrap();
+    id
+}`,
+      "Java": `<span class="cm">// Axon Framework CQRS</span>
+<span class="kw">@Aggregate</span>
+<span class="kw">public class</span> <span class="ty">OrderAggregate</span> {
+    <span class="kw">@AggregateIdentifier</span> <span class="kw">private</span> <span class="ty">String</span> id;
+
+    <span class="kw">@CommandHandler</span>
+    <span class="kw">public</span> <span class="ty">OrderAggregate</span>(<span class="ty">CreateOrderCommand</span> cmd) {
+        AggregateLifecycle.<span class="fn">apply</span>(<span class="kw">new</span> <span class="ty">OrderCreatedEvent</span>(cmd.getId()));
+    }
+    <span class="kw">@QueryHandler</span>
+    <span class="kw">public</span> <span class="ty">OrderView</span> <span class="fn">handle</span>(<span class="ty">GetOrderQuery</span> q) {
+        <span class="kw">return</span> readRepo.<span class="fn">findById</span>(q.getId());
+    }
+}`,
+      "JavaScript": `<span class="cm">// Node CQRS with separate stores</span>
+<span class="kw">class</span> <span class="ty">CommandBus</span> {
+  <span class="kw">async</span> <span class="fn">dispatch</span>(cmd) {
+    <span class="kw">const</span> handler = this.handlers[cmd.constructor.name];
+    <span class="kw">return</span> handler.<span class="fn">handle</span>(cmd);
+  }
+}
+<span class="kw">class</span> <span class="ty">CreateOrderHandler</span> {
+  <span class="kw">async</span> <span class="fn">handle</span>({ userId, total }) {
+    <span class="kw">const</span> id = uuid();
+    <span class="kw">await</span> writeDb.<span class="fn">insert</span>(<span class="str">'orders'</span>, { id, userId, total });
+    <span class="kw">await</span> eventBus.<span class="fn">publish</span>(<span class="str">'order.created'</span>, { id });
+    <span class="kw">return</span> id;
+  }
+}`,
+      "C++": `<span class="cm">// C++ CQRS dispatcher</span>
+<span class="kw">template</span>&lt;<span class="kw">typename</span> T&gt;
+<span class="kw">struct</span> <span class="ty">ICommandHandler</span> {
+    <span class="kw">virtual</span> <span class="kw">void</span> <span class="fn">handle</span>(<span class="kw">const</span> T&) = <span class="nm">0</span>;
+};
+<span class="kw">struct</span> <span class="ty">CreateOrderCmd</span> { std::string userId; <span class="kw">double</span> total; };
+<span class="kw">class</span> <span class="ty">CreateOrderHandler</span> : <span class="kw">public</span> <span class="ty">ICommandHandler</span>&lt;<span class="ty">CreateOrderCmd</span>&gt; {
+    <span class="kw">void</span> <span class="fn">handle</span>(<span class="kw">const</span> <span class="ty">CreateOrderCmd</span>& cmd) <span class="kw">override</span> {
+        writeRepo.<span class="fn">save</span>({uuid(), cmd.total});
+    }
+};`
+    }
+  },
+  {
+    id: "serverless",
+    level: "intermediate",
+    category: "cloud",
+    icon: "☁️",
+    color: "#38bdf8",
+    name: { en: "Serverless / FaaS", vi: "Không Máy Chủ / FaaS" },
+    origin: { en: "AWS Lambda (2014) popularized FaaS. Built on container isolation technology. No-server-management model.", vi: "AWS Lambda (2014) phổ biến hóa FaaS. Xây dựng trên công nghệ cô lập container. Mô hình không quản lý máy chủ." },
+    desc: {
+      en: "Application logic deployed as stateless functions triggered by events (HTTP, queue, timer). Cloud provider manages infra scaling. Pay per execution. Great for spiky/unpredictable workloads.",
+      vi: "Logic ứng dụng triển khai dưới dạng hàm không trạng thái được kích hoạt bởi sự kiện. Nhà cung cấp đám mây quản lý quy mô hạ tầng. Trả tiền theo lần thực thi."
+    },
+    when: {
+      en: "Irregular traffic spikes, event processing, webhooks, scheduled jobs, APIs with variable load, cost-sensitive projects.",
+      vi: "Đột biến lưu lượng không đều, xử lý sự kiện, webhook, công việc định kỳ, API tải biến đổi, dự án nhạy cảm chi phí."
+    },
+    spamf: {
+      S: { en: "High — small attack surface per function; managed IAM", vi: "Cao — bề mặt tấn công nhỏ mỗi hàm; IAM được quản lý" },
+      P: { en: "High — auto-scale to 0 and up; cold starts are the caveat", vi: "Cao — tự mở rộng đến 0 và lên; cold start là lưu ý" },
+      A: { en: "Very High — managed platform SLA, multi-AZ by default", vi: "Rất Cao — SLA nền tảng được quản lý, đa vùng khả dụng mặc định" },
+      M: { en: "High — very small functions; but distributed debugging is hard", vi: "Cao — hàm rất nhỏ; nhưng debug phân tán khó" },
+      F: { en: "High — swap functions independently; trigger any event source", vi: "Cao — thay thế hàm độc lập; kích hoạt từ bất kỳ nguồn sự kiện nào" }
+    },
+    complexity: { time: "Cold: 100ms–2s, Warm: <10ms overhead", space: "Ephemeral; no persistent state", cost: "Very low at low scale; watch cost at high RPS" },
+    diagram: `graph TD
+  Events[API GW / S3 / Queue\nTriggers] --> F1[Lambda: UserHandler]
+  Events --> F2[Lambda: OrderHandler]
+  Events --> F3[Lambda: Notifier]
+  F1 --> DB[(DynamoDB)]
+  F2 --> DB
+  F3 --> SES[Email/SMS]
+  style Events fill:#38bdf8,color:#000`,
+    code: {
+      "C#": `<span class="cm">// AWS Lambda C# handler</span>
+<span class="kw">public class</span> <span class="ty">Function</span> {
+    <span class="kw">public async</span> Task&lt;<span class="ty">APIGatewayProxyResponse</span>&gt; <span class="fn">Handler</span>(
+        <span class="ty">APIGatewayProxyRequest</span> req, <span class="ty">ILambdaContext</span> ctx) {
+        <span class="kw">var</span> id = req.PathParameters[<span class="str">"id"</span>];
+        <span class="kw">var</span> user = <span class="kw">await</span> _db.<span class="fn">GetAsync</span>(id);
+        <span class="kw">return new</span> <span class="ty">APIGatewayProxyResponse</span> {
+            StatusCode = <span class="nm">200</span>,
+            Body = JsonSerializer.<span class="fn">Serialize</span>(user)
+        };
+    }
+}`,
+      "Python": `<span class="cm"># AWS Lambda Python handler</span>
+<span class="kw">import</span> boto3, json
+
+dynamodb = boto3.<span class="fn">resource</span>(<span class="str">'dynamodb'</span>)
+table = dynamodb.<span class="fn">Table</span>(<span class="str">'Users'</span>)
+
+<span class="kw">def</span> <span class="fn">handler</span>(event, context):
+    user_id = event[<span class="str">'pathParameters'</span>][<span class="str">'id'</span>]
+    res = table.<span class="fn">get_item</span>(Key={<span class="str">'id'</span>: user_id})
+    <span class="kw">return</span> {<span class="str">'statusCode'</span>: <span class="nm">200</span>,
+            <span class="str">'body'</span>: json.<span class="fn">dumps</span>(res.<span class="fn">get</span>(<span class="str">'Item'</span>))}`,
+      "Go": `<span class="cm">// AWS Lambda Go handler</span>
+<span class="kw">import</span> <span class="str">"github.com/aws/aws-lambda-go/lambda"</span>
+
+<span class="kw">type</span> <span class="ty">Event</span> <span class="kw">struct</span>{ ID <span class="ty">string</span> }
+<span class="kw">type</span> <span class="ty">Response</span> <span class="kw">struct</span>{ Name <span class="ty">string</span> }
+
+<span class="kw">func</span> <span class="fn">handler</span>(ctx context.<span class="ty">Context</span>, e <span class="ty">Event</span>) (<span class="ty">Response</span>, error) {
+    user := <span class="fn">fetchUser</span>(e.ID)
+    <span class="kw">return</span> <span class="ty">Response</span>{Name: user.Name}, <span class="kw">nil</span>
+}
+<span class="kw">func</span> <span class="fn">main</span>() { lambda.<span class="fn">Start</span>(handler) }`,
+      "Rust": `<span class="cm">// AWS Lambda Rust (lambda_runtime)</span>
+<span class="kw">use</span> lambda_runtime::{service_fn, LambdaEvent, Error};
+<span class="kw">use</span> serde_json::{json, Value};
+
+<span class="kw">async fn</span> <span class="fn">func</span>(event: LambdaEvent&lt;<span class="ty">Value</span>&gt;) -> Result&lt;<span class="ty">Value</span>, Error&gt; {
+    <span class="kw">let</span> name = event.payload[<span class="str">"name"</span>].as_str().unwrap_or(<span class="str">"world"</span>);
+    Ok(json!({ <span class="str">"message"</span>: format!(<span class="str">"Hello, {}!"</span>, name) }))
+}
+<span class="kw">#[tokio::main]</span>
+<span class="kw">async fn</span> <span class="fn">main</span>() -> Result&lt;(), Error&gt; {
+    lambda_runtime::run(service_fn(func)).await
+}`,
+      "Java": `<span class="cm">// AWS Lambda Java (Quarkus Lambda)</span>
+<span class="kw">@ApplicationScoped</span>
+<span class="kw">public class</span> <span class="ty">UserHandler</span> <span class="kw">implements</span> RequestHandler&lt;<span class="ty">Map</span>,<span class="ty">Map</span>&gt; {
+    <span class="kw">@Inject</span> <span class="ty">UserService</span> svc;
+    <span class="kw">public</span> Map <span class="fn">handleRequest</span>(<span class="ty">Map</span> input, <span class="ty">Context</span> ctx) {
+        <span class="kw">return</span> Map.<span class="fn">of</span>(<span class="str">"user"</span>, svc.<span class="fn">find</span>((<span class="ty">String</span>)input.<span class="fn">get</span>(<span class="str">"id"</span>)));
+    }
+}`,
+      "JavaScript": `<span class="cm">// Vercel / AWS Lambda JS</span>
+<span class="kw">export</span> <span class="kw">const</span> <span class="fn">handler</span> = <span class="kw">async</span> (event) => {
+  <span class="kw">const</span> { id } = event.pathParameters;
+  <span class="kw">const</span> user = <span class="kw">await</span> db.<span class="fn">get</span>(id);
+  <span class="kw">return</span> {
+    statusCode: <span class="nm">200</span>,
+    body: JSON.<span class="fn">stringify</span>(user),
+    headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> }
+  };
+};`,
+      "C++": `<span class="cm">// C++ Lambda via AWS SDK custom runtime</span>
+<span class="cm">// Note: C++ uses aws-lambda-cpp runtime</span>
+<span class="kw">#include</span> <span class="str">&lt;aws/lambda-runtime/runtime.h&gt;</span>
+<span class="kw">using namespace</span> aws::lambda_runtime;
+
+invocation_response <span class="fn">my_handler</span>(<span class="kw">const</span> invocation_request& req) {
+    <span class="kw">return</span> invocation_response::<span class="fn">success</span>(
+        <span class="str">"{\"message\":\"Hello\"}"</span>, <span class="str">"application/json"</span>);
+}
+<span class="kw">int</span> <span class="fn">main</span>() { run_handler(<span class="fn">my_handler</span>); }`
+    }
+  },
+  {
+    id: "hexagonal",
+    level: "intermediate",
+    category: "enterprise",
+    icon: "⬡",
+    color: "#a78bfa",
+    name: { en: "Hexagonal (Ports & Adapters)", vi: "Kiến Trúc Lục Giác (Cổng & Bộ Chuyển Đổi)" },
+    origin: { en: "Alistair Cockburn (2005). Goal: isolate core domain from all external concerns (DB, UI, 3rd-party).", vi: "Alistair Cockburn (2005). Mục tiêu: cô lập miền cốt lõi khỏi mọi mối quan tâm bên ngoài (DB, UI, bên thứ 3)." },
+    desc: {
+      en: "Application core (domain logic) sits at center. Ports define interfaces. Adapters implement those interfaces for specific technologies. The core never depends on frameworks or databases — they depend on the core.",
+      vi: "Lõi ứng dụng (logic miền) nằm ở trung tâm. Cổng định nghĩa interface. Bộ chuyển đổi thực thi interface cho công nghệ cụ thể. Lõi không bao giờ phụ thuộc vào framework hay database."
+    },
+    when: {
+      en: "Domain-rich applications, long-lived systems, need testability without real infrastructure, DDD projects.",
+      vi: "Ứng dụng giàu miền, hệ thống sống lâu, cần kiểm thử không cần hạ tầng thực, dự án DDD."
+    },
+    spamf: {
+      S: { en: "High — clear boundaries prevent accidental coupling to external systems", vi: "Cao — ranh giới rõ ràng ngăn kết nối ngẫu nhiên với hệ thống ngoài" },
+      P: { en: "Medium — no inherent perf benefit; depends on adapter implementation", vi: "Trung bình — không có lợi ích hiệu năng cố hữu; phụ thuộc thực thi adapter" },
+      A: { en: "Medium — swap adapters (e.g., DB) without downtime", vi: "Trung bình — thay adapter (vd: DB) mà không cần dừng" },
+      M: { en: "Very High — domain logic testable in isolation; swap infra freely", vi: "Rất Cao — logic miền có thể kiểm thử độc lập; thay hạ tầng tự do" },
+      F: { en: "Very High — add new adapters (REST, CLI, gRPC) cheaply", vi: "Rất Cao — thêm adapter mới (REST, CLI, gRPC) rẻ" }
+    },
+    complexity: { time: "O(1) — no overhead beyond adapter calls", space: "Moderate — port/adapter object graph", cost: "Medium dev cost; low runtime cost" },
+    diagram: `graph TD
+  subgraph Core[Application Core]
+    Domain[Domain Logic]
+    Port1[Port: IUserRepo]
+    Port2[Port: IEmailSender]
+  end
+  Adapter1[SQL Adapter] -->|implements| Port1
+  Adapter2[REST Adapter] -->|drives| Domain
+  Domain -->|uses| Port1
+  Domain -->|uses| Port2
+  Port2 -->|implements| Adapter3[SMTP Adapter]
+  style Core fill:#1a1a30,stroke:#a78bfa`,
+    code: {
+      "C#": `<span class="cm">// Port (interface in core)</span>
+<span class="kw">public interface</span> <span class="ty">IUserRepository</span> {  <span class="cm">// Port</span>
+    Task&lt;<span class="ty">User</span>?&gt; <span class="fn">FindByIdAsync</span>(<span class="ty">Guid</span> id);
+}
+<span class="cm">// Adapter (infrastructure)</span>
+<span class="kw">public class</span> <span class="ty">SqlUserRepository</span> : <span class="ty">IUserRepository</span> {
+    <span class="kw">public</span> Task&lt;<span class="ty">User</span>?&gt; <span class="fn">FindByIdAsync</span>(<span class="ty">Guid</span> id) =>
+        _db.Users.<span class="fn">FindAsync</span>(id).<span class="fn">AsTask</span>();
+}
+<span class="cm">// Domain service — depends only on port</span>
+<span class="kw">public class</span> <span class="ty">UserDomainService</span>(<span class="ty">IUserRepository</span> repo) { }`,
+      "Python": `<span class="cm"># Port (abstract class)</span>
+<span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="ty">UserRepositoryPort</span>(ABC):
+    <span class="kw">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">find_by_id</span>(self, uid: int) -> <span class="kw">None</span> | dict: ...
+
+<span class="kw">class</span> <span class="ty">PostgresAdapter</span>(<span class="ty">UserRepositoryPort</span>):  <span class="cm"># Adapter</span>
+    <span class="kw">def</span> <span class="fn">find_by_id</span>(self, uid): <span class="kw">return</span> db.<span class="fn">query</span>(uid)
+
+<span class="kw">class</span> <span class="ty">InMemoryAdapter</span>(<span class="ty">UserRepositoryPort</span>):  <span class="cm"># Test adapter</span>
+    <span class="kw">def</span> <span class="fn">find_by_id</span>(self, uid): <span class="kw">return</span> self.store.<span class="fn">get</span>(uid)`,
+      "Go": `<span class="cm">// Port = interface, Adapter = struct</span>
+<span class="kw">type</span> <span class="ty">UserPort</span> <span class="kw">interface</span> {    <span class="cm">// Port</span>
+    <span class="fn">FindByID</span>(id <span class="ty">string</span>) (*<span class="ty">User</span>, error)
+}
+<span class="kw">type</span> <span class="ty">PgAdapter</span> <span class="kw">struct</span>{ db *sql.<span class="ty">DB</span> }    <span class="cm">// Adapter</span>
+<span class="kw">func</span> (a *<span class="ty">PgAdapter</span>) <span class="fn">FindByID</span>(id <span class="ty">string</span>) (*<span class="ty">User</span>, error) {
+    <span class="cm">// SQL query</span>
+}
+<span class="kw">type</span> <span class="ty">UserService</span> <span class="kw">struct</span>{ repo <span class="ty">UserPort</span> }  <span class="cm">// Core depends on Port</span>`,
+      "Rust": `<span class="cm">// Traits as ports</span>
+<span class="kw">trait</span> <span class="ty">UserRepository</span> {
+    <span class="kw">async fn</span> <span class="fn">find</span>(&self, id: <span class="ty">Uuid</span>) -> Option&lt;<span class="ty">User</span>&gt;;
+}
+<span class="kw">struct</span> <span class="ty">PgRepo</span> { pool: <span class="ty">PgPool</span> }  <span class="cm">// Adapter</span>
+<span class="kw">impl</span> <span class="ty">UserRepository</span> <span class="kw">for</span> <span class="ty">PgRepo</span> { ... }
+
+<span class="kw">struct</span> <span class="ty">UserService</span>&lt;R: <span class="ty">UserRepository</span>&gt; { repo: R }
+<span class="cm">// Core: only knows about trait, not Postgres</span>`,
+      "Java": `<span class="cm">// Spring + Hexagonal</span>
+<span class="kw">public interface</span> <span class="ty">UserRepositoryPort</span> {   <span class="cm">// Port</span>
+    Optional&lt;<span class="ty">User</span>&gt; <span class="fn">findById</span>(UUID id);
+}
+<span class="kw">@Repository</span>
+<span class="kw">class</span> <span class="ty">JpaUserAdapter</span> <span class="kw">implements</span> <span class="ty">UserRepositoryPort</span> { <span class="cm">// Adapter</span>
+    <span class="kw">public</span> Optional&lt;<span class="ty">User</span>&gt; <span class="fn">findById</span>(UUID id) {
+        <span class="kw">return</span> jpaRepo.<span class="fn">findById</span>(id);
+    }
+}`,
+      "JavaScript": `<span class="cm">// JS Hexagonal with duck typing</span>
+<span class="cm">// Port is just a convention/interface</span>
+<span class="kw">class</span> <span class="ty">UserService</span> {
+  <span class="kw">constructor</span>(userRepository) {  <span class="cm">// Port injected</span>
+    this.repo = userRepository;
+  }
+  <span class="kw">async</span> <span class="fn">findUser</span>(id) { <span class="kw">return</span> this.repo.<span class="fn">findById</span>(id); }
+}
+<span class="kw">class</span> <span class="ty">MongoAdapter</span> {       <span class="cm">// Adapter</span>
+  <span class="kw">async</span> <span class="fn">findById</span>(id) { <span class="kw">return</span> User.<span class="fn">findById</span>(id); }
+}`,
+      "C++": `<span class="cm">// C++ pure virtual port</span>
+<span class="kw">class</span> <span class="ty">IUserRepository</span> {  <span class="cm">// Port</span>
+<span class="kw">public</span>:
+    <span class="kw">virtual</span> std::optional&lt;<span class="ty">User</span>&gt; <span class="fn">findById</span>(std::string id) = <span class="nm">0</span>;
+    <span class="kw">virtual</span> ~<span class="ty">IUserRepository</span>() = <span class="kw">default</span>;
+};
+<span class="kw">class</span> <span class="ty">PgAdapter</span> : <span class="kw">public</span> <span class="ty">IUserRepository</span> {  <span class="cm">// Adapter</span>
+    std::optional&lt;<span class="ty">User</span>&gt; <span class="fn">findById</span>(std::string id) <span class="kw">override</span>;
+};`
+    }
+  },
+  {
+    id: "ddd",
+    level: "advanced",
+    category: "enterprise",
+    icon: "🧭",
+    color: "#fb923c",
+    name: { en: "Domain-Driven Design (DDD)", vi: "Thiết Kế Hướng Miền" },
+    origin: { en: "Eric Evans' 2003 book. Focuses on rich domain models and ubiquitous language shared between devs and domain experts.", vi: "Sách Eric Evans 2003. Tập trung vào mô hình miền phong phú và ngôn ngữ chung giữa lập trình viên và chuyên gia miền." },
+    desc: {
+      en: "Organizes complex software around the business domain. Key patterns: Bounded Contexts, Aggregates, Value Objects, Domain Events, Repositories, Domain Services. Ubiquitous Language bridges code and business.",
+      vi: "Tổ chức phần mềm phức tạp xung quanh miền nghiệp vụ. Các mẫu chính: Bounded Contexts, Aggregates, Value Objects, Domain Events, Repositories, Domain Services."
+    },
+    when: {
+      en: "Complex business domains (fintech, healthcare, logistics), long-lived systems, when domain complexity > technical complexity.",
+      vi: "Miền nghiệp vụ phức tạp (fintech, y tế, logistics), hệ thống sống lâu, khi độ phức tạp miền > độ phức tạp kỹ thuật."
+    },
+    spamf: {
+      S: { en: "High — bounded contexts enforce clear ownership and data boundaries", vi: "Cao — bounded context đảm bảo quyền sở hữu và ranh giới dữ liệu rõ ràng" },
+      P: { en: "Medium — rich domain models add object allocation overhead", vi: "Trung bình — mô hình miền phong phú tốn thêm chi phí cấp phát đối tượng" },
+      A: { en: "Medium — HA depends on deployment, not DDD patterns per se", vi: "Trung bình — HA phụ thuộc triển khai, không phải bản thân mẫu DDD" },
+      M: { en: "Very High — domain model is self-documenting; ubiquitous language", vi: "Rất Cao — mô hình miền tự ghi tài liệu; ngôn ngữ chung" },
+      F: { en: "High — bounded contexts can evolve independently", vi: "Cao — bounded context có thể phát triển độc lập" }
+    },
+    complexity: { time: "Domain model traversal O(depth)", space: "Aggregate object graphs in memory", cost: "High design cost; lower long-term maintenance" },
+    diagram: `graph TD
+  subgraph BC1[Order Bounded Context]
+    OA[Order Aggregate\nRoot]
+    OI[OrderItem VO]
+    OM[Money VO]
+    OA -->|contains| OI
+    OA -->|uses| OM
+  end
+  subgraph BC2[Payment Bounded Context]
+    PA[Payment Aggregate]
+    PI[PaymentIntent VO]
+  end
+  OA -->|Domain Event: OrderPlaced| PA`,
+    code: {
+      "C#": `<span class="cm">// DDD Aggregate Root</span>
+<span class="kw">public class</span> <span class="ty">Order</span> : AggregateRoot {
+    <span class="kw">private</span> <span class="kw">readonly</span> List&lt;<span class="ty">OrderItem</span>&gt; _items = [];
+    <span class="kw">public</span> <span class="ty">Money</span> Total { <span class="kw">get</span>; <span class="kw">private set</span>; }
+
+    <span class="kw">public void</span> <span class="fn">AddItem</span>(<span class="ty">ProductId</span> pid, int qty, <span class="ty">Money</span> price) {
+        _items.<span class="fn">Add</span>(<span class="kw">new</span> <span class="ty">OrderItem</span>(pid, qty, price));
+        Total = Total + price * qty;
+        <span class="fn">AddDomainEvent</span>(<span class="kw">new</span> <span class="ty">OrderItemAdded</span>(Id, pid));
+    }
+}
+<span class="kw">public record</span> <span class="ty">Money</span>(decimal Amount, string Currency);  <span class="cm">// VO</span>`,
+      "Python": `<span class="cm"># DDD Aggregate + Value Object</span>
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">from</span> typing <span class="kw">import</span> List
+
+<span class="kw">@dataclass</span>(frozen=<span class="kw">True</span>)
+<span class="kw">class</span> <span class="ty">Money</span>:   <span class="cm"># Value Object (immutable)</span>
+    amount: float; currency: str
+
+<span class="kw">@dataclass</span>
+<span class="kw">class</span> <span class="ty">Order</span>:   <span class="cm"># Aggregate Root</span>
+    id: str
+    items: List = field(default_factory=list)
+    _events: List = field(default_factory=list)
+
+    <span class="kw">def</span> <span class="fn">add_item</span>(self, product_id, qty, price: <span class="ty">Money</span>):
+        self.items.<span class="fn">append</span>({<span class="str">'pid'</span>: product_id, <span class="str">'qty'</span>: qty})
+        self._events.<span class="fn">append</span>({<span class="str">'type'</span>: <span class="str">'item_added'</span>})`,
+      "Go": `<span class="cm">// DDD in Go — value objects + aggregate</span>
+<span class="kw">type</span> <span class="ty">Money</span> <span class="kw">struct</span>{    <span class="cm">// Value Object</span>
+    Amount   float64
+    Currency <span class="ty">string</span>
+}
+<span class="kw">func</span> (m <span class="ty">Money</span>) <span class="fn">Add</span>(other <span class="ty">Money</span>) <span class="ty">Money</span> {
+    <span class="kw">return</span> <span class="ty">Money</span>{Amount: m.Amount + other.Amount, Currency: m.Currency}
+}
+<span class="kw">type</span> <span class="ty">Order</span> <span class="kw">struct</span>{    <span class="cm">// Aggregate Root</span>
+    ID    <span class="ty">string</span>
+    Items []<span class="ty">OrderItem</span>
+    Total <span class="ty">Money</span>
+    events []<span class="ty">DomainEvent</span>
+}`,
+      "Rust": `<span class="cm">// DDD Aggregate in Rust</span>
+<span class="kw">#[derive(Clone, PartialEq)]</span>
+<span class="kw">pub struct</span> <span class="ty">Money</span> { amount: <span class="ty">Decimal</span>, currency: <span class="ty">String</span> }
+
+<span class="kw">pub struct</span> <span class="ty">Order</span> {
+    id: <span class="ty">Uuid</span>,
+    items: Vec&lt;<span class="ty">OrderItem</span>&gt;,
+    total: <span class="ty">Money</span>,
+    events: Vec&lt;<span class="ty">DomainEvent</span>&gt;,
+}
+<span class="kw">impl</span> <span class="ty">Order</span> {
+    <span class="kw">pub fn</span> <span class="fn">add_item</span>(&<span class="kw">mut</span> self, item: <span class="ty">OrderItem</span>) {
+        self.total = self.total.<span class="fn">add</span>(&item.price);
+        self.events.<span class="fn">push</span>(<span class="ty">DomainEvent</span>::<span class="ty">ItemAdded</span>(item.id));
+        self.items.<span class="fn">push</span>(item);
+    }
+}`,
+      "Java": `<span class="cm">// DDD with Spring</span>
+<span class="kw">@Entity</span>
+<span class="kw">public class</span> <span class="ty">Order</span> <span class="kw">extends</span> AbstractAggregateRoot&lt;<span class="ty">Order</span>&gt; {
+    <span class="kw">@EmbeddedId</span> <span class="ty">OrderId</span> id;
+    <span class="kw">@ElementCollection</span> List&lt;<span class="ty">OrderItem</span>&gt; items;
+
+    <span class="kw">public void</span> <span class="fn">addItem</span>(<span class="ty">ProductId</span> pid, int qty) {
+        items.<span class="fn">add</span>(<span class="kw">new</span> <span class="ty">OrderItem</span>(pid, qty));
+        <span class="fn">registerEvent</span>(<span class="kw">new</span> <span class="ty">OrderItemAdded</span>(id, pid));
+    }
+}
+<span class="kw">@Embeddable</span>
+<span class="kw">public record</span> <span class="ty">Money</span>(BigDecimal amount, String currency) {}`,
+      "JavaScript": `<span class="cm">// DDD in JS/TS</span>
+<span class="kw">class</span> <span class="ty">Money</span> {   <span class="cm">// Value Object</span>
+  <span class="kw">constructor</span>(amount, currency) {
+    Object.<span class="fn">freeze</span>(Object.<span class="fn">assign</span>(this, { amount, currency }));
+  }
+  <span class="fn">add</span>(other) { <span class="kw">return new</span> <span class="ty">Money</span>(this.amount + other.amount, this.currency); }
+}
+<span class="kw">class</span> <span class="ty">Order</span> {   <span class="cm">// Aggregate Root</span>
+  #items = []; #events = [];
+  <span class="fn">addItem</span>(productId, qty, price) {
+    this.#items.<span class="fn">push</span>({ productId, qty });
+    this.#events.<span class="fn">push</span>({ type: <span class="str">'ItemAdded'</span>, productId });
+  }
+}`,
+      "C++": `<span class="cm">// DDD in C++</span>
+<span class="kw">class</span> <span class="ty">Money</span> {   <span class="cm">// Value Object</span>
+<span class="kw">public</span>:
+    <span class="ty">Money</span>(<span class="kw">double</span> amt, std::string curr) : amount(amt), currency(curr) {}
+    <span class="ty">Money</span> <span class="fn">operator+</span>(<span class="kw">const</span> <span class="ty">Money</span>& o) <span class="kw">const</span> {
+        <span class="kw">return</span> {amount + o.amount, currency}; }
+<span class="kw">private</span>:
+    <span class="kw">double</span> amount; std::string currency;
+};
+<span class="kw">class</span> <span class="ty">Order</span> {   <span class="cm">// Aggregate Root</span>
+    std::vector&lt;<span class="ty">OrderItem</span>&gt; items;
+<span class="kw">public</span>:
+    <span class="kw">void</span> <span class="fn">addItem</span>(<span class="kw">const</span> <span class="ty">OrderItem</span>& item) {
+        items.<span class="fn">push_back</span>(item);
+        events.<span class="fn">push_back</span>(<span class="ty">ItemAddedEvent</span>{item.id});
+    }
+};`
+    }
+  },
+  {
+    id: "clean",
+    level: "intermediate",
+    category: "enterprise",
+    icon: "🎯",
+    color: "#34d399",
+    name: { en: "Clean Architecture", vi: "Kiến Trúc Sạch" },
+    origin: { en: "Robert C. Martin (Uncle Bob), 2012. Synthesis of Hexagonal, Onion, and BCE architectures.", vi: "Robert C. Martin (Uncle Bob), 2012. Tổng hợp của Hexagonal, Onion và BCE architectures." },
+    desc: {
+      en: "Concentric circles: Entities (innermost) → Use Cases → Interface Adapters → Frameworks/Drivers (outermost). Dependency rule: source code dependencies always point inward. Inner circles know nothing about outer circles.",
+      vi: "Vòng tròn đồng tâm: Entities (trong nhất) → Use Cases → Interface Adapters → Frameworks/Drivers (ngoài nhất). Quy tắc phụ thuộc: phụ thuộc source code luôn hướng vào trong."
+    },
+    when: {
+      en: "When you need maximum testability, framework-independence, and long-term codebase health. Large teams, complex domains.",
+      vi: "Khi cần khả năng kiểm thử tối đa, độc lập framework, và sức khỏe codebase lâu dài. Nhóm lớn, miền phức tạp."
+    },
+    spamf: {
+      S: { en: "Very High — entities contain business rules, impossible to contaminate from outside", vi: "Rất Cao — entities chứa quy tắc nghiệp vụ, không thể bị nhiễm từ bên ngoài" },
+      P: { en: "Medium — clean boundaries add indirection; profile hot paths", vi: "Trung bình — ranh giới sạch thêm gián tiếp; profile các đường dẫn nóng" },
+      A: { en: "Medium — HA via deployment strategy, not architecture itself", vi: "Trung bình — HA qua chiến lược triển khai, không phải kiến trúc" },
+      M: { en: "Very High — use cases document business intent explicitly", vi: "Rất Cao — use cases ghi lại ý định nghiệp vụ một cách rõ ràng" },
+      F: { en: "High — swap any outer ring (DB, UI, framework) freely", vi: "Cao — thay bất kỳ vòng ngoài nào (DB, UI, framework) tự do" }
+    },
+    complexity: { time: "O(layers) indirection", space: "Use case + entity object graphs", cost: "High initial dev; very low maintenance" },
+    diagram: `graph TD
+  E[Entities\nBusiness Rules] --- UC[Use Cases\nApp Logic]
+  UC --- IA[Interface Adapters\nControllers/Presenters]
+  IA --- FD[Frameworks & Drivers\nDB/Web/UI]
+  style E fill:#6c63ff,color:#fff
+  style UC fill:#a78bfa,color:#fff
+  style IA fill:#38bdf8,color:#000
+  style FD fill:#bg3`,
+    code: {
+      "C#": `<span class="cm">// Use Case (Application Layer)</span>
+<span class="kw">public class</span> <span class="ty">CreateUserUseCase</span>(<span class="ty">IUserRepository</span> repo, <span class="ty">IEmailService</span> email) {
+    <span class="kw">public async</span> Task&lt;<span class="ty">UserId</span>&gt; <span class="fn">ExecuteAsync</span>(<span class="ty">CreateUserRequest</span> req) {
+        <span class="kw">var</span> user = <span class="ty">User</span>.<span class="fn">Create</span>(req.Name, req.Email);  <span class="cm">// Entity</span>
+        <span class="kw">await</span> repo.<span class="fn">SaveAsync</span>(user);
+        <span class="kw">await</span> email.<span class="fn">SendWelcomeAsync</span>(user.Email);
+        <span class="kw">return</span> user.Id;
+    }
+}`,
+      "Python": `<span class="cm"># Use Case in Clean Architecture</span>
+<span class="kw">class</span> <span class="ty">CreateUserUseCase</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, repo: <span class="ty">UserRepository</span>, email: <span class="ty">EmailPort</span>):
+        self.repo, self.email = repo, email
+
+    <span class="kw">def</span> <span class="fn">execute</span>(self, name: str, email: str) -> str:
+        user = <span class="ty">User</span>.<span class="fn">create</span>(name, email)   <span class="cm"># Entity</span>
+        self.repo.<span class="fn">save</span>(user)
+        self.email.<span class="fn">send_welcome</span>(user.email)
+        <span class="kw">return</span> user.id`,
+      "Go": `<span class="cm">// Clean Architecture Go use case</span>
+<span class="kw">type</span> <span class="ty">CreateUserInput</span> <span class="kw">struct</span>{ Name, Email <span class="ty">string</span> }
+<span class="kw">type</span> <span class="ty">CreateUserUseCase</span> <span class="kw">struct</span>{
+    repo  <span class="ty">UserRepository</span>
+    email <span class="ty">EmailService</span>
+}
+<span class="kw">func</span> (uc *<span class="ty">CreateUserUseCase</span>) <span class="fn">Execute</span>(in <span class="ty">CreateUserInput</span>) (<span class="ty">string</span>, error) {
+    user := <span class="fn">NewUser</span>(in.Name, in.Email)  <span class="cm">// Entity</span>
+    <span class="kw">if</span> err := uc.repo.<span class="fn">Save</span>(user); err != <span class="kw">nil</span> { <span class="kw">return</span> <span class="str">""</span>, err }
+    <span class="kw">return</span> user.ID, uc.email.<span class="fn">SendWelcome</span>(user.Email)
+}`,
+      "Rust": `<span class="cm">// Clean Arch use case trait</span>
+<span class="kw">pub struct</span> <span class="ty">CreateUser</span> {
+    repo: Arc&lt;<span class="kw">dyn</span> <span class="ty">UserRepository</span>&gt;,
+    email: Arc&lt;<span class="kw">dyn</span> <span class="ty">EmailService</span>&gt;,
+}
+<span class="kw">impl</span> <span class="ty">CreateUser</span> {
+    <span class="kw">pub async fn</span> <span class="fn">execute</span>(&self, name: <span class="ty">String</span>, email: <span class="ty">String</span>) -> <span class="ty">Uuid</span> {
+        <span class="kw">let</span> user = <span class="ty">User</span>::<span class="fn">new</span>(name, email); <span class="cm">// Entity</span>
+        self.repo.<span class="fn">save</span>(&user).await.unwrap();
+        user.id
+    }
+}`,
+      "Java": `<span class="cm">// Clean Architecture Java Use Case</span>
+<span class="kw">@UseCase</span>
+<span class="kw">public class</span> <span class="ty">CreateUserUseCase</span> {
+    <span class="kw">private final</span> <span class="ty">UserRepositoryPort</span> repo;
+    <span class="kw">private final</span> <span class="ty">EmailServicePort</span> email;
+
+    <span class="kw">public</span> UUID <span class="fn">execute</span>(<span class="ty">CreateUserCommand</span> cmd) {
+        <span class="ty">User</span> user = <span class="ty">User</span>.<span class="fn">create</span>(cmd.getName(), cmd.getEmail()); <span class="cm">// Entity</span>
+        repo.<span class="fn">save</span>(user);
+        email.<span class="fn">sendWelcome</span>(user.getEmail());
+        <span class="kw">return</span> user.getId();
+    }
+}`,
+      "JavaScript": `<span class="cm">// Clean Arch JS use case</span>
+<span class="kw">class</span> <span class="ty">CreateUserUseCase</span> {
+  <span class="kw">constructor</span>(repo, emailService) {
+    this.repo = repo; this.email = emailService;
+  }
+  <span class="kw">async</span> <span class="fn">execute</span>({ name, email }) {
+    <span class="kw">const</span> user = <span class="ty">User</span>.<span class="fn">create</span>(name, email); <span class="cm">// Entity</span>
+    <span class="kw">await</span> this.repo.<span class="fn">save</span>(user);
+    <span class="kw">await</span> this.email.<span class="fn">sendWelcome</span>(user.email);
+    <span class="kw">return</span> user.id;
+  }
+}`,
+      "C++": `<span class="cm">// Clean Architecture C++ Use Case</span>
+<span class="kw">class</span> <span class="ty">CreateUserUseCase</span> {
+    <span class="ty">IUserRepository</span>& repo;
+    <span class="ty">IEmailService</span>& email;
+<span class="kw">public</span>:
+    std::string <span class="fn">execute</span>(std::string name, std::string mail) {
+        <span class="ty">User</span> user = <span class="ty">User</span>::<span class="fn">create</span>(name, mail); <span class="cm">// Entity</span>
+        repo.<span class="fn">save</span>(user);
+        email.<span class="fn">sendWelcome</span>(user.email);
+        <span class="kw">return</span> user.id;
+    }
+};`
+    }
+  },
+  {
+    id: "spa",
+    level: "basic",
+    category: "web",
+    icon: "🖥️",
+    color: "#38bdf8",
+    name: { en: "SPA (Single Page Application)", vi: "Ứng Dụng Đơn Trang" },
+    origin: { en: "2004–2010: Gmail, Google Maps pioneered. Angular (2010), React (2013) formalized the pattern.", vi: "2004–2010: Gmail, Google Maps tiên phong. Angular (2010), React (2013) chính thức hóa mẫu." },
+    desc: {
+      en: "Entire application runs in the browser. Initial HTML shell loaded once; subsequent navigation is JavaScript-driven without full page reloads. Backend serves APIs only. Great UX, complex state management.",
+      vi: "Toàn bộ ứng dụng chạy trong trình duyệt. HTML shell ban đầu tải một lần; điều hướng tiếp theo do JavaScript điều khiển không tải lại trang. Backend chỉ phục vụ API."
+    },
+    when: {
+      en: "Dashboard-heavy apps, real-time UIs, apps requiring rich interactivity, when SEO is secondary.",
+      vi: "Ứng dụng nặng dashboard, UI thời gian thực, ứng dụng cần tương tác phong phú, khi SEO là thứ yếu."
+    },
+    spamf: {
+      S: { en: "Medium — large JS bundles; XSS risk; CORS config critical", vi: "Trung bình — bundle JS lớn; nguy cơ XSS; cấu hình CORS quan trọng" },
+      P: { en: "High — client-side rendering removes server round-trips", vi: "Cao — render phía client loại bỏ vòng server" },
+      A: { en: "High — CDN-served; no server needed for static assets", vi: "Cao — phục vụ từ CDN; không cần server cho asset tĩnh" },
+      M: { en: "Medium — state management complexity (Redux/Zustand)", vi: "Trung bình — độ phức tạp quản lý trạng thái (Redux/Zustand)" },
+      F: { en: "High — decouple frontend from backend completely", vi: "Cao — tách hoàn toàn frontend khỏi backend" }
+    },
+    complexity: { time: "Client-side O(1) navigation post-load", space: "Browser memory — watch bundle size", cost: "Low — static hosting + API server" },
+    diagram: `graph LR
+  Browser[Browser\nReact/Vue/Angular] -->|API calls| BFF[Backend API\nREST/GraphQL]
+  Browser -->|static assets| CDN[CDN]
+  BFF --> DB[(Database)]
+  style Browser fill:#38bdf8,color:#000
+  style CDN fill:#fbbf24,color:#000`,
+    code: {
+      "C#": `<span class="cm">// Blazor WebAssembly SPA</span>
+<span class="kw">@page</span> <span class="str">"/users"</span>
+<span class="kw">@inject</span> HttpClient Http
+
+&lt;h1&gt;Users&lt;/h1&gt;
+@if (users != null) {
+    @foreach (var u in users) { &lt;p&gt;@u.Name&lt;/p&gt; }
+}
+
+@code {
+    User[]? users;
+    protected override async Task OnInitializedAsync() {
+        users = await Http.GetFromJsonAsync&lt;User[]&gt;("/api/users");
+    }
+}`,
+      "Python": `<span class="cm"># Dash SPA (Plotly Dash)</span>
+<span class="kw">import</span> dash
+<span class="kw">from</span> dash <span class="kw">import</span> dcc, html, Input, Output
+
+app = dash.<span class="ty">Dash</span>()
+app.layout = html.<span class="ty">Div</span>([
+    dcc.<span class="ty">Input</span>(id=<span class="str">'input'</span>, type=<span class="str">'text'</span>),
+    html.<span class="ty">Div</span>(id=<span class="str">'output'</span>)
+])
+<span class="kw">@</span>app.callback(Output(<span class="str">'output'</span>,<span class="str">'children'</span>), Input(<span class="str">'input'</span>,<span class="str">'value'</span>))
+<span class="kw">def</span> <span class="fn">update</span>(val): <span class="kw">return</span> <span class="str">f'You typed: {val}'</span>`,
+      "Go": `<span class="cm">// Go serves API; SPA is separate JS app</span>
+<span class="cm">// Go + HTMX for SPA-like without JS build</span>
+<span class="kw">func</span> <span class="fn">main</span>() {
+    mux := http.<span class="fn">NewServeMux</span>()
+    mux.<span class="fn">Handle</span>(<span class="str">"/"</span>, http.<span class="fn">FileServer</span>(http.<span class="fn">Dir</span>(<span class="str">"./dist"</span>)))
+    mux.<span class="fn">HandleFunc</span>(<span class="str">"/api/users"</span>, <span class="fn">usersAPI</span>)
+    http.<span class="fn">ListenAndServe</span>(<span class="str">":8080"</span>, mux)
+}`,
+      "Rust": `<span class="cm">// Leptos (Rust SPA framework)</span>
+<span class="kw">#[component]</span>
+<span class="kw">fn</span> <span class="fn">App</span>() -> <span class="kw">impl</span> <span class="ty">IntoView</span> {
+    <span class="kw">let</span> (count, set_count) = <span class="fn">create_signal</span>(<span class="nm">0</span>);
+    view! {
+        &lt;button on:click=move |_| set_count.<span class="fn">update</span>(|n| *n += <span class="nm">1</span>)&gt;
+            <span class="str">"Count: "</span> {count}
+        &lt;/button&gt;
+    }
+}`,
+      "Java": `<span class="cm">// Vaadin SPA (Java-native)</span>
+<span class="kw">@Route</span>(<span class="str">""</span>)
+<span class="kw">public class</span> <span class="ty">MainView</span> <span class="kw">extends</span> VerticalLayout {
+    <span class="kw">public</span> <span class="ty">MainView</span>() {
+        <span class="ty">Button</span> btn = <span class="kw">new</span> <span class="ty">Button</span>(<span class="str">"Click me"</span>,
+            e -> <span class="fn">add</span>(<span class="kw">new</span> <span class="ty">Text</span>(<span class="str">"Clicked!"</span>)));
+        <span class="fn">add</span>(btn);
+    }
+}`,
+      "JavaScript": `<span class="cm">// React SPA entry point</span>
+<span class="kw">import</span> { createRoot } <span class="kw">from</span> <span class="str">'react-dom/client'</span>
+<span class="kw">import</span> { BrowserRouter, Routes, Route } <span class="kw">from</span> <span class="str">'react-router-dom'</span>
+
+<span class="kw">function</span> <span class="fn">App</span>() {
+  <span class="kw">return</span> (
+    &lt;<span class="ty">BrowserRouter</span>&gt;
+      &lt;<span class="ty">Routes</span>&gt;
+        &lt;<span class="ty">Route</span> path=<span class="str">"/"</span> element={&lt;<span class="ty">Home</span>/&gt;}/&gt;
+        &lt;<span class="ty">Route</span> path=<span class="str">"/users"</span> element={&lt;<span class="ty">Users</span>/&gt;}/&gt;
+      &lt;/<span class="ty">Routes</span>&gt;
+    &lt;/<span class="ty">BrowserRouter</span>&gt;
+  )
+}
+createRoot(document.<span class="fn">getElementById</span>(<span class="str">'root'</span>)).<span class="fn">render</span>(&lt;<span class="ty">App</span>/&gt;)`,
+      "C++": `<span class="cm">// C++ WebAssembly SPA via Emscripten</span>
+<span class="cm">// Compile: emcc app.cpp -o app.js --bind</span>
+<span class="kw">#include</span> <span class="str">&lt;emscripten/bind.h&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;string&gt;</span>
+
+std::string <span class="fn">greet</span>(std::string name) {
+    <span class="kw">return</span> <span class="str">"Hello, "</span> + name;
+}
+EMSCRIPTEN_BINDINGS(module) {
+    emscripten::<span class="fn">function</span>(<span class="str">"greet"</span>, &greet);
+}`
+    }
+  },
+  {
+    id: "pipeline",
+    level: "intermediate",
+    category: "data",
+    icon: "🔄",
+    color: "#fb923c",
+    name: { en: "Pipeline / Stream Processing", vi: "Đường Ống / Xử Lý Luồng" },
+    origin: { en: "Unix pipes (1973), extended to distributed systems via Storm (2011), Flink (2011), Spark Streaming.", vi: "Unix pipes (1973), mở rộng cho hệ thống phân tán qua Storm (2011), Flink (2011), Spark Streaming." },
+    desc: {
+      en: "Data flows through a series of processing stages (source → transform → sink). Each stage is independent and can be parallelized. Supports both batch and real-time streaming modes.",
+      vi: "Dữ liệu chảy qua một chuỗi giai đoạn xử lý (nguồn → biến đổi → đích). Mỗi giai đoạn độc lập và có thể song song hóa. Hỗ trợ cả chế độ batch và stream thời gian thực."
+    },
+    when: {
+      en: "ETL, log processing, real-time analytics, ML feature engineering, financial tick processing, IoT sensor streams.",
+      vi: "ETL, xử lý log, phân tích thời gian thực, kỹ thuật đặc trưng ML, xử lý tick tài chính, luồng cảm biến IoT."
+    },
+    spamf: {
+      S: { en: "High — data in motion; each stage can encrypt/validate", vi: "Cao — dữ liệu đang di chuyển; mỗi giai đoạn có thể mã hóa/xác thực" },
+      P: { en: "Very High — parallelism via partitioning; horizontal scale trivially", vi: "Rất Cao — song song hóa qua phân vùng; mở rộng ngang dễ dàng" },
+      A: { en: "High — stages fail independently; backpressure prevents overload", vi: "Cao — giai đoạn lỗi độc lập; backpressure ngăn quá tải" },
+      M: { en: "High — each stage is a simple, testable function", vi: "Cao — mỗi giai đoạn là một hàm đơn giản, có thể kiểm thử" },
+      F: { en: "High — add/remove stages without affecting upstream/downstream", vi: "Cao — thêm/xóa giai đoạn mà không ảnh hưởng trước/sau" }
+    },
+    complexity: { time: "Throughput O(stages × data); latency per item ~ms-s", space: "Buffer/window sizes per stage", cost: "Medium — cluster compute" },
+    diagram: `graph LR
+  S[Source\nKafka/S3] -->|stream| T1[Filter/Map\nStage 1]
+  T1 --> T2[Aggregate\nStage 2]
+  T2 --> T3[Enrich\nStage 3]
+  T3 --> K[Sink\nDB/ES/DW]
+  style S fill:#34d399,color:#000
+  style K fill:#6c63ff,color:#fff`,
+    code: {
+      "C#": `<span class="cm">// TPL Dataflow pipeline</span>
+<span class="kw">var</span> parse = <span class="kw">new</span> TransformBlock&lt;<span class="ty">string</span>, <span class="ty">Record</span>&gt;(<span class="ty">Record</span>.<span class="fn">Parse</span>);
+<span class="kw">var</span> filter = <span class="kw">new</span> TransformBlock&lt;<span class="ty">Record</span>, <span class="ty">Record</span>&gt;(
+    r => r.IsValid ? r : <span class="kw">null</span>);
+<span class="kw">var</span> save = <span class="kw">new</span> ActionBlock&lt;<span class="ty">Record</span>&gt;(<span class="kw">async</span> r => <span class="kw">await</span> repo.<span class="fn">SaveAsync</span>(r));
+parse.<span class="fn">LinkTo</span>(filter); filter.<span class="fn">LinkTo</span>(save);`,
+      "Python": `<span class="cm"># Apache Beam pipeline</span>
+<span class="kw">import</span> apache_beam <span class="kw">as</span> beam
+
+<span class="kw">with</span> beam.<span class="ty">Pipeline</span>() <span class="kw">as</span> p:
+    (p
+     | <span class="str">'Read'</span> >> beam.<span class="fn">io.ReadFromText</span>(<span class="str">'gs://bucket/data.json'</span>)
+     | <span class="str">'Parse'</span> >> beam.<span class="fn">Map</span>(json.loads)
+     | <span class="str">'Filter'</span> >> beam.<span class="fn">Filter</span>(<span class="kw">lambda</span> r: r[<span class="str">'amount'</span>] > <span class="nm">0</span>)
+     | <span class="str">'Write'</span> >> beam.<span class="fn">io.WriteToBigQuery</span>(<span class="str">'project:ds.table'</span>))`,
+      "Go": `<span class="cm">// Go pipeline with channels</span>
+<span class="kw">func</span> <span class="fn">pipeline</span>(src &lt;-<span class="kw">chan</span> <span class="ty">string</span>) &lt;-<span class="kw">chan</span> <span class="ty">Record</span> {
+    out := <span class="kw">make</span>(<span class="kw">chan</span> <span class="ty">Record</span>)
+    <span class="kw">go func</span>() {
+        <span class="kw">defer close</span>(out)
+        <span class="kw">for</span> line := <span class="kw">range</span> src {
+            r, err := <span class="fn">Parse</span>(line)
+            <span class="kw">if</span> err == <span class="kw">nil</span> { out &lt;- r }
+        }
+    }()
+    <span class="kw">return</span> out
+}`,
+      "Rust": `<span class="cm">// Rust pipeline with iterators + rayon</span>
+<span class="kw">use</span> rayon::prelude::*;
+
+<span class="kw">let</span> results: Vec&lt;_&gt; = lines
+    .par_iter()                       <span class="cm">// parallel</span>
+    .<span class="fn">filter_map</span>(|line| <span class="fn">parse</span>(line))   <span class="cm">// parse + filter</span>
+    .<span class="fn">map</span>(|r| <span class="fn">enrich</span>(r))              <span class="cm">// enrich</span>
+    .<span class="fn">collect</span>();
+db.<span class="fn">bulk_insert</span>(&results);`,
+      "Java": `<span class="cm">// Java Streams + Flink-style</span>
+<span class="kw">StreamExecutionEnvironment</span> env =
+    <span class="ty">StreamExecutionEnvironment</span>.<span class="fn">getExecutionEnvironment</span>();
+env.<span class="fn">readTextFile</span>(<span class="str">"path/data.log"</span>)
+   .<span class="fn">map</span>(<span class="ty">Record</span>::<span class="fn">parse</span>)
+   .<span class="fn">filter</span>(r -> r.isValid())
+   .<span class="fn">keyBy</span>(<span class="ty">Record</span>::<span class="fn">getKey</span>)
+   .<span class="fn">sum</span>(<span class="str">"amount"</span>)
+   .<span class="fn">print</span>();
+env.<span class="fn">execute</span>();`,
+      "JavaScript": `<span class="cm">// Node.js Transform streams</span>
+<span class="kw">const</span> { Transform } = <span class="fn">require</span>(<span class="str">'stream'</span>);
+
+<span class="kw">const</span> parse = <span class="kw">new</span> <span class="ty">Transform</span>({
+  transform(chunk, _, cb) {
+    cb(<span class="kw">null</span>, JSON.<span class="fn">parse</span>(chunk.<span class="fn">toString</span>()));
+  }
+});
+fs.<span class="fn">createReadStream</span>(<span class="str">'data.json'</span>)
+  .<span class="fn">pipe</span>(parse)
+  .<span class="fn">pipe</span>(filter)
+  .<span class="fn">pipe</span>(dbWriter);`,
+      "C++": `<span class="cm">// C++ range pipeline (C++20 ranges)</span>
+<span class="kw">#include</span> <span class="str">&lt;ranges&gt;</span>
+<span class="kw">using namespace</span> std::ranges;
+
+<span class="kw">auto</span> result = records
+    | views::<span class="fn">filter</span>([](auto& r){ <span class="kw">return</span> r.isValid(); })
+    | views::<span class="fn">transform</span>([](auto& r){ <span class="kw">return</span> r.<span class="fn">enrich</span>(); })
+    | views::<span class="fn">take</span>(<span class="nm">1000</span>);
+<span class="kw">for</span> (<span class="kw">auto</span>& r : result) db.<span class="fn">insert</span>(r);`
+    }
+  }
+];
+
+/* ── BUILDING BLOCK CONCEPTS ── */
+const BB_DATA = [
+  { id:"api-gateway", name:{en:"API Gateway",vi:"Cổng API"}, category:"networking",
+    desc:{en:"Single entry point for all clients. Routes requests, handles auth, rate limiting, SSL termination, load balancing. Examples: Kong, AWS API GW, Nginx.",vi:"Điểm vào duy nhất cho tất cả client. Định tuyến yêu cầu, xử lý xác thực, giới hạn tốc độ, kết thúc SSL, cân bằng tải."},
+    when:{en:"Multi-service backends, mobile+web clients, need centralized cross-cutting concerns.",vi:"Backend nhiều dịch vụ, client di động+web, cần xử lý xuyên suốt tập trung."},
+    pros:{en:["Centralizes auth/rate-limit","Clients unaware of topology","TLS offload"],vi:["Tập trung xác thực/giới hạn","Client không biết topology","TLS offload"]},
+    cons:{en:["Single point of failure (SPOF)","Bottleneck at high traffic","Config complexity"],vi:["Điểm lỗi duy nhất","Nghẽn cổ chai khi tải cao","Phức tạp cấu hình"]},
+    spamf:{S:"High",P:"Medium",A:"Low-Medium",M:"Medium",F:"High"},
+    complexity:{time:"O(1) per request",space:"Config memory",cost:"Low-Medium"} },
+  { id:"circuit-breaker", name:{en:"Circuit Breaker",vi:"Cầu Dao Ngắt Mạch"}, category:"resilience",
+    desc:{en:"Prevents cascade failures. Three states: Closed (normal), Open (fails fast), Half-Open (probe). Trips after threshold failures; resets after timeout. Libraries: Polly, Resilience4j, Hystrix.",vi:"Ngăn lỗi lan truyền. Ba trạng thái: Đóng (bình thường), Mở (thất bại nhanh), Nửa mở (thăm dò)."},
+    when:{en:"Service-to-service calls, external API dependencies, any network call that can fail.",vi:"Gọi service-to-service, phụ thuộc API bên ngoài, bất kỳ lệnh gọi mạng nào có thể lỗi."},
+    pros:{en:["Prevents cascade failures","Fast-fail under degradation","Auto-recovery"],vi:["Ngăn lỗi lan truyền","Thất bại nhanh khi suy giảm","Tự phục hồi"]},
+    cons:{en:["False positives on transient errors","Adds latency overhead","Config tuning needed"],vi:["Dương tính giả với lỗi thoáng qua","Thêm độ trễ","Cần điều chỉnh cấu hình"]},
+    spamf:{S:"High",P:"High",A:"Very High",M:"Medium",F:"High"},
+    complexity:{time:"O(1) state check",space:"State per dependency",cost:"Low"} },
+  { id:"cache", name:{en:"Distributed Cache",vi:"Bộ Đệm Phân Tán"}, category:"performance",
+    desc:{en:"In-memory store for frequently accessed data. Reduces DB load and latency. Patterns: Cache-Aside, Read-Through, Write-Through, Write-Behind. Examples: Redis, Memcached.",vi:"Kho lưu trữ trong bộ nhớ cho dữ liệu truy cập thường xuyên. Giảm tải DB và độ trễ."},
+    when:{en:"Read-heavy workloads, session storage, computed results, rate limiting counters.",vi:"Tải nặng đọc, lưu trữ phiên, kết quả tính toán, bộ đếm giới hạn tốc độ."},
+    pros:{en:["Sub-ms reads","Drastically reduces DB load","Supports pub/sub"],vi:["Đọc dưới mili-giây","Giảm đáng kể tải DB","Hỗ trợ pub/sub"]},
+    cons:{en:["Cache invalidation complexity","Stale data risk","Memory cost"],vi:["Phức tạp vô hiệu hóa cache","Nguy cơ dữ liệu cũ","Chi phí bộ nhớ"]},
+    spamf:{S:"Medium",P:"Very High",A:"High",M:"Medium",F:"High"},
+    complexity:{time:"O(1) get/set",space:"Bounded by maxmemory",cost:"Low-Medium"} },
+  { id:"load-balancer", name:{en:"Load Balancer",vi:"Cân Bằng Tải"}, category:"networking",
+    desc:{en:"Distributes incoming requests across multiple server instances. Algorithms: Round Robin, Least Connections, IP Hash, Weighted. L4 (TCP) vs L7 (HTTP) balancing.",vi:"Phân phối yêu cầu đến nhiều phiên bản máy chủ. Thuật toán: Round Robin, Kết nối ít nhất, IP Hash, Có trọng số."},
+    when:{en:"Any production system with multiple instances. Critical for HA and horizontal scaling.",vi:"Bất kỳ hệ thống production nào có nhiều phiên bản. Quan trọng cho HA và mở rộng ngang."},
+    pros:{en:["Horizontal scale","Health-check-driven routing","SSL termination"],vi:["Mở rộng ngang","Định tuyến theo health-check","Kết thúc SSL"]},
+    cons:{en:["L7 parsing overhead","Session affinity complexity","SPOF if misconfigured"],vi:["Chi phí phân tích L7","Phức tạp phiên affinity","SPOF nếu cấu hình sai"]},
+    spamf:{S:"High",P:"Very High",A:"Very High",M:"Low",F:"High"},
+    complexity:{time:"O(1) routing decision",space:"Connection table",cost:"Low-Medium"} },
+  { id:"service-mesh", name:{en:"Service Mesh",vi:"Lưới Dịch Vụ"}, category:"networking",
+    desc:{en:"Infrastructure layer for service-to-service communication. Handles mTLS, observability, traffic management via sidecar proxies. Examples: Istio, Linkerd, Consul Connect.",vi:"Tầng hạ tầng cho giao tiếp service-to-service. Xử lý mTLS, khả năng quan sát, quản lý lưu lượng qua sidecar proxy."},
+    when:{en:"50+ microservices, need zero-trust networking, distributed tracing, canary deployments.",vi:"50+ microservice, cần mạng zero-trust, tracing phân tán, triển khai canary."},
+    pros:{en:["mTLS by default","Unified observability","Traffic shaping"],vi:["mTLS mặc định","Khả năng quan sát thống nhất","Định hình lưu lượng"]},
+    cons:{en:["Heavy resource overhead (2× sidecar)","Steep learning curve","Complexity"],vi:["Chi phí tài nguyên cao (2× sidecar)","Đường học dốc","Độ phức tạp"]},
+    spamf:{S:"Very High",P:"Medium",A:"High",M:"Low",F:"Very High"},
+    complexity:{time:"+2ms latency per hop (sidecar)",space:"~150MB/sidecar",cost:"High"} },
+  { id:"event-sourcing", name:{en:"Event Sourcing",vi:"Nguồn Sự Kiện"}, category:"data",
+    desc:{en:"State derived from a sequence of immutable events stored in an append-only log. Current state = replay all events. Complete audit trail. Often paired with CQRS.",vi:"Trạng thái được suy ra từ chuỗi sự kiện bất biến được lưu trong log chỉ thêm. Trạng thái hiện tại = phát lại tất cả sự kiện."},
+    when:{en:"Audit requirements, temporal queries, complex undo/redo, financial ledgers, collaborative editing.",vi:"Yêu cầu kiểm tra, truy vấn thời gian, hoàn tác/làm lại phức tạp, sổ cái tài chính, chỉnh sửa cộng tác."},
+    pros:{en:["Complete audit trail","Temporal queries","Event replay"],vi:["Dấu vết kiểm tra đầy đủ","Truy vấn thời gian","Phát lại sự kiện"]},
+    cons:{en:["Event schema evolution pain","Replay can be slow","Eventual consistency"],vi:["Khó tiến hóa schema sự kiện","Phát lại có thể chậm","Nhất quán cuối cùng"]},
+    spamf:{S:"Very High",P:"High",A:"High",M:"Low",F:"High"},
+    complexity:{time:"Write O(1); Read O(events) until snapshot",space:"Grows with history",cost:"Medium — event store"} },
+  { id:"saga", name:{en:"Saga Pattern",vi:"Mẫu Saga"}, category:"data",
+    desc:{en:"Manages distributed transactions across multiple services without 2PC. Two types: Choreography (event-driven) and Orchestration (central coordinator). Each step has a compensating transaction.",vi:"Quản lý giao dịch phân tán trên nhiều dịch vụ mà không cần 2PC. Hai loại: Choreography (hướng sự kiện) và Orchestration (điều phối trung tâm)."},
+    when:{en:"Microservices needing distributed ACID-like semantics, long-running business processes (booking, order fulfillment).",vi:"Microservice cần ngữ nghĩa giống ACID phân tán, quy trình nghiệp vụ chạy lâu (đặt chỗ, hoàn thành đơn hàng)."},
+    pros:{en:["No distributed locks","Service autonomy","Compensable steps"],vi:["Không khóa phân tán","Tự chủ dịch vụ","Các bước có thể bù trừ"]},
+    cons:{en:["Compensating logic complexity","Harder to debug","Eventual consistency"],vi:["Phức tạp logic bù trừ","Khó debug","Nhất quán cuối cùng"]},
+    spamf:{S:"Medium",P:"High",A:"High",M:"Low",F:"High"},
+    complexity:{time:"O(steps) to complete",space:"State per saga instance",cost:"Medium"} },
+  { id:"bff", name:{en:"BFF (Backend for Frontend)",vi:"Backend Cho Frontend"}, category:"networking",
+    desc:{en:"Dedicated backend layer per client type (mobile BFF, web BFF). Aggregates and tailors API responses to each frontend's needs. Avoids over-fetching and under-fetching.",vi:"Tầng backend riêng cho mỗi loại client (BFF di động, BFF web). Tổng hợp và tùy chỉnh phản hồi API cho từng frontend."},
+    when:{en:"Multiple client types with different data needs, GraphQL federation, optimizing mobile bandwidth.",vi:"Nhiều loại client với nhu cầu dữ liệu khác nhau, GraphQL federation, tối ưu băng thông di động."},
+    pros:{en:["Tailored responses per client","Decouple frontend from microservices","Team autonomy"],vi:["Phản hồi tùy chỉnh cho từng client","Tách frontend khỏi microservice","Tự chủ nhóm"]},
+    cons:{en:["Code duplication risk","Another service to maintain","Latency aggregation"],vi:["Nguy cơ trùng lặp code","Thêm dịch vụ cần duy trì","Độ trễ tổng hợp"]},
+    spamf:{S:"High",P:"High",A:"Medium",M:"Medium",F:"Very High"},
+    complexity:{time:"O(aggregated calls)",space:"Response buffer per client",cost:"Medium"} }
+];
+
+/* ── MATRIX DATA ── */
+const MATRIX = [
+  { aa:"Monolithic", cs:"ASP.NET Core / MVC", py:"Django / Flask", go:"net/http std", rs:"Actix-web", java:"Spring Boot", js:"Express.js", cpp:"Crow / Drogon" },
+  { aa:"Layered (N-Tier)", cs:"Clean DI + EF Core", py:"Repository pattern (SQLAlchemy)", go:"Handler→Service→Repo", rs:"Module traits", java:"Spring MVC + JPA Layers", js:"Express + TypeORM layers", cpp:"Layered classes with virtual interfaces" },
+  { aa:"Microservices", cs:".NET + gRPC + Dapr", py:"FastAPI + gRPC", go:"gRPC-native; excellent stdlib", rs:"tonic (gRPC) + tokio", java:"Spring Cloud + gRPC", js:"Node + kafkajs; limited type safety", cpp:"gRPC-native (Google default)" },
+  { aa:"Event-Driven", cs:"MassTransit + RabbitMQ/Kafka", py:"Celery / kafka-python / Confluent", go:"sarama / franz-go (Kafka)", rs:"rdkafka / fluvio", java:"Spring Kafka / Quarkus Reactive", js:"kafkajs / amqplib", cpp:"librdkafka" },
+  { aa:"CQRS", cs:"MediatR + EF Core (write) + Dapper (read)", py:"eventsourcing lib / custom", go:"Custom bus; no official lib", rs:"cqrs-es crate", java:"Axon Framework; Spring + separate repos", js:"Custom / nestjs-cqrs", cpp:"Custom dispatcher templates" },
+  { aa:"Serverless / FaaS", cs:"AWS Lambda .NET / Azure Functions", py:"AWS Lambda / GCP Functions (top lang)", go:"AWS Lambda Go — fastest cold start", rs:"lambda_runtime — ultra-low memory", java:"Quarkus / Micronaut Lambda (GraalVM)", js:"AWS Lambda / Vercel / Cloudflare Workers (dominant)", cpp:"AWS Lambda C++ custom runtime (niche)" },
+  { aa:"Hexagonal", cs:"Interfaces as Ports; clean DI", py:"ABCs as Ports; duck-typed", go:"Interfaces naturally model ports", rs:"Traits as ports; zero-cost abstraction", java:"Interfaces + @Port annotation (Wex, custom)", js:"Convention-based; no type enforcement without TS", cpp:"Pure virtual base classes" },
+  { aa:"DDD", cs:"C# records as VOs; Entity base; domain events", py:"dataclasses (VOs); no enforce by language", go:"Structs for VOs; no inheritance", rs:"Structs + no null — DDD-friendly", java:"JPA @Embedded VOs; Spring Data repos", js:"Class-based; no type invariants w/o TS", cpp:"Classes; manual invariant enforcement" },
+  { aa:"Clean Architecture", cs:"First-class with .NET DI + records", py:"Manual layering; Python flexible", go:"Idiomatic with interfaces", rs:"Trait-based layers; excellent", java:"Spring + custom annotations", js:"Manual discipline; TS recommended", cpp:"Manual; header-based boundaries" },
+  { aa:"SPA", cs:"Blazor WebAssembly (C# in browser)", py:"Dash / Streamlit (server-driven SPA)", go:"HTMX + templ (partial SPA)", rs:"Leptos / Dioxus (WebAssembly)", java:"Vaadin (Java SPA) / GWT", js:"React / Vue / Angular — native home", cpp:"Emscripten WASM (niche, high-perf games)" },
+  { aa:"Pipeline / Stream", cs:"TPL Dataflow / Reactive Extensions", py:"Apache Beam / Flink PyFlink", go:"Goroutine + channel pipelines (idiomatic)", rs:"Rayon (parallel) + async streams", java:"Flink / Spark Java / Akka Streams", js:"Node.js Streams / RxJS / Kafka Streams", cpp:"Intel TBB / C++20 ranges + execution policies" },
+];
+
+/* ── TOOLING TABLE ── */
+const TOOLING = [
+  { concept:"ORM / DB Mapper", cs:"EF Core (Code-First + Migrations)", py:"SQLAlchemy / Django ORM", go:"GORM / sqlx / pgx", rs:"sqlx / SeaORM / Diesel", java:"Hibernate / Spring Data JPA", js:"Prisma / TypeORM / Drizzle", cpp:"SOCI / libpqxx (no full ORM)" },
+  { concept:"API Framework", cs:"ASP.NET Core (Minimal API / MVC)", py:"FastAPI / Flask / Django REST", go:"net/http std / gin / echo / fiber", rs:"Actix-web / axum / Rocket", java:"Spring MVC / Quarkus / Micronaut", js:"Express / Fastify / NestJS / Hono", cpp:"Crow / Drogon / cpp-httplib" },
+  { concept:"Message Broker Client", cs:"MassTransit / NServiceBus", py:"confluent-kafka / pika (RabbitMQ)", go:"sarama / franz-go / amqp091-go", rs:"rdkafka / lapin (AMQP)", java:"Spring Kafka / Spring AMQP", js:"kafkajs / amqplib", cpp:"librdkafka / rabbitmq-c" },
+  { concept:"Dependency Injection", cs:"Built-in IServiceCollection", py:"dependency-injector / fastapi Depends", go:"Wire (Google) / fx (Uber); manual common", rs:"No DI framework (trait injection)", java:"Spring DI / CDI (Jakarta)", js:"InversifyJS / tsyringe / NestJS DI", cpp:"Boost.DI / manual constructor injection" },
+  { concept:"gRPC", cs:"Grpc.AspNetCore + Protobuf", py:"grpcio + grpcio-tools", go:"google.golang.org/grpc (reference impl)", rs:"tonic (tokio-based)", java:"grpc-java (io.grpc)", js:"@grpc/grpc-js", cpp:"grpc++ (official C++ impl)" },
+  { concept:"Auth / JWT", cs:"ASP.NET Core Auth + Microsoft.Identity", py:"PyJWT / python-jose / Authlib", go:"golang-jwt/jwt + custom middleware", rs:"jsonwebtoken crate + actix middleware", java:"Spring Security + jjwt", js:"jsonwebtoken / jose / Passport.js", cpp:"jwt-cpp (manual integration)" },
+  { concept:"Observability (Metrics)", cs:"OpenTelemetry .NET / Prometheus.NET", py:"opentelemetry-sdk / prometheus_client", go:"otel-go / prometheus/client_golang", rs:"opentelemetry-rust / metrics crate", java:"Micrometer + Prometheus / OTLP", js:"@opentelemetry/sdk-node / prom-client", cpp:"Prometheus C++ / opentelemetry-cpp" },
+  { concept:"Testing", cs:"xUnit + Moq + FluentAssertions", py:"pytest + unittest.mock / hypothesis", go:"stdlib testing + testify + gomock", rs:"cargo test + mockall + proptest", java:"JUnit 5 + Mockito + AssertJ", js:"Jest / Vitest + MSW + Testing Library", cpp:"Google Test / Catch2 + Google Mock" },
+];
+
+/* ── CATEGORY GROUPING ── */
+const CATEGORIES = [
+  { cat:{en:"Web Application",vi:"Ứng Dụng Web"}, type:{en:"SaaS / Consumer",vi:"SaaS / Người Dùng"},
+    items:["Monolithic","Layered (N-Tier)","SPA","Clean Architecture"],
+    levels:["basic","basic","basic","intermediate"] },
+  { cat:{en:"Cloud-Native",vi:"Gốc Đám Mây"}, type:{en:"SaaS / Enterprise",vi:"SaaS / Doanh Nghiệp"},
+    items:["Microservices","Serverless / FaaS","Event-Driven","CQRS"],
+    levels:["advanced","intermediate","advanced","advanced"] },
+  { cat:{en:"Domain-Rich Enterprise",vi:"Doanh Nghiệp Giàu Miền"}, type:{en:"B2B Enterprise",vi:"Doanh Nghiệp B2B"},
+    items:["DDD","Hexagonal","Clean Architecture"],
+    levels:["advanced","intermediate","intermediate"] },
+  { cat:{en:"Data / Analytics",vi:"Dữ Liệu / Phân Tích"}, type:{en:"Data Platform",vi:"Nền Tảng Dữ Liệu"},
+    items:["Pipeline / Stream Processing","Event-Driven","Event Sourcing"],
+    levels:["intermediate","advanced","advanced"] },
+];
+</script>
+
+<!-- ══════════════════ UI / RENDERING LAYER ══════════════════ -->
+<div class="app-shell">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <h1 id="logo-title">App Architecture Ref</h1>
+      <p id="logo-sub">7 langs · SPAMF</p>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Navigation</div>
+      <a class="nav-item active" data-section="home" onclick="showSection('home')">🏠 <span data-i="navHome">Overview</span></a>
+      <a class="nav-item" data-section="matrix" onclick="showSection('matrix')">📊 <span data-i="navMatrix">Language Matrix</span></a>
+      <a class="nav-item" data-section="catalog" onclick="showSection('catalog')">📚 <span data-i="navCatalog">AA Catalog</span></a>
+      <a class="nav-item" data-section="building" onclick="showSection('building')">🧱 <span data-i="navBuilding">Building Blocks</span></a>
+      <a class="nav-item" data-section="tooling" onclick="showSection('tooling')">🔧 <span data-i="navTooling">Tooling & Impl.</span></a>
+      <a class="nav-item" data-section="grouping" onclick="showSection('grouping')">🗂️ <span data-i="navGrouping">By Category</span></a>
+    </div>
+    <div class="sidebar-controls">
+      <button class="btn btn-icon" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
+      <button class="btn" id="lang-btn" onclick="toggleLang()">VI</button>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="search-wrap">
+        <input type="text" id="search-input" placeholder="Search architectures, concepts..." oninput="debouncedSearch(this.value)"/>
+        <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+      </div>
+      <div class="filter-group">
+        <select class="filter-select" id="filter-level" onchange="applyFilters()">
+          <option value="">All Levels</option>
+          <option value="basic">Basic</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
+        <select class="filter-select" id="filter-lang" onchange="applyFilters()">
+          <option value="">All Languages</option>
+          <option>C#</option><option>Python</option><option>Go</option>
+          <option>Rust</option><option>Java</option><option>JavaScript</option><option>C++</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- HOME SECTION -->
+    <div class="section active" id="section-home">
+      <div class="hero" style="padding:40px 36px;">
+        <h1>Application <span>Architecture</span><br/>Reference</h1>
+        <p>A systematic, beginner-friendly knowledge base of application architectures across 7 programming languages, organized by SPAMF criteria: Security, Performance, Availability, Maintainability, Flexibility.</p>
+        <div class="hero-stats">
+          <div class="stat-box"><div class="num">10</div><div class="lbl">Architectures</div></div>
+          <div class="stat-box"><div class="num">7</div><div class="lbl">Languages</div></div>
+          <div class="stat-box"><div class="num">8</div><div class="lbl">Building Blocks</div></div>
+          <div class="stat-box"><div class="num">8</div><div class="lbl">Tooling Areas</div></div>
+        </div>
+      </div>
+
+      <div style="padding:32px 36px;">
+        <div class="section-header">
+          <h2>How to Use This Reference</h2>
+          <p>Navigate using the sidebar. Use the search bar to find specific architectures or concepts instantly across all sections.</p>
+        </div>
+        <div class="info-box">
+          <strong>📐 Architecture Design:</strong> Data and logic are strictly separated. All content lives in the <code>DATA LAYER</code> JavaScript objects. The rendering layer reads from data and builds the UI. Language toggle swaps between <code>en</code>/<code>vi</code> keys. Theme toggle switches CSS variables.
+        </div>
+        <div class="info-box">
+          <strong>📊 SPAMF Legend:</strong> <strong>S</strong>ecurity · <strong>P</strong>erformance · <strong>A</strong>vailability · <strong>M</strong>aintainability · <strong>F</strong>lexibility — the five pillars used to evaluate every architecture.
+        </div>
+        <div class="divider"></div>
+        <div class="section-header">
+          <h2>Architecture Complexity Map</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Architecture</th><th>Level</th><th>Category</th><th>Best For</th><th>SPAMF Strength</th></tr></thead>
+            <tbody>
+              <tr><td>Monolithic</td><td><span class="tag tag-basic">BASIC</span></td><td>Web/All</td><td>MVP, Startups, Small teams</td><td>M ★★★★ | F ★★</td></tr>
+              <tr><td>Layered (N-Tier)</td><td><span class="tag tag-basic">BASIC</span></td><td>Web/Enterprise</td><td>CRUD, Banking, regulated</td><td>M ★★★★ | S ★★★</td></tr>
+              <tr><td>SPA</td><td><span class="tag tag-basic">BASIC</span></td><td>Web/Frontend</td><td>Dashboards, Rich UIs</td><td>P ★★★★ | A ★★★★</td></tr>
+              <tr><td>Serverless/FaaS</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Cloud</td><td>Event processing, APIs</td><td>A ★★★★★ | P ★★★★</td></tr>
+              <tr><td>Hexagonal</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Enterprise</td><td>Long-lived, DDD projects</td><td>M ★★★★★ | F ★★★★★</td></tr>
+              <tr><td>Clean Architecture</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Enterprise</td><td>Testability, Framework-independence</td><td>S ★★★★★ | M ★★★★★</td></tr>
+              <tr><td>Pipeline/Stream</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Data</td><td>ETL, Real-time analytics</td><td>P ★★★★★ | A ★★★★</td></tr>
+              <tr><td>Microservices</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud</td><td>Large teams, Independent scale</td><td>P ★★★★★ | F ★★★★★</td></tr>
+              <tr><td>Event-Driven</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud</td><td>Real-time, IoT, Integrations</td><td>P ★★★★★ | F ★★★★★</td></tr>
+              <tr><td>CQRS</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud/Enterprise</td><td>Read/Write optimization</td><td>P ★★★★★ | S ★★★★</td></tr>
+              <tr><td>DDD</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Enterprise</td><td>Complex domains, Fintech</td><td>M ★★★★★ | F ★★★★</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MATRIX SECTION -->
+    <div class="section" id="section-matrix">
+      <div class="section-header">
+        <h2 data-i="navMatrix">Language Matrix</h2>
+        <p>Cross-language comparison of all architectures. Language-specific implementations, libraries, and quirks noted per cell.</p>
+      </div>
+      <div class="matrix-wrap table-wrap" id="matrix-table"></div>
+    </div>
+
+    <!-- CATALOG SECTION -->
+    <div class="section" id="section-catalog">
+      <div class="section-header">
+        <h2 data-i="navCatalog">AA Catalog</h2>
+        <p>Deep-dive into each architecture: origin, description, SPAMF analysis, when to use, complexity, diagrams, and code examples in all 7 languages.</p>
+      </div>
+      <div class="cards-grid" id="catalog-cards"></div>
+      <div class="empty-msg" id="catalog-empty" style="display:none">No results found.</div>
+    </div>
+
+    <!-- BUILDING BLOCKS SECTION -->
+    <div class="section" id="section-building">
+      <div class="section-header">
+        <h2 data-i="navBuilding">Building Blocks</h2>
+        <p>Fundamental patterns and concepts used to implement application architectures.</p>
+      </div>
+      <div class="table-wrap" id="bb-table"></div>
+    </div>
+
+    <!-- TOOLING SECTION -->
+    <div class="section" id="section-tooling">
+      <div class="section-header">
+        <h2 data-i="navTooling">Tooling & Implementation</h2>
+        <p>Language-specific libraries and frameworks for each building block concept.</p>
+      </div>
+      <div class="table-wrap" id="tooling-table"></div>
+    </div>
+
+    <!-- GROUPING SECTION -->
+    <div class="section" id="section-grouping">
+      <div class="section-header">
+        <h2 data-i="navGrouping">By Category & Business Model</h2>
+        <p>Architectures organized by application type, business model, and sorted by complexity.</p>
+      </div>
+      <div id="grouping-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════ RENDERING / LOGIC LAYER ══════════════════ */
+
+let currentLang = 'en';
+let currentTheme = 'dark';
+let searchDebounceTimer;
+
+/* ─── i18n ─── */
+function t(key) { return I18N[currentLang][key] || key; }
+function tObj(obj) { return (typeof obj === 'object' && obj !== null && (obj.en || obj.vi)) ? (obj[currentLang] || obj.en) : obj; }
+
+function applyI18n() {
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const key = el.getAttribute('data-i');
+    if (I18N[currentLang][key]) el.textContent = I18N[currentLang][key];
+  });
+  document.getElementById('logo-title').textContent = t('appTitle');
+  document.getElementById('logo-sub').textContent = t('appSubtitle');
+  document.getElementById('search-input').placeholder = t('search');
+  document.getElementById('lang-btn').textContent = currentLang === 'en' ? 'VI' : 'EN';
+  renderAll();
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'vi' : 'en';
+  applyI18n();
+}
+
+/* ─── Theme ─── */
+function toggleTheme() {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  document.getElementById('theme-btn').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+  setTimeout(() => mermaid.init(), 200);
+}
+
+/* ─── Navigation ─── */
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.getAttribute('data-section') === id);
+  });
+}
+
+/* ─── Search ─── */
+function debouncedSearch(val) {
+  clearTimeout(searchDebounceTimer);
+  searchDebounceTimer = setTimeout(() => {
+    document.getElementById('search-clear').classList.toggle('show', val.length > 0);
+    applyFilters();
+  }, 200);
+}
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').classList.remove('show');
+  applyFilters();
+}
+
+function applyFilters() {
+  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  const lvl = document.getElementById('filter-level').value;
+
+  // Filter AA cards
+  let visibleCount = 0;
+  document.querySelectorAll('.aa-card').forEach(card => {
+    const name = card.getAttribute('data-name').toLowerCase();
+    const desc = card.getAttribute('data-desc').toLowerCase();
+    const level = card.getAttribute('data-level');
+    const matchQ = !query || name.includes(query) || desc.includes(query);
+    const matchL = !lvl || level === lvl;
+    const show = matchQ && matchL;
+    card.classList.toggle('hidden', !show);
+    if (show) visibleCount++;
+  });
+  const empty = document.getElementById('catalog-empty');
+  if (empty) empty.style.display = visibleCount === 0 ? 'block' : 'none';
+
+  // Filter BB table rows
+  document.querySelectorAll('.bb-row').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.classList.toggle('hidden', query && !text.includes(query));
+  });
+
+  // Filter tooling rows
+  document.querySelectorAll('.tool-row').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.classList.toggle('hidden', query && !text.includes(query));
+  });
+
+  // Filter matrix rows
+  document.querySelectorAll('.matrix-row').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.classList.toggle('hidden', query && !text.includes(query));
+  });
+}
+
+/* ─── RENDER FUNCTIONS ─── */
+function renderMatrix() {
+  const wrap = document.getElementById('matrix-table');
+  let html = '<table><thead><tr><th class="sortable">Architecture</th>';
+  LANGS.forEach(l => html += `<th>${l}</th>`);
+  html += '</tr></thead><tbody>';
+  MATRIX.forEach(row => {
+    html += `<tr class="matrix-row"><td style="font-weight:600;color:var(--text)">${row.aa}</td>`;
+    [row.cs, row.py, row.go, row.rs, row.java, row.js, row.cpp].forEach(cell => {
+      html += `<td class="lang-cell">${cell || '<span class="na">-</span>'}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+function renderCatalog() {
+  const wrap = document.getElementById('catalog-cards');
+  wrap.innerHTML = '';
+  AA_DATA.forEach(aa => {
+    const name = tObj(aa.name);
+    const desc = tObj(aa.desc);
+    const when = tObj(aa.when);
+    const origin = tObj(aa.origin);
+    const card = document.createElement('div');
+    card.className = 'aa-card';
+    card.setAttribute('data-name', name.toLowerCase());
+    card.setAttribute('data-desc', desc.toLowerCase());
+    card.setAttribute('data-level', aa.level);
+
+    // Pros/cons
+    let spamfHtml = '<div class="spamf-grid">';
+    Object.entries(aa.spamf).forEach(([k,v]) => {
+      spamfHtml += `<span class="spamf-badge spamf-${k.toLowerCase()}" title="${tObj(v)}"><b>${k}</b></span>`;
+    });
+    spamfHtml += '</div>';
+
+    // Full SPAMF breakdown
+    let spamfDetails = '<div style="margin:6px 0">';
+    Object.entries(aa.spamf).forEach(([k,v]) => {
+      spamfDetails += `<div class="complexity-row"><span class="complexity-label">${k} —</span><span style="font-size:12px">${tObj(v)}</span></div>`;
+    });
+    spamfDetails += '</div>';
+
+    // Code tabs
+    let codeTabs = '<div class="code-tabs"><div class="code-tab-btns">';
+    const langs = Object.keys(aa.code);
+    langs.forEach((l, i) => {
+      codeTabs += `<button class="code-tab-btn${i===0?' active':''}" onclick="switchTab('${aa.id}','${l}',this)">${l}</button>`;
+    });
+    codeTabs += '</div>';
+    langs.forEach((l, i) => {
+      codeTabs += `<div class="code-pane${i===0?' active':''}" id="${aa.id}-${l.replace('#','sharp').replace('+','p')}"><pre>${aa.code[l]}</pre></div>`;
+    });
+    codeTabs += '</div>';
+
+    const levelTag = `<span class="tag tag-${aa.level}">${aa.level.toUpperCase()}</span>`;
+
+    card.innerHTML = `
+      <div class="card-head" onclick="toggleCard('${aa.id}')" aria-expanded="false" id="head-${aa.id}">
+        <div class="card-icon" style="background:${aa.color}22;color:${aa.color}">${aa.icon}</div>
+        <div class="card-title">
+          <h3>${name}</h3>
+          <div class="card-meta">${levelTag} &nbsp;${aa.category}</div>
+        </div>
+        <span class="card-chevron">▼</span>
+      </div>
+      <div class="card-body" id="body-${aa.id}">
+        <h4>${t('origin')}</h4>
+        <p>${origin}</p>
+        <h4>${t('description')}</h4>
+        <p>${desc}</p>
+        <h4>${t('whenToUse')}</h4>
+        <p>${when}</p>
+        <h4>${t('spamfAnalysis')}</h4>
+        ${spamfDetails}
+        <h4>${t('complexity')}</h4>
+        <div class="complexity-row"><span class="complexity-label">${t('timeComplexity')}:</span> ${aa.complexity.time}</div>
+        <div class="complexity-row"><span class="complexity-label">${t('spaceComplexity')}:</span> ${aa.complexity.space}</div>
+        <div class="complexity-row"><span class="complexity-label">${t('costComplexity')}:</span> ${aa.complexity.cost}</div>
+        <h4>${t('diagram')}</h4>
+        <div class="mermaid-wrap"><div class="mermaid">${aa.diagram}</div></div>
+        <h4>${t('codeExamples')}</h4>
+        ${codeTabs}
+      </div>`;
+    wrap.appendChild(card);
+  });
+  setTimeout(() => mermaid.initialize({ startOnLoad:false, theme: currentTheme === 'dark' ? 'dark' : 'default' }) || mermaid.init(), 100);
+}
+
+function renderBuildingBlocks() {
+  const wrap = document.getElementById('bb-table');
+  let html = '<table><thead><tr><th>Concept</th><th>Category</th><th>Description</th><th>When to Use</th><th>Pros</th><th>Cons</th><th>SPAMF</th><th>Complexity</th></tr></thead><tbody>';
+  BB_DATA.forEach(bb => {
+    const pros = (currentLang === 'vi' ? bb.pros.vi : bb.pros.en).map(p => `<li>${p}</li>`).join('');
+    const cons = (currentLang === 'vi' ? bb.cons.vi : bb.cons.en).map(c => `<li>${c}</li>`).join('');
+    const spamfBadges = Object.entries(bb.spamf).map(([k,v]) => `<span class="spamf-badge spamf-${k.toLowerCase()}"><b>${k}</b> ${v}</span>`).join(' ');
+    html += `<tr class="bb-row">
+      <td><strong style="color:var(--text)">${tObj(bb.name)}</strong></td>
+      <td><span class="tag tag-lang">${bb.category}</span></td>
+      <td style="max-width:220px;font-size:12px">${tObj(bb.desc)}</td>
+      <td style="max-width:180px;font-size:12px">${tObj(bb.when)}</td>
+      <td><ul style="list-style:none;padding:0;font-size:11px">${pros}</ul></td>
+      <td><ul style="list-style:none;padding:0;font-size:11px">${cons}</ul></td>
+      <td style="font-size:11px">${spamfBadges}</td>
+      <td style="font-size:11px;font-family:var(--font-mono)">${bb.complexity.time}<br/>${bb.complexity.space}<br/>${bb.complexity.cost}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+function renderTooling() {
+  const wrap = document.getElementById('tooling-table');
+  let html = '<table><thead><tr><th>Concept</th><th>C#</th><th>Python</th><th>Go</th><th>Rust</th><th>Java</th><th>JavaScript</th><th>C++</th></tr></thead><tbody>';
+  TOOLING.forEach(t => {
+    html += `<tr class="tool-row">
+      <td style="font-weight:600;color:var(--text);white-space:nowrap">${t.concept}</td>
+      <td class="lang-cell">${t.cs}</td>
+      <td class="lang-cell">${t.py}</td>
+      <td class="lang-cell">${t.go}</td>
+      <td class="lang-cell">${t.rs}</td>
+      <td class="lang-cell">${t.java}</td>
+      <td class="lang-cell">${t.js}</td>
+      <td class="lang-cell">${t.cpp}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+function renderGrouping() {
+  const wrap = document.getElementById('grouping-content');
+  let html = '';
+  CATEGORIES.forEach(group => {
+    html += `
+    <div style="margin-bottom:28px">
+      <h3 style="font-size:17px;margin-bottom:4px;color:var(--text)">${tObj(group.cat)}</h3>
+      <p style="font-size:12px;color:var(--text3);margin-bottom:10px">${t('filterCat')}: ${tObj(group.type)}</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Architecture</th><th>Complexity</th><th>SPAMF Priority</th><th>Best For</th></tr></thead>
+        <tbody>`;
+    group.items.forEach((item, i) => {
+      const level = group.levels[i];
+      const aa = AA_DATA.find(a => tObj(a.name).includes(item) || item.includes(tObj(a.name)));
+      const when = aa ? tObj(aa.when) : '';
+      const spamf = aa ? Object.entries(aa.spamf).filter(([k,v]) => {
+        const val = tObj(v);
+        return val.toLowerCase().includes('very high') || val.toLowerCase().includes('rất cao');
+      }).map(([k]) => k).join(', ') : '';
+      html += `<tr><td><strong>${item}</strong></td><td><span class="tag tag-${level}">${level.toUpperCase()}</span></td><td><span style="color:var(--accent2);font-family:var(--font-mono);font-size:11px">${spamf || 'Balanced'}</span></td><td style="font-size:12px;color:var(--text2)">${when.slice(0, 80)}${when.length>80?'...':''}</td></tr>`;
+    });
+    html += '</tbody></table></div></div>';
+  });
+  wrap.innerHTML = html;
+}
+
+function renderAll() {
+  renderMatrix();
+  renderCatalog();
+  renderBuildingBlocks();
+  renderTooling();
+  renderGrouping();
+}
+
+/* ─── Card toggle ─── */
+function toggleCard(id) {
+  const head = document.getElementById('head-' + id);
+  const body = document.getElementById('body-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  head.setAttribute('aria-expanded', !isOpen);
+  if (!isOpen) {
+    setTimeout(() => mermaid.init(undefined, `#body-${id} .mermaid`), 50);
+  }
+}
+
+/* ─── Code tab switch ─── */
+function switchTab(aaId, lang, btn) {
+  const safeId = aaId + '-' + lang.replace('#','sharp').replace('+','p');
+  const card = btn.closest('.aa-card');
+  card.querySelectorAll('.code-tab-btn').forEach(b => b.classList.remove('active'));
+  card.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const pane = document.getElementById(safeId);
+  if (pane) pane.classList.add('active');
+}
+
+/* ─── INIT ─── */
+mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+renderAll();
+</script>
+</body>
+</html>

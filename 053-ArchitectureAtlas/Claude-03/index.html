@@ -70,7 +70,7 @@ code,pre{font-family:var(--font-mono);}
 ::-webkit-scrollbar-thumb:hover{background:var(--accent);}
 
 /* ══════════════════ LAYOUT ══════════════════ */
-.app-shell{display:flex;min-height:100vh;}
+.app-shell{display:flex;min-height:100vh;overflow:hidden;}
 
 /* SIDEBAR */
 .sidebar{
@@ -79,8 +79,9 @@ code,pre{font-family:var(--font-mono);}
   border-right:1px solid var(--border);
   display:flex;flex-direction:column;
   position:sticky;top:0;height:100vh;
-  overflow-y:auto;z-index:100;
-  transition:background .3s;
+  overflow-y:auto;z-index:200;
+  transition:background .3s, transform .28s cubic-bezier(.4,0,.2,1);
+  flex-shrink:0;
 }
 .sidebar-logo{
   padding:20px 20px 12px;
@@ -112,7 +113,19 @@ code,pre{font-family:var(--font-mono);}
 }
 
 /* MAIN CONTENT */
-.main{flex:1;overflow-x:auto;padding:0;}
+.main{
+  flex:1;
+  min-width:0;          /* prevent flex blowout */
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  overflow:hidden;      /* topbar sticky works against this container */
+}
+.main-scroll{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:auto;
+}
 .section{
   padding:32px 36px;
   border-bottom:1px solid var(--border);
@@ -122,13 +135,23 @@ code,pre{font-family:var(--font-mono);}
 
 /* ══════════════════ TOPBAR ══════════════════ */
 .topbar{
-  position:sticky;top:0;z-index:90;
+  position:sticky;top:0;z-index:90;  /* sticky inside .main flex column */
   background:var(--bg);
   border-bottom:1px solid var(--border);
-  padding:10px 20px;
-  display:flex;align-items:center;gap:12px;
+  padding:10px 16px;
+  display:flex;align-items:center;gap:10px;
   backdrop-filter:blur(8px);
+  flex-shrink:0;        /* never compress */
 }
+/* Hamburger — hidden on desktop */
+.sidebar-toggle{
+  display:none;
+  background:none;border:1px solid var(--border);
+  border-radius:8px;padding:6px 9px;
+  cursor:pointer;color:var(--text2);font-size:18px;line-height:1;
+  transition:all .15s;flex-shrink:0;
+}
+.sidebar-toggle:hover{border-color:var(--accent);color:var(--accent2);}
 .search-wrap{
   flex:1;position:relative;max-width:480px;
 }
@@ -156,7 +179,8 @@ code,pre{font-family:var(--font-mono);}
   color:var(--text2);padding:6px 10px;border-radius:var(--radius);
   font-size:12px;outline:none;cursor:pointer;
 }
-.highlight{background:rgba(108,99,255,0.3);border-radius:2px;padding:0 1px;}
+.highlight{background:rgba(251,191,36,0.35);border-radius:2px;padding:0 2px;color:inherit;}
+mark.highlight{background:rgba(251,191,36,0.35);border-radius:2px;padding:0 2px;color:inherit;font-style:inherit;font-weight:inherit;}
 
 /* ══════════════════ BUTTONS ══════════════════ */
 .btn{
@@ -281,6 +305,8 @@ pre{
 .op{color:#ff79c6;}
 
 /* ══════════════════ MERMAID ══════════════════ */
+.mermaid-placeholder{cursor:default;padding:8px 0;transition:color .2s;}
+.mermaid-placeholder svg{max-width:100%;height:auto;}
 .mermaid-wrap{
   background:var(--bg3);
   border:1px solid var(--border);
@@ -323,16 +349,28 @@ pre{
 .stat-box .num{font-size:28px;font-weight:800;font-family:var(--font-head);color:var(--accent2);}
 .stat-box .lbl{font-size:11px;color:var(--text3);font-family:var(--font-mono);}
 
-/* ══════════════════ MATRIX TABLE ══════════════════ */
-.matrix-wrap{overflow-x:auto;}
-.matrix-wrap table th:first-child,
-.matrix-wrap table td:first-child{
-  position:sticky;left:0;
-  background:var(--bg2);z-index:2;
-  border-right:1px solid var(--border);
-  min-width:160px;
+/* ══════════════════ TABLES — STICKY FIRST COLUMN ══════════════════ */
+/* All .table-wrap tables get sticky first col */
+.table-wrap{overflow-x:auto;margin:12px 0;border-radius:var(--radius);border:1px solid var(--border);}
+table th:first-child{
+  position:sticky;left:0;z-index:3;
+  background:var(--bg3);
+  border-right:1px solid var(--border2);
+  min-width:140px;
 }
+table td:first-child{
+  position:sticky;left:0;z-index:2;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+}
+/* Keep hover background on sticky cells */
+tr:hover td:first-child{background:var(--bg3);}
+
+/* Matrix-specific overrides (it has its own .matrix-wrap) */
+.matrix-wrap{overflow-x:auto;}
+.matrix-wrap table th:first-child{min-width:160px;}
 .matrix-wrap table th{background:var(--bg3);}
+
 .cell-yes{color:var(--green);}
 .cell-partial{color:var(--yellow);}
 .cell-no{color:var(--text3);}
@@ -362,14 +400,91 @@ pre{
 .row-expand-icon{transition:transform .2s;display:inline-block;}
 .row-expanded .row-expand-icon{transform:rotate(90deg);}
 
+/* ══════════════════ CARD MAXIMIZE ══════════════════ */
+.aa-card{position:relative;}
+.card-actions{
+  position:absolute;top:10px;right:44px; /* right of chevron */
+  display:flex;gap:4px;
+  opacity:0;pointer-events:none;
+  transition:opacity .15s;
+  z-index:10;
+}
+.aa-card:hover .card-actions{opacity:1;pointer-events:auto;}
+.card-action-btn{
+  width:26px;height:26px;
+  border-radius:6px;
+  border:1px solid var(--border2);
+  background:var(--bg3);
+  color:var(--text2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:13px;
+  transition:all .15s;
+  flex-shrink:0;
+}
+.card-action-btn:hover{border-color:var(--accent);color:var(--accent2);background:rgba(108,99,255,0.12);}
+
+/* Maximize overlay */
+.card-overlay{
+  display:none;
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(4px);
+  padding:24px;
+  overflow-y:auto;
+  animation:overlayIn .2s ease;
+}
+.card-overlay.open{display:flex;align-items:flex-start;justify-content:center;}
+@keyframes overlayIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+.card-overlay-inner{
+  background:var(--card);
+  border:1px solid var(--border2);
+  border-radius:14px;
+  width:100%;max-width:900px;
+  box-shadow:0 24px 80px rgba(0,0,0,.5);
+  overflow:hidden;
+  position:relative;
+}
+.card-overlay-close{
+  position:absolute;top:14px;right:14px;
+  width:32px;height:32px;border-radius:8px;
+  border:1px solid var(--border2);
+  background:var(--bg3);color:var(--text2);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:16px;z-index:10;
+  transition:all .15s;
+}
+.card-overlay-close:hover{border-color:var(--red);color:var(--red);}
+/* In maximized state, card-body is always open & scrollable */
+.card-overlay-inner .card-body{
+  max-height:none !important;
+  padding:16px 18px !important;
+  overflow:visible !important;
+}
+.card-overlay-inner .card-head{cursor:default;}
+
 /* ══════════════════ MOBILE ══════════════════ */
+/* Sidebar overlay on mobile */
+.sidebar-backdrop{
+  display:none;
+  position:fixed;inset:0;z-index:190;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(2px);
+}
 @media(max-width:900px){
-  .sidebar{display:none;}
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;
+    transform:translateX(-100%);
+    z-index:200;
+  }
+  .sidebar.mobile-open{transform:translateX(0);}
+  .sidebar-backdrop.mobile-open{display:block;}
+  .sidebar-toggle{display:flex !important;}
   .section{padding:20px 16px;}
   .hero{padding:28px 16px;}
   .cards-grid{grid-template-columns:1fr;}
   .pros-cons{grid-template-columns:1fr;}
   .hero h1{font-size:26px;}
+  .filter-group{display:none;} /* hide filters on very small screens, search is enough */
 }
 
 /* ══════════════════ MISC ══════════════════ */
@@ -1627,6 +1742,444 @@ EMSCRIPTEN_BINDINGS(module) {
     }
   },
   {
+    id: "ssr",
+    level: "basic",
+    category: "web",
+    icon: "🌐",
+    color: "#34d399",
+    name: { en: "SSR / Jamstack", vi: "Kết Xuất Phía Máy Chủ / Jamstack" },
+    origin: { en: "SSR roots in PHP/Rails era. Jamstack coined by Netlify (2016). Next.js (2016) unified SSR+CSR.", vi: "SSR có gốc từ thời PHP/Rails. Jamstack được Netlify đặt tên (2016). Next.js (2016) hợp nhất SSR+CSR." },
+    desc: {
+      en: "HTML is rendered on the server (SSR) or at build time (SSG/Jamstack) before reaching the browser. Gives SEO, fast initial paint, and accessibility benefits. Modern frameworks (Next.js, Nuxt, SvelteKit) blend SSR, SSG, and ISR.",
+      vi: "HTML được kết xuất trên máy chủ (SSR) hoặc tại thời điểm build (SSG/Jamstack) trước khi đến trình duyệt. Mang lại SEO, vẽ ban đầu nhanh và lợi ích khả năng truy cập."
+    },
+    when: {
+      en: "Content sites, e-commerce, blogs, marketing pages where SEO and initial load time are critical.",
+      vi: "Trang nội dung, thương mại điện tử, blog, trang marketing nơi SEO và thời gian tải ban đầu quan trọng."
+    },
+    spamf: {
+      S: { en: "High — no client-side secrets; DOMPurify server-side", vi: "Cao — không có bí mật phía client; DOMPurify phía máy chủ" },
+      P: { en: "Very High — SSG = CDN-served HTML; SSR adds server compute per request", vi: "Rất Cao — SSG = HTML phục vụ từ CDN; SSR thêm tính toán máy chủ mỗi yêu cầu" },
+      A: { en: "Very High — static assets on CDN; no server needed for SSG", vi: "Rất Cao — asset tĩnh trên CDN; không cần máy chủ cho SSG" },
+      M: { en: "High — unified codebase (Next.js); clear page/component model", vi: "Cao — codebase thống nhất (Next.js); mô hình trang/component rõ ràng" },
+      F: { en: "High — mix SSG/SSR/CSR per route", vi: "Cao — kết hợp SSG/SSR/CSR theo từng route" }
+    },
+    complexity: { time: "SSG: build-time O(pages); SSR: O(1)/request", space: "HTML buffer per request (SSR)", cost: "SSG: near-zero; SSR: server compute" },
+    diagram: `graph LR
+  Build[Build Step\nSSG] -->|HTML| CDN[CDN Edge]
+  Client -->|request| CDN
+  CDN -->|miss| SSR[SSR Server\nNext.js/Nuxt]
+  SSR --> DB[(Headless CMS\nAPI)]
+  style CDN fill:#fbbf24,color:#000
+  style Build fill:#34d399,color:#000`,
+    code: {
+      "C#": `<span class="cm">// Razor Pages SSR (ASP.NET Core)</span>
+<span class="kw">@page</span>
+<span class="kw">@model</span> <span class="ty">IndexModel</span>
+
+&lt;h1&gt;@Model.Title&lt;/h1&gt;
+@foreach (<span class="kw">var</span> post <span class="kw">in</span> Model.Posts) {
+    &lt;article&gt;&lt;h2&gt;@post.Title&lt;/h2&gt;&lt;/article&gt;
+}
+
+@code {
+    <span class="kw">public</span> List&lt;<span class="ty">Post</span>&gt; Posts { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public async</span> Task <span class="fn">OnGetAsync</span>() =>
+        Posts = <span class="kw">await</span> _db.Posts.<span class="fn">ToListAsync</span>();
+}`,
+      "Python": `<span class="cm"># Django SSR template</span>
+<span class="kw">from</span> django.shortcuts <span class="kw">import</span> render
+
+<span class="kw">def</span> <span class="fn">index</span>(request):
+    posts = Post.objects.<span class="fn">all</span>().<span class="fn">order_by</span>(<span class="str">'-created_at'</span>)
+    <span class="kw">return</span> <span class="fn">render</span>(request, <span class="str">'index.html'</span>, {<span class="str">'posts'</span>: posts})
+<span class="cm"># Template: {{ post.title }} rendered server-side</span>`,
+      "Go": `<span class="cm">// Go SSR with html/template</span>
+<span class="kw">import</span> <span class="str">"html/template"</span>
+
+<span class="kw">var</span> tmpl = template.<span class="fn">Must</span>(template.<span class="fn">ParseFiles</span>(<span class="str">"index.html"</span>))
+
+<span class="kw">func</span> <span class="fn">homeHandler</span>(w http.<span class="ty">ResponseWriter</span>, r *http.<span class="ty">Request</span>) {
+    posts := db.<span class="fn">GetPosts</span>()
+    tmpl.<span class="fn">Execute</span>(w, map[<span class="ty">string</span>]<span class="kw">any</span>{<span class="str">"Posts"</span>: posts})
+}`,
+      "Rust": `<span class="cm">// Askama templating (compile-time SSR)</span>
+<span class="kw">use</span> askama::Template;
+
+<span class="kw">#[derive(Template)]</span>
+<span class="kw">#[template(path = "index.html")]</span>
+<span class="kw">struct</span> <span class="ty">IndexTemplate</span> { posts: Vec&lt;<span class="ty">Post</span>&gt; }
+
+<span class="kw">async fn</span> <span class="fn">index</span>(State(db): State&lt;<span class="ty">Db</span>&gt;) -> impl IntoResponse {
+    <span class="ty">IndexTemplate</span> { posts: db.<span class="fn">get_posts</span>().await }
+}`,
+      "Java": `<span class="cm">// Thymeleaf SSR (Spring Boot)</span>
+<span class="kw">@GetMapping</span>(<span class="str">"/"</span>)
+<span class="kw">public</span> String <span class="fn">index</span>(Model model) {
+    model.<span class="fn">addAttribute</span>(<span class="str">"posts"</span>, postService.<span class="fn">getAll</span>());
+    <span class="kw">return</span> <span class="str">"index"</span>; <span class="cm">// → templates/index.html</span>
+}
+<span class="cm">&lt;!-- index.html --&gt;</span>
+<span class="cm">&lt;!-- th:each="post : \${posts}" renders server-side --&gt;</span>`,
+      "JavaScript": `<span class="cm">// Next.js SSR/SSG hybrid</span>
+<span class="kw">export async function</span> <span class="fn">getStaticProps</span>() {
+  <span class="kw">const</span> posts = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://api.example.com/posts'</span>)
+    .<span class="fn">then</span>(r => r.<span class="fn">json</span>());
+  <span class="kw">return</span> { props: { posts }, revalidate: <span class="nm">60</span> }; <span class="cm">// ISR</span>
+}
+<span class="kw">export default function</span> <span class="fn">Home</span>({ posts }) {
+  <span class="kw">return</span> posts.<span class="fn">map</span>(p => &lt;article key={p.id}&gt;{p.title}&lt;/article&gt;);
+}`,
+      "C++": `<span class="cm">// C++ SSR — CTemplate / Inja library</span>
+<span class="kw">#include</span> <span class="str">"inja/inja.hpp"</span>
+<span class="kw">using</span> json = nlohmann::json;
+
+json data;
+data[<span class="str">"posts"</span>] = {{ <span class="str">"title"</span>, <span class="str">"Hello World"</span> }};
+std::string result = inja::<span class="fn">render</span>(
+    <span class="str">"{% for p in posts %}&lt;h2&gt;{{ p.title }}&lt;/h2&gt;{% endfor %}"</span>, data);`
+    }
+  },
+  {
+    id: "actor",
+    level: "advanced",
+    category: "cloud",
+    icon: "🎭",
+    color: "#a78bfa",
+    name: { en: "Actor Model", vi: "Mô Hình Tác Nhân" },
+    origin: { en: "Carl Hewitt (1973), MIT. Popularized by Erlang/OTP (1986). Revived by Akka (2009), Orleans (.NET, 2011).", vi: "Carl Hewitt (1973), MIT. Phổ biến bởi Erlang/OTP (1986). Hồi sinh bởi Akka (2009), Orleans (.NET, 2011)." },
+    desc: {
+      en: "Concurrent computation model where Actors are the fundamental unit. Each actor has: private state, a mailbox (message queue), and behavior. Actors communicate only via async message passing. No shared state = no locks.",
+      vi: "Mô hình tính toán đồng thời nơi Actor là đơn vị cơ bản. Mỗi actor có: trạng thái riêng, hộp thư (hàng đợi tin nhắn), và hành vi. Actor chỉ giao tiếp qua truyền tin nhắn bất đồng bộ."
+    },
+    when: {
+      en: "Highly concurrent systems, simulations, gaming backends (virtual objects), distributed stateful services, IoT device management.",
+      vi: "Hệ thống đồng thời cao, mô phỏng, backend game (đối tượng ảo), dịch vụ stateful phân tán, quản lý thiết bị IoT."
+    },
+    spamf: {
+      S: { en: "High — no shared state; isolated actor failure", vi: "Cao — không chia sẻ trạng thái; lỗi actor cô lập" },
+      P: { en: "Very High — massive concurrency without locks; millions of actors", vi: "Rất Cao — đồng thời lớn không cần khóa; hàng triệu actor" },
+      A: { en: "Very High — supervision trees restart failed actors automatically", vi: "Rất Cao — cây giám sát tự động khởi động lại actor lỗi" },
+      M: { en: "Medium — message contracts must be versioned carefully", vi: "Trung bình — hợp đồng tin nhắn phải được phiên bản hóa cẩn thận" },
+      F: { en: "High — actors can be remoted transparently (location transparency)", vi: "Cao — actor có thể được remote hóa minh bạch (tính minh bạch vị trí)" }
+    },
+    complexity: { time: "O(1) send; processing depends on mailbox depth", space: "State + mailbox buffer per actor", cost: "Medium — actor runtime overhead" },
+    diagram: `graph TD
+  ActorA[Actor A\n📬 Mailbox] -->|msg| ActorB[Actor B\n📬 Mailbox]
+  ActorB -->|msg| ActorC[Actor C\n📬 Mailbox]
+  ActorB -->|spawn| ActorD[Actor D\n📬 Mailbox]
+  Supervisor[Supervisor] -->|restart| ActorB
+  style Supervisor fill:#f87171,color:#fff
+  style ActorA fill:#a78bfa,color:#fff`,
+    code: {
+      "C#": `<span class="cm">// Microsoft Orleans Virtual Actor</span>
+<span class="kw">public interface</span> <span class="ty">IUserGrain</span> : IGrainWithStringKey {
+    Task&lt;int&gt; <span class="fn">IncrementLoginCount</span>();
+}
+<span class="kw">public class</span> <span class="ty">UserGrain</span> : Grain, <span class="ty">IUserGrain</span> {
+    <span class="kw">private int</span> _loginCount;
+    <span class="kw">public</span> Task&lt;int&gt; <span class="fn">IncrementLoginCount</span>() =>
+        Task.<span class="fn">FromResult</span>(++_loginCount);
+}
+<span class="cm">// Usage — location transparent</span>
+<span class="kw">var</span> grain = client.<span class="fn">GetGrain</span>&lt;<span class="ty">IUserGrain</span>&gt;(<span class="str">"user-123"</span>);
+<span class="kw">await</span> grain.<span class="fn">IncrementLoginCount</span>();`,
+      "Python": `<span class="cm"># Ray Actors</span>
+<span class="kw">import</span> ray
+ray.<span class="fn">init</span>()
+
+<span class="kw">@ray.remote</span>
+<span class="kw">class</span> <span class="ty">UserActor</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self.login_count = <span class="nm">0</span>
+    <span class="kw">def</span> <span class="fn">increment</span>(self):
+        self.login_count += <span class="nm">1</span>
+        <span class="kw">return</span> self.login_count
+
+user = <span class="ty">UserActor</span>.<span class="fn">remote</span>()
+<span class="kw">await</span> user.<span class="fn">increment</span>.<span class="fn">remote</span>()`,
+      "Go": `<span class="cm">// Go actor-style with goroutine + channel</span>
+<span class="kw">type</span> <span class="ty">UserActor</span> <span class="kw">struct</span>{
+    mailbox <span class="kw">chan</span> <span class="ty">Message</span>
+    state   <span class="ty">UserState</span>
+}
+<span class="kw">func</span> (a *<span class="ty">UserActor</span>) <span class="fn">Start</span>() {
+    <span class="kw">go func</span>() {
+        <span class="kw">for</span> msg := <span class="kw">range</span> a.mailbox {
+            a.<span class="fn">handle</span>(msg)  <span class="cm">// process messages sequentially</span>
+        }
+    }()
+}
+<span class="cm">// protoactor-go for full actor system</span>`,
+      "Rust": `<span class="cm">// Actix Actor (same framework as web)</span>
+<span class="kw">use</span> actix::prelude::*;
+
+<span class="kw">struct</span> <span class="ty">UserActor</span> { login_count: u32 }
+<span class="kw">impl</span> Actor <span class="kw">for</span> <span class="ty">UserActor</span> { <span class="kw">type</span> <span class="ty">Context</span> = Context&lt;Self&gt;; }
+
+<span class="kw">struct</span> <span class="ty">Increment</span>;
+<span class="kw">impl</span> Message <span class="kw">for</span> <span class="ty">Increment</span> { <span class="kw">type</span> <span class="ty">Result</span> = u32; }
+
+<span class="kw">impl</span> Handler&lt;<span class="ty">Increment</span>&gt; <span class="kw">for</span> <span class="ty">UserActor</span> {
+    <span class="kw">type</span> <span class="ty">Result</span> = u32;
+    <span class="kw">fn</span> <span class="fn">handle</span>(&<span class="kw">mut</span> self, _: <span class="ty">Increment</span>, _: &<span class="kw">mut</span> Context&lt;Self&gt;) -> u32 {
+        self.login_count += <span class="nm">1</span>; self.login_count
+    }
+}`,
+      "Java": `<span class="cm">// Akka Typed Actor</span>
+<span class="kw">public class</span> <span class="ty">UserActor</span> {
+    <span class="kw">public sealed interface</span> <span class="ty">Command</span> {}
+    <span class="kw">public record</span> <span class="ty">Increment</span>() <span class="kw">implements</span> <span class="ty">Command</span> {}
+
+    <span class="kw">public static</span> Behavior&lt;<span class="ty">Command</span>&gt; <span class="fn">create</span>() {
+        <span class="kw">return</span> Behaviors.<span class="fn">setup</span>(ctx -> <span class="fn">running</span>(<span class="nm">0</span>));
+    }
+    <span class="kw">private static</span> Behavior&lt;<span class="ty">Command</span>&gt; <span class="fn">running</span>(<span class="kw">int</span> count) {
+        <span class="kw">return</span> Behaviors.receive((<span class="ty">Command</span> cmd) ->
+            cmd <span class="kw">instanceof</span> <span class="ty">Increment</span> ? <span class="fn">running</span>(count+<span class="nm">1</span>) : Behaviors.same());
+    }
+}`,
+      "JavaScript": `<span class="cm">// nact (Node.js actor system)</span>
+<span class="kw">const</span> { start, spawn, dispatch } = <span class="fn">require</span>(<span class="str">'nact'</span>);
+<span class="kw">const</span> system = <span class="fn">start</span>();
+
+<span class="kw">const</span> userActor = <span class="fn">spawn</span>(system,
+  (state = { count: <span class="nm">0</span> }, msg) => {
+    <span class="kw">if</span> (msg.type === <span class="str">'INCREMENT'</span>) <span class="kw">return</span> { count: state.count + <span class="nm">1</span> };
+    <span class="kw">return</span> state;
+  }, <span class="str">'user-actor'</span>);
+
+<span class="fn">dispatch</span>(userActor, { type: <span class="str">'INCREMENT'</span> });`,
+      "C++": `<span class="cm">// CAF (C++ Actor Framework)</span>
+<span class="kw">#include</span> <span class="str">"caf/all.hpp"</span>
+<span class="kw">using namespace</span> caf;
+
+behavior <span class="fn">user_actor</span>(<span class="ty">event_based_actor</span>* self, <span class="kw">int</span> count) {
+    <span class="kw">return</span> {
+        [=](<span class="ty">increment_atom</span>) {
+            <span class="kw">return</span> <span class="fn">user_actor</span>(self, count + <span class="nm">1</span>);
+        }
+    };
+}
+<span class="kw">auto</span> actor = system.<span class="fn">spawn</span>(user_actor, <span class="nm">0</span>);
+self-><span class="fn">send</span>(actor, increment_atom_v);`
+    }
+  },
+  {
+    id: "strangler",
+    level: "intermediate",
+    category: "enterprise",
+    icon: "🌿",
+    color: "#34d399",
+    name: { en: "Strangler Fig", vi: "Mẫu Cây Siết" },
+    origin: { en: "Martin Fowler (2004), named after the strangler fig plant that gradually replaces a host tree. Migration strategy.", vi: "Martin Fowler (2004), đặt theo cây siết dần thay thế cây chủ. Chiến lược di chuyển từng bước." },
+    desc: {
+      en: "Incrementally migrate a monolith to microservices by routing specific functionalities to new services while the old system still runs. A facade/proxy layer gradually routes more traffic to the new system until the monolith can be retired.",
+      vi: "Di chuyển tăng dần monolith sang microservice bằng cách định tuyến các chức năng cụ thể sang dịch vụ mới trong khi hệ thống cũ vẫn chạy. Tầng facade/proxy dần dần định tuyến nhiều lưu lượng hơn sang hệ thống mới."
+    },
+    when: {
+      en: "Modernizing legacy monoliths, zero-downtime migrations, risk-averse enterprises, brownfield projects.",
+      vi: "Hiện đại hóa monolith cũ, di chuyển không dừng, doanh nghiệp e ngại rủi ro, dự án brownfield."
+    },
+    spamf: {
+      S: { en: "Medium — dual systems increase attack surface during transition", vi: "Trung bình — hệ thống kép tăng bề mặt tấn công trong quá trình chuyển đổi" },
+      P: { en: "Medium → High — proxy adds latency; improves as new system takes over", vi: "Trung bình → Cao — proxy thêm độ trễ; cải thiện khi hệ thống mới tiếp quản" },
+      A: { en: "High — fallback to old system if new one fails", vi: "Cao — dự phòng về hệ thống cũ nếu hệ thống mới lỗi" },
+      M: { en: "Medium — two codebases during migration window", vi: "Trung bình — hai codebase trong quá trình di chuyển" },
+      F: { en: "Very High — incremental change without big-bang rewrite risk", vi: "Rất Cao — thay đổi tăng dần không có rủi ro viết lại toàn bộ" }
+    },
+    complexity: { time: "Proxy routing O(1)", space: "Dual system memory during transition", cost: "Medium — run both systems simultaneously" },
+    diagram: `graph LR
+  Client --> Proxy[Façade / Proxy\nAPI Gateway]
+  Proxy -->|old routes| Legacy[Legacy Monolith]
+  Proxy -->|new routes| New1[New User Svc]
+  Proxy -->|new routes| New2[New Order Svc]
+  Legacy -.->|retire gradually| Dead[💀 Retired]
+  style Proxy fill:#6c63ff,color:#fff
+  style Legacy fill:#f87171,color:#fff
+  style Dead fill:#333,color:#666`,
+    code: {
+      "C#": `<span class="cm">// YARP reverse proxy routing (Strangler)</span>
+<span class="cm">// appsettings.json</span>
+{
+  <span class="str">"ReverseProxy"</span>: {
+    <span class="str">"Routes"</span>: {
+      <span class="str">"users-route"</span>: { <span class="str">"Match"</span>: { <span class="str">"Path"</span>: <span class="str">"/users/{**catch-all}"</span> },
+                       <span class="str">"ClusterId"</span>: <span class="str">"new-user-service"</span> },
+      <span class="str">"legacy-route"</span>: { <span class="str">"Match"</span>: { <span class="str">"Path"</span>: <span class="str">"/{**catch-all}"</span>  },
+                       <span class="str">"ClusterId"</span>: <span class="str">"legacy-monolith"</span> }
+    }
+  }
+}`,
+      "Python": `<span class="cm"># Nginx-style routing via FastAPI proxy</span>
+<span class="kw">import</span> httpx
+<span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI, Request
+app = <span class="fn">FastAPI</span>()
+
+<span class="kw">@</span>app.api_route(<span class="str">"/users/{path:path}"</span>, methods=[<span class="str">"GET"</span>,<span class="str">"POST"</span>])
+<span class="kw">async def</span> <span class="fn">users_proxy</span>(path: str, req: <span class="ty">Request</span>):
+    <span class="kw">async with</span> httpx.<span class="ty">AsyncClient</span>() <span class="kw">as</span> c:
+        <span class="kw">return await</span> c.<span class="fn">request</span>(req.method,
+            <span class="str">f"http://new-user-svc/{path}"</span>)
+
+<span class="kw">@</span>app.api_route(<span class="str">"/{path:path}"</span>)
+<span class="kw">async def</span> <span class="fn">legacy_proxy</span>(path: str): ...  <span class="cm"># → monolith</span>`,
+      "Go": `<span class="cm">// Go reverse proxy (Strangler Fig)</span>
+<span class="kw">import</span> <span class="str">"net/http/httputil"</span>
+
+newSvc, _ := url.<span class="fn">Parse</span>(<span class="str">"http://user-service"</span>)
+legacy, _ := url.<span class="fn">Parse</span>(<span class="str">"http://monolith"</span>)
+
+mux.<span class="fn">Handle</span>(<span class="str">"/users/"</span>, httputil.<span class="fn">NewSingleHostReverseProxy</span>(newSvc))
+mux.<span class="fn">Handle</span>(<span class="str">"/"</span>,        httputil.<span class="fn">NewSingleHostReverseProxy</span>(legacy))`,
+      "Rust": `<span class="cm">// Rust proxy via hyper + route matching</span>
+<span class="kw">async fn</span> <span class="fn">proxy</span>(req: Request&lt;<span class="ty">Body</span>&gt;) -> Result&lt;Response&lt;<span class="ty">Body</span>&gt;, hyper::Error&gt; {
+    <span class="kw">let</span> target = <span class="kw">if</span> req.uri().path().starts_with(<span class="str">"/users"</span>) {
+        <span class="str">"http://new-user-service"</span>
+    } <span class="kw">else</span> {
+        <span class="str">"http://legacy-monolith"</span>
+    };
+    <span class="cm">// Forward request to target...</span>
+    forward(req, target).await
+}`,
+      "Java": `<span class="cm">// Spring Cloud Gateway Strangler</span>
+<span class="kw">@Bean</span>
+<span class="kw">public</span> RouteLocator <span class="fn">routes</span>(RouteLocatorBuilder b) {
+    <span class="kw">return</span> b.routes()
+      .route(<span class="str">"users"</span>, r -> r.path(<span class="str">"/users/**"</span>)
+        .uri(<span class="str">"http://new-user-service"</span>))
+      .route(<span class="str">"legacy"</span>, r -> r.path(<span class="str">"/**"</span>)
+        .uri(<span class="str">"http://legacy-monolith"</span>))
+      .build();
+}`,
+      "JavaScript": `<span class="cm">// http-proxy-middleware (Node.js)</span>
+<span class="kw">const</span> { createProxyMiddleware } = <span class="fn">require</span>(<span class="str">'http-proxy-middleware'</span>);
+app.<span class="fn">use</span>(<span class="str">'/users'</span>, <span class="fn">createProxyMiddleware</span>({
+  target: <span class="str">'http://new-user-service'</span>,
+  changeOrigin: <span class="kw">true</span>
+}));
+app.<span class="fn">use</span>(<span class="str">'/'</span>, <span class="fn">createProxyMiddleware</span>({
+  target: <span class="str">'http://legacy-monolith'</span>,
+  changeOrigin: <span class="kw">true</span>
+}));`,
+      "C++": `<span class="cm">// C++ proxy with Crow router</span>
+<span class="kw">#include</span> <span class="str">"crow.h"</span>
+<span class="kw">#include</span> <span class="str">"httplib.h"</span>
+
+CROW_ROUTE(app, <span class="str">"/users/&lt;path&gt;"</span>)([](std::string path){
+    httplib::<span class="ty">Client</span> c(<span class="str">"new-user-svc"</span>, <span class="nm">8081</span>);
+    <span class="kw">auto</span> res = c.<span class="fn">Get</span>((<span class="str">"/"</span> + path).c_str());
+    <span class="kw">return</span> crow::response(res->body);
+});
+CROW_ROUTE(app, <span class="str">"/"</span>)([](){ <span class="cm">/* forward to legacy */</span> });`
+    }
+  },
+  {
+    id: "reactive",
+    level: "advanced",
+    category: "cloud",
+    icon: "🌊",
+    color: "#38bdf8",
+    name: { en: "Reactive Architecture", vi: "Kiến Trúc Phản Ứng" },
+    origin: { en: "Reactive Manifesto (2013). Formalized by Erik Meijer (Rx), Jonas Bonér (Akka). Built on Observer + Functional patterns.", vi: "Reactive Manifesto (2013). Được Erik Meijer (Rx) và Jonas Bonér (Akka) chính thức hóa. Xây dựng trên mẫu Observer + Functional." },
+    desc: {
+      en: "Systems designed to be: Responsive (timely), Resilient (failure-tolerant), Elastic (scale up/down), Message-Driven (async). Composable async data streams are the primary abstraction. Back-pressure prevents consumer overload.",
+      vi: "Hệ thống được thiết kế để: Phản hồi (kịp thời), Chống chịu (dung lỗi), Đàn hồi (mở rộng lên/xuống), Hướng tin nhắn (bất đồng bộ). Luồng dữ liệu bất đồng bộ có thể tổng hợp là trừu tượng chính."
+    },
+    when: {
+      en: "High-throughput real-time apps, live data feeds, financial tickers, multiplayer games, chat systems, complex async orchestration.",
+      vi: "Ứng dụng thời gian thực thông lượng cao, nguồn cấp dữ liệu trực tiếp, ticker tài chính, game nhiều người, hệ thống chat, điều phối bất đồng bộ phức tạp."
+    },
+    spamf: {
+      S: { en: "High — message-driven isolation; each stream independently secured", vi: "Cao — cô lập hướng tin nhắn; mỗi luồng được bảo mật độc lập" },
+      P: { en: "Very High — non-blocking I/O; back-pressure prevents system overload", vi: "Rất Cao — I/O không chặn; back-pressure ngăn quá tải hệ thống" },
+      A: { en: "Very High — elastic scaling + resilience patterns built-in", vi: "Rất Cao — mở rộng đàn hồi + các mẫu phục hồi tích hợp sẵn" },
+      M: { en: "Low — reactive chains are hard to debug and reason about", vi: "Thấp — chuỗi reactive khó debug và suy luận" },
+      F: { en: "High — operators composable; swap sources/sinks independently", vi: "Cao — toán tử có thể tổng hợp; thay nguồn/đích độc lập" }
+    },
+    complexity: { time: "O(1) per event; pipeline depth dependent", space: "Bounded by buffer/window size", cost: "Medium — reactive runtime" },
+    diagram: `graph LR
+  Source[Event Source\nKafka/WebSocket] -->|stream| Rx[Reactive Stream\nfilter/map/merge]
+  Rx -->|back-pressure| BP[Backpressure\nControl]
+  Rx --> Sink1[Sink: DB]
+  Rx --> Sink2[Sink: WebSocket\nClients]
+  style Rx fill:#38bdf8,color:#000
+  style BP fill:#fbbf24,color:#000`,
+    code: {
+      "C#": `<span class="cm">// Reactive Extensions (Rx.NET)</span>
+<span class="kw">using</span> System.Reactive.Linq;
+
+IObservable&lt;int&gt; prices = <span class="ty">Observable</span>
+    .<span class="fn">Interval</span>(<span class="ty">TimeSpan</span>.<span class="fn">FromMilliseconds</span>(<span class="nm">100</span>))
+    .<span class="fn">Select</span>(_ => <span class="fn">GetPrice</span>())
+    .<span class="fn">Where</span>(p => p > <span class="nm">100</span>)
+    .<span class="fn">Throttle</span>(<span class="ty">TimeSpan</span>.<span class="fn">FromSeconds</span>(<span class="nm">1</span>))
+    .<span class="fn">DistinctUntilChanged</span>();
+
+prices.<span class="fn">Subscribe</span>(p => Console.<span class="fn">WriteLine</span>(<span class="str">$"Alert: {p}"</span>));`,
+      "Python": `<span class="cm"># RxPY reactive streams</span>
+<span class="kw">import</span> rx
+<span class="kw">from</span> rx <span class="kw">import</span> operators <span class="kw">as</span> ops
+
+rx.<span class="fn">from_iterable</span>([<span class="nm">1</span>,<span class="nm">2</span>,<span class="nm">3</span>,<span class="nm">4</span>,<span class="nm">5</span>]).<span class="fn">pipe</span>(
+    ops.<span class="fn">filter</span>(<span class="kw">lambda</span> x: x > <span class="nm">2</span>),
+    ops.<span class="fn">map</span>(<span class="kw">lambda</span> x: x * <span class="nm">10</span>),
+    ops.<span class="fn">take</span>(<span class="nm">3</span>)
+).<span class="fn">subscribe</span>(on_next=<span class="kw">lambda</span> x: <span class="fn">print</span>(x))`,
+      "Go": `<span class="cm">// RxGo reactive streams</span>
+<span class="kw">import</span> <span class="str">"github.com/reactivex/rxgo/v2"</span>
+
+rxgo.<span class="fn">Just</span>(<span class="nm">1</span>, <span class="nm">2</span>, <span class="nm">3</span>, <span class="nm">4</span>, <span class="nm">5</span>)().
+    <span class="fn">Filter</span>(<span class="kw">func</span>(i <span class="kw">interface</span>{}) <span class="kw">bool</span> {
+        <span class="kw">return</span> i.(<span class="kw">int</span>) > <span class="nm">2</span>
+    }).
+    <span class="fn">Map</span>(<span class="kw">func</span>(_ context.<span class="ty">Context</span>, i <span class="kw">interface</span>{}) (<span class="kw">interface</span>{}, error) {
+        <span class="kw">return</span> i.(<span class="kw">int</span>) * <span class="nm">10</span>, <span class="kw">nil</span>
+    }).ForEach(...)`,
+      "Rust": `<span class="cm">// Tokio async streams (reactive)</span>
+<span class="kw">use</span> tokio_stream::{StreamExt, wrappers::ReceiverStream};
+<span class="kw">use</span> futures::stream;
+
+<span class="kw">let</span> stream = stream::iter(<span class="nm">1</span>..<span class="nm">100</span>u32)
+    .filter(|x| futures::future::ready(*x % <span class="nm">2</span> == <span class="nm">0</span>))
+    .map(|x| x * <span class="nm">10</span>)
+    .take(<span class="nm">5</span>);
+
+tokio::pin!(stream);
+<span class="kw">while let</span> Some(val) = stream.next().await {
+    println!(<span class="str">"{val}"</span>);
+}`,
+      "Java": `<span class="cm">// Project Reactor (Spring WebFlux)</span>
+<span class="ty">Flux</span>&lt;<span class="ty">Integer</span>&gt; prices = <span class="ty">Flux</span>
+    .<span class="fn">interval</span>(Duration.<span class="fn">ofMillis</span>(<span class="nm">100</span>))
+    .<span class="fn">map</span>(tick -> <span class="fn">getPrice</span>())
+    .<span class="fn">filter</span>(p -> p > <span class="nm">100</span>)
+    .<span class="fn">sample</span>(Duration.<span class="fn">ofSeconds</span>(<span class="nm">1</span>))
+    .<span class="fn">distinctUntilChanged</span>();
+
+prices.<span class="fn">subscribe</span>(p -> log.<span class="fn">info</span>(<span class="str">"Alert: {}"</span>, p));`,
+      "JavaScript": `<span class="cm">// RxJS reactive streams</span>
+<span class="kw">import</span> { fromEvent, interval } <span class="kw">from</span> <span class="str">'rxjs'</span>;
+<span class="kw">import</span> { map, filter, throttleTime, distinctUntilChanged } <span class="kw">from</span> <span class="str">'rxjs/operators'</span>;
+
+interval(<span class="nm">100</span>).<span class="fn">pipe</span>(
+  <span class="fn">map</span>(() => <span class="fn">getPrice</span>()),
+  <span class="fn">filter</span>(p => p > <span class="nm">100</span>),
+  <span class="fn">throttleTime</span>(<span class="nm">1000</span>),
+  <span class="fn">distinctUntilChanged</span>()
+).<span class="fn">subscribe</span>(p => console.<span class="fn">log</span>(<span class="str">\`Alert: \${p}\`</span>));`,
+      "C++": `<span class="cm">// RxCpp reactive streams</span>
+<span class="kw">#include</span> <span class="str">"rxcpp/rx.hpp"</span>
+<span class="kw">namespace</span> rx = rxcpp;
+
+rx::observable&lt;<span class="kw">int</span>&gt; source = rx::observable&lt;&gt;::<span class="fn">range</span>(<span class="nm">1</span>, <span class="nm">100</span>);
+source
+  .<span class="fn">filter</span>([](<span class="kw">int</span> v){ <span class="kw">return</span> v % <span class="nm">2</span> == <span class="nm">0</span>; })
+  .<span class="fn">map</span>([](<span class="kw">int</span> v){ <span class="kw">return</span> v * <span class="nm">10</span>; })
+  .<span class="fn">take</span>(<span class="nm">5</span>)
+  .<span class="fn">subscribe</span>([](<span class="kw">int</span> v){ std::cout &lt;&lt; v &lt;&lt; std::endl; });`
+    }
+  },
+  {
     id: "pipeline",
     level: "intermediate",
     category: "data",
@@ -1780,6 +2333,27 @@ const BB_DATA = [
     cons:{en:["Compensating logic complexity","Harder to debug","Eventual consistency"],vi:["Phức tạp logic bù trừ","Khó debug","Nhất quán cuối cùng"]},
     spamf:{S:"Medium",P:"High",A:"High",M:"Low",F:"High"},
     complexity:{time:"O(steps) to complete",space:"State per saga instance",cost:"Medium"} },
+  { id:"rate-limit", name:{en:"Rate Limiting & Throttling",vi:"Giới Hạn Tốc Độ & Điều Tiết"}, category:"resilience",
+    desc:{en:"Controls the number of requests a client can make in a time window. Algorithms: Token Bucket, Leaky Bucket, Fixed Window, Sliding Window. Prevents abuse, DDoS, and resource exhaustion.",vi:"Kiểm soát số lượng yêu cầu client có thể thực hiện trong cửa sổ thời gian. Thuật toán: Token Bucket, Leaky Bucket, Fixed Window, Sliding Window."},
+    when:{en:"Public APIs, login endpoints, payment flows, any resource that can be abused.",vi:"API công khai, endpoint đăng nhập, luồng thanh toán, bất kỳ tài nguyên nào có thể bị lạm dụng."},
+    pros:{en:["Prevents abuse/DDoS","Cost protection","Fair resource sharing"],vi:["Ngăn lạm dụng/DDoS","Bảo vệ chi phí","Chia sẻ tài nguyên công bằng"]},
+    cons:{en:["Legitimate traffic blocked","Distributed counter coordination","State management overhead"],vi:["Lưu lượng hợp lệ bị chặn","Phối hợp bộ đếm phân tán","Chi phí quản lý trạng thái"]},
+    spamf:{S:"Very High",P:"High",A:"High",M:"Medium",F:"Medium"},
+    complexity:{time:"O(1) token bucket check",space:"Counter per client/endpoint",cost:"Low (Redis-based)"} },
+  { id:"health-check", name:{en:"Health Check & Readiness Probe",vi:"Kiểm Tra Sức Khỏe & Sẵn Sàng"}, category:"resilience",
+    desc:{en:"Endpoints that report service health. Liveness: is the process alive? Readiness: can it serve traffic? Used by load balancers, orchestrators (k8s), and monitoring to route traffic and alert on failures.",vi:"Các endpoint báo cáo sức khỏe dịch vụ. Liveness: tiến trình còn sống? Readiness: có thể phục vụ? Được sử dụng bởi load balancer, orchestrator (k8s) và giám sát."},
+    when:{en:"Any production service, especially in Kubernetes, containerized environments, microservices.",vi:"Bất kỳ dịch vụ production nào, đặc biệt trong Kubernetes, môi trường container hóa, microservice."},
+    pros:{en:["Auto-removal of unhealthy instances","Zero-downtime deploys","Observability"],vi:["Tự động loại bỏ phiên bản không khỏe","Triển khai không dừng","Khả năng quan sát"]},
+    cons:{en:["Must not include heavy deps in liveness","False negatives if check too strict","Cascade if all fail"],vi:["Không được bao gồm deps nặng trong liveness","Âm tính giả nếu kiểm tra quá chặt","Cascade nếu tất cả đều lỗi"]},
+    spamf:{S:"Medium",P:"High",A:"Very High",M:"High",F:"Medium"},
+    complexity:{time:"O(1) endpoint response",space:"Minimal",cost:"Negligible"} },
+  { id:"outbox", name:{en:"Transactional Outbox Pattern",vi:"Mẫu Hộp Thư Gửi Giao Dịch"}, category:"data",
+    desc:{en:"Guarantees at-least-once event publishing with database writes in the same transaction. Write both the business record and the event to an 'outbox' table atomically. A background poller/CDC then publishes the event.",vi:"Đảm bảo ít nhất một lần xuất bản sự kiện với ghi DB trong cùng giao dịch. Ghi cả bản ghi nghiệp vụ và sự kiện vào bảng 'outbox' theo nguyên tử."},
+    when:{en:"When you need reliable event publishing alongside DB writes without 2PC. Microservices emitting domain events.",vi:"Khi cần xuất bản sự kiện đáng tin cậy cùng với ghi DB mà không cần 2PC. Microservice phát ra domain events."},
+    pros:{en:["Atomic write+publish","No dual-write inconsistency","Exactly-once delivery possible"],vi:["Ghi+xuất bản theo nguyên tử","Không mâu thuẫn ghi kép","Có thể đúng một lần"]},
+    cons:{en:["Polling latency (CDC preferred)","Outbox table grows; needs cleanup","Extra complexity"],vi:["Độ trễ polling (CDC được ưu tiên)","Bảng outbox phát triển; cần dọn dẹp","Phức tạp thêm"]},
+    spamf:{S:"Very High",P:"Medium",A:"High",M:"Medium",F:"High"},
+    complexity:{time:"O(1) write; polling interval latency",space:"Outbox table size",cost:"Low — same DB"} },
   { id:"bff", name:{en:"BFF (Backend for Frontend)",vi:"Backend Cho Frontend"}, category:"networking",
     desc:{en:"Dedicated backend layer per client type (mobile BFF, web BFF). Aggregates and tailors API responses to each frontend's needs. Avoids over-fetching and under-fetching.",vi:"Tầng backend riêng cho mỗi loại client (BFF di động, BFF web). Tổng hợp và tùy chỉnh phản hồi API cho từng frontend."},
     when:{en:"Multiple client types with different data needs, GraphQL federation, optimizing mobile bandwidth.",vi:"Nhiều loại client với nhu cầu dữ liệu khác nhau, GraphQL federation, tối ưu băng thông di động."},
@@ -1802,6 +2376,10 @@ const MATRIX = [
   { aa:"Clean Architecture", cs:"First-class with .NET DI + records", py:"Manual layering; Python flexible", go:"Idiomatic with interfaces", rs:"Trait-based layers; excellent", java:"Spring + custom annotations", js:"Manual discipline; TS recommended", cpp:"Manual; header-based boundaries" },
   { aa:"SPA", cs:"Blazor WebAssembly (C# in browser)", py:"Dash / Streamlit (server-driven SPA)", go:"HTMX + templ (partial SPA)", rs:"Leptos / Dioxus (WebAssembly)", java:"Vaadin (Java SPA) / GWT", js:"React / Vue / Angular — native home", cpp:"Emscripten WASM (niche, high-perf games)" },
   { aa:"Pipeline / Stream", cs:"TPL Dataflow / Reactive Extensions", py:"Apache Beam / Flink PyFlink", go:"Goroutine + channel pipelines (idiomatic)", rs:"Rayon (parallel) + async streams", java:"Flink / Spark Java / Akka Streams", js:"Node.js Streams / RxJS / Kafka Streams", cpp:"Intel TBB / C++20 ranges + execution policies" },
+  { aa:"SSR / Jamstack", cs:"Razor Pages / Blazor SSR", py:"Django / Jinja2 SSR", go:"html/template (stdlib built-in)", rs:"Askama (compile-time) / Tera", java:"Thymeleaf / JSP / Freemarker", js:"Next.js / Nuxt / SvelteKit ★ native home", cpp:"Inja / CTemplate (niche)" },
+  { aa:"Actor Model", cs:"Microsoft Orleans (virtual actors)", py:"Ray Actors / Dramatiq", go:"protoactor-go / goroutine+channel (idiomatic)", rs:"Actix Actor / stakker", java:"Akka Typed / Quarkus Virtual Threads", js:"nact — limited ecosystem", cpp:"CAF (C++ Actor Framework)" },
+  { aa:"Strangler Fig", cs:"YARP Reverse Proxy + routing rules", py:"FastAPI proxy middleware", go:"net/http/httputil.ReverseProxy (stdlib)", rs:"hyper-based proxy routing", java:"Spring Cloud Gateway", js:"http-proxy-middleware / Express", cpp:"Custom proxy with httplib / Nginx" },
+  { aa:"Reactive", cs:"Rx.NET / System.Reactive", py:"RxPY / aioreactive", go:"RxGo / channel + select patterns", rs:"tokio-stream / futures::StreamExt", java:"Project Reactor / RxJava — mature", js:"RxJS ★ largest ecosystem; Angular core", cpp:"RxCpp — less maintained" },
 ];
 
 /* ── TOOLING TABLE ── */
@@ -1819,17 +2397,20 @@ const TOOLING = [
 /* ── CATEGORY GROUPING ── */
 const CATEGORIES = [
   { cat:{en:"Web Application",vi:"Ứng Dụng Web"}, type:{en:"SaaS / Consumer",vi:"SaaS / Người Dùng"},
-    items:["Monolithic","Layered (N-Tier)","SPA","Clean Architecture"],
-    levels:["basic","basic","basic","intermediate"] },
-  { cat:{en:"Cloud-Native",vi:"Gốc Đám Mây"}, type:{en:"SaaS / Enterprise",vi:"SaaS / Doanh Nghiệp"},
-    items:["Microservices","Serverless / FaaS","Event-Driven","CQRS"],
-    levels:["advanced","intermediate","advanced","advanced"] },
-  { cat:{en:"Domain-Rich Enterprise",vi:"Doanh Nghiệp Giàu Miền"}, type:{en:"B2B Enterprise",vi:"Doanh Nghiệp B2B"},
-    items:["DDD","Hexagonal","Clean Architecture"],
-    levels:["advanced","intermediate","intermediate"] },
-  { cat:{en:"Data / Analytics",vi:"Dữ Liệu / Phân Tích"}, type:{en:"Data Platform",vi:"Nền Tảng Dữ Liệu"},
-    items:["Pipeline / Stream Processing","Event-Driven","Event Sourcing"],
-    levels:["intermediate","advanced","advanced"] },
+    items:["Monolithic","Layered (N-Tier)","SPA","SSR / Jamstack","Clean Architecture"],
+    levels:["basic","basic","basic","basic","intermediate"] },
+  { cat:{en:"Cloud-Native",vi:"Gốc Đám Mây"}, type:{en:"SaaS / Enterprise / Cloud",vi:"SaaS / Doanh Nghiệp / Đám Mây"},
+    items:["Microservices","Serverless / FaaS","Event-Driven","CQRS","Reactive","Actor Model"],
+    levels:["advanced","intermediate","advanced","advanced","advanced","advanced"] },
+  { cat:{en:"Domain-Rich Enterprise",vi:"Doanh Nghiệp Giàu Miền"}, type:{en:"B2B Enterprise / Fintech / Healthcare",vi:"Doanh Nghiệp B2B / Fintech / Y Tế"},
+    items:["DDD","Hexagonal","Clean Architecture","Strangler Fig"],
+    levels:["advanced","intermediate","intermediate","intermediate"] },
+  { cat:{en:"Data / Analytics Platform",vi:"Nền Tảng Dữ Liệu / Phân Tích"}, type:{en:"Data Platform / IoT / ML",vi:"Nền Tảng Dữ Liệu / IoT / ML"},
+    items:["Pipeline / Stream Processing","Event-Driven","Reactive","Actor Model"],
+    levels:["intermediate","advanced","advanced","advanced"] },
+  { cat:{en:"Legacy Modernization",vi:"Hiện Đại Hóa Kế Thừa"}, type:{en:"Enterprise Migration",vi:"Di Chuyển Doanh Nghiệp"},
+    items:["Strangler Fig","Hexagonal","Event-Driven","Microservices"],
+    levels:["intermediate","intermediate","advanced","advanced"] },
 ];
 </script>
 
@@ -1860,6 +2441,7 @@ const CATEGORIES = [
   <div class="main">
     <!-- TOPBAR -->
     <div class="topbar">
+      <button class="sidebar-toggle" id="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">☰</button>
       <div class="search-wrap">
         <input type="text" id="search-input" placeholder="Search architectures, concepts..." oninput="debouncedSearch(this.value)"/>
         <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
@@ -1880,15 +2462,16 @@ const CATEGORIES = [
     </div>
 
     <!-- HOME SECTION -->
+    <div class="main-scroll" id="main-scroll">
     <div class="section active" id="section-home">
       <div class="hero" style="padding:40px 36px;">
         <h1>Application <span>Architecture</span><br/>Reference</h1>
         <p>A systematic, beginner-friendly knowledge base of application architectures across 7 programming languages, organized by SPAMF criteria: Security, Performance, Availability, Maintainability, Flexibility.</p>
         <div class="hero-stats">
-          <div class="stat-box"><div class="num">10</div><div class="lbl">Architectures</div></div>
+          <div class="stat-box"><div class="num" id="stat-aa">15</div><div class="lbl">Architectures</div></div>
           <div class="stat-box"><div class="num">7</div><div class="lbl">Languages</div></div>
-          <div class="stat-box"><div class="num">8</div><div class="lbl">Building Blocks</div></div>
-          <div class="stat-box"><div class="num">8</div><div class="lbl">Tooling Areas</div></div>
+          <div class="stat-box"><div class="num" id="stat-bb">11</div><div class="lbl">Building Blocks</div></div>
+          <div class="stat-box"><div class="num" id="stat-matrix">15</div><div class="lbl">Matrix Rows</div></div>
         </div>
       </div>
 
@@ -1903,9 +2486,26 @@ const CATEGORIES = [
         <div class="info-box">
           <strong>📊 SPAMF Legend:</strong> <strong>S</strong>ecurity · <strong>P</strong>erformance · <strong>A</strong>vailability · <strong>M</strong>aintainability · <strong>F</strong>lexibility — the five pillars used to evaluate every architecture.
         </div>
+        <div class="warn-box">
+          <strong>⚡ Architecture Decision Guide:</strong> Start with <strong>Monolith</strong> unless you have a clear reason not to. Add <strong>Layered</strong> structure immediately for maintainability. Graduate to <strong>Microservices</strong> only when scaling and team boundaries demand it. Apply <strong>DDD + Hexagonal</strong> in complex domains. Use <strong>CQRS + Event Sourcing</strong> only when query/write disparity is extreme.
+        </div>
+
         <div class="divider"></div>
         <div class="section-header">
-          <h2>Architecture Complexity Map</h2>
+          <h2>SPAMF Quick Reference</h2>
+          <p>Five pillars for evaluating architecture fitness.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Pillar</th><th>Key Question</th><th>Metrics</th><th>When Critical</th></tr></thead>
+            <tbody>
+              <tr><td><span class="spamf-badge spamf-s">S — Security</span></td><td>Can attackers exploit this surface?</td><td>Blast radius, auth boundaries, data isolation</td><td>Finance, Healthcare, Gov't, PII-handling</td></tr>
+              <tr><td><span class="spamf-badge spamf-p">P — Performance</span></td><td>Does it meet latency/throughput targets?</td><td>p99 latency, RPS, CPU/memory efficiency</td><td>Trading, Gaming, Search, HFT</td></tr>
+              <tr><td><span class="spamf-badge spamf-a">A — Availability</span></td><td>What is the failure model?</td><td>MTTR, MTBF, SLA %, failure blast radius</td><td>e-Commerce, Banking, Healthcare</td></tr>
+              <tr><td><span class="spamf-badge spamf-m">M — Maintainability</span></td><td>Can my team evolve this safely?</td><td>Cyclomatic complexity, test coverage, onboarding time</td><td>Long-lived products, large teams</td></tr>
+              <tr><td><span class="spamf-badge spamf-f">F — Flexibility</span></td><td>How cheaply can I change this?</td><td>Coupling metrics, deploy independence, swap cost</td><td>Startups pivoting, platform products</td></tr>
+            </tbody>
+          </table>
         </div>
         <div class="table-wrap">
           <table>
@@ -1914,14 +2514,18 @@ const CATEGORIES = [
               <tr><td>Monolithic</td><td><span class="tag tag-basic">BASIC</span></td><td>Web/All</td><td>MVP, Startups, Small teams</td><td>M ★★★★ | F ★★</td></tr>
               <tr><td>Layered (N-Tier)</td><td><span class="tag tag-basic">BASIC</span></td><td>Web/Enterprise</td><td>CRUD, Banking, regulated</td><td>M ★★★★ | S ★★★</td></tr>
               <tr><td>SPA</td><td><span class="tag tag-basic">BASIC</span></td><td>Web/Frontend</td><td>Dashboards, Rich UIs</td><td>P ★★★★ | A ★★★★</td></tr>
+              <tr><td>SSR / Jamstack</td><td><span class="tag tag-basic">BASIC</span></td><td>Web/Content</td><td>SEO-critical sites, e-commerce</td><td>P ★★★★★ | A ★★★★★</td></tr>
               <tr><td>Serverless/FaaS</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Cloud</td><td>Event processing, APIs</td><td>A ★★★★★ | P ★★★★</td></tr>
               <tr><td>Hexagonal</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Enterprise</td><td>Long-lived, DDD projects</td><td>M ★★★★★ | F ★★★★★</td></tr>
               <tr><td>Clean Architecture</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Enterprise</td><td>Testability, Framework-independence</td><td>S ★★★★★ | M ★★★★★</td></tr>
               <tr><td>Pipeline/Stream</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Data</td><td>ETL, Real-time analytics</td><td>P ★★★★★ | A ★★★★</td></tr>
+              <tr><td>Strangler Fig</td><td><span class="tag tag-intermediate">INTERMEDIATE</span></td><td>Enterprise</td><td>Legacy migration, zero-downtime</td><td>A ★★★★ | F ★★★★★</td></tr>
               <tr><td>Microservices</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud</td><td>Large teams, Independent scale</td><td>P ★★★★★ | F ★★★★★</td></tr>
               <tr><td>Event-Driven</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud</td><td>Real-time, IoT, Integrations</td><td>P ★★★★★ | F ★★★★★</td></tr>
               <tr><td>CQRS</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud/Enterprise</td><td>Read/Write optimization</td><td>P ★★★★★ | S ★★★★</td></tr>
               <tr><td>DDD</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Enterprise</td><td>Complex domains, Fintech</td><td>M ★★★★★ | F ★★★★</td></tr>
+              <tr><td>Actor Model</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud/Simulation</td><td>Massive concurrency, Gaming</td><td>P ★★★★★ | A ★★★★★</td></tr>
+              <tr><td>Reactive</td><td><span class="tag tag-advanced">ADVANCED</span></td><td>Cloud/Data</td><td>Live data, Financial tickers</td><td>P ★★★★★ | A ★★★★★</td></tr>
             </tbody>
           </table>
         </div>
@@ -1973,6 +2577,17 @@ const CATEGORIES = [
       </div>
       <div id="grouping-content"></div>
     </div>
+    </div><!-- /.main-scroll -->
+  </div><!-- /.main -->
+</div><!-- /.app-shell -->
+
+<!-- Sidebar backdrop (mobile) -->
+<div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
+
+<!-- Card maximize overlay -->
+<div class="card-overlay" id="card-overlay" onclick="handleOverlayClick(event)">
+  <div class="card-overlay-inner" id="card-overlay-inner">
+    <button class="card-overlay-close" onclick="closeMaximize()" title="Close (Esc)">✕</button>
   </div>
 </div>
 
@@ -2009,7 +2624,13 @@ function toggleTheme() {
   currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', currentTheme);
   document.getElementById('theme-btn').textContent = currentTheme === 'dark' ? '🌙' : '☀️';
-  setTimeout(() => mermaid.init(), 200);
+  // Clear rendered diagrams so they re-render with the new theme
+  document.querySelectorAll('.mermaid-placeholder[data-rendered]').forEach(el => {
+    const encoded = el.getAttribute('data-diagram');
+    el.removeAttribute('data-rendered');
+    el.innerHTML = '▶ Click to render diagram';
+    el.style.color = 'var(--text3)';
+  });
 }
 
 /* ─── Navigation ─── */
@@ -2104,7 +2725,20 @@ function renderCatalog() {
     card.setAttribute('data-desc', desc.toLowerCase());
     card.setAttribute('data-level', aa.level);
 
-    // Pros/cons
+    // Pros/cons from SPAMF
+    const spamfKeys = Object.entries(aa.spamf);
+    const prosItems = spamfKeys.filter(([k,v]) => {
+      const val = tObj(v).toLowerCase();
+      return val.includes('very high') || val.includes('rất cao') || val.includes('high') || val.includes('cao');
+    }).map(([k,v]) => `<li><b>${k}:</b> ${tObj(v)}</li>`).join('');
+    const consItems = spamfKeys.filter(([k,v]) => {
+      const val = tObj(v).toLowerCase();
+      return val.includes('low') || val.includes('medium') || val.includes('trung') || val.includes('thấp');
+    }).map(([k,v]) => `<li><b>${k}:</b> ${tObj(v)}</li>`).join('');
+    const prosConsHtml = `<div class="pros-cons">
+      <div class="pros-wrap"><h5>✓ ${t('pros')}</h5><ul>${prosItems || '<li>Balanced profile</li>'}</ul></div>
+      <div class="cons-wrap"><h5>✗ ${t('cons')}</h5><ul>${consItems || '<li>Context-dependent</li>'}</ul></div>
+    </div>`;
     let spamfHtml = '<div class="spamf-grid">';
     Object.entries(aa.spamf).forEach(([k,v]) => {
       spamfHtml += `<span class="spamf-badge spamf-${k.toLowerCase()}" title="${tObj(v)}"><b>${k}</b></span>`;
@@ -2133,6 +2767,9 @@ function renderCatalog() {
     const levelTag = `<span class="tag tag-${aa.level}">${aa.level.toUpperCase()}</span>`;
 
     card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-action-btn" onclick="maximizeCard('${aa.id}',event)" title="Maximize">⤢</button>
+      </div>
       <div class="card-head" onclick="toggleCard('${aa.id}')" aria-expanded="false" id="head-${aa.id}">
         <div class="card-icon" style="background:${aa.color}22;color:${aa.color}">${aa.icon}</div>
         <div class="card-title">
@@ -2149,19 +2786,19 @@ function renderCatalog() {
         <h4>${t('whenToUse')}</h4>
         <p>${when}</p>
         <h4>${t('spamfAnalysis')}</h4>
+        ${prosConsHtml}
         ${spamfDetails}
         <h4>${t('complexity')}</h4>
         <div class="complexity-row"><span class="complexity-label">${t('timeComplexity')}:</span> ${aa.complexity.time}</div>
         <div class="complexity-row"><span class="complexity-label">${t('spaceComplexity')}:</span> ${aa.complexity.space}</div>
         <div class="complexity-row"><span class="complexity-label">${t('costComplexity')}:</span> ${aa.complexity.cost}</div>
         <h4>${t('diagram')}</h4>
-        <div class="mermaid-wrap"><div class="mermaid">${aa.diagram}</div></div>
+        <div class="mermaid-wrap" id="diag-wrap-${aa.id}"><div class="mermaid-placeholder" data-diagram="${encodeURIComponent(aa.diagram)}" id="diag-${aa.id}" style="color:var(--text3);font-size:11px;font-family:var(--font-mono);padding:8px 0">⟳ Loading diagram…</div></div>
         <h4>${t('codeExamples')}</h4>
         ${codeTabs}
       </div>`;
     wrap.appendChild(card);
   });
-  setTimeout(() => mermaid.initialize({ startOnLoad:false, theme: currentTheme === 'dark' ? 'dark' : 'default' }) || mermaid.init(), 100);
 }
 
 function renderBuildingBlocks() {
@@ -2224,7 +2861,7 @@ function renderGrouping() {
         const val = tObj(v);
         return val.toLowerCase().includes('very high') || val.toLowerCase().includes('rất cao');
       }).map(([k]) => k).join(', ') : '';
-      html += `<tr><td><strong>${item}</strong></td><td><span class="tag tag-${level}">${level.toUpperCase()}</span></td><td><span style="color:var(--accent2);font-family:var(--font-mono);font-size:11px">${spamf || 'Balanced'}</span></td><td style="font-size:12px;color:var(--text2)">${when.slice(0, 80)}${when.length>80?'...':''}</td></tr>`;
+      html += `<tr class="group-row"><td><strong>${item}</strong></td><td><span class="tag tag-${level}">${level.toUpperCase()}</span></td><td><span style="color:var(--accent2);font-family:var(--font-mono);font-size:11px">${spamf || 'Balanced'}</span></td><td style="font-size:12px;color:var(--text2)">${when.slice(0, 80)}${when.length>80?'...':''}</td></tr>`;
     });
     html += '</tbody></table></div></div>';
   });
@@ -2245,13 +2882,259 @@ function toggleCard(id) {
   const body = document.getElementById('body-' + id);
   const isOpen = body.classList.contains('open');
   body.classList.toggle('open', !isOpen);
-  head.setAttribute('aria-expanded', !isOpen);
+  head.setAttribute('aria-expanded', String(!isOpen));
   if (!isOpen) {
-    setTimeout(() => mermaid.init(undefined, `#body-${id} .mermaid`), 50);
+    renderDiagram(id);
   }
 }
 
-/* ─── Code tab switch ─── */
+/* ─── Mermaid on-demand renderer ─── */
+async function renderDiagram(id) {
+  const placeholder = document.getElementById('diag-' + id);
+  if (!placeholder || placeholder.dataset.rendered) return;
+  const encoded = placeholder.getAttribute('data-diagram');
+  if (!encoded) return;
+  const definition = decodeURIComponent(encoded);
+  placeholder.textContent = 'Rendering…';
+  try {
+    const theme = currentTheme === 'dark' ? 'dark' : 'default';
+    mermaid.initialize({ startOnLoad: false, theme, securityLevel: 'loose',
+      themeVariables: currentTheme === 'dark' ? {
+        primaryColor: '#1a1a30', primaryTextColor: '#e8e8f4',
+        primaryBorderColor: '#6c63ff', lineColor: '#6c63ff',
+        secondaryColor: '#13131f', tertiaryColor: '#0a0a0f',
+        edgeLabelBackground: '#1a1a30', clusterBkg: '#13131f',
+        titleColor: '#a78bfa', nodeTextColor: '#e8e8f4'
+      } : {}
+    });
+    const { svg } = await mermaid.render('mermaid-svg-' + id, definition);
+    placeholder.innerHTML = svg;
+    placeholder.dataset.rendered = '1';
+    // Make SVG responsive
+    const svgEl = placeholder.querySelector('svg');
+    if (svgEl) { svgEl.style.maxWidth = '100%'; svgEl.style.height = 'auto'; }
+  } catch(e) {
+    placeholder.textContent = '⚠ Diagram error: ' + e.message;
+  }
+}
+
+/* ─── Search highlight helper ─── */
+function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+function highlightText(el, query) {
+  if (!query) return;
+  const re = new RegExp('(' + escapeRe(query) + ')', 'gi');
+  // TreeWalker with filter: skip PRE, CODE, SCRIPT, MARK to avoid mangling code blocks
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      let p = node.parentElement;
+      while (p && p !== el) {
+        const tag = p.tagName;
+        if (tag === 'PRE' || tag === 'CODE' || tag === 'SCRIPT' || tag === 'MARK') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        p = p.parentElement;
+      }
+      return node.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+    }
+  });
+  const nodes = [];
+  let n;
+  while ((n = walker.nextNode())) nodes.push(n);
+  nodes.forEach(node => {
+    re.lastIndex = 0;
+    if (!re.test(node.nodeValue)) return;
+    re.lastIndex = 0;
+    const span = document.createElement('span');
+    span.innerHTML = node.nodeValue.replace(re, '<mark class="highlight">$1</mark>');
+    node.parentNode.replaceChild(span, node);
+  });
+}
+
+function clearHighlights(el) {
+  el.querySelectorAll('mark.highlight').forEach(mark => {
+    const parent = mark.parentNode;
+    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+    parent.normalize();
+  });
+}
+
+function applyFilters() {
+  const query = document.getElementById('search-input').value.toLowerCase().trim();
+  const lvl = document.getElementById('filter-level').value;
+
+  // ── AA cards: highlight both head AND body (body is in DOM even when collapsed) ──
+  let visibleCount = 0;
+  document.querySelectorAll('.aa-card').forEach(card => {
+    const name = card.getAttribute('data-name');
+    const desc = card.getAttribute('data-desc');
+    const level = card.getAttribute('data-level');
+    const matchQ = !query || name.includes(query) || desc.includes(query);
+    const matchL = !lvl || level === lvl;
+    const show = matchQ && matchL;
+    card.classList.toggle('hidden', !show);
+
+    const head = card.querySelector('.card-head');
+    const body = card.querySelector('.card-body');
+    clearHighlights(head);
+    clearHighlights(body);
+    if (show && query) {
+      highlightText(head, query);
+      highlightText(body, query); // PRE/CODE blocks are skipped automatically
+    }
+
+    if (show) visibleCount++;
+  });
+  const empty = document.getElementById('catalog-empty');
+  if (empty) empty.style.display = visibleCount === 0 ? 'block' : 'none';
+
+  // ── BB table rows ──
+  document.querySelectorAll('.bb-row').forEach(row => {
+    const show = !query || row.textContent.toLowerCase().includes(query);
+    row.classList.toggle('hidden', !show);
+    clearHighlights(row);
+    if (show && query) highlightText(row, query);
+  });
+
+  // ── Tooling rows ──
+  document.querySelectorAll('.tool-row').forEach(row => {
+    const show = !query || row.textContent.toLowerCase().includes(query);
+    row.classList.toggle('hidden', !show);
+    clearHighlights(row);
+    if (show && query) highlightText(row, query);
+  });
+
+  // ── Matrix rows ──
+  document.querySelectorAll('.matrix-row').forEach(row => {
+    const show = !query || row.textContent.toLowerCase().includes(query);
+    row.classList.toggle('hidden', !show);
+    clearHighlights(row);
+    if (show && query) highlightText(row, query);
+  });
+
+  // ── By Category rows ──
+  document.querySelectorAll('.group-row').forEach(row => {
+    const show = !query || row.textContent.toLowerCase().includes(query);
+    row.classList.toggle('hidden', !show);
+    clearHighlights(row);
+    if (show && query) highlightText(row, query);
+  });
+}
+
+/* ─── Mobile sidebar toggle ─── */
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+  const isOpen = sidebar.classList.contains('mobile-open');
+  sidebar.classList.toggle('mobile-open', !isOpen);
+  backdrop.classList.toggle('mobile-open', !isOpen);
+}
+
+/* ─── Card Maximize / Restore ─── */
+let maximizedId = null;
+
+function maximizeCard(id, event) {
+  event.stopPropagation(); // don't toggle card open/close
+  const card = document.querySelector(`.aa-card[data-name]#card-${id}`) ||
+               [...document.querySelectorAll('.aa-card')].find(c => {
+                 return c.querySelector(`#head-${id}`);
+               });
+  if (!card) return;
+
+  const overlay = document.getElementById('card-overlay');
+  const inner = document.getElementById('card-overlay-inner');
+
+  // Clone card content into overlay
+  const clone = card.cloneNode(true);
+  // Remove card-actions from clone (replaced by close btn)
+  clone.querySelector('.card-actions')?.remove();
+  // Remove position:relative interference
+  clone.style.cssText = 'background:transparent;border:none;border-radius:0;';
+  // Force body open
+  const cloneBody = clone.querySelector('.card-body');
+  if (cloneBody) { cloneBody.classList.add('open'); }
+  // Disable card head click in overlay (just cosmetic)
+  const cloneHead = clone.querySelector('.card-head');
+  if (cloneHead) {
+    cloneHead.removeAttribute('onclick');
+    cloneHead.style.cursor = 'default';
+  }
+  // Fix code tabs: activate first pane
+  clone.querySelectorAll('.code-pane').forEach((p,i) => p.classList.toggle('active', i===0));
+  clone.querySelectorAll('.code-tab-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+  // Fix tab switching in clone — remap onclick with cloneId
+  clone.querySelectorAll('.code-tab-btn').forEach(btn => {
+    const orig = btn.getAttribute('onclick') || '';
+    btn.setAttribute('onclick', orig.replace('switchTab(', 'switchTabClone('));
+  });
+
+  // Keep only close button + cloned card in inner
+  inner.innerHTML = `<button class="card-overlay-close" onclick="closeMaximize()" title="Close (Esc)">✕</button>`;
+  inner.appendChild(clone);
+
+  // Render diagram in overlay after insertion
+  overlay.classList.add('open');
+  maximizedId = id;
+  document.body.style.overflow = 'hidden';
+
+  // Render the mermaid diagram inside the overlay clone
+  const diagPlaceholder = clone.querySelector('.mermaid-placeholder');
+  if (diagPlaceholder) {
+    const encoded = diagPlaceholder.getAttribute('data-diagram');
+    if (encoded && !diagPlaceholder.dataset.rendered) {
+      const cloneDiagId = 'overlay-diag-' + id;
+      diagPlaceholder.id = cloneDiagId;
+      renderDiagramEl(diagPlaceholder, id + '-overlay');
+    }
+  }
+}
+
+function closeMaximize() {
+  const overlay = document.getElementById('card-overlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  maximizedId = null;
+}
+
+function handleOverlayClick(event) {
+  // Close if clicking the dark backdrop (not the inner card)
+  if (event.target === document.getElementById('card-overlay')) closeMaximize();
+}
+
+// Variant of renderDiagram that accepts an element directly
+async function renderDiagramEl(placeholder, uniqueId) {
+  if (!placeholder) return;
+  const encoded = placeholder.getAttribute('data-diagram');
+  if (!encoded) return;
+  const definition = decodeURIComponent(encoded);
+  placeholder.textContent = 'Rendering…';
+  try {
+    const theme = currentTheme === 'dark' ? 'dark' : 'default';
+    mermaid.initialize({ startOnLoad: false, theme, securityLevel: 'loose' });
+    const { svg } = await mermaid.render('mermaid-svg-' + uniqueId, definition);
+    placeholder.innerHTML = svg;
+    placeholder.dataset.rendered = '1';
+    const svgEl = placeholder.querySelector('svg');
+    if (svgEl) { svgEl.style.maxWidth = '100%'; svgEl.style.height = 'auto'; }
+  } catch(e) {
+    placeholder.textContent = '⚠ Diagram error: ' + e.message;
+  }
+}
+
+// Tab switcher for cloned cards in overlay
+function switchTabClone(aaId, lang, btn) {
+  const safeId = aaId + '-' + lang.replace('#','sharp').replace('+','p');
+  const card = btn.closest('.aa-card');
+  card.querySelectorAll('.code-tab-btn').forEach(b => b.classList.remove('active'));
+  card.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  // Find pane by matching lang in id
+  const panes = card.querySelectorAll('.code-pane');
+  panes.forEach(p => { if (p.id === safeId) p.classList.add('active'); });
+}
+
+// Close overlay on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && maximizedId) closeMaximize(); });
 function switchTab(aaId, lang, btn) {
   const safeId = aaId + '-' + lang.replace('#','sharp').replace('+','p');
   const card = btn.closest('.aa-card');
@@ -2264,6 +3147,15 @@ function switchTab(aaId, lang, btn) {
 
 /* ─── INIT ─── */
 mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+
+// Dynamic stats
+const statAA = document.getElementById('stat-aa');
+const statBB = document.getElementById('stat-bb');
+const statMatrix = document.getElementById('stat-matrix');
+if (statAA) statAA.textContent = AA_DATA.length;
+if (statBB) statBB.textContent = BB_DATA.length;
+if (statMatrix) statMatrix.textContent = MATRIX.length;
+
 renderAll();
 </script>
 </body>

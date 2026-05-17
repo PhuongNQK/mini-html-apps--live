@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talent Decision Framework - Multi-Thinker Evaluation System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+        /* ============================================
+           CSS VARIABLES & THEME FOUNDATION
+           ============================================ */
+        
+        :root {
+            /* Light theme colors */
+            --bg-primary: #f3f6fb;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #eef2f8;
+            --text-primary: #152238;
+            --text-secondary: #4c5d76;
+            --text-muted: #7f8ea4;
+            --border-color: #d7deea;
+            --border-light: #e9edf4;
+            --surface-elevated: rgba(255, 255, 255, 0.88);
+            --accent-1: #2454ff;
+            --accent-2: #1f8f73;
+            
+            /* Accent colors by author */
+            --buffett-color: #2e5090;
+            --munger-color: #8b4513;
+            --grant-color: #c41e3a;
+            --collins-color: #1b5e20;
+            
+            /* Status colors */
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #17a2b8;
+            
+            /* Rating level colors */
+            --rating-level-1: #dc3545;
+            --rating-level-2: #fd7e14;
+            --rating-level-3: #ffc107;
+            --rating-level-4: #28a745;
+            --rating-level-5: #1b5e20;
+            
+            /* Spacing */
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-xxl: 3rem;
+            
+            /* Typography */
+            --font-family: 'IBM Plex Sans', 'Segoe UI', Arial, sans-serif;
+            --font-family-display: 'Manrope', 'Segoe UI', Arial, sans-serif;
+            --font-size-base: 16px;
+            --font-size-sm: 14px;
+            --font-size-lg: 18px;
+            --font-size-xl: 20px;
+            --font-size-xxl: 24px;
+            
+            /* Shadows */
+            --shadow-sm: 0 8px 18px rgba(28, 52, 95, 0.08);
+            --shadow-md: 0 14px 30px rgba(24, 44, 85, 0.12);
+            --shadow-lg: 0 22px 46px rgba(18, 33, 66, 0.16);
+            
+            /* Transitions */
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms ease;
+            --transition-slow: 350ms ease;
+        }
+        
+        /* Dark theme */
+        [data-theme="dark"] {
+            --bg-primary: #0f1727;
+            --bg-secondary: #151f34;
+            --bg-tertiary: #1f2b43;
+            --text-primary: #edf2ff;
+            --text-secondary: #b6c1da;
+            --text-muted: #90a0bf;
+            --border-color: #2e3c58;
+            --border-light: #25324c;
+            --surface-elevated: rgba(20, 30, 50, 0.85);
+            --accent-1: #70a4ff;
+            --accent-2: #53caa7;
+        }
+        
+        /* ============================================
+           GLOBAL STYLES
+           ============================================ */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            background-image:
+                radial-gradient(circle at 8% 12%, rgba(52, 103, 255, 0.16), transparent 28%),
+                radial-gradient(circle at 90% 20%, rgba(31, 143, 115, 0.14), transparent 33%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+            transition: background-color var(--transition-base), color var(--transition-base);
+        }
+        
+        /* ============================================
+           LAYOUT COMPONENTS
+           ============================================ */
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        header {
+            background: linear-gradient(135deg, rgba(36, 84, 255, 0.08), rgba(31, 143, 115, 0.08));
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--spacing-lg) 0;
+            position: relative;
+            transition: background-color var(--transition-base);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+        
+        .header-title {
+            flex: 1;
+        }
+        
+        .header-title h1 {
+            font-family: var(--font-family-display);
+            font-size: clamp(1.35rem, 2.3vw, 2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .header-subtitle {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+        
+        .header-controls {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        
+        /* ============================================
+           BUTTONS & CONTROLS
+           ============================================ */
+        
+        button {
+            font-family: var(--font-family);
+            font-size: var(--font-size-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid transparent;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            background: linear-gradient(120deg, var(--accent-1), #3568ff);
+            color: white;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        button:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: var(--shadow-md);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        /* ============================================
+           MAIN LAYOUT
+           ============================================ */
+        
+        main {
+            padding: var(--spacing-xl) 0;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .topic-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xxl);
+        }
+        
+        .topic-card {
+            background: linear-gradient(180deg, var(--surface-elevated), var(--bg-secondary));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: var(--spacing-lg);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            animation: riseIn 380ms ease both;
+        }
+        
+        .topic-card:hover {
+            border-color: var(--accent-1);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+        
+        .topic-card.active {
+            border-color: var(--accent-1);
+            background: linear-gradient(180deg, rgba(36, 84, 255, 0.12), var(--bg-secondary));
+        }
+        
+        .topic-card h3 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+            font-family: var(--font-family-display);
+            font-weight: 700;
+        }
+        
+        .topic-card p {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+        }
+        
+        /* ============================================
+           FILTER TOOLBAR (STICKY)
+           ============================================ */
+        
+        .filter-toolbar {
+            background: var(--surface-elevated);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: var(--spacing-md) 0;
+            position: sticky;
+            top: 0;
+            z-index: 220;
+            display: none;
+            box-shadow: 0 12px 30px rgba(15, 28, 58, 0.12);
+        }
+
+        .filter-toolbar .toolbar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        .filter-toolbar.visible {
+            display: block;
+        }
+        
+        .toolbar-content {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: var(--font-size-sm);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .search-box input:focus,
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(36, 84, 255, 0.16);
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+        
+        .filter-label {
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .filter-select {
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: var(--font-size-sm);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+        
+        /* ============================================
+           BADGE & TAG STYLES
+           ============================================ */
+        
+        .badge {
+            display: inline-block;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        
+        .badge-buffett {
+            background-color: rgba(46, 80, 144, 0.2);
+            color: var(--buffett-color);
+        }
+        
+        .badge-munger {
+            background-color: rgba(139, 69, 19, 0.2);
+            color: var(--munger-color);
+        }
+        
+        .badge-grant {
+            background-color: rgba(196, 30, 58, 0.2);
+            color: var(--grant-color);
+        }
+        
+        .badge-collins {
+            background-color: rgba(27, 94, 32, 0.2);
+            color: var(--collins-color);
+        }
+        
+        .badge-mandatory {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .badge-optional {
+            background-color: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+            border: 1px solid var(--info);
+        }
+        
+        /* ============================================
+           EXPANDABLE CARDS
+           ============================================ */
+        
+        .card {
+            background: linear-gradient(180deg, var(--surface-elevated), var(--bg-secondary));
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin-bottom: var(--spacing-md);
+            overflow: hidden;
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .card.highlight {
+            border-color: var(--warning);
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+        }
+        
+        .card-header {
+            padding: var(--spacing-md);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--spacing-md);
+            background: transparent;
+            transition: background-color var(--transition-fast);
+        }
+        
+        .card-header:hover {
+            background-color: rgba(36, 84, 255, 0.08);
+        }
+        
+        .card-header-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+        }
+        
+        .card-header-meta {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        
+        .card-toggle {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: var(--font-size-lg);
+            border-radius: 999px;
+            background: var(--bg-tertiary);
+            line-height: 1;
+            text-align: center;
+            transition: transform var(--transition-fast);
+        }
+
+        .card-checkbox-row {
+            display: flex;
+            gap: .6rem;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .card-checkbox-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            flex: 0 0 auto;
+            accent-color: var(--accent-1);
+            align-self: center;
+            transform: translateY(0);
+        }
+
+        .card-checkbox-content {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .card.expanded .card-toggle {
+            transform: rotate(180deg);
+        }
+        
+        .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-base);
+            padding: 0 var(--spacing-md);
+        }
+        
+        .card.expanded .card-body {
+            max-height: 2000px;
+            padding: 0 var(--spacing-md) var(--spacing-md);
+        }
+        
+        .card-content {
+            font-size: var(--font-size-sm);
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+        
+        .card-section {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .card-section-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--font-size-sm);
+        }
+        
+        /* ============================================
+           RATING DISPLAY
+           ============================================ */
+        
+        .rating-display {
+            background: linear-gradient(180deg, var(--surface-elevated), var(--bg-secondary));
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            box-shadow: var(--shadow-md);
+            animation: riseIn 320ms ease both;
+        }
+
+        .summary-top {
+            display: grid;
+            grid-template-columns: 170px 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .progress-ring {
+            --progress-angle: 0deg;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background:
+                conic-gradient(var(--accent-1) var(--progress-angle), rgba(127, 142, 164, 0.25) var(--progress-angle)),
+                radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+            display: grid;
+            place-items: center;
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .progress-ring::after {
+            content: "";
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            position: absolute;
+        }
+
+        .progress-ring-value {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            font-family: var(--font-family-display);
+        }
+
+        .progress-ring-value strong {
+            display: block;
+            font-size: 1.65rem;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+        }
+
+        .progress-ring-value span {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .summary-headline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .summary-level-name {
+            font-family: var(--font-family-display);
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .score-tiles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+            gap: .75rem;
+            margin-top: .8rem;
+        }
+
+        .score-tile {
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.02));
+            padding: .8rem .9rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .score-tile-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-secondary);
+            margin-bottom: 0.28rem;
+        }
+
+        .score-tile-value {
+            font-family: var(--font-family-display);
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        
+        .rating-badge {
+            display: inline-block;
+            padding: 0.7rem 1.1rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: var(--font-size-lg);
+            color: white;
+            margin-bottom: var(--spacing-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .rating-section {
+            margin-top: var(--spacing-lg);
+        }
+        
+        .rating-section-title {
+            font-weight: 600;
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .missing-items, .unresolved-flags {
+            background: rgba(255, 193, 7, 0.12);
+            padding: var(--spacing-md);
+            border-left: 4px solid var(--warning);
+            border-radius: 12px;
+            margin-top: var(--spacing-md);
+        }
+        
+        .missing-item, .flag-item {
+            padding: var(--spacing-sm) 0;
+            cursor: pointer;
+            color: var(--accent-1);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--border-color);
+            transition: all var(--transition-fast);
+        }
+        
+        .missing-item:hover, .flag-item:hover {
+            padding-left: var(--spacing-md);
+            font-weight: 600;
+        }
+        
+        .missing-item:last-child, .flag-item:last-child {
+            border-bottom: none;
+        }
+
+        .legend-grid {
+            display: grid;
+            gap: 0.7rem;
+        }
+
+        .legend-card {
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            background: linear-gradient(180deg, var(--surface-elevated), var(--bg-secondary));
+            box-shadow: var(--shadow-sm);
+            padding: 0.8rem 0.95rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(127, 142, 164, 0.12);
+        }
+
+        .legend-main strong {
+            display: block;
+            font-size: 0.98rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .legend-main small {
+            color: var(--text-secondary);
+            display: block;
+            line-height: 1.45;
+        }
+
+        .legend-threshold {
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-align: right;
+            white-space: nowrap;
+        }
+        
+        /* ============================================
+           RED FLAGS EMPHASIS
+           ============================================ */
+        
+        .red-flag {
+            border-left: 5px solid var(--danger) !important;
+        }
+        
+        .red-flag .card-header {
+            background: linear-gradient(90deg, rgba(220, 53, 69, 0.11), transparent);
+        }
+        
+        .red-flag-indicator {
+            color: var(--danger);
+            font-weight: 700;
+            font-size: var(--font-size-lg);
+        }
+        
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-controls {
+                width: 100%;
+                justify-content: flex-start;
+                gap: var(--spacing-sm);
+            }
+
+            .header-controls button,
+            .header-controls .filter-select {
+                width: calc(50% - 0.25rem);
+                min-width: 140px;
+            }
+            
+            .toolbar-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-toolbar .toolbar-content {
+                padding: 0 var(--spacing-sm);
+            }
+            
+            .search-box {
+                min-width: 100%;
+            }
+            
+            .filter-group {
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .card-header-meta {
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .summary-top {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-ring {
+                width: 128px;
+                height: 128px;
+            }
+
+            .progress-ring::after {
+                width: 94px;
+                height: 94px;
+            }
+
+            .legend-card {
+                grid-template-columns: auto 1fr;
+            }
+
+            .legend-threshold {
+                grid-column: 2 / 3;
+                text-align: left;
+            }
+        }
+        
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .highlight-match {
+            background-color: var(--warning);
+            font-weight: 600;
+            padding: 0 2px;
+            border-radius: 4px;
+        }
+        
+        .clickable {
+            cursor: pointer;
+            text-decoration: underline;
+            color: var(--buffett-color);
+        }
+        
+        .clickable:hover {
+            color: #1e3f5a;
+        }
+
+        .app-footer {
+            background: linear-gradient(180deg, rgba(36, 84, 255, 0.08), rgba(31, 143, 115, 0.08));
+            padding: var(--spacing-lg);
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            margin-top: var(--spacing-xxl);
+            font-size: var(--font-size-sm);
+        }
+
+        @keyframes riseIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>Talent Decision Framework</h1>
+                    <p class="header-subtitle">Synthesized wisdom from Warren Buffett, Charlie Munger, Adam Grant & Jim Collins</p>
+                </div>
+                <div class="header-controls">
+                    <button id="themeToggle" class="btn-secondary">🌙 Dark Mode</button>
+                    <button id="exportStateBtn" class="btn-secondary">Export JSON</button>
+                    <button id="importStateBtn" class="btn-secondary">Import JSON</button>
+                    <input id="importStateInput" type="file" accept="application/json,.json" class="hidden">
+                    <select id="languageSelect" class="filter-select">
+                        <option value="en">English</option>
+                        <option value="vi">Tiếng Việt</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="topicSelector" class="topic-selector"></div>
+        
+        <div id="filterToolbar" class="filter-toolbar">
+            <div class="toolbar-content">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search criteria, red flags...">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Author:</label>
+                    <select id="authorFilter" class="filter-select">
+                        <option value="">All Authors</option>
+                        <option value="buffett">Buffett</option>
+                        <option value="munger">Munger</option>
+                        <option value="grant">Grant</option>
+                        <option value="collins">Collins</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Type:</label>
+                    <select id="mandatoryFilter" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="mandatory">Mandatory Only</option>
+                        <option value="optional">Optional Only</option>
+                    </select>
+                </div>
+                <button id="resetFilters" class="btn-secondary">Reset Filters</button>
+            </div>
+        </div>
+        
+        <div id="contentArea"></div>
+    </main>
+
+    <footer class="app-footer">
+        <p>Talent Decision Framework © 2026 | Multi-Thinker Evaluation System</p>
+    </footer>
+
+    <script>
+        const TRANSLATIONS = {
+            en: {
+                appTitle: "Talent Decision Framework",
+                appSubtitle: "Synthesized wisdom from Warren Buffett, Charlie Munger, Adam Grant & Jim Collins",
+                controls: {
+                    darkMode: "Dark Mode",
+                    lightMode: "Light Mode",
+                    exportJson: "Export JSON",
+                    importJson: "Import JSON",
+                    searchPlaceholder: "Search criteria, red flags...",
+                    resetFilters: "Reset Filters",
+                    author: "Author",
+                    type: "Type",
+                    category: "Category",
+                    allAuthors: "All Authors",
+                    allTypes: "All Types",
+                    allCategories: "All Categories",
+                    mandatoryOnly: "Mandatory Only",
+                    optionalOnly: "Optional Only",
+                    importSuccess: "Evaluation state imported successfully.",
+                    importInvalid: "Invalid JSON format. Please import a valid evaluation state file.",
+                    importReadError: "Failed to read JSON file."
+                },
+                labels: {
+                    mandatory: "Mandatory",
+                    optional: "Optional",
+                    mandatoryCount: "Mandatory",
+                    weight: "Weight",
+                    philosophy: "Supporting Philosophy",
+                    details: "Detailed Explanation",
+                    whyItMatters: "Why It Matters",
+                    category: "Category",
+                    disqualifier: "Disqualifier",
+                    unresolvedFlags: "Unresolved Red Flags",
+                    missingToNext: "Missing Criteria To Reach Next Level",
+                    noMissing: "You currently satisfy all mandatory requirements for the next level.",
+                    noCriteriaMatch: "No criteria match the current filters.",
+                    noFlagsMatch: "No red flags match the current filters.",
+                    totalScore: "Total Score",
+                    maxScore: "Max Score",
+                    completion: "Completion",
+                    levelLegend: "Rating Legend",
+                    minScore: "min score",
+                    criteria: "Criteria",
+                    redFlags: "Red Flags"
+                },
+                summary: {
+                    currentLevel: "Current Rating",
+                    nextLevel: "Next Target",
+                    blockedByFlags: "Immediate disqualification due to unresolved major red flag(s).",
+                    stillMissingXFromY: "You are still missing {x} criteria from the following {y} criteria:",
+                    noHigher: "Highest level reached under current rating rules."
+                },
+                topics: {
+                    selectingCompanies: { title: "Selecting Companies", description: "Investment decision framework" },
+                    hiringEmployees: { title: "Hiring Employees", description: "Talent acquisition criteria" },
+                    developingTalent: { title: "Developing Future Talent", description: "People development framework" },
+                    selfEvaluation: { title: "Self-Evaluation", description: "Personal capability assessment" }
+                },
+                ratings: {
+                    disqualified: "Disqualified",
+                    weak: "Weak",
+                    watchlist: "Watchlist",
+                    strong: "Strong",
+                    exceptional: "Exceptional"
+                }
+            },
+            vi: {
+                appTitle: "Khung Quyết Định Nhân Tài",
+                appSubtitle: "Tổng hợp tư duy của Warren Buffett, Charlie Munger, Adam Grant & Jim Collins",
+                controls: {
+                    darkMode: "Chế Độ Tối",
+                    lightMode: "Chế Độ Sáng",
+                    exportJson: "Xuất JSON",
+                    importJson: "Nhập JSON",
+                    searchPlaceholder: "Tìm tiêu chí, cờ đỏ...",
+                    resetFilters: "Đặt Lại Bộ Lọc",
+                    author: "Tác Giả",
+                    type: "Loại",
+                    category: "Danh Mục",
+                    allAuthors: "Tất Cả Tác Giả",
+                    allTypes: "Tất Cả Loại",
+                    allCategories: "Tất Cả Danh Mục",
+                    mandatoryOnly: "Chỉ Bắt Buộc",
+                    optionalOnly: "Chỉ Tùy Chọn",
+                    importSuccess: "Đã nhập trạng thái đánh giá thành công.",
+                    importInvalid: "Định dạng JSON không hợp lệ. Vui lòng nhập tệp trạng thái đánh giá hợp lệ.",
+                    importReadError: "Không thể đọc tệp JSON."
+                },
+                labels: {
+                    mandatory: "Bắt Buộc",
+                    optional: "Tùy Chọn",
+                    mandatoryCount: "Bắt Buộc",
+                    weight: "Trọng Số",
+                    philosophy: "Triết Lý Hỗ Trợ",
+                    details: "Giải Thích Chi Tiết",
+                    whyItMatters: "Vì Sao Quan Trọng",
+                    category: "Danh Mục",
+                    disqualifier: "Loại Ngay",
+                    unresolvedFlags: "Cờ Đỏ Chưa Xử Lý",
+                    missingToNext: "Tiêu Chí Còn Thiếu Để Lên Mức",
+                    noMissing: "Bạn đang đáp ứng tất cả điều kiện bắt buộc của mức tiếp theo.",
+                    noCriteriaMatch: "Không có tiêu chí phù hợp bộ lọc hiện tại.",
+                    noFlagsMatch: "Không có cờ đỏ phù hợp bộ lọc hiện tại.",
+                    totalScore: "Tổng Điểm",
+                    maxScore: "Điểm Tối Đa",
+                    completion: "Mức Hoàn Thành",
+                    levelLegend: "Chú Giải Xếp Hạng",
+                    minScore: "điểm tối thiểu",
+                    criteria: "Tiêu Chí",
+                    redFlags: "Cờ Đỏ"
+                },
+                summary: {
+                    currentLevel: "Xếp Hạng Hiện Tại",
+                    nextLevel: "Mục Tiêu Kế Tiếp",
+                    blockedByFlags: "Bị loại ngay do còn cờ đỏ nghiêm trọng chưa xử lý.",
+                    stillMissingXFromY: "Bạn còn thiếu {x} tiêu chí trong tổng {y} tiêu chí sau:",
+                    noHigher: "Đã đạt mức cao nhất theo quy tắc hiện tại."
+                },
+                topics: {
+                    selectingCompanies: { title: "Lựa Chọn Công Ty", description: "Khung quyết định đầu tư" },
+                    hiringEmployees: { title: "Tuyển Dụng Nhân Viên", description: "Tiêu chí tuyển dụng nhân tài" },
+                    developingTalent: { title: "Phát Triển Tài Năng Tương Lai", description: "Khung phát triển con người" },
+                    selfEvaluation: { title: "Tự Đánh Giá", description: "Đánh giá năng lực cá nhân" }
+                },
+                ratings: {
+                    disqualified: "Bị Loại",
+                    weak: "Yếu",
+                    watchlist: "Cần Theo Dõi",
+                    strong: "Mạnh",
+                    exceptional: "Xuất Sắc"
+                }
+            }
+        };
+
+        const AUTHOR_CLASSES = {
+            buffett: "badge-buffett",
+            munger: "badge-munger",
+            grant: "badge-grant",
+            collins: "badge-collins"
+        };
+
+        const CATEGORY_TRANSLATIONS = {
+            "Moat": { en: "Moat", vi: "Hào Kinh Tế" },
+            "Financial Quality": { en: "Financial Quality", vi: "Chất Lượng Tài Chính" },
+            "Leadership": { en: "Leadership", vi: "Lãnh Đạo" },
+            "Risk": { en: "Risk", vi: "Rủi Ro" },
+            "Valuation": { en: "Valuation", vi: "Định Giá" },
+            "Competence": { en: "Competence", vi: "Năng Lực" },
+            "Character": { en: "Character", vi: "Tính Cách" },
+            "Collaboration": { en: "Collaboration", vi: "Hợp Tác" },
+            "Learning": { en: "Learning", vi: "Học Hỏi" },
+            "Execution": { en: "Execution", vi: "Thực Thi" },
+            "Mindset": { en: "Mindset", vi: "Tư Duy" },
+            "Capability": { en: "Capability", vi: "Năng Lực Thực Thi" },
+            "Resilience": { en: "Resilience", vi: "Khả Năng Chống Chịu" },
+            "System": { en: "System", vi: "Hệ Thống" },
+            "Awareness": { en: "Awareness", vi: "Tự Nhận Thức" },
+            "Discipline": { en: "Discipline", vi: "Kỷ Luật" },
+            "Integrity": { en: "Integrity", vi: "Liêm Chính" },
+            "Impact": { en: "Impact", vi: "Tác Động" }
+        };
+
+        function makeCriterion(id, category, mandatory, weight, authors, enTitle, viTitle, enShort, viShort, enDetail, viDetail, philosophy) {
+            return {
+                id,
+                category,
+                mandatory,
+                weight,
+                authors,
+                philosophy,
+                title: { en: enTitle, vi: viTitle },
+                short: { en: enShort, vi: viShort },
+                detail: { en: enDetail, vi: viDetail }
+            };
+        }
+
+        function makeFlag(id, category, authors, enTitle, viTitle, enExplain, viExplain, enWhy, viWhy) {
+            return {
+                id,
+                category,
+                disqualify: true,
+                authors,
+                title: { en: enTitle, vi: viTitle },
+                explanation: { en: enExplain, vi: viExplain },
+                whyItMatters: { en: enWhy, vi: viWhy }
+            };
+        }
+
+        const TOPICS = {
+            selectingCompanies: {
+                key: "selectingCompanies",
+                categories: ["Moat", "Financial Quality", "Leadership", "Risk", "Valuation"],
+                criteria: [
+                    makeCriterion("sc_c1", "Moat", true, 12, ["buffett", "munger"], "Durable Competitive Advantage", "Lợi Thế Cạnh Tranh Bền Vững", "Can competitors easily copy the business?", "Đối thủ có thể sao chép mô hình dễ không?", "Evidence of structural moat: brand, cost, network, switching costs.", "Có bằng chứng về hào kinh tế: thương hiệu, chi phí, mạng lưới, chi phí chuyển đổi.", "Buffett moat + Munger inversion"),
+                    makeCriterion("sc_c2", "Financial Quality", true, 10, ["buffett"], "Consistent Free Cash Flow", "Dòng Tiền Tự Do Ổn Định", "FCF is positive and stable across cycles.", "FCF dương và ổn định qua chu kỳ.", "Prefer predictable, resilient cash generation over accounting earnings spikes.", "Ưu tiên dòng tiền bền bỉ hơn lợi nhuận kế toán đột biến.", "Owner earnings focus"),
+                    makeCriterion("sc_c3", "Leadership", true, 9, ["buffett", "collins"], "Management Integrity", "Ban Lãnh Đạo Liêm Chính", "Transparent and rational capital allocation.", "Phân bổ vốn minh bạch và hợp lý.", "Leaders communicate bad news early and avoid empire building.", "Lãnh đạo báo tin xấu sớm và tránh xây đế chế cá nhân.", "Level-5 humility and stewardship"),
+                    makeCriterion("sc_c4", "Risk", true, 10, ["munger", "collins"], "Productive Paranoia Risk Controls", "Kiểm Soát Rủi Ro Theo Productive Paranoia", "Downside scenarios are explicitly planned.", "Kịch bản xấu được lập kế hoạch rõ ràng.", "Stress tests and liquidity buffers exist before growth bets.", "Có stress test và vùng đệm thanh khoản trước khi tăng trưởng.", "Productive paranoia"),
+                    makeCriterion("sc_c5", "Valuation", true, 8, ["buffett"], "Margin of Safety", "Biên An Toàn", "Price offers adequate discount to intrinsic value.", "Giá có chiết khấu hợp lý so với giá trị nội tại.", "Require conservative assumptions and avoid precision illusions.", "Dùng giả định thận trọng, tránh ảo giác chính xác.", "Intrinsic value discipline"),
+                    makeCriterion("sc_c6", "Moat", false, 7, ["collins"], "20 Mile March Consistency", "Tính Đều Đặn Theo 20 Mile March", "Performance rhythm is reliable over years.", "Nhịp hiệu suất đáng tin cậy qua nhiều năm.", "Steady compounding beats erratic surges.", "Tăng trưởng đều đặn tốt hơn tăng sốc thất thường.", "20 Mile March"),
+                    makeCriterion("sc_c7", "Financial Quality", false, 7, ["munger"], "Low Accounting Manipulation Signals", "Dấu Hiệu Bóp Méo Kế Toán Thấp", "Accrual quality and cash conversion are healthy.", "Chất lượng dồn tích và chuyển đổi tiền mặt tốt.", "Checks reduce risk from narrative-biased analysis.", "Giảm rủi ro bị thiên kiến câu chuyện chi phối.", "Bias prevention"),
+                    makeCriterion("sc_c8", "Leadership", false, 6, ["grant"], "Learning-Oriented Leadership", "Lãnh Đạo Có Tư Duy Học Hỏi", "Leaders update views with evidence.", "Lãnh đạo cập nhật quan điểm theo bằng chứng.", "Intellectual humility improves strategic adaptation.", "Khiêm tốn trí tuệ giúp thích nghi chiến lược.", "Rethink mindset"),
+                    makeCriterion("sc_c9", "Risk", false, 6, ["munger"], "Inversion Checklist Coverage", "Độ Phủ Checklist Inversion", "Team asks what could kill the business first.", "Đội ngũ hỏi trước điều gì có thể giết doanh nghiệp.", "Preventable failures are screened before upside narratives.", "Sàng lọc thất bại có thể phòng trước khi chạy theo kỳ vọng tăng trưởng.", "Invert, always invert"),
+                    makeCriterion("sc_c10", "Valuation", false, 5, ["buffett", "munger"], "Circle of Competence Fit", "Phù Hợp Circle of Competence", "Business is understandable by evaluator team.", "Doanh nghiệp nằm trong vùng hiểu biết của đội đánh giá.", "Decline attractive deals outside genuine understanding.", "Từ chối thương vụ hấp dẫn nhưng vượt ngoài hiểu biết thực.", "Circle of competence")
+                ],
+                redFlags: [
+                    makeFlag("sc_f1", "Financial Quality", ["buffett"], "Persistent Negative Free Cash Flow", "FCF Âm Kéo Dài", "Cash burn persists without credible turnaround.", "Đốt tiền kéo dài không có kế hoạch đảo chiều đáng tin.", "Signals fragile economics and funding dependency.", "Cho thấy kinh tế yếu và phụ thuộc vốn ngoài."),
+                    makeFlag("sc_f2", "Leadership", ["buffett"], "Frequent Related-Party Deals", "Giao Dịch Nội Bộ Dày Đặc", "Management repeatedly transacts with affiliates at unclear terms.", "Lãnh đạo giao dịch với bên liên quan với điều khoản mập mờ.", "High risk of minority shareholder abuse.", "Rủi ro cao làm hại cổ đông thiểu số."),
+                    makeFlag("sc_f3", "Risk", ["munger"], "Unchecked Leverage", "Đòn Bẩy Không Kiểm Soát", "Debt profile can break in moderate stress.", "Cấu trúc nợ có thể vỡ trong stress vừa phải.", "Permanent capital impairment risk.", "Nguy cơ mất vốn vĩnh viễn."),
+                    makeFlag("sc_f4", "Leadership", ["collins"], "Ego-Driven Acquisition Spree", "M&A Theo Cái Tôi", "Acquisitions chase size instead of return discipline.", "M&A chạy theo quy mô thay vì kỷ luật lợi suất.", "Classic path to strategic drift and value destruction.", "Con đường điển hình dẫn tới lệch chiến lược và phá hủy giá trị."),
+                    makeFlag("sc_f5", "Moat", ["buffett"], "Moat Erosion Without Response", "Hào Kinh Tế Suy Giảm Không Ứng Phó", "Competitive position weakens while strategy stays static.", "Vị thế cạnh tranh suy giảm nhưng chiến lược không đổi.", "Compounding engine is breaking.", "Động cơ tăng trưởng dài hạn đang gãy."),
+                    makeFlag("sc_f6", "Risk", ["collins"], "No Contingency Buffer", "Không Có Vùng Đệm Dự Phòng", "No liquidity or operational buffer for downside shocks.", "Không có vùng đệm thanh khoản/vận hành cho cú sốc giảm.", "Violates productive paranoia discipline.", "Vi phạm kỷ luật productive paranoia."),
+                    makeFlag("sc_f7", "Financial Quality", ["munger"], "Aggressive Revenue Recognition", "Ghi Nhận Doanh Thu Quá Mạnh Tay", "Revenue timing appears stretched against cash reality.", "Thời điểm ghi nhận doanh thu bị đẩy xa thực tế tiền mặt.", "High earnings quality risk.", "Rủi ro chất lượng lợi nhuận cao."),
+                    makeFlag("sc_f8", "Valuation", ["buffett"], "Narrative-Only Valuation", "Định Giá Chỉ Dựa Câu Chuyện", "Valuation model depends on heroic assumptions.", "Mô hình định giá phụ thuộc giả định phi thực tế.", "No margin of safety.", "Không có biên an toàn."),
+                    makeFlag("sc_f9", "Leadership", ["grant"], "Punitive Culture Against Dissent", "Văn Hóa Trừng Phạt Phản Biện", "Internal dissent is punished rather than debated.", "Phản biện nội bộ bị trừng phạt thay vì tranh luận.", "Blocks learning loops and hides truth.", "Chặn vòng học tập và che giấu sự thật."),
+                    makeFlag("sc_f10", "Risk", ["munger"], "Circle of Competence Violation", "Vi Phạm Circle of Competence", "Decision relies on sectors no one can explain clearly.", "Quyết định dựa vào lĩnh vực không ai giải thích rõ.", "Error rate rises sharply outside competence.", "Tỷ lệ sai tăng mạnh khi ra ngoài vùng hiểu biết.")
+                ],
+                ratingLevels: [
+                    { id: "disqualified", minScore: 0, mandatoryMin: 0, description: { en: "Disqualified by red flag or critical misses.", vi: "Bị loại do cờ đỏ hoặc thiếu yếu tố cốt lõi." } },
+                    { id: "weak", minScore: 28, mandatoryMin: 2, description: { en: "Basic signals present, risk still high.", vi: "Có tín hiệu cơ bản, rủi ro còn cao." } },
+                    { id: "watchlist", minScore: 46, mandatoryMin: 3, description: { en: "Potential candidate with clear gaps.", vi: "Ứng viên đầu tư tiềm năng nhưng còn thiếu." } },
+                    { id: "strong", minScore: 62, mandatoryMin: 4, description: { en: "Strong fit with resilient fundamentals.", vi: "Phù hợp mạnh với nền tảng bền vững." } },
+                    { id: "exceptional", minScore: 76, mandatoryMin: 5, description: { en: "High-conviction opportunity within competence.", vi: "Cơ hội niềm tin cao trong vùng hiểu biết." } }
+                ]
+            },
+            hiringEmployees: {
+                key: "hiringEmployees",
+                categories: ["Competence", "Character", "Collaboration", "Learning", "Execution"],
+                criteria: [
+                    makeCriterion("he_c1", "Competence", true, 11, ["buffett"], "Role-Ready Core Skill", "Năng Lực Cốt Lõi Cho Vai Trò", "Has proven capability for the role's key tasks.", "Đã chứng minh năng lực cho nhiệm vụ chính của vai trò.", "Track record beats polished interview narratives.", "Kết quả thực tế quan trọng hơn lời nói trơn tru khi phỏng vấn.", "Evidence over charisma"),
+                    makeCriterion("he_c2", "Character", true, 11, ["buffett", "munger"], "Integrity Under Pressure", "Liêm Chính Khi Áp Lực", "Chooses right action when incentives conflict.", "Chọn điều đúng khi lợi ích xung đột.", "Character failures scale into systemic damage.", "Sai lệch đạo đức nhỏ có thể thành hại lớn cho tổ chức.", "Integrity first"),
+                    makeCriterion("he_c3", "Collaboration", true, 9, ["grant"], "Giver with Boundaries", "Tinh Thần Cho Đi Có Ranh Giới", "Supports others without collapsing own output.", "Hỗ trợ người khác nhưng không làm hỏng hiệu suất bản thân.", "Balanced prosocial behavior improves team productivity.", "Hành vi vị tha cân bằng giúp đội hiệu quả hơn.", "Give and take balance"),
+                    makeCriterion("he_c4", "Learning", true, 8, ["grant", "collins"], "Learning Velocity", "Tốc Độ Học", "Learns from feedback cycles quickly.", "Học nhanh qua các vòng phản hồi.", "Learning speed outperforms static brilliance.", "Tốc độ học vượt trội so với thông minh tĩnh.", "Rethink + 20 Mile March"),
+                    makeCriterion("he_c5", "Execution", true, 9, ["collins"], "Reliable 20 Mile March Execution", "Thực Thi Đều Đặn 20 Mile March", "Delivers steadily, not in chaotic bursts.", "Giao kết quả đều, không bùng nổ hỗn loạn.", "Consistency compounds team trust.", "Sự đều đặn tích lũy niềm tin của đội.", "20 Mile March"),
+                    makeCriterion("he_c6", "Character", false, 7, ["munger"], "Low Ego Error Correction", "Sửa Sai Ít Cái Tôi", "Admits mistakes and updates behavior.", "Thừa nhận sai và cập nhật hành vi.", "Prevents escalation of commitment bias.", "Ngăn thiên kiến bám chấp quyết định sai.", "Bias management"),
+                    makeCriterion("he_c7", "Collaboration", false, 6, ["grant"], "Constructive Dissent", "Phản Biện Xây Dựng", "Challenges ideas while protecting relationships.", "Thách thức ý tưởng nhưng giữ quan hệ tích cực.", "Improves quality of decisions.", "Nâng chất lượng quyết định.", "Challenge network"),
+                    makeCriterion("he_c8", "Competence", false, 6, ["munger"], "Inversion Problem Solving", "Giải Quyết Vấn Đề Bằng Inversion", "Can identify failure modes before acting.", "Nhận diện được kịch bản thất bại trước khi hành động.", "Reduces avoidable operational mistakes.", "Giảm sai lầm vận hành có thể tránh.", "Invert first"),
+                    makeCriterion("he_c9", "Execution", false, 5, ["collins"], "Disciplined Prioritization", "Ưu Tiên Có Kỷ Luật", "Separates vital few from trivial many.", "Tách việc tối quan trọng khỏi việc vụn vặt.", "Execution quality depends on sequencing discipline.", "Chất lượng thực thi phụ thuộc kỷ luật thứ tự ưu tiên.", "Discipline culture"),
+                    makeCriterion("he_c10", "Learning", false, 5, ["grant"], "Teaches While Learning", "Vừa Học Vừa Dạy", "Shares learned insights with teammates.", "Chia sẻ bài học với đồng đội.", "Creates multiplier effect across teams.", "Tạo hiệu ứng nhân lên cho đội.", "Knowledge generosity")
+                ],
+                redFlags: [
+                    makeFlag("he_f1", "Character", ["buffett"], "Integrity Contradictions", "Mâu Thuẫn Về Liêm Chính", "References and behavior evidence conflict on ethics.", "Thông tin tham chiếu và hành vi mâu thuẫn về đạo đức.", "High trust risk in critical roles.", "Rủi ro niềm tin cao ở vai trò quan trọng."),
+                    makeFlag("he_f2", "Collaboration", ["grant"], "Toxic Political Behavior", "Hành Vi Chính Trị Độc Hại", "Advances self by undermining peers.", "Tiến thân bằng cách hạ thấp đồng đội.", "Breaks team fabric quickly.", "Phá vỡ cấu trúc đội nhanh chóng."),
+                    makeFlag("he_f3", "Execution", ["collins"], "Pattern of Excuse-Making", "Mẫu Hành Vi Đổ Lỗi", "Repeatedly externalizes accountability.", "Liên tục đẩy trách nhiệm ra bên ngoài.", "No stable foundation for performance growth.", "Không có nền tảng ổn định để tăng trưởng hiệu suất."),
+                    makeFlag("he_f4", "Competence", ["munger"], "Fake Expertise", "Chuyên Môn Giả", "Claims expertise but cannot explain first principles.", "Nhận là chuyên gia nhưng không giải thích được nguyên lý nền.", "High decision error probability.", "Xác suất sai quyết định cao."),
+                    makeFlag("he_f5", "Character", ["buffett"], "Ethical Corner Cutting", "Cắt Góc Đạo Đức", "Shows willingness to violate rules for short-term win.", "Sẵn sàng vi phạm quy tắc để thắng ngắn hạn.", "Long-term legal and culture risk.", "Rủi ro pháp lý và văn hóa dài hạn."),
+                    makeFlag("he_f6", "Learning", ["grant"], "Defensive to Feedback", "Phòng Thủ Trước Phản Hồi", "Rejects disconfirming evidence habitually.", "Thói quen bác bỏ bằng chứng trái chiều.", "Learning loop is blocked.", "Vòng học tập bị chặn."),
+                    makeFlag("he_f7", "Execution", ["collins"], "Unreliable Delivery Pattern", "Mẫu Giao Việc Thiếu Tin Cậy", "Misses commitments without escalation discipline.", "Lỡ cam kết mà không có kỷ luật báo động sớm.", "Creates cascading project risk.", "Tạo rủi ro dây chuyền cho dự án."),
+                    makeFlag("he_f8", "Collaboration", ["munger"], "High-Conflict Low-Truth Style", "Xung Đột Cao Nhưng Ít Sự Thật", "Generates heat without analytical clarity.", "Tạo căng thẳng nhưng thiếu rõ ràng phân tích.", "Drains team decision quality.", "Làm suy giảm chất lượng quyết định của đội."),
+                    makeFlag("he_f9", "Character", ["buffett"], "Reference Red Alert", "Cảnh Báo Đỏ Từ Người Tham Chiếu", "Multiple credible references warn against hiring.", "Nhiều nguồn tham chiếu tin cậy cảnh báo không nên tuyển.", "Ignore-at-your-own-risk signal.", "Tín hiệu không thể bỏ qua."),
+                    makeFlag("he_f10", "Competence", ["munger"], "Cannot Explain Trade-Offs", "Không Giải Thích Được Đánh Đổi", "Fails to reason through constraints and consequences.", "Không lập luận được về ràng buộc và hệ quả.", "Role fit is likely superficial.", "Độ phù hợp vai trò có thể chỉ bề ngoài.")
+                ],
+                ratingLevels: [
+                    { id: "disqualified", minScore: 0, mandatoryMin: 0, description: { en: "Do not hire under current profile.", vi: "Không nên tuyển với hồ sơ hiện tại." } },
+                    { id: "weak", minScore: 25, mandatoryMin: 2, description: { en: "High-risk candidate.", vi: "Ứng viên rủi ro cao." } },
+                    { id: "watchlist", minScore: 42, mandatoryMin: 3, description: { en: "Possible fit with narrow scope.", vi: "Có thể phù hợp trong phạm vi hẹp." } },
+                    { id: "strong", minScore: 58, mandatoryMin: 4, description: { en: "Hire with structured onboarding.", vi: "Nên tuyển và onboarding có cấu trúc." } },
+                    { id: "exceptional", minScore: 72, mandatoryMin: 5, description: { en: "Top-tier hire for mission-critical roles.", vi: "Ứng viên hàng đầu cho vai trò trọng yếu." } }
+                ]
+            },
+            developingTalent: {
+                key: "developingTalent",
+                categories: ["Mindset", "Capability", "Resilience", "Leadership", "System"],
+                criteria: [
+                    makeCriterion("dt_c1", "Mindset", true, 10, ["grant"], "Actively Rethinks Assumptions", "Chủ Động Rethink Giả Định", "Challenges own beliefs with evidence.", "Tự thách thức niềm tin bằng bằng chứng.", "Core behavior for adaptive growth.", "Hành vi cốt lõi để phát triển thích nghi.", "Rethink loop"),
+                    makeCriterion("dt_c2", "Capability", true, 10, ["collins"], "20 Mile March Learning Cadence", "Nhịp Học Đều 20 Mile March", "Maintains non-negotiable weekly progress cadence.", "Duy trì nhịp tiến bộ hàng tuần không thương lượng.", "Steady learning compounds over time.", "Học đều tạo lãi kép theo thời gian.", "20 Mile March"),
+                    makeCriterion("dt_c3", "Resilience", true, 9, ["collins", "munger"], "Pre-Mortem and Recovery Plans", "Kế Hoạch Pre-Mortem và Phục Hồi", "Identifies failure scenarios and fallback actions.", "Nhận diện thất bại và hành động dự phòng.", "Builds antifragile development path.", "Tạo lộ trình phát triển chống chịu tốt hơn.", "Productive paranoia + inversion"),
+                    makeCriterion("dt_c4", "Leadership", true, 8, ["buffett"], "Mentor Integrity and Role Modeling", "Mentor Liêm Chính và Làm Gương", "Mentors demonstrate behavior they ask from others.", "Mentor thể hiện đúng điều họ yêu cầu người khác.", "Development systems collapse without trust models.", "Hệ phát triển sụp nếu thiếu mẫu hình đáng tin.", "Tone from the top"),
+                    makeCriterion("dt_c5", "System", true, 8, ["munger"], "Bias-Aware Decision Journals", "Nhật Ký Quyết Định Có Nhận Thức Thiên Kiến", "Tracks decisions and post-outcome reflections.", "Ghi lại quyết định và phản tư sau kết quả.", "Speeds error correction and learning transfer.", "Tăng tốc sửa sai và chuyển giao bài học.", "Cognitive debiasing"),
+                    makeCriterion("dt_c6", "Capability", false, 7, ["grant"], "Teaches Others to Learn", "Dạy Người Khác Cách Học", "Shares frameworks, not just answers.", "Chia sẻ khung tư duy thay vì chỉ đưa đáp án.", "Creates multiplier development effects.", "Tạo hiệu ứng nhân lên trong phát triển.", "Multipliers"),
+                    makeCriterion("dt_c7", "Resilience", false, 6, ["collins"], "Stress-Calibrated Growth", "Tăng Trưởng Cân Bằng Áp Lực", "Growth goals are ambitious yet sustainable.", "Mục tiêu tăng trưởng tham vọng nhưng bền vững.", "Avoids boom-bust development cycles.", "Tránh chu kỳ bùng nổ-suy kiệt.", "Sustainable discipline"),
+                    makeCriterion("dt_c8", "Leadership", false, 6, ["buffett", "grant"], "Candor in Feedback Culture", "Văn Hóa Phản Hồi Thẳng Thắn", "Feedback is direct, respectful, and frequent.", "Phản hồi thẳng, tôn trọng và thường xuyên.", "Truth-rich environments speed growth.", "Môi trường giàu sự thật tăng tốc phát triển.", "Candor + challenge"),
+                    makeCriterion("dt_c9", "System", false, 5, ["munger"], "Simple, Reusable Playbooks", "Playbook Đơn Giản Có Thể Tái Dùng", "Codifies what works into repeatable practices.", "Chuẩn hóa cái hiệu quả thành thực hành lặp lại.", "Reduces variance in talent outcomes.", "Giảm độ biến thiên kết quả phát triển nhân tài.", "System thinking"),
+                    makeCriterion("dt_c10", "Mindset", false, 5, ["grant"], "Identity Flexibility", "Linh Hoạt Bản Sắc", "Can detach ego from previous role labels.", "Tách cái tôi khỏi nhãn vai trò cũ.", "Enables effective role transitions.", "Giúp chuyển đổi vai trò hiệu quả.", "Rethink identity")
+                ],
+                redFlags: [
+                    makeFlag("dt_f1", "Mindset", ["grant"], "Fixed Mindset Entrenchment", "Cố Định Tư Duy", "Persistent refusal to update mental models.", "Liên tục từ chối cập nhật mô hình tư duy.", "Kills long-term development potential.", "Giết tiềm năng phát triển dài hạn."),
+                    makeFlag("dt_f2", "Leadership", ["buffett"], "Mentor Hypocrisy", "Mentor Nói Một Đằng Làm Một Nẻo", "Mentors preach behaviors they do not practice.", "Mentor dạy điều họ không thực hành.", "Destroys trust in development system.", "Phá niềm tin vào hệ phát triển."),
+                    makeFlag("dt_f3", "Resilience", ["collins"], "No Downside Preparation", "Không Chuẩn Bị Kịch Bản Xấu", "Program assumes linear growth with no setbacks.", "Chương trình giả định tăng trưởng tuyến tính, không có thất bại.", "Violates productive paranoia principle.", "Vi phạm nguyên tắc productive paranoia."),
+                    makeFlag("dt_f4", "System", ["munger"], "No Learning Measurement", "Không Đo Lường Học Tập", "No objective signals to detect progress.", "Không có tín hiệu khách quan để đo tiến bộ.", "Cannot manage what is not measured.", "Không thể quản trị cái không đo được."),
+                    makeFlag("dt_f5", "Capability", ["collins"], "Chaotic Development Cadence", "Nhịp Phát Triển Hỗn Loạn", "Training starts and stops unpredictably.", "Đào tạo bắt đầu-dừng thất thường.", "Breaks compounding and discipline.", "Phá lãi kép và kỷ luật."),
+                    makeFlag("dt_f6", "Mindset", ["grant"], "Punishes Questions", "Trừng Phạt Câu Hỏi", "Environment discourages curiosity and challenge.", "Môi trường ngăn cản tò mò và phản biện.", "Learning velocity collapses.", "Tốc độ học sụt mạnh."),
+                    makeFlag("dt_f7", "Leadership", ["munger"], "Hero Dependency", "Phụ Thuộc Anh Hùng", "System relies on one exceptional individual.", "Hệ thống phụ thuộc một cá nhân xuất sắc.", "Not scalable or resilient.", "Không thể mở rộng và thiếu bền vững."),
+                    makeFlag("dt_f8", "System", ["collins"], "No Talent Bench Depth", "Không Có Độ Dày Nguồn Nhân Tài", "No successors for key positions.", "Không có người kế nhiệm vị trí chủ chốt.", "High continuity risk.", "Rủi ro liên tục vận hành cao."),
+                    makeFlag("dt_f9", "Capability", ["buffett"], "Training Detached from Real Work", "Đào Tạo Tách Rời Công Việc Thực", "Learning content does not map to mission tasks.", "Nội dung học không gắn nhiệm vụ thực tế.", "Low return on development investment.", "ROI phát triển nhân sự thấp."),
+                    makeFlag("dt_f10", "Resilience", ["munger"], "Repeated Same Mistake Pattern", "Lặp Lại Cùng Một Sai Lầm", "Post-mortems exist but behavior does not change.", "Có post-mortem nhưng hành vi không đổi.", "Signals failed learning loop.", "Cho thấy vòng học tập thất bại.")
+                ],
+                ratingLevels: [
+                    { id: "disqualified", minScore: 0, mandatoryMin: 0, description: { en: "Development system unfit for scale.", vi: "Hệ phát triển chưa đủ chuẩn để mở rộng." } },
+                    { id: "weak", minScore: 24, mandatoryMin: 2, description: { en: "Patchy capability building.", vi: "Xây năng lực rời rạc." } },
+                    { id: "watchlist", minScore: 40, mandatoryMin: 3, description: { en: "Promising framework with meaningful gaps.", vi: "Khung tiềm năng nhưng còn khoảng trống đáng kể." } },
+                    { id: "strong", minScore: 55, mandatoryMin: 4, description: { en: "Reliable and compounding talent pipeline.", vi: "Pipeline nhân tài ổn định và có lãi kép." } },
+                    { id: "exceptional", minScore: 68, mandatoryMin: 5, description: { en: "Institutionalized high-performance talent engine.", vi: "Động cơ nhân tài hiệu suất cao đã được thể chế hóa." } }
+                ]
+            },
+            selfEvaluation: {
+                key: "selfEvaluation",
+                categories: ["Awareness", "Discipline", "Integrity", "Learning", "Impact"],
+                criteria: [
+                    makeCriterion("se_c1", "Awareness", true, 11, ["munger"], "Circle of Competence Clarity", "Rõ Ràng Circle of Competence", "I can clearly define where my judgment is reliable.", "Tôi xác định rõ nơi phán đoán của mình đáng tin cậy.", "Prevents overreach and avoidable errors.", "Ngăn vượt quá năng lực và sai lầm có thể tránh.", "Know your edge"),
+                    makeCriterion("se_c2", "Integrity", true, 11, ["buffett"], "Integrity Consistency", "Nhất Quán Liêm Chính", "I keep commitments when inconvenient.", "Tôi giữ cam kết ngay cả khi bất tiện.", "Character is proven under pressure, not in statements.", "Tư cách được chứng minh dưới áp lực, không phải bằng lời nói.", "Reputation compounding"),
+                    makeCriterion("se_c3", "Discipline", true, 9, ["collins"], "20 Mile March Habit", "Thói Quen 20 Mile March", "I execute key habits consistently every week.", "Tôi thực thi thói quen trọng yếu đều đặn mỗi tuần.", "Reliable progress beats motivational spikes.", "Tiến bộ tin cậy tốt hơn cảm hứng nhất thời.", "Consistency over intensity"),
+                    makeCriterion("se_c4", "Learning", true, 9, ["grant"], "Rethink Discipline", "Kỷ Luật Rethink", "I actively seek disconfirming evidence.", "Tôi chủ động tìm bằng chứng trái chiều.", "Avoids identity lock and stale thinking.", "Tránh kẹt bản sắc và tư duy cũ kỹ.", "Rethink"),
+                    makeCriterion("se_c5", "Awareness", true, 8, ["munger"], "Bias Checklist Usage", "Sử Dụng Checklist Thiên Kiến", "I run a bias checklist before major decisions.", "Tôi chạy checklist thiên kiến trước quyết định lớn.", "Prevents predictable cognitive errors.", "Ngăn lỗi tư duy có thể dự đoán.", "Mental models"),
+                    makeCriterion("se_c6", "Impact", false, 7, ["collins"], "Converts Insight to Execution", "Chuyển Hiểu Biết Thành Hành Động", "I close the loop from reflection to behavior change.", "Tôi khép vòng từ phản tư sang đổi hành vi.", "Self-awareness only matters if it changes outcomes.", "Tự nhận thức chỉ có ý nghĩa khi đổi kết quả.", "Disciplined action"),
+                    makeCriterion("se_c7", "Learning", false, 6, ["grant"], "Teaches What I Learn", "Chia Sẻ Điều Mình Học", "I turn lessons into transferable models.", "Tôi biến bài học thành mô hình có thể chuyển giao.", "Teaching stress-tests understanding.", "Dạy người khác kiểm định độ hiểu.", "Learning multiplier"),
+                    makeCriterion("se_c8", "Discipline", false, 6, ["buffett"], "Capital Allocation of Time", "Phân Bổ Vốn Thời Gian", "My calendar reflects stated priorities.", "Lịch làm việc phản ánh đúng ưu tiên đã nói.", "Where time goes reveals true strategy.", "Nơi thời gian đi qua thể hiện chiến lược thật.", "Time as capital"),
+                    makeCriterion("se_c9", "Integrity", false, 5, ["munger"], "Admits Wrong Quickly", "Nhanh Chóng Nhận Sai", "I update quickly when facts change.", "Tôi cập nhật nhanh khi dữ kiện thay đổi.", "Reduces sunk-cost escalation.", "Giảm bám chấp chi phí chìm." ,"Anti-ego decisioning"),
+                    makeCriterion("se_c10", "Impact", false, 5, ["collins", "grant"], "Builds Others' Capability", "Nâng Năng Lực Người Khác", "My work makes colleagues more capable over time.", "Công việc của tôi giúp đồng đội giỏi hơn theo thời gian.", "Durable impact includes talent uplift.", "Tác động bền vững bao gồm nâng tầm nhân tài.", "From individual to system")
+                ],
+                redFlags: [
+                    makeFlag("se_f1", "Integrity", ["buffett"], "Repeated Integrity Breach", "Vi Phạm Liêm Chính Lặp Lại", "Compromises standards for short-term gain repeatedly.", "Nhiều lần hạ chuẩn để đạt lợi ích ngắn hạn.", "Destroys long-term trust capital.", "Phá hủy vốn niềm tin dài hạn."),
+                    makeFlag("se_f2", "Awareness", ["munger"], "Competence Delusion", "Ảo Tưởng Năng Lực", "Overconfident decisions outside real expertise.", "Ra quyết định quá tự tin ngoài chuyên môn thật.", "High probability of avoidable mistakes.", "Xác suất cao xảy ra sai lầm có thể tránh."),
+                    makeFlag("se_f3", "Learning", ["grant"], "Refuses Disconfirming Evidence", "Từ Chối Bằng Chứng Trái Chiều", "Dismisses data that challenges identity.", "Bác bỏ dữ liệu thách thức bản sắc.", "Learning loop is blocked by ego.", "Vòng học bị chặn bởi cái tôi."),
+                    makeFlag("se_f4", "Discipline", ["collins"], "No Consistent Execution Rhythm", "Không Có Nhịp Thực Thi Đều", "Goals shift constantly without sustained follow-through.", "Mục tiêu đổi liên tục, thiếu theo đuổi bền vững.", "Kills cumulative progress.", "Giết tiến bộ tích lũy."),
+                    makeFlag("se_f5", "Impact", ["collins"], "High Activity, Low Outcomes", "Bận Rộn Cao, Kết Quả Thấp", "Effort does not convert into meaningful outcomes.", "Nỗ lực không chuyển hóa thành kết quả đáng kể.", "Indicates strategic misalignment.", "Cho thấy lệch chiến lược."),
+                    makeFlag("se_f6", "Awareness", ["munger"], "No Decision Journal", "Không Có Nhật Ký Quyết Định", "Cannot audit own reasoning quality over time.", "Không thể kiểm định chất lượng lập luận theo thời gian.", "Blind to repeated cognitive errors.", "Mù với lỗi tư duy lặp lại."),
+                    makeFlag("se_f7", "Integrity", ["buffett"], "Blame-Shifting Pattern", "Mẫu Hành Vi Đổ Lỗi", "Avoids accountability in failures.", "Tránh chịu trách nhiệm khi thất bại.", "Blocks growth and trust restoration.", "Chặn tăng trưởng và khôi phục niềm tin."),
+                    makeFlag("se_f8", "Learning", ["grant"], "Feedback Avoidance", "Tránh Né Phản Hồi", "Systematically avoids critical feedback channels.", "Có hệ thống né các kênh phản hồi quan trọng.", "Growth stagnates without external mirrors.", "Tăng trưởng trì trệ nếu thiếu gương phản chiếu."),
+                    makeFlag("se_f9", "Discipline", ["collins"], "Reactive Priority Switching", "Đổi Ưu Tiên Phản Ứng", "Switches priorities based on noise, not strategy.", "Đổi ưu tiên theo nhiễu thay vì chiến lược.", "Creates compounding inconsistency.", "Tạo bất nhất tích lũy."),
+                    makeFlag("se_f10", "Impact", ["buffett", "munger"], "Ethical Rationalization", "Hợp Lý Hóa Phi Đạo Đức", "Justifies questionable choices with clever logic.", "Biện minh lựa chọn đáng ngờ bằng lập luận khéo léo.", "Dangerous long-run character erosion.", "Xói mòn nhân cách dài hạn nguy hiểm.")
+                ],
+                ratingLevels: [
+                    { id: "disqualified", minScore: 0, mandatoryMin: 0, description: { en: "Immediate reset required.", vi: "Cần tái thiết lập ngay." } },
+                    { id: "weak", minScore: 25, mandatoryMin: 2, description: { en: "Awareness exists, discipline unstable.", vi: "Có nhận thức nhưng kỷ luật chưa ổn." } },
+                    { id: "watchlist", minScore: 41, mandatoryMin: 3, description: { en: "Credible path if gaps are closed.", vi: "Có lộ trình đáng tin nếu lấp đầy khoảng thiếu." } },
+                    { id: "strong", minScore: 57, mandatoryMin: 4, description: { en: "Consistent, principled performer.", vi: "Hiệu suất ổn định và có nguyên tắc." } },
+                    { id: "exceptional", minScore: 71, mandatoryMin: 5, description: { en: "High-integrity compounding leader.", vi: "Lãnh đạo lãi kép với liêm chính cao." } }
+                ]
+            }
+        };
+
+        function extendTopicCriteria() {
+            const packs = {
+                selectingCompanies: [
+                    makeCriterion("sc_c11", "Moat", true, 7, ["buffett"], "Switching Cost Evidence", "Bằng Chứng Chi Phí Chuyển Đổi", "Customers face real switching friction.", "Khách hàng có chi phí chuyển đổi thực tế.", "Measure retention durability and downgrade risk by cohort.", "Đo độ bền giữ chân và rủi ro rời bỏ theo nhóm khách hàng.", "Moat durability"),
+                    makeCriterion("sc_c12", "Financial Quality", true, 7, ["buffett", "munger"], "ROIC Quality Over Time", "Chất Lượng ROIC Theo Thời Gian", "Returns on invested capital stay healthy through cycles.", "ROIC duy trì tốt qua chu kỳ.", "Focus on sustained returns, not one-off accounting boosts.", "Tập trung lợi suất bền vững, không phải đột biến kế toán.", "Compounding economics"),
+                    makeCriterion("sc_c13", "Leadership", true, 6, ["collins"], "Incentive Alignment", "Căn Chỉnh Khuyến Khích", "Executive incentives match long-term owner outcomes.", "Khuyến khích lãnh đạo gắn với kết quả dài hạn của chủ sở hữu.", "Pay structures should punish fragility and reward durable value.", "Cơ chế lương thưởng cần phạt sự mong manh và thưởng giá trị bền.", "Discipline + stewardship"),
+                    makeCriterion("sc_c14", "Risk", true, 7, ["collins", "munger"], "Concentration Stress Test", "Stress Test Rủi Ro Tập Trung", "Revenue and supply concentration are stress-tested.", "Mức tập trung doanh thu và chuỗi cung ứng được stress test.", "Surface single-point-of-failure risks before growth assumptions.", "Làm lộ rủi ro điểm lỗi đơn trước giả định tăng trưởng.", "Productive paranoia"),
+                    makeCriterion("sc_c15", "Valuation", true, 6, ["buffett"], "Downside Payback Horizon", "Thời Hạn Hoàn Vốn Ở Kịch Bản Xấu", "Even downside case has acceptable payback period.", "Ngay cả kịch bản xấu vẫn có thời hạn hoàn vốn chấp nhận được.", "Prioritize asymmetry where downside is survivable.", "Ưu tiên bất đối xứng nơi rủi ro giảm vẫn sống được.", "Margin of safety"),
+                    makeCriterion("sc_c16", "Moat", false, 5, ["grant"], "Customer Truth Interviews", "Phỏng Vấn Sự Thật Khách Hàng", "Primary customer interviews confirm value proposition.", "Phỏng vấn khách hàng xác nhận đề xuất giá trị.", "Reduces internal story bias in moat assessments.", "Giảm thiên kiến tự kể chuyện nội bộ khi đánh giá hào kinh tế.", "Evidence over narrative"),
+                    makeCriterion("sc_c17", "Financial Quality", false, 5, ["munger"], "Cash Conversion Discipline", "Kỷ Luật Chuyển Đổi Tiền Mặt", "Earnings translate into cash with limited leakage.", "Lợi nhuận chuyển thành tiền với thất thoát thấp.", "Penalize businesses that rely on accounting optics.", "Phạt mô hình phụ thuộc ảo ảnh kế toán.", "Inversion against manipulation"),
+                    makeCriterion("sc_c18", "Leadership", false, 5, ["grant", "collins"], "Truth-Speaking Governance", "Quản Trị Nói Thật", "Board and leadership allow hard truths early.", "HĐQT và lãnh đạo cho phép sự thật khó nghe xuất hiện sớm.", "Fast truth discovery improves strategic correction speed.", "Phát hiện sự thật nhanh giúp sửa chiến lược nhanh.", "Candor culture"),
+                    makeCriterion("sc_c19", "Risk", false, 4, ["munger"], "Regulatory Fragility Mapping", "Bản Đồ Mong Manh Pháp Lý", "Critical revenue drivers are mapped against policy risk.", "Nguồn doanh thu cốt lõi được đối chiếu rủi ro chính sách.", "Avoid hidden tail risks from rule changes.", "Tránh rủi ro đuôi ẩn do thay đổi quy định.", "Second-order thinking"),
+                    makeCriterion("sc_c20", "Valuation", false, 4, ["buffett", "munger"], "Scenario Range Valuation", "Định Giá Theo Dải Kịch Bản", "Decision includes base, upside, and downside valuation bands.", "Quyết định gồm dải định giá cơ sở, tăng và giảm.", "Forces humility and reduces single-point estimate bias.", "Buộc khiêm tốn và giảm thiên kiến ước lượng một điểm.", "Probabilistic valuation")
+                ],
+                hiringEmployees: [
+                    makeCriterion("he_c11", "Competence", true, 7, ["munger"], "First-Principles Role Reasoning", "Lập Luận Vai Trò Theo First Principles", "Candidate explains decisions from first principles.", "Ứng viên giải thích quyết định từ nguyên lý nền.", "Distinguish real competence from memorized playbooks.", "Phân biệt năng lực thật với học thuộc playbook.", "Mental models"),
+                    makeCriterion("he_c12", "Character", true, 7, ["buffett"], "Promise-Keeping Track Record", "Lịch Sử Giữ Cam Kết", "History shows kept commitments under pressure.", "Lịch sử cho thấy giữ cam kết dưới áp lực.", "Reliability compounds trust in teams.", "Độ tin cậy tích lũy niềm tin trong đội.", "Reputation compounding"),
+                    makeCriterion("he_c13", "Collaboration", true, 6, ["grant"], "Conflict Quality", "Chất Lượng Xung Đột", "Can disagree hard without personal toxicity.", "Có thể phản biện mạnh mà không độc hại cá nhân.", "Healthy conflict improves decision quality.", "Xung đột lành mạnh nâng chất lượng quyết định.", "Challenge network"),
+                    makeCriterion("he_c14", "Learning", true, 6, ["grant", "collins"], "Learning Loop Evidence", "Bằng Chứng Vòng Học Tập", "Candidate can show repeated feedback-to-improvement cycles.", "Ứng viên chứng minh nhiều vòng phản hồi-cải thiện.", "Past learning velocity predicts future adaptation.", "Tốc độ học trong quá khứ dự báo thích nghi tương lai.", "Rethink discipline"),
+                    makeCriterion("he_c15", "Execution", true, 7, ["collins"], "Finish-Line Reliability", "Độ Tin Cậy Chạm Đích", "Consistently closes commitments with quality.", "Đều đặn hoàn thành cam kết với chất lượng tốt.", "Output quality matters more than busyness.", "Chất lượng đầu ra quan trọng hơn bận rộn.", "20 Mile March execution"),
+                    makeCriterion("he_c16", "Competence", false, 5, ["munger"], "Constraint Trade-Off Clarity", "Rõ Ràng Đánh Đổi Dưới Ràng Buộc", "Explains trade-offs when resources are limited.", "Giải thích đánh đổi khi nguồn lực hạn chế.", "Essential for practical decision quality.", "Thiết yếu cho chất lượng quyết định thực tế.", "Inversion + trade-offs"),
+                    makeCriterion("he_c17", "Character", false, 5, ["buffett"], "Ethical Boundary Clarity", "Rõ Ràng Ranh Giới Đạo Đức", "Can define non-negotiable ethical boundaries.", "Nêu rõ ranh giới đạo đức không thể thương lượng.", "Prevents short-termism from damaging culture.", "Ngăn ngắn hạn làm hỏng văn hóa.", "Integrity filter"),
+                    makeCriterion("he_c18", "Collaboration", false, 5, ["grant"], "Multiplier Behavior", "Hành Vi Nhân Tác Động", "Helps teammates become more effective over time.", "Giúp đồng đội hiệu quả hơn theo thời gian.", "High-leverage hires raise team baseline.", "Tuyển đúng người có đòn bẩy nâng mặt bằng đội.", "Give and grow"),
+                    makeCriterion("he_c19", "Learning", false, 4, ["grant"], "Unlearning Speed", "Tốc Độ Bỏ Cái Cũ", "Can abandon outdated methods quickly.", "Có thể bỏ phương pháp cũ nhanh chóng.", "Unlearning is key in fast-changing roles.", "Bỏ cái cũ là then chốt ở vai trò thay đổi nhanh.", "Rethink identity"),
+                    makeCriterion("he_c20", "Execution", false, 4, ["collins"], "Priority Under Ambiguity", "Ưu Tiên Trong Mơ Hồ", "Makes robust priorities even with incomplete information.", "Xác lập ưu tiên vững ngay cả khi thiếu thông tin.", "Execution quality depends on decisive sequencing.", "Chất lượng thực thi phụ thuộc thứ tự ưu tiên quyết đoán.", "Disciplined focus")
+                ],
+                developingTalent: [
+                    makeCriterion("dt_c11", "Mindset", true, 7, ["grant"], "Deliberate Practice Mindset", "Tư Duy Luyện Tập Có Chủ Đích", "Learners practice weak spots intentionally.", "Người học luyện có chủ đích vào điểm yếu.", "Purposeful practice accelerates mastery.", "Luyện tập có chủ đích tăng tốc làm chủ kỹ năng.", "Growth mindset"),
+                    makeCriterion("dt_c12", "Capability", true, 7, ["collins"], "Skill Roadmap Clarity", "Rõ Ràng Lộ Trình Kỹ Năng", "Development path maps skills by stage and role.", "Lộ trình phát triển gắn kỹ năng theo giai đoạn và vai trò.", "Clarity prevents random training spend.", "Rõ ràng giúp tránh chi phí đào tạo ngẫu hứng.", "Disciplined planning"),
+                    makeCriterion("dt_c13", "Resilience", true, 6, ["collins", "munger"], "Recovery Protocols", "Quy Trình Phục Hồi", "Team has explicit reset protocols after setbacks.", "Đội có quy trình hồi phục rõ sau thất bại.", "Prevents morale collapse after shocks.", "Ngăn suy sụp tinh thần sau cú sốc.", "Productive paranoia"),
+                    makeCriterion("dt_c14", "Leadership", true, 6, ["buffett"], "Manager Coaching Time", "Thời Gian Coaching Của Quản Lý", "Managers reserve regular protected coaching time.", "Quản lý dành thời gian coaching định kỳ và được bảo vệ.", "Talent systems fail when coaching is optional.", "Hệ phát triển thất bại khi coaching chỉ là tùy hứng.", "Managerial discipline"),
+                    makeCriterion("dt_c15", "System", true, 7, ["munger", "collins"], "Quarterly Talent Review Cadence", "Nhịp Rà Soát Nhân Tài Hàng Quý", "Talent reviews run on strict quarterly rhythm.", "Rà soát nhân tài vận hành theo nhịp quý nghiêm ngặt.", "Cadence builds compounding insight quality.", "Nhịp đều giúp tích lũy chất lượng nhận định.", "20 Mile March system"),
+                    makeCriterion("dt_c16", "Mindset", false, 5, ["grant"], "Curiosity Stamina", "Độ Bền Tò Mò", "Learners sustain curiosity beyond initial novelty.", "Người học duy trì tò mò sau giai đoạn mới lạ ban đầu.", "Long-run growth needs curiosity endurance.", "Tăng trưởng dài hạn cần sức bền tò mò.", "Rethink culture"),
+                    makeCriterion("dt_c17", "Capability", false, 5, ["buffett"], "Transfer Across Contexts", "Chuyển Giao Năng Lực Qua Bối Cảnh", "Skills transfer to adjacent roles and contexts.", "Kỹ năng chuyển giao được sang vai trò/bối cảnh lân cận.", "Real capability travels; shallow training does not.", "Năng lực thật có tính chuyển giao; đào tạo hời hợt thì không.", "Durable competence"),
+                    makeCriterion("dt_c18", "Resilience", false, 5, ["munger"], "Uncertainty Navigation", "Điều Hướng Bất Định", "Learners can make bounded decisions under uncertainty.", "Người học ra quyết định có giới hạn trong bất định.", "Prepares talent for real-world complexity.", "Chuẩn bị nhân tài cho độ phức tạp thực tế.", "Probabilistic thinking"),
+                    makeCriterion("dt_c19", "Leadership", false, 4, ["grant", "collins"], "Feedback Contracting", "Thỏa Thuận Phản Hồi", "Teams agree explicit feedback standards and frequency.", "Đội thống nhất chuẩn và tần suất phản hồi rõ ràng.", "Explicit contracts reduce ambiguity and avoidance.", "Thỏa thuận rõ làm giảm mơ hồ và né tránh.", "Candor protocol"),
+                    makeCriterion("dt_c20", "System", false, 4, ["collins"], "Internal Mobility Through Merit", "Luân Chuyển Nội Bộ Theo Năng Lực", "Talent mobility is based on evidence, not politics.", "Luân chuyển nhân tài dựa bằng chứng, không theo chính trị.", "Merit mobility improves retention and bench strength.", "Luân chuyển theo năng lực tăng giữ người và độ dày kế thừa.", "Right people in right seats")
+                ],
+                selfEvaluation: [
+                    makeCriterion("se_c11", "Awareness", true, 7, ["munger"], "Decision After-Action Reviews", "After-Action Review Cho Quyết Định", "I review major decisions against original reasoning.", "Tôi rà soát quyết định lớn so với lập luận ban đầu.", "Feedback on reasoning quality is essential for calibration.", "Phản hồi chất lượng lập luận là cốt lõi để hiệu chỉnh.", "Meta-cognition"),
+                    makeCriterion("se_c12", "Discipline", true, 7, ["collins"], "Weekly Review Ritual", "Nghi Thức Rà Soát Hàng Tuần", "I run a fixed weekly review ritual.", "Tôi duy trì nghi thức rà soát cố định hàng tuần.", "Consistency in review creates consistency in outcomes.", "Rà soát đều tạo kết quả đều.", "20 Mile March personal"),
+                    makeCriterion("se_c13", "Integrity", true, 6, ["buffett"], "Promise Ledger", "Sổ Cam Kết", "I track commitments and closure quality transparently.", "Tôi theo dõi cam kết và chất lượng hoàn thành một cách minh bạch.", "Trust is built through visible closure discipline.", "Niềm tin được xây bằng kỷ luật hoàn thành hữu hình.", "Reliability"),
+                    makeCriterion("se_c14", "Learning", true, 6, ["grant"], "Experiment Cadence", "Nhịp Thử Nghiệm", "I run small experiments to test assumptions.", "Tôi chạy thử nghiệm nhỏ để kiểm định giả định.", "Learning accelerates when assumptions are tested quickly.", "Học tăng tốc khi giả định được kiểm nhanh.", "Rethink loop"),
+                    makeCriterion("se_c15", "Impact", true, 7, ["collins", "buffett"], "Systems Leverage", "Đòn Bẩy Hệ Thống", "My work creates reusable systems, not one-off heroics.", "Công việc của tôi tạo hệ thống tái dùng thay vì nỗ lực anh hùng một lần.", "Durable impact comes from system leverage.", "Tác động bền đến từ đòn bẩy hệ thống.", "From person to system"),
+                    makeCriterion("se_c16", "Awareness", false, 5, ["munger"], "Blind Spot Mapping", "Bản Đồ Điểm Mù", "I can name recurring blind spots and failure patterns.", "Tôi nêu được điểm mù và mẫu thất bại lặp lại.", "Naming patterns is step one to breaking them.", "Gọi tên mẫu là bước đầu để phá mẫu.", "Bias awareness"),
+                    makeCriterion("se_c17", "Discipline", false, 5, ["collins"], "Energy and Attention Budgeting", "Ngân Sách Năng Lượng và Chú Ý", "I budget focus and energy for high-leverage work.", "Tôi phân bổ năng lượng/chú ý cho việc đòn bẩy cao.", "Time quality matters as much as time quantity.", "Chất lượng thời gian quan trọng như số lượng thời gian.", "Execution discipline"),
+                    makeCriterion("se_c18", "Integrity", false, 5, ["buffett"], "Values Under Incentive Pressure", "Giá Trị Dưới Áp Lực Lợi Ích", "I keep standards when incentives tempt shortcuts.", "Tôi giữ chuẩn mực khi lợi ích cám dỗ cắt góc.", "Character is measured when trade-offs are costly.", "Nhân cách được đo khi đánh đổi trở nên đắt giá.", "Integrity stress test"),
+                    makeCriterion("se_c19", "Learning", false, 4, ["grant"], "Reading-to-Action Conversion", "Chuyển Đọc Thành Hành Động", "I convert learning notes into concrete behavior changes.", "Tôi chuyển ghi chú học thành thay đổi hành vi cụ thể.", "Knowledge without action does not compound.", "Kiến thức không đi vào hành động thì không tạo lãi kép.", "Applied learning"),
+                    makeCriterion("se_c20", "Impact", false, 4, ["collins"], "Stakeholder Trust Delta", "Mức Tăng Niềm Tin Của Các Bên", "My decisions measurably increase stakeholder trust.", "Quyết định của tôi đo được mức tăng niềm tin của các bên.", "High-quality impact is both effective and trust-preserving.", "Tác động chất lượng cao vừa hiệu quả vừa giữ được niềm tin.", "Trust as performance")
+                ]
+            };
+
+            Object.keys(packs).forEach((topicKey) => {
+                const topic = TOPICS[topicKey];
+                if (!topic || topic.criteria.length > 10) return;
+                topic.criteria.push(...packs[topicKey]);
+            });
+        }
+
+        function rebalanceRatingThresholds() {
+            const levelScoreRatio = {
+                weak: 0.28,
+                watchlist: 0.45,
+                strong: 0.62,
+                exceptional: 0.78
+            };
+
+            const levelMandatoryRatio = {
+                weak: 0.35,
+                watchlist: 0.5,
+                strong: 0.65,
+                exceptional: 0.8
+            };
+
+            Object.values(TOPICS).forEach((topic) => {
+                const maxScore = topic.criteria.reduce((sum, item) => sum + item.weight, 0);
+                const mandatoryTotal = topic.criteria.filter((item) => item.mandatory).length;
+
+                topic.ratingLevels = topic.ratingLevels.map((level) => {
+                    if (level.id === "disqualified") {
+                        return { ...level, minScore: 0, mandatoryMin: 0 };
+                    }
+                    return {
+                        ...level,
+                        minScore: Math.round(maxScore * (levelScoreRatio[level.id] || 0)),
+                        mandatoryMin: Math.max(1, Math.round(mandatoryTotal * (levelMandatoryRatio[level.id] || 0)))
+                    };
+                });
+            });
+        }
+
+        extendTopicCriteria();
+        rebalanceRatingThresholds();
+
+        const appState = {
+            currentLanguage: localStorage.getItem("language") || "en",
+            currentTheme: localStorage.getItem("theme") || "light",
+            currentTopic: null,
+            filters: { search: "", author: "", mandatory: "", category: "" },
+            evaluations: loadSavedEvaluations()
+        };
+
+        function loadSavedEvaluations() {
+            try {
+                return JSON.parse(localStorage.getItem("tdf-evaluations") || "{}");
+            } catch (error) {
+                return {};
+            }
+        }
+
+        function saveEvaluations() {
+            localStorage.setItem("tdf-evaluations", JSON.stringify(appState.evaluations));
+        }
+
+        function t(path) {
+            return path.split(".").reduce((acc, key) => (acc ? acc[key] : undefined), TRANSLATIONS[appState.currentLanguage]) || path;
+        }
+
+        function getTopicText(topicKey) {
+            return TRANSLATIONS[appState.currentLanguage].topics[topicKey];
+        }
+
+        function txt(entry, field) {
+            return entry[field][appState.currentLanguage] || entry[field].en;
+        }
+
+        function getCategoryLabel(categoryKey) {
+            return CATEGORY_TRANSLATIONS[categoryKey]?.[appState.currentLanguage] || categoryKey;
+        }
+
+        function escapeHtml(value) {
+            return value.replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char]));
+        }
+
+        function highlight(text, query) {
+            if (!query) return escapeHtml(text);
+            const escaped = escapeHtml(text);
+            const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            return escaped.replace(new RegExp(`(${safeQuery})`, "ig"), '<span class="highlight-match">$1</span>');
+        }
+
+        function setTheme(theme) {
+            appState.currentTheme = theme;
+            document.documentElement.setAttribute("data-theme", theme);
+            localStorage.setItem("theme", theme);
+            const button = document.getElementById("themeToggle");
+            button.textContent = theme === "dark" ? `☀ ${t("controls.lightMode")}` : `🌙 ${t("controls.darkMode")}`;
+        }
+
+        function ensureTopicEvaluation(topicKey) {
+            if (!appState.evaluations[topicKey]) {
+                appState.evaluations[topicKey] = { criteria: {}, flags: {} };
+            }
+            return appState.evaluations[topicKey];
+        }
+
+        function getTopicMaxScore(topic) {
+            return topic.criteria.reduce((sum, item) => sum + item.weight, 0);
+        }
+
+        function getFilteredCriteria(topic) {
+            const { search, author, mandatory, category } = appState.filters;
+            return topic.criteria.filter((item) => {
+                const searchText = `${txt(item, "title")} ${txt(item, "short")} ${txt(item, "detail")} ${item.philosophy}`.toLowerCase();
+                if (search && !searchText.includes(search)) return false;
+                if (author && !item.authors.includes(author)) return false;
+                if (mandatory === "mandatory" && !item.mandatory) return false;
+                if (mandatory === "optional" && item.mandatory) return false;
+                if (category && item.category !== category) return false;
+                return true;
+            });
+        }
+
+        function getFilteredFlags(topic) {
+            const { search, author, category } = appState.filters;
+            return topic.redFlags.filter((item) => {
+                const searchText = `${txt(item, "title")} ${txt(item, "explanation")} ${txt(item, "whyItMatters")}`.toLowerCase();
+                if (search && !searchText.includes(search)) return false;
+                if (author && !item.authors.includes(author)) return false;
+                if (category && item.category !== category) return false;
+                return true;
+            });
+        }
+
+        function calculateEvaluation(topicKey) {
+            const topic = TOPICS[topicKey];
+            const evaluation = ensureTopicEvaluation(topicKey);
+            const maxScore = getTopicMaxScore(topic);
+
+            const completedCriteria = topic.criteria.filter((item) => evaluation.criteria[item.id]);
+            const unresolvedFlags = topic.redFlags.filter((item) => evaluation.flags[item.id]);
+            const score = completedCriteria.reduce((sum, item) => sum + item.weight, 0);
+
+            const mandatoryTotal = topic.criteria.filter((item) => item.mandatory).length;
+            const mandatoryMet = completedCriteria.filter((item) => item.mandatory).length;
+
+            let currentLevel = topic.ratingLevels[0];
+            if (unresolvedFlags.length === 0) {
+                for (const level of topic.ratingLevels) {
+                    if (score >= level.minScore && mandatoryMet >= level.mandatoryMin) {
+                        currentLevel = level;
+                    }
+                }
+            }
+
+            const currentIndex = topic.ratingLevels.findIndex((item) => item.id === currentLevel.id);
+            const nextLevel = currentIndex >= 0 && currentIndex < topic.ratingLevels.length - 1 ? topic.ratingLevels[currentIndex + 1] : null;
+
+            const missingMandatory = topic.criteria.filter((item) => item.mandatory && !evaluation.criteria[item.id]);
+            const candidateCriteria = topic.criteria.filter((item) => !evaluation.criteria[item.id]);
+            const scoreGap = Math.max(0, (nextLevel ? nextLevel.minScore : score) - score);
+            const avgWeight = candidateCriteria.length ? candidateCriteria.reduce((s, c) => s + c.weight, 0) / candidateCriteria.length : 1;
+            const missingCountHint = Math.min(candidateCriteria.length, Math.ceil(scoreGap / Math.max(1, avgWeight)));
+
+            return {
+                score,
+                maxScore,
+                completion: maxScore > 0 ? Math.round((score / maxScore) * 100) : 0,
+                mandatoryTotal,
+                mandatoryMet,
+                unresolvedFlags,
+                currentLevel,
+                nextLevel,
+                missingMandatory,
+                candidateCriteria,
+                missingCountHint
+            };
+        }
+
+        function render() {
+            renderHeaderTexts();
+            renderTopicSelector();
+            if (appState.currentTopic) {
+                showFilterToolbar();
+                renderFilterControls();
+                renderTopicContent();
+            } else {
+                hideFilterToolbar();
+                document.getElementById("contentArea").innerHTML = "";
+            }
+        }
+
+        function renderHeaderTexts() {
+            document.querySelector(".header-title h1").textContent = t("appTitle");
+            document.querySelector(".header-subtitle").textContent = t("appSubtitle");
+            document.getElementById("searchInput").placeholder = t("controls.searchPlaceholder");
+            document.querySelector("label[for='authorFilter']")?.remove();
+            document.getElementById("resetFilters").textContent = t("controls.resetFilters");
+            document.getElementById("exportStateBtn").textContent = t("controls.exportJson");
+            document.getElementById("importStateBtn").textContent = t("controls.importJson");
+            setTheme(appState.currentTheme);
+        }
+
+        function buildExportPayload() {
+            return {
+                version: 1,
+                exportedAt: new Date().toISOString(),
+                evaluations: appState.evaluations
+            };
+        }
+
+        function exportEvaluationState() {
+            const payload = buildExportPayload();
+            const data = JSON.stringify(payload, null, 2);
+            const blob = new Blob([data], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const anchor = document.createElement("a");
+            const datePart = new Date().toISOString().slice(0, 10);
+            anchor.href = url;
+            anchor.download = `talent-decision-evaluation-${datePart}.json`;
+            document.body.appendChild(anchor);
+            anchor.click();
+            anchor.remove();
+            URL.revokeObjectURL(url);
+        }
+
+        function sanitizeImportedEvaluations(rawData) {
+            const source = rawData && typeof rawData === "object" && rawData.evaluations ? rawData.evaluations : rawData;
+            if (!source || typeof source !== "object") return null;
+
+            const sanitized = {};
+            Object.keys(TOPICS).forEach((topicKey) => {
+                const topic = TOPICS[topicKey];
+                const topicInput = source[topicKey] || {};
+                const criteriaInput = topicInput.criteria || {};
+                const flagsInput = topicInput.flags || {};
+
+                const criteria = {};
+                const flags = {};
+
+                topic.criteria.forEach((item) => {
+                    if (criteriaInput[item.id] === true) {
+                        criteria[item.id] = true;
+                    }
+                });
+
+                topic.redFlags.forEach((item) => {
+                    if (flagsInput[item.id] === true) {
+                        flags[item.id] = true;
+                    }
+                });
+
+                sanitized[topicKey] = { criteria, flags };
+            });
+
+            return sanitized;
+        }
+
+        function importEvaluationStateFromFile(file) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                try {
+                    const parsed = JSON.parse(String(reader.result || "{}"));
+                    const sanitized = sanitizeImportedEvaluations(parsed);
+                    if (!sanitized) {
+                        window.alert(t("controls.importInvalid"));
+                        return;
+                    }
+                    appState.evaluations = sanitized;
+                    saveEvaluations();
+                    render();
+                    window.alert(t("controls.importSuccess"));
+                } catch (error) {
+                    window.alert(t("controls.importInvalid"));
+                }
+            };
+            reader.onerror = () => {
+                window.alert(t("controls.importReadError"));
+            };
+            reader.readAsText(file);
+        }
+
+        function renderTopicSelector() {
+            const selector = document.getElementById("topicSelector");
+            selector.innerHTML = "";
+            Object.keys(TOPICS).forEach((topicKey) => {
+                const topicText = getTopicText(topicKey);
+                const card = document.createElement("div");
+                card.className = `topic-card ${appState.currentTopic === topicKey ? "active" : ""}`;
+                card.innerHTML = `<h3>${topicText.title}</h3><p>${topicText.description}</p>`;
+                card.addEventListener("click", () => {
+                    appState.currentTopic = topicKey;
+                    ensureTopicEvaluation(topicKey);
+                    resetFilters(false);
+                    render();
+                });
+                selector.appendChild(card);
+            });
+        }
+
+        function renderFilterControls() {
+            const authorFilter = document.getElementById("authorFilter");
+            const mandatoryFilter = document.getElementById("mandatoryFilter");
+
+            authorFilter.innerHTML = `
+                <option value="">${t("controls.allAuthors")}</option>
+                <option value="buffett">Buffett</option>
+                <option value="munger">Munger</option>
+                <option value="grant">Grant</option>
+                <option value="collins">Collins</option>
+            `;
+
+            mandatoryFilter.innerHTML = `
+                <option value="">${t("controls.allTypes")}</option>
+                <option value="mandatory">${t("controls.mandatoryOnly")}</option>
+                <option value="optional">${t("controls.optionalOnly")}</option>
+            `;
+
+            let categoryFilter = document.getElementById("categoryFilter");
+            if (!categoryFilter) {
+                const wrapper = document.createElement("div");
+                wrapper.className = "filter-group";
+                wrapper.innerHTML = `<label class="filter-label" id="categoryLabel"></label><select id="categoryFilter" class="filter-select"></select>`;
+                document.querySelector(".toolbar-content").insertBefore(wrapper, document.getElementById("resetFilters"));
+                categoryFilter = wrapper.querySelector("#categoryFilter");
+                categoryFilter.addEventListener("change", handleFilterChange);
+            }
+
+            const categories = TOPICS[appState.currentTopic].categories;
+            categoryFilter.innerHTML = `<option value="">${t("controls.allCategories")}</option>${categories.map((item) => `<option value="${item}">${getCategoryLabel(item)}</option>`).join("")}`;
+            document.getElementById("categoryLabel").textContent = `${t("controls.category")}:`;
+
+            const labels = document.querySelectorAll(".filter-label");
+            if (labels[0]) labels[0].textContent = `${t("controls.author")}:`;
+            if (labels[1]) labels[1].textContent = `${t("controls.type")}:`;
+
+            authorFilter.value = appState.filters.author;
+            mandatoryFilter.value = appState.filters.mandatory;
+            categoryFilter.value = appState.filters.category;
+        }
+
+        function showFilterToolbar() {
+            document.getElementById("filterToolbar").classList.add("visible");
+        }
+
+        function hideFilterToolbar() {
+            document.getElementById("filterToolbar").classList.remove("visible");
+        }
+
+        function renderTopicContent() {
+            const topic = TOPICS[appState.currentTopic];
+            const stats = calculateEvaluation(appState.currentTopic);
+            const criteria = getFilteredCriteria(topic);
+            const flags = getFilteredFlags(topic);
+
+            const contentArea = document.getElementById("contentArea");
+            contentArea.innerHTML = `
+                ${buildSummaryPanel(stats, topic)}
+                <section>
+                    <h2 style="margin-bottom: 1rem;">${t("labels.criteria")} (${criteria.length}/${topic.criteria.length})</h2>
+                    ${criteria.length ? criteria.map((item) => buildCriterionCard(item)).join("") : `<p style="color: var(--text-secondary); padding: .5rem 0 1rem;">${t("labels.noCriteriaMatch")}</p>`}
+                </section>
+                <section style="margin-top: 2rem;">
+                    <h2 style="margin-bottom: 1rem; color: var(--danger);">${t("labels.redFlags")} (${flags.length}/${topic.redFlags.length})</h2>
+                    ${flags.length ? flags.map((item) => buildRedFlagCard(item)).join("") : `<p style="color: var(--text-secondary); padding: .5rem 0 1rem;">${t("labels.noFlagsMatch")}</p>`}
+                </section>
+                ${buildLegendPanel(topic)}
+            `;
+
+            attachCardHandlers();
+            attachInputHandlers();
+            attachSummaryLinks();
+        }
+
+        function buildSummaryPanel(stats, topic) {
+            const levelColorMap = {
+                disqualified: "var(--rating-level-1)",
+                weak: "var(--rating-level-2)",
+                watchlist: "var(--rating-level-3)",
+                strong: "var(--rating-level-4)",
+                exceptional: "var(--rating-level-5)"
+            };
+
+            const progressAngle = `${Math.max(0, Math.min(360, Math.round((stats.completion / 100) * 360)))}deg`;
+
+            const ratingName = t(`ratings.${stats.currentLevel.id}`);
+            const unresolvedFlagsHtml = stats.unresolvedFlags.length
+                ? `<div class="unresolved-flags"><strong>${t("labels.unresolvedFlags")}</strong>${stats.unresolvedFlags.map((item) => `<div class="flag-item" data-ref="${item.id}">• ${highlight(txt(item, "title"), appState.filters.search)}</div>`).join("")}</div>`
+                : "";
+
+            let missingHtml = `<div class="missing-items"><strong>${t("labels.missingToNext")}</strong><div>${t("summary.noHigher")}</div></div>`;
+            if (stats.nextLevel) {
+                const candidateList = stats.candidateCriteria.map((item) => `<div class="missing-item" data-ref="${item.id}">• ${highlight(txt(item, "title"), appState.filters.search)} (${item.weight})</div>`).join("");
+                const message = t("summary.stillMissingXFromY")
+                    .replace("{x}", String(stats.missingCountHint))
+                    .replace("{y}", String(stats.candidateCriteria.length));
+                missingHtml = `<div class="missing-items"><strong>${t("summary.nextLevel")}: ${t(`ratings.${stats.nextLevel.id}`)}</strong><div style="margin-top: .5rem;">${message}</div>${candidateList || `<div>${t("labels.noMissing")}</div>`}</div>`;
+            }
+
+            const blocked = stats.unresolvedFlags.length > 0 ? `<div style="margin-top: .75rem; color: var(--danger); font-weight: 600;">${t("summary.blockedByFlags")}</div>` : "";
+
+            return `
+                <div class="rating-display">
+                    <div class="summary-top">
+                        <div class="progress-ring" style="--progress-angle:${progressAngle};">
+                            <div class="progress-ring-value">
+                                <strong>${stats.completion}%</strong>
+                                <span>${t("labels.completion")}</span>
+                            </div>
+                        </div>
+                        <div class="summary-headline">
+                            <span class="rating-badge" style="background:${levelColorMap[stats.currentLevel.id]};">${ratingName}</span>
+                            <div class="summary-level-name">${t("summary.currentLevel")}: ${ratingName}</div>
+                            <div>${txt(stats.currentLevel, "description")}</div>
+                        </div>
+                    </div>
+                    <div class="score-tiles">
+                        <div class="score-tile">
+                            <div class="score-tile-label">${t("labels.totalScore")}</div>
+                            <div class="score-tile-value">${stats.score}</div>
+                        </div>
+                        <div class="score-tile">
+                            <div class="score-tile-label">${t("labels.maxScore")}</div>
+                            <div class="score-tile-value">${stats.maxScore}</div>
+                        </div>
+                        <div class="score-tile">
+                            <div class="score-tile-label">${t("labels.completion")}</div>
+                            <div class="score-tile-value">${stats.completion}%</div>
+                        </div>
+                        <div class="score-tile">
+                            <div class="score-tile-label">${t("labels.mandatoryCount")}</div>
+                            <div class="score-tile-value">${stats.mandatoryMet}/${stats.mandatoryTotal}</div>
+                        </div>
+                    </div>
+                    ${blocked}
+                    ${missingHtml}
+                    ${unresolvedFlagsHtml}
+                </div>
+            `;
+        }
+
+        function buildLegendPanel(topic) {
+            const levelColorMap = {
+                disqualified: "var(--rating-level-1)",
+                weak: "var(--rating-level-2)",
+                watchlist: "var(--rating-level-3)",
+                strong: "var(--rating-level-4)",
+                exceptional: "var(--rating-level-5)"
+            };
+
+            return `
+                <section class="rating-section">
+                    <h3 class="rating-section-title">${t("labels.levelLegend")}</h3>
+                    <div class="legend-grid">
+                        ${topic.ratingLevels.map((level) => `
+                            <div class="legend-card">
+                                <span class="legend-dot" style="background:${levelColorMap[level.id]};"></span>
+                                <div class="legend-main">
+                                    <strong>${t(`ratings.${level.id}`)}</strong>
+                                    <small>${txt(level, "description")}</small>
+                                </div>
+                                <div class="legend-threshold">${t("labels.minScore")}: ${level.minScore}<br>${t("labels.mandatoryCount").toLowerCase()}: ${level.mandatoryMin}</div>
+                            </div>
+                        `).join("")}
+                    </div>
+                </section>
+            `;
+        }
+
+        function buildCriterionCard(item) {
+            const checked = !!ensureTopicEvaluation(appState.currentTopic).criteria[item.id];
+            const mandatoryClass = item.mandatory ? "badge-mandatory" : "badge-optional";
+            const mandatoryText = item.mandatory ? t("labels.mandatory") : t("labels.optional");
+
+            return `
+                <article class="card" id="${item.id}">
+                    <div class="card-header" data-toggle="${item.id}">
+                        <div class="card-header-title">
+                            <label class="card-checkbox-row">
+                                <input type="checkbox" data-criterion="${item.id}" ${checked ? "checked" : ""}>
+                                <span class="card-checkbox-content">${highlight(txt(item, "title"), appState.filters.search)}<small style="color:var(--text-secondary);">${highlight(txt(item, "short"), appState.filters.search)}</small></span>
+                            </label>
+                        </div>
+                        <div class="card-header-meta">
+                            ${item.authors.map((name) => `<span class="badge ${AUTHOR_CLASSES[name]}">${name}</span>`).join("")}
+                            <span class="badge ${mandatoryClass}">${mandatoryText}</span>
+                            <span class="badge btn-secondary">${t("labels.weight")} ${item.weight}</span>
+                            <span class="card-toggle">⌄</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-content">
+                            <div class="card-section"><div class="card-section-title">${t("labels.details")}</div>${highlight(txt(item, "detail"), appState.filters.search)}</div>
+                            <div class="card-section"><div class="card-section-title">${t("labels.philosophy")}</div>${highlight(item.philosophy, appState.filters.search)}</div>
+                            <div class="card-section"><div class="card-section-title">${t("labels.category")}</div>${getCategoryLabel(item.category)}</div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function buildRedFlagCard(item) {
+            const checked = !!ensureTopicEvaluation(appState.currentTopic).flags[item.id];
+            return `
+                <article class="card red-flag" id="${item.id}">
+                    <div class="card-header" data-toggle="${item.id}">
+                        <div class="card-header-title">
+                            <label class="card-checkbox-row">
+                                <input type="checkbox" data-flag="${item.id}" ${checked ? "checked" : ""}>
+                                <span class="card-checkbox-content"><span><span class="red-flag-indicator">⚠</span> ${highlight(txt(item, "title"), appState.filters.search)}</span></span>
+                            </label>
+                        </div>
+                        <div class="card-header-meta">
+                            ${item.authors.map((name) => `<span class="badge ${AUTHOR_CLASSES[name]}">${name}</span>`).join("")}
+                            <span class="badge badge-mandatory">${t("labels.disqualifier")}</span>
+                            <span class="card-toggle">⌄</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-content">
+                            <div class="card-section"><div class="card-section-title">${t("labels.details")}</div>${highlight(txt(item, "explanation"), appState.filters.search)}</div>
+                            <div class="card-section"><div class="card-section-title">${t("labels.whyItMatters")}</div>${highlight(txt(item, "whyItMatters"), appState.filters.search)}</div>
+                            <div class="card-section"><div class="card-section-title">${t("labels.category")}</div>${getCategoryLabel(item.category)}</div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function attachCardHandlers() {
+            document.querySelectorAll("[data-toggle]").forEach((header) => {
+                header.addEventListener("click", (event) => {
+                    if (event.target.matches("input")) return;
+                    const id = header.getAttribute("data-toggle");
+                    const card = document.getElementById(id);
+                    card.classList.toggle("expanded");
+                });
+            });
+        }
+
+        function attachInputHandlers() {
+            document.querySelectorAll("input[data-criterion]").forEach((input) => {
+                input.addEventListener("change", (event) => {
+                    const evalState = ensureTopicEvaluation(appState.currentTopic);
+                    evalState.criteria[event.target.getAttribute("data-criterion")] = event.target.checked;
+                    saveEvaluations();
+                    renderTopicContent();
+                });
+            });
+
+            document.querySelectorAll("input[data-flag]").forEach((input) => {
+                input.addEventListener("change", (event) => {
+                    const evalState = ensureTopicEvaluation(appState.currentTopic);
+                    evalState.flags[event.target.getAttribute("data-flag")] = event.target.checked;
+                    saveEvaluations();
+                    renderTopicContent();
+                });
+            });
+        }
+
+        function attachSummaryLinks() {
+            document.querySelectorAll("[data-ref]").forEach((item) => {
+                item.addEventListener("click", () => {
+                    const target = document.getElementById(item.getAttribute("data-ref"));
+                    if (!target) return;
+                    target.classList.add("expanded", "highlight");
+                    target.scrollIntoView({ behavior: "smooth", block: "center" });
+                    setTimeout(() => target.classList.remove("highlight"), 1600);
+                });
+            });
+        }
+
+        function debounce(fn, wait) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn(...args), wait);
+            };
+        }
+
+        function handleSearch(event) {
+            appState.filters.search = event.target.value.trim().toLowerCase();
+            renderTopicContent();
+        }
+
+        function handleFilterChange() {
+            appState.filters.author = document.getElementById("authorFilter").value;
+            appState.filters.mandatory = document.getElementById("mandatoryFilter").value;
+            const categoryFilter = document.getElementById("categoryFilter");
+            appState.filters.category = categoryFilter ? categoryFilter.value : "";
+            renderTopicContent();
+        }
+
+        function resetFilters(reRender = true) {
+            appState.filters = { search: "", author: "", mandatory: "", category: "" };
+            document.getElementById("searchInput").value = "";
+            document.getElementById("authorFilter").value = "";
+            document.getElementById("mandatoryFilter").value = "";
+            const categoryFilter = document.getElementById("categoryFilter");
+            if (categoryFilter) categoryFilter.value = "";
+            if (reRender) render();
+        }
+
+        function initializeApp() {
+            document.getElementById("languageSelect").value = appState.currentLanguage;
+            setTheme(appState.currentTheme);
+
+            document.getElementById("themeToggle").addEventListener("click", () => {
+                setTheme(appState.currentTheme === "dark" ? "light" : "dark");
+            });
+
+            document.getElementById("exportStateBtn").addEventListener("click", exportEvaluationState);
+            document.getElementById("importStateBtn").addEventListener("click", () => {
+                document.getElementById("importStateInput").click();
+            });
+            document.getElementById("importStateInput").addEventListener("change", (event) => {
+                const [file] = event.target.files || [];
+                importEvaluationStateFromFile(file);
+                event.target.value = "";
+            });
+
+            document.getElementById("languageSelect").addEventListener("change", (event) => {
+                appState.currentLanguage = event.target.value;
+                localStorage.setItem("language", appState.currentLanguage);
+                render();
+            });
+
+            document.getElementById("searchInput").addEventListener("input", debounce(handleSearch, 500));
+            document.getElementById("authorFilter").addEventListener("change", handleFilterChange);
+            document.getElementById("mandatoryFilter").addEventListener("change", handleFilterChange);
+            document.getElementById("resetFilters").addEventListener("click", () => resetFilters(true));
+
+            render();
+        }
+
+        document.addEventListener("DOMContentLoaded", initializeApp);
+    </script>
+</body>
+</html>

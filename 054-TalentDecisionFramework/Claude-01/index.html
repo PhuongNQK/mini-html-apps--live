@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Talent Decision Framework — Buffett · Munger · Grant · Collins</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --font:'Inter',system-ui,-apple-system,sans-serif;
+  --bg:#f8f7f4;--surface:#fff;--surface-alt:#f2f0ec;
+  --border:#e5e2db;--border-strong:#c9c5bc;
+  --text-primary:#1a1916;--text-secondary:#6b6860;--text-muted:#9e9b95;
+  --accent:#1a6b4a;--accent-light:#e6f2ec;--accent-mid:#2d9a6e;
+  --red:#c0392b;--red-light:#fdf2f1;--red-border:#f5c0bb;
+  --gold:#b8860b;--gold-light:#fffaee;--gold-border:#f5d98a;
+  --radius-sm:6px;--radius-md:10px;--radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --transition:150ms ease;
+}
+html.dark{
+  --bg:#0f0f0e;--surface:#1a1917;--surface-alt:#232220;
+  --border:#2e2c29;--border-strong:#3d3b37;
+  --text-primary:#e8e5df;--text-secondary:#9b9790;--text-muted:#5e5c58;
+  --accent:#2d9a6e;--accent-light:#0e2d1f;--accent-mid:#3ab87f;
+  --red:#e05545;--red-light:#1f0f0d;--red-border:#5a2520;
+  --gold:#c8a040;--gold-light:#1a1200;--gold-border:#3a2c00;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3),0 1px 2px rgba(0,0,0,.2);
+}
+html{font-size:15px;transition:background-color .25s,color .25s}
+body,
+.section,.score-card,.verdict-card,.tabs-nav,
+.tab-btn,.lang-toggle,.btn,.section-header,.criterion{
+  transition:background-color .25s,border-color .25s,color .25s,box-shadow .25s}
+body{font-family:var(--font);background:var(--bg);color:var(--text-primary);min-height:100vh;line-height:1.6;-webkit-font-smoothing:antialiased}
+.app{max-width:880px;margin:0 auto;padding:2rem 1.25rem 5rem}
+
+/* ── Header ── */
+.header{margin-bottom:2.5rem}
+.header-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:.5rem}
+.header-eyebrow{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-mid);margin-bottom:.3rem}
+.header h1{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;color:var(--text-primary);line-height:1.25;margin-bottom:.5rem}
+.header-sub{font-size:.875rem;color:var(--text-secondary);max-width:580px}
+.source-pills{display:flex;gap:6px;flex-wrap:wrap;margin-top:1rem}
+.pill{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid transparent}
+.pill-b{background:#e8f4e8;color:#2a6e2a;border-color:#b6d9b6}
+.pill-m{background:#eeebf8;color:#4a3d9a;border-color:#c4bae8}
+.pill-g{background:#fef3dc;color:#7a4f00;border-color:#f5d98a}
+.pill-c{background:#e4eef8;color:#1a4a7a;border-color:#a8c8e8}
+html.dark .pill-b{background:#0e2010;color:#5db87a;border-color:#1a4028}
+html.dark .pill-m{background:#130f28;color:#9b90e0;border-color:#2a2050}
+html.dark .pill-g{background:#1a1200;color:#c8a040;border-color:#3a2c00}
+html.dark .pill-c{background:#0a1628;color:#6090cc;border-color:#1a3050}
+
+/* ── Controls ── */
+.header-controls{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.lang-toggle{display:flex;align-items:center;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-md);padding:3px;gap:2px}
+.lang-btn{padding:5px 13px;border:none;background:transparent;border-radius:var(--radius-sm);font-family:var(--font);font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all var(--transition);letter-spacing:.04em}
+.lang-btn:hover{color:var(--text-secondary)}
+.lang-btn.active{background:var(--surface);color:var(--text-primary);box-shadow:var(--shadow-sm)}
+.theme-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface-alt);cursor:pointer;font-size:1rem;flex-shrink:0;transition:background var(--transition),border-color var(--transition),transform .15s}
+.theme-btn:hover{background:var(--surface);border-color:var(--border-strong);transform:scale(1.08)}
+.theme-btn:active{transform:scale(.94)}
+
+/* ── Tabs ── */
+.tabs-nav{display:flex;gap:4px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-lg);padding:4px;margin-bottom:1.75rem;flex-wrap:wrap}
+.tab-btn{flex:1;padding:9px 10px;border:none;background:transparent;border-radius:var(--radius-md);font-family:var(--font);font-size:.8125rem;font-weight:500;color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;min-width:0}
+.tab-btn:hover{color:var(--text-primary);background:rgba(255,255,255,.6)}
+html.dark .tab-btn:hover{background:rgba(255,255,255,.06)}
+.tab-btn.active{background:var(--surface);color:var(--text-primary);box-shadow:var(--shadow-sm);font-weight:600}
+.tab-btn .tab-badge{background:var(--surface-alt);color:var(--text-muted);font-size:10px;font-weight:600;padding:1px 6px;border-radius:10px;margin-left:2px}
+.tab-btn.active .tab-badge{background:var(--accent-light);color:var(--accent)}
+.tab-btn.has-redflag .tab-badge{background:var(--red-light);color:var(--red)}
+
+/* ── Panel ── */
+.panel{display:none}.panel.active{display:block}
+
+/* ── Score strip ── */
+.score-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
+.score-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px}
+.score-label{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.score-number{font-size:1.6rem;font-weight:700;line-height:1;letter-spacing:-.03em;color:var(--text-primary)}
+.score-sub{font-size:11px;color:var(--text-muted);margin-top:3px}
+.score-card.redflag-alert{border-color:var(--red-border);background:var(--red-light)}
+.score-card.redflag-alert .score-number,.score-card.redflag-alert .score-label{color:var(--red)}
+
+/* ── Progress ── */
+.progress-wrap{margin-bottom:1.5rem}
+.progress-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:var(--accent-mid);transition:width .4s cubic-bezier(.4,0,.2,1);width:0%}
+.progress-fill.danger{background:var(--red)}
+
+/* ── Rating Level Card ── */
+.rating-card{margin-bottom:1.5rem;border-radius:var(--radius-lg);border:2px solid var(--border);padding:18px 20px;background:var(--surface);transition:all .3s}
+.rating-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.rating-stars{font-size:1.1rem;letter-spacing:1px;line-height:1}
+.rating-label{font-size:1rem;font-weight:700;letter-spacing:-.01em}
+.rating-pct{font-size:.8125rem;font-weight:500;color:var(--text-muted);margin-left:auto}
+.rating-desc{font-size:.8125rem;color:var(--text-secondary);line-height:1.55;margin-bottom:10px}
+.rating-gap{display:flex;flex-direction:column;gap:6px}
+.gap-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px}
+.gap-items{display:flex;flex-direction:column;gap:3px}
+.gap-item{font-size:.8rem;line-height:1.45;padding:4px 10px;border-radius:5px;display:flex;gap:6px;align-items:flex-start}
+.gap-item-crit{background:var(--red-light);color:var(--red)}
+.gap-item-high{background:var(--gold-light);color:var(--gold)}
+.gap-item-rf{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+.gap-none{font-size:.8125rem;color:var(--accent-mid);font-style:italic}
+
+/* Rating border colors by level */
+.rating-lv1{border-color:#c9c5bc;background:var(--surface-alt)}
+.rating-lv2{border-color:#c9c5bc}
+.rating-lv3{border-color:var(--gold-border)}
+.rating-lv4{border-color:var(--accent-mid)}
+.rating-lv5{border-color:var(--accent);box-shadow:0 0 0 2px rgba(45,154,110,.12)}
+.rating-lv-rf{border-color:var(--red);border-width:2px;background:var(--red-light)}
+.rating-lv1 .rating-label{color:var(--text-muted)}
+.rating-lv2 .rating-label{color:var(--text-secondary)}
+.rating-lv3 .rating-label{color:var(--gold)}
+.rating-lv4 .rating-label{color:var(--accent-mid)}
+.rating-lv5 .rating-label{color:var(--accent)}
+.rating-lv-rf .rating-label{color:var(--red)}
+
+/* ── Sections ── */
+.sections{display:flex;flex-direction:column;gap:8px}
+.section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.section:hover{box-shadow:var(--shadow-sm)}
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;user-select:none;gap:10px}
+.section-header:hover{background:var(--surface-alt)}
+.section-title-group{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
+.section-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.section-title{font-size:.875rem;font-weight:600;color:var(--text-primary)}
+.section-pills{display:flex;gap:4px;flex-wrap:wrap}
+.section-meta{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.section-progress-text{font-size:12px;font-weight:500;color:var(--text-muted)}
+.section-mini-bar{width:50px;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.section-mini-fill{height:100%;background:var(--accent-mid);border-radius:2px;transition:width .3s}
+.chevron-icon{color:var(--text-muted);transition:transform var(--transition);flex-shrink:0}
+.section.open .chevron-icon{transform:rotate(180deg)}
+.section-body{display:none;border-top:1px solid var(--border)}
+.section.open .section-body{display:block}
+
+/* ── Red flag section ── */
+.section.redflag-section{border-color:var(--red-border)}
+.section.redflag-section .section-header{background:var(--red-light)}
+.section.redflag-section .section-header:hover{filter:brightness(.97)}
+.section.redflag-section .section-title{color:var(--red)}
+.section.redflag-section .section-mini-fill{background:var(--red)}
+.section.redflag-section.has-active{border-color:var(--red);box-shadow:0 0 0 2px rgba(192,57,43,.15)}
+.redflag-banner{background:var(--red-light);border-bottom:1px solid var(--red-border);padding:8px 16px;font-size:.8125rem;color:var(--red);display:flex;align-items:center;gap:6px}
+.redflag-banner strong{font-weight:600}
+
+/* ── Criteria ── */
+.criterion{display:flex;gap:14px;padding:13px 16px;border-bottom:1px solid var(--border);align-items:flex-start}
+.criterion:last-child{border-bottom:none}
+.criterion:hover{background:var(--surface-alt)}
+.criterion.checked{background:var(--accent-light)}
+.criterion.redflag:hover{background:var(--red-light)}
+.criterion.redflag.checked{background:var(--red-light)!important}
+.chk-col{flex-shrink:0;padding-top:1px}
+.chk-col input[type=checkbox]{width:17px;height:17px;cursor:pointer;accent-color:var(--accent)}
+.criterion.redflag .chk-col input[type=checkbox]{accent-color:var(--red)}
+.crit-content{flex:1;min-width:0}
+.crit-title{font-size:.875rem;font-weight:600;color:var(--text-primary);margin-bottom:4px;line-height:1.4;display:block;cursor:pointer}
+.criterion.checked .crit-title{color:var(--text-secondary);text-decoration:line-through}
+.criterion.redflag.checked .crit-title{color:var(--red)!important;text-decoration:none}
+.crit-desc{font-size:.8125rem;color:var(--text-secondary);line-height:1.55;margin-bottom:7px}
+.crit-footer{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.weight-tag{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:4px}
+.w-critical{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+.w-high{background:var(--gold-light);color:var(--gold);border:1px solid var(--gold-border)}
+.w-medium{background:var(--accent-light);color:var(--accent-mid);border:1px solid var(--border)}
+.w-redflag{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+
+/* ── Filter & Search bar ── */
+.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:1rem;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.filter-group{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-right:2px;white-space:nowrap}
+.filter-chip{padding:4px 10px;border:1px solid var(--border);border-radius:20px;background:transparent;font-family:var(--font);font-size:11px;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:all var(--transition);white-space:nowrap}
+.filter-chip:hover{border-color:var(--border-strong);color:var(--text-primary)}
+.filter-chip.active{background:var(--text-primary);color:var(--bg);border-color:var(--text-primary)}
+.filter-chip.active-b{background:#2a6e2a;color:#fff;border-color:#2a6e2a}
+.filter-chip.active-m{background:#4a3d9a;color:#fff;border-color:#4a3d9a}
+.filter-chip.active-g{background:#7a4f00;color:#fff;border-color:#7a4f00}
+.filter-chip.active-c{background:#1a4a7a;color:#fff;border-color:#1a4a7a}
+.filter-chip.active-critical{background:var(--red);color:#fff;border-color:var(--red)}
+.filter-chip.active-high{background:var(--gold);color:#fff;border-color:var(--gold)}
+.filter-chip.active-medium{background:var(--accent-mid);color:#fff;border-color:var(--accent-mid)}
+.filter-chip.active-redflag{background:var(--red);color:#fff;border-color:var(--red)}
+.filter-divider{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.search-wrap{flex:1;min-width:160px;position:relative;display:flex;align-items:center}
+.search-icon{position:absolute;left:10px;color:var(--text-muted);font-size:12px;pointer-events:none}
+.search-input{width:100%;padding:5px 10px 5px 28px;border:1px solid var(--border);border-radius:20px;background:var(--surface-alt);font-family:var(--font);font-size:12px;color:var(--text-primary);outline:none;transition:all var(--transition)}
+.search-input::placeholder{color:var(--text-muted)}
+.search-input:focus{border-color:var(--border-strong);background:var(--surface);box-shadow:0 0 0 2px rgba(45,154,110,.12)}
+.search-clear{position:absolute;right:10px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:14px;padding:0;line-height:1;display:none;transition:color var(--transition)}
+.search-clear:hover{color:var(--text-primary)}
+.search-clear.visible{display:flex;align-items:center;justify-content:center}
+.search-input.has-value{padding-right:30px}
+.filter-count{font-size:11px;color:var(--text-muted);white-space:nowrap;margin-left:4px}
+
+/* ── Sticky filter bar ── */
+.filter-bar-sticky-wrap{position:sticky;top:0;z-index:100;margin-bottom:1rem}
+.filter-bar-sticky-wrap .filter-bar{margin-bottom:0;border-radius:0;border-left:none;border-right:none;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.filter-bar-sticky-wrap.is-stuck .filter-bar{border-top:none;border-radius:0}
+/* when not stuck, restore normal look */
+.filter-bar-wrap{margin-bottom:1rem}
+.filter-bar-wrap .filter-bar{margin-bottom:0}
+
+/* ── Sticky sentinel ── */
+.sticky-sentinel{height:1px;margin-bottom:-1px;visibility:hidden}
+
+/* ── Gap item expandable ── */
+.gap-item{position:relative;cursor:pointer;transition:background var(--transition),box-shadow var(--transition)}
+.gap-item:hover{filter:brightness(.95);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.gap-item-expand{display:none;margin-top:6px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px;cursor:default}
+.gap-item-expand.open{display:block}
+.gap-item-expand-title{font-size:.8125rem;font-weight:600;color:var(--text-primary);margin-bottom:4px;line-height:1.4}
+.gap-item-expand-desc{font-size:.8rem;color:var(--text-secondary);line-height:1.55;margin-bottom:6px}
+.gap-item-expand-footer{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.gap-item-arrow{margin-left:auto;font-size:10px;opacity:.5;transition:transform var(--transition);flex-shrink:0}
+.gap-item.expanded .gap-item-arrow{transform:rotate(180deg)}
+
+/* ── Search highlight ── */
+mark.hl{background:#fde68a;color:#78350f;border-radius:2px;padding:0 1px}
+html.dark mark.hl{background:#78350f;color:#fde68a}
+
+/* hidden by filter */
+.criterion.filter-hidden{display:none}
+.no-results{padding:16px;text-align:center;font-size:.8125rem;color:var(--text-muted);font-style:italic}
+
+/* ── Rating legend ── */
+.rating-legend{margin-top:1.25rem;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.rating-legend-header{padding:10px 16px;background:var(--surface-alt);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.rating-legend-header:hover{filter:brightness(.97)}
+.rating-legend-title{font-size:12px;font-weight:600;color:var(--text-secondary)}
+.rating-legend-body{display:none;border-top:1px solid var(--border)}
+.rating-legend.open .rating-legend-body{display:block}
+.rating-legend.open .chevron-icon{transform:rotate(180deg)}
+.legend-row{display:flex;align-items:flex-start;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.legend-row:last-child{border-bottom:none}
+.legend-stars{font-size:.9rem;white-space:nowrap;width:80px;flex-shrink:0;padding-top:1px}
+.legend-info{}
+.legend-name{font-size:.8125rem;font-weight:600;color:var(--text-primary);margin-bottom:2px}
+.legend-desc{font-size:.8rem;color:var(--text-secondary);line-height:1.5}
+.legend-threshold{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-muted);margin-top:2px}
+
+/* ── Actions ── */
+.panel-actions{display:flex;align-items:center;gap:8px;margin-top:1.25rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border-strong);border-radius:var(--radius-md);background:var(--surface);color:var(--text-secondary);font-family:var(--font);font-size:.8125rem;font-weight:500;cursor:pointer;transition:all var(--transition)}
+.btn:hover{background:var(--surface-alt);color:var(--text-primary);border-color:var(--text-muted)}
+.btn:active{transform:scale(.98)}
+.btn-spacer{margin-left:auto}
+
+@media(max-width:680px){
+  .score-strip{grid-template-columns:repeat(2,1fr)}
+  .section-pills{display:none}
+  .header h1{font-size:1.3rem}
+  .tab-btn{font-size:.75rem;padding:8px 6px}
+}
+@media print{
+  .tabs-nav,.lang-toggle,.panel-actions,.theme-btn{display:none!important}
+  .panel{display:block!important}
+  .section-body{display:block!important}
+  body{background:white}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="header-top-row">
+      <div>
+        <div class="header-eyebrow" id="hd-eyebrow"></div>
+        <h1 id="hd-title"></h1>
+      </div>
+      <div class="header-controls">
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme" title="Chuyển sáng/tối">☀️</button>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn active" id="lang-vi" onclick="setLang('vi')">VI</button>
+          <button class="lang-btn" id="lang-en" onclick="setLang('en')">EN</button>
+        </div>
+      </div>
+    </div>
+    <p class="header-sub" id="hd-sub"></p>
+    <div class="source-pills">
+      <span class="pill pill-b">Buffett — Moat &amp; Character</span>
+      <span class="pill pill-m">Munger — Mental Models</span>
+      <span class="pill pill-g">Grant — Psychology &amp; Giving</span>
+      <span class="pill pill-c">Collins — Level 5 &amp; Flywheel</span>
+    </div>
+  </header>
+  <nav class="tabs-nav" role="tablist" id="tabs-nav"></nav>
+  <div id="panels"></div>
+</div>
+<script>
+/* ════════════════════════════════════════════════
+   I18N LAYER
+   ════════════════════════════════════════════════ */
+const I18N = {
+  vi:{
+    eyebrow:'Decision Framework',
+    title:'Đánh giá Nhân tài & Tổ chức',
+    sub:'Tổng hợp tiêu chí từ Buffett, Munger, Grant và Collins — bao gồm cờ đỏ loại bỏ ngay và hệ thống đánh giá mức độ.',
+    tabs:['🏢 Chọn công ty','👤 Tuyển nhân viên','🌱 Phát triển nhân tài','🪞 Tự đánh giá'],
+    scoreLabels:['Tổng điểm','Bắt buộc','Mức độ','Cờ đỏ'],
+    scoreSub:(c,t)=>`${c}/${t} tiêu chí`,
+    critSub:'phải đạt tất cả',
+    rfSub:'loại bỏ ngay',
+    emptyH:'Chưa đánh giá',
+    emptyB:'Bắt đầu đánh dấu các tiêu chí để xem đánh giá mức độ.',
+    weight:{critical:'Bắt buộc',high:'Quan trọng',medium:'Tốt có',redflag:'🚩 Cờ đỏ'},
+    rfBannerNone:'Chưa có cờ đỏ nào được đánh dấu.',
+    rfBannerActive:n=>`⚠️ ${n} cờ đỏ đang kích hoạt — loại bỏ ngay, bất kể điểm số.`,
+    rfVerdictLabel:'🚩 Loại bỏ ngay — Cờ đỏ kích hoạt',
+    rfVerdictBody:flags=>`Phát hiện ${flags.length} cờ đỏ. Một cờ đỏ là đủ để loại bỏ.`,
+    gapTitle:'Để lên mức tiếp theo cần:',
+    gapNone:'✓ Đã đạt mức cao nhất. Duy trì và đào sâu thêm.',
+    gapRfTitle:'Cờ đỏ phải xử lý:',
+    gapCritTitle:'Tiêu chí bắt buộc còn thiếu:',
+    gapHighTitle:'Tiêu chí quan trọng còn thiếu:',
+    btnReset:'↺ Đặt lại',
+    btnExpand:'⊞ Mở tất cả',
+    btnCollapse:'⊟ Thu gọn',
+    filterSrcLabel:'Tác giả:',
+    filterWgtLabel:'Mức độ:',
+    filterAll:'Tất cả',
+    filterSrc:{b:'Buffett',m:'Munger',g:'Grant',c:'Collins'},
+    filterWgt:{critical:'Bắt buộc',high:'Quan trọng',medium:'Tốt có',redflag:'🚩 Cờ đỏ'},
+    searchPlaceholder:'Tìm kiếm tiêu chí...',
+    filterCount:(v,t)=>`${v}/${t} tiêu chí`,
+    noResults:'Không tìm thấy tiêu chí phù hợp.',
+    legendTitle:'📊 Giải thích các mức độ đánh giá',
+    legendThreshold:(pct,allCrit)=>allCrit?`≥${pct}% + đạt tất cả tiêu chí Bắt buộc`:`≥${pct}%`,
+    /* ── Rating levels per panel ── */
+    levels:{
+      company:[
+        {stars:'⭐',label:'Không đủ điều kiện',desc:'Thiếu quá nhiều nền tảng. Rủi ro rất cao nếu gia nhập hoặc đầu tư.'},
+        {stars:'⭐⭐',label:'Cơ bản',desc:'Có một số điểm tốt nhưng thiếu những yếu tố căn bản nhất. Cần nghiên cứu thêm nhiều.'},
+        {stars:'⭐⭐⭐',label:'Đủ tiêu chuẩn',desc:'Nền tảng đủ vững. Cân nhắc được nếu có thêm thông tin hoặc điều kiện cải thiện.'},
+        {stars:'⭐⭐⭐⭐',label:'Tốt',desc:'Đáp ứng hầu hết tiêu chí quan trọng. Cơ hội tốt để gia nhập hoặc đầu tư.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Xuất sắc',desc:'Công ty hiếm có. Đáp ứng gần như toàn bộ tiêu chí Buffett-Munger-Collins. Ưu tiên cao nhất.'},
+      ],
+      hire:[
+        {stars:'⭐',label:'Không phù hợp',desc:'Thiếu nền tảng tính cách và tư duy cốt lõi. Không nên tiến hành tuyển dụng.'},
+        {stars:'⭐⭐',label:'Tiềm năng thấp',desc:'Có vài điểm tích cực nhưng còn thiếu nhiều. Cần xem xét lại kỹ.'},
+        {stars:'⭐⭐⭐',label:'Ứng viên đạt',desc:'Đủ điều kiện tuyển dụng có điều kiện. Thử việc hoặc phỏng vấn sâu thêm.'},
+        {stars:'⭐⭐⭐⭐',label:'Ứng viên tốt',desc:'Đáp ứng phần lớn tiêu chí. Tuyển dụng với kỳ vọng rõ ràng.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Ứng viên xuất sắc',desc:'Hiếm gặp. Tuyển ngay và đầu tư phát triển dài hạn.'},
+      ],
+      talent:[
+        {stars:'⭐',label:'Chưa sẵn sàng',desc:'Thiếu nền tảng để phát triển. Đầu tư ngay bây giờ sẽ bị lãng phí.'},
+        {stars:'⭐⭐',label:'Tiềm năng thô',desc:'Có hạt nhân tốt nhưng cần môi trường và thời gian để hình thành.'},
+        {stars:'⭐⭐⭐',label:'Nhân tài đang phát triển',desc:'Đang đi đúng hướng. Cần mentoring có cấu trúc và nhiệm vụ stretch.'},
+        {stars:'⭐⭐⭐⭐',label:'Nhân tài chiến lược',desc:'Đang phát triển mạnh. Ưu tiên đầu tư và lộ trình kế thừa rõ ràng.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Level 5 tiềm năng',desc:'Có đủ phẩm chất để trở thành leader thế hệ kế tiếp. Đầu tư tối đa.'},
+      ],
+      self:[
+        {stars:'⭐',label:'Cần xem lại nền tảng',desc:'Nhiều khoảng trống quan trọng. Điểm khởi đầu — không có phán xét, chỉ có hướng đi.'},
+        {stars:'⭐⭐',label:'Đang xây dựng nền tảng',desc:'Một số thói quen tốt đang hình thành. Cần tập trung vào tiêu chí critical trước.'},
+        {stars:'⭐⭐⭐',label:'Đang đúng hướng',desc:'Nền tảng tốt. Tiếp tục và tăng tốc ở những lĩnh vực còn yếu.'},
+        {stars:'⭐⭐⭐⭐',label:'Phát triển vững chắc',desc:'Hầu hết tiêu chí quan trọng đã đạt. Đào sâu thêm và chia sẻ với người khác.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Tư duy bậc thầy',desc:'Đang sống và thực hành ở mức độ Buffett-Munger-Grant-Collins. Tiếp tục tinh chỉnh.'},
+      ],
+    },
+  },
+  en:{
+    eyebrow:'Decision Framework',
+    title:'Talent & Organization Evaluation',
+    sub:'Synthesized criteria from Buffett, Munger, Grant and Collins — including red flags and a 5-level rating system.',
+    tabs:['🏢 Choose a company','👤 Hire an employee','🌱 Develop talent','🪞 Self-evaluation'],
+    scoreLabels:['Total score','Must-pass','Rating','Red flags'],
+    scoreSub:(c,t)=>`${c}/${t} criteria`,
+    critSub:'must pass all',
+    rfSub:'instant disqualifier',
+    emptyH:'Not yet evaluated',
+    emptyB:'Start checking criteria to see the rating level evaluation.',
+    weight:{critical:'Must-pass',high:'Important',medium:'Nice-to-have',redflag:'🚩 Red flag'},
+    rfBannerNone:'No red flags checked.',
+    rfBannerActive:n=>`⚠️ ${n} red flag(s) active — instant disqualification regardless of score.`,
+    rfVerdictLabel:'🚩 Disqualified — Red flag triggered',
+    rfVerdictBody:flags=>`${flags.length} red flag(s) detected. Any single red flag is sufficient to disqualify.`,
+    gapTitle:'To reach the next level:',
+    gapNone:'✓ Highest level reached. Maintain and deepen further.',
+    gapRfTitle:'Red flags to resolve:',
+    gapCritTitle:'Must-pass criteria still missing:',
+    gapHighTitle:'Important criteria still missing:',
+    btnReset:'↺ Reset',
+    btnExpand:'⊞ Expand all',
+    btnCollapse:'⊟ Collapse all',
+    filterSrcLabel:'Author:',
+    filterWgtLabel:'Weight:',
+    filterAll:'All',
+    filterSrc:{b:'Buffett',m:'Munger',g:'Grant',c:'Collins'},
+    filterWgt:{critical:'Must-pass',high:'Important',medium:'Nice-to-have',redflag:'🚩 Red flag'},
+    searchPlaceholder:'Search criteria...',
+    filterCount:(v,t)=>`${v}/${t} criteria`,
+    noResults:'No matching criteria found.',
+    legendTitle:'📊 Rating levels explained',
+    legendThreshold:(pct,allCrit)=>allCrit?`≥${pct}% + all Must-pass criteria met`:`≥${pct}%`,
+    levels:{
+      company:[
+        {stars:'⭐',label:'Disqualified',desc:'Too many foundational gaps. Very high risk to join or invest.'},
+        {stars:'⭐⭐',label:'Below standard',desc:'Some positives but missing fundamental requirements. Needs much more research.'},
+        {stars:'⭐⭐⭐',label:'Meets standard',desc:'Foundation solid enough to consider if conditions improve or more info is gathered.'},
+        {stars:'⭐⭐⭐⭐',label:'Good',desc:'Meets most important criteria. A good opportunity to join or invest.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Outstanding',desc:'Rare company. Meets nearly all Buffett-Munger-Collins criteria. Highest priority.'},
+      ],
+      hire:[
+        {stars:'⭐',label:'Not a fit',desc:'Missing foundational character and thinking. Do not proceed with hiring.'},
+        {stars:'⭐⭐',label:'Low potential',desc:'Some positives but too many gaps. Needs thorough re-evaluation.'},
+        {stars:'⭐⭐⭐',label:'Qualified candidate',desc:'Qualifies for conditional hiring. Probation or deeper interviews recommended.'},
+        {stars:'⭐⭐⭐⭐',label:'Good candidate',desc:'Meets most criteria. Hire with clear expectations.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Outstanding candidate',desc:'Rare find. Hire immediately and invest in long-term development.'},
+      ],
+      talent:[
+        {stars:'⭐',label:'Not ready',desc:'Missing foundational elements. Investment now will be wasted.'},
+        {stars:'⭐⭐',label:'Raw potential',desc:'Good core but needs time and environment to develop properly.'},
+        {stars:'⭐⭐⭐',label:'Developing talent',desc:'On the right track. Needs structured mentoring and stretch assignments.'},
+        {stars:'⭐⭐⭐⭐',label:'Strategic talent',desc:'Developing strongly. Prioritize investment and a clear succession roadmap.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Level 5 potential',desc:'Has the qualities to become a next-generation leader. Maximum investment.'},
+      ],
+      self:[
+        {stars:'⭐',label:'Foundation needs review',desc:'Many important gaps. A starting point — no judgment, only direction.'},
+        {stars:'⭐⭐',label:'Building foundations',desc:'Some good habits forming. Focus on critical criteria first.'},
+        {stars:'⭐⭐⭐',label:'On the right track',desc:'Good foundation. Continue and accelerate in weaker areas.'},
+        {stars:'⭐⭐⭐⭐',label:'Steady growth',desc:'Most important criteria met. Deepen further and share with others.'},
+        {stars:'⭐⭐⭐⭐⭐',label:'Master-level thinking',desc:'Living and practicing at Buffett-Munger-Grant-Collins level. Keep refining.'},
+      ],
+    },
+  },
+};
+</script>
+<script>
+/* ════════════════════════════════════════════════
+   DATA LAYER
+   ════════════════════════════════════════════════ */
+const PANELS = [
+
+/* ══════════════════════════════════════════════════════
+   PANEL 1 — CHỌN CÔNG TY / CHOOSE A COMPANY
+   ══════════════════════════════════════════════════════ */
+{ id:'company',
+  /* Rating thresholds: [lv1<40, lv2 40-59, lv3 60-74, lv4 75-89, lv5>=90] */
+  ratingThresholds:[40,60,75,90],
+  sections:[
+  { icon:'🏰', src:['b','m'],
+    title:{vi:'Moat kinh tế & lợi thế cạnh tranh',en:'Economic moat & competitive advantage'},
+    items:[
+      {src:['b','m'],weight:'critical',
+       vi:{title:'Lợi thế cạnh tranh bền vững (moat)',desc:'Thương hiệu mạnh, chi phí chuyển đổi cao, network effects, hoặc lợi thế chi phí rõ ràng. Ít nhất một trong bốn dạng moat phải hiện diện rõ ràng.'},
+       en:{title:'Durable competitive advantage (moat)',desc:'Strong brand, high switching costs, network effects, or clear cost advantage. At least one of the four moat types must be clearly present.'}},
+      {src:['b'],weight:'critical',
+       vi:{title:'Khả năng định giá (pricing power)',desc:'Công ty có thể tăng giá mà không mất khách hàng — dấu hiệu moat thực sự theo Buffett.'},
+       en:{title:'Pricing power',desc:'The company can raise prices without losing customers — Buffett\'s litmus test for a real moat.'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Tỷ suất lợi nhuận cao và ổn định',desc:'ROE > 15% liên tục 5+ năm, biên lợi nhuận không bị xói mòn.'},
+       en:{title:'High and stable profitability',desc:'ROE > 15% for 5+ consecutive years; profit margins not eroding.'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Mô hình kinh doanh đơn giản, dễ hiểu',desc:'"Nếu tôi không thể giải thích trong 5 phút, tôi không đầu tư." — Buffett.'},
+       en:{title:'Simple, understandable business model',desc:'"If I can\'t explain it in 5 minutes, I don\'t invest." — Buffett.'}},
+    ]},
+  { icon:'🎯', src:['b'],
+    title:{vi:'Circle of Competence — Vòng tròn năng lực',en:'Circle of Competence'},
+    items:[
+      {src:['b'],weight:'critical',
+       vi:{title:'Công ty nằm trong vòng tròn năng lực của tôi',desc:'Buffett: "Biết những gì mình không biết quan trọng hơn là thông minh." Chỉ đầu tư vào những gì bạn thực sự hiểu sâu — không phải chỉ nghe qua.'},
+       en:{title:'Company falls within my circle of competence',desc:'Buffett: "Knowing what you don\'t know is more useful than being brilliant." Only invest in what you genuinely understand deeply — not just superficially.'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Tôi hiểu tại sao công ty sẽ còn tốt sau 10 năm',desc:'Buffett: đặt câu hỏi liệu 10 năm sau ngành này và công ty này trông như thế nào. Nếu không trả lời được — đây không phải trong vòng tròn năng lực của bạn.'},
+       en:{title:'I understand why this company will still be strong in 10 years',desc:'Buffett: ask what this industry and company will look like in 10 years. If you can\'t answer — it\'s outside your circle of competence.'}},
+      {src:['m'],weight:'high',
+       vi:{title:'Thừa nhận rõ ràng những gì mình không biết về công ty này',desc:'Munger: viết ra danh sách cụ thể những điều không chắc chắn về công ty. Người không thể liệt kê được điểm yếu của mình thường đang tự lừa dối.'},
+       en:{title:'Clearly acknowledge what I don\'t know about this company',desc:'Munger: write out a specific list of things you\'re uncertain about. Someone who can\'t list their own blind spots is usually self-deceiving.'}},
+    ]},
+  { icon:'👑', src:['b','m','g','c'],
+    title:{vi:'Ban lãnh đạo & văn hóa tổ chức',en:'Leadership & organizational culture'},
+    items:[
+      {src:['c'],weight:'critical',
+       vi:{title:'Lãnh đạo cấp 5 (Level 5 Leadership)',desc:'CEO kết hợp khiêm tốn cá nhân + ý chí chuyên nghiệp mạnh mẽ. Đặt công ty lên trên bản thân.'},
+       en:{title:'Level 5 Leadership',desc:'CEO combines personal humility with fierce professional will. Places the company above self.'}},
+      {src:['c'],weight:'critical',
+       vi:{title:'Đội ngũ lãnh đạo đúng người đúng chỗ',desc:'"Đúng người trên xe trước, sau đó mới quyết định đi đâu." — Collins. Người tự có động lực nội tại, kỷ luật và trách nhiệm.'},
+       en:{title:'Right people in the right seats',desc:'"First who, then what." — Collins. People with intrinsic motivation, discipline, and accountability.'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Lãnh đạo có "owner-operator mindset"',desc:'Buffett ưu tiên công ty có lãnh đạo sở hữu cổ phần lớn và hành xử như chủ sở hữu thực sự, không phải người quản lý thuê mướn.'},
+       en:{title:'Leadership with an owner-operator mindset',desc:'Buffett prefers companies where leaders hold significant equity and behave like true owners, not hired managers.'}},
+      {src:['m'],weight:'high',
+       vi:{title:'Lãnh đạo có tư duy đa ngành (latticework)',desc:'CEO tư duy liên ngành, học hỏi từ nhiều lĩnh vực, tránh bias từ góc nhìn hẹp.'},
+       en:{title:'Leaders with multi-disciplinary thinking',desc:'CEO uses a latticework of mental models across disciplines, avoiding narrow-lens bias.'}},
+      {src:['g'],weight:'high',
+       vi:{title:'Văn hóa thẳng thắn và học từ thất bại',desc:'Grant: tổ chức khuyến khích "kênh cho sự thật." Tâm lý an toàn để nói lên ý kiến bất đồng.'},
+       en:{title:'Culture of candor and learning from failure',desc:'Grant: organization encourages truth-telling channels. Psychological safety to voice dissent.'}},
+      {src:['b','c'],weight:'high',
+       vi:{title:'Lãnh đạo có tư duy dài hạn',desc:'Quyết định dựa trên lợi ích 10–20 năm, không hy sinh dài hạn cho short-term earnings.'},
+       en:{title:'Long-term thinking in leadership',desc:'Decisions based on 10–20-year horizons; never sacrificing long-term value for short-term earnings.'}},
+    ]},
+  { icon:'📊', src:['b','m'],
+    title:{vi:'Nền tảng tài chính',en:'Financial foundation'},
+    items:[
+      {src:['b'],weight:'high',
+       vi:{title:'Dòng tiền tự do (FCF) mạnh và tăng trưởng',desc:'FCF > net income là dấu hiệu chất lượng lợi nhuận. Tránh công ty chỉ có lợi nhuận kế toán.'},
+       en:{title:'Strong and growing free cash flow (FCF)',desc:'FCF > net income signals quality earnings. Avoid companies with only accounting profits.'}},
+      {src:['b','m'],weight:'high',
+       vi:{title:'Bảng cân đối kế toán lành mạnh',desc:'Nợ/vốn chủ sở hữu hợp lý. Có khả năng chịu đựng khủng hoảng mà không cần vốn khẩn cấp.'},
+       en:{title:'Healthy balance sheet',desc:'Reasonable debt-to-equity ratio. Able to survive a crisis without emergency capital.'}},
+      {src:['b'],weight:'medium',
+       vi:{title:'Lợi nhuận giữ lại được tái đầu tư hiệu quả',desc:'$1 lợi nhuận giữ lại phải tạo ra > $1 giá trị thị trường. Test Buffett cho capital allocation.'},
+       en:{title:'Retained earnings reinvested effectively',desc:'$1 of retained earnings must create >$1 of market value. Buffett\'s capital allocation test.'}},
+    ]},
+  { icon:'⚙️', src:['c','m'],
+    title:{vi:'Văn hóa kỷ luật & hệ thống tổ chức',en:'Discipline culture & organizational systems'},
+    items:[
+      {src:['c'],weight:'high',
+       vi:{title:'"Bánh đà" rõ ràng đang tích lũy đà',desc:'Collins: mọi hành động xây dựng lên nhau như đẩy một bánh đà. Không có khoảnh khắc đột phá mà là kết quả của tích lũy nhất quán.'},
+       en:{title:'Clear flywheel gaining momentum',desc:'Collins: every action builds on the last. No single breakthrough moment — just consistent accumulated results.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'"20 Mile March" — kỷ luật tiến độ nhất quán',desc:'Collins ("Great by Choice"): công ty vĩ đại duy trì tiến độ nhất quán bất kể điều kiện tốt hay xấu. Không tăng tốc điên cuồng khi thuận lợi, không hoảng loạn khi khó khăn. Dấu hiệu: có KPI rõ ràng và đạt được liên tục.'},
+       en:{title:'"20 Mile March" — consistent progress discipline',desc:'Collins ("Great by Choice"): great companies maintain consistent progress regardless of conditions. No frantic acceleration in good times, no panic in bad times. Signal: clear KPIs consistently met.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'"Productive Paranoia" — lo lắng có chuẩn bị',desc:'Collins: lãnh đạo của công ty bền vững luôn lo lắng ngay cả khi mọi thứ đang tốt. Khác với lo lắng tê liệt — đây là lo lắng chủ động xây dựng "đệm" dự phòng (cash reserve, scenario planning).'},
+       en:{title:'"Productive Paranoia" — prepared anxiety',desc:'Collins: leaders of enduring companies worry even when things are good. Unlike paralyzing anxiety — this is proactive anxiety that builds buffers (cash reserves, scenario planning).'}},
+      {src:['m'],weight:'medium',
+       vi:{title:'Hành xử nhất quán với giá trị tuyên bố',desc:'Munger inversion: tránh nơi có khoảng cách lớn giữa văn hóa tuyên bố và văn hóa thực tế.'},
+       en:{title:'Behavior consistent with stated values',desc:'Munger inversion: avoid places with a large gap between proclaimed culture and actual culture.'}},
+    ]},
+  { icon:'⚖️', src:['b','m'],
+    title:{vi:'Rủi ro & định giá',en:'Risk & valuation'},
+    items:[
+      {src:['b'],weight:'high',
+       vi:{title:'Giá mua hợp lý (margin of safety)',desc:'Buffett: "Price is what you pay, value is what you get." Mua dưới giá trị nội tại ít nhất 20–30%.'},
+       en:{title:'Reasonable entry price (margin of safety)',desc:'Buffett: buy at least 20–30% below intrinsic value. "Price is what you pay, value is what you get."'}},
+      {src:['m'],weight:'critical',
+       vi:{title:'Không có rủi ro existential rõ ràng',desc:'Munger inversion: liệt kê mọi thứ có thể giết chết công ty. Tránh rủi ro pháp lý, công nghệ, thị trường không thể dự báo.'},
+       en:{title:'No clear existential risk',desc:'Munger inversion: list everything that could kill the company. Avoid unpredictable regulatory, technology, or market risks.'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Ngành có xu hướng tốt hoặc trung tính',desc:'Tránh đầu vào ngành đang tàn lụi nhanh. Moat tốt trong ngành xấu vẫn là cạm bẫy — Buffett học từ textile mills.'},
+       en:{title:'Industry with favorable or neutral tailwinds',desc:'Avoid industries in rapid decline. A great moat in a bad industry is still a trap — Buffett learned from textile mills.'}},
+    ]},
+  { icon:'🚩', src:['b','m','g','c'], isRedflag:true,
+    title:{vi:'Cờ đỏ — Dấu hiệu loại bỏ ngay',en:'Red Flags — Instant Disqualifiers'},
+    items:[
+      {src:['b'],weight:'redflag',
+       vi:{title:'Lãnh đạo có lịch sử gian lận hoặc thao túng số liệu',desc:'Buffett: "Mất tiền có thể chấp nhận; mất danh tiếng là không thể phục hồi." Bất kỳ bằng chứng về gian lận kế toán là loại bỏ vĩnh viễn.'},
+       en:{title:'Leadership with history of fraud or accounting manipulation',desc:'Buffett: "Losing money is tolerable; losing reputation is not." Any evidence of accounting fraud is a permanent disqualifier.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Không hiểu được nguồn lợi nhuận thực sự',desc:'Munger: nếu không thể giải thích tại sao công ty kiếm tiền, đó là dấu hiệu có điều gì đó được che giấu — hoặc bản thân không hiểu đủ để đầu tư.'},
+       en:{title:'Cannot explain the actual source of profit',desc:'Munger: if you can\'t explain why the company makes money, either something is hidden or you don\'t understand it well enough to invest.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Nợ quá mức không thể trả trong điều kiện xấu',desc:'D/E > 3x trong ngành thông thường, hoặc không có khả năng service debt nếu doanh thu giảm 30%.'},
+       en:{title:'Excessive debt that cannot be repaid under stress',desc:'D/E > 3x in non-financial industries, or unable to service debt if revenue drops 30%.'}},
+      {src:['c'],weight:'redflag',
+       vi:{title:'CEO có ego lớn, nhận hết công khi thành công',desc:'Collins: ngược lại Level 5. CEO "nhìn vào gương khi thành công, nhìn ra cửa sổ khi thất bại" là dấu hiệu nguy hiểm cho sự bền vững.'},
+       en:{title:'CEO with oversized ego who claims all credit',desc:'Collins: opposite of Level 5. A CEO who looks in the mirror when things go well and out the window when they go wrong signals unsustainable leadership.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Incentive structure tạo xung đột lợi ích rõ ràng',desc:'Munger: "Show me the incentive and I\'ll show you the outcome." Lãnh đạo được thưởng bán cổ phiếu ra trong khi nói tốt về công ty.'},
+       en:{title:'Incentive structure creating obvious conflicts of interest',desc:'Munger: "Show me the incentive and I\'ll show you the outcome." Leaders rewarded for selling shares while publicly praising the company.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Văn hóa trừng phạt người đưa ra tin xấu',desc:'Grant: "shoot the messenger" triệt tiêu thông tin sống còn. Khi lãnh đạo chỉ muốn nghe tin tốt, thảm họa được tích lũy trong bóng tối.'},
+       en:{title:'Culture that punishes bearers of bad news',desc:'Grant: "shoot the messenger" environments suppress vital information. When leaders only want good news, disasters accumulate unseen.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Kết quả tài chính phụ thuộc vào 1–2 khách hàng lớn',desc:'Nếu mất 1 khách hàng có thể gây thiệt hại > 30% doanh thu, rủi ro tập trung này có thể xóa sổ moat nhanh chóng.'},
+       en:{title:'Financial results dependent on 1–2 major customers',desc:'If losing one customer could damage >30% of revenue, this concentration risk can quickly erode even a strong moat.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Lợi nhuận được hỗ trợ chủ yếu bởi kế toán sáng tạo',desc:'Dấu hiệu: FCF thấp hơn net income liên tục, accounts receivable tăng nhanh hơn doanh thu, thay đổi kế toán thường xuyên không rõ lý do.'},
+       en:{title:'Profits primarily supported by creative accounting',desc:'Warning signs: FCF consistently below net income, receivables growing faster than revenue, frequent unexplained accounting changes.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Related-party transactions bất thường hoặc không minh bạch',desc:'Munger: giao dịch với các bên liên quan mà không có giải thích rõ ràng là dấu hiệu lãnh đạo đang tư lợi trên lưng cổ đông.'},
+       en:{title:'Unusual or non-transparent related-party transactions',desc:'Munger: related-party transactions without clear explanation signal that leadership may be enriching themselves at shareholders\' expense.'}},
+      {src:['c'],weight:'redflag',
+       vi:{title:'Không có kế hoạch kế thừa lãnh đạo',desc:'Collins: tổ chức phụ thuộc hoàn toàn vào 1 người là điểm yếu chết người. Nếu CEO biến mất ngày mai, công ty sẽ ra sao?'},
+       en:{title:'No leadership succession plan',desc:'Collins: organizations entirely dependent on one person have a fatal single point of failure. What happens if the CEO disappears tomorrow?'}},
+    ]},
+  ],
+  verdicts:{
+    vi:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Xuất sắc — Ưu tiên cao nhất',body:'Công ty hiếm có. Đáp ứng gần như toàn bộ tiêu chí Buffett-Munger-Collins.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Tốt — Cơ hội đáng đầu tư',body:'Đáp ứng hầu hết tiêu chí quan trọng. Cơ hội tốt để gia nhập hoặc đầu tư.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'Đủ tiêu chuẩn — Cân nhắc có điều kiện',body:'Nền tảng đủ vững. Cân nhắc nếu có thêm thông tin hoặc điều kiện cải thiện.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Cơ bản — Cần nghiên cứu thêm',body:'Có một số điểm tốt nhưng thiếu những yếu tố căn bản nhất.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Không đủ điều kiện — Tránh xa',body:'Thiếu quá nhiều nền tảng. Rủi ro rất cao nếu gia nhập hoặc đầu tư.'},
+    ],
+    en:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Outstanding — Highest priority',body:'Rare company. Meets nearly all Buffett-Munger-Collins criteria.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Good — Worth investing',body:'Meets most important criteria. A good opportunity to join or invest.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'Meets standard — Conditional',body:'Foundation solid enough. Consider if conditions improve or more info is gathered.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Below standard — Research more',body:'Some positives but missing fundamental requirements.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Disqualified — Avoid',body:'Too many foundational gaps. Very high risk to join or invest.'},
+    ],
+  },
+},
+
+/* ══════════════════════════════════════════════════════
+   PANEL 2 — TUYỂN NHÂN VIÊN / HIRE
+   ══════════════════════════════════════════════════════ */
+{ id:'hire',
+  ratingThresholds:[40,60,75,90],
+  sections:[
+  { icon:'🧭', src:['b','m','g'],
+    title:{vi:'Tính cách & đạo đức cốt lõi',en:'Core character & ethics'},
+    items:[
+      {src:['b'],weight:'critical',
+       vi:{title:'Trí tuệ + Năng lượng + Chính trực — cả 3',desc:'Buffett: "Nếu thiếu chính trực, hai cái kia sẽ giết chết bạn." Bộ lọc không thể thương lượng.'},
+       en:{title:'Intelligence + Energy + Integrity — all three',desc:'Buffett: "Without integrity, the other two will kill you." Non-negotiable filter.'}},
+      {src:['m'],weight:'critical',
+       vi:{title:'Tư duy phản thực tế và học hỏi liên tục',desc:'Munger: người tốt nhất liên tục cập nhật niềm tin khi có bằng chứng mới. "Người không thay đổi ý kiến là người không học."'},
+       en:{title:'Counterfactual thinking & continuous learning',desc:'Munger: the best people continually update beliefs when new evidence arrives. "A person who never changes their mind isn\'t learning."'}},
+      {src:['g'],weight:'high',
+       vi:{title:'Thinking agility — tư duy như scientist',desc:'Grant: khả năng đặt câu hỏi lại giả định, tư duy như scientist không phải như prosecutor hay preacher.'},
+       en:{title:'Thinking agility — thinks like a scientist',desc:'Grant: ability to question assumptions and think like a scientist rather than a prosecutor or preacher.'}},
+    ]},
+  { icon:'🧠', src:['m','g','c'],
+    title:{vi:'Tư duy & năng lực học hỏi',en:'Thinking & learning capacity'},
+    items:[
+      {src:['m'],weight:'high',
+       vi:{title:'Tư duy mô hình tinh thần đa chiều',desc:'Munger: "latticework of mental models" từ nhiều ngành, không bị nhốt trong một góc nhìn.'},
+       en:{title:'Multi-dimensional mental model thinking',desc:'Munger: "latticework of mental models" across disciplines; not trapped in a single perspective.'}},
+      {src:['g'],weight:'high',
+       vi:{title:'Confident humility — tự tin năng lực, khiêm tốn kiến thức',desc:'Grant: người giỏi nhất biết mình không biết gì. Tự tin vào khả năng học hỏi, khiêm tốn về hiểu biết hiện tại.'},
+       en:{title:'Confident humility',desc:'Grant: the best people know what they don\'t know. Confident in learning capacity, humble about current knowledge.'}},
+      {src:['c','g'],weight:'high',
+       vi:{title:'Có bằng chứng học và phát triển nhanh',desc:'Lịch sử thực tế: chuyển đổi vai trò, tự học, áp dụng thực tế. Không cần biết mọi thứ — cần học nhanh.'},
+       en:{title:'Evidence of fast learning and growth',desc:'Real history: role transitions, self-study, real-world application. Doesn\'t need to know everything — needs to learn fast.'}},
+      {src:['g'],weight:'medium',
+       vi:{title:'"Powerless communication" — ảnh hưởng qua câu hỏi',desc:'Grant ("Originals"): người có ảnh hưởng thực sự thường hỏi nhiều hơn tuyên bố, nói tentatively hơn assertively. Ngược với intuition — đây là dấu hiệu tư duy chín chắn.'},
+       en:{title:'"Powerless communication" — influence through questions',desc:'Grant ("Originals"): truly influential people ask more than they assert, speak tentatively rather than assertively. Counter-intuitive — this signals mature thinking.'}},
+    ]},
+  { icon:'📋', src:['b','g','c'],
+    title:{vi:'Đóng góp & lịch sử làm việc',en:'Contribution & work history'},
+    items:[
+      {src:['g'],weight:'high',
+       vi:{title:'Giver tích cực — quan tâm người khác, không self-sacrificing',desc:'Grant: tìm "otherish giver" — cho đi có chiến lược, không kiệt sức. Phân biệt với matcher và taker.'},
+       en:{title:'Active giver — cares for others, not self-sacrificing',desc:'Grant: find the "otherish giver" — strategic generosity without burnout. Distinguish from matchers and takers.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'Lịch sử kết quả thực, không chỉ bằng cấp',desc:'Collins: "Phải là người chịu trách nhiệm kết quả." Bằng chứng cụ thể: số liệu, dự án, impact đo được.'},
+       en:{title:'History of real results, not just credentials',desc:'Collins: "Must be someone who takes responsibility for results." Look for evidence: metrics, projects, measurable impact.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'Đặt thành công của nhóm trên cá nhân',desc:'Dấu hiệu Level 5: nhường công, nhận lỗi. "Nhìn ra cửa sổ khi thành công, nhìn vào gương khi thất bại."'},
+       en:{title:'Places team success above personal glory',desc:'Level 5 signal: credits others for wins, accepts personal blame for losses. "Look out the window when things go well, look in the mirror when they don\'t."'}},
+    ]},
+  { icon:'🤝', src:['g','c'],
+    title:{vi:'Làm việc nhóm & văn hóa',en:'Teamwork & culture fit'},
+    items:[
+      {src:['g'],weight:'medium',
+       vi:{title:'Có thể bất đồng và đúng',desc:'Grant: kiểm tra trong phỏng vấn: họ có từng bất đồng với sếp và đúng không? Người giỏi cần môi trường thách thức status quo.'},
+       en:{title:'Can disagree and be right',desc:'Grant: test in interview: have they ever disagreed with a boss and been right? Great people need environments where they can challenge the status quo.'}},
+      {src:['g'],weight:'medium',
+       vi:{title:'Phản hồi nhóm kiểu "đồng minh thiện chí"',desc:'Grant: vừa care vừa trung thực. Khác Yes-man (care, không trung thực) và Jerk (trung thực, không care).'},
+       en:{title:'Gives feedback as a "caring challenger"',desc:'Grant: both cares and is honest. Different from a Yes-man (cares, not honest) and a Jerk (honest, doesn\'t care).'}},
+      {src:['c'],weight:'medium',
+       vi:{title:'Làm việc hiệu quả với ít giám sát',desc:'Collins: người đúng không cần quản lý vi mô. Họ tự có kỷ luật và động lực nội tại.'},
+       en:{title:'Works effectively with little supervision',desc:'Collins: the right people don\'t need to be micromanaged. They have self-discipline and intrinsic motivation.'}},
+    ]},
+  { icon:'🎯', src:['b','m'],
+    title:{vi:'Fit với tổ chức',en:'Organizational fit'},
+    items:[
+      {src:['b'],weight:'high',
+       vi:{title:'Giá trị cá nhân khớp với giá trị tổ chức',desc:'Buffett: "Hire for values, train for skills." Kỹ năng có thể học, giá trị thì không.'},
+       en:{title:'Personal values align with organizational values',desc:'Buffett: "Hire for values, train for skills." Skills can be taught; values cannot.'}},
+      {src:['m'],weight:'medium',
+       vi:{title:'Vượt qua "newspaper test" ngược chiều',desc:'Munger: nếu không thuê người này và điều đó được đăng báo, bạn có xấu hổ không? Nếu có — hãy thuê.'},
+       en:{title:'Passes the reverse newspaper test',desc:'Munger: if you didn\'t hire this person and it made the news, would you be embarrassed? If yes — hire them.'}},
+    ]},
+  { icon:'🚩', src:['b','m','g','c'], isRedflag:true,
+    title:{vi:'Cờ đỏ — Dấu hiệu loại bỏ ngay',en:'Red Flags — Instant Disqualifiers'},
+    items:[
+      {src:['b'],weight:'redflag',
+       vi:{title:'Bất trung thực trong bất kỳ phần nào của quá trình phỏng vấn',desc:'Buffett: chính trực là không thể đào tạo được. Nói sai về kinh nghiệm, bằng cấp, hay lý do nghỉ việc cũ — loại bỏ ngay.'},
+       en:{title:'Any dishonesty during the interview process',desc:'Buffett: integrity cannot be trained. Misrepresenting experience, credentials, or reasons for leaving — instant disqualifier.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Đổ lỗi 100% cho người khác về mọi thất bại',desc:'Munger: người không thể nhận trách nhiệm về thất bại của mình không thể học hỏi và sẽ tạo ra văn hóa toxic.'},
+       en:{title:'Blames others entirely for every past failure',desc:'Munger: people who cannot take responsibility for their failures cannot learn and will create a toxic culture.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Biểu hiện taker rõ ràng — khai thác người khác',desc:'Grant: taker thường tự quảng cáo mạnh, ít ghi nhận đồng đội, và nói xấu người cũ. Một taker có thể phá hủy cả nhóm.'},
+       en:{title:'Clear taker behavior — exploits others',desc:'Grant: takers typically self-promote aggressively, give little credit to teammates, and speak poorly of former colleagues. One taker can destroy an entire team.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Không thể giải thích rõ ràng kết quả đã tạo ra',desc:'Buffett: người giỏi biết chính xác họ đã làm gì và đo lường như thế nào. Mơ hồ về kết quả = không có kết quả thực.'},
+       en:{title:'Cannot clearly explain the results they created',desc:'Buffett: great people know exactly what they did and how it was measured. Vague about results = no real results.'}},
+      {src:['c'],weight:'redflag',
+       vi:{title:'Rời bỏ công ty cũ chủ yếu để trốn tránh khó khăn',desc:'Collins: người chạy trốn khó khăn thay vì đối mặt sẽ lặp lại hành vi đó. Phân biệt: rời vì cơ hội hay rời vì trốn chạy?'},
+       en:{title:'Left previous company mainly to escape difficulty',desc:'Collins: people who flee difficulty rather than face it will repeat the behavior. Distinguish: left for opportunity or left to escape?'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Không thể thay đổi ý kiến khi được đưa ra bằng chứng rõ ràng',desc:'Munger: trong phỏng vấn, đưa ra lập luận phản bác dựa trên dữ liệu. Nếu họ không cập nhật quan điểm — họ sẽ không học được trong tổ chức.'},
+       en:{title:'Cannot update their view when presented with clear evidence',desc:'Munger: present a data-based counter-argument during interview. If they can\'t update their view, they won\'t learn in your organization.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Nói xấu tất cả đồng nghiệp và sếp cũ',desc:'Grant: người không thể tìm được điều tốt ở bất kỳ ai họ từng làm việc sẽ nói xấu bạn trong tương lai.'},
+       en:{title:'Speaks negatively about all former colleagues and managers',desc:'Grant: someone who can\'t find anything good about anyone they\'ve worked with will speak negatively about you in the future.'}},
+      {src:['c'],weight:'redflag',
+       vi:{title:'Không có ví dụ cụ thể về việc học từ thất bại',desc:'Collins: người phát triển phải có câu chuyện về thất bại và bài học. Nếu mọi thứ đều thành công, họ đang che giấu hoặc chưa thực sự thử thách bản thân.'},
+       en:{title:'No specific examples of learning from failure',desc:'Collins: people who grow must have stories of failure and lessons learned. If everything always succeeded, they\'re hiding something or have never truly challenged themselves.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Yêu cầu mức lương bất thường so với đóng góp có thể chứng minh',desc:'Buffett: giá trị phải tương xứng với giá cả. Người đòi hỏi nhiều hơn những gì họ có thể chứng minh sẽ gây ra vấn đề kỳ vọng lâu dài.'},
+       en:{title:'Demands compensation far exceeding demonstrable contribution',desc:'Buffett: value must match price. Someone demanding more than they can prove will create long-term expectation problems.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Chỉ muốn nghe đồng ý, phản ứng tiêu cực với phản biện',desc:'Munger: trong phỏng vấn, thách thức nhẹ nhàng một quan điểm của họ. Nếu họ trở nên phòng thủ, họ sẽ không chịu được feedback trong môi trường thực tế.'},
+       en:{title:'Only wants agreement; reacts negatively to pushback',desc:'Munger: gently challenge one of their views in the interview. If they become defensive, they won\'t handle feedback in a real work environment.'}},
+    ]},
+  ],
+  verdicts:{
+    vi:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Ứng viên xuất sắc — Tuyển ngay',body:'Hiếm gặp. Tuyển ngay và đầu tư phát triển dài hạn.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Ứng viên tốt — Tuyển dụng',body:'Đáp ứng phần lớn tiêu chí. Tuyển dụng với kỳ vọng rõ ràng.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'Ứng viên đạt — Tuyển có điều kiện',body:'Đủ điều kiện tuyển dụng có điều kiện. Thử việc hoặc phỏng vấn sâu thêm.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Tiềm năng thấp — Xem xét lại',body:'Có vài điểm tích cực nhưng còn thiếu nhiều. Cần xem xét lại kỹ.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Không phù hợp — Bỏ qua',body:'Thiếu nền tảng tính cách và tư duy cốt lõi.'},
+    ],
+    en:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Outstanding candidate — Hire immediately',body:'Rare find. Hire immediately and invest in long-term development.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Good candidate — Hire',body:'Meets most criteria. Hire with clear expectations.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'Qualified — Hire conditionally',body:'Qualifies for conditional hiring. Probation or deeper interviews recommended.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Low potential — Reconsider',body:'Some positives but too many gaps. Needs thorough re-evaluation.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Not a fit — Pass',body:'Missing foundational character and thinking traits.'},
+    ],
+  },
+},
+
+/* ══════════════════════════════════════════════════════
+   PANEL 3 — PHÁT TRIỂN NHÂN TÀI / DEVELOP TALENT
+   ══════════════════════════════════════════════════════ */
+{ id:'talent',
+  ratingThresholds:[40,60,75,90],
+  sections:[
+  { icon:'🔍', src:['g','c'],
+    title:{vi:'Nhận diện đúng loại nhân tài',en:'Identifying the right talent'},
+    items:[
+      {src:['g'],weight:'high',
+       vi:{title:'Phân biệt prodigy và late bloomer',desc:'Grant: không phải tất cả nhân tài đều nở sớm. Tìm người có "learning trajectory" tốt.'},
+       en:{title:'Distinguish prodigies from late bloomers',desc:'Grant: not all talent emerges early. Find people with a strong learning trajectory.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'Nhận diện Level 5 tiềm năng',desc:'Collins: tìm sự kết hợp khiêm tốn + ý chí. Thường bị bỏ qua vì không "charismatic" theo kiểu truyền thống.'},
+       en:{title:'Identify potential Level 5 leaders',desc:'Collins: look for the combination of humility + will. Often overlooked because they\'re not conventionally "charismatic."'}},
+      {src:['c','g'],weight:'medium',
+       vi:{title:'Hungry, Humble, Smart — đủ cả 3',desc:'Lencioni/Collins: thiếu một trong ba sẽ gây ma sát trong nhóm.'},
+       en:{title:'Hungry, Humble, Smart — all three',desc:'Lencioni/Collins: missing any one causes team friction.'}},
+    ]},
+  { icon:'🌿', src:['b','g','c'],
+    title:{vi:'Môi trường phát triển đúng',en:'Creating the right development environment'},
+    items:[
+      {src:['g'],weight:'critical',
+       vi:{title:'Tâm lý an toàn thực sự (psychological safety)',desc:'Grant & Edmondson: môi trường nơi thất bại là bài học, không phải hình phạt. Thiếu điều này, mọi can thiệp khác đều kém hiệu quả.'},
+       en:{title:'Genuine psychological safety',desc:'Grant & Edmondson: environment where failure is a lesson, not a punishment. Without this, every other intervention is undermined.'}},
+      {src:['b','c'],weight:'high',
+       vi:{title:'Giao nhiệm vụ stretch — productive discomfort',desc:'Phát triển xảy ra ở vùng vừa đủ khó. Collins: "áp lực thực tế" trong môi trường an toàn.'},
+       en:{title:'Assign stretch tasks — productive discomfort',desc:'Growth happens at the zone of optimal challenge. Collins: "real pressure" in a safe environment.'}},
+      {src:['g'],weight:'high',
+       vi:{title:'Phản hồi thường xuyên và cụ thể (SBI)',desc:'Grant: phản hồi hiệu quả = Situation → Behavior → Impact. Ngay lập tức, hành vi cụ thể, tác động đo được.'},
+       en:{title:'Frequent and specific feedback (SBI model)',desc:'Grant: best feedback = Situation → Behavior → Impact. Immediate, behavior-specific, measurable impact.'}},
+    ]},
+  { icon:'📚', src:['b','m','g'],
+    title:{vi:'Hệ thống học tập và tư duy',en:'Learning and thinking systems'},
+    items:[
+      {src:['b','m'],weight:'high',
+       vi:{title:'Xây dựng thói quen đọc và suy nghĩ độc lập',desc:'Munger: đọc liên ngành hàng giờ mỗi ngày. Buffett: 80% thời gian đọc.'},
+       en:{title:'Build reading habits and independent thinking',desc:'Munger: read cross-discipline for hours daily. Buffett: 80% of time reading.'}},
+      {src:['m'],weight:'high',
+       vi:{title:'Khuyến khích tư duy inversion',desc:'Munger: "Hãy nghĩ ngược, luôn nghĩ ngược." Dạy người trẻ bắt đầu bằng: "Điều gì có thể khiến điều này thất bại?"'},
+       en:{title:'Encourage inversion thinking',desc:'Munger: "Invert, always invert." Teach people to start by asking: "What could make this fail?"'}},
+      {src:['g'],weight:'high',
+       vi:{title:'Thực hành rethinking có hệ thống',desc:'Grant: dạy nhân tài coi việc thay đổi ý kiến là dấu hiệu sức mạnh.'},
+       en:{title:'Practice systematic rethinking',desc:'Grant: teach talent that changing one\'s mind is a sign of strength.'}},
+      {src:['m'],weight:'high',
+       vi:{title:'Nhận diện và chống lại cognitive biases cụ thể',desc:'Munger: ba biases nguy hiểm nhất trong phát triển nhân tài — (1) Social proof: làm theo đám đông mà không suy nghĩ; (2) Commitment & consistency bias: bảo vệ quyết định đã đưa ra thay vì cập nhật; (3) Lollapalooza effect: nhiều biases cộng hưởng gây ra sai lầm lớn. Xây dựng "checklist bias" định kỳ.'},
+       en:{title:'Identify and counter specific cognitive biases',desc:'Munger: the three most dangerous biases in talent development — (1) Social proof: following the crowd without thinking; (2) Commitment & consistency bias: defending past decisions instead of updating; (3) Lollapalooza effect: multiple biases compounding to cause major mistakes. Build a periodic "bias checklist."'}},
+    ]},
+  { icon:'🗺️', src:['b','g','c'],
+    title:{vi:'Lộ trình phát triển dài hạn',en:'Long-term development roadmap'},
+    items:[
+      {src:['c'],weight:'critical',
+       vi:{title:'Đặt đúng người vào đúng vị trí sớm',desc:'Collins: "right people on the right seat on the bus." Không cố ép người vào vai trò không phù hợp.'},
+       en:{title:'Get the right people in the right seats early',desc:'Collins: "right people on the right seat on the bus." Don\'t force people into ill-fitting roles.'}},
+      {src:['b','g'],weight:'high',
+       vi:{title:'Mentoring kiểu "thought partner", không phải "answer provider"',desc:'Grant: mentor tốt đặt câu hỏi giúp người kia tự khám phá. Buffett/Munger với managers: tự trị hoàn toàn.'},
+       en:{title:'Mentor as thought partner, not answer machine',desc:'Grant: great mentors ask questions that help the other person discover for themselves. Buffett/Munger with managers: full autonomy.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'Xây dựng kế hoạch kế thừa ngay từ đầu',desc:'Collins: tổ chức vĩ đại chuẩn bị người kế thừa tiếp tục mà không cần founder. Tránh phụ thuộc vào hero leader.'},
+       en:{title:'Build a succession plan from the start',desc:'Collins: great organizations prepare successors who can continue without the founder. Avoid dependence on any hero leader.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'"20 Mile March" cho phát triển cá nhân',desc:'Collins: áp dụng nguyên tắc tiến độ nhất quán vào phát triển cá nhân. Thiết lập KPI phát triển rõ ràng (ví dụ: 1 kỹ năng mới/quý, 1 sách/tháng) và theo dõi nhất quán — không theo cảm hứng.'},
+       en:{title:'"20 Mile March" for individual development',desc:'Collins: apply the consistent progress principle to individual development. Set clear development KPIs (e.g., 1 new skill/quarter, 1 book/month) and track consistently — not by inspiration.'}},
+    ]},
+  { icon:'🔗', src:['b','g','c'],
+    title:{vi:'Giữ chân & văn hóa nhóm',en:'Retention & team culture'},
+    items:[
+      {src:['g'],weight:'high',
+       vi:{title:'Xây dựng team culture của givers',desc:'Grant: một giver nâng cả nhóm; một taker kéo cả nhóm xuống. Identify và xử lý takers sớm.'},
+       en:{title:'Build a team culture of givers',desc:'Grant: one giver elevates the whole team; one taker drags everyone down. Identify and address takers early.'}},
+      {src:['g'],weight:'medium',
+       vi:{title:'Ghi nhận effort và strategy, không chỉ outcome',desc:'Grant: ghi nhận quá trình khuyến khích risk-taking và học hỏi. Chỉ thưởng kết quả sẽ tạo ra risk-averse culture.'},
+       en:{title:'Recognize effort and strategy, not just outcomes',desc:'Grant: recognizing process encourages risk-taking and learning. Rewarding only results creates a risk-averse culture.'}},
+      {src:['b','c'],weight:'medium',
+       vi:{title:'Trao quyền thực sự, không phải quyền tượng trưng',desc:'Buffett: giao toàn quyền cho subsidiary CEOs. Trao quyền thực sự tạo ra ownership thực sự.'},
+       en:{title:'Real empowerment, not symbolic empowerment',desc:'Buffett: full autonomy to subsidiary CEOs. Real authority creates real ownership.'}},
+    ]},
+  { icon:'🚩', src:['b','m','g','c'], isRedflag:true,
+    title:{vi:'Cờ đỏ — Dấu hiệu loại bỏ ngay',en:'Red Flags — Instant Disqualifiers'},
+    items:[
+      {src:['c'],weight:'redflag',
+       vi:{title:'Người này không muốn phát triển — thoải mái với stagnation',desc:'Collins: người đúng luôn muốn trở nên tốt hơn. Nếu sau nhiều cơ hội họ vẫn từ chối phát triển, đầu tư thêm sẽ bị lãng phí.'},
+       en:{title:'Person is comfortable with stagnation — does not want to grow',desc:'Collins: the right people always want to improve. If after many opportunities they still refuse to grow, further investment will be wasted.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Phản ứng tiêu cực, phòng thủ mỗi khi nhận feedback',desc:'Grant: người không thể nhận feedback không thể phát triển. Hành vi này sẽ làm cạn kiệt năng lượng của mentor và cả nhóm.'},
+       en:{title:'Reacts defensively every time they receive feedback',desc:'Grant: people who can\'t receive feedback can\'t grow. This behavior will drain the energy of mentors and the entire team.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Không thể thừa nhận sai lầm ngay cả khi bằng chứng rõ ràng',desc:'Munger: inability to acknowledge mistakes is a learning disability. Người này sẽ lặp lại lỗi cũ và tạo ra vấn đề che giấu thông tin trong tổ chức.'},
+       en:{title:'Cannot acknowledge mistakes even when evidence is clear',desc:'Munger: inability to acknowledge mistakes is a learning disability. This person will repeat old errors and create information-hiding problems.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Hành động không nhất quán với giá trị tuyên bố',desc:'Buffett: chính trực = hành động nhất quán, kể cả khi không có ai nhìn. Khoảng cách giữa lời nói và hành động là dấu hiệu thiếu tính chính trực cốt lõi.'},
+       en:{title:'Actions inconsistent with stated values',desc:'Buffett: integrity = consistent behavior, even when no one is watching. A gap between words and actions is a core integrity failure.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Toxic với đồng nghiệp — phá hủy tâm lý an toàn của nhóm',desc:'Grant: một người toxic có thể hủy hoại psychological safety mà cả tổ chức mất nhiều năm xây dựng.'},
+       en:{title:'Toxic to colleagues — destroys the team\'s psychological safety',desc:'Grant: one toxic person can destroy psychological safety that took the organization years to build.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Envy-driven — đố kỵ với thành công của đồng nghiệp',desc:'Munger: đây là một trong những "deadly sins" phá hủy tổ chức. Người này sẽ sabotage người khác và tạo ra chính trị nội bộ.'},
+       en:{title:'Envy-driven — jealous of colleagues\' success',desc:'Munger: one of the "deadly sins" that destroys organizations. This person will sabotage others and create internal politics.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Lấy công của người khác một cách có hệ thống',desc:'Grant: đây là hành vi taker rõ ràng nhất. Sẽ phá hủy tinh thần cộng tác của toàn nhóm.'},
+       en:{title:'Systematically takes credit from others',desc:'Grant: the clearest taker behavior. Will destroy the collaborative spirit of the entire team.'}},
+      {src:['c'],weight:'redflag',
+       vi:{title:'Chỉ tốt trong ánh đèn sân khấu — kém khi không ai nhìn',desc:'Collins: kỷ luật thực sự là kỷ luật khi không có ai kiểm soát. Người chỉ perform khi bị quan sát sẽ tạo ra false positives trong mọi hệ thống đánh giá.'},
+       en:{title:'Only performs well in the spotlight',desc:'Collins: real discipline is discipline when no one is checking. Someone who only performs when observed creates false positives in every evaluation system.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Không thể giải thích tại sao muốn phát triển trong lĩnh vực này',desc:'Buffett: đầu tư vào người không biết mình muốn gì là đầu tư lãng phí. Thiếu direction rõ ràng = không có động lực nội tại.'},
+       en:{title:'Cannot explain why they want to develop in this field',desc:'Buffett: investing in someone who doesn\'t know what they want is a wasted investment. No clear direction = no intrinsic motivation.'}},
+      {src:['c'],weight:'redflag',
+       vi:{title:'Hành vi sau 90 ngày khác hoàn toàn so với lúc được chú ý',desc:'Collins: người đúng hành xử nhất quán. Sự thay đổi lớn sau khi "hết thời gian thử việc" là dấu hiệu rõ ràng của người không phù hợp.'},
+       en:{title:'Behavior after 90 days completely different from under scrutiny',desc:'Collins: the right people behave consistently. A major shift after the "trial period" is a clear sign of the wrong person.'}},
+    ]},
+  ],
+  verdicts:{
+    vi:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Level 5 tiềm năng — Đầu tư tối đa',body:'Có đủ phẩm chất để trở thành leader thế hệ kế tiếp.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Nhân tài chiến lược — Ưu tiên đầu tư',body:'Đang phát triển mạnh. Ưu tiên đầu tư và lộ trình kế thừa rõ ràng.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'Đang phát triển — Cần mentoring có cấu trúc',body:'Đang đi đúng hướng. Cần mentoring và nhiệm vụ stretch.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Tiềm năng thô — Cần môi trường phù hợp',body:'Có hạt nhân tốt nhưng cần thời gian và môi trường để hình thành.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Chưa sẵn sàng — Tập trung lại',body:'Thiếu nền tảng để phát triển. Đầu tư ngay bây giờ sẽ bị lãng phí.'},
+    ],
+    en:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Level 5 potential — Maximum investment',body:'Has the qualities to become a next-generation leader.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Strategic talent — Priority investment',body:'Developing strongly. Prioritize investment and a clear succession roadmap.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'Developing — Needs structured mentoring',body:'On the right track. Needs mentoring and stretch assignments.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Raw potential — Needs the right environment',body:'Good core but needs time and environment to develop.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Not ready — Refocus',body:'Missing foundational elements. Investment now will be wasted.'},
+    ],
+  },
+},
+
+/* ══════════════════════════════════════════════════════
+   PANEL 4 — TỰ ĐÁNH GIÁ / SELF-EVALUATION
+   ══════════════════════════════════════════════════════ */
+{ id:'self',
+  ratingThresholds:[40,60,75,90],
+  sections:[
+  { icon:'🧭', src:['b','m'],
+    title:{vi:'Tính cách & nền tảng đạo đức cá nhân',en:'Personal character & ethical foundation'},
+    items:[
+      {src:['b'],weight:'critical',
+       vi:{title:'Tôi hành xử nhất quán kể cả khi không ai nhìn',desc:'Buffett: "Newspaper test" — nếu hành động này được đăng lên báo ngày mai, bạn có xấu hổ không? Chính trực không phải là chính sách — là thói quen hàng ngày.'},
+       en:{title:'I behave consistently even when no one is watching',desc:'Buffett: "Newspaper test" — if this action were published tomorrow, would you be embarrassed? Integrity is not a policy — it\'s a daily habit.'}},
+      {src:['m'],weight:'critical',
+       vi:{title:'Tôi sẵn sàng thay đổi ý kiến khi có bằng chứng tốt hơn',desc:'Munger: "Người thông minh nhất tôi biết là người thay đổi ý kiến thường xuyên nhất — dựa trên bằng chứng, không phải cảm xúc."'},
+       en:{title:'I am willing to change my mind when presented with better evidence',desc:'Munger: "The smartest people I know change their minds most often — based on evidence, not emotion."'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Tôi có thể giải thích rõ giá trị cốt lõi của mình',desc:'Buffett: người không biết mình đứng trên nền tảng gì sẽ dao động khi bị áp lực. Giá trị rõ ràng là neo giữ quyết định trong khủng hoảng.'},
+       en:{title:'I can clearly articulate my core values',desc:'Buffett: people who don\'t know what they stand for will waver under pressure. Clear values are the anchor for decisions in a crisis.'}},
+    ]},
+  { icon:'🎯', src:['b'],
+    title:{vi:'Circle of Competence — Biết ranh giới của bản thân',en:'Circle of Competence — Knowing your limits'},
+    items:[
+      {src:['b'],weight:'critical',
+       vi:{title:'Tôi biết rõ vòng tròn năng lực của mình và không vượt ra ngoài',desc:'Buffett: "Không quan trọng vòng tròn lớn hay nhỏ — quan trọng là bạn biết ranh giới của nó." Danh sách những gì mình không biết thường có giá trị hơn những gì mình biết.'},
+       en:{title:'I clearly know my circle of competence and don\'t venture outside it',desc:'Buffett: "It\'s not the size of the circle that matters — it\'s knowing its boundary." A list of what you don\'t know is often more valuable than what you do know.'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Tôi chủ động mở rộng vòng tròn năng lực có hệ thống',desc:'Buffett: mở rộng circle of competence bằng cách đọc, học từ chuyên gia, và thực hành có chủ đích — không phải bằng cách nhảy vào lĩnh vực chưa hiểu vì cơ hội hấp dẫn.'},
+       en:{title:'I systematically expand my circle of competence',desc:'Buffett: expand circle of competence through reading, learning from experts, and deliberate practice — not by jumping into unfamiliar fields because of tempting opportunities.'}},
+      {src:['m'],weight:'high',
+       vi:{title:'Tôi có thể viết ra danh sách cụ thể những điều không biết',desc:'Munger: "Iron prescription" — không được giữ một ý kiến nào trừ khi bạn có thể phản biện nó tốt hơn người phản đối giỏi nhất. Người không thể liệt kê điểm mù của mình đang tự lừa dối.'},
+       en:{title:'I can write out a specific list of things I don\'t know',desc:'Munger: "Iron prescription" — never hold an opinion unless you can rebut it better than the best opponent. Someone who can\'t list their own blind spots is self-deceiving.'}},
+    ]},
+  { icon:'🧠', src:['m','g'],
+    title:{vi:'Chất lượng tư duy & self-awareness',en:'Thinking quality & self-awareness'},
+    items:[
+      {src:['m'],weight:'high',
+       vi:{title:'Tôi chủ động học từ nhiều lĩnh vực, không chỉ chuyên ngành',desc:'Munger: "Tôi chưa bao giờ gặp người thực sự thông minh mà không đọc rất nhiều." Latticework of knowledge là lợi thế cạnh tranh thực sự.'},
+       en:{title:'I actively learn from many fields, not just my specialty',desc:'Munger: "I\'ve never met a truly wise person who didn\'t read a great deal." A latticework of knowledge is a real competitive advantage.'}},
+      {src:['g'],weight:'high',
+       vi:{title:'Tôi biết điểm mạnh và điểm yếu thực sự của mình',desc:'Grant: self-awareness không phải là biết về bản thân — là biết cách người khác thực sự nhìn nhận bạn. Tìm kiếm feedback thường xuyên để kiểm tra.'},
+       en:{title:'I know my real strengths and weaknesses',desc:'Grant: self-awareness isn\'t knowing about yourself — it\'s knowing how others actually see you. Seek regular feedback to calibrate.'}},
+      {src:['m'],weight:'high',
+       vi:{title:'Tôi nhận diện được biases của mình và chủ động chống lại chúng',desc:'Munger: không ai thoát khỏi cognitive biases, nhưng người tốt nhất biết mình có bias gì. Ba biases nguy hiểm nhất cần kiểm tra: (1) Confirmation bias; (2) Social proof; (3) Commitment & consistency bias.'},
+       en:{title:'I recognize my biases and actively counter them',desc:'Munger: no one escapes cognitive biases, but the best people know which ones they have. Three most dangerous to check: (1) Confirmation bias; (2) Social proof; (3) Commitment & consistency bias.'}},
+      {src:['m'],weight:'high',
+       vi:{title:'Tôi cảnh giác với "Lollapalooza effect" trong quyết định quan trọng',desc:'Munger: khi nhiều biases cộng hưởng cùng lúc (ví dụ: social proof + commitment bias + authority bias), kết quả thường thảm họa hơn nhiều so với từng bias riêng lẻ. Trước quyết định lớn, hỏi: "Có bao nhiêu biases đang push tôi theo cùng một hướng?"'},
+       en:{title:'I am alert to the "Lollapalooza effect" in major decisions',desc:'Munger: when multiple biases compound simultaneously (e.g., social proof + commitment bias + authority bias), the results are far more disastrous than any single bias. Before big decisions, ask: "How many biases are pushing me in the same direction?"'}},
+    ]},
+  { icon:'🎯', src:['b','c'],
+    title:{vi:'Định hướng & mục tiêu dài hạn',en:'Direction & long-term goals'},
+    items:[
+      {src:['b'],weight:'high',
+       vi:{title:'Tôi biết mình muốn trở thành ai sau 10 năm',desc:'Buffett: quyết định dài hạn giúp bộ lọc ngắn hạn. Người biết mình muốn gì không bị phân tâm bởi mọi cơ hội ngắn hạn.'},
+       en:{title:'I know who I want to become in 10 years',desc:'Buffett: long-term vision helps filter short-term decisions. People who know what they want are not distracted by every short-term opportunity.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'"Hedgehog Concept" — giao điểm của đam mê, năng lực, và kinh tế',desc:'Collins: điều gì bạn (1) có thể trở thành giỏi nhất thế giới, (2) đam mê sâu sắc, và (3) tạo ra giá trị kinh tế? Sự nghiệp bền vững nằm ở giao điểm của ba điều này.'},
+       en:{title:'"Hedgehog Concept" — intersection of passion, competence, and economics',desc:'Collins: what can you (1) be best in the world at, (2) are deeply passionate about, and (3) drives economic value? A sustainable career lives at the intersection of these three.'}},
+      {src:['c'],weight:'high',
+       vi:{title:'"20 Mile March" cá nhân — tiến độ nhất quán mỗi ngày',desc:'Collins: áp dụng cho bản thân. Thiết lập KPI phát triển rõ ràng và đạt chúng nhất quán — không tăng tốc điên cuồng khi có cảm hứng, không bỏ khi khó khăn. Đây là cách compound growth thực sự hoạt động.'},
+       en:{title:'Personal "20 Mile March" — consistent daily progress',desc:'Collins: apply to yourself. Set clear development KPIs and meet them consistently — no frantic acceleration when inspired, no quitting when difficult. This is how compound growth actually works.'}},
+      {src:['b','c'],weight:'medium',
+       vi:{title:'Tôi đang ở đúng môi trường cho mục tiêu của mình',desc:'Collins: "right seat on the right bus." Môi trường sai có thể làm thất bại ngay cả người tài.'},
+       en:{title:'I am in the right environment for my goals',desc:'Collins: "right seat on the right bus." The wrong environment can make even talented people fail.'}},
+    ]},
+  { icon:'📈', src:['b','m','g'],
+    title:{vi:'Thói quen & kỷ luật cá nhân',en:'Personal habits & discipline'},
+    items:[
+      {src:['b','m'],weight:'high',
+       vi:{title:'Tôi dành ít nhất 1 giờ/ngày để đọc và suy nghĩ',desc:'Buffett và Munger đều bảo vệ thời gian đọc sách như nghĩa vụ thiêng liêng.'},
+       en:{title:'I dedicate at least 1 hour/day to reading and thinking',desc:'Buffett and Munger both protect reading time as a sacred obligation.'}},
+      {src:['g'],weight:'high',
+       vi:{title:'Tôi tích cực tìm kiếm feedback, không chờ nó đến',desc:'Grant: người giỏi nhất không đợi performance review. Họ tìm kiếm feedback liên tục và coi đó là quà tặng.'},
+       en:{title:'I actively seek feedback rather than waiting for it',desc:'Grant: the best people don\'t wait for performance reviews. They continuously seek feedback and treat it as a gift.'}},
+      {src:['m'],weight:'medium',
+       vi:{title:'Tôi có hệ thống để kiểm tra và cập nhật niềm tin của mình',desc:'Munger: "Tôi có checklist các lỗi sai phổ biến nhất và kiểm tra chúng thường xuyên." Xây dựng ritual review để không bị nhốt trong outdated beliefs.'},
+       en:{title:'I have a system to check and update my beliefs',desc:'Munger: "I have a checklist of the most common mistakes and review them regularly." Build a review ritual to avoid being trapped in outdated beliefs.'}},
+    ]},
+  { icon:'🤝', src:['g','b'],
+    title:{vi:'Quan hệ & đóng góp cho người khác',en:'Relationships & contribution to others'},
+    items:[
+      {src:['g'],weight:'high',
+       vi:{title:'Tôi cho đi nhiều hơn tôi nhận — và không cảm thấy kiệt sức',desc:'Grant: otherish giver — cho đi chiến lược, không tự hủy hoại bản thân. Nếu bạn đang kiệt sức vì helping, hãy xem lại ranh giới.'},
+       en:{title:'I give more than I receive — without feeling depleted',desc:'Grant: otherish giver — strategic generosity without self-destruction. If you\'re feeling depleted from helping, examine your boundaries.'}},
+      {src:['b'],weight:'high',
+       vi:{title:'Tôi xây dựng được mạng lưới người tin tưởng thực sự',desc:'Buffett: "Bao quanh mình bằng những người tốt hơn bạn." Mạng lưới chất lượng không đo bằng số lượng mà bằng mức độ sẵn sàng họ nói thật với bạn.'},
+       en:{title:'I have built a network of people who genuinely trust me',desc:'Buffett: "Surround yourself with people better than you." Network quality isn\'t measured by quantity — it\'s measured by how willing they are to tell you the truth.'}},
+      {src:['g'],weight:'medium',
+       vi:{title:'Tôi có "đồng minh thiện chí" — người vừa care vừa trung thực',desc:'Grant: nếu tất cả mọi người xung quanh đều đồng ý với bạn, bạn đang sống trong một buồng vọng nguy hiểm.'},
+       en:{title:'I have "caring challengers" — people who both care and are honest',desc:'Grant: if everyone around you always agrees with you, you\'re living in a dangerous echo chamber.'}},
+    ]},
+  { icon:'🚩', src:['b','m','g','c'], isRedflag:true,
+    title:{vi:'Cờ đỏ — Dấu hiệu cần dừng lại và xem xét ngay',en:'Red Flags — Signs Demanding Immediate Reflection'},
+    items:[
+      {src:['b'],weight:'redflag',
+       vi:{title:'Tôi thường xuyên làm điều mình biết là sai vì "không ai biết"',desc:'Buffett: "Newspaper test." Hành xử khác biệt khi có và không có người quan sát là dấu hiệu mất chính trực.'},
+       en:{title:'I regularly do things I know are wrong because "no one will know"',desc:'Buffett: "Newspaper test." Behaving differently when observed vs. unobserved is a sign of lost integrity.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Tôi không thể nhớ lần cuối cùng tôi thay đổi ý kiến về điều gì quan trọng',desc:'Munger: nếu niềm tin của bạn không thay đổi trong nhiều năm, bạn không đang học — bạn đang xác nhận. Đây là dấu hiệu của confirmation bias nghiêm trọng.'},
+       en:{title:'I can\'t remember the last time I changed my mind about something important',desc:'Munger: if your beliefs haven\'t changed in years, you\'re not learning — you\'re just confirming. This is a sign of serious confirmation bias.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Tôi đang làm việc trong lĩnh vực hoàn toàn ngoài vòng tròn năng lực mà không có kế hoạch học hỏi',desc:'Buffett: đây là một trong những nguyên nhân phổ biến nhất của thất bại nghề nghiệp. Tự tin mà không có năng lực = Dunning-Kruger effect.'},
+       en:{title:'I\'m working in a field completely outside my circle of competence with no learning plan',desc:'Buffett: this is one of the most common causes of career failure. Confidence without competence = Dunning-Kruger effect.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Tôi thường xuyên cảm thấy mình là nạn nhân của hoàn cảnh',desc:'Grant: victim mentality ngăn cản growth. Người luôn đổ lỗi hoàn cảnh không bao giờ nhìn vào điều duy nhất họ có thể kiểm soát: phản ứng của chính mình.'},
+       en:{title:'I frequently feel like a victim of circumstances',desc:'Grant: victim mentality blocks growth. People who always blame circumstances never look at the one thing they can control: their own response.'}},
+      {src:['c'],weight:'redflag',
+       vi:{title:'Tôi đang ở vị trí hiện tại chủ yếu vì sợ thay đổi, không phải vì phù hợp',desc:'Collins: "wrong seat on the bus." Sợ hãi là cố vấn tồi nhất cho quyết định nghề nghiệp.'},
+       en:{title:'I\'m in my current position mainly out of fear of change, not because it fits',desc:'Collins: "wrong seat on the bus." Fear is the worst advisor for career decisions.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Tôi thường xuyên đưa ra quyết định dựa trên cảm xúc ngắn hạn, không phải nguyên tắc',desc:'Buffett: "The stock market is a device for transferring money from the impatient to the patient." Trong sự nghiệp, tương tự: quyết định cảm xúc phá hủy kế hoạch dài hạn.'},
+       en:{title:'I frequently make decisions based on short-term emotions, not principles',desc:'Buffett: "The market is a device for transferring money from the impatient to the patient." In careers, similarly: emotional decisions destroy long-term plans.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Tôi đang dành phần lớn thời gian cho hoạt động không tạo ra giá trị dài hạn',desc:'Munger: "Tell me where I\'m going to die so I\'ll never go there." Nếu calendar của bạn đầy những cuộc họp vô nghĩa và reactive work, bạn đang đầu tư sai chỗ.'},
+       en:{title:'I spend most of my time on activities that create no long-term value',desc:'Munger: "Tell me where I\'m going to die so I\'ll never go there." If your calendar is full of meaningless meetings and reactive work, you\'re investing in the wrong things.'}},
+      {src:['g'],weight:'redflag',
+       vi:{title:'Tôi tránh né feedback vì sợ nghe điều không muốn nghe',desc:'Grant: feedback avoidance là một trong những rào cản phát triển lớn nhất. Điều bạn không muốn nghe thường là điều bạn cần nghe nhất.'},
+       en:{title:'I avoid feedback because I\'m afraid to hear what I don\'t want to hear',desc:'Grant: feedback avoidance is one of the biggest barriers to growth. The thing you least want to hear is usually what you most need to hear.'}},
+      {src:['m'],weight:'redflag',
+       vi:{title:'Tôi đang giả vờ chắc chắn về những điều tôi thực sự không biết',desc:'Munger: "Knowing what you don\'t know is more useful than being brilliant." Pretending to know creates bad decisions và mất đi cơ hội học hỏi quan trọng.'},
+       en:{title:'I pretend to be certain about things I actually don\'t know',desc:'Munger: "Knowing what you don\'t know is more useful than being brilliant." Pretending to know leads to bad decisions and misses crucial learning opportunities.'}},
+      {src:['b'],weight:'redflag',
+       vi:{title:'Tôi đang so sánh bản thân với người khác nhiều hơn với phiên bản tốt hơn của chính mình',desc:'Buffett: "Inner scorecard vs outer scorecard." Người dựa vào outer scorecard sẽ luôn bị kéo bởi social pressure thay vì nguyên tắc của mình.'},
+       en:{title:'I compare myself to others more than to a better version of myself',desc:'Buffett: "Inner scorecard vs outer scorecard." People who rely on the outer scorecard will always be pulled by social pressure rather than their own principles.'}},
+    ]},
+  ],
+  verdicts:{
+    vi:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Tư duy bậc thầy — Tiếp tục tinh chỉnh',body:'Đang sống và thực hành ở mức độ Buffett-Munger-Grant-Collins.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Phát triển vững chắc — Đào sâu thêm',body:'Hầu hết tiêu chí quan trọng đã đạt. Đào sâu và chia sẻ với người khác.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'Đang đúng hướng — Tăng tốc',body:'Nền tảng tốt. Tiếp tục và tăng tốc ở những lĩnh vực còn yếu.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Đang xây dựng nền tảng — Tập trung',body:'Một số thói quen tốt đang hình thành. Tập trung vào tiêu chí critical trước.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Cần xem lại nền tảng — Bắt đầu lại',body:'Nhiều khoảng trống quan trọng. Điểm khởi đầu — không có phán xét, chỉ có hướng đi.'},
+    ],
+    en:[
+      {minPct:90,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐⭐',label:'Master-level thinking — Keep refining',body:'Living and practicing at Buffett-Munger-Grant-Collins level.'},
+      {minPct:75,needAllCritical:true, cls:'good',icon:'⭐⭐⭐⭐',label:'Steady growth — Deepen further',body:'Most important criteria met. Deepen further and share with others.'},
+      {minPct:60,needAllCritical:true, cls:'warn',icon:'⭐⭐⭐',label:'On the right track — Accelerate',body:'Good foundation. Continue and accelerate in weaker areas.'},
+      {minPct:40,needAllCritical:false,cls:'warn',icon:'⭐⭐',label:'Building foundations — Focus',body:'Some good habits forming. Focus on critical criteria first.'},
+      {minPct:0, needAllCritical:false,cls:'bad', icon:'⭐',label:'Foundation needs review — Start here',body:'Many important gaps. A starting point — no judgment, only direction.'},
+    ],
+  },
+},
+]; // end PANELS
+</script>
+<script>
+/* ── Theme init ── */
+(function(){
+  const saved=localStorage.getItem('tdf-theme');
+  const dark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(saved==='dark'||(!saved&&dark)){
+    document.documentElement.classList.add('dark');
+    document.getElementById('theme-btn').textContent='🌙';
+  }
+})();
+window.toggleTheme=function(){
+  const isDark=document.documentElement.classList.toggle('dark');
+  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('tdf-theme',isDark?'dark':'light');
+};
+
+/* ── Rendering Engine ── */
+(function(){
+  'use strict';
+  const SRC_CLASS={b:'pill-b',m:'pill-m',g:'pill-g',c:'pill-c'};
+  const SRC_LABEL={b:'Buffett',m:'Munger',g:'Grant',c:'Collins'};
+  const W_CLASS={critical:'w-critical',high:'w-high',medium:'w-medium',redflag:'w-redflag'};
+
+  let lang='vi', activePanel=PANELS[0].id;
+  const checked={}, openState={}, filterState={};
+  const debounceTimers={};
+  /* itemIndex: flat map pid -> array of {si,ii,item} for gap lookups */
+  const itemIndex={};
+
+  PANELS.forEach(p=>{
+    checked[p.id]  =p.sections.map(s=>s.items.map(()=>false));
+    openState[p.id]=p.sections.map(()=>false);
+    filterState[p.id]={src:null,wgt:null,query:''};
+    itemIndex[p.id]=[];
+    p.sections.forEach((sec,si)=>sec.items.forEach((item,ii)=>itemIndex[p.id].push({si,ii,item})));
+  });
+
+  const T  =()=>I18N[lang];
+  const $  =id=>document.getElementById(id);
+  const set=(id,txt)=>{const el=$(id);if(el)el.textContent=txt;};
+  const wid=(id,pct)=>{const el=$(id);if(el)el.style.width=pct+'%';};
+  const pill=src=>`<span class="pill ${SRC_CLASS[src]}">${SRC_LABEL[src]}</span>`;
+
+  function debounce(pid,fn,ms=500){
+    clearTimeout(debounceTimers[pid]);
+    debounceTimers[pid]=setTimeout(fn,ms);
+  }
+
+  /* ── highlight query matches in text ── */
+  function highlight(text, q){
+    if(!q)return text;
+    const escaped=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    return text.replace(new RegExp(`(${escaped})`,'gi'),'<mark class="hl">$1</mark>');
+  }
+
+  /* ── filter + highlight ── */
+  function applyFilter(pid){
+    const panel=PANELS.find(x=>x.id===pid);
+    const {src,wgt,query}=filterState[pid];
+    const q=query.trim().toLowerCase();
+    let visible=0,total=0;
+    panel.sections.forEach((sec,si)=>{
+      let secVis=0;
+      sec.items.forEach((item,ii)=>{
+        total++;
+        const el=$(`crit-${pid}-${si}-${ii}`);
+        if(!el)return;
+        const srcMatch=!src||item.src.includes(src);
+        const wgtMatch=!wgt||item.weight===wgt;
+        const titleLC=item[lang].title.toLowerCase();
+        const descLC =item[lang].desc.toLowerCase();
+        const qMatch =!q||titleLC.includes(q)||descLC.includes(q);
+        const show=srcMatch&&wgtMatch&&qMatch;
+        el.classList.toggle('filter-hidden',!show);
+        if(show){
+          secVis++;visible++;
+          const titleEl=el.querySelector('.crit-title');
+          const descEl =el.querySelector('.crit-desc');
+          if(titleEl)titleEl.innerHTML=highlight(item[lang].title,q);
+          if(descEl) descEl.innerHTML =highlight(item[lang].desc,q);
+        } else {
+          const titleEl=el.querySelector('.crit-title');
+          const descEl =el.querySelector('.crit-desc');
+          if(titleEl)titleEl.textContent=item[lang].title;
+          if(descEl) descEl.textContent =item[lang].desc;
+        }
+      });
+      /* hide entire section when no items match; show when any match */
+      const secEl=$(`sec-${pid}-${si}`);
+      if(secEl) secEl.style.display=secVis===0?'none':'';
+      /* auto-open section on search match */
+      if(q&&secVis>0&&!openState[pid][si])secEl?.classList.add('open');
+    });
+    set(`filter-count-${pid}`,T().filterCount(visible,total));
+    refreshScores(pid);
+  }
+
+  /* ── scores ── */
+  function calcScores(pid){
+    const p=PANELS.find(x=>x.id===pid);
+    let tot=0,chk=0,critTot=0,critChk=0,rfActive=[],rfTot=0;
+    const missedCrit=[],missedHigh=[];
+    p.sections.forEach((sec,si)=>{
+      sec.items.forEach((item,ii)=>{
+        const isChk=checked[pid][si][ii];
+        if(item.weight==='redflag'){rfTot++;if(isChk)rfActive.push(item[lang].title);return;}
+        tot++;
+        if(item.weight==='critical'){critTot++;if(!isChk)missedCrit.push(item[lang].title);}
+        if(item.weight==='high'&&!isChk)missedHigh.push(item[lang].title);
+        if(isChk){chk++;if(item.weight==='critical')critChk++;}
+      });
+    });
+    return{tot,chk,critTot,critChk,pct:tot?Math.round(chk/tot*100):0,rfActive,rfTot,missedCrit,missedHigh};
+  }
+
+  function getRatingLevel(panel,sc){
+    if(sc.rfActive.length>0)return -1;
+    const thr=panel.ratingThresholds;
+    const allCrit=sc.critChk===sc.critTot&&sc.critTot>0;
+    if(sc.pct>=thr[3]&&allCrit)return 4;
+    if(sc.pct>=thr[2]&&allCrit)return 3;
+    if(sc.pct>=thr[1]&&allCrit)return 2;
+    if(sc.pct>=thr[0])return 1;
+    return 0;
+  }
+
+  /* ── lookup full item data by title ── */
+  function findItemByTitle(pid,title){
+    return itemIndex[pid].find(e=>e.item[lang].title===title)||null;
+  }
+
+  /* ── gap click handler — reads title from data-gap-title attribute ── */
+  window.handleGapClick=function(el){
+    const pid=el.dataset.pid;
+    const title=el.dataset.gapTitle;
+    const existing=el.querySelector('.gap-item-expand');
+    if(existing){
+      existing.classList.toggle('open');
+      el.classList.toggle('expanded',existing.classList.contains('open'));
+      return;
+    }
+    const entry=findItemByTitle(pid,title);
+    if(!entry)return;
+    const item=entry.item;
+    const q=filterState[pid].query.trim().toLowerCase();
+    const detail=document.createElement('div');
+    detail.className='gap-item-expand open';
+    detail.onclick=e=>e.stopPropagation();
+    detail.innerHTML=`
+      <div class="gap-item-expand-title">${q?highlight(item[lang].title,q):item[lang].title}</div>
+      <div class="gap-item-expand-desc">${q?highlight(item[lang].desc,q):item[lang].desc}</div>
+      <div class="gap-item-expand-footer">
+        ${item.src.map(pill).join('')}
+        <span class="weight-tag ${W_CLASS[item.weight]}">${T().weight[item.weight]}</span>
+      </div>`;
+    el.appendChild(detail);
+    el.classList.add('expanded');
+  };
+
+  /* ── build gap item HTML — data-title avoids all inline quote escaping ── */
+  function gapItemHTML(title,pid,cls,prefix,q){
+    const displayTitle=q?highlight(title,q):title;
+    return `<div class="gap-item ${cls}" data-pid="${pid}" data-gap-title="${title.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" onclick="handleGapClick(this)">
+      <span>${prefix} ${displayTitle}</span>
+      <span class="gap-item-arrow">▼</span>
+    </div>`;
+  }
+
+  /* ── gap analysis ── */
+  function buildGapHTML(panel,sc,lvIdx,q){
+    const T_=T();
+    const pid=panel.id;
+    if(sc.rfActive.length>0)return'';
+    if(lvIdx>=4)return`<div class="gap-none">${T_.gapNone}</div>`;
+    const thr=panel.ratingThresholds;
+    const nextThr=lvIdx<3?thr[lvIdx]:thr[3];
+    const allCrit=sc.critChk===sc.critTot&&sc.critTot>0;
+    let html=`<div class="gap-label">${T_.gapTitle}</div><div class="gap-items">`;
+
+    if(!allCrit&&sc.missedCrit.length>0){
+      html+=`<div class="gap-label" style="margin-top:0">${T_.gapCritTitle}</div>`;
+      html+=sc.missedCrit.map(t=>gapItemHTML(t,pid,'gap-item-crit','→',q)).join('');
+    }
+
+    if(sc.missedHigh.length>0){
+      const pctNeeded=nextThr-sc.pct;
+      const perItem=sc.tot>0?Math.ceil(100/sc.tot):5;
+      const needCount=pctNeeded>0?Math.ceil(pctNeeded/perItem):0;
+      if(needCount>0){
+        if(needCount>=sc.missedHigh.length){
+          html+=`<div class="gap-label" style="margin-top:6px">${T_.gapHighTitle}</div>`;
+          html+=sc.missedHigh.map(t=>gapItemHTML(t,pid,'gap-item-high','→',q)).join('');
+        } else {
+          const lbl=lang==='vi'
+            ?`Còn thiếu ${needCount} trong số ${sc.missedHigh.length} tiêu chí sau:`
+            :`Need ${needCount} of these ${sc.missedHigh.length} criteria:`;
+          html+=`<div class="gap-label" style="margin-top:6px">${lbl}</div>`;
+          html+=sc.missedHigh.map(t=>gapItemHTML(t,pid,'gap-item-high','→',q)).join('');
+        }
+      }
+    }
+    html+='</div>';
+    return html;
+  }
+
+  function getClassicVerdict(panel,sc){
+    const allCrit=sc.critChk===sc.critTot&&sc.critTot>0;
+    for(const v of panel.verdicts[lang])
+      if(sc.pct>=v.minPct&&(!v.needAllCritical||allCrit))return v;
+    return panel.verdicts[lang].at(-1);
+  }
+
+  function buildLegendHTML(panel){
+    const T_=T();
+    const lvls=T_.levels[panel.id];
+    const thr=panel.ratingThresholds;
+    const thresholds=[0,thr[0],thr[1],thr[2],thr[3]];
+    const needCrit=[false,false,true,true,true];
+    const colors=['text-muted','text-secondary','gold','accent-mid','accent'];
+    let rows=lvls.map((lv,i)=>`<div class="legend-row">
+      <div class="legend-stars">${lv.stars}</div>
+      <div class="legend-info">
+        <div class="legend-name" style="color:var(--${colors[i]})">${lv.label}</div>
+        <div class="legend-desc">${lv.desc}</div>
+        <div class="legend-threshold">${T_.legendThreshold(thresholds[i],needCrit[i])}</div>
+      </div></div>`).join('');
+    const rfLabel=lang==='vi'?'🚩 Loại bỏ ngay':'🚩 Disqualified';
+    const rfDesc=lang==='vi'
+      ?'Kích hoạt ngay khi bất kỳ cờ đỏ nào được đánh dấu — bất kể điểm số.'
+      :'Triggered immediately when any red flag is checked — regardless of score.';
+    rows+=`<div class="legend-row" style="background:var(--red-light)">
+      <div class="legend-stars">🚩</div>
+      <div class="legend-info">
+        <div class="legend-name" style="color:var(--red)">${rfLabel}</div>
+        <div class="legend-desc" style="color:var(--red)">${rfDesc}</div>
+      </div></div>`;
+    return rows;
+  }
+
+  /* ── refresh scores ── */
+  function refreshScores(pid){
+    const panel=PANELS.find(x=>x.id===pid);
+    const sc=calcScores(pid);
+    const lvIdx=getRatingLevel(panel,sc);
+    const hasRF=sc.rfActive.length>0;
+    const q=filterState[pid].query.trim().toLowerCase();
+
+    set(`s-pct-${pid}`,sc.pct+'%');
+    set(`s-raw-${pid}`,T().scoreSub(sc.chk,sc.tot));
+    set(`s-crt-${pid}`,`${sc.critChk}/${sc.critTot}`);
+    set(`s-rf-${pid}`,`${sc.rfActive.length}/${sc.rfTot}`);
+    $(`sc-rf-${pid}`)?.classList.toggle('redflag-alert',hasRF);
+
+    const lvLabel=$(`s-lv-${pid}`);
+    if(lvLabel){
+      if(sc.chk===0&&!hasRF)lvLabel.textContent='—';
+      else if(hasRF)lvLabel.textContent='🚩';
+      else lvLabel.textContent=T().levels[pid][lvIdx]?.stars??'—';
+    }
+    wid(`prog-${pid}`,sc.pct);
+    $(`prog-${pid}`)?.classList.toggle('danger',hasRF);
+    const tb=$(`tbadge-${pid}`);
+    if(tb)tb.textContent=sc.pct+'%';
+    document.querySelector(`[data-panel="${pid}"]`)?.classList.toggle('has-redflag',hasRF);
+
+    panel.sections.forEach((sec,si)=>{
+      const sChk=checked[pid][si].filter(Boolean).length;
+      set(`scscore-${pid}-${si}`,`${sChk}/${sec.items.length}`);
+      wid(`scfill-${pid}-${si}`,sec.items.length?Math.round(sChk/sec.items.length*100):0);
+      if(sec.isRedflag){
+        const rfChk=sec.items.filter((_,ii)=>checked[pid][si][ii]).length;
+        $(`sec-${pid}-${si}`)?.classList.toggle('has-active',rfChk>0);
+      }
+    });
+
+    const rfBanner=$(`rfbanner-${pid}`);
+    if(rfBanner)rfBanner.innerHTML=hasRF
+      ?`<strong>${T().rfBannerActive(sc.rfActive.length)}</strong>`
+      :T().rfBannerNone;
+
+    const rCard=$(`rating-${pid}`);
+    if(!rCard)return;
+    if(sc.chk===0&&!hasRF){
+      rCard.className='rating-card rating-lv1';
+      rCard.innerHTML=`<div class="verdict-heading" style="color:var(--text-muted)">${T().emptyH}</div>
+        <div class="verdict-body" style="color:var(--text-muted);margin-top:4px">${T().emptyB}</div>`;
+      return;
+    }
+    if(hasRF){
+      rCard.className='rating-card rating-lv-rf';
+      rCard.innerHTML=`<div class="rating-header">
+        <span class="rating-stars">🚩</span>
+        <span class="rating-label">${T().rfVerdictLabel}</span></div>
+        <div class="rating-desc">${T().rfVerdictBody(sc.rfActive)}</div>
+        <div class="rating-gap"><div class="gap-label">${T().gapRfTitle}</div>
+        <div class="gap-items">${sc.rfActive.map(t=>gapItemHTML(t,pid,'gap-item-rf','🚩',q)).join('')}</div></div>`;
+      return;
+    }
+    const lvls=T().levels[pid];
+    const lv=lvls[lvIdx];
+    const cv=getClassicVerdict(panel,sc);
+    const lvClass=['rating-lv1','rating-lv2','rating-lv3','rating-lv4','rating-lv5'][lvIdx];
+    rCard.className=`rating-card ${lvClass}`;
+    rCard.innerHTML=`<div class="rating-header">
+      <span class="rating-stars">${lv.stars}</span>
+      <span class="rating-label">${cv.label}</span>
+      <span class="rating-pct">${sc.pct}%</span></div>
+      <div class="rating-desc">${lv.desc}</div>
+      <div class="rating-gap">${buildGapHTML(panel,sc,lvIdx,q)}</div>`;
+  }
+
+  /* ── build all ── */
+  function buildAll(){
+    document.documentElement.lang=lang;
+    set('hd-eyebrow',T().eyebrow);
+    set('hd-title',T().title);
+    $('hd-sub').textContent=T().sub;
+
+    const nav=$('tabs-nav');nav.innerHTML='';
+    PANELS.forEach((p,pi)=>{
+      const btn=document.createElement('button');
+      btn.className='tab-btn'+(p.id===activePanel?' active':'');
+      btn.role='tab';
+      btn.setAttribute('aria-selected',p.id===activePanel?'true':'false');
+      btn.dataset.panel=p.id;
+      btn.innerHTML=`${T().tabs[pi]} <span class="tab-badge" id="tbadge-${p.id}">0%</span>`;
+      btn.addEventListener('click',()=>switchTab(p.id));
+      nav.appendChild(btn);
+    });
+
+    const container=$('panels');container.innerHTML='';
+    PANELS.forEach(p=>container.appendChild(buildPanel(p)));
+    PANELS.forEach(p=>{applyFilter(p.id);refreshScores(p.id);});
+    /* re-attach sticky observers after rebuild */
+    initStickyBars();
+  }
+
+  /* ── build one panel ── */
+  function buildPanel(panel){
+    const pid=panel.id;
+    const div=document.createElement('div');
+    div.className='panel'+(pid===activePanel?' active':'');
+    div.id=`panel-${pid}`;
+    const L=T().scoreLabels;
+
+    /* 1 — score strip + progress */
+    div.innerHTML=`
+      <div class="score-strip">
+        <div class="score-card"><div class="score-label">${L[0]}</div><div class="score-number" id="s-pct-${pid}">0%</div><div class="score-sub" id="s-raw-${pid}"></div></div>
+        <div class="score-card"><div class="score-label">${L[1]}</div><div class="score-number" id="s-crt-${pid}">0/0</div><div class="score-sub">${T().critSub}</div></div>
+        <div class="score-card"><div class="score-label">${L[2]}</div><div class="score-number" id="s-lv-${pid}" style="font-size:1.4rem">—</div></div>
+        <div class="score-card" id="sc-rf-${pid}"><div class="score-label">${L[3]}</div><div class="score-number" id="s-rf-${pid}">0/0</div><div class="score-sub">${T().rfSub}</div></div>
+      </div>
+      <div class="progress-wrap"><div class="progress-track"><div class="progress-fill" id="prog-${pid}"></div></div></div>`;
+
+    /* 2 — sticky filter bar */
+    const sentinel=document.createElement('div');
+    sentinel.className='sticky-sentinel';
+    sentinel.id=`sentinel-${pid}`;
+    div.appendChild(sentinel);
+
+    const stickyWrap=document.createElement('div');
+    stickyWrap.className='filter-bar-sticky-wrap';
+    stickyWrap.id=`filter-sticky-${pid}`;
+    div.appendChild(stickyWrap);
+
+    const filterBarEl=document.createElement('div');
+    filterBarEl.id=`filter-bar-${pid}`;
+    stickyWrap.appendChild(filterBarEl);
+    populateFilterBar(filterBarEl,panel);
+
+    /* 3 — sections */
+    const sectionsEl=document.createElement('div');
+    sectionsEl.className='sections';
+    sectionsEl.id=`sections-${pid}`;
+    div.appendChild(sectionsEl);
+
+    panel.sections.forEach((sec,si)=>{
+      const secEl=document.createElement('div');
+      secEl.className='section'+(sec.isRedflag?' redflag-section':'')+(openState[pid][si]?' open':'');
+      secEl.id=`sec-${pid}-${si}`;
+      const srcPills=[...new Set(sec.items.flatMap(i=>i.src))].map(pill).join('');
+      secEl.innerHTML=`
+        <div class="section-header" role="button" tabindex="0"
+             onclick="toggleSection('${pid}',${si})"
+             onkeydown="if(event.key==='Enter'||event.key===' ')toggleSection('${pid}',${si})">
+          <div class="section-title-group">
+            <span class="section-icon">${sec.icon}</span>
+            <span class="section-title">${sec.title[lang]}</span>
+            <div class="section-pills">${srcPills}</div>
+          </div>
+          <div class="section-meta">
+            <div class="section-mini-bar"><div class="section-mini-fill" id="scfill-${pid}-${si}" style="width:0%"></div></div>
+            <span class="section-progress-text" id="scscore-${pid}-${si}">0/${sec.items.length}</span>
+            <svg class="chevron-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="4,6 8,10 12,6"/></svg>
+          </div>
+        </div>
+        <div class="section-body" id="sbody-${pid}-${si}">
+          ${sec.isRedflag?`<div class="redflag-banner" id="rfbanner-${pid}">${T().rfBannerNone}</div>`:''}
+          <div id="no-results-${pid}-${si}" class="no-results" style="display:none">${T().noResults}</div>
+        </div>`;
+      const body=secEl.querySelector(`#sbody-${pid}-${si}`);
+      sec.items.forEach((item,ii)=>{
+        const chkId=`chk-${pid}-${si}-${ii}`;
+        const isChk=checked[pid][si][ii];
+        const isRF=item.weight==='redflag';
+        const crit=document.createElement('div');
+        crit.className='criterion'+(isRF?' redflag':'')+(isChk?' checked':'');
+        crit.id=`crit-${pid}-${si}-${ii}`;
+        crit.dataset.src=item.src.join(',');
+        crit.dataset.wgt=item.weight;
+        crit.innerHTML=`
+          <div class="chk-col"><input type="checkbox" id="${chkId}" ${isChk?'checked':''}
+               aria-label="${item[lang].title}"
+               onchange="toggle('${pid}',${si},${ii},this.checked)"></div>
+          <div class="crit-content">
+            <label class="crit-title" for="${chkId}">${item[lang].title}</label>
+            <div class="crit-desc">${item[lang].desc}</div>
+            <div class="crit-footer">${item.src.map(pill).join('')}
+              <span class="weight-tag ${W_CLASS[item.weight]}">${T().weight[item.weight]}</span>
+            </div>
+          </div>`;
+        body.appendChild(crit);
+      });
+      sectionsEl.appendChild(secEl);
+    });
+
+    /* 4 — rating card */
+    const ratingEl=document.createElement('div');
+    ratingEl.className='rating-card rating-lv1';
+    ratingEl.id=`rating-${pid}`;
+    ratingEl.innerHTML=`<div class="verdict-heading" style="color:var(--text-muted)">${T().emptyH}</div>
+      <div class="verdict-body" style="color:var(--text-muted);margin-top:4px">${T().emptyB}</div>`;
+    div.appendChild(ratingEl);
+
+    /* 5 — rating legend */
+    const legendEl=document.createElement('div');
+    legendEl.id=`legend-${pid}`;
+    div.appendChild(legendEl);
+    populateLegend(legendEl,panel);
+
+    /* 6 — actions */
+    const actEl=document.createElement('div');
+    actEl.className='panel-actions';
+    actEl.innerHTML=`
+      <button class="btn" onclick="resetPanel('${pid}')">${T().btnReset}</button>
+      <button class="btn" onclick="expandAll('${pid}')">${T().btnExpand}</button>
+      <button class="btn btn-spacer" onclick="collapseAll('${pid}')">${T().btnCollapse}</button>`;
+    div.appendChild(actEl);
+    return div;
+  }
+
+  /* ── sticky filter bar via IntersectionObserver ── */
+  const stickyObservers=[];
+  function initStickyBars(){
+    stickyObservers.forEach(o=>o.disconnect());
+    stickyObservers.length=0;
+    PANELS.forEach(p=>{
+      const sentinel=$(`sentinel-${p.id}`);
+      const wrap=$(`filter-sticky-${p.id}`);
+      if(!sentinel||!wrap)return;
+      const obs=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          /* when sentinel is NOT visible, filter bar is sticky */
+          wrap.classList.toggle('is-stuck',!e.isIntersecting);
+        });
+      },{threshold:0,rootMargin:'0px'});
+      obs.observe(sentinel);
+      stickyObservers.push(obs);
+    });
+  }
+
+  /* ── filter bar ── */
+  function populateFilterBar(bar,panel){
+    const pid=panel.id;
+    const fs=filterState[pid];
+    const allSrcs=[...new Set(panel.sections.flatMap(s=>s.items.flatMap(i=>i.src)))];
+    const srcChips=allSrcs.map(s=>`<button class="filter-chip${fs.src===s?` active-${s}`:''}" onclick="filterBySrc('${pid}','${s}')">${T().filterSrc[s]}</button>`).join('');
+    const wgts=['critical','high','medium','redflag'];
+    const wgtChips=wgts.map(w=>`<button class="filter-chip${fs.wgt===w?` active-${w}`:''}" onclick="filterByWgt('${pid}','${w}')">${T().filterWgt[w]}</button>`).join('');
+    const total=panel.sections.reduce((a,s)=>a+s.items.length,0);
+    bar.innerHTML=`<div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">${T().filterSrcLabel}</span>
+        <button class="filter-chip${!fs.src?' active':''}" onclick="filterBySrc('${pid}',null)">${T().filterAll}</button>
+        ${srcChips}
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-group">
+        <span class="filter-label">${T().filterWgtLabel}</span>
+        <button class="filter-chip${!fs.wgt?' active':''}" onclick="filterByWgt('${pid}',null)">${T().filterAll}</button>
+        ${wgtChips}
+      </div>
+      <div class="filter-divider"></div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input${fs.query?' has-value':''}" id="search-${pid}" type="text"
+               placeholder="${T().searchPlaceholder}" value="${fs.query}"
+               oninput="onSearchInput('${pid}',this.value)">
+        <button class="search-clear${fs.query?' visible':''}" id="search-clear-${pid}"
+                onclick="clearSearch('${pid}')" title="Xoá tìm kiếm">✕</button>
+      </div>
+      <span class="filter-count" id="filter-count-${pid}">${T().filterCount(total,total)}</span>
+    </div>`;
+  }
+
+  /* ── legend ── */
+  function populateLegend(el,panel){
+    const pid=panel.id;
+    el.innerHTML=`<div class="rating-legend" id="legend-wrap-${pid}">
+      <div class="rating-legend-header" onclick="toggleLegend('${pid}')">
+        <span class="rating-legend-title">${T().legendTitle}</span>
+        <svg class="chevron-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><polyline points="4,6 8,10 12,6"/></svg>
+      </div>
+      <div class="rating-legend-body">${buildLegendHTML(panel)}</div>
+    </div>`;
+  }
+
+  /* ── tab switch ── */
+  function switchTab(pid){
+    activePanel=pid;
+    document.querySelectorAll('.tab-btn').forEach(b=>{
+      b.classList.toggle('active',b.dataset.panel===pid);
+      b.setAttribute('aria-selected',b.dataset.panel===pid?'true':'false');
+    });
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===`panel-${pid}`));
+  }
+
+  /* ── public API ── */
+  window.setLang=function(nl){
+    if(nl===lang)return;lang=nl;
+    $('lang-vi').classList.toggle('active',lang==='vi');
+    $('lang-en').classList.toggle('active',lang==='en');
+    buildAll();
+  };
+  window.toggle=function(pid,si,ii,val){
+    checked[pid][si][ii]=val;
+    $(`crit-${pid}-${si}-${ii}`)?.classList.toggle('checked',val);
+    refreshScores(pid);
+  };
+  window.toggleSection=function(pid,si){
+    const el=$(`sec-${pid}-${si}`);if(!el)return;
+    el.classList.toggle('open');
+    openState[pid][si]=el.classList.contains('open');
+  };
+  window.toggleLegend=function(pid){$(`legend-wrap-${pid}`)?.classList.toggle('open');};
+  window.filterBySrc=function(pid,src){
+    filterState[pid].src=(filterState[pid].src===src)?null:src;
+    const barEl=$(`filter-bar-${pid}`);
+    const panel=PANELS.find(p=>p.id===pid);
+    if(barEl&&panel)populateFilterBar(barEl,panel);
+    applyFilter(pid);
+  };
+  window.filterByWgt=function(pid,wgt){
+    filterState[pid].wgt=(filterState[pid].wgt===wgt)?null:wgt;
+    const barEl=$(`filter-bar-${pid}`);
+    const panel=PANELS.find(p=>p.id===pid);
+    if(barEl&&panel)populateFilterBar(barEl,panel);
+    applyFilter(pid);
+  };
+  window.onSearchInput=function(pid,val){
+    /* immediately update clear button visibility */
+    const inp=$(`search-${pid}`);
+    const clr=$(`search-clear-${pid}`);
+    if(inp)inp.classList.toggle('has-value',val.length>0);
+    if(clr)clr.classList.toggle('visible',val.length>0);
+    debounce(pid,()=>{filterState[pid].query=val;applyFilter(pid);},500);
+  };
+  window.clearSearch=function(pid){
+    filterState[pid].query='';
+    const inp=$(`search-${pid}`);
+    if(inp){inp.value='';inp.classList.remove('has-value');inp.focus();}
+    const clr=$(`search-clear-${pid}`);
+    if(clr)clr.classList.remove('visible');
+    clearTimeout(debounceTimers[pid]);
+    applyFilter(pid);
+  };
+  window.resetPanel=function(pid){
+    const panel=PANELS.find(p=>p.id===pid);
+    panel.sections.forEach((_,si)=>_.items.forEach((__,ii)=>{
+      checked[pid][si][ii]=false;
+      const chk=$(`chk-${pid}-${si}-${ii}`);if(chk)chk.checked=false;
+      $(`crit-${pid}-${si}-${ii}`)?.classList.remove('checked');
+    }));
+    refreshScores(pid);
+  };
+  window.expandAll=pid=>PANELS.find(p=>p.id===pid).sections.forEach((_,si)=>{
+    openState[pid][si]=true;$(`sec-${pid}-${si}`)?.classList.add('open');});
+  window.collapseAll=pid=>PANELS.find(p=>p.id===pid).sections.forEach((_,si)=>{
+    openState[pid][si]=false;$(`sec-${pid}-${si}`)?.classList.remove('open');});
+
+  buildAll();
+})();
+</script>
+</body>
+</html>

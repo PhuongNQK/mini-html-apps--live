@@ -1,0 +1,2333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Workflow Integration Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b0d;
+  --bg1: #0f1114;
+  --bg2: #141618;
+  --bg3: #1a1d21;
+  --bg4: #21252b;
+  --line: rgba(255,255,255,0.07);
+  --line2: rgba(255,255,255,0.12);
+  --line3: rgba(255,255,255,0.2);
+  --text: #e8e6e0;
+  --text2: #9a9690;
+  --text3: #5a5753;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --mono: 'DM Mono', monospace;
+  --sans: 'Outfit', sans-serif;
+
+  --c-spec:    #4a9eff;
+  --c-skill:   #52d68a;
+  --c-agent:   #a78bfa;
+  --c-big:     #fb923c;
+  --c-std:     #f472b6;
+  --c-hybrid:  #34d399;
+
+  --c-spec-dim:    rgba(74,158,255,0.15);
+  --c-skill-dim:   rgba(82,214,138,0.15);
+  --c-agent-dim:   rgba(167,139,250,0.15);
+  --c-big-dim:     rgba(251,146,60,0.15);
+  --c-std-dim:     rgba(244,114,182,0.15);
+  --c-hybrid-dim:  rgba(52,211,153,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* ── LAYOUT ── */
+.shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+aside {
+  background: var(--bg1);
+  border-right: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.logo-block {
+  padding: 28px 20px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.logo-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .18em;
+  color: var(--text3);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.logo-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.25;
+  color: var(--text);
+}
+.logo-title em {
+  font-style: italic;
+  color: var(--text2);
+}
+
+nav { padding: 16px 0; flex: 1; }
+
+.nav-section {
+  padding: 0 20px;
+  margin-bottom: 4px;
+}
+.nav-section-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 10px 0 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all .18s;
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 400;
+  user-select: none;
+  border: 1px solid transparent;
+  margin-bottom: 1px;
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active {
+  background: var(--bg3);
+  color: var(--text);
+  border-color: var(--line2);
+  font-weight: 500;
+}
+.nav-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: box-shadow .3s;
+}
+.nav-item.active .nav-dot { box-shadow: 0 0 8px currentColor; }
+.nav-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  margin-left: auto;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  line-height: 1.8;
+}
+
+/* ── MAIN ── */
+main { overflow-y: auto; }
+
+/* ── SECTIONS ── */
+section { display: none; }
+section.active { display: block; }
+
+/* ── HERO ── */
+.hero {
+  padding: 60px 56px 48px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(74,158,255,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.hero-title em { font-style: italic; color: var(--text2); }
+.hero-sub {
+  font-size: 15px;
+  color: var(--text2);
+  max-width: 560px;
+  line-height: 1.7;
+}
+.hero-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 28px;
+}
+.hero-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--line2);
+  color: var(--text3);
+  letter-spacing: .06em;
+}
+
+/* ── SECTION HEADER ── */
+.sec-header {
+  padding: 40px 56px 32px;
+  border-bottom: 1px solid var(--line);
+}
+.sec-eyebrow {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: 32px;
+  line-height: 1.2;
+}
+.sec-desc {
+  font-size: 14px;
+  color: var(--text2);
+  margin-top: 8px;
+  max-width: 600px;
+  line-height: 1.7;
+}
+
+/* ── APPROACHES ── */
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+.approach-card {
+  padding: 28px 28px 24px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background .2s;
+  position: relative;
+  overflow: hidden;
+}
+.approach-card:nth-child(3n) { border-right: none; }
+.approach-card:nth-last-child(-n+3) { border-bottom: none; }
+.approach-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.approach-card:hover { background: var(--bg2); }
+.approach-card:hover::before { opacity: 1; }
+.approach-card.expanded { background: var(--bg2); }
+.approach-card.expanded::before { opacity: 1; }
+
+.card-index {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  color: var(--text3);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.card-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-bottom: 12px;
+  border: 1px solid;
+}
+.card-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.card-tagline {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.card-pills {
+  display: flex; flex-wrap: wrap; gap: 5px;
+}
+.cpill {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--line2);
+  color: var(--text3);
+  letter-spacing: .04em;
+}
+.card-expand-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 14px;
+  letter-spacing: .04em;
+}
+
+/* ── EXPANDED DETAIL ── */
+.approach-detail {
+  display: none;
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg2);
+  animation: slideDown .25s ease;
+}
+.approach-detail.visible { display: block; }
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.detail-inner { padding: 32px 56px; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-bottom: 24px; }
+.detail-col-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.detail-list { list-style: none; }
+.detail-list li {
+  font-size: 13px;
+  color: var(--text2);
+  padding: 4px 0;
+  display: flex; gap: 8px; align-items: baseline;
+}
+.detail-list li::before {
+  content: '–';
+  color: var(--text3);
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+.tradeoff-section { margin-top: 20px; }
+.tradeoff-row {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 10px;
+}
+.tradeoff-lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  width: 130px;
+  flex-shrink: 0;
+  letter-spacing: .04em;
+}
+.tbar-track {
+  flex: 1;
+  height: 3px;
+  background: var(--bg4);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tbar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width .6s cubic-bezier(.4,0,.2,1);
+}
+.tbar-val {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  width: 28px;
+  text-align: right;
+}
+.detail-note {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: var(--bg3);
+  border-radius: 8px;
+  border-left: 2px solid;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.detail-note strong { color: var(--text); font-weight: 500; }
+
+/* ── BUILDING BLOCKS ── */
+.blocks-page { padding: 0 56px 48px; }
+.blocks-section-title {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--text3);
+  padding: 28px 0 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+.blocks-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.block-card {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px 18px 16px;
+  transition: all .2s;
+  cursor: default;
+}
+.block-card:hover {
+  border-color: var(--line2);
+  background: var(--bg3);
+  transform: translateY(-1px);
+}
+.block-icon {
+  font-size: 18px;
+  margin-bottom: 10px;
+  opacity: .8;
+}
+.block-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+.block-desc {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+.block-used {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: .04em;
+}
+
+/* ── PRINCIPLES ── */
+.principles-page { padding: 0 56px 48px; }
+.principle-item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 28px 0;
+  transition: background .2s;
+}
+.principle-item:hover { background: var(--bg2); margin: 0 -56px; padding: 28px 56px; }
+.principle-item:first-child { border-top: 1px solid var(--line); }
+.principle-num {
+  font-family: var(--serif);
+  font-size: 36px;
+  color: var(--text3);
+  line-height: 1;
+  padding-top: 3px;
+  font-style: italic;
+}
+.principle-body h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.principle-body p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+  max-width: 620px;
+}
+.principle-guideline {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  border-left: 2px solid var(--line2);
+  padding-left: 12px;
+  line-height: 1.6;
+}
+
+/* ── DECISION FRAMEWORK ── */
+.framework-page { padding: 0 56px 56px; }
+.framework-intro {
+  padding: 28px 0 24px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+  border-bottom: 1px solid var(--line);
+  max-width: 600px;
+}
+.questions-col { padding: 28px 0; display: flex; flex-direction: column; gap: 12px; }
+
+.q-card {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px 22px;
+  transition: border-color .2s;
+}
+.q-card.answered { border-color: var(--line2); }
+.q-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.q-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.q-sub { font-size: 12px; color: var(--text2); margin-bottom: 14px; line-height: 1.5; }
+.q-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.q-opt {
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--line2);
+  cursor: pointer;
+  color: var(--text2);
+  transition: all .15s;
+  background: var(--bg3);
+  font-family: var(--sans);
+}
+.q-opt:hover { border-color: var(--line3); color: var(--text); }
+.q-opt.selected { color: var(--text); font-weight: 500; border-color: transparent; }
+
+.rec-panel {
+  margin-top: 28px;
+  border-radius: 12px;
+  padding: 28px;
+  display: none;
+  animation: fadeIn .4s ease;
+  border: 1px solid;
+}
+@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+.rec-panel.visible { display: block; }
+.rec-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.rec-title {
+  font-family: var(--serif);
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+.rec-desc { font-size: 13px; line-height: 1.7; margin-bottom: 16px; }
+.rec-steps { display: flex; flex-direction: column; gap: 6px; }
+.rec-step {
+  display: flex; gap: 10px; align-items: baseline;
+  font-size: 12px;
+  font-family: var(--mono);
+}
+.rec-step-n { color: var(--text3); flex-shrink: 0; }
+
+/* ── WORKFLOWS ── */
+.workflows-page { padding: 0; }
+.wf-picker {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid var(--line);
+}
+.wf-tab {
+  padding: 18px 16px;
+  cursor: pointer;
+  border-right: 1px solid var(--line);
+  transition: background .15s;
+  position: relative;
+}
+.wf-tab:last-child { border-right: none; }
+.wf-tab:hover { background: var(--bg2); }
+.wf-tab.active { background: var(--bg2); }
+.wf-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+}
+.wf-tab-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  letter-spacing: .1em;
+  margin-bottom: 5px;
+}
+.wf-tab-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text2);
+  line-height: 1.3;
+}
+.wf-tab.active .wf-tab-name { color: var(--text); }
+.wf-badge-row {
+  display: flex; gap: 4px; flex-wrap: wrap;
+  margin-top: 8px;
+}
+.wf-badge {
+  font-family: var(--mono);
+  font-size: 8px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid;
+  letter-spacing: .04em;
+}
+
+.wf-body { display: none; }
+.wf-body.active { display: block; }
+
+.wf-header {
+  padding: 32px 56px 24px;
+  border-bottom: 1px solid var(--line);
+}
+.wf-title {
+  font-family: var(--serif);
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+.wf-meta { font-size: 13px; color: var(--text2); }
+.wf-meta span { color: var(--text3); margin: 0 6px; }
+
+.wf-steps { padding: 0 56px 48px; }
+.step-row {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 0;
+  position: relative;
+}
+.step-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 30px;
+}
+.step-dot-outer {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: var(--bg);
+  z-index: 1;
+  flex-shrink: 0;
+  transition: box-shadow .3s;
+}
+.step-row:hover .step-dot-outer { box-shadow: 0 0 10px currentColor; }
+.step-line-seg {
+  flex: 1;
+  width: 1px;
+  background: var(--line2);
+  margin: 4px 0;
+}
+.step-row:last-child .step-line-seg { display: none; }
+.step-content {
+  padding: 24px 0 24px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.step-row:last-child .step-content { border-bottom: none; }
+.step-meta {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 7px;
+}
+.step-phase {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.step-type-badge {
+  font-family: var(--mono);
+  font-size: 8px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid;
+  letter-spacing: .06em;
+}
+.step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.step-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+  max-width: 640px;
+}
+.step-tools {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-top: 10px;
+}
+.step-tool {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  color: var(--text3);
+}
+
+/* ── APPROACH COLOR BINDINGS ── */
+.c-spec   { color: var(--c-spec); }
+.c-skill  { color: var(--c-skill); }
+.c-agent  { color: var(--c-agent); }
+.c-big    { color: var(--c-big); }
+.c-std    { color: var(--c-std); }
+.c-hybrid { color: var(--c-hybrid); }
+
+.bg-spec   { background: var(--c-spec-dim); }
+.bg-skill  { background: var(--c-skill-dim); }
+.bg-agent  { background: var(--c-agent-dim); }
+.bg-big    { background: var(--c-big-dim); }
+.bg-std    { background: var(--c-std-dim); }
+.bg-hybrid { background: var(--c-hybrid-dim); }
+
+.border-spec   { border-color: rgba(74,158,255,.3); }
+.border-skill  { border-color: rgba(82,214,138,.3); }
+.border-agent  { border-color: rgba(167,139,250,.3); }
+.border-big    { border-color: rgba(251,146,60,.3); }
+.border-std    { border-color: rgba(244,114,182,.3); }
+.border-hybrid { border-color: rgba(52,211,153,.3); }
+
+.bar-spec   { background: var(--c-spec); }
+.bar-skill  { background: var(--c-skill); }
+.bar-agent  { background: var(--c-agent); }
+.bar-big    { background: var(--c-big); }
+.bar-std    { background: var(--c-std); }
+.bar-hybrid { background: var(--c-hybrid); }
+
+.line-spec::before   { background: var(--c-spec); }
+.line-skill::before  { background: var(--c-skill); }
+.line-agent::before  { background: var(--c-agent); }
+.line-big::before    { background: var(--c-big); }
+.line-std::before    { background: var(--c-std); }
+.line-hybrid::before { background: var(--c-hybrid); }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+
+/* ── INTRO OVERVIEW ── */
+.overview-page { padding: 0; }
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--line);
+}
+.overview-cell {
+  padding: 28px 28px 24px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.overview-cell:nth-child(3n) { border-right: none; }
+.overview-cell.wide {
+  grid-column: span 3;
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.overview-cell-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 10px;
+}
+.overview-cell-val {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.overview-cell-sub {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.55;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 28px 56px 0;
+  width: calc(100% - 112px);
+}
+.summary-table th {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg2);
+  font-weight: 400;
+}
+.summary-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--text2);
+  vertical-align: top;
+}
+.summary-table tr:hover td { background: var(--bg2); }
+.summary-table td:first-child { color: var(--text); font-weight: 500; }
+.dot-badge {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.fit-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+.fit-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--bg3);
+  border: 1px solid var(--line);
+  color: var(--text3);
+}
+
+/* ── INTRO overview map ── */
+.map-section {
+  padding: 28px 56px 40px;
+  border-top: 1px solid var(--line);
+}
+.map-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 20px;
+}
+.matrix-grid {
+  display: grid;
+  grid-template-columns: 80px repeat(5,1fr);
+  gap: 2px;
+  font-size: 11px;
+  max-width: 700px;
+}
+.matrix-corner { background: transparent; }
+.matrix-col-head {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  text-align: center;
+  padding: 6px 4px;
+  background: var(--bg2);
+  border-radius: 4px;
+  letter-spacing: .04em;
+  line-height: 1.3;
+}
+.matrix-row-head {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  line-height: 1.3;
+}
+.matrix-cell {
+  height: 32px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text);
+  font-weight: 500;
+  transition: opacity .2s;
+}
+.matrix-cell:hover { opacity: 0.7; }
+.cell-hi  { background: rgba(74,158,255,.35); }
+.cell-mid { background: rgba(74,158,255,.15); }
+.cell-lo  { background: var(--bg3); color: var(--text3); }
+
+/* Page-specific padding */
+.overview-page .summary-table { margin-bottom: 0; }
+.overview-page { padding-bottom: 48px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ── SIDEBAR ── -->
+<aside>
+  <div class="logo-block">
+    <div class="logo-label">Field Reference · v1.0</div>
+    <div class="logo-title">AI Workflow<br><em>Integration Atlas</em></div>
+  </div>
+
+  <nav>
+    <div class="nav-section">
+      <div class="nav-section-label">Navigation</div>
+      <div class="nav-item active" onclick="show('overview')" id="nav-overview">
+        <span class="nav-dot" style="background:var(--text3)"></span>
+        Overview
+      </div>
+      <div class="nav-item" onclick="show('approaches')" id="nav-approaches">
+        <span class="nav-dot c-spec" style="background:var(--c-spec)"></span>
+        Approaches
+        <span class="nav-num">06</span>
+      </div>
+      <div class="nav-item" onclick="show('blocks')" id="nav-blocks">
+        <span class="nav-dot" style="background:var(--c-agent)"></span>
+        Building Blocks
+        <span class="nav-num">16</span>
+      </div>
+      <div class="nav-item" onclick="show('principles')" id="nav-principles">
+        <span class="nav-dot" style="background:var(--c-big)"></span>
+        Principles
+        <span class="nav-num">08</span>
+      </div>
+      <div class="nav-item" onclick="show('framework')" id="nav-framework">
+        <span class="nav-dot" style="background:var(--c-std)"></span>
+        Decision Framework
+      </div>
+      <div class="nav-item" onclick="show('workflows')" id="nav-workflows">
+        <span class="nav-dot" style="background:var(--c-hybrid)"></span>
+        Workflows
+        <span class="nav-num">05</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    6 approaches<br>
+    16 building blocks<br>
+    8 principles<br>
+    5 recommended workflows
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main>
+
+<!-- ══════════════════════════════════════════
+     SECTION: OVERVIEW
+══════════════════════════════════════════ -->
+<section id="s-overview" class="active">
+  <div class="hero">
+    <div class="hero-eyebrow">AI Workflow Integration · Complete Reference</div>
+    <div class="hero-title">Six Approaches.<br><em>One Decision.</em></div>
+    <div class="hero-sub">A structured atlas for integrating AI into development workflows. Six approaches mapped, their building blocks extracted, principles defined, and decision frameworks built — so you can choose deliberately, not by trend.</div>
+    <div class="hero-tags">
+      <span class="hero-tag">Spec-Driven</span>
+      <span class="hero-tag">Skill-Driven</span>
+      <span class="hero-tag">Agentic</span>
+      <span class="hero-tag">Big Context</span>
+      <span class="hero-tag">Standard Context</span>
+      <span class="hero-tag">Hybrid</span>
+    </div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="overview-cell">
+      <div class="overview-cell-label">Approaches covered</div>
+      <div class="overview-cell-val">6</div>
+      <div class="overview-cell-sub">From spec-driven generation to multi-day autonomous rebuilds</div>
+    </div>
+    <div class="overview-cell">
+      <div class="overview-cell-label">Building blocks</div>
+      <div class="overview-cell-val">16</div>
+      <div class="overview-cell-sub">Atomic components shared across all approaches</div>
+    </div>
+    <div class="overview-cell">
+      <div class="overview-cell-label">Key decision axes</div>
+      <div class="overview-cell-val">5</div>
+      <div class="overview-cell-sub">Requirement clarity · Codebase size · Change frequency · Risk · Recurrence</div>
+    </div>
+  </div>
+
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>Approach</th>
+        <th>AI Role</th>
+        <th>Output Cadence</th>
+        <th>Context Model</th>
+        <th>Best Fit For</th>
+        <th>Predictability</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="dot-badge" style="background:var(--c-spec)"></span>Spec-Driven</td>
+        <td>Implementer from contract</td>
+        <td>Per spec change</td>
+        <td>Spec as context</td>
+        <td><div class="fit-pills"><span class="fit-pill">Compliance</span><span class="fit-pill">APIs</span><span class="fit-pill">Contracts</span></div></td>
+        <td><span style="color:var(--c-skill)">High</span></td>
+      </tr>
+      <tr>
+        <td><span class="dot-badge" style="background:var(--c-skill)"></span>Skill-Driven</td>
+        <td>Executes modular competency</td>
+        <td>Per task invocation</td>
+        <td>Skill-scoped</td>
+        <td><div class="fit-pills"><span class="fit-pill">Recurring tasks</span><span class="fit-pill">Platform teams</span></div></td>
+        <td><span style="color:var(--c-skill)">High</span></td>
+      </tr>
+      <tr>
+        <td><span class="dot-badge" style="background:var(--c-agent)"></span>Agentic</td>
+        <td>Autonomous planner + actor</td>
+        <td>Continuous / goal-done</td>
+        <td>Dynamic, tool-driven</td>
+        <td><div class="fit-pills"><span class="fit-pill">Exploration</span><span class="fit-pill">Debug</span><span class="fit-pill">Research</span></div></td>
+        <td><span style="color:var(--c-big)">Low–Med</span></td>
+      </tr>
+      <tr>
+        <td><span class="dot-badge" style="background:var(--c-big)"></span>Big Context</td>
+        <td>Full-codebase architect</td>
+        <td>One PR per run (days)</td>
+        <td>Full codebase loaded</td>
+        <td><div class="fit-pills"><span class="fit-pill">Greenfield</span><span class="fit-pill">Rewrites</span></div></td>
+        <td><span style="color:var(--c-big)">Med (costly)</span></td>
+      </tr>
+      <tr>
+        <td><span class="dot-badge" style="background:var(--c-std)"></span>Std Context</td>
+        <td>Focused module builder</td>
+        <td>Many PRs (hours each)</td>
+        <td>Scoped per module</td>
+        <td><div class="fit-pills"><span class="fit-pill">Large codebases</span><span class="fit-pill">CD pipelines</span></div></td>
+        <td><span style="color:var(--c-skill)">High</span></td>
+      </tr>
+      <tr>
+        <td><span class="dot-badge" style="background:var(--c-hybrid)"></span>Hybrid</td>
+        <td>Orchestrated multi-role</td>
+        <td>Mixed</td>
+        <td>Adaptive</td>
+        <td><div class="fit-pills"><span class="fit-pill">Mature teams</span><span class="fit-pill">Mixed risk</span></div></td>
+        <td><span style="color:var(--c-skill)">High (by design)</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="map-section">
+    <div class="map-label">Approach Fit Matrix — by task property</div>
+    <div class="matrix-grid">
+      <div class="matrix-corner"></div>
+      <div class="matrix-col-head">Formal<br>Spec</div>
+      <div class="matrix-col-head">Open-<br>ended</div>
+      <div class="matrix-col-head">Large<br>Codebase</div>
+      <div class="matrix-col-head">High<br>Risk</div>
+      <div class="matrix-col-head">Recurs<br>Often</div>
+
+      <div class="matrix-row-head">Spec-Driven</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-lo">·</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+
+      <div class="matrix-row-head">Skill-Driven</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+
+      <div class="matrix-row-head">Agentic</div>
+      <div class="matrix-cell cell-lo">·</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-lo">·</div>
+      <div class="matrix-cell cell-mid">●●</div>
+
+      <div class="matrix-row-head">Big Context</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-lo">·</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-lo">·</div>
+
+      <div class="matrix-row-head">Std Context</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+      <div class="matrix-cell cell-mid">●●</div>
+
+      <div class="matrix-row-head">Hybrid</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+      <div class="matrix-cell cell-hi">●●●</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: APPROACHES
+══════════════════════════════════════════ -->
+<section id="s-approaches">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Section 02</div>
+    <div class="sec-title">Six Approaches</div>
+    <div class="sec-desc">Click any card to expand the full deep-dive: mechanics, tradeoffs, when it excels, and when to avoid it.</div>
+  </div>
+
+  <div class="approach-grid">
+
+    <!-- SPEC -->
+    <div class="approach-card line-spec" id="card-spec" onclick="toggleCard('spec')">
+      <div class="card-index">01 — Spec-Driven</div>
+      <div class="card-badge c-spec border-spec bg-spec">Specification-Driven</div>
+      <div class="card-name">Spec-Driven<br>Development</div>
+      <div class="card-tagline">AI generates from a formal contract. Humans write the spec; AI writes everything else. The spec is both the prompt and the eval.</div>
+      <div class="card-pills">
+        <span class="cpill">Deterministic output</span>
+        <span class="cpill">Traceable to spec</span>
+        <span class="cpill">Audit-ready</span>
+      </div>
+      <div class="card-expand-hint" id="hint-spec">▾ Expand</div>
+    </div>
+
+    <!-- SKILL -->
+    <div class="approach-card line-skill" id="card-skill" onclick="toggleCard('skill')">
+      <div class="card-index">02 — Skill-Driven</div>
+      <div class="card-badge c-skill border-skill bg-skill">Skill-Driven</div>
+      <div class="card-name">Skill-Driven<br>Development</div>
+      <div class="card-tagline">Modular AI competencies composed into workflows. Each skill is a tested, versioned capability — not a raw prompt.</div>
+      <div class="card-pills">
+        <span class="cpill">Composable</span>
+        <span class="cpill">Versioned skills</span>
+        <span class="cpill">Reusable library</span>
+      </div>
+      <div class="card-expand-hint" id="hint-skill">▾ Expand</div>
+    </div>
+
+    <!-- AGENTIC -->
+    <div class="approach-card line-agent" id="card-agent" onclick="toggleCard('agent')">
+      <div class="card-index">03 — Agentic</div>
+      <div class="card-badge c-agent border-agent bg-agent">Agentic</div>
+      <div class="card-name">Agentic-Driven<br>Development</div>
+      <div class="card-tagline">AI agents autonomously plan, execute, and iterate. Humans define goals; agents decide how. Loops until done.</div>
+      <div class="card-pills">
+        <span class="cpill">Goal-directed</span>
+        <span class="cpill">Multi-step</span>
+        <span class="cpill">Self-correcting</span>
+      </div>
+      <div class="card-expand-hint" id="hint-agent">▾ Expand</div>
+    </div>
+
+    <!-- BIG CONTEXT -->
+    <div class="approach-card line-big" id="card-big" onclick="toggleCard('big')">
+      <div class="card-index">04 — Big Context</div>
+      <div class="card-badge c-big border-big bg-big">Big Context</div>
+      <div class="card-name">Big Context-Driven<br>Development</div>
+      <div class="card-tagline">Entire codebase loaded into one massive context. AI rebuilds from scratch on every change. One run, one PR, days of compute.</div>
+      <div class="card-pills">
+        <span class="cpill">Full coherence</span>
+        <span class="cpill">Rebuild-on-change</span>
+        <span class="cpill">1M+ tokens</span>
+      </div>
+      <div class="card-expand-hint" id="hint-big">▾ Expand</div>
+    </div>
+
+    <!-- STD CONTEXT -->
+    <div class="approach-card line-std" id="card-std" onclick="toggleCard('std')">
+      <div class="card-index">05 — Std Context</div>
+      <div class="card-badge c-std border-std bg-std">Standard Context</div>
+      <div class="card-name">Standard Context-Driven<br>Development</div>
+      <div class="card-tagline">Focused agent runs with scoped context. Each run = one PR. Changes trigger targeted additional passes, not full rebuilds.</div>
+      <div class="card-pills">
+        <span class="cpill">Scoped windows</span>
+        <span class="cpill">Incremental PRs</span>
+        <span class="cpill">Parallelizable</span>
+      </div>
+      <div class="card-expand-hint" id="hint-std">▾ Expand</div>
+    </div>
+
+    <!-- HYBRID -->
+    <div class="approach-card line-hybrid" id="card-hybrid" onclick="toggleCard('hybrid')">
+      <div class="card-index">06 — Hybrid</div>
+      <div class="card-badge c-hybrid border-hybrid bg-hybrid">Hybrid</div>
+      <div class="card-name">Hybrid / Orchestrated<br>Development</div>
+      <div class="card-tagline">Combines multiple approaches under an orchestrator. Spec informs agents; skills plug into context loops. Best-of-each by task type.</div>
+      <div class="card-pills">
+        <span class="cpill">Orchestrated</span>
+        <span class="cpill">Adaptive routing</span>
+        <span class="cpill">Compound ROI</span>
+      </div>
+      <div class="card-expand-hint" id="hint-hybrid">▾ Expand</div>
+    </div>
+
+  </div><!-- /approach-grid -->
+
+  <!-- DETAIL PANELS (rendered below grid, full width) -->
+  <div class="approach-detail" id="detail-spec">
+    <div class="detail-inner">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-col-label">When it excels</div>
+          <ul class="detail-list">
+            <li>Well-defined domain with stable requirements</li>
+            <li>Regulated industries: banking, healthcare, insurance</li>
+            <li>API-first or contract-first architectures</li>
+            <li>Teams with strong spec culture (OpenAPI, ADR, RFC)</li>
+            <li>Compliance-critical code where every output must trace to a requirement</li>
+            <li>Generating tests, docs, and stubs alongside the spec</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">Core mechanics</div>
+          <ul class="detail-list">
+            <li>Human writes formal spec: OpenAPI, PRD, schema, ADR</li>
+            <li>Spec is loaded as the primary context for the AI</li>
+            <li>AI generates implementation strictly from spec assertions</li>
+            <li>Diffs are driven by spec changes, not prompt tweaks</li>
+            <li>Tests auto-generated from spec assertions → two artifacts from one source</li>
+            <li>Validation: AI output checked against spec at every step</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">When to avoid</div>
+          <ul class="detail-list">
+            <li>Exploratory or research-heavy work where the spec doesn't exist yet</li>
+            <li>Rapidly evolving products where specs become stale faster than code</li>
+            <li>Small teams without bandwidth to maintain formal specs</li>
+            <li>Tasks requiring creative judgment beyond spec rules</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tradeoff-section">
+        <div class="detail-col-label" style="margin-bottom:14px">Tradeoff Profile</div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Predictability</span><div class="tbar-track"><div class="tbar-fill bar-spec" style="width:92%"></div></div><span class="tbar-val c-spec">92</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Setup cost</span><div class="tbar-track"><div class="tbar-fill bar-spec" style="width:72%"></div></div><span class="tbar-val c-spec">72</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Flexibility</span><div class="tbar-track"><div class="tbar-fill bar-spec" style="width:28%"></div></div><span class="tbar-val c-spec">28</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Speed to first output</span><div class="tbar-track"><div class="tbar-fill bar-spec" style="width:35%"></div></div><span class="tbar-val c-spec">35</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">AI autonomy</span><div class="tbar-track"><div class="tbar-fill bar-spec" style="width:20%"></div></div><span class="tbar-val c-spec">20</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Auditability</span><div class="tbar-track"><div class="tbar-fill bar-spec" style="width:98%"></div></div><span class="tbar-val c-spec">98</span></div>
+      </div>
+      <div class="detail-note c-spec" style="border-left-color:var(--c-spec)">
+        <strong>Banking context:</strong> Debt management systems, core banking APIs, SBV compliance modules — all demand traceable, auditable outputs. Spec-driven is the natural home. Specs also serve as compliance artifacts, giving you two deliverables from one investment.
+      </div>
+    </div>
+  </div>
+
+  <div class="approach-detail" id="detail-skill">
+    <div class="detail-inner">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-col-label">When it excels</div>
+          <ul class="detail-list">
+            <li>Cross-project reuse of AI capabilities</li>
+            <li>Platform or infra teams building shared internal tooling</li>
+            <li>Tasks that recur with variation (test gen, doc gen, migration scripts)</li>
+            <li>Environments where prompt reliability must be guaranteed</li>
+            <li>Teams building institutional AI memory over time</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">Core mechanics</div>
+          <ul class="detail-list">
+            <li>Define skill = input schema + prompt template + eval criteria</li>
+            <li>Skills are tested with 20+ golden examples before deployment</li>
+            <li>Skills are versioned and stored in a registry (like packages)</li>
+            <li>Orchestrator selects skills per task type at runtime</li>
+            <li>Skills compose: skill A output feeds skill B input</li>
+            <li>Registry grows as the team learns what works</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">When to avoid</div>
+          <ul class="detail-list">
+            <li>Truly one-off tasks — skill overhead isn't justified</li>
+            <li>Novel problem types where the right skill shape isn't known yet</li>
+            <li>Teams without discipline to maintain a registry</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tradeoff-section">
+        <div class="detail-col-label" style="margin-bottom:14px">Tradeoff Profile</div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Reusability</span><div class="tbar-track"><div class="tbar-fill bar-skill" style="width:96%"></div></div><span class="tbar-val c-skill">96</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Initial investment</span><div class="tbar-track"><div class="tbar-fill bar-skill" style="width:68%"></div></div><span class="tbar-val c-skill">68</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Consistency</span><div class="tbar-track"><div class="tbar-fill bar-skill" style="width:88%"></div></div><span class="tbar-val c-skill">88</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Flexibility</span><div class="tbar-track"><div class="tbar-fill bar-skill" style="width:62%"></div></div><span class="tbar-val c-skill">62</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Speed to first output</span><div class="tbar-track"><div class="tbar-fill bar-skill" style="width:38%"></div></div><span class="tbar-val c-skill">38</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Long-term ROI</span><div class="tbar-track"><div class="tbar-fill bar-skill" style="width:94%"></div></div><span class="tbar-val c-skill">94</span></div>
+      </div>
+      <div class="detail-note" style="border-left-color:var(--c-skill)">
+        <strong>Think of it as:</strong> Building a standard library for AI. "Summarize audit log," "Generate migration script," "Write unit tests from interface" become tested, reusable skills your entire team can invoke confidently — not prompts that drift.
+      </div>
+    </div>
+  </div>
+
+  <div class="approach-detail" id="detail-agent">
+    <div class="detail-inner">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-col-label">When it excels</div>
+          <ul class="detail-list">
+            <li>Exploratory, open-ended problem spaces</li>
+            <li>Tasks requiring dynamic planning (complex debugging, research)</li>
+            <li>Multi-tool orchestration: search + code + test + write</li>
+            <li>Research-to-implementation pipelines</li>
+            <li>High ambiguity where the solution path isn't known upfront</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">Core mechanics</div>
+          <ul class="detail-list">
+            <li>Agent receives high-level goal, not step-by-step instructions</li>
+            <li>Plan: agent decomposes goal into a subtask graph</li>
+            <li>Execute: runs tools, writes code, reads output, adjusts</li>
+            <li>Reflect: observes results, revises plan, loops</li>
+            <li>Human reviews checkpoints or final output only</li>
+            <li>Tool access defines the agent's capability surface</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">When to avoid</div>
+          <ul class="detail-list">
+            <li>High-risk environments where errors compound silently</li>
+            <li>Tasks with formal acceptance criteria (use spec-driven instead)</li>
+            <li>When the team needs reproducible, auditable outputs</li>
+            <li>Without checkpoints: unchecked agents drift from intent</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tradeoff-section">
+        <div class="detail-col-label" style="margin-bottom:14px">Tradeoff Profile</div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Autonomy</span><div class="tbar-track"><div class="tbar-fill bar-agent" style="width:95%"></div></div><span class="tbar-val c-agent">95</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Predictability</span><div class="tbar-track"><div class="tbar-fill bar-agent" style="width:32%"></div></div><span class="tbar-val c-agent">32</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Speed to first output</span><div class="tbar-track"><div class="tbar-fill bar-agent" style="width:78%"></div></div><span class="tbar-val c-agent">78</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Debuggability</span><div class="tbar-track"><div class="tbar-fill bar-agent" style="width:28%"></div></div><span class="tbar-val c-agent">28</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Error propagation risk</span><div class="tbar-track"><div class="tbar-fill bar-agent" style="width:74%"></div></div><span class="tbar-val c-agent">74</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Exploration power</span><div class="tbar-track"><div class="tbar-fill bar-agent" style="width:97%"></div></div><span class="tbar-val c-agent">97</span></div>
+      </div>
+      <div class="detail-note" style="border-left-color:var(--c-agent)">
+        <strong>Risk flag for banking:</strong> In debt management systems, unchecked agentic runs can compound errors across modules silently. Always gate agents with human checkpoints before any write to production state. Agentic is powerful for exploration and debugging; it needs guardrails for production paths.
+      </div>
+    </div>
+  </div>
+
+  <div class="approach-detail" id="detail-big">
+    <div class="detail-inner">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-col-label">When it excels</div>
+          <ul class="detail-list">
+            <li>Greenfield projects where the full codebase fits in extended context</li>
+            <li>Total rewrites or large-scale architectural refactors</li>
+            <li>High coherence needs — all code must be visible simultaneously</li>
+            <li>Stable, infrequently changing requirements (months)</li>
+            <li>Teams with budget and infrastructure for long compute runs</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">Core mechanics</div>
+          <ul class="detail-list">
+            <li>Entire codebase + full requirements loaded into a 1M+ token context</li>
+            <li>Agent autonomously runs for hours or days without interruption</li>
+            <li>One run = one complete PR (full solution)</li>
+            <li>On change: agent re-runs and rebuilds entirely from scratch</li>
+            <li>No incremental state — each run starts fresh</li>
+            <li>Self-testing loop runs throughout the build</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">When to avoid</div>
+          <ul class="detail-list">
+            <li>Frequently changing requirements — rebuild cost is prohibitive</li>
+            <li>Codebases too large to fit even in extended context</li>
+            <li>Microservice architectures where modules are independent</li>
+            <li>When fast iteration cycles are needed</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tradeoff-section">
+        <div class="detail-col-label" style="margin-bottom:14px">Tradeoff Profile</div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Global coherence</span><div class="tbar-track"><div class="tbar-fill bar-big" style="width:96%"></div></div><span class="tbar-val c-big">96</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Compute cost</span><div class="tbar-track"><div class="tbar-fill bar-big" style="width:90%"></div></div><span class="tbar-val c-big">90</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Change cost</span><div class="tbar-track"><div class="tbar-fill bar-big" style="width:87%"></div></div><span class="tbar-val c-big">87</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Iteration speed</span><div class="tbar-track"><div class="tbar-fill bar-big" style="width:18%"></div></div><span class="tbar-val c-big">18</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Context ceiling risk</span><div class="tbar-track"><div class="tbar-fill bar-big" style="width:68%"></div></div><span class="tbar-val c-big">68</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">First-pass quality</span><div class="tbar-track"><div class="tbar-fill bar-big" style="width:88%"></div></div><span class="tbar-val c-big">88</span></div>
+      </div>
+      <div class="detail-note" style="border-left-color:var(--c-big)">
+        <strong>Strategic fit:</strong> Debt management systems evolve frequently — SBV circulars, policy changes, tenant customizations. Rebuild-from-scratch on every change is expensive. Reserve Big Context for isolated, stable modules (e.g., a new calculation engine that won't change for 12 months).
+      </div>
+    </div>
+  </div>
+
+  <div class="approach-detail" id="detail-std">
+    <div class="detail-inner">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-col-label">When it excels</div>
+          <ul class="detail-list">
+            <li>Large, evolving codebases where full context is impractical</li>
+            <li>Continuous delivery with frequent, incremental changes</li>
+            <li>Microservice or module-based architectures</li>
+            <li>Teams already using trunk-based dev / small PRs</li>
+            <li>Parallel development across independent modules</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">Core mechanics</div>
+          <ul class="detail-list">
+            <li>Agent receives a scoped context: one module, one feature</li>
+            <li>Agent completes focused task → single PR</li>
+            <li>On change: planner identifies which prior passes need extension</li>
+            <li>Orchestrator manages context handoff between passes</li>
+            <li>State preserved via structured summaries, RAG, or memory modules</li>
+            <li>Independent tasks can run in parallel agent workers</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">When to avoid</div>
+          <ul class="detail-list">
+            <li>Tasks with deep cross-cutting concerns needing full codebase view</li>
+            <li>When cross-module coherence is the primary challenge</li>
+            <li>Without orchestration infrastructure to manage handoffs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tradeoff-section">
+        <div class="detail-col-label" style="margin-bottom:14px">Tradeoff Profile</div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Scalability</span><div class="tbar-track"><div class="tbar-fill bar-std" style="width:92%"></div></div><span class="tbar-val c-std">92</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Iteration speed</span><div class="tbar-track"><div class="tbar-fill bar-std" style="width:80%"></div></div><span class="tbar-val c-std">80</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Global coherence</span><div class="tbar-track"><div class="tbar-fill bar-std" style="width:44%"></div></div><span class="tbar-val c-std">44</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Coordination overhead</span><div class="tbar-track"><div class="tbar-fill bar-std" style="width:58%"></div></div><span class="tbar-val c-std">58</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Cost efficiency</span><div class="tbar-track"><div class="tbar-fill bar-std" style="width:78%"></div></div><span class="tbar-val c-std">78</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Parallelizability</span><div class="tbar-track"><div class="tbar-fill bar-std" style="width:88%"></div></div><span class="tbar-val c-std">88</span></div>
+      </div>
+      <div class="detail-note" style="border-left-color:var(--c-std)">
+        <strong>Fits your stack directly:</strong> Multi-tenant debt system across AWS + Azure with a Core/Tenant team structure maps cleanly. Each tenant onboarding or module modification = one scoped agent run with isolated context. Changes in one tenant don't pollute another run.
+      </div>
+    </div>
+  </div>
+
+  <div class="approach-detail" id="detail-hybrid">
+    <div class="detail-inner">
+      <div class="detail-grid">
+        <div>
+          <div class="detail-col-label">When it excels</div>
+          <ul class="detail-list">
+            <li>Mature teams ready to build custom AI pipelines</li>
+            <li>Environments where different task types need different approaches</li>
+            <li>Compliance-heavy core + experimental/velocity-driven edges</li>
+            <li>Platform teams building internal developer AI tooling</li>
+            <li>Long-horizon strategy: want approach to evolve without full replanning</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">Core mechanics</div>
+          <ul class="detail-list">
+            <li>Orchestrator (human or AI) routes tasks to the best-fit approach</li>
+            <li>Spec-driven for compliance-critical modules</li>
+            <li>Agentic for exploratory or debugging work</li>
+            <li>Skills as shared primitives across all approaches</li>
+            <li>Standard context for incremental delivery, big context for rewrites</li>
+            <li>Feedback loops inform approach selection over time</li>
+          </ul>
+        </div>
+        <div>
+          <div class="detail-col-label">When to avoid</div>
+          <ul class="detail-list">
+            <li>Teams just starting — complexity is premature</li>
+            <li>Without strong orchestration discipline, it becomes chaos</li>
+            <li>When a single approach clearly dominates all your tasks</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tradeoff-section">
+        <div class="detail-col-label" style="margin-bottom:14px">Tradeoff Profile</div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Adaptability</span><div class="tbar-track"><div class="tbar-fill bar-hybrid" style="width:96%"></div></div><span class="tbar-val c-hybrid">96</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Orchestration complexity</span><div class="tbar-track"><div class="tbar-fill bar-hybrid" style="width:78%"></div></div><span class="tbar-val c-hybrid">78</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Team maturity needed</span><div class="tbar-track"><div class="tbar-fill bar-hybrid" style="width:75%"></div></div><span class="tbar-val c-hybrid">75</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Long-term ROI</span><div class="tbar-track"><div class="tbar-fill bar-hybrid" style="width:92%"></div></div><span class="tbar-val c-hybrid">92</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Speed to first output</span><div class="tbar-track"><div class="tbar-fill bar-hybrid" style="width:28%"></div></div><span class="tbar-val c-hybrid">28</span></div>
+        <div class="tradeoff-row"><span class="tradeoff-lbl">Coverage of task types</span><div class="tbar-track"><div class="tbar-fill bar-hybrid" style="width:98%"></div></div><span class="tbar-val c-hybrid">98</span></div>
+      </div>
+      <div class="detail-note" style="border-left-color:var(--c-hybrid)">
+        <strong>The endgame:</strong> Most sophisticated teams converge here over 12–18 months. Start simple (spec-driven or standard context), build skill libraries, then graduate to orchestrated hybrid as AI maturity compounds. The journey matters as much as the destination.
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: BUILDING BLOCKS
+══════════════════════════════════════════ -->
+<section id="s-blocks">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Section 03</div>
+    <div class="sec-title">16 Building Blocks</div>
+    <div class="sec-desc">The atomic components all approaches share and recombine. Mastering these primitives is more durable than mastering any single approach.</div>
+  </div>
+  <div class="blocks-page">
+
+    <div class="blocks-section-title">Context Management</div>
+    <div class="blocks-grid">
+      <div class="block-card">
+        <div class="block-icon">⬜</div>
+        <div class="block-name">Context Window</div>
+        <div class="block-desc">The working memory of an AI agent. Standard (~200k tokens) or extended (1M+). Determines how much the agent can "see" at once — the single biggest architectural lever.</div>
+        <div class="block-used">All approaches</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🔍</div>
+        <div class="block-name">RAG / Vector Store</div>
+        <div class="block-desc">Retrieve relevant chunks from a large corpus into a smaller context. Enables "infinite" knowledge access without infinite context cost. Critical for large codebases.</div>
+        <div class="block-used">Std context · Agentic · Hybrid</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📋</div>
+        <div class="block-name">Memory / Scratchpad</div>
+        <div class="block-desc">Structured state that persists across agent steps or sessions. Enables multi-pass work without re-reading source material. Ranges from key-value to graph memory.</div>
+        <div class="block-used">Agentic · Std context · Hybrid</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📁</div>
+        <div class="block-name">Codebase Loader</div>
+        <div class="block-desc">Mechanism to load partial or full codebases into context — file selection heuristics, dependency graph traversal, chunking strategies, and relevance scoring.</div>
+        <div class="block-used">Big context · Std context</div>
+      </div>
+    </div>
+
+    <div class="blocks-section-title">Planning & Execution</div>
+    <div class="blocks-grid">
+      <div class="block-card">
+        <div class="block-icon">🌳</div>
+        <div class="block-name">Task Decomposer</div>
+        <div class="block-desc">Breaks high-level goals into executable subtasks with dependencies. The core planning primitive. Can be rule-based (fast, predictable) or AI-generated (flexible, expensive).</div>
+        <div class="block-used">Agentic · Std context · Hybrid</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🔀</div>
+        <div class="block-name">PR / Diff Generator</div>
+        <div class="block-desc">Produces a concrete, reviewable change set against a target branch. The primary unit of delivery. Scope ranges from one file to hundreds — set intentionally, not by default.</div>
+        <div class="block-used">All approaches</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🔄</div>
+        <div class="block-name">Self-Testing Loop</div>
+        <div class="block-desc">Agent runs tests, observes failures, and retries without human intervention. Dramatically improves output quality. The single highest-leverage mechanical improvement to any workflow.</div>
+        <div class="block-used">Agentic · Big context · Std context</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🪞</div>
+        <div class="block-name">Reflection / Critique</div>
+        <div class="block-desc">A second AI pass that reviews the first output for errors, inconsistencies, or spec violations. Can be a different model, a different prompt framing, or a structured checklist.</div>
+        <div class="block-used">Agentic · Spec-driven · Hybrid</div>
+      </div>
+    </div>
+
+    <div class="blocks-section-title">Human–AI Interface</div>
+    <div class="blocks-grid">
+      <div class="block-card">
+        <div class="block-icon">🛑</div>
+        <div class="block-name">Human Checkpoint</div>
+        <div class="block-desc">Defined pause point where a human reviews, approves, or corrects before the agent continues. The primary risk control mechanism. Define checkpoint placement before designing the workflow.</div>
+        <div class="block-used">All approaches (critical in high-risk)</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📄</div>
+        <div class="block-name">Formal Specification</div>
+        <div class="block-desc">OpenAPI, PRD, ADR, data contract, or schema that serves as ground truth. AI generates from this; humans write and maintain it. In regulated environments, the spec is also a compliance artifact.</div>
+        <div class="block-used">Spec-driven · Hybrid</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">🧩</div>
+        <div class="block-name">Skill / Tool Registry</div>
+        <div class="block-desc">Library of tested, versioned AI competencies. Agents select skills by task type. Grows as the team learns what works. The institutional memory of your AI practice.</div>
+        <div class="block-used">Skill-driven · Agentic · Hybrid</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📡</div>
+        <div class="block-name">Feedback Signal</div>
+        <div class="block-desc">Structured input from humans or automated tests that shapes subsequent agent behavior. The compounding flywheel of any AI workflow. Without it, quality plateaus immediately.</div>
+        <div class="block-used">All approaches</div>
+      </div>
+    </div>
+
+    <div class="blocks-section-title">Infrastructure</div>
+    <div class="blocks-grid">
+      <div class="block-card">
+        <div class="block-icon">🧭</div>
+        <div class="block-name">Orchestrator</div>
+        <div class="block-desc">Routes tasks to the right agent, approach, or skill. Can be a human process, a rules engine, or an AI planner. The cognitive center of hybrid systems — its quality determines system quality.</div>
+        <div class="block-used">Agentic · Hybrid</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">⏱</div>
+        <div class="block-name">Async Runner</div>
+        <div class="block-desc">Long-running compute environment for autonomous agent work. Think CI/CD extended to hours or days. Requires checkpointing, observability, and graceful failure handling.</div>
+        <div class="block-used">Big context · Std context · Agentic</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📜</div>
+        <div class="block-name">Audit / Trace Log</div>
+        <div class="block-desc">Every AI decision, tool call, and output captured in structured form for replay, debugging, and compliance. Non-negotiable in regulated environments. Design the log schema before the workflow.</div>
+        <div class="block-used">All approaches (non-optional in banking)</div>
+      </div>
+      <div class="block-card">
+        <div class="block-icon">📊</div>
+        <div class="block-name">Eval Framework</div>
+        <div class="block-desc">Automated or human-scored suite that measures AI output quality over time. Without evals, you can't know if workflows are improving or degrading after model updates or requirement drift.</div>
+        <div class="block-used">All approaches</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: PRINCIPLES
+══════════════════════════════════════════ -->
+<section id="s-principles">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Section 04</div>
+    <div class="sec-title">Eight Principles</div>
+    <div class="sec-desc">Durable rules that hold across all approaches, team sizes, and domains. These survive model changes, tooling shifts, and org reorgs.</div>
+  </div>
+  <div class="principles-page">
+
+    <div class="principle-item">
+      <div class="principle-num">01</div>
+      <div class="principle-body">
+        <h3>Human in the Loop at Risk Boundaries</h3>
+        <p>Every AI workflow has points where errors compound — before irreversible actions, before production deployment, before touching shared financial state. Mandate human checkpoints at these exact boundaries regardless of how autonomous the rest of the workflow is. The question isn't whether to checkpoint, but where.</p>
+        <div class="principle-guideline">Corollary: define your risk boundaries before designing the workflow, not after. In banking, the boundaries are: any write to account state, any compliance-affecting output, any change to a regulatory calculation.</div>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <div class="principle-num">02</div>
+      <div class="principle-body">
+        <h3>Match Context Scope to Task Cohesion</h3>
+        <p>Use the smallest context that preserves the coherence the task actually needs. A bug fix needs one module, not the full codebase. A cross-cutting refactor may need more. Over-loading context wastes compute and dilutes attention; under-loading breaks coherence and produces subtly wrong outputs.</p>
+        <div class="principle-guideline">Rule of thumb: if the AI can't see the interfaces it's implementing against, the context is too small. If it takes more than 5 minutes to construct the context, it's probably too large.</div>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <div class="principle-num">03</div>
+      <div class="principle-body">
+        <h3>Specs Before Prompts</h3>
+        <p>A well-written specification is the most powerful AI prompt you can write. Invest in formalizing requirements — OpenAPI, ADRs, data contracts — before optimizing prompts. Specs are durable and serve as eval criteria. Prompts are ephemeral and drift as models change.</p>
+        <div class="principle-guideline">In banking: specs double as compliance artifacts. Writing a good OpenAPI spec for a debt classification API produces both the AI's instructions and your audit evidence simultaneously.</div>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <div class="principle-num">04</div>
+      <div class="principle-body">
+        <h3>Build Skills Before Agents</h3>
+        <p>Agentic autonomy amplifies whatever competencies the agent has. If the underlying skills are unreliable, an autonomous agent will fail faster and more expensively than a manual process. Validate each skill in isolation before composing them into agent pipelines. A pipeline is only as reliable as its weakest skill.</p>
+        <div class="principle-guideline">Practical standard: run each skill with 20 representative test cases. If pass rate &lt;85%, fix the skill before connecting it to other skills or agent loops.</div>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <div class="principle-num">05</div>
+      <div class="principle-body">
+        <h3>Evals Are the Product</h3>
+        <p>Without a way to measure output quality, you're guessing. Build eval suites before or alongside every AI workflow. Evals tell you when a workflow degrades after a model update, when it's safe to reduce human oversight, and which approach to choose for a given task type. The eval suite is your most valuable artifact.</p>
+        <div class="principle-guideline">Minimum viable eval: 10 golden examples with expected outputs + one automated scorer. Ship evals with every new workflow, not as an afterthought.</div>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <div class="principle-num">06</div>
+      <div class="principle-body">
+        <h3>Log Everything, Replay Anything</h3>
+        <p>Every AI action — inputs, tool calls, intermediate outputs, final output — should be captured in a structured trace. This enables debugging when autonomous runs go wrong, compliance audits when regulators ask, and root-cause analysis when outputs drift unexpectedly. Especially critical when agents run unsupervised for days.</p>
+        <div class="principle-guideline">In regulated systems: trace logs are non-optional. They are your audit trail. Design the log schema before the workflow schema — the log is primary, the workflow is secondary.</div>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <div class="principle-num">07</div>
+      <div class="principle-body">
+        <h3>Start Narrow, Expand Deliberately</h3>
+        <p>Don't design the full agentic pipeline on day one. Pick one high-value, lower-risk task, instrument it with evals and logs, learn from it for 4–6 weeks, then expand. The shape of your AI workflow should evolve with your empirical understanding of where AI excels and where it needs guardrails in your specific domain.</p>
+        <div class="principle-guideline">Good first targets: documentation generation, test suite writing, migration script generation, audit log summarization. High value, low blast radius if wrong.</div>
+      </div>
+    </div>
+
+    <div class="principle-item">
+      <div class="principle-num">08</div>
+      <div class="principle-body">
+        <h3>Treat Approach Selection as Architecture</h3>
+        <p>Choosing between spec-driven, agentic, or context-driven is an architectural decision — not a prompt engineering decision. It determines cost structure, risk profile, team workflow, and system boundaries. Make the choice deliberately and document the rationale. Revisit it annually as models and tooling evolve.</p>
+        <div class="principle-guideline">Anti-pattern: picking an approach because it's trendy or because another team uses it. The decision must follow from your specific task's coherence requirements and risk profile.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: DECISION FRAMEWORK
+══════════════════════════════════════════ -->
+<section id="s-framework">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Section 05</div>
+    <div class="sec-title">Decision Framework</div>
+    <div class="sec-desc">Answer five questions. The framework triangulates the best approach for your specific task and context.</div>
+  </div>
+  <div class="framework-page">
+    <div class="framework-intro">
+      The five questions below are ordered by impact — requirement clarity is the single biggest predictor of approach fit. Answer all five for the most precise recommendation. The framework handles mixed signals by reasoning across the full answer profile.
+    </div>
+
+    <div class="questions-col">
+
+      <div class="q-card" id="qcard-1">
+        <div class="q-label">Question 01 of 05 — Most decisive</div>
+        <div class="q-text">How well-defined are the requirements?</div>
+        <div class="q-sub">This is the strongest single predictor of which approach will succeed.</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="answer(1,'formal',this)">Formal spec exists (OpenAPI, PRD, data contract)</span>
+          <span class="q-opt" onclick="answer(1,'partial',this)">Partially defined, will evolve</span>
+          <span class="q-opt" onclick="answer(1,'open',this)">Open-ended / exploratory</span>
+        </div>
+      </div>
+
+      <div class="q-card" id="qcard-2">
+        <div class="q-label">Question 02 of 05</div>
+        <div class="q-text">How large is the codebase involved?</div>
+        <div class="q-sub">Determines whether a single context window can hold the relevant code.</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="answer(2,'small',this)">Small (&lt;50k tokens — fits comfortably)</span>
+          <span class="q-opt" onclick="answer(2,'medium',this)">Medium (50k–500k — needs selective loading)</span>
+          <span class="q-opt" onclick="answer(2,'large',this)">Large (&gt;500k — requires RAG or tight scope)</span>
+        </div>
+      </div>
+
+      <div class="q-card" id="qcard-3">
+        <div class="q-label">Question 03 of 05</div>
+        <div class="q-text">How frequently do requirements change?</div>
+        <div class="q-sub">Determines the cost of re-running agents or regenerating from scratch.</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="answer(3,'stable',this)">Stable — months between changes</span>
+          <span class="q-opt" onclick="answer(3,'moderate',this)">Moderate — weekly changes expected</span>
+          <span class="q-opt" onclick="answer(3,'frequent',this)">Frequent — daily or continuous changes</span>
+        </div>
+      </div>
+
+      <div class="q-card" id="qcard-4">
+        <div class="q-label">Question 04 of 05</div>
+        <div class="q-text">What is the risk profile of errors?</div>
+        <div class="q-sub">High-risk domains need more human oversight engineered into the workflow.</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="answer(4,'high',this)">High — financial data, compliance, production</span>
+          <span class="q-opt" onclick="answer(4,'medium',this)">Medium — internal tools, staging environments</span>
+          <span class="q-opt" onclick="answer(4,'low',this)">Low — docs, scripts, non-critical automation</span>
+        </div>
+      </div>
+
+      <div class="q-card" id="qcard-5">
+        <div class="q-label">Question 05 of 05</div>
+        <div class="q-text">Does this task recur across projects?</div>
+        <div class="q-sub">Recurring tasks justify the upfront investment of building a reusable, tested skill.</div>
+        <div class="q-options">
+          <span class="q-opt" onclick="answer(5,'yes',this)">Yes — similar tasks appear across projects or teams</span>
+          <span class="q-opt" onclick="answer(5,'no',this)">No — one-off or rarely recurring</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="rec-panel" class="rec-panel">
+      <div class="rec-label" id="rec-label"></div>
+      <div class="rec-title" id="rec-title"></div>
+      <div class="rec-desc" id="rec-desc"></div>
+      <div class="rec-steps" id="rec-steps"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION: WORKFLOWS
+══════════════════════════════════════════ -->
+<section id="s-workflows">
+  <div class="sec-header">
+    <div class="sec-eyebrow">Section 06</div>
+    <div class="sec-title">Recommended Workflows</div>
+    <div class="sec-desc">Five end-to-end workflows, each combining multiple approaches and building blocks. Steps show phases, tools used, and type annotations.</div>
+  </div>
+
+  <div class="workflows-page">
+    <div class="wf-picker">
+
+      <div class="wf-tab active" id="wftab-onboard" onclick="switchWf('onboard')">
+        <div class="wf-tab-num">01</div>
+        <div class="wf-tab-name">Tenant Onboarding</div>
+        <div class="wf-badge-row">
+          <span class="wf-badge c-std border-std" style="border-color:rgba(244,114,182,.3)">Std Context</span>
+          <span class="wf-badge c-spec border-spec" style="border-color:rgba(74,158,255,.3)">Spec</span>
+        </div>
+      </div>
+
+      <div class="wf-tab" id="wftab-regulatory" onclick="switchWf('regulatory')">
+        <div class="wf-tab-num">02</div>
+        <div class="wf-tab-name">Regulatory Change</div>
+        <div class="wf-badge-row">
+          <span class="wf-badge c-spec border-spec" style="border-color:rgba(74,158,255,.3)">Spec</span>
+          <span class="wf-badge c-std border-std" style="border-color:rgba(244,114,182,.3)">Std Context</span>
+        </div>
+      </div>
+
+      <div class="wf-tab" id="wftab-feature" onclick="switchWf('feature')">
+        <div class="wf-tab-num">03</div>
+        <div class="wf-tab-name">New Feature Build</div>
+        <div class="wf-badge-row">
+          <span class="wf-badge c-agent border-agent" style="border-color:rgba(167,139,250,.3)">Agentic</span>
+          <span class="wf-badge c-std border-std" style="border-color:rgba(244,114,182,.3)">Std Context</span>
+        </div>
+      </div>
+
+      <div class="wf-tab" id="wftab-debug" onclick="switchWf('debug')">
+        <div class="wf-tab-num">04</div>
+        <div class="wf-tab-name">Debug &amp; Incident</div>
+        <div class="wf-badge-row">
+          <span class="wf-badge c-agent border-agent" style="border-color:rgba(167,139,250,.3)">Agentic</span>
+          <span class="wf-badge c-skill border-skill" style="border-color:rgba(82,214,138,.3)">Skill</span>
+        </div>
+      </div>
+
+      <div class="wf-tab" id="wftab-greenfield" onclick="switchWf('greenfield')">
+        <div class="wf-tab-num">05</div>
+        <div class="wf-tab-name">Greenfield Module</div>
+        <div class="wf-badge-row">
+          <span class="wf-badge c-big border-big" style="border-color:rgba(251,146,60,.3)">Big Context</span>
+          <span class="wf-badge c-spec border-spec" style="border-color:rgba(74,158,255,.3)">Spec</span>
+        </div>
+      </div>
+
+    </div><!-- /wf-picker -->
+
+    <!-- WF 01: ONBOARDING -->
+    <div class="wf-body active" id="wfbody-onboard">
+      <div class="wf-header">
+        <div class="wf-title">Debt System Tenant Onboarding</div>
+        <div class="wf-meta">Risk: High <span>·</span> Duration: Hours–days per tenant <span>·</span> Team: Core + Tenant</div>
+      </div>
+      <div class="wf-steps">
+
+        <div class="step-row">
+          <div class="step-spine">
+            <div class="step-dot-outer c-spec" style="border-color:var(--c-spec)"></div>
+            <div class="step-line-seg"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-meta">
+              <span class="step-phase">Step 01</span>
+              <span class="step-type-badge c-spec border-spec bg-spec">Spec-Driven</span>
+            </div>
+            <div class="step-title">Generate tenant configuration spec</div>
+            <div class="step-desc">Human provides tenant parameters: name, jurisdiction, debt categories, SLA tiers. AI generates a validated tenant config schema from the master spec template, ensuring consistency across all tenants.</div>
+            <div class="step-tools"><span class="step-tool">Spec template</span><span class="step-tool">Schema validator</span><span class="step-tool">Human review</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine">
+            <div class="step-dot-outer c-skill" style="border-color:var(--c-skill)"></div>
+            <div class="step-line-seg"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-meta">
+              <span class="step-phase">Step 02</span>
+              <span class="step-type-badge c-skill border-skill bg-skill">Skill-Driven</span>
+            </div>
+            <div class="step-title">Run IaC provisioning skill</div>
+            <div class="step-desc">A pre-tested IaC skill reads the tenant config and generates Terraform/CloudFormation for AWS + Azure resources. This is a versioned skill — not a raw prompt — so output consistency is guaranteed across tenants.</div>
+            <div class="step-tools"><span class="step-tool">IaC skill v2.3</span><span class="step-tool">Cloud config</span><span class="step-tool">Dry-run validation</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine">
+            <div class="step-dot-outer c-std" style="border-color:var(--c-std)"></div>
+            <div class="step-line-seg"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-meta">
+              <span class="step-phase">Step 03</span>
+              <span class="step-type-badge c-std border-std bg-std">Standard Context</span>
+            </div>
+            <div class="step-title">Scope-limited agent: adapt core modules</div>
+            <div class="step-desc">Agent receives context scoped to tenant-specific modules only (debt classification rules, payment schedule logic, notification templates). Produces a single PR with tenant customizations — core banking logic is never in scope and cannot be modified.</div>
+            <div class="step-tools"><span class="step-tool">Scoped context</span><span class="step-tool">Module diff</span><span class="step-tool">Unit test gen</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine">
+            <div class="step-dot-outer" style="border-color:var(--text3)"></div>
+            <div class="step-line-seg"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-meta">
+              <span class="step-phase">Step 04</span>
+              <span class="step-type-badge" style="color:var(--text3);border-color:var(--line2)">Human Gate</span>
+            </div>
+            <div class="step-title">Compliance + security review</div>
+            <div class="step-desc">Human reviews generated IaC and code PR against the SBV/internal compliance checklist. Every change must trace to the tenant config spec. Approves or flags for correction before any deployment proceeds.</div>
+            <div class="step-tools"><span class="step-tool">Compliance checklist</span><span class="step-tool">Security scan</span><span class="step-tool">Human sign-off</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine">
+            <div class="step-dot-outer c-skill" style="border-color:var(--c-skill)"></div>
+            <div class="step-line-seg"></div>
+          </div>
+          <div class="step-content">
+            <div class="step-meta">
+              <span class="step-phase">Step 05</span>
+              <span class="step-type-badge c-skill border-skill bg-skill">Skill-Driven</span>
+            </div>
+            <div class="step-title">Auto-generate tenant runbook &amp; docs</div>
+            <div class="step-desc">Documentation skill reads the tenant config spec and generates: onboarding runbook, API reference, operational playbook, and integration guide. What would take 3–4 hours of manual writing takes minutes.</div>
+            <div class="step-tools"><span class="step-tool">Docs skill</span><span class="step-tool">Spec reader</span><span class="step-tool">Output: .md + .pdf</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /wf-onboard -->
+
+    <!-- WF 02: REGULATORY -->
+    <div class="wf-body" id="wfbody-regulatory">
+      <div class="wf-header">
+        <div class="wf-title">Regulatory Change Implementation</div>
+        <div class="wf-meta">Risk: Very High <span>·</span> Duration: Days <span>·</span> Compliance-critical</div>
+      </div>
+      <div class="wf-steps">
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer" style="border-color:var(--text3)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 01</span><span class="step-type-badge" style="color:var(--text3);border-color:var(--line2)">Human + AI Assist</span></div>
+            <div class="step-title">Translate circular into delta spec</div>
+            <div class="step-desc">Human (AI-assisted) reads the SBV circular and converts the regulatory delta into a structured diff spec: which validation rules changed, which fields are new, which calculations are modified. The delta spec is the master input for all downstream steps.</div>
+            <div class="step-tools"><span class="step-tool">Regulation parser skill</span><span class="step-tool">Delta spec template</span><span class="step-tool">Human validation</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-spec" style="border-color:var(--c-spec)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 02</span><span class="step-type-badge c-spec border-spec bg-spec">Spec-Driven</span></div>
+            <div class="step-title">AI maps delta spec to impacted modules</div>
+            <div class="step-desc">AI reads delta spec against master system spec and outputs a precise impact map: which modules need changes, which APIs break, which tests must be updated. Human validates the impact map before any code generation begins.</div>
+            <div class="step-tools"><span class="step-tool">Impact analysis skill</span><span class="step-tool">System spec</span><span class="step-tool">Impact report</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-std" style="border-color:var(--c-std)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 03</span><span class="step-type-badge c-std border-std bg-std">Standard Context ×N</span></div>
+            <div class="step-title">Parallel scoped agent runs per impacted module</div>
+            <div class="step-desc">One agent run per impacted module, each with isolated scoped context: module code + delta spec + existing tests. Runs execute in parallel. Each produces a focused PR. No cross-module contamination. Merge order is declared in the impact map.</div>
+            <div class="step-tools"><span class="step-tool">Parallel workers</span><span class="step-tool">Scoped contexts</span><span class="step-tool">Self-test loop</span><span class="step-tool">1 PR/module</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-spec" style="border-color:var(--c-spec)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 04</span><span class="step-type-badge c-spec border-spec bg-spec">Spec-Driven</span></div>
+            <div class="step-title">Regression suite generation from delta spec</div>
+            <div class="step-desc">AI generates a full regression test suite from delta spec assertions. Every changed rule produces a corresponding test. Tests validate that all impacted modules correctly implement the new regulatory requirements. Becomes part of the permanent test suite.</div>
+            <div class="step-tools"><span class="step-tool">Test gen skill</span><span class="step-tool">Spec assertions</span><span class="step-tool">Regression runner</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer" style="border-color:var(--text3)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 05</span><span class="step-type-badge" style="color:var(--text3);border-color:var(--line2)">Human Gate</span></div>
+            <div class="step-title">Legal + compliance sign-off before merge</div>
+            <div class="step-desc">All PRs reviewed by compliance officer. Each change traced to its delta spec entry. Trace log provides SBV audit evidence. No merge proceeds without sign-off. Post-merge: auto-generate compliance change report for regulatory filing.</div>
+            <div class="step-tools"><span class="step-tool">Audit trace log</span><span class="step-tool">Human sign-off</span><span class="step-tool">Compliance report skill</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WF 03: FEATURE -->
+    <div class="wf-body" id="wfbody-feature">
+      <div class="wf-header">
+        <div class="wf-title">New Feature Build</div>
+        <div class="wf-meta">Risk: Medium <span>·</span> Duration: Hours <span>·</span> Parallel execution</div>
+      </div>
+      <div class="wf-steps">
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-agent" style="border-color:var(--c-agent)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 01</span><span class="step-type-badge c-agent border-agent bg-agent">Agentic</span></div>
+            <div class="step-title">Agent decomposes feature into task graph</div>
+            <div class="step-desc">Given a feature brief, the agent plans: data model changes, API layer, business logic, test coverage, documentation. Produces a task graph with dependencies and suggested parallel execution lanes. Human reviews and modifies the plan before execution.</div>
+            <div class="step-tools"><span class="step-tool">Task decomposer</span><span class="step-tool">Dependency graph</span><span class="step-tool">Human plan review</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-std" style="border-color:var(--c-std)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 02</span><span class="step-type-badge c-std border-std bg-std">Standard Context — parallel</span></div>
+            <div class="step-title">Parallel agent runs per independent task</div>
+            <div class="step-desc">Independent tasks (data model + migration, API endpoints, business logic, test suite, docs) execute in parallel with isolated, scoped contexts. Each produces a PR. Merge order from the task graph is enforced by the orchestrator.</div>
+            <div class="step-tools"><span class="step-tool">Parallel agents</span><span class="step-tool">Scoped context/task</span><span class="step-tool">Self-test loops</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-agent" style="border-color:var(--c-agent)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 03</span><span class="step-type-badge c-agent border-agent bg-agent">Agentic</span></div>
+            <div class="step-title">Integration agent resolves cross-task conflicts</div>
+            <div class="step-desc">After parallel PRs are ready, an integration agent reviews all changes together, resolves interface mismatches and API contract gaps, and ensures parts compose correctly. Produces a final integration PR with a self-generated summary of every architectural decision made.</div>
+            <div class="step-tools"><span class="step-tool">Reflection pass</span><span class="step-tool">Conflict resolver</span><span class="step-tool">Integration PR</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer" style="border-color:var(--text3)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 04</span><span class="step-type-badge" style="color:var(--text3);border-color:var(--line2)">Human Gate</span></div>
+            <div class="step-title">Code review + merge decision</div>
+            <div class="step-desc">Human reviews the integration PR with full AI-generated context attached: what changed, why, tests passing, performance implications. Review time is dramatically reduced compared to reviewing blind. Approves, requests changes, or escalates.</div>
+            <div class="step-tools"><span class="step-tool">Human checkpoint</span><span class="step-tool">AI-generated summary</span><span class="step-tool">CI/CD gate</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WF 04: DEBUG -->
+    <div class="wf-body" id="wfbody-debug">
+      <div class="wf-header">
+        <div class="wf-title">Debug &amp; Incident Response</div>
+        <div class="wf-meta">Risk: High (speed matters) <span>·</span> Duration: Minutes–hours <span>·</span> Time-sensitive</div>
+      </div>
+      <div class="wf-steps">
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-skill" style="border-color:var(--c-skill)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 01</span><span class="step-type-badge c-skill border-skill bg-skill">Skill-Driven</span></div>
+            <div class="step-title">Log triage skill surfaces root cause candidates</div>
+            <div class="step-desc">AI triage skill ingests error logs, stack traces, recent deployment diffs, and monitoring anomalies. Outputs top 3–5 root cause hypotheses ranked by probability with supporting evidence for each. Delivers in under 60 seconds.</div>
+            <div class="step-tools"><span class="step-tool">Log triage skill</span><span class="step-tool">Structured output</span><span class="step-tool">Ranked hypotheses</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-agent" style="border-color:var(--c-agent)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 02</span><span class="step-type-badge c-agent border-agent bg-agent">Agentic</span></div>
+            <div class="step-title">Agent investigates top hypothesis</div>
+            <div class="step-desc">Agent reads relevant code + logs, formulates a test to prove or disprove the hypothesis, executes it, observes the result, and iterates through remaining hypotheses if needed. Produces a confirmed root cause with a full evidence chain.</div>
+            <div class="step-tools"><span class="step-tool">Code search</span><span class="step-tool">Self-testing loop</span><span class="step-tool">Hypothesis tracker</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-std" style="border-color:var(--c-std)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 03</span><span class="step-type-badge c-std border-std bg-std">Standard Context</span></div>
+            <div class="step-title">Scoped fix agent generates minimal patch</div>
+            <div class="step-desc">Once root cause is confirmed, a scoped agent generates the minimal fix with context limited to the affected module only. No risk of touching unrelated code. Produces a patch PR with regression tests that would have caught the bug.</div>
+            <div class="step-tools"><span class="step-tool">Scoped context</span><span class="step-tool">Minimal patch</span><span class="step-tool">Regression tests</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer" style="border-color:var(--text3)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 04</span><span class="step-type-badge" style="color:var(--text3);border-color:var(--line2)">Human Gate</span></div>
+            <div class="step-title">Expedited review + deploy + postmortem</div>
+            <div class="step-desc">Human reviews AI-generated root cause analysis and patch. Expedited review: AI provides full context, so the human validates rather than investigates from scratch. After deploy, AI generates a structured incident postmortem draft for the team.</div>
+            <div class="step-tools"><span class="step-tool">Human gate</span><span class="step-tool">Expedited deploy</span><span class="step-tool">Postmortem skill</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WF 05: GREENFIELD -->
+    <div class="wf-body" id="wfbody-greenfield">
+      <div class="wf-header">
+        <div class="wf-title">Greenfield Module Build</div>
+        <div class="wf-meta">Risk: Medium <span>·</span> Duration: Days <span>·</span> Stable requirements required</div>
+      </div>
+      <div class="wf-steps">
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-spec" style="border-color:var(--c-spec)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 01</span><span class="step-type-badge c-spec border-spec bg-spec">Spec-Driven</span></div>
+            <div class="step-title">Write comprehensive module spec</div>
+            <div class="step-desc">Human writes the full module spec before any code is generated: data model, API contracts, business rules, error handling, performance SLAs, security requirements, integration points. This is the AI's complete and final contract — invest accordingly.</div>
+            <div class="step-tools"><span class="step-tool">OpenAPI / ADR</span><span class="step-tool">Data contracts</span><span class="step-tool">Spec review gate</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-big" style="border-color:var(--c-big)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 02</span><span class="step-type-badge c-big border-big bg-big">Big Context</span></div>
+            <div class="step-title">Full-context agent builds entire module</div>
+            <div class="step-desc">Agent loads: full module spec + existing system interface contracts + team conventions + example modules. Runs autonomously for hours or days, building the complete module with consistent internal coherence. One comprehensive PR on completion. Self-testing loop runs throughout.</div>
+            <div class="step-tools"><span class="step-tool">Full context load</span><span class="step-tool">Self-test loop</span><span class="step-tool">Async runner</span><span class="step-tool">One big PR</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-spec" style="border-color:var(--c-spec)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 03</span><span class="step-type-badge c-spec border-spec bg-spec">Spec-Driven</span></div>
+            <div class="step-title">Automated spec compliance check</div>
+            <div class="step-desc">AI validates every aspect of the generated module against the original spec: every API endpoint, every business rule, every error case, every SLA claim. Generates a coverage report showing what's implemented, what's missing, and what diverges from spec.</div>
+            <div class="step-tools"><span class="step-tool">Spec validator</span><span class="step-tool">Coverage report</span><span class="step-tool">Gap analysis</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer" style="border-color:var(--text3)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 04</span><span class="step-type-badge" style="color:var(--text3);border-color:var(--line2)">Human Gate</span></div>
+            <div class="step-title">Architecture + security review</div>
+            <div class="step-desc">Senior engineer reviews the PR with the AI-generated compliance report and architecture decision log. Every design choice made during the autonomous build is documented. Human validates architecture, security posture, and performance characteristics before merge.</div>
+            <div class="step-tools"><span class="step-tool">Human review</span><span class="step-tool">Architecture doc</span><span class="step-tool">Security scan</span></div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-spine"><div class="step-dot-outer c-skill" style="border-color:var(--c-skill)"></div><div class="step-line-seg"></div></div>
+          <div class="step-content">
+            <div class="step-meta"><span class="step-phase">Step 05</span><span class="step-type-badge c-skill border-skill bg-skill">Skill-Driven</span></div>
+            <div class="step-title">Extract reusable patterns into skill library</div>
+            <div class="step-desc">After a successful greenfield build, review what patterns emerged: module structure conventions, test patterns, API naming, error handling idioms. Capture these as versioned skills for the next module. Each greenfield build should compound the team's AI capability.</div>
+            <div class="step-tools"><span class="step-tool">Pattern extraction</span><span class="step-tool">Skill registry update</span><span class="step-tool">Team retrospective</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+</div><!-- /shell -->
+
+<script>
+// ── NAVIGATION ──
+function show(id) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+}
+
+// ── APPROACH CARDS ──
+const APPROACH_COLORS = {
+  spec: 'var(--c-spec)', skill: 'var(--c-skill)', agent: 'var(--c-agent)',
+  big: 'var(--c-big)', std: 'var(--c-std)', hybrid: 'var(--c-hybrid)'
+};
+let openCard = null;
+
+function toggleCard(id) {
+  const detail = document.getElementById('detail-' + id);
+  const card   = document.getElementById('card-' + id);
+  const hint   = document.getElementById('hint-' + id);
+
+  if (openCard === id) {
+    detail.classList.remove('visible');
+    card.classList.remove('expanded');
+    hint.textContent = '▾ Expand';
+    openCard = null;
+    return;
+  }
+  // close previously open
+  if (openCard) {
+    document.getElementById('detail-' + openCard).classList.remove('visible');
+    document.getElementById('card-' + openCard).classList.remove('expanded');
+    document.getElementById('hint-' + openCard).textContent = '▾ Expand';
+  }
+  detail.classList.add('visible');
+  card.classList.add('expanded');
+  hint.textContent = '▴ Collapse';
+  openCard = id;
+  setTimeout(() => detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+// top-border color for cards via ::before workaround
+document.querySelectorAll('.approach-card').forEach(card => {
+  const id = card.id.replace('card-','');
+  const color = APPROACH_COLORS[id];
+  if (color) {
+    const style = document.createElement('style');
+    style.textContent = `#card-${id}::before { background: ${color}; }`;
+    document.head.appendChild(style);
+  }
+});
+
+// workflow tab bottom border
+const wfColors = { onboard: 'var(--c-std)', regulatory: 'var(--c-spec)', feature: 'var(--c-agent)', debug: 'var(--c-skill)', greenfield: 'var(--c-big)' };
+Object.entries(wfColors).forEach(([k,v]) => {
+  const style = document.createElement('style');
+  style.textContent = `#wftab-${k}.active::after { background: ${v}; }`;
+  document.head.appendChild(style);
+});
+
+// ── DECISION FRAMEWORK ──
+const answers = {};
+const configs = {
+  spec:   { color: 'var(--c-spec-dim)', border: 'rgba(74,158,255,.3)',   label: 'Recommended approach', title: 'Spec-Driven Development',       desc: 'Your formal spec and high risk profile are the ideal match. Let the spec serve as ground truth — AI generates from it, humans validate against it. Every output is traceable to a requirement, making compliance trivial. Invest heavily in the spec quality; it pays dividends in every downstream step.', steps: ['Finalize the formal spec before any code generation', 'Run AI generation strictly against spec assertions', 'Validate every output against spec — reject divergences', 'Use spec as eval criteria and compliance artifact simultaneously'] },
+  skill:  { color: 'var(--c-skill-dim)', border: 'rgba(82,214,138,.3)',  label: 'Recommended approach', title: 'Skill-Driven Development',      desc: 'Recurring tasks combined with frequent changes is the strongest signal for skill investment. Each skill is tested once and reused many times. Changes trigger targeted skill re-runs, not full rebuilds. Your skill registry will be one of the highest-value AI assets your team owns.', steps: ['Identify the 3–5 tasks that recur most across your projects', 'Build and test each as a versioned, independent skill', 'Compose skills into lightweight pipelines for complex tasks', 'Grow the registry deliberately — add one skill per sprint'] },
+  agent:  { color: 'var(--c-agent-dim)', border: 'rgba(167,139,250,.3)', label: 'Recommended approach', title: 'Agentic-Driven Development',    desc: 'Open-ended requirements with manageable risk are where agents produce the most value. Give the agent a clear goal (not implementation instructions), review its decomposition plan, then let it execute with defined checkpoints. The key is defining checkpoint placement before the run starts, not after.', steps: ['Define the goal with acceptance criteria, not a step-by-step plan', 'Review agent\'s task decomposition before execution begins', 'Gate every irreversible action behind a human checkpoint', 'Validate output against acceptance criteria, not implementation details'] },
+  big:    { color: 'var(--c-big-dim)',   border: 'rgba(251,146,60,.3)',   label: 'Recommended approach', title: 'Big Context-Driven Development', desc: 'Small codebase plus stable requirements is the combination that justifies the compute cost of a full-context run. A single comprehensive pass produces higher internal coherence than any incremental approach. The critical risk to manage is requirement changes — each one triggers a full rebuild.', steps: ['Load full codebase + complete requirements into context', 'Run agent autonomously (plan for hours to days)', 'Review a single comprehensive PR with full internal coherence', 'Establish a requirements freeze window to minimize rebuild triggers'] },
+  std:    { color: 'var(--c-std-dim)',   border: 'rgba(244,114,182,.3)',  label: 'Recommended approach', title: 'Standard Context-Driven Development', desc: 'Large codebase or frequent changes — or both — are the clearest signals for scoped, incremental agent runs. Each run produces a focused, reviewable PR. Changes trigger only the passes that need extending, not full rebuilds. This approach scales with both codebase size and team size.', steps: ['Define scope boundaries before each agent run (module or feature)', 'Each run produces one focused, reviewable PR', 'On change: identify which scopes need extension, run only those', 'Invest in RAG or structured summaries for cross-run state handoff'] },
+  hybrid: { color: 'var(--c-hybrid-dim)', border: 'rgba(52,211,153,.3)', label: 'Recommended approach', title: 'Hybrid / Orchestrated Development', desc: 'Mixed signals across your answers indicate that no single approach dominates all your task types — which is the defining signal for a hybrid strategy. Use spec-driven for compliance-critical paths, agentic for exploration, and skills for recurring work. The orchestrator is your most important design decision.', steps: ['Map your task portfolio by risk, recurrence, and requirement clarity', 'Assign each task type to its best-fit approach', 'Build a skill library first — skills are the shared primitive across all approaches', 'Graduate to an orchestrated hybrid pipeline as your AI maturity compounds'] }
+};
+
+function answer(q, val, el) {
+  const qnum = 'q' + q;
+  document.querySelectorAll(`[onclick^="answer(${q},"]`).forEach(o => {
+    o.classList.remove('selected');
+    o.style.background = '';
+  });
+  el.classList.add('selected');
+  answers[qnum] = val;
+  document.getElementById('qcard-' + q).classList.add('answered');
+  if (Object.keys(answers).length >= 2) updateRec();
+}
+
+function updateRec() {
+  const { q1, q2, q3, q4, q5 } = answers;
+  let key;
+
+  if (q1 === 'formal' && q4 === 'high')              key = 'spec';
+  else if (q5 === 'yes' && q3 === 'frequent')        key = 'skill';
+  else if (q1 === 'open' && q4 !== 'high')           key = 'agent';
+  else if (q2 === 'small' && q3 === 'stable')        key = 'big';
+  else if (q2 === 'large' || q3 === 'frequent')      key = 'std';
+  else if (q1 === 'formal')                           key = 'spec';
+  else if (q5 === 'yes')                              key = 'skill';
+  else                                                key = 'hybrid';
+
+  const cfg = configs[key];
+  const panel = document.getElementById('rec-panel');
+  panel.className = 'rec-panel visible';
+  panel.style.background = cfg.color;
+  panel.style.borderColor = cfg.border;
+
+  document.getElementById('rec-label').textContent = cfg.label.toUpperCase();
+  document.getElementById('rec-title').textContent = cfg.title;
+  document.getElementById('rec-desc').textContent  = cfg.desc;
+  document.getElementById('rec-steps').innerHTML   = cfg.steps.map((s, i) =>
+    `<div class="rec-step"><span class="rec-step-n">0${i+1}</span><span>${s}</span></div>`
+  ).join('');
+
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+// ── WORKFLOWS ──
+function switchWf(id) {
+  document.querySelectorAll('.wf-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.wf-body').forEach(b => b.classList.remove('active'));
+  document.getElementById('wftab-' + id).classList.add('active');
+  document.getElementById('wfbody-' + id).classList.add('active');
+}
+</script>
+</body>
+</html>

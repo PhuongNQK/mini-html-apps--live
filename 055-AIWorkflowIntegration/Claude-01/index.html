@@ -54,11 +54,11 @@
    RESET & BASE
 ═══════════════════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;height:100%}
 body{
   background:var(--bg);color:var(--text);
   font-family:var(--sans);font-size:14px;line-height:1.6;
-  min-height:100vh;overflow-x:hidden;
+  height:100%;overflow:hidden;
 }
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
@@ -81,7 +81,8 @@ body::before{
   grid-template-areas:
     "topbar topbar"
     "sidebar main";
-  min-height:100vh;
+  height:100vh;
+  overflow:hidden;
   transition:grid-template-columns .28s cubic-bezier(.4,0,.2,1);
 }
 .shell.sidebar-hidden{
@@ -173,6 +174,7 @@ main{
   grid-area:main;
   overflow-y:auto;
   min-width:0;
+  height:100%;
 }
 
 section{display:none}
@@ -478,6 +480,252 @@ nav{padding:14px 0;flex:1;overflow-y:auto}
 .step-desc{font-size:13px;color:var(--text2);line-height:1.65;max-width:640px}
 .step-tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .step-tool{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:4px;background:var(--bg3);border:1px solid var(--line);color:var(--text3)}
+/* ═══════════════════════════════════════════════════════
+   SEARCH & FILTER BAR
+═══════════════════════════════════════════════════════ */
+.search-bar{
+  position:sticky;top:var(--topbar-h);z-index:250;
+  background:var(--bg1);border-bottom:1px solid var(--line);
+  padding:10px 20px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+}
+.search-wrap{
+  position:relative;display:flex;align-items:center;flex:1;min-width:180px;
+}
+.search-input{
+  width:100%;padding:7px 32px 7px 34px;
+  background:var(--bg3);border:1px solid var(--line2);border-radius:8px;
+  color:var(--text);font-family:var(--sans);font-size:13px;outline:none;
+  transition:border-color .15s,background .15s;
+}
+.search-input::placeholder{color:var(--text3)}
+.search-input:focus{border-color:var(--line3);background:var(--bg2)}
+.search-icon{position:absolute;left:10px;color:var(--text3);font-size:13px;pointer-events:none}
+.search-clear{
+  position:absolute;right:8px;width:18px;height:18px;border-radius:50%;
+  background:var(--bg4);border:none;cursor:pointer;color:var(--text2);
+  font-size:11px;display:none;align-items:center;justify-content:center;
+  transition:background .15s;line-height:1;
+}
+.search-clear.visible{display:flex}
+.search-clear:hover{background:var(--text3);color:var(--text)}
+
+.filter-pills{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.filter-label{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.filter-pill{
+  font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:20px;
+  border:1px solid var(--line2);cursor:pointer;color:var(--text2);
+  background:transparent;transition:all .15s;white-space:nowrap;
+}
+.filter-pill:hover{border-color:var(--line3);color:var(--text)}
+.filter-pill.active{color:var(--text);font-weight:500;border-color:transparent}
+
+/* search highlight */
+mark.sh{
+  background:rgba(251,191,36,.35);color:inherit;border-radius:2px;
+  padding:0 1px;
+}
+[data-theme="light"] mark.sh{background:rgba(234,179,8,.3)}
+
+/* dimmed when search active but no match */
+.search-dim{opacity:.28;transition:opacity .2s}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLL-TO-TOP
+═══════════════════════════════════════════════════════ */
+.scroll-top{
+  position:fixed;bottom:24px;right:24px;z-index:400;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--line2);
+  cursor:pointer;color:var(--text2);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px var(--shadow);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s,background .15s,border-color .15s;
+}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+.scroll-top:hover{background:var(--bg4);border-color:var(--line3);color:var(--text)}
+
+/* ═══════════════════════════════════════════════════════
+   MODAL / DIALOG
+═══════════════════════════════════════════════════════ */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;
+  transition:opacity .22s ease;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+[data-theme="light"] .modal-backdrop{background:rgba(0,0,0,.35)}
+
+.modal{
+  background:var(--bg1);border:1px solid var(--line2);border-radius:14px;
+  width:100%;max-width:760px;max-height:88vh;
+  display:flex;flex-direction:column;
+  transform:translateY(16px) scale(.98);
+  transition:transform .22s cubic-bezier(.4,0,.2,1);
+  overflow:hidden;box-shadow:0 24px 64px var(--shadow);
+}
+.modal-backdrop.open .modal{transform:none}
+.modal.maximized{max-width:100%;max-height:100%;border-radius:0;margin:0}
+.modal-backdrop.open .modal.maximized{transform:none}
+
+.modal-header{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px;border-bottom:1px solid var(--line);flex-shrink:0;
+}
+.modal-header-color{width:4px;align-self:stretch;border-radius:2px;flex-shrink:0}
+.modal-header-title{font-family:var(--serif);font-size:20px;flex:1;min-width:0;line-height:1.25}
+.modal-header-index{font-family:var(--mono);font-size:9px;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-top:3px}
+.modal-controls{display:flex;gap:6px;flex-shrink:0}
+.modal-btn{
+  width:30px;height:30px;border-radius:7px;
+  background:var(--bg3);border:1px solid var(--line2);
+  cursor:pointer;color:var(--text2);font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.modal-btn:hover{background:var(--bg4);color:var(--text);border-color:var(--line3)}
+
+.modal-body{
+  overflow-y:auto;padding:24px 24px 28px;flex:1;
+  scrollbar-width:thin;
+}
+.modal-section{margin-bottom:22px}
+.modal-section:last-child{margin-bottom:0}
+.modal-section-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+.modal-list{list-style:none}
+.modal-list li{font-size:13px;color:var(--text2);padding:4px 0;display:flex;gap:8px;align-items:baseline}
+.modal-list li::before{content:'–';color:var(--text3);font-family:var(--mono);flex-shrink:0}
+.modal-tradeoffs{display:flex;flex-direction:column;gap:9px}
+.modal-trow{display:flex;align-items:center;gap:12px}
+.modal-tlbl{font-family:var(--mono);font-size:10px;color:var(--text3);width:140px;flex-shrink:0;letter-spacing:.04em}
+.modal-ttrack{flex:1;height:4px;background:var(--bg4);border-radius:2px;overflow:hidden}
+.modal-tfill{height:100%;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.modal-tval{font-family:var(--mono);font-size:10px;width:28px;text-align:right}
+.modal-note{margin-top:16px;padding:12px 16px;background:var(--bg2);border-radius:8px;border-left:3px solid;font-size:13px;color:var(--text2);line-height:1.6}
+.modal-note strong{color:var(--text);font-weight:500}
+.modal-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.modal-pill{font-family:var(--mono);font-size:9px;padding:3px 9px;border-radius:3px;border:1px solid var(--line2);color:var(--text3);letter-spacing:.04em}
+.modal-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+
+/* block modal */
+.block-modal-icon{font-size:32px;margin-bottom:12px}
+.block-modal-used{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:12px;padding:8px 12px;background:var(--bg2);border-radius:6px}
+
+/* ═══════════════════════════════════════════════════════
+   ATTRIBUTION FOOTER
+═══════════════════════════════════════════════════════ */
+.attribution{
+  padding:20px 56px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+  line-height:1.8;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.attribution a{color:var(--text2);text-decoration:none;border-bottom:1px solid var(--line2)}
+.attribution a:hover{color:var(--text);border-color:var(--line3)}
+.attribution-badge{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg2);border:1px solid var(--line2);
+  border-radius:6px;padding:4px 10px;
+  font-size:10px;color:var(--text2);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SECTION ICONS  (in sec-header eyebrow area)
+═══════════════════════════════════════════════════════ */
+.sec-icon{font-size:20px;margin-bottom:6px;display:block;opacity:.75}
+
+/* ═══════════════════════════════════════════════════════
+   STICKY TABLE
+═══════════════════════════════════════════════════════ */
+.table-wrap{
+  overflow-x:auto;margin:28px 56px 0;
+  border:1px solid var(--line);border-radius:10px;
+}
+.table-wrap table{
+  border-collapse:collapse;font-size:12px;width:100%;margin:0;
+  border:none;
+}
+.table-wrap th{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);text-align:left;padding:8px 12px;
+  background:var(--bg2);font-weight:400;
+  position:sticky;top:0;z-index:2;
+  border-bottom:1px solid var(--line);
+}
+.table-wrap td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--text2);vertical-align:top}
+.table-wrap tr:last-child td{border-bottom:none}
+.table-wrap tr:hover td{background:var(--bg2)}
+/* sticky first column */
+.table-wrap th:first-child,
+.table-wrap td:first-child{
+  position:sticky;left:0;z-index:1;
+  background:var(--bg1);
+}
+.table-wrap th:first-child{z-index:3;background:var(--bg2)}
+.table-wrap tr:hover td:first-child{background:var(--bg2)}
+[data-theme="light"] .table-wrap th:first-child{background:var(--bg2)}
+[data-theme="light"] .table-wrap td:first-child{background:var(--bg1)}
+[data-theme="light"] .table-wrap tr:hover td:first-child{background:var(--bg2)}
+
+/* remove old summary-table margin (now inside table-wrap) */
+.summary-table{border-collapse:collapse;font-size:12px;width:100%;margin:0}
+.summary-table th{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);
+  background:var(--bg2);font-weight:400;
+}
+.summary-table td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--text2);vertical-align:top}
+.summary-table tr:hover td{background:var(--bg2)}
+.summary-table td:first-child{color:var(--text);font-weight:500}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE IMPROVEMENTS
+═══════════════════════════════════════════════════════ */
+/* approach cards: 3-col → 2-col → 1-col */
+@media(max-width:960px){
+  .approach-grid{grid-template-columns:repeat(2,1fr)}
+  .approach-card:nth-child(2n){border-right:none}
+  .approach-card:nth-child(3n){border-right:1px solid var(--line)}
+  .blocks-grid{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:640px){
+  .approach-grid{grid-template-columns:1fr}
+  .approach-card{border-right:none!important}
+  .blocks-grid{grid-template-columns:repeat(2,1fr)}
+  .detail-grid{grid-template-columns:1fr}
+  .overview-grid{grid-template-columns:1fr}
+  .overview-cell{border-right:none}
+  .wf-picker{grid-template-columns:repeat(2,1fr);overflow:hidden}
+  .wf-tab:nth-child(2n){border-right:none}
+}
+/* workflow tab picker: scrollable on narrow screens */
+@media(max-width:860px){
+  .wf-picker{
+    display:flex;
+    overflow-x:auto;
+    scrollbar-width:none;
+    border-bottom:1px solid var(--line);
+  }
+  .wf-picker::-webkit-scrollbar{display:none}
+  .wf-tab{
+    flex:0 0 auto;min-width:130px;border-right:1px solid var(--line);
+    border-bottom:none;
+  }
+  .wf-tab.active::after{bottom:0;height:2px;top:auto;position:absolute}
+}
+/* attribution on mobile */
+@media(max-width:640px){
+  .attribution{padding:16px 20px}
+  .table-wrap{margin:16px}
+  .search-bar{top:var(--topbar-h)}
+}
+
 </style>
 </head>
 <body>
@@ -506,11 +754,13 @@ nav{padding:14px 0;flex:1;overflow-y:auto}
 </div>
 
 <script>
+
 /* ╔══════════════════════════════════════════════════════════════════
    ║  LAYER 1 — DATA
    ║  Pure content. No HTML, no DOM references, no logic.
    ║  To add/edit content, only touch this object.
-   ╚══════════════════════════════════════════════════════════════════ */
+   ╚════════════════════════════════════════════════════════════ */
+
 const DATA = {
 
   meta: {
@@ -855,34 +1105,20 @@ const DATA = {
 
 
 }; // end DATA
+
+
 /* =======================================================================
-   LAYER 2 \u2014 RENDER
-   Pure functions: DATA \u2192 HTML strings. No DATA literals. No state. No events.
+   LAYER 2 — RENDER
+   Pure functions: DATA → HTML strings. No state. No events.
    ======================================================================= */
 const RENDER = {
 
-  colorVar: id => `var(--c-${id})`,
+  dotClass(type) { return type === 'gate' ? 'step-dot-outer' : `step-dot-outer c-${type}`; },
+  dotStyle(type) { return type === 'gate' ? 'border-color:var(--text3)' : `border-color:var(--c-${type})`; },
+  stepBadgeClass(type) { return type === 'gate' ? 'step-type-badge' : `step-type-badge c-${type} border-${type} bg-${type}`; },
+  stepBadgeStyle(type) { return type === 'gate' ? 'color:var(--text3);border-color:var(--line2)' : ''; },
 
-  borderRgba: {
-    spec:'rgba(74,158,255,.3)', skill:'rgba(82,214,138,.3)',
-    agent:'rgba(167,139,250,.3)', big:'rgba(251,146,60,.3)',
-    std:'rgba(244,114,182,.3)', hybrid:'rgba(52,211,153,.3)', gate:'rgba(255,255,255,.12)'
-  },
-
-  dotClass(type) {
-    return type === 'gate' ? 'step-dot-outer' : `step-dot-outer c-${type}`;
-  },
-  dotStyle(type) {
-    return type === 'gate' ? 'border-color:var(--text3)' : `border-color:var(--c-${type})`;
-  },
-  stepBadgeClass(type) {
-    return type === 'gate' ? 'step-type-badge' : `step-type-badge c-${type} border-${type} bg-${type}`;
-  },
-  stepBadgeStyle(type) {
-    return type === 'gate' ? 'color:var(--text3);border-color:var(--line2)' : '';
-  },
-
-  /* sidebar */
+  /* ── sidebar ── */
   sidebar({ meta, nav }) {
     const totalBlocks = DATA.blocks.reduce((a, g) => a + g.items.length, 0);
     const items = nav.map(n => {
@@ -893,7 +1129,7 @@ const RENDER = {
     }).join('');
     return `
       <div class="logo-block">
-        <div class="logo-label">${meta.tagline} \xb7 ${meta.version}</div>
+        <div class="logo-label">${meta.tagline} · ${meta.version}</div>
         <div class="logo-title">${meta.titleLine1}<br><em>${meta.titleLine2}</em></div>
       </div>
       <nav><div class="nav-section">
@@ -901,13 +1137,47 @@ const RENDER = {
       </div></nav>
       <div class="sidebar-footer">
         ${DATA.approaches.length} approaches<br>
-        ${totalBlocks} building blocks<br>
+        ${DATA.blocks.reduce((a,g)=>a+g.items.length,0)} building blocks<br>
         ${DATA.principles.length} principles<br>
         ${DATA.workflows.length} workflows
       </div>`;
   },
 
-  /* overview */
+  _sectionIcons: { overview:'🗺', approaches:'🧭', blocks:'🧱', principles:'💡', framework:'🎯', workflows:'⚙️' },
+
+  searchBar(sectionId) {
+    const filterHtml = RENDER._filterPills(sectionId);
+    return `
+      <div class="search-bar" id="search-bar-${sectionId}">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" id="search-input-${sectionId}" type="text"
+            placeholder="Search…" oninput="APP.onSearch('${sectionId}',this.value)"
+            autocomplete="off" spellcheck="false">
+          <button class="search-clear" id="search-clear-${sectionId}"
+            onclick="APP.clearSearch('${sectionId}')" aria-label="Clear search">✕</button>
+        </div>
+        ${filterHtml}
+      </div>`;
+  },
+
+  _filterPills(sectionId) {
+    const configs = {
+      approaches: { label:'Group', pills: DATA.groups.map(g=>({id:g.num,label:`${g.num}: ${g.name}`.substring(0,18)})) },
+      blocks:     { label:'Category', pills: DATA.blocks.map(g=>({id:g.category,label:g.category})) },
+      principles: { label:'', pills:[] },
+      workflows:  { label:'Type', pills: [...new Set(DATA.workflows.flatMap(w=>w.badges.map(b=>b.key)))].map(k=>({id:k,label:k.charAt(0).toUpperCase()+k.slice(1)})) },
+    };
+    const cfg = configs[sectionId];
+    if (!cfg || !cfg.pills.length) return '';
+    const pills = cfg.pills.map(p =>
+      `<button class="filter-pill" data-section="${sectionId}" data-filter="${p.id}"
+        onclick="APP.toggleFilter('${sectionId}','${p.id}',this)">${p.label}</button>`
+    ).join('');
+    return `<span class="filter-label">${cfg.label}</span>${pills}
+      <button class="filter-pill" onclick="APP.clearFilters('${sectionId}')" style="opacity:.55">✕ All</button>`;
+  },
+
   sectionOverview({ meta, overviewTable, overviewMatrix }) {
     const tags  = DATA.approaches.map(a => `<span class="hero-tag">${a.label}</span>`).join('');
     const stats = meta.stats.map(s => `
@@ -919,11 +1189,11 @@ const RENDER = {
     const ths  = overviewTable.headers.map(h => `<th>${h}</th>`).join('');
     const rows = overviewTable.rows.map(r => `
       <tr>
-        <td style="font-family:var(--mono);font-size:10px;color:var(--text3)">${r.num}</td>
-        <td><span class="dot-badge" style="background:var(--c-${r.id})"></span>${r.name}</td>
+        <td style="font-family:var(--mono);font-size:10px;color:var(--text3);white-space:nowrap">${r.num}</td>
+        <td style="white-space:nowrap"><span class="dot-badge" style="background:var(--c-${r.id})"></span>${r.name}</td>
         <td style="font-size:11px;color:var(--text3)">${r.group}</td>
         <td>${r.role}</td><td>${r.cadence}</td>
-        <td><div class="fit-pills">${r.fit.map(f => `<span class="fit-pill">${f}</span>`).join('')}</div></td>
+        <td><div class="fit-pills">${r.fit.map(f=>`<span class="fit-pill">${f}</span>`).join('')}</div></td>
         <td><span style="color:${r.auditColor}">${r.audit}</span></td>
       </tr>`).join('');
     const colHeads = overviewMatrix.cols.map(c =>
@@ -941,59 +1211,39 @@ const RENDER = {
         <div class="hero-tags">${tags}</div>
       </div>
       <div class="overview-grid">${stats}</div>
-      <table class="summary-table"><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table>
+      <div class="table-wrap"><table><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table></div>
       <div class="map-section">
         <div class="map-label">Approach Fit Matrix — by task property</div>
         <div class="matrix-grid" style="grid-template-columns:80px repeat(5,1fr)">
           <div class="matrix-corner"></div>${colHeads}${matrixRows}
         </div>
-      </div>`;
+      </div>
+      ${RENDER._attribution()}`;
   },
 
-  /* approaches — grouped */
   sectionApproaches(approaches) {
     const byGroup = {};
-    approaches.forEach(a => { (byGroup[a.group] = byGroup[a.group]||[]).push(a); });
+    approaches.forEach(a => { (byGroup[a.group]=byGroup[a.group]||[]).push(a); });
     const groups = DATA.groups.map(g => {
       const list = byGroup[g.num] || [];
-      const dots = g.colors.map(c => `<div class="group-color-dot" style="background:var(--c-${c})"></div>`).join('');
+      const dots = g.colors.map(c=>`<div class="group-color-dot" style="background:var(--c-${c})"></div>`).join('');
       const cards = list.map(a => {
-        const pills = a.pills.map(p => `<span class="cpill">${p}</span>`).join('');
+        const pills = a.pills.map(p=>`<span class="cpill">${p}</span>`).join('');
         return `
-          <div class="approach-card" id="card-${a.id}" onclick="APP.toggleCard('${a.id}')">
+          <div class="approach-card" id="card-${a.id}"
+            data-group="${a.group}"
+            data-searchable="${a.label} ${a.name.replace('\\n',' ')} ${a.tagline} ${a.pills.join(' ')} ${a.excels.join(' ')} ${a.mechanics.join(' ')}"
+            onclick="APP.openModal('approach','${a.id}')">
             <div class="card-index">${a.index} — ${a.label}</div>
             <div class="card-badge c-${a.id} border-${a.id} bg-${a.id}">${a.label}</div>
             <div class="card-name">${a.name.replace('\\n','<br>')}</div>
             <div class="card-tagline">${a.tagline}</div>
             <div class="card-pills">${pills}</div>
-            <div class="card-expand-hint" id="hint-${a.id}">▾ Expand</div>
+            <div class="card-expand-hint">↗ Details</div>
           </div>`;
       }).join('');
-      const details = list.map(a => `
-        <div class="approach-detail" id="detail-${a.id}">
-          <div class="detail-inner">
-            <div class="detail-grid">
-              <div><div class="detail-col-label">When it excels</div>
-                <ul class="detail-list">${a.excels.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-              <div><div class="detail-col-label">Core mechanics</div>
-                <ul class="detail-list">${a.mechanics.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-              <div><div class="detail-col-label">When to avoid</div>
-                <ul class="detail-list">${a.avoid.map(x=>`<li>${x}</li>`).join('')}</ul></div>
-            </div>
-            <div class="tradeoff-section">
-              <div class="detail-col-label" style="margin-bottom:14px">Tradeoff Profile</div>
-              ${a.tradeoffs.map(t=>`
-                <div class="tradeoff-row">
-                  <span class="tradeoff-lbl">${t.label}</span>
-                  <div class="tbar-track"><div class="tbar-fill bar-${a.id}" style="width:${t.value}%"></div></div>
-                  <span class="tbar-val c-${a.id}">${t.value}</span>
-                </div>`).join('')}
-            </div>
-            <div class="detail-note" style="border-left-color:var(--c-${a.id})">${a.note}</div>
-          </div>
-        </div>`).join('');
       return `
-        <div class="approach-group" id="${g.id}">
+        <div class="approach-group" id="${g.id}" data-group="${g.num}">
           <div class="group-header">
             <span class="group-header-num">Group ${g.num}</span>
             <span class="group-header-name">${g.name}</span>
@@ -1001,45 +1251,51 @@ const RENDER = {
             <span class="group-header-desc">${g.desc}</span>
           </div>
           <div class="approach-grid">${cards}</div>
-          ${details}
         </div>`;
     }).join('');
     return `
       <div class="sec-header">
+        <span class="sec-icon">${RENDER._sectionIcons.approaches}</span>
         <div class="sec-eyebrow">Section 02</div>
         <div class="sec-title">Fourteen Approaches</div>
-        <div class="sec-desc">Organised into four groups by primary design axis. Click any card to expand the deep-dive: mechanics, tradeoffs, when it excels, and when to avoid it.</div>
+        <div class="sec-desc">Organised into four groups. Click any card to open a detailed view. Use ← → arrow keys to navigate between approaches.</div>
       </div>
-      ${groups}`;
+      ${RENDER.searchBar('approaches')}
+      <div id="approaches-content">${groups}</div>`;
   },
 
-  /* building blocks */
   sectionBlocks(blocks) {
     const groups = blocks.map(g => {
       const cards = g.items.map(b => `
-        <div class="block-card">
+        <div class="block-card" data-category="${g.category}"
+          data-searchable="${b.name} ${b.desc} ${b.used}"
+          onclick="APP.openModal('block',${JSON.stringify(b.name)})">
           <div class="block-icon">${b.icon}</div>
           <div class="block-name">${b.name}</div>
           <div class="block-desc">${b.desc}</div>
           <div class="block-used">${b.used}</div>
         </div>`).join('');
       return `
-        <div class="blocks-section-title">${g.category}</div>
-        <div class="blocks-grid">${cards}</div>`;
+        <div class="blocks-category" data-category="${g.category}">
+          <div class="blocks-section-title">${g.category}</div>
+          <div class="blocks-grid">${cards}</div>
+        </div>`;
     }).join('');
     return `
       <div class="sec-header">
+        <span class="sec-icon">${RENDER._sectionIcons.blocks}</span>
         <div class="sec-eyebrow">Section 03</div>
         <div class="sec-title">21 Building Blocks</div>
-        <div class="sec-desc">21 atomic components across 4 categories, shared and recombined across all 14 approaches. Mastering these primitives is more durable than mastering any single approach.</div>
+        <div class="sec-desc">21 atomic components across 4 categories. Click any block for details.</div>
       </div>
-      <div class="blocks-page">${groups}</div>`;
+      ${RENDER.searchBar('blocks')}
+      <div class="blocks-page" id="blocks-content">${groups}</div>`;
   },
 
-  /* principles */
   sectionPrinciples(principles) {
     const items = principles.map(p => `
-      <div class="principle-item">
+      <div class="principle-item" data-searchable="${p.title} ${p.body} ${p.guideline}"
+        onclick="APP.openModal('principle','${p.num}')">
         <div class="principle-num">${p.num}</div>
         <div class="principle-body">
           <h3>${p.title}</h3>
@@ -1049,24 +1305,24 @@ const RENDER = {
       </div>`).join('');
     return `
       <div class="sec-header">
+        <span class="sec-icon">${RENDER._sectionIcons.principles}</span>
         <div class="sec-eyebrow">Section 04</div>
         <div class="sec-title">Eleven Principles</div>
-        <div class="sec-desc">Eleven durable rules spanning all approaches, team sizes, and domains. These survive model changes, tooling shifts, and org reorgs. Three new principles cover simulation fidelity, memory curation, and the autonomy spectrum.</div>
+        <div class="sec-desc">Eleven durable rules. Click any principle to open a focused view.</div>
       </div>
-      <div class="principles-page">${items}</div>`;
+      ${RENDER.searchBar('principles')}
+      <div class="principles-page" id="principles-content">${items}</div>`;
   },
 
-  /* decision framework */
   sectionFramework({ intro, questions }) {
     const qs = questions.map(q => {
-      const suffix = q.suffix ? ` \u2014 ${q.suffix}` : '';
-      const total  = questions.length;
+      const suffix = q.suffix ? ` — ${q.suffix}` : '';
       const opts   = q.options.map(o =>
         `<span class="q-opt" onclick="APP.answer(${q.id},'${o.value}',this)">${o.label}</span>`
       ).join('');
       return `
         <div class="q-card" id="qcard-${q.id}">
-          <div class="q-label">Question 0${q.id} of 0${total}${suffix}</div>
+          <div class="q-label">Question 0${q.id} of 0${questions.length}${suffix}</div>
           <div class="q-text">${q.text}</div>
           <div class="q-sub">${q.sub}</div>
           <div class="q-options">${opts}</div>
@@ -1074,9 +1330,10 @@ const RENDER = {
     }).join('');
     return `
       <div class="sec-header">
+        <span class="sec-icon">${RENDER._sectionIcons.framework}</span>
         <div class="sec-eyebrow">Section 05</div>
         <div class="sec-title">Decision Framework</div>
-        <div class="sec-desc">Answer six questions. The framework triangulates the best approach across 14 approaches for your specific task and context.</div>
+        <div class="sec-desc">Answer six questions. The framework triangulates the best approach across all 14 options.</div>
       </div>
       <div class="framework-page">
         <div class="framework-intro">${intro}</div>
@@ -1090,22 +1347,20 @@ const RENDER = {
       </div>`;
   },
 
-  /* workflows */
   sectionWorkflows(workflows) {
     const tabs = workflows.map((w, i) => {
-      const badges = w.badges.map(b =>
-        `<span class="wf-badge c-${b.key} border-${b.key}">${b.label}</span>`).join('');
+      const badges = w.badges.map(b=>`<span class="wf-badge c-${b.key} border-${b.key}">${b.label}</span>`).join('');
       return `
-        <div class="wf-tab${i === 0 ? ' active' : ''}" id="wftab-${w.id}" onclick="APP.switchWf('${w.id}')">
+        <div class="wf-tab${i===0?' active':''}" id="wftab-${w.id}" onclick="APP.switchWf('${w.id}')"
+          data-searchable="${w.title} ${w.badges.map(b=>b.label).join(' ')}">
           <div class="wf-tab-num">0${i+1}</div>
           <div class="wf-tab-name">${w.title}</div>
           <div class="wf-badge-row">${badges}</div>
         </div>`;
     }).join('');
-
     const bodies = workflows.map((w, i) => {
       const steps = w.steps.map(s => {
-        const tools    = s.tools.map(t => `<span class="step-tool">${t}</span>`).join('');
+        const tools    = s.tools.map(t=>`<span class="step-tool">${t}</span>`).join('');
         const dotCls   = RENDER.dotClass(s.type);
         const dotSty   = RENDER.dotStyle(s.type);
         const badgeCls = RENDER.stepBadgeClass(s.type);
@@ -1128,28 +1383,28 @@ const RENDER = {
           </div>`;
       }).join('');
       return `
-        <div class="wf-body${i === 0 ? ' active' : ''}" id="wfbody-${w.id}">
+        <div class="wf-body${i===0?' active':''}" id="wfbody-${w.id}">
           <div class="wf-header">
             <div class="wf-title">${w.title}</div>
-            <div class="wf-meta">Risk: ${w.risk}<span>\xb7</span>Duration: ${w.duration}<span>\xb7</span>${w.team}</div>
+            <div class="wf-meta">Risk: ${w.risk}<span>·</span>Duration: ${w.duration}<span>·</span>${w.team}</div>
           </div>
           <div class="wf-steps">${steps}</div>
         </div>`;
     }).join('');
-
     return `
       <div class="sec-header">
+        <span class="sec-icon">${RENDER._sectionIcons.workflows}</span>
         <div class="sec-eyebrow">Section 06</div>
         <div class="sec-title">Recommended Workflows</div>
-        <div class="sec-desc">Seven end-to-end workflows. Two new workflows added: Compliance Reporting Pipeline and Memory-Augmented Onboarding. Two existing workflows updated with Simulation-Driven and Constraint-Driven steps.</div>
+        <div class="sec-desc">Seven end-to-end workflows combining multiple approaches and building blocks.</div>
       </div>
-      <div class="workflows-page">
+      ${RENDER.searchBar('workflows')}
+      <div class="workflows-page" id="workflows-content">
         <div class="wf-picker">${tabs}</div>
         ${bodies}
       </div>`;
   },
 
-  /* full page assembly */
   allSections(data) {
     return `
       <section id="s-overview"   class="overview-page active">${RENDER.sectionOverview(data)}</section>
@@ -1160,10 +1415,78 @@ const RENDER = {
       <section id="s-workflows"                              >${RENDER.sectionWorkflows(data.workflows)}</section>`;
   },
 
-  /* inject per-approach ::before colors and workflow tab underline colors */
+  _attribution() {
+    return `
+      <div class="attribution">
+        <div class="attribution-badge">
+          <span>🤖</span>
+          <span>Content generated by <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> (Anthropic)</span>
+        </div>
+        <span>AI Workflow Integration Atlas · v2.0</span>
+        <span>Structure, content &amp; code co-authored with Claude Sonnet</span>
+      </div>`;
+  },
+
+  modalApproach(id) {
+    const a = DATA.approaches.find(x => x.id === id);
+    if (!a) return '';
+    const pills = a.pills.map(p=>`<span class="modal-pill">${p}</span>`).join('');
+    const tradeoffs = a.tradeoffs.map(t=>`
+      <div class="modal-trow">
+        <span class="modal-tlbl">${t.label}</span>
+        <div class="modal-ttrack"><div class="modal-tfill bar-${a.id}" style="width:${t.value}%"></div></div>
+        <span class="modal-tval c-${a.id}">${t.value}</span>
+      </div>`).join('');
+    return `
+      <div class="modal-section">
+        <div class="modal-pills">${pills}</div>
+        <p style="font-size:13px;color:var(--text2);line-height:1.65;margin-top:6px">${a.tagline}</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">When it excels</div>
+        <ul class="modal-list">${a.excels.map(x=>`<li>${x}</li>`).join('')}</ul>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Core mechanics</div>
+        <ul class="modal-list">${a.mechanics.map(x=>`<li>${x}</li>`).join('')}</ul>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">When to avoid</div>
+        <ul class="modal-list">${a.avoid.map(x=>`<li>${x}</li>`).join('')}</ul>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Tradeoff Profile</div>
+        <div class="modal-tradeoffs">${tradeoffs}</div>
+      </div>
+      <div class="modal-note" style="border-left-color:var(--c-${a.id})">${a.note}</div>`;
+  },
+
+  modalBlock(name) {
+    let found = null, cat = '';
+    DATA.blocks.forEach(g => { const b = g.items.find(x=>x.name===name); if(b){found=b;cat=g.category;} });
+    if (!found) return '';
+    return `
+      <div class="block-modal-icon">${found.icon}</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">${found.desc}</p>
+      <div class="block-modal-used"><strong style="color:var(--text3);font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase">Used in</strong><br><br>${found.used}</div>`;
+  },
+
+  modalPrinciple(num) {
+    const p = DATA.principles.find(x => x.num === num);
+    if (!p) return '';
+    return `
+      <div class="modal-section">
+        <p style="font-size:13px;color:var(--text2);line-height:1.75">${p.body}</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Practical Guideline</div>
+        <p style="font-family:var(--mono);font-size:12px;color:var(--text3);line-height:1.65;border-left:2px solid var(--line2);padding-left:12px">${p.guideline}</p>
+      </div>`;
+  },
+
   injectDynamicStyles(approaches, workflows) {
     const wfColorMap = { onboard:'std', regulatory:'spec', feature:'agent', debug:'skill', greenfield:'big', pipeline_wf:'pipeline', memory_onboard:'memory' };
-    const cardStyles = approaches.map(a => `#card-${a.id}::before{background:var(--c-${a.id})}`).join('\n');
+    const cardStyles = approaches.map(a=>`#card-${a.id}::before{background:var(--c-${a.id})}`).join('\n');
     const wfStyles   = workflows.map(w => {
       const k = wfColorMap[w.id] || w.badges[0]?.key || 'spec';
       return `#wftab-${w.id}.active::after{background:var(--c-${k})}`;
@@ -1177,18 +1500,18 @@ const RENDER = {
 
 
 /* =======================================================================
-   LAYER 3 \u2014 APP
-   Bootstrap, state management, and event handlers.
-   Calls RENDER with DATA; wires all DOM interactions.
+   LAYER 3 — APP
    ======================================================================= */
 const APP = {
 
   state: {
     activeSection: 'overview',
-    openCard: null,
     answers: {},
     sidebarOpen: false,
     theme: 'dark',
+    searchTimers: {},
+    activeFilters: {},
+    modalOpen: false,
   },
 
   _isMobile() { return window.innerWidth <= 700; },
@@ -1198,119 +1521,270 @@ const APP = {
     document.getElementById('sections').innerHTML = RENDER.allSections(DATA);
     RENDER.injectDynamicStyles(DATA.approaches, DATA.workflows);
     this.show('overview');
-
-    /* restore persisted theme */
-    const saved = localStorage.getItem('atlas-theme') || 'dark';
-    this._applyTheme(saved);
-
-    /* desktop: open sidebar by default */
+    this._applyTheme(localStorage.getItem('atlas-theme') || 'dark');
     if (!this._isMobile()) this._setSidebar(true);
-
-    /* re-open on resize to desktop */
     window.addEventListener('resize', () => {
       if (!this._isMobile() && !this.state.sidebarOpen) this._setSidebar(true);
     });
+    this._initScrollTop();
+    this._initModal();
   },
 
-  /* ── sidebar ── */
+  /* sidebar */
   _setSidebar(open) {
-    const shell    = document.getElementById('shell');
-    const backdrop = document.getElementById('sidebar-backdrop');
-    const btn      = document.getElementById('topbar-toggle');
+    const shell = document.getElementById('shell');
+    const bd    = document.getElementById('sidebar-backdrop');
+    const btn   = document.getElementById('topbar-toggle');
     shell.classList.toggle('sidebar-hidden', !open);
-    if (backdrop) backdrop.classList.toggle('visible', open && this._isMobile());
-    if (btn) btn.setAttribute('title', open ? 'Hide sidebar' : 'Show sidebar');
+    if (bd)  bd.classList.toggle('visible', open && this._isMobile());
+    if (btn) btn.title = open ? 'Hide sidebar' : 'Show sidebar';
     this.state.sidebarOpen = open;
   },
-
   toggleSidebar() { this._setSidebar(!this.state.sidebarOpen); },
 
   show(id) {
-    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('s-' + id)?.classList.add('active');
-    document.getElementById('nav-' + id)?.classList.add('active');
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('s-'+id)?.classList.add('active');
+    document.getElementById('nav-'+id)?.classList.add('active');
     this.state.activeSection = id;
     if (this._isMobile()) this._setSidebar(false);
+    const m = document.getElementById('main');
+    if (m) m.scrollTop = 0;
   },
 
-  /* ── theme ── */
+  /* theme */
   _applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     this.state.theme = theme;
     const btn = document.getElementById('theme-toggle');
     if (btn) {
-      btn.innerHTML  = theme === 'dark' ? '&#9788;' : '&#9790;';
+      btn.innerHTML  = theme === 'dark' ? '☀' : '☾';
       btn.title      = theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
-      btn.setAttribute('aria-label', btn.title);
     }
     try { localStorage.setItem('atlas-theme', theme); } catch(e) {}
   },
+  toggleTheme() { this._applyTheme(this.state.theme === 'dark' ? 'light' : 'dark'); },
 
-  toggleTheme() {
-    this._applyTheme(this.state.theme === 'dark' ? 'light' : 'dark');
+  /* scroll-to-top */
+  _initScrollTop() {
+    const btn = document.createElement('button');
+    btn.className = 'scroll-top';
+    btn.innerHTML = '↑';
+    btn.title = 'Back to top';
+    btn.onclick = () => document.getElementById('main')?.scrollTo({top:0,behavior:'smooth'});
+    document.body.appendChild(btn);
+    document.getElementById('main')?.addEventListener('scroll', () => {
+      const m = document.getElementById('main');
+      btn.classList.toggle('visible', m && m.scrollTop > m.clientHeight * 0.5);
+    }, {passive:true});
   },
 
-  toggleCard(id) {
-    const prev = this.state.openCard;
-    if (prev) {
-      document.getElementById('detail-' + prev)?.classList.remove('visible');
-      document.getElementById('card-'   + prev)?.classList.remove('expanded');
-      const h = document.getElementById('hint-' + prev);
-      if (h) h.textContent = '\u25be Expand';
-    }
-    if (prev === id) { this.state.openCard = null; return; }
-
-    document.getElementById('detail-' + id)?.classList.add('visible');
-    document.getElementById('card-'   + id)?.classList.add('expanded');
-    const hint = document.getElementById('hint-' + id);
-    if (hint) hint.textContent = '\u25b4 Collapse';
-    this.state.openCard = id;
-    setTimeout(() =>
-      document.getElementById('detail-' + id)?.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+  /* search */
+  onSearch(sid, query) {
+    const cb = document.getElementById('search-clear-'+sid);
+    if (cb) cb.classList.toggle('visible', query.length > 0);
+    clearTimeout(this.state.searchTimers[sid]);
+    this.state.searchTimers[sid] = setTimeout(() => this._applySearch(sid, query.trim().toLowerCase()), 280);
   },
 
-  answer(qNum, val, el) {
-    document.querySelectorAll(`[onclick^="APP.answer(${qNum},"]`).forEach(o => {
-      o.classList.remove('selected');
-      o.style.background = '';
+  clearSearch(sid) {
+    const inp = document.getElementById('search-input-'+sid);
+    if (inp) { inp.value = ''; inp.focus(); }
+    document.getElementById('search-clear-'+sid)?.classList.remove('visible');
+    this._applySearch(sid, '');
+  },
+
+  _applySearch(sid, q) {
+    const filters = this.state.activeFilters[sid] || new Set();
+    const selMap = {
+      approaches: '#approaches-content .approach-card',
+      blocks:     '#blocks-content .block-card',
+      principles: '#principles-content .principle-item',
+      workflows:  '#workflows-content .wf-tab',
+    };
+    const sel = selMap[sid]; if (!sel) return;
+    const items = document.querySelectorAll(sel);
+
+    items.forEach(el => {
+      const text  = (el.dataset.searchable||'').toLowerCase();
+      const group = el.dataset.group || el.dataset.category || '';
+      const matchQ = !q || text.includes(q);
+      const matchF = !filters.size || [...filters].some(f => group.includes(f));
+      el.style.display = (matchQ && matchF) ? '' : 'none';
+      this._highlight(el, q);
     });
+
+    /* hide empty group headers */
+    if (sid === 'approaches') {
+      document.querySelectorAll('#approaches-content .approach-group').forEach(g => {
+        g.style.display = [...g.querySelectorAll('.approach-card')].some(c=>c.style.display!=='none') ? '' : 'none';
+      });
+    }
+    if (sid === 'blocks') {
+      document.querySelectorAll('#blocks-content .blocks-category').forEach(g => {
+        g.style.display = [...g.querySelectorAll('.block-card')].some(c=>c.style.display!=='none') ? '' : 'none';
+      });
+    }
+  },
+
+  _highlight(el, q) {
+    el.querySelectorAll('mark.sh').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+    el.normalize();
+    if (!q) return;
+    const targets = el.querySelectorAll('.card-name,.card-tagline,.block-name,.block-desc,.principle-body h3,.principle-body p,.wf-tab-name');
+    const walk = node => {
+      if (node.nodeType === 3) {
+        const i = node.textContent.toLowerCase().indexOf(q);
+        if (i === -1) return;
+        const par = node.parentNode;
+        par.insertBefore(document.createTextNode(node.textContent.slice(0,i)), node);
+        const m = document.createElement('mark'); m.className='sh'; m.textContent=node.textContent.slice(i,i+q.length);
+        par.insertBefore(m, node);
+        par.insertBefore(document.createTextNode(node.textContent.slice(i+q.length)), node);
+        par.removeChild(node);
+      } else if (node.nodeType===1 && !['SCRIPT','STYLE','MARK'].includes(node.tagName)) {
+        [...node.childNodes].forEach(walk);
+      }
+    };
+    targets.forEach(t => walk(t));
+  },
+
+  /* filters */
+  toggleFilter(sid, fid, btn) {
+    if (!this.state.activeFilters[sid]) this.state.activeFilters[sid] = new Set();
+    const set = this.state.activeFilters[sid];
+    if (set.has(fid)) {
+      set.delete(fid); btn.classList.remove('active'); btn.style.cssText='';
+    } else {
+      set.add(fid); btn.classList.add('active');
+      btn.style.background = `var(--c-${fid}-dim,var(--bg3))`; btn.style.color='var(--text)'; btn.style.borderColor='transparent';
+    }
+    this._applySearch(sid, (document.getElementById('search-input-'+sid)||{}).value?.trim().toLowerCase()||'');
+  },
+
+  clearFilters(sid) {
+    this.state.activeFilters[sid] = new Set();
+    document.querySelectorAll(`.filter-pill[data-section="${sid}"]`).forEach(p=>{ p.classList.remove('active'); p.style.cssText=''; });
+    this._applySearch(sid, (document.getElementById('search-input-'+sid)||{}).value?.trim().toLowerCase()||'');
+  },
+
+  /* modal */
+  _initModal() {
+    const bd = document.createElement('div');
+    bd.className='modal-backdrop'; bd.id='modal-backdrop';
+    bd.onclick = e => { if(e.target===bd) APP.closeModal(); };
+    const m = document.createElement('div');
+    m.className='modal'; m.id='modal';
+    m.innerHTML=`
+      <div class="modal-header" id="modal-header">
+        <div class="modal-header-color" id="modal-color-bar"></div>
+        <div style="flex:1;min-width:0">
+          <div class="modal-header-index" id="modal-index"></div>
+          <div class="modal-header-title" id="modal-title"></div>
+        </div>
+        <div class="modal-controls">
+          <button class="modal-btn" id="modal-max-btn" onclick="APP.toggleModalMax()" title="Maximise">⤢</button>
+          <button class="modal-btn" onclick="APP.closeModal()" title="Close" aria-label="Close dialog">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>`;
+    bd.appendChild(m);
+    document.body.appendChild(bd);
+    document.addEventListener('keydown', e => {
+      if (!APP.state.modalOpen) return;
+      if (e.key==='Escape') APP.closeModal();
+      if (e.key==='ArrowRight'||e.key==='ArrowLeft') APP._navModal(e.key==='ArrowRight'?1:-1);
+    });
+  },
+
+  openModal(type, id) {
+    const bd    = document.getElementById('modal-backdrop');
+    const body  = document.getElementById('modal-body');
+    const title = document.getElementById('modal-title');
+    const index = document.getElementById('modal-index');
+    const cbar  = document.getElementById('modal-color-bar');
+    let html='', t='', idx='', col='var(--text3)';
+
+    if (type==='approach') {
+      const a = DATA.approaches.find(x=>x.id===id); if(!a) return;
+      html=RENDER.modalApproach(id); t=a.name.replace('\\n',' '); idx=`${a.index} — ${a.label}`; col=`var(--c-${a.id})`;
+      bd.dataset.modalType='approach'; bd.dataset.modalId=id;
+    } else if (type==='block') {
+      let found=null; DATA.blocks.forEach(g=>{const b=g.items.find(x=>x.name===id);if(b)found=b;}); if(!found) return;
+      html=RENDER.modalBlock(id); t=found.name; idx='Building Block'; col='var(--c-agent)';
+    } else if (type==='principle') {
+      const p=DATA.principles.find(x=>x.num===id); if(!p) return;
+      html=RENDER.modalPrinciple(id); t=p.title; idx=`Principle ${p.num}`; col='var(--c-big)';
+    }
+
+    title.textContent=t; index.textContent=idx; cbar.style.background=col;
+    body.innerHTML=html; body.scrollTop=0;
+    bd.classList.add('open');
+    document.getElementById('modal')?.classList.remove('maximized');
+    document.getElementById('modal-max-btn').textContent='⤢';
+    this.state.modalOpen=true;
+    document.body.style.overflow='hidden';
+  },
+
+  closeModal() {
+    document.getElementById('modal-backdrop')?.classList.remove('open');
+    this.state.modalOpen=false;
+    document.body.style.overflow='';
+  },
+
+  toggleModalMax() {
+    const m=document.getElementById('modal');
+    const btn=document.getElementById('modal-max-btn');
+    const max=m?.classList.toggle('maximized');
+    if(btn) btn.textContent=max?'⤡':'⤢';
+  },
+
+  _navModal(dir) {
+    const bd=document.getElementById('modal-backdrop');
+    if(bd?.dataset.modalType!=='approach') return;
+    const ids=DATA.approaches.map(a=>a.id);
+    const i=ids.indexOf(bd.dataset.modalId);
+    this.openModal('approach', ids[(i+dir+ids.length)%ids.length]);
+  },
+
+  /* framework */
+  answer(qNum, val, el) {
+    document.querySelectorAll(`[onclick^="APP.answer(${qNum},"]`).forEach(o=>{o.classList.remove('selected');o.style.background='';});
     el.classList.add('selected');
-    this.state.answers['q' + qNum] = val;
-    document.getElementById('qcard-' + qNum)?.classList.add('answered');
-    if (Object.keys(this.state.answers).length >= 2) this._recommend();
+    this.state.answers['q'+qNum]=val;
+    document.getElementById('qcard-'+qNum)?.classList.add('answered');
+    if(Object.keys(this.state.answers).length>=2) this._recommend();
   },
 
   _recommend() {
-    const a   = this.state.answers;
-    const key = (DATA.framework.rules.find(r => r.when(a)) || { result:'hybrid' }).result;
-    const cfg = DATA.framework.recommendations[key];
-    const panel = document.getElementById('rec-panel');
-    if (!panel || !cfg) return;
-
-    panel.className = 'rec-panel visible';
-    panel.style.background  = cfg.color;
-    panel.style.borderColor = cfg.border;
-    document.getElementById('rec-label').textContent = cfg.label.toUpperCase();
-    document.getElementById('rec-title').textContent = cfg.title;
-    document.getElementById('rec-desc').textContent  = cfg.desc;
-    document.getElementById('rec-steps').innerHTML   =
-      cfg.steps.map((s, i) =>
-        `<div class="rec-step"><span class="rec-step-n">0${i+1}</span><span>${s}</span></div>`
-      ).join('');
-    setTimeout(() => panel.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+    const a=this.state.answers;
+    const key=(DATA.framework.rules.find(r=>r.when(a))||{result:'hybrid'}).result;
+    const cfg=DATA.framework.recommendations[key];
+    const panel=document.getElementById('rec-panel');
+    if(!panel||!cfg) return;
+    panel.className='rec-panel visible';
+    panel.style.background=cfg.color; panel.style.borderColor=cfg.border;
+    document.getElementById('rec-label').textContent=cfg.label.toUpperCase();
+    document.getElementById('rec-title').textContent=cfg.title;
+    document.getElementById('rec-desc').textContent=cfg.desc;
+    document.getElementById('rec-steps').innerHTML=cfg.steps.map((s,i)=>
+      `<div class="rec-step"><span class="rec-step-n">0${i+1}</span><span>${s}</span></div>`).join('');
+    setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
   },
 
+  /* workflows */
   switchWf(id) {
-    document.querySelectorAll('.wf-tab').forEach(t  => t.classList.remove('active'));
-    document.querySelectorAll('.wf-body').forEach(b => b.classList.remove('active'));
-    document.getElementById('wftab-' + id)?.classList.add('active');
-    document.getElementById('wfbody-' + id)?.classList.add('active');
+    document.querySelectorAll('.wf-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.wf-body').forEach(b=>b.classList.remove('active'));
+    document.getElementById('wftab-'+id)?.classList.add('active');
+    document.getElementById('wfbody-'+id)?.classList.add('active');
   },
 
 };
 
 document.addEventListener('DOMContentLoaded', () => APP.init());
+
 </script>
 </body>
 </html>

@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Workflow Integration Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══ RESET ═══ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;scrollbar-gutter:stable}
+body{font-family:var(--font-body);font-size:15px;line-height:1.6;color:var(--text-primary);background:var(--bg-primary);overflow:hidden}
+button{cursor:pointer;border:none;background:none;font:inherit}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none}
+
+/* ═══ TOKENS: DARK ═══ */
+:root{
+  --bg-primary:#0d1117;
+  --bg-secondary:#161b22;
+  --bg-tertiary:#21262d;
+  --bg-card:#1a2030;
+  --bg-card-hover:#1f2840;
+  --border:#30363d;
+  --border-subtle:#21262d;
+  --text-primary:#e6edf3;
+  --text-secondary:#8b949e;
+  --text-tertiary:#484f58;
+  --text-accent:#79c0ff;
+  --family-blue:#2f81f7;
+  --family-orange:#f0883e;
+  --family-purple:#bc8cff;
+  --family-green:#3fb950;
+  --modal-bg:#1a2030;
+  --modal-backdrop:rgba(0,0,0,.72);
+  --sidebar-bg:#161b22;
+  --topbar-bg:#0d1117cc;
+  --topbar-border:#30363d;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.4);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.6);
+  --radius:8px;
+  --radius-lg:14px;
+  --sidebar-width:260px;
+  --topbar-h:54px;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-mono:'JetBrains Mono','Courier New',monospace;
+  --font-body:'Inter',system-ui,sans-serif;
+}
+
+/* ═══ TOKENS: LIGHT ═══ */
+[data-theme="light"]{
+  --bg-primary:#f6f8fa;
+  --bg-secondary:#ffffff;
+  --bg-tertiary:#f1f3f5;
+  --bg-card:#ffffff;
+  --bg-card-hover:#f8fafc;
+  --border:#d1d9e0;
+  --border-subtle:#eaeef2;
+  --text-primary:#1c2128;
+  --text-secondary:#57606a;
+  --text-tertiary:#9198a1;
+  --text-accent:#0969da;
+  --family-blue:#0550ae;
+  --family-orange:#bc4c00;
+  --family-purple:#6639ba;
+  --family-green:#116329;
+  --modal-bg:#ffffff;
+  --modal-backdrop:rgba(0,0,0,.45);
+  --sidebar-bg:#ffffff;
+  --topbar-bg:#f6f8facc;
+  --topbar-border:#d1d9e0;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.15);
+}
+
+/* ═══ NOISE OVERLAY ═══ */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  opacity:.5;
+}
+
+/* ═══ APP SHELL ═══ */
+.app-shell{display:grid;grid-template-columns:var(--sidebar-width) 1fr;height:100vh;overflow:hidden;position:relative;z-index:1}
+
+/* ═══ SIDEBAR ═══ */
+.sidebar{
+  background:var(--sidebar-bg);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:100;
+}
+.sidebar.collapsed{transform:translateX(calc(-1 * var(--sidebar-width)))}
+.sidebar-logo{
+  padding:18px 20px 16px;border-bottom:1px solid var(--border-subtle);
+  font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:var(--text-primary);
+}
+.sidebar-logo-sub{font-family:var(--font-mono);font-size:.65rem;color:var(--text-secondary);display:block;font-weight:400;margin-top:3px;letter-spacing:.04em}
+.sidebar-nav{flex:1;overflow-y:auto;padding:10px 0}
+.sidebar-nav::-webkit-scrollbar{width:4px}
+.sidebar-nav::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.nav-label{font-family:var(--font-mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-tertiary);padding:12px 20px 5px}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:.88rem;
+  color:var(--text-secondary);cursor:pointer;border-left:3px solid transparent;
+  transition:background .15s,color .15s;
+}
+.nav-item:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+.nav-item.active{background:var(--bg-tertiary);color:var(--text-primary);border-left-color:var(--family-blue);font-weight:500}
+.nav-icon{width:20px;text-align:center;font-size:.95rem;flex-shrink:0}
+
+/* ═══ MAIN AREA ═══ */
+.main-area{display:flex;flex-direction:column;overflow:hidden;background:var(--bg-primary)}
+
+/* ═══ TOPBAR ═══ */
+.topbar{
+  height:var(--topbar-h);background:var(--topbar-bg);backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--topbar-border);
+  display:flex;align-items:center;gap:10px;padding:0 18px;flex-shrink:0;z-index:50;
+}
+.topbar-title{font-family:var(--font-display);font-size:.95rem;font-weight:600;flex:1;color:var(--text-primary)}
+.icon-btn{
+  width:34px;height:34px;border-radius:var(--radius);display:flex;align-items:center;
+  justify-content:center;color:var(--text-secondary);transition:background .15s,color .15s;font-size:1rem;
+}
+.icon-btn:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+
+/* ═══ MAIN (scroll container) ═══ */
+main{flex:1;overflow-y:auto;position:relative}
+main::-webkit-scrollbar{width:6px}
+main::-webkit-scrollbar-track{background:transparent}
+main::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ═══ SEARCH BAR ═══ */
+.search-bar{
+  position:sticky;top:0;z-index:40;background:var(--bg-primary);
+  border-bottom:1px solid var(--border-subtle);padding:10px 22px;
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.search-bar.hidden{display:none}
+.search-wrap{position:relative;flex:1;min-width:140px}
+.search-input{
+  width:100%;padding:7px 34px 7px 13px;background:var(--bg-tertiary);border:1px solid var(--border);
+  border-radius:var(--radius);color:var(--text-primary);font-family:var(--font-body);font-size:.875rem;
+  transition:border-color .15s;
+}
+.search-input:focus{outline:none;border-color:var(--family-blue)}
+.search-input::placeholder{color:var(--text-tertiary)}
+.search-clear{
+  position:absolute;right:9px;top:50%;transform:translateY(-50%);
+  color:var(--text-tertiary);font-size:.75rem;display:none;width:18px;height:18px;
+  align-items:center;justify-content:center;border-radius:50%;
+}
+.search-clear.visible{display:flex}
+.search-clear:hover{background:var(--bg-secondary);color:var(--text-primary)}
+.filter-pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{
+  padding:4px 12px;border-radius:20px;font-size:.75rem;cursor:pointer;
+  border:1px solid var(--border);color:var(--text-secondary);font-family:var(--font-mono);
+  transition:all .15s;white-space:nowrap;
+}
+.pill:hover{border-color:var(--text-secondary);color:var(--text-primary)}
+.pill.active{background:var(--family-blue);border-color:var(--family-blue);color:#fff}
+
+/* ═══ CONTENT AREA ═══ */
+.content-area{padding:24px 26px 40px}
+.section-header{margin-bottom:26px;padding-bottom:14px;border-bottom:1px solid var(--border-subtle)}
+.section-header h1{font-family:var(--font-display);font-size:1.9rem;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:11px}
+.section-header p{color:var(--text-secondary);margin-top:7px;max-width:620px;font-size:.875rem}
+
+/* ═══ STATS GRID ═══ */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px}
+.stat-value{font-family:var(--font-display);font-size:2.4rem;font-weight:700;color:var(--text-primary)}
+.stat-label{font-family:var(--font-mono);font-size:.68rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.07em;margin-top:3px}
+
+/* ═══ TABLE ═══ */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-lg)}
+.atlas-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.atlas-table th{
+  background:var(--bg-secondary);color:var(--text-secondary);font-family:var(--font-mono);
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:10px 13px;
+  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;white-space:nowrap;
+}
+.atlas-table th:first-child,.atlas-table td:first-child{
+  position:sticky;left:0;background:var(--bg-secondary);border-right:1px solid var(--border);min-width:160px;z-index:5;
+}
+.atlas-table th:first-child{z-index:15}
+.atlas-table td{padding:9px 13px;border-bottom:1px solid var(--border-subtle);color:var(--text-primary);vertical-align:middle}
+.atlas-table tr:last-child td{border-bottom:none}
+.atlas-table tr:hover td{background:var(--bg-tertiary)}
+.atlas-table tr:hover td:first-child{background:var(--bg-secondary)}
+.fit-cell{text-align:center}
+.fit-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.fit-h{background:var(--family-green)}
+.fit-m{background:var(--family-orange)}
+.fit-l{background:var(--border)}
+
+/* ═══ CARD GRID ═══ */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card-grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.card-grid.cols-4{grid-template-columns:repeat(4,1fr)}
+
+/* ═══ APPROACH CARD ═══ */
+.approach-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;
+}
+.approach-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--card-accent,var(--border))}
+.approach-card-accent{height:4px;background:var(--card-accent,var(--family-blue))}
+.approach-card-body{padding:15px}
+.approach-card-group{font-family:var(--font-mono);font-size:.63rem;letter-spacing:.08em;text-transform:uppercase;color:var(--card-accent,var(--text-tertiary));margin-bottom:7px}
+.approach-card-name{font-family:var(--font-display);font-size:1.02rem;font-weight:600;color:var(--text-primary);margin-bottom:4px;line-height:1.3}
+.approach-card-tagline{font-size:.78rem;color:var(--text-secondary);margin-bottom:11px}
+.approach-card-traits{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:11px}
+.trait-tag{padding:2px 7px;border-radius:4px;font-size:.7rem;font-family:var(--font-mono);background:var(--bg-tertiary);color:var(--text-secondary)}
+.tradeoff-bars{display:flex;flex-direction:column;gap:3px}
+.tradeoff-row{display:flex;align-items:center;gap:6px;font-size:.68rem;color:var(--text-tertiary);font-family:var(--font-mono)}
+.tradeoff-lbl{width:68px;flex-shrink:0;text-align:right}
+.tradeoff-track{flex:1;height:3px;background:var(--bg-tertiary);border-radius:2px;overflow:hidden}
+.tradeoff-fill{height:100%;border-radius:2px;background:var(--card-accent,var(--family-blue))}
+
+/* ═══ BUILDING BLOCK CARD ═══ */
+.bb-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:18px;cursor:pointer;transition:transform .18s,box-shadow .18s;
+}
+.bb-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.bb-icon{font-size:1.9rem;margin-bottom:9px}
+.bb-name{font-family:var(--font-display);font-size:.97rem;font-weight:600;color:var(--text-primary);margin-bottom:3px}
+.bb-cat{font-family:var(--font-mono);font-size:.63rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-tertiary);margin-bottom:7px}
+.bb-desc{font-size:.82rem;color:var(--text-secondary);line-height:1.55}
+
+/* ═══ PRINCIPLE ITEM ═══ */
+.principle-item{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:18px 20px;cursor:pointer;transition:transform .18s,box-shadow .18s;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.principle-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.principle-icon{font-size:1.6rem;flex-shrink:0;margin-top:1px}
+.principle-name{font-family:var(--font-display);font-size:1rem;font-weight:600;color:var(--text-primary);margin-bottom:3px}
+.principle-summary{font-size:.82rem;color:var(--text-secondary)}
+
+/* ═══ DECISION FRAMEWORK ═══ */
+.df-container{max-width:700px}
+.df-question{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:14px}
+.df-q-num{font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--text-tertiary);margin-bottom:7px}
+.df-q-text{font-size:.97rem;font-weight:500;color:var(--text-primary);margin-bottom:13px}
+.df-options{display:flex;gap:8px;flex-wrap:wrap}
+.df-opt{
+  padding:7px 16px;border:1px solid var(--border);border-radius:20px;font-size:.82rem;
+  cursor:pointer;color:var(--text-secondary);transition:all .15s;
+}
+.df-opt:hover{border-color:var(--text-secondary);color:var(--text-primary)}
+.df-opt.sel{background:var(--family-blue);border-color:var(--family-blue);color:#fff}
+.df-result{background:var(--bg-card);border:2px solid var(--family-blue);border-radius:var(--radius-lg);padding:22px;margin-top:18px;display:none}
+.df-result.visible{display:block}
+.df-res-label{font-family:var(--font-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--family-blue);margin-bottom:7px}
+.df-res-name{font-family:var(--font-display);font-size:1.35rem;font-weight:700;color:var(--text-primary);margin-bottom:7px}
+.df-res-rationale{font-size:.875rem;color:var(--text-secondary);margin-bottom:13px;line-height:1.6}
+.df-res-steps{padding-left:18px;font-size:.83rem;color:var(--text-secondary);display:flex;flex-direction:column;gap:4px;list-style:disc}
+.df-reset{margin-top:14px;padding:7px 18px;border:1px solid var(--border);border-radius:var(--radius);font-size:.83rem;color:var(--text-secondary);transition:all .15s}
+.df-reset:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+
+/* ═══ WORKFLOW CARD ═══ */
+.workflow-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:20px 22px;margin-bottom:14px;cursor:pointer;transition:transform .18s,box-shadow .18s;
+}
+.workflow-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.workflow-hd{display:flex;align-items:center;gap:12px;margin-bottom:9px}
+.workflow-icon{font-size:1.55rem}
+.workflow-title{font-family:var(--font-display);font-size:1.08rem;font-weight:600;color:var(--text-primary)}
+.workflow-scenario{font-size:.84rem;color:var(--text-secondary);margin-bottom:11px;line-height:1.55}
+.workflow-tags{display:flex;gap:6px;flex-wrap:wrap}
+.w-tag{padding:3px 9px;border-radius:4px;font-size:.72rem;font-family:var(--font-mono);background:var(--bg-tertiary);color:var(--text-secondary)}
+
+/* ═══ MODAL ═══ */
+.modal-overlay{
+  position:fixed;inset:0;background:var(--modal-backdrop);z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .22s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:var(--modal-bg);border:1px solid var(--border);border-radius:var(--radius-lg);
+  width:min(720px,94vw);max-height:88vh;overflow:hidden;display:flex;flex-direction:column;
+  transform:scale(.96) translateY(8px);transition:transform .22s cubic-bezier(.4,0,.2,1);
+  box-shadow:var(--shadow-lg);
+}
+.modal-overlay.open .modal{transform:scale(1) translateY(0)}
+.modal.maximized{width:97vw;max-height:96vh}
+.modal-header{
+  padding:17px 18px 15px;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:11px;flex-shrink:0;
+}
+.modal-accent-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0;background:var(--modal-accent,var(--family-blue))}
+.modal-title{font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text-primary);line-height:1.3}
+.modal-tagline{font-size:.83rem;color:var(--text-secondary);margin-top:2px}
+.modal-actions{display:flex;gap:3px;flex-shrink:0;margin-top:1px}
+.modal-btn{
+  width:29px;height:29px;border-radius:6px;color:var(--text-secondary);font-size:.82rem;
+  display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;
+}
+.modal-btn:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+.modal-body{overflow-y:auto;padding:20px 22px;flex:1}
+.modal-body::-webkit-scrollbar{width:4px}
+.modal-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.modal-nav-bar{
+  display:flex;justify-content:space-between;align-items:center;padding:10px 18px;
+  border-top:1px solid var(--border-subtle);flex-shrink:0;
+  font-family:var(--font-mono);font-size:.72rem;color:var(--text-tertiary);
+}
+.modal-nav-btn{
+  padding:5px 13px;border:1px solid var(--border);border-radius:6px;font-size:.78rem;
+  color:var(--text-secondary);display:flex;align-items:center;gap:5px;transition:all .15s;
+}
+.modal-nav-btn:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+.modal-nav-btn.hidden{opacity:0;pointer-events:none}
+
+/* ═══ MODAL CONTENT ═══ */
+.m-section{margin-bottom:18px}
+.m-section-title{
+  font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text-tertiary);margin-bottom:7px;
+}
+.m-text{font-size:.875rem;color:var(--text-secondary);line-height:1.65}
+.m-tradeoffs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:5px}
+.m-t-row{display:flex;align-items:center;gap:9px}
+.m-t-lbl{font-family:var(--font-mono);font-size:.72rem;color:var(--text-secondary);width:88px;flex-shrink:0}
+.m-t-track{flex:1;height:6px;background:var(--bg-tertiary);border-radius:3px;overflow:hidden}
+.m-t-fill{height:100%;border-radius:3px;background:var(--modal-accent,var(--family-blue))}
+.m-t-val{font-family:var(--font-mono);font-size:.7rem;color:var(--text-tertiary);width:16px;text-align:right}
+.tag-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.m-tag{padding:3px 9px;border-radius:4px;font-size:.76rem;font-family:var(--font-mono);background:var(--bg-tertiary);color:var(--text-secondary)}
+.uses-chip{
+  display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:4px;
+  font-size:.72rem;font-family:var(--font-mono);background:var(--bg-tertiary);color:var(--text-secondary);margin:2px;
+}
+.workflow-step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.ws-phase{
+  font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--family-blue);background:rgba(47,129,247,.1);border-radius:4px;
+  padding:3px 8px;flex-shrink:0;margin-top:1px;
+}
+.ws-desc{font-size:.875rem;color:var(--text-secondary);line-height:1.55}
+
+/* ═══ HIGHLIGHT ═══ */
+mark{background:rgba(255,170,0,.22);color:inherit;border-radius:2px;padding:0 1px}
+
+/* ═══ SCROLL TO TOP ═══ */
+.scroll-top{
+  position:fixed;bottom:22px;right:22px;z-index:150;width:38px;height:38px;
+  border-radius:50%;background:var(--bg-secondary);border:1px solid var(--border);
+  color:var(--text-secondary);font-size:1rem;display:flex;align-items:center;
+  justify-content:center;box-shadow:var(--shadow-sm);
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;transform:translateY(10px);
+}
+.scroll-top.visible{opacity:1;pointer-events:all;transform:translateY(0)}
+.scroll-top:hover{color:var(--text-primary)}
+
+/* ═══ SIDEBAR OVERLAY ═══ */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90}
+.sidebar-overlay.open{display:block}
+
+/* ═══ FOOTER ═══ */
+.atlas-footer{
+  text-align:center;padding:22px;font-size:.75rem;color:var(--text-tertiary);
+  font-family:var(--font-mono);border-top:1px solid var(--border-subtle);margin-top:30px;
+}
+
+/* ═══ EMPTY STATE ═══ */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-tertiary)}
+.empty-state-icon{font-size:2.5rem;margin-bottom:12px}
+.empty-state p{font-size:.875rem}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.content-area>*{animation:fadeUp .28s ease both}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1100px){.card-grid{grid-template-columns:repeat(2,1fr)}.stats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+  .app-shell{grid-template-columns:1fr}
+  .sidebar{position:fixed;top:0;left:0;height:100vh;z-index:100;transform:translateX(calc(-1 * var(--sidebar-width)))}
+  .sidebar.open{transform:translateX(0)}
+  .card-grid{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .filter-pills{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}
+  .content-area{padding:16px 16px 32px}
+  .df-container{max-width:100%}
+  .m-tradeoffs{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .section-header h1{font-size:1.5rem}
+  .modal{width:98vw}
+}
+</style>
+</head>
+<body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      ⚡ AI Atlas
+      <span class="sidebar-logo-sub">Workflow Integration</span>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+  </aside>
+  <div class="main-area">
+    <header class="topbar">
+      <button class="icon-btn" id="sidebarToggle" title="Toggle sidebar">☰</button>
+      <div class="topbar-title" id="topbarTitle">AI Workflow Integration</div>
+      <button class="icon-btn" id="themeToggle" title="Toggle theme">◑</button>
+    </header>
+    <main id="mainContent">
+      <div class="search-bar hidden" id="searchBar">
+        <div class="search-wrap">
+          <input class="search-input" id="searchInput" type="text" placeholder="Search…" autocomplete="off">
+          <button class="search-clear" id="searchClear">✕</button>
+        </div>
+        <div class="filter-pills" id="filterPills"></div>
+      </div>
+      <div class="content-area" id="contentArea"></div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-header" id="modalHeader">
+      <div class="modal-accent-bar" id="modalAccentBar"></div>
+      <div style="flex:1">
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-tagline" id="modalTagline"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" id="modalMaxBtn" title="Maximize">⤢</button>
+        <button class="modal-btn" id="modalCloseBtn" title="Close">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-nav-bar" id="modalNavBar"></div>
+  </div>
+</div>
+
+<button class="scroll-top" id="scrollTop" title="Scroll to top">↑</button>
+
+<script>
+// ===== DATA_START =====
+const DATA = {
+  nav: [
+    { id:'overview',       icon:'📊', label:'Overview' },
+    { id:'approaches',     icon:'🧭', label:'Approaches' },
+    { id:'buildingBlocks', icon:'🧱', label:'Building Blocks' },
+    { id:'principles',     icon:'📐', label:'Principles' },
+    { id:'decisionFramework', icon:'🎯', label:'Decision Framework' },
+    { id:'workflows',      icon:'🔀', label:'Workflows' }
+  ],
+
+  groups: [
+    { id:'direct',    name:'Direct Assistance',    colorVar:'--family-blue'   },
+    { id:'agentic',   name:'Agentic Workflows',    colorVar:'--family-orange' },
+    { id:'knowledge', name:'Knowledge-Enhanced',   colorVar:'--family-purple' },
+    { id:'validated', name:'Validated & Constrained', colorVar:'--family-green' }
+  ],
+
+  approaches: [
+    { id:'inline-copilot',    name:'Inline Copilot Assistance',  tagline:'Real-time IDE completions as you type',
+      group:'direct',    color:'#2f81f7',
+      traits:['Low friction','Passive','Context-aware'],
+      excels:'Boilerplate, familiar patterns, routine coding tasks.',
+      mechanics:'An IDE plugin streams token completions derived from the surrounding code context window. Developers accept or dismiss suggestions without breaking their flow.',
+      avoid:'Novel architecture decisions, security-critical logic, cross-file refactors that require global context.',
+      tradeoffs:{speed:9,control:8,quality:6,autonomy:2,scalability:3,complexity:1} },
+
+    { id:'chat-driven',       name:'Chat-Driven Development',    tagline:'Conversational coding with an AI partner',
+      group:'direct',    color:'#388bfd',
+      traits:['Interactive','Iterative','Explanatory'],
+      excels:'Exploratory coding, debugging unfamiliar APIs, explaining existing code, targeted refactoring.',
+      mechanics:'Developer describes intent in natural language; AI returns code with reasoning; developer applies the result and iterates across multiple turns.',
+      avoid:'Large-scale generation, when reproducibility matters, or when you need structured multi-file output.',
+      tradeoffs:{speed:7,control:9,quality:7,autonomy:3,scalability:4,complexity:2} },
+
+    { id:'spec-to-code',      name:'Spec-to-Code Generation',    tagline:'From requirements to implementation in one pass',
+      group:'direct',    color:'#58a6ff',
+      traits:['Front-loaded','Systematic','Repeatable'],
+      excels:'Well-defined modules, CRUD endpoints, API clients, data models, utility libraries.',
+      mechanics:'Author a detailed specification covering types, behaviour, constraints, and examples; submit to AI for generation; validate the output against the spec.',
+      avoid:'Poorly defined requirements, exploratory research, novel algorithmic problems without clear acceptance criteria.',
+      tradeoffs:{speed:8,control:7,quality:8,autonomy:4,scalability:6,complexity:3} },
+
+    { id:'test-driven-ai',    name:'Test-Driven AI Generation',  tagline:'Tests define the contract; AI fills the implementation',
+      group:'direct',    color:'#79c0ff',
+      traits:['Contract-first','Verifiable','Disciplined'],
+      excels:'Pure functions with clear I/O, library methods, data transformations, domain business logic.',
+      mechanics:'Write exhaustive unit tests first; feed tests and type signatures to AI; run CI; iterate on failures until the suite is green.',
+      avoid:'UI generation, non-deterministic systems, or when writing tests upfront is more costly than writing the code.',
+      tradeoffs:{speed:6,control:10,quality:9,autonomy:3,scalability:7,complexity:4} },
+
+    { id:'autonomous-agent',  name:'Autonomous Agent Loop',      tagline:'Self-directed multi-step task execution',
+      group:'agentic',   color:'#f0883e',
+      traits:['Autonomous','Multi-step','Goal-driven'],
+      excels:'Complex multi-file tasks, project scaffolding, automated research, CI/CD pipeline automation.',
+      mechanics:'Agent is given a goal and a set of tools; it plans, executes, observes the environment, replans, and repeats until the goal is met or it is blocked.',
+      avoid:'Irreversible production actions without checkpoints, untrusted environments, or ambiguous goals that lack clear stopping conditions.',
+      tradeoffs:{speed:8,control:3,quality:7,autonomy:9,scalability:8,complexity:7} },
+
+    { id:'multi-agent',       name:'Multi-Agent Orchestration',  tagline:'Specialist agents collaborating on complex problems',
+      group:'agentic',   color:'#ff7b72',
+      traits:['Parallel','Specialist','Coordinated'],
+      excels:'Large codebase tasks, cross-domain work, tasks benefiting from multiple independent review perspectives.',
+      mechanics:'An orchestrator decomposes the task; dispatches to specialist agents (planner, coder, reviewer, tester); aggregates and reconciles results.',
+      avoid:'Simple tasks where coordination overhead exceeds benefit; when inter-agent communication latency becomes the bottleneck.',
+      tradeoffs:{speed:7,control:5,quality:9,autonomy:8,scalability:9,complexity:9} },
+
+    { id:'prompt-chain',      name:'Prompt Chaining Pipeline',   tagline:'Structured AI call sequences with deterministic routing',
+      group:'agentic',   color:'#ffa657',
+      traits:['Structured','Deterministic','Composable'],
+      excels:'Document processing, multi-stage transformation, ETL with AI steps, templated report generation.',
+      mechanics:'Each prompt takes the previous output as structured input; routing and branching logic live in code; AI handles only the transformation steps.',
+      avoid:'When the task structure is unknown upfront, or when the workflow must adapt dynamically to unforeseen conditions.',
+      tradeoffs:{speed:7,control:8,quality:8,autonomy:5,scalability:8,complexity:5} },
+
+    { id:'tool-augmented',    name:'Tool-Augmented AI',          tagline:'AI with access to external tools and live APIs',
+      group:'agentic',   color:'#e3b341',
+      traits:['Extensible','Grounded','Action-capable'],
+      excels:'Tasks requiring live data, web search, code execution, database queries, or third-party API calls.',
+      mechanics:'Function-calling enables the model to invoke registered tools; results are fed back into context for reasoning before the next generation step.',
+      avoid:'When tool side-effects are unacceptable, in constrained sandboxes, or on latency-critical paths.',
+      tradeoffs:{speed:6,control:6,quality:8,autonomy:6,scalability:7,complexity:6} },
+
+    { id:'rag-generation',    name:'RAG-Enhanced Generation',    tagline:'Retrieve first, then generate with grounded context',
+      group:'knowledge', color:'#bc8cff',
+      traits:['Grounded','Up-to-date','Source-aware'],
+      excels:'Domain Q&A, code generation against proprietary APIs, documentation-aware assistance, support copilots.',
+      mechanics:'Query is embedded → vector search retrieves top-k relevant chunks → chunks are injected into context → generation is conditioned on retrieved facts.',
+      avoid:'When the corpus is too small or too large for reliable retrieval; when retrieval quality is unpredictable; real-time tasks.',
+      tradeoffs:{speed:6,control:6,quality:8,autonomy:4,scalability:7,complexity:6} },
+
+    { id:'context-scaffolding', name:'Context-Rich Scaffolding', tagline:'Deep codebase context for coherent generation',
+      group:'knowledge', color:'#a371f7',
+      traits:['Codebase-aware','Coherent','Integrated'],
+      excels:'Large-scale refactors, adding features to existing systems, maintaining style and naming consistency across files.',
+      mechanics:'Extract relevant files, symbols, and dependency chains; pack into context with a repo map; AI generates additions that are coherent with the existing code.',
+      avoid:'Simple isolated tasks where context packing overhead is wasteful; repositories too large for any context window.',
+      tradeoffs:{speed:5,control:7,quality:9,autonomy:4,scalability:6,complexity:5} },
+
+    { id:'fine-tuned-model',  name:'Fine-Tuned Domain Model',    tagline:'Task-specific model adapted on your own data',
+      group:'knowledge', color:'#c9b1ff',
+      traits:['Domain-expert','Consistent','Offline-capable'],
+      excels:'Repetitive domain-specific generation, internal DSL output, style-consistent code at scale, offline deployment.',
+      mechanics:'Collect representative input-output examples; fine-tune a base model; evaluate on a held-out test set; deploy the adapted model internally.',
+      avoid:'One-off tasks where training cost is not justified; rapidly evolving domains; when the base model already performs adequately.',
+      tradeoffs:{speed:9,control:5,quality:9,autonomy:5,scalability:9,complexity:8} },
+
+    { id:'eval-driven',       name:'Eval-Driven Iteration',      tagline:'Automated quality feedback loops that improve output',
+      group:'validated', color:'#3fb950',
+      traits:['Systematic','Measurable','Self-improving'],
+      excels:'Prompt optimisation, quality-gated pipelines, regression prevention, model comparison and selection.',
+      mechanics:'Define an eval suite of golden examples and metrics; run AI → auto-evaluate → compare against baseline → iterate on prompt or model.',
+      avoid:'When evals are impossible to define, for true one-shot tasks, or for ultra-low-volume use cases where overhead is prohibitive.',
+      tradeoffs:{speed:5,control:9,quality:10,autonomy:5,scalability:8,complexity:7} },
+
+    { id:'human-in-loop',     name:'Human-in-the-Loop',          tagline:'AI with mandatory human review gates',
+      group:'validated', color:'#56d364',
+      traits:['Safe','Auditable','Compliant'],
+      excels:'Regulated domains, high-stakes decisions, novel unexplored territory, building organisational trust in AI.',
+      mechanics:'AI generates a candidate; a human reviews, edits, and approves at defined checkpoints; feedback is optionally captured to improve future runs.',
+      avoid:'High-volume automation, latency-critical paths, or when humans become the consistent bottleneck.',
+      tradeoffs:{speed:3,control:10,quality:9,autonomy:2,scalability:4,complexity:3} },
+
+    { id:'simulation-validated', name:'Simulation-Validated AI', tagline:'AI output exercised in a safe simulated environment',
+      group:'validated', color:'#2ea043',
+      traits:['Safe-to-fail','Evidence-based','Grounded'],
+      excels:'Infrastructure-as-code, game AI, physics simulations, test-environment-first development.',
+      mechanics:'AI generates code or configuration; it is auto-deployed to a simulation or sandbox; metrics are collected; AI replans based on observed results.',
+      avoid:'When simulation fidelity is low, when environment setup cost exceeds the value, or for purely algorithmic logic tasks.',
+      tradeoffs:{speed:4,control:7,quality:9,autonomy:7,scalability:7,complexity:8} }
+  ],
+
+  bbCategories: [
+    { id:'context',       name:'Context & Memory' },
+    { id:'generation',    name:'Generation & Execution' },
+    { id:'validation',    name:'Validation & Quality' },
+    { id:'orchestration', name:'Orchestration & Control' }
+  ],
+
+  buildingBlocks: [
+    { id:'ctx-window',     icon:'🪟', name:'Context Window',          category:'context',
+      desc:'The active token budget fed to the model. Determines how much history, code, and instructions it can reason over in a single call.',
+      usedBy:['inline-copilot','chat-driven','spec-to-code','test-driven-ai','autonomous-agent','multi-agent','prompt-chain','tool-augmented','rag-generation','context-scaffolding'] },
+    { id:'rag-store',      icon:'📚', name:'RAG / Vector Store',       category:'context',
+      desc:'Semantic embedding store enabling retrieval of relevant chunks at inference time. Powers grounded generation without enlarging the base model.',
+      usedBy:['rag-generation','context-scaffolding','fine-tuned-model'] },
+    { id:'agent-memory',   icon:'🧠', name:'Agent Memory Store',       category:'context',
+      desc:'Persistent key-value or structured store for agent state across steps. Enables long-horizon planning beyond a single context window.',
+      usedBy:['autonomous-agent','multi-agent'] },
+    { id:'knowledge-graph',icon:'🕸️', name:'Knowledge Graph',          category:'context',
+      desc:'Structured relational store of entities and relationships. Supports complex multi-hop reasoning that flat vector retrieval cannot easily provide.',
+      usedBy:['rag-generation','multi-agent','context-scaffolding'] },
+    { id:'conv-history',   icon:'💬', name:'Conversation History',     category:'context',
+      desc:'Ordered record of prior turns in a session. Enables multi-turn coherence and contextual refinement in chat-driven approaches.',
+      usedBy:['chat-driven','human-in-loop','multi-agent'] },
+
+    { id:'llm-core',       icon:'⚡', name:'LLM Core',                 category:'generation',
+      desc:'The foundational large language model performing text-to-text transformation. Every other building block is scaffolding around this component.',
+      usedBy:['inline-copilot','chat-driven','spec-to-code','test-driven-ai','autonomous-agent','multi-agent','prompt-chain','tool-augmented','rag-generation','context-scaffolding','fine-tuned-model','eval-driven','human-in-loop','simulation-validated'] },
+    { id:'code-interpreter',icon:'💻', name:'Code Interpreter',        category:'generation',
+      desc:'Sandboxed runtime that executes AI-generated code and returns stdout, stderr, or computed values back into the context for the next reasoning step.',
+      usedBy:['autonomous-agent','tool-augmented','eval-driven','simulation-validated'] },
+    { id:'tool-caller',    icon:'🔧', name:'Tool / Function Caller',   category:'generation',
+      desc:'API that allows the model to invoke registered functions (web search, DB query, send email). Bridges language-model reasoning with real-world action.',
+      usedBy:['tool-augmented','autonomous-agent','multi-agent'] },
+    { id:'constraint-solver',icon:'🔒', name:'Constraint Solver',      category:'generation',
+      desc:'Formal solver (SAT, LP, SMT) that enforces hard constraints AI cannot reliably self-enforce. Used alongside AI generation for correctness guarantees.',
+      usedBy:['simulation-validated','eval-driven'] },
+    { id:'simulation-env', icon:'🎮', name:'Simulation Environment',   category:'generation',
+      desc:'Controlled sandbox — container, test environment, game world — where AI outputs can be exercised and measured before touching production.',
+      usedBy:['simulation-validated','eval-driven','autonomous-agent'] },
+    { id:'prompt-engine',  icon:'📝', name:'Prompt Template Engine',   category:'generation',
+      desc:'Library for composing, versioning, and rendering parameterised prompt templates. Keeps prompts maintainable, testable, and separated from routing logic.',
+      usedBy:['spec-to-code','prompt-chain','eval-driven','rag-generation'] },
+
+    { id:'test-suite',     icon:'✅', name:'Automated Test Suite',     category:'validation',
+      desc:'Collection of unit, integration, and regression tests. The primary verification layer for AI-generated code correctness, independent of the model.',
+      usedBy:['test-driven-ai','eval-driven','autonomous-agent','multi-agent','simulation-validated'] },
+    { id:'eval-framework', icon:'📊', name:'Eval Framework',           category:'validation',
+      desc:'Systematic tooling for measuring AI output quality against golden datasets. Enables data-driven prompt optimisation and model selection.',
+      usedBy:['eval-driven','fine-tuned-model','multi-agent'] },
+    { id:'human-review',   icon:'👁️', name:'Human Review Gate',        category:'validation',
+      desc:'Formal checkpoint where a human inspects, approves, or rejects AI output before it proceeds downstream. Essential for regulated contexts.',
+      usedBy:['human-in-loop','multi-agent','spec-to-code'] },
+    { id:'linter',         icon:'🔍', name:'Linter / Static Analyser', category:'validation',
+      desc:'Automated code quality and style enforcement. A fast, cheap first-pass validation step before more expensive test runs or human reviews.',
+      usedBy:['inline-copilot','spec-to-code','test-driven-ai','autonomous-agent'] },
+    { id:'output-validator',icon:'🛡️', name:'Output Validator',        category:'validation',
+      desc:'Schema or contract checker ensuring AI output conforms to the expected structure before downstream consumption. Catches format errors early.',
+      usedBy:['prompt-chain','tool-augmented','rag-generation','eval-driven'] },
+
+    { id:'agent-orch',     icon:'🎯', name:'Agent Orchestrator',       category:'orchestration',
+      desc:'Controller that manages agent lifecycle, delegates subtasks, and aggregates results across multiple agents or execution steps.',
+      usedBy:['multi-agent','autonomous-agent','prompt-chain'] },
+    { id:'task-decomposer',icon:'🗂️', name:'Task Decomposer',          category:'orchestration',
+      desc:'Module that breaks high-level goals into atomic, executable subtasks. Critical for reliable long-horizon agent performance.',
+      usedBy:['autonomous-agent','multi-agent','spec-to-code'] },
+    { id:'state-manager',  icon:'🔄', name:'State Manager',            category:'orchestration',
+      desc:'Maintains a versioned snapshot of task progress, enabling recovery from failures, inspection, and resumption of long-running workflows.',
+      usedBy:['autonomous-agent','multi-agent','human-in-loop','simulation-validated'] },
+    { id:'feedback-loop',  icon:'↩️', name:'Feedback Loop Controller', category:'orchestration',
+      desc:'Mechanism that routes evaluation signals back to the generation step, enabling iterative self-improvement without human intervention.',
+      usedBy:['eval-driven','simulation-validated','autonomous-agent'] },
+    { id:'checkpoint-mgr', icon:'📌', name:'Checkpoint Manager',       category:'orchestration',
+      desc:'Saves and restores workflow state at defined points. Enables pause-resume, rollback, and auditing of long-running agentic tasks.',
+      usedBy:['human-in-loop','autonomous-agent','multi-agent','simulation-validated'] }
+  ],
+
+  principles: [
+    { id:'specs-before-prompts', icon:'📐', name:'Specs Before Prompts',
+      summary:'Write precisely what you need before asking for it.',
+      detail:'Invest time in a rigorous specification — types, constraints, examples, edge cases — before prompting. Vague prompts yield vague code. A good spec also doubles as documentation and seeds your test suite.',
+      applies:['spec-to-code','test-driven-ai','eval-driven','multi-agent'] },
+    { id:'evals-are-product', icon:'📊', name:'Evals Are the Product',
+      summary:'If you cannot measure it, you cannot improve it.',
+      detail:'Treat your evaluation suite with the same care as production code. Every prompt change without a corresponding eval run is technical debt. Good evals catch regressions, enable model upgrades, and build organisational confidence in AI output.',
+      applies:['eval-driven','fine-tuned-model','multi-agent','simulation-validated'] },
+    { id:'autonomy-dial', icon:'🎛️', name:'Autonomy Is a Dial, Not a Switch',
+      summary:'Calibrate AI autonomy to match task risk and novelty.',
+      detail:'Autonomy is not binary. Start with human review on every output, graduate to sampling-based review, then automated gates only. Increase autonomy as confidence in the pipeline grows. Irreversible actions always demand higher human oversight.',
+      applies:['autonomous-agent','human-in-loop','multi-agent','eval-driven'] },
+    { id:'context-is-everything', icon:'🌐', name:'Context Is Everything',
+      summary:'The quality of context you provide determines the quality of output.',
+      detail:'LLMs have no inherent understanding of your codebase, conventions, or constraints. Investing in context assembly — repo maps, relevant files, style guides, examples — consistently outperforms prompt engineering tricks on a sparse context.',
+      applies:['context-scaffolding','rag-generation','inline-copilot','chat-driven','spec-to-code'] },
+    { id:'fail-fast', icon:'⚡', name:'Fail Fast, Recover Faster',
+      summary:'Design AI pipelines to surface failures early and cheaply.',
+      detail:'Add validation checkpoints between AI steps. Fail loudly on schema violations, unexpected output shapes, or test failures. The cost of catching an error after step 3 is far lower than after step 30. Structured output formats make failures detectable.',
+      applies:['prompt-chain','autonomous-agent','eval-driven','test-driven-ai'] },
+    { id:'separate-data', icon:'🧱', name:'Separate Data from Logic',
+      summary:'Keep content, prompts, and routing logic in distinct layers.',
+      detail:'Mixing business logic into prompts creates untestable, unmaintainable spaghetti. Store prompts as versioned templates. Keep routing in code. Keep domain knowledge in retrievable stores. Each layer can evolve independently.',
+      applies:['spec-to-code','prompt-chain','rag-generation','eval-driven'] },
+    { id:'make-loops-visible', icon:'👁️', name:'Make Loops Visible',
+      summary:'Instrument every AI feedback loop so you can see what is happening.',
+      detail:'Agentic loops without observability fail mysteriously. Log every tool call, every intermediate output, every replanning step. Use structured traces that can be replayed and diffed. Visibility is a prerequisite for debugging and improvement.',
+      applies:['autonomous-agent','multi-agent','eval-driven','simulation-validated'] },
+    { id:'trust-verify', icon:'🔐', name:'Trust but Verify',
+      summary:'Never ship AI output without a validation step proportional to the risk.',
+      detail:'AI outputs look confident even when wrong. A fast lint or test run costs milliseconds; a human review costs minutes; a production incident costs days. Choose the right verification level based on risk, not on how confident the AI sounded.',
+      applies:['test-driven-ai','eval-driven','human-in-loop','spec-to-code'] },
+    { id:'observability', icon:'🔭', name:'Design for Observability',
+      summary:'Treat traceability and explainability as first-class requirements.',
+      detail:'Structured logs, span IDs, and decision trails are not optional extras. They are required for debugging, auditing, and iterating AI workflows. If you cannot explain why an AI made a decision, you cannot improve or audit it.',
+      applies:['multi-agent','autonomous-agent','eval-driven','human-in-loop'] },
+    { id:'compose-not-monolith', icon:'🧩', name:"Compose, Don't Monolith",
+      summary:'Build AI pipelines from small, tested, replaceable components.',
+      detail:'Monolithic prompts that do everything at once are fragile and unmaintainable. Compose small prompts each doing one thing well. Each step can be tested in isolation, swapped for a better model, or retried independently without disturbing the rest.',
+      applies:['prompt-chain','multi-agent','eval-driven','rag-generation'] },
+    { id:'human-architect', icon:'🏛️', name:'Human as Architect',
+      summary:'AI builds; humans design the system and own the outcomes.',
+      detail:'AI excels at filling in details, generating options, and automating repetitive work. Humans must own the architecture, set the constraints, define success criteria, and take responsibility for what ships. AI accelerates; humans steer.',
+      applies:['spec-to-code','human-in-loop','multi-agent','chat-driven'] }
+  ],
+
+  decisionFramework: {
+    questions: [
+      { id:'complexity', text:'How complex is the task?',
+        options:[{v:'simple',l:'Simple (1–2 files)'},{v:'moderate',l:'Moderate (1 module)'},{v:'complex',l:'Complex (multi-module)'}] },
+      { id:'iteration', text:'How quickly do you need to iterate?',
+        options:[{v:'fast',l:'Fast (hours)'},{v:'balanced',l:'Balanced (days)'},{v:'thorough',l:'Thorough (weeks)'}] },
+      { id:'risk', text:'What is the risk tolerance?',
+        options:[{v:'low',l:'Low (production-critical)'},{v:'medium',l:'Medium (standard)'},{v:'high',l:'High (exploratory)'}] },
+      { id:'expertise', text:"What is your team's AI expertise?",
+        options:[{v:'beginner',l:'Beginner'},{v:'intermediate',l:'Intermediate'},{v:'expert',l:'Expert'}] },
+      { id:'output', text:'What type of output do you primarily need?',
+        options:[{v:'code',l:'Code / Logic'},{v:'analysis',l:'Analysis / Docs'},{v:'system',l:'System / Pipeline'}] },
+      { id:'validation', text:'How will you validate the output?',
+        options:[{v:'automated',l:'Automated tests'},{v:'human',l:'Human review'},{v:'hybrid',l:'Hybrid'}] }
+    ],
+    scoring: {
+      complexity: {
+        simple:   {'inline-copilot':3,'chat-driven':3,'test-driven-ai':1,'human-in-loop':1},
+        moderate: {'spec-to-code':3,'test-driven-ai':3,'rag-generation':2,'chat-driven':2,'context-scaffolding':1},
+        complex:  {'autonomous-agent':3,'multi-agent':3,'prompt-chain':2,'context-scaffolding':2,'simulation-validated':1}
+      },
+      iteration: {
+        fast:     {'inline-copilot':2,'chat-driven':2,'tool-augmented':2,'spec-to-code':1},
+        balanced: {'spec-to-code':2,'test-driven-ai':2,'rag-generation':2,'prompt-chain':1},
+        thorough: {'eval-driven':2,'fine-tuned-model':2,'multi-agent':2,'simulation-validated':1}
+      },
+      risk: {
+        low:    {'human-in-loop':3,'test-driven-ai':2,'eval-driven':2,'simulation-validated':1},
+        medium: {'spec-to-code':2,'chat-driven':2,'rag-generation':1,'prompt-chain':1},
+        high:   {'inline-copilot':2,'autonomous-agent':2,'chat-driven':1,'tool-augmented':1}
+      },
+      expertise: {
+        beginner:     {'inline-copilot':3,'chat-driven':3,'human-in-loop':2},
+        intermediate: {'spec-to-code':2,'rag-generation':2,'prompt-chain':2,'test-driven-ai':1},
+        expert:       {'multi-agent':2,'fine-tuned-model':2,'simulation-validated':2,'autonomous-agent':2,'eval-driven':1}
+      },
+      output: {
+        code:     {'inline-copilot':2,'test-driven-ai':2,'spec-to-code':2,'context-scaffolding':1},
+        analysis: {'rag-generation':2,'chat-driven':2,'context-scaffolding':2,'human-in-loop':1},
+        system:   {'autonomous-agent':2,'multi-agent':2,'prompt-chain':2,'simulation-validated':2,'eval-driven':1}
+      },
+      validation: {
+        automated: {'eval-driven':2,'test-driven-ai':2,'simulation-validated':2,'prompt-chain':1},
+        human:     {'human-in-loop':3,'chat-driven':1,'spec-to-code':1},
+        hybrid:    {'multi-agent':2,'autonomous-agent':1,'eval-driven':1,'human-in-loop':1}
+      }
+    },
+    rationales: {
+      'inline-copilot':    'Your answers point to a low-friction, fast-iteration scenario with simple tasks and exploratory risk — exactly where inline completions shine with minimal setup.',
+      'chat-driven':       'A conversational approach suits your need for speed and flexibility: describe intent, get code, iterate. Works well when requirements are still emerging.',
+      'spec-to-code':      'A well-defined task with medium risk calls for front-loading clarity: write the spec, then generate. The spec becomes documentation and the foundation for tests.',
+      'test-driven-ai':    'Your low-risk, automated-validation profile is a perfect fit for test-driven AI: let the tests define the contract and use AI to fill the implementation.',
+      'autonomous-agent':  'Complex multi-file work with high tolerance for AI autonomy is the sweet spot for an agent loop — set a goal, provide tools, and let the agent plan and execute.',
+      'multi-agent':       'Your expert team and complex, multi-domain problem suggests orchestrating specialist agents: divide responsibilities, run in parallel, aggregate the best results.',
+      'prompt-chain':      'A structured, moderate-complexity task with automated validation fits a chaining pipeline: decompose into deterministic steps each handled by a focused prompt.',
+      'tool-augmented':    'Your task requires live data or external actions that a pure language model cannot provide — augment it with tools to ground reasoning in real-world state.',
+      'rag-generation':    'An analysis-heavy task drawing on a document corpus is a natural fit for RAG: retrieve the relevant facts, then generate a grounded, source-aware response.',
+      'context-scaffolding':'Working within an existing large codebase at moderate complexity calls for rich context injection — pack the repo map and relevant files before prompting.',
+      'fine-tuned-model':  'Your expert team, high-volume, domain-specific needs, and thorough iteration timeline justify the investment in a fine-tuned model for consistent, fast output.',
+      'eval-driven':       'Your thorough timeline and automated-validation preference align with eval-driven iteration: build the eval suite first, then optimise prompts and models against it.',
+      'human-in-loop':     'Low risk tolerance and human-review validation demand human gates at key checkpoints. Let AI generate candidates while humans remain the approval authority.',
+      'simulation-validated':'A system-level output with automated validation and expert team is ideal for simulation-validated AI: generate, deploy to sandbox, measure, replan.'
+    }
+  },
+
+  fitMatrix: {
+    properties: [
+      'Routine / Boilerplate','Well-specified task','Exploratory / Unknown',
+      'Large codebase context','Needs live data','Regulated / Auditable',
+      'High AI autonomy OK','Scale / Automation'
+    ],
+    fits: {
+      'inline-copilot':     ['H','M','L','L','L','L','L','L'],
+      'chat-driven':        ['M','M','H','L','L','M','L','L'],
+      'spec-to-code':       ['H','H','L','M','L','M','M','M'],
+      'test-driven-ai':     ['M','H','L','M','L','H','L','M'],
+      'autonomous-agent':   ['M','M','M','M','M','M','H','H'],
+      'multi-agent':        ['L','M','H','H','M','M','H','H'],
+      'prompt-chain':       ['H','H','L','L','M','M','M','H'],
+      'tool-augmented':     ['M','M','M','M','H','M','M','M'],
+      'rag-generation':     ['M','M','M','H','M','M','L','M'],
+      'context-scaffolding':['M','M','M','H','L','M','L','M'],
+      'fine-tuned-model':   ['H','H','L','M','L','M','M','H'],
+      'eval-driven':        ['M','H','M','L','L','H','M','H'],
+      'human-in-loop':      ['L','M','M','L','L','H','L','L'],
+      'simulation-validated':['L','M','M','M','M','H','H','M']
+    }
+  },
+
+  workflows: [
+    { id:'greenfield-module', icon:'🏗️', title:'Greenfield Module Build',
+      scenario:'You need to build a new, well-defined module from scratch — clear input/output types, business rules documented.',
+      approaches:['spec-to-code','test-driven-ai','eval-driven'],
+      steps:[
+        {phase:'Plan',    desc:'Draft a specification covering types, behaviour, constraints, and acceptance examples.'},
+        {phase:'Test',    desc:'Write unit tests for each acceptance criterion before any implementation exists.'},
+        {phase:'Generate',desc:'Feed spec + test signatures to AI; get initial implementation.'},
+        {phase:'Verify',  desc:'Run the test suite; feed failures back to AI for targeted fixes.'},
+        {phase:'Eval',    desc:'Score output against quality metrics; iterate until the eval baseline is met.'},
+        {phase:'Ship',    desc:'Review diffs, merge, add to CI regression suite.'}
+      ] },
+    { id:'legacy-migration', icon:'🔄', title:'Legacy Code Migration',
+      scenario:'Migrating an existing service from an old framework or language to a new one while preserving behaviour.',
+      approaches:['context-scaffolding','test-driven-ai','human-in-loop'],
+      steps:[
+        {phase:'Inventory',desc:'Use context scaffolding to map all entry points, dependencies, and behaviour.'},
+        {phase:'Test First',desc:'Write characterisation tests on the legacy code before touching it.'},
+        {phase:'Translate', desc:'AI generates equivalent code in the target language/framework, file by file.'},
+        {phase:'Diff',      desc:'Automated diff + tests highlight behavioural deviations for human review.'},
+        {phase:'Gate',      desc:'Human approves each module before it progresses to integration tests.'},
+        {phase:'Cleanup',   desc:'Remove dead code; update documentation; final regression run.'}
+      ] },
+    { id:'regulatory-change', icon:'⚖️', title:'Regulatory Change Implementation',
+      scenario:'A new compliance requirement mandates changes across multiple services with full audit trail.',
+      approaches:['spec-to-code','human-in-loop','eval-driven'],
+      steps:[
+        {phase:'Interpret', desc:'Convert regulatory text into precise, machine-readable acceptance criteria.'},
+        {phase:'Spec',      desc:'Author change specifications referencing specific regulation clauses.'},
+        {phase:'Generate',  desc:'AI produces code changes against each spec.'},
+        {phase:'Review',    desc:'Legal and engineering double-review gate for every change.'},
+        {phase:'Eval',      desc:'Automated compliance checklist validates all acceptance criteria are met.'},
+        {phase:'Audit',     desc:'Full approval trail captured for regulator submission.'}
+      ] },
+    { id:'incident-response', icon:'🚨', title:'Incident Response & RCA',
+      scenario:'A production system is degraded; you need rapid root-cause analysis and a safe remediation plan.',
+      approaches:['tool-augmented','chat-driven','human-in-loop'],
+      steps:[
+        {phase:'Triage',   desc:'Tool-augmented AI queries logs, metrics, and traces in real time to surface anomalies.'},
+        {phase:'Hypothesise',desc:'Chat-driven session with AI to form ranked hypotheses from evidence.'},
+        {phase:'Validate', desc:'AI generates targeted diagnostic queries; results fed back to narrow hypotheses.'},
+        {phase:'Remediate',desc:'AI proposes remediation steps; on-call engineer reviews each before execution.'},
+        {phase:'Post-mortem',desc:'AI drafts the incident report from structured trace data; human edits and publishes.'}
+      ] },
+    { id:'api-integration', icon:'🔌', title:'API Integration Sprint',
+      scenario:'Integrating three third-party APIs into an existing service in a short sprint.',
+      approaches:['rag-generation','spec-to-code','test-driven-ai'],
+      steps:[
+        {phase:'Ingest',   desc:'Load API documentation into RAG store; build semantic index.'},
+        {phase:'Spec',     desc:'Author integration spec referencing retrieved API schemas and examples.'},
+        {phase:'Generate', desc:'AI generates client code, error handling, and retry logic from the spec.'},
+        {phase:'Test',     desc:'Contract tests verify request/response shapes against live sandbox endpoints.'},
+        {phase:'Harden',   desc:'Eval suite checks edge cases (rate limits, timeouts, malformed responses).'},
+        {phase:'Deploy',   desc:'Merge to staging; integration smoke tests run in CI.'}
+      ] },
+    { id:'data-pipeline', icon:'🗄️', title:'Data Pipeline Design',
+      scenario:'Building a multi-stage data ingestion and transformation pipeline for a new analytics use case.',
+      approaches:['prompt-chain','eval-driven','simulation-validated'],
+      steps:[
+        {phase:'Design',   desc:'Decompose pipeline into discrete transformation steps; define schemas for each stage.'},
+        {phase:'Chain',    desc:'Each transformation step is a prompt in a chaining pipeline with structured I/O.'},
+        {phase:'Simulate', desc:'Run pipeline against synthetic datasets in a sandboxed environment.'},
+        {phase:'Eval',     desc:'Assert data quality metrics (completeness, accuracy, latency) against thresholds.'},
+        {phase:'Harden',   desc:'Introduce adversarial inputs; pipeline must degrade gracefully.'},
+        {phase:'Scale',    desc:'Parallelise validated pipeline stages; re-run evals at production volume.'}
+      ] },
+    { id:'docs-overhaul', icon:'📖', title:'Documentation Overhaul',
+      scenario:'Rewriting stale, incomplete documentation across a large codebase into a consistent, accurate reference.',
+      approaches:['context-scaffolding','rag-generation','eval-driven'],
+      steps:[
+        {phase:'Audit',   desc:'Context scaffolding extracts all existing docs, types, and comments for gap analysis.'},
+        {phase:'Retrieve',desc:'RAG indexes existing docs; AI identifies inconsistencies and missing sections.'},
+        {phase:'Draft',   desc:'AI generates new documentation sections grounded in retrieved code and existing content.'},
+        {phase:'Eval',    desc:'Automated readability and coverage evals score each section against a rubric.'},
+        {phase:'Review',  desc:'Domain expert spot-checks AI-generated technical accuracy.'},
+        {phase:'Publish', desc:'Docs merged and rendered; eval suite added to CI to prevent future rot.'}
+      ] },
+    { id:'full-spectrum-sprint', icon:'🌐', title:'Full-Spectrum AI Sprint',
+      scenario:'A complex new feature that spans the entire development lifecycle. The team deliberately applies all four approach families — direct assistance, agentic automation, knowledge-enhanced generation, and validated delivery — to maximise both velocity and quality.',
+      approaches:['spec-to-code','context-scaffolding','rag-generation','autonomous-agent','multi-agent','test-driven-ai','fine-tuned-model','eval-driven','human-in-loop','simulation-validated'],
+      steps:[
+        {phase:'Discover',  desc:'RAG-enhanced generation pulls in domain knowledge, existing API contracts, and prior decision records to inform scoping.'},
+        {phase:'Specify',   desc:'Spec-to-code approach: author precise module specifications covering types, constraints, and acceptance examples.'},
+        {phase:'Contextualise', desc:'Context-rich scaffolding maps the existing codebase; repo map and relevant files packed into every generation prompt.'},
+        {phase:'Contract',  desc:'Test-driven AI writes exhaustive unit and integration tests before any implementation is generated.'},
+        {phase:'Scaffold',  desc:'Autonomous agent loop sets up folder structure, boilerplate, and CI configuration from the spec and repo map.'},
+        {phase:'Implement', desc:'Multi-agent orchestration runs parallel implementation streams — one agent per module — with an orchestrator reconciling interfaces.'},
+        {phase:'Accelerate',desc:'Fine-tuned domain model handles high-volume repetitive generation tasks (e.g. form handlers, CRUD endpoints) at speed.'},
+        {phase:'Validate',  desc:'Simulation-validated AI deploys each module to a staging sandbox; behavioural metrics collected automatically.'},
+        {phase:'Evaluate',  desc:'Eval-driven iteration compares output against the golden test suite and quality rubric; failing modules are re-prompted.'},
+        {phase:'Gate',      desc:'Human-in-the-loop review of diffs, security implications, and architecture decisions before merge to main.'}
+      ] }
+  ]
+};
+// ===== DATA_END =====
+
+// ===== RENDER_START =====
+const RENDER = {
+  _hl(text, q) {
+    if (!q) return text;
+    const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    return String(text).replace(re, '<mark>$1</mark>');
+  },
+  _groupColor(groupId) {
+    const m = { direct:'--family-blue', agentic:'--family-orange', knowledge:'--family-purple', validated:'--family-green' };
+    return `var(${m[groupId] || '--family-blue'})`;
+  },
+  _fitDot(v) {
+    if (v==='H') return '<span class="fit-dot fit-h" title="High fit"></span>';
+    if (v==='M') return '<span class="fit-dot fit-m" title="Medium fit"></span>';
+    return '<span class="fit-dot fit-l" title="Low fit"></span>';
+  },
+
+  // ── OVERVIEW ──────────────────────────────────────
+  overview() {
+    const apCount  = DATA.approaches.length;
+    const bbCount  = DATA.buildingBlocks.length;
+    const prCount  = DATA.principles.length;
+    const wfCount  = DATA.workflows.length;
+    const abbrMap  = { 'inline-copilot':'IC','chat-driven':'CD','spec-to-code':'SC','test-driven-ai':'TD','autonomous-agent':'AA','multi-agent':'MA','prompt-chain':'PC','tool-augmented':'TA','rag-generation':'RG','context-scaffolding':'CS','fine-tuned-model':'FT','eval-driven':'ED','human-in-loop':'HL','simulation-validated':'SV' };
+    const apNames  = DATA.approaches.map(a => `<th title="${a.name}">${abbrMap[a.id]||a.id}</th>`).join('');
+    const rows = DATA.fitMatrix.properties.map((prop,ri) => {
+      const cells = DATA.approaches.map(a => `<td class="fit-cell">${this._fitDot(DATA.fitMatrix.fits[a.id][ri])}</td>`).join('');
+      return `<tr><td>${prop}</td>${cells}</tr>`;
+    }).join('');
+    const legend = DATA.approaches.map(a => `<tr><td><span style="color:${a.color};font-family:var(--font-mono);font-size:.75rem;">${abbrMap[a.id]}</span></td><td style="font-size:.8rem;color:var(--text-secondary)">${a.name}</td></tr>`).join('');
+    return `
+<div class="section-header"><h1>📊 Overview</h1><p>A quick-reference guide to all approaches, their relative fit across common task properties, and headline stats for this atlas.</p></div>
+<div class="stats-grid">
+  <div class="stat-card"><div class="stat-value">${apCount}</div><div class="stat-label">Approaches</div></div>
+  <div class="stat-card"><div class="stat-value">${bbCount}</div><div class="stat-label">Building Blocks</div></div>
+  <div class="stat-card"><div class="stat-value">${prCount}</div><div class="stat-label">Principles</div></div>
+  <div class="stat-card"><div class="stat-value">${wfCount}</div><div class="stat-label">Workflows</div></div>
+</div>
+<h2 style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:12px;color:var(--text-primary)">Fit Matrix</h2>
+<p style="font-size:.83rem;color:var(--text-secondary);margin-bottom:14px">How well each approach suits a given task property. <span class="fit-dot fit-h"></span> High &nbsp;<span class="fit-dot fit-m"></span> Medium &nbsp;<span class="fit-dot fit-l"></span> Low</p>
+<div class="table-wrap" style="margin-bottom:28px">
+  <table class="atlas-table"><thead><tr><th>Task property</th>${apNames}</tr></thead><tbody>${rows}</tbody></table>
+</div>
+<h2 style="font-family:var(--font-display);font-size:1.2rem;margin-bottom:12px;color:var(--text-primary)">Key</h2>
+<div style="columns:2;column-gap:24px"><table style="width:100%;font-size:.82rem;border-collapse:collapse"><tbody>${legend}</tbody></table></div>
+<div class="atlas-footer">Content generated by GitHub Copilot + Claude Sonnet 4.6 model · AI Workflow Integration Atlas</div>`;
+  },
+
+  // ── APPROACHES ────────────────────────────────────
+  approaches(state) {
+    const q    = (state.searchQuery||'').toLowerCase();
+    const filt = state.filters.approaches || 'all';
+    const dims = ['speed','control','quality','autonomy','scalability','complexity'];
+    const groups = DATA.groups;
+    const pills = `<button class="pill${filt==='all'?' active':''}" data-section="approaches" data-filter="all">All</button>`
+      + groups.map(g => `<button class="pill${filt===g.id?' active':''}" data-section="approaches" data-filter="${g.id}">${g.name}</button>`).join('');
+
+    const visible = DATA.approaches.filter(a => {
+      if (filt !== 'all' && a.group !== filt) return false;
+      if (!q) return true;
+      return [a.name,a.tagline,a.excels,...a.traits].join(' ').toLowerCase().includes(q);
+    });
+
+    const cards = visible.length ? visible.map(a => {
+      const bars = dims.map(d => `<div class="tradeoff-row"><span class="tradeoff-lbl">${d}</span><div class="tradeoff-track"><div class="tradeoff-fill" style="width:${a.tradeoffs[d]*10}%"></div></div></div>`).join('');
+      const traits = a.traits.map(t => `<span class="trait-tag">${this._hl(t,q)}</span>`).join('');
+      return `<div class="approach-card" style="--card-accent:${a.color}" data-modal="approach" data-id="${a.id}">
+  <div class="approach-card-accent"></div>
+  <div class="approach-card-body">
+    <div class="approach-card-group">${a.group==='direct'?'Direct Assistance':a.group==='agentic'?'Agentic Workflows':a.group==='knowledge'?'Knowledge-Enhanced':'Validated & Constrained'}</div>
+    <div class="approach-card-name">${this._hl(a.name,q)}</div>
+    <div class="approach-card-tagline">${this._hl(a.tagline,q)}</div>
+    <div class="approach-card-traits">${traits}</div>
+    <div class="tradeoff-bars">${bars}</div>
+  </div>
+</div>`;
+    }).join('') : `<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">🔍</div><p>No approaches match your search.</p></div>`;
+
+    return `
+<div class="section-header"><h1>🧭 Approaches</h1><p>14 distinct AI-assisted development approaches across 4 thematic clusters. Click any card for full details and tradeoff analysis.</p></div>
+<div id="approachPills" style="margin-bottom:16px;display:flex;gap:6px;flex-wrap:wrap">${pills}</div>
+<div class="card-grid">${cards}</div>
+<div class="atlas-footer">Content generated by GitHub Copilot + Claude Sonnet 4.6 model · AI Workflow Integration Atlas</div>`;
+  },
+
+  // ── BUILDING BLOCKS ───────────────────────────────
+  buildingBlocks(state) {
+    const q    = (state.searchQuery||'').toLowerCase();
+    const filt = state.filters.buildingBlocks || 'all';
+    const cats = DATA.bbCategories;
+    const pills = `<button class="pill${filt==='all'?' active':''}" data-section="buildingBlocks" data-filter="all">All</button>`
+      + cats.map(c => `<button class="pill${filt===c.id?' active':''}" data-section="buildingBlocks" data-filter="${c.id}">${c.name}</button>`).join('');
+
+    const visible = DATA.buildingBlocks.filter(b => {
+      if (filt !== 'all' && b.category !== filt) return false;
+      if (!q) return true;
+      const catName = DATA.bbCategories.find(c=>c.id===b.category)?.name||'';
+      return [b.name,b.desc,catName].join(' ').toLowerCase().includes(q);
+    });
+
+    const cards = visible.length ? visible.map(b => `
+<div class="bb-card" data-modal="bb" data-id="${b.id}">
+  <div class="bb-icon">${b.icon}</div>
+  <div class="bb-name">${this._hl(b.name,q)}</div>
+  <div class="bb-cat">${DATA.bbCategories.find(c=>c.id===b.category)?.name||b.category}</div>
+  <div class="bb-desc">${this._hl(b.desc,q)}</div>
+</div>`).join('') : `<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">🔍</div><p>No building blocks match your search.</p></div>`;
+
+    return `
+<div class="section-header"><h1>🧱 Building Blocks</h1><p>21 atomic components that power AI development workflows. Each block can appear in multiple approaches.</p></div>
+<div id="bbPills" style="margin-bottom:16px;display:flex;gap:6px;flex-wrap:wrap">${pills}</div>
+<div class="card-grid cols-4">${cards}</div>
+<div class="atlas-footer">Content generated by GitHub Copilot + Claude Sonnet 4.6 model · AI Workflow Integration Atlas</div>`;
+  },
+
+  // ── PRINCIPLES ────────────────────────────────────
+  principles(state) {
+    const q = (state.searchQuery||'').toLowerCase();
+    const visible = DATA.principles.filter(p => {
+      if (!q) return true;
+      return [p.name,p.summary,p.detail].join(' ').toLowerCase().includes(q);
+    });
+
+    const items = visible.length ? visible.map(p => `
+<div class="principle-item" data-modal="principle" data-id="${p.id}">
+  <div class="principle-icon">${p.icon}</div>
+  <div>
+    <div class="principle-name">${this._hl(p.name,q)}</div>
+    <div class="principle-summary">${this._hl(p.summary,q)}</div>
+  </div>
+</div>`).join('') : `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No principles match your search.</p></div>`;
+
+    return `
+<div class="section-header"><h1>📐 Principles</h1><p>11 durable engineering principles that apply across all approaches. Click any item for the full rationale.</p></div>
+<div class="card-grid cols-2" style="max-width:920px">${items}</div>
+<div class="atlas-footer">Content generated by GitHub Copilot + Claude Sonnet 4.6 model · AI Workflow Integration Atlas</div>`;
+  },
+
+  // ── DECISION FRAMEWORK ────────────────────────────
+  decisionFramework(state) {
+    const df   = DATA.decisionFramework;
+    const sel  = state.dfAnswers || {};
+    const qs   = df.questions.map((q,i) => {
+      const opts = q.options.map(o => `<button class="df-opt${sel[q.id]===o.v?' sel':''}" data-q="${q.id}" data-v="${o.v}">${o.l}</button>`).join('');
+      return `<div class="df-question"><div class="df-q-num">Question ${i+1} of ${df.questions.length}</div><div class="df-q-text">${q.text}</div><div class="df-options">${opts}</div></div>`;
+    }).join('');
+
+    const answered = Object.keys(sel).length;
+    let result = '';
+    if (answered >= 3) {
+      const scores = {};
+      DATA.approaches.forEach(a => { scores[a.id] = 0; });
+      Object.entries(sel).forEach(([qId, val]) => {
+        const s = df.scoring[qId]?.[val] || {};
+        Object.entries(s).forEach(([aid, pts]) => { scores[aid] = (scores[aid]||0) + pts; });
+      });
+      const best = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+      const ap   = DATA.approaches.find(a=>a.id===best);
+      const rat  = df.rationales[best] || '';
+      const tags = (ap.traits||[]).map(t=>`<span class="m-tag">${t}</span>`).join('');
+      result = `<div class="df-result visible" style="--modal-accent:${ap.color}">
+  <div class="df-res-label">Recommended approach</div>
+  <div class="df-res-name" style="color:${ap.color}">${ap.name}</div>
+  <div class="df-res-rationale">${rat}</div>
+  <div class="tag-list" style="margin-bottom:12px">${tags}</div>
+  <div class="m-section-title">Next steps</div>
+  <ul class="df-res-steps">
+    <li>Review the full approach card in the Approaches section.</li>
+    <li>Identify which building blocks you already have in place.</li>
+    <li>Apply the relevant principles as guardrails.</li>
+    <li>Find a matching workflow example to guide your execution.</li>
+  </ul>
+  <button class="df-reset" id="dfReset">↺ Reset answers</button>
+</div>`;
+    }
+
+    return `
+<div class="section-header"><h1>🎯 Decision Framework</h1><p>Answer at least 3 questions to receive a personalised approach recommendation with rationale.</p></div>
+<div class="df-container">${qs}${result}</div>
+<div class="atlas-footer">Content generated by GitHub Copilot + Claude Sonnet 4.6 model · AI Workflow Integration Atlas</div>`;
+  },
+
+  // ── WORKFLOWS ─────────────────────────────────────
+  workflows(state) {
+    const q = (state.searchQuery||'').toLowerCase();
+    const visible = DATA.workflows.filter(w => {
+      if (!q) return true;
+      return [w.title,w.scenario,...w.approaches].join(' ').toLowerCase().includes(q);
+    });
+
+    const cards = visible.length ? visible.map(w => {
+      const tags = w.approaches.map(aid => {
+        const a = DATA.approaches.find(x=>x.id===aid);
+        return a ? `<span class="w-tag" style="border-left:3px solid ${a.color}">${a.name}</span>` : '';
+      }).join('');
+      return `<div class="workflow-card" data-modal="workflow" data-id="${w.id}">
+  <div class="workflow-hd"><div class="workflow-icon">${w.icon}</div><div class="workflow-title">${this._hl(w.title,q)}</div></div>
+  <div class="workflow-scenario">${this._hl(w.scenario,q)}</div>
+  <div class="workflow-tags">${tags}</div>
+</div>`;
+    }).join('') : `<div class="empty-state"><div class="empty-state-icon">🔍</div><p>No workflows match your search.</p></div>`;
+
+    return `
+<div class="section-header"><h1>🔀 Workflows</h1><p>7 end-to-end worked examples showing how approaches combine in real development scenarios.</p></div>
+${cards}
+<div class="atlas-footer">Content generated by GitHub Copilot + Claude Sonnet 4.6 model · AI Workflow Integration Atlas</div>`;
+  },
+
+  // ── MODAL BODIES ──────────────────────────────────
+  modalApproach(a) {
+    const dims = ['speed','control','quality','autonomy','scalability','complexity'];
+    const bars = dims.map(d => `<div class="m-t-row"><span class="m-t-lbl">${d.charAt(0).toUpperCase()+d.slice(1)}</span><div class="m-t-track"><div class="m-t-fill" style="width:${a.tradeoffs[d]*10}%"></div></div><span class="m-t-val">${a.tradeoffs[d]}</span></div>`).join('');
+    const traits = a.traits.map(t=>`<span class="m-tag">${t}</span>`).join('');
+    const usedBBs = DATA.buildingBlocks.filter(b=>b.usedBy&&b.usedBy.includes(a.id));
+    const bbs = usedBBs.map(b=>`<span class="uses-chip">${b.icon} ${b.name}</span>`).join('');
+    const relPrinciples = DATA.principles.filter(p=>p.applies&&p.applies.includes(a.id));
+    const pps = relPrinciples.map(p=>`<span class="uses-chip">${p.icon} ${p.name}</span>`).join('');
+    const groupName = DATA.groups.find(g=>g.id===a.group)?.name || a.group;
+    return `
+<div class="m-section"><div class="m-section-title">Group</div><p class="m-text" style="color:${a.color}">${groupName}</p></div>
+<div class="m-section"><div class="m-section-title">Key traits</div><div class="tag-list">${traits}</div></div>
+<div class="m-section"><div class="m-section-title">When it excels</div><p class="m-text">${a.excels}</p></div>
+<div class="m-section"><div class="m-section-title">Core mechanics</div><p class="m-text">${a.mechanics}</p></div>
+<div class="m-section"><div class="m-section-title">When to avoid</div><p class="m-text">${a.avoid}</p></div>
+<div class="m-section"><div class="m-section-title">Tradeoff profile</div><div class="m-tradeoffs">${bars}</div></div>
+${bbs ? `<div class="m-section"><div class="m-section-title">Building blocks used</div><div class="tag-list" style="margin-top:4px">${bbs}</div></div>` : ''}
+${pps ? `<div class="m-section"><div class="m-section-title">Related principles</div><div class="tag-list" style="margin-top:4px">${pps}</div></div>` : ''}`;
+  },
+
+  modalBB(b) {
+    const cat = DATA.bbCategories.find(c=>c.id===b.category);
+    const usedInApproaches = DATA.approaches.filter(a=>b.usedBy&&b.usedBy.includes(a.id));
+    const chips = usedInApproaches.map(a=>`<span class="uses-chip" style="border-left:3px solid ${a.color}">${a.name}</span>`).join('');
+    return `
+<div class="m-section"><div class="m-section-title">Category</div><p class="m-text">${cat?.name||b.category}</p></div>
+<div class="m-section"><div class="m-section-title">Description</div><p class="m-text">${b.desc}</p></div>
+${chips ? `<div class="m-section"><div class="m-section-title">Used by ${usedInApproaches.length} approach${usedInApproaches.length===1?'':'es'}</div><div class="tag-list" style="margin-top:4px">${chips}</div></div>` : ''}`;
+  },
+
+  modalPrinciple(p) {
+    const relAps = DATA.approaches.filter(a=>p.applies&&p.applies.includes(a.id));
+    const chips = relAps.map(a=>`<span class="uses-chip" style="border-left:3px solid ${a.color}">${a.name}</span>`).join('');
+    return `
+<div class="m-section"><div class="m-section-title">Summary</div><p class="m-text" style="font-style:italic;font-size:.92rem">"${p.summary}"</p></div>
+<div class="m-section"><div class="m-section-title">Rationale</div><p class="m-text">${p.detail}</p></div>
+${chips ? `<div class="m-section"><div class="m-section-title">Applies to</div><div class="tag-list" style="margin-top:4px">${chips}</div></div>` : ''}`;
+  },
+
+  modalWorkflow(w) {
+    const apChips = w.approaches.map(aid => {
+      const a = DATA.approaches.find(x=>x.id===aid);
+      return a ? `<span class="uses-chip" style="border-left:3px solid ${a.color}">${a.name}</span>` : '';
+    }).join('');
+    const steps = w.steps.map(s=>`<div class="workflow-step"><span class="ws-phase">${s.phase}</span><span class="ws-desc">${s.desc}</span></div>`).join('');
+    return `
+<div class="m-section"><div class="m-section-title">Scenario</div><p class="m-text">${w.scenario}</p></div>
+<div class="m-section"><div class="m-section-title">Approaches used</div><div class="tag-list" style="margin-top:4px">${apChips}</div></div>
+<div class="m-section"><div class="m-section-title">Step-by-step</div><div style="margin-top:8px">${steps}</div></div>`;
+  }
+};
+// ===== RENDER_END =====
+
+// ===== APP_START =====
+const APP = {
+  state: {
+    section:    'overview',
+    searchQuery:'',
+    filters:    {},
+    dfAnswers:  {},
+    modal:      null,   // { type, id }
+    maximized:  false,
+    theme:      localStorage.getItem('atlas-theme') || 'dark'
+  },
+
+  // ── INIT ──────────────────────────────────────────
+  init() {
+    this._applyTheme(this.state.theme);
+    this._buildNav();
+    this._bindEvents();
+    this.navigate('overview');
+  },
+
+  // ── NAV ───────────────────────────────────────────
+  _buildNav() {
+    const nav = document.getElementById('sidebarNav');
+    nav.innerHTML = DATA.nav.map(item => `
+<div class="nav-item${this.state.section===item.id?' active':''}" data-section="${item.id}">
+  <span class="nav-icon">${item.icon}</span>${item.label}
+</div>`).join('');
+  },
+
+  navigate(sectionId) {
+    this.state.section = sectionId;
+    this.state.searchQuery = '';
+    this.state.filters = {};
+    const info  = DATA.nav.find(n=>n.id===sectionId);
+    const hasSearch = ['approaches','buildingBlocks','principles','workflows'].includes(sectionId);
+
+    // topbar title
+    document.getElementById('topbarTitle').textContent = (info?.icon||'') + ' ' + (info?.label||'');
+
+    // update nav highlight
+    document.querySelectorAll('.nav-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.section === sectionId);
+    });
+
+    // search bar
+    const searchBar = document.getElementById('searchBar');
+    if (hasSearch) {
+      searchBar.classList.remove('hidden');
+      document.getElementById('searchInput').value = '';
+      document.getElementById('searchClear').classList.remove('visible');
+      this._renderPills();
+    } else {
+      searchBar.classList.add('hidden');
+    }
+
+    // content
+    this._renderContent();
+
+    // scroll to top
+    const main = document.getElementById('mainContent');
+    main.scrollTo(0, 0);
+
+    // close mobile sidebar
+    this._closeMobileSidebar();
+  },
+
+  _renderContent() {
+    const area = document.getElementById('contentArea');
+    const s    = this.state;
+    let html   = '';
+    switch (s.section) {
+      case 'overview':          html = RENDER.overview(); break;
+      case 'approaches':        html = RENDER.approaches(s); break;
+      case 'buildingBlocks':    html = RENDER.buildingBlocks(s); break;
+      case 'principles':        html = RENDER.principles(s); break;
+      case 'decisionFramework': html = RENDER.decisionFramework(s); break;
+      case 'workflows':         html = RENDER.workflows(s); break;
+    }
+    area.innerHTML = html;
+    this._bindContentEvents();
+  },
+
+  _renderPills() {
+    const sec  = this.state.section;
+    const fp   = document.getElementById('filterPills');
+    if (!fp) return;
+    // pills are injected inside the content area for approaches/bb; no extra pills needed here
+    fp.innerHTML = '';
+  },
+
+  // ── SEARCH ────────────────────────────────────────
+  _searchTimer: null,
+  _onSearch(val) {
+    clearTimeout(this._searchTimer);
+    this._searchTimer = setTimeout(() => {
+      this.state.searchQuery = val.trim();
+      document.getElementById('searchClear').classList.toggle('visible', !!val.trim());
+      this._renderContent();
+    }, 500);
+  },
+
+  // ── CONTENT EVENT BINDING ─────────────────────────
+  _bindContentEvents() {
+    const area = document.getElementById('contentArea');
+
+    // approach / bb / principle / workflow cards → open modal
+    area.querySelectorAll('[data-modal]').forEach(el => {
+      el.addEventListener('click', () => this.openModal(el.dataset.modal, el.dataset.id));
+    });
+
+    // filter pills inside approaches / bb sections
+    area.querySelectorAll('.pill[data-filter]').forEach(el => {
+      el.addEventListener('click', () => {
+        this.state.filters[el.dataset.section] = el.dataset.filter;
+        this._renderContent();
+      });
+    });
+
+    // decision framework option buttons
+    area.querySelectorAll('.df-opt').forEach(el => {
+      el.addEventListener('click', () => {
+        this.state.dfAnswers[el.dataset.q] = el.dataset.v;
+        this._renderContent();
+      });
+    });
+
+    // decision framework reset
+    const reset = area.querySelector('#dfReset');
+    if (reset) reset.addEventListener('click', () => { this.state.dfAnswers = {}; this._renderContent(); });
+  },
+
+  // ── MODAL ─────────────────────────────────────────
+  openModal(type, id) {
+    this.state.modal = { type, id };
+    this.state.maximized = false;
+
+    let title='', tagline='', body='', color='';
+
+    if (type === 'approach') {
+      const a = DATA.approaches.find(x=>x.id===id);
+      if (!a) return;
+      title   = a.name;
+      tagline = a.tagline;
+      color   = a.color;
+      body    = RENDER.modalApproach(a);
+      this._setModalNav('approach');
+    } else if (type === 'bb') {
+      const b = DATA.buildingBlocks.find(x=>x.id===id);
+      if (!b) return;
+      title   = `${b.icon} ${b.name}`;
+      tagline = DATA.bbCategories.find(c=>c.id===b.category)?.name || '';
+      color   = 'var(--family-purple)';
+      body    = RENDER.modalBB(b);
+      document.getElementById('modalNavBar').innerHTML = '';
+    } else if (type === 'principle') {
+      const p = DATA.principles.find(x=>x.id===id);
+      if (!p) return;
+      title   = `${p.icon} ${p.name}`;
+      tagline = p.summary;
+      color   = 'var(--family-blue)';
+      body    = RENDER.modalPrinciple(p);
+      document.getElementById('modalNavBar').innerHTML = '';
+    } else if (type === 'workflow') {
+      const w = DATA.workflows.find(x=>x.id===id);
+      if (!w) return;
+      title   = `${w.icon} ${w.title}`;
+      tagline = '';
+      color   = 'var(--family-orange)';
+      body    = RENDER.modalWorkflow(w);
+      document.getElementById('modalNavBar').innerHTML = '';
+    }
+
+    document.getElementById('modalTitle').innerHTML    = title;
+    document.getElementById('modalTagline').innerHTML  = tagline;
+    document.getElementById('modalBody').innerHTML     = body;
+    document.getElementById('modalAccentBar').style.background = color;
+    document.getElementById('modal').style.setProperty('--modal-accent', color);
+    document.getElementById('modal').classList.remove('maximized');
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('modalBody').scrollTo(0,0);
+  },
+
+  _setModalNav(type) {
+    const list = type === 'approach' ? DATA.approaches : [];
+    const id   = this.state.modal?.id;
+    const idx  = list.findIndex(x=>x.id===id);
+    const prev = idx > 0 ? list[idx-1] : null;
+    const next = idx < list.length-1 ? list[idx+1] : null;
+    const bar  = document.getElementById('modalNavBar');
+    bar.innerHTML = `
+<button class="modal-nav-btn${prev?'':' hidden'}" id="modalPrev">← ${prev?prev.name:''}</button>
+<span>${idx+1} / ${list.length}</span>
+<button class="modal-nav-btn${next?'':' hidden'}" id="modalNext">${next?next.name:''} →</button>`;
+    if (prev) bar.querySelector('#modalPrev').addEventListener('click', () => this.openModal(type, prev.id));
+    if (next) bar.querySelector('#modalNext').addEventListener('click', () => this.openModal(type, next.id));
+  },
+
+  closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    this.state.modal = null;
+  },
+
+  toggleMaximize() {
+    this.state.maximized = !this.state.maximized;
+    document.getElementById('modal').classList.toggle('maximized', this.state.maximized);
+    document.getElementById('modalMaxBtn').textContent = this.state.maximized ? '⤡' : '⤢';
+  },
+
+  // ── THEME ─────────────────────────────────────────
+  _applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    document.getElementById('themeToggle').title = t==='dark' ? 'Switch to light theme' : 'Switch to dark theme';
+  },
+
+  toggleTheme() {
+    this.state.theme = this.state.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('atlas-theme', this.state.theme);
+    this._applyTheme(this.state.theme);
+  },
+
+  // ── SIDEBAR ───────────────────────────────────────
+  toggleSidebar() {
+    const sb = document.getElementById('sidebar');
+    const ov = document.getElementById('sidebarOverlay');
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      sb.classList.toggle('open');
+      ov.classList.toggle('open', sb.classList.contains('open'));
+    } else {
+      sb.classList.toggle('collapsed');
+      const collapsed = sb.classList.contains('collapsed');
+      document.querySelector('.app-shell').style.gridTemplateColumns =
+        collapsed ? '0 1fr' : 'var(--sidebar-width) 1fr';
+    }
+  },
+
+  _closeMobileSidebar() {
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarOverlay').classList.remove('open');
+    }
+  },
+
+  // ── SCROLL TO TOP ─────────────────────────────────
+  _onScroll(scrollTop) {
+    const btn = document.getElementById('scrollTop');
+    btn.classList.toggle('visible', scrollTop > window.innerHeight * 0.5);
+  },
+
+  // ── EVENT BINDING ─────────────────────────────────
+  _bindEvents() {
+    // sidebar nav
+    document.getElementById('sidebarNav').addEventListener('click', e => {
+      const item = e.target.closest('.nav-item');
+      if (item) this.navigate(item.dataset.section);
+    });
+
+    // sidebar toggle
+    document.getElementById('sidebarToggle').addEventListener('click', () => this.toggleSidebar());
+
+    // sidebar overlay (mobile close)
+    document.getElementById('sidebarOverlay').addEventListener('click', () => this._closeMobileSidebar());
+
+    // theme toggle
+    document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+
+    // search input
+    document.getElementById('searchInput').addEventListener('input', e => this._onSearch(e.target.value));
+
+    // search clear
+    document.getElementById('searchClear').addEventListener('click', () => {
+      document.getElementById('searchInput').value = '';
+      this._onSearch('');
+    });
+
+    // modal close button
+    document.getElementById('modalCloseBtn').addEventListener('click', () => this.closeModal());
+
+    // modal maximize button
+    document.getElementById('modalMaxBtn').addEventListener('click', () => this.toggleMaximize());
+
+    // modal backdrop click
+    document.getElementById('modalOverlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('modalOverlay')) this.closeModal();
+    });
+
+    // keyboard: Escape closes modal, arrows navigate approaches
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { this.closeModal(); return; }
+      if (!this.state.modal || this.state.modal.type !== 'approach') return;
+      const list = DATA.approaches;
+      const idx  = list.findIndex(a => a.id === this.state.modal.id);
+      if (e.key === 'ArrowLeft'  && idx > 0)               this.openModal('approach', list[idx-1].id);
+      if (e.key === 'ArrowRight' && idx < list.length - 1) this.openModal('approach', list[idx+1].id);
+    });
+
+    // scroll-to-top visibility
+    document.getElementById('mainContent').addEventListener('scroll', e => {
+      this._onScroll(e.target.scrollTop);
+    });
+
+    // scroll-to-top button
+    document.getElementById('scrollTop').addEventListener('click', () => {
+      document.getElementById('mainContent').scrollTo({ top:0, behavior:'smooth' });
+    });
+  }
+};
+
+APP.init();
+// ===== APP_END =====
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Writing Practice Sheet</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+      --char-box-color: #000;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, button {
+      margin-top: 5px;
+    }
+    #output {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 10px;
+      background: white;
+      border: 1px solid #ccc;
+      max-width: 1000px;
+    }
+    .char-box {
+      width: 60px;
+      height: 60px;
+      border: 1px dotted var(--char-box-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      position: relative;
+      color: transparent;
+      -webkit-text-stroke: 0.5px var(--char-box-color);
+      -webkit-text-stroke-width: 1px;
+    }
+    .char-box::before,
+    .char-box::after {
+      content: '';
+      position: absolute;
+      background: #ccc;
+    }
+    .char-box::before {
+      width: 100%;
+      height: 1px;
+      top: 50%;
+      left: 0;
+    }
+    .char-box::after {
+      height: 100%;
+      width: 1px;
+      left: 50%;
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Writing Practice Sheet Generator</h2>
+  <label>
+    Text (any language):
+    <input type="text" id="text" placeholder="Enter text e.g. 我爱你" size="100" value="爸爸，我不想看电视。Ba ơi, con không muốn coi ti vi. Daddy, I do not want to watch tivi.">
+  </label>
+  <label>
+    Number of repetitions:
+    <input type="number" id="count" min="1" value="10">
+  </label>
+  <button onclick="generate()">Generate</button>
+  <button onclick="downloadPNG()">Export as PNG</button>
+
+  <div id="output-container">
+    <div id="output"></div>
+  </div>
+
+  <!-- html2canvas for PNG export -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <script>
+    function generate() {
+      const text = document.getElementById('text').value;
+      const count = parseInt(document.getElementById('count').value);
+      const output = document.getElementById('output');
+      output.innerHTML = '';
+
+      if (!text || isNaN(count) || count < 1) return;
+
+      const fullText = text.repeat(count);
+
+      for (const char of fullText) {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+        output.appendChild(box);
+      }
+    }
+
+    function downloadPNG() {
+      html2canvas(document.getElementById("output")).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'writing-practice.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>

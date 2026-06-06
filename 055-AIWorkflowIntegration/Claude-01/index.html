@@ -19,7 +19,7 @@
   --shadow:rgba(0,0,0,.5);
   --noise-opacity:0.4;
   --serif:'DM Serif Display',Georgia,serif;--mono:'DM Mono',monospace;--sans:'Outfit',sans-serif;
-  --topbar-h:44px;
+  --topbar-h:46px;
   --sidebar-w:220px;
   --c-spec:#4a9eff;--c-spec-dim:rgba(74,158,255,.15);--c-tdd:#38bdf8;--c-tdd-dim:rgba(56,189,248,.15);
   --c-constraint:#63d3ff;--c-constraint-dim:rgba(99,211,255,.15);
@@ -76,7 +76,7 @@ body::before{
 /* outer shell: topbar row + body row */
 .shell{
   display:grid;
-  grid-template-rows:var(--topbar-h) 1fr;
+  grid-template-rows:auto 1fr;
   grid-template-columns:var(--sidebar-w) 1fr;
   grid-template-areas:
     "topbar topbar"
@@ -97,20 +97,20 @@ body::before{
   border-bottom:1px solid var(--line);
   padding:0 16px;
   gap:10px;
+  min-height:46px;
   position:sticky;top:0;z-index:300;
-  /* prevent topbar from collapsing with sidebar column */
   min-width:0;
 }
 .topbar-toggle{
-  width:32px;height:32px;flex-shrink:0;
+  width:28px;height:28px;flex-shrink:0;
   background:var(--bg3);
   border:1px solid var(--line2);
-  border-radius:8px;
+  border-radius:6px;
   cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:background .15s,border-color .15s,color .15s;
   color:var(--text2);
-  font-size:15px;
+  font-size:13px;
   user-select:none;
 }
 .topbar-toggle:hover{background:var(--bg4);color:var(--text);border-color:var(--line3)}
@@ -132,15 +132,15 @@ body::before{
 }
 /* theme toggle */
 .theme-toggle{
-  width:32px;height:32px;
+  width:28px;height:28px;
   background:var(--bg3);
   border:1px solid var(--line2);
-  border-radius:8px;
+  border-radius:6px;
   cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:background .15s,border-color .15s,color .15s;
   color:var(--text2);
-  font-size:14px;
+  font-size:13px;
   user-select:none;
   flex-shrink:0;
 }
@@ -151,10 +151,10 @@ aside{
   grid-area:sidebar;
   background:var(--bg1);
   border-right:1px solid var(--line);
-  /* height = viewport minus topbar */
-  height:calc(100vh - var(--topbar-h));
+  /* height = viewport minus actual topbar height (set by JS) */
+  height:calc(100vh - var(--topbar-actual-h, var(--topbar-h)));
   position:sticky;
-  top:var(--topbar-h);
+  top:var(--topbar-actual-h, var(--topbar-h));
   overflow:hidden;
   display:flex;flex-direction:column;
   z-index:200;
@@ -227,8 +227,8 @@ nav{padding:14px 0;flex:1;overflow-y:auto}
   .shell{grid-template-columns:1fr !important;grid-template-areas:"topbar" "main"}
   /* sidebar becomes a fixed-position drawer */
   aside{
-    position:fixed;top:var(--topbar-h);left:0;
-    height:calc(100vh - var(--topbar-h));
+    position:fixed;top:var(--topbar-actual-h, var(--topbar-h));left:0;
+    height:calc(100vh - var(--topbar-actual-h, var(--topbar-h)));
     transform:translateX(-100%);
     visibility:hidden;
     box-shadow:none;
@@ -358,17 +358,12 @@ nav{padding:14px 0;flex:1;overflow-y:auto}
 /* ═══════════════════════════════════════════════════════
    APPROACHES
 ═══════════════════════════════════════════════════════ */
-.approach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.approach-card{
-  padding:28px 28px 24px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
-  cursor:pointer;transition:background .2s;position:relative;overflow:hidden;
-}
-.approach-card:nth-child(3n){border-right:none}
-.approach-card:nth-last-child(-n+3){border-bottom:none}
+.approach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px}
+/* approach-card base styles moved to new rule below */
 .approach-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s}
 .approach-card:hover,.approach-card.expanded{background:var(--bg2)}
 .approach-card:hover::before,.approach-card.expanded::before{opacity:1}
-.card-index{font-family:var(--mono);font-size:9px;letter-spacing:.15em;color:var(--text3);margin-bottom:14px;text-transform:uppercase}
+.card-index{font-family:var(--mono);font-size:9px;letter-spacing:.15em;color:var(--text3);text-transform:uppercase}
 .card-badge{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-bottom:12px;border:1px solid}
 .card-name{font-family:var(--serif);font-size:20px;line-height:1.2;margin-bottom:8px}
 .card-tagline{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px}
@@ -433,7 +428,7 @@ nav{padding:14px 0;flex:1;overflow-y:auto}
 .q-options{display:flex;gap:8px;flex-wrap:wrap}
 .q-opt{font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid var(--line2);cursor:pointer;color:var(--text2);transition:all .15s;background:var(--bg3);font-family:var(--sans)}
 .q-opt:hover{border-color:var(--line3);color:var(--text)}
-.q-opt.selected{color:var(--text);font-weight:500;border-color:transparent}
+.q-opt.selected{color:var(--text);font-weight:600;border-color:var(--c-std);background:var(--c-std-dim);box-shadow:inset 0 0 0 1.5px var(--c-std)}
 .rec-panel{margin-top:28px;border-radius:12px;padding:28px;display:none;animation:fadeIn .4s ease;border:1px solid}
 .rec-panel.visible{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -457,7 +452,7 @@ nav{padding:14px 0;flex:1;overflow-y:auto}
 .wf-tab-name{font-size:12px;font-weight:500;color:var(--text2);line-height:1.3}
 .wf-tab.active .wf-tab-name{color:var(--text)}
 .wf-badge-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
-.wf-badge{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;border:1px solid;letter-spacing:.04em}
+.wf-badge{font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:3px;border:1px solid;cursor:pointer;transition:opacity .15s;letter-spacing:.04em}
 .wf-body{display:none}
 .wf-body.active{display:block}
 .wf-header{padding:32px 56px 24px;border-bottom:1px solid var(--line)}
@@ -475,7 +470,9 @@ nav{padding:14px 0;flex:1;overflow-y:auto}
 .step-row:last-child .step-content{border-bottom:none}
 .step-meta{display:flex;align-items:center;gap:10px;margin-bottom:7px}
 .step-phase{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3)}
-.step-type-badge{font-family:var(--mono);font-size:8px;padding:2px 7px;border-radius:3px;border:1px solid;letter-spacing:.06em}
+.step-type-badge{font-family:var(--mono);font-size:8px;padding:2px 7px;border-radius:3px;border:1px solid;letter-spacing:.06em;cursor:pointer;transition:opacity .15s}
+.step-type-badge:hover{opacity:.7}
+.wf-badge:hover{opacity:.7}
 .step-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px}
 .step-desc{font-size:13px;color:var(--text2);line-height:1.65;max-width:640px}
 .step-tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
@@ -661,17 +658,30 @@ mark.sh{
 .table-wrap td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--text2);vertical-align:top}
 .table-wrap tr:last-child td{border-bottom:none}
 .table-wrap tr:hover td{background:var(--bg2)}
-/* sticky first column */
+/* sticky first two columns */
 .table-wrap th:first-child,
 .table-wrap td:first-child{
   position:sticky;left:0;z-index:1;
   background:var(--bg1);
+  min-width:36px;
+}
+.table-wrap th:nth-child(2),
+.table-wrap td:nth-child(2){
+  position:sticky;left:36px;z-index:1;
+  background:var(--bg1);
+  border-right:1px solid var(--line2);
+  min-width:110px;
 }
 .table-wrap th:first-child{z-index:3;background:var(--bg2)}
-.table-wrap tr:hover td:first-child{background:var(--bg2)}
-[data-theme="light"] .table-wrap th:first-child{background:var(--bg2)}
-[data-theme="light"] .table-wrap td:first-child{background:var(--bg1)}
-[data-theme="light"] .table-wrap tr:hover td:first-child{background:var(--bg2)}
+.table-wrap th:nth-child(2){z-index:3;background:var(--bg2);border-right:1px solid var(--line2)}
+.table-wrap tr:hover td:first-child,
+.table-wrap tr:hover td:nth-child(2){background:var(--bg2)}
+[data-theme="light"] .table-wrap th:first-child,
+[data-theme="light"] .table-wrap th:nth-child(2){background:var(--bg2)}
+[data-theme="light"] .table-wrap td:first-child,
+[data-theme="light"] .table-wrap td:nth-child(2){background:var(--bg1)}
+[data-theme="light"] .table-wrap tr:hover td:first-child,
+[data-theme="light"] .table-wrap tr:hover td:nth-child(2){background:var(--bg2)}
 
 /* remove old summary-table margin (now inside table-wrap) */
 .summary-table{border-collapse:collapse;font-size:12px;width:100%;margin:0}
@@ -690,13 +700,10 @@ mark.sh{
 /* approach cards: 3-col → 2-col → 1-col */
 @media(max-width:960px){
   .approach-grid{grid-template-columns:repeat(2,1fr)}
-  .approach-card:nth-child(2n){border-right:none}
-  .approach-card:nth-child(3n){border-right:1px solid var(--line)}
   .blocks-grid{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:640px){
   .approach-grid{grid-template-columns:1fr}
-  .approach-card{border-right:none!important}
   .blocks-grid{grid-template-columns:repeat(2,1fr)}
   .detail-grid{grid-template-columns:1fr}
   .overview-grid{grid-template-columns:1fr}
@@ -723,8 +730,210 @@ mark.sh{
 @media(max-width:640px){
   .attribution{padding:16px 20px}
   .table-wrap{margin:16px}
-  .search-bar{top:var(--topbar-h)}
+  }
+
+
+/* ── cross-reference chips ── */
+.xref-chips{display:flex;flex-wrap:wrap;gap:6px}
+.xref-chip{
+  font-size:11px;padding:4px 10px;border-radius:20px;
+  border:1px solid var(--line2);color:var(--text2);
+  background:var(--bg3);cursor:pointer;transition:all .15s;
+  white-space:nowrap;
 }
+.xref-chip:hover{border-color:var(--line3);color:var(--text);background:var(--bg4)}
+.xref-approach{font-family:var(--mono);font-size:10px;letter-spacing:.04em}
+
+/* ── matrix legend ── */
+.matrix-legend{
+  display:flex;gap:20px;flex-wrap:wrap;
+  margin-top:12px;padding:8px 0 0 0;
+  border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+}
+.matrix-legend-item{display:flex;align-items:center;gap:8px}
+.matrix-legend-cell{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:42px;height:24px;border-radius:4px;
+  font-size:11px;font-weight:500;color:var(--text);
+}
+
+/* ── step tools label ── */
+.step-tools-wrap{display:flex;align-items:baseline;gap:8px;margin-top:10px;flex-wrap:wrap}
+.step-tools-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text3);flex-shrink:0;
+}
+.step-tools{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ── q-opt selected — stronger visual ── */
+.q-opt.selected{
+  color:var(--text);font-weight:600;
+  background:var(--c-std-dim);
+  border-color:var(--c-std);
+  box-shadow:inset 0 0 0 1px var(--c-std);
+}
+[data-theme="light"] .q-opt.selected{
+  background:rgba(244,114,182,.12);
+}
+
+/* ── approach card hover lift ── */
+.approach-card{
+  padding:22px 22px 18px;
+  border:1px solid var(--line);border-radius:10px;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:background .2s,transform .18s,box-shadow .18s;
+}
+.approach-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px var(--shadow);border-color:var(--line2);background:var(--bg2)}
+.approach-card:focus-visible{outline:2px solid var(--c-spec);outline-offset:2px}
+
+/* ── block card cursor pointer ── */
+.block-card{cursor:pointer}
+.block-card:focus-visible{outline:2px solid var(--c-agent);outline-offset:2px}
+
+/* ── principle item cursor pointer ── */
+.principle-item{cursor:pointer}
+.principle-item:focus-visible{outline:2px solid var(--c-big);outline-offset:2px}
+
+/* ── section breadcrumb (mobile active section indicator) ── */
+.section-breadcrumb{
+  display:none;
+  font-family:var(--mono);font-size:10px;color:var(--text3);
+  padding:0 16px;height:28px;line-height:28px;
+  background:var(--bg2);border-bottom:1px solid var(--line);
+  letter-spacing:.08em;text-transform:uppercase;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+@media(max-width:700px){
+  .section-breadcrumb{display:block}
+}
+
+/* ── overview section search bar ── */
+/* (search bar already sticky — no extra CSS needed, handled by same rule) */
+
+/* ── framework reset button ── */
+.framework-reset{
+  display:none;
+  margin-top:12px;
+  font-family:var(--mono);font-size:11px;color:var(--text3);
+  background:none;border:1px solid var(--line2);border-radius:6px;
+  padding:5px 12px;cursor:pointer;transition:all .15s;
+}
+.framework-reset:hover{color:var(--text);border-color:var(--line3)}
+.framework-reset.visible{display:inline-flex;align-items:center;gap:6px}
+
+/* ── recommendation open-approach button ── */
+.rec-open-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:14px;padding:7px 14px;border-radius:8px;
+  border:1px solid currentColor;opacity:.8;
+  cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:500;
+  background:none;transition:opacity .15s;
+}
+.rec-open-btn:hover{opacity:1}
+
+/* ── modal maximise hidden on mobile ── */
+@media(max-width:700px){
+  #modal-max-btn{display:none}
+}
+
+/* ── modal role/aria focus trap indicator ── */
+.modal:focus{outline:none}
+
+/* ── tab overflow indicator ── */
+.wf-picker-wrap{position:relative}
+.wf-overflow-btn{
+  display:none;
+  position:absolute;right:0;top:0;bottom:0;
+  width:36px;background:linear-gradient(to right,transparent,var(--bg1) 60%);
+  border:none;cursor:pointer;color:var(--text2);font-size:16px;
+  align-items:center;justify-content:flex-end;padding-right:6px;
+  z-index:10;
+}
+@media(max-width:1100px){
+  .wf-overflow-btn{display:flex}
+  .wf-picker{padding-right:36px}
+}
+
+/* ── keyboard nav focus ring on cards ── */
+.approach-card:focus{outline:2px solid var(--line2);outline-offset:2px}
+
+/* ── nested modal (inner popup) ── */
+.modal-back-btn{
+  display:none;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+  color:var(--text3);background:none;border:none;
+  cursor:pointer;padding:0;margin-right:auto;
+  transition:color .15s;
+}
+.modal-back-btn.visible{display:flex}
+.modal-back-btn:hover{color:var(--text)}
+.modal-depth-indicator{
+  font-family:var(--mono);font-size:9px;color:var(--text3);
+  letter-spacing:.06em;padding:2px 8px;background:var(--bg3);
+  border-radius:10px;margin-right:8px;
+}
+
+/* ── approach card icon & header row ── */
+.card-header-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-index{align-self:center}
+.card-icon{font-size:20px;line-height:1;flex-shrink:0;display:flex;align-items:center;align-self:center}
+.card-index{font-family:var(--mono);font-size:9px;letter-spacing:.15em;color:var(--text3);text-transform:uppercase}
+
+/* ── approach card pills legend ── */
+.card-pills-wrap{margin-top:12px}
+.card-pills-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);display:block;margin-bottom:5px}
+.card-pills{display:flex;flex-wrap:wrap;gap:5px}
+
+/* ── approach card expand hint (removed old) ── */
+.card-expand-hint{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:12px;letter-spacing:.04em}
+
+/* ── principle icon ── */
+.principle-num-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:2px}
+.principle-icon{font-size:18px;line-height:1}
+.principle-num{font-family:var(--serif);font-size:28px;color:var(--text3);line-height:1;font-style:italic}
+
+/* ── block used-by chips ── */
+.block-used-wrap{margin-top:10px}
+.block-used-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);display:block;margin-bottom:5px}
+.block-used-chips{display:flex;flex-wrap:wrap;gap:4px}
+.block-used-chip{
+  font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:3px;
+  border:1px solid var(--line2);color:var(--text3);cursor:default;
+  transition:all .15s;letter-spacing:.03em;
+}
+.block-used-chip[onclick]{cursor:pointer}
+.block-used-chip[onclick]:hover{background:var(--bg3);color:var(--text)}
+.block-used-all{background:var(--bg3);border-color:var(--line2)}
+
+/* ── nested modal back button ── */
+.modal-back-btn{
+  display:none;align-items:center;gap:5px;flex-shrink:0;
+  font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text3);background:var(--bg3);border:1px solid var(--line2);border-radius:6px;
+  cursor:pointer;padding:4px 10px;margin-right:8px;
+  transition:all .15s;white-space:nowrap;
+}
+.modal-back-btn.visible{display:flex}
+.modal-back-btn:hover{color:var(--text);border-color:var(--line3);background:var(--bg4)}
+
+/* ── principle inline approach chips ── */
+.principle-approaches{
+  display:flex;align-items:center;flex-wrap:wrap;gap:5px;
+  margin-top:10px;padding-top:10px;border-top:1px solid var(--line);
+}
+.principle-applies-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text3);margin-right:4px;flex-shrink:0;
+}
+.principle-approach-chip{
+  font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:3px;
+  border:1px solid;cursor:pointer;transition:all .15s;
+  display:inline-flex;align-items:center;gap:3px;
+}
+.principle-approach-chip:hover{opacity:.75}
 
 </style>
 </head>
@@ -748,6 +957,7 @@ mark.sh{
 
   <!-- ── MAIN CONTENT ── -->
   <main id="main">
+    <div class="section-breadcrumb" id="section-breadcrumb">Overview</div>
     <div id="sections"></div>
   </main>
 
@@ -764,11 +974,11 @@ mark.sh{
 const DATA = {
 
   meta: {
-    version:'v2.0',tagline:'Field Reference',titleLine1:'AI Workflow',titleLine2:'Integration Atlas',
+    version:'v1.0',tagline:'Field Reference',titleLine1:'AI Workflow',titleLine2:'Integration Atlas',
     stats:[
       {label:'Approaches covered',value:'14',sub:'Organised into 4 groups by primary design axis'},
       {label:'Building blocks',value:'21',sub:'Atomic components across 4 categories, shared across all approaches'},
-      {label:'Key decision axes',value:'5',sub:'Requirement clarity · Codebase size · Change frequency · Risk · Recurrence'},
+      {label:'Key decision axes',value:'6',sub:'Requirement clarity · Codebase size · Change frequency · Risk · Recurrence · Parallelism'},
     ],
     hero:{eyebrow:'AI Workflow Integration · Complete Reference',title:'Fourteen Approaches.<em>One Framework.</em>',sub:'A structured atlas covering every major AI development approach. Fourteen approaches in four groups — building blocks extracted, principles defined, decision framework built — so you choose deliberately, not by trend.'},
   },
@@ -790,7 +1000,7 @@ const DATA = {
   ],
 
   approaches:[
-    {id:'spec',group:'A',index:'A1',label:'Specification-Driven',
+    {id:'spec',icon:'📋',group:'A',index:'A1',label:'Specification-Driven',
      name:'Spec-Driven\nDevelopment',tagline:'AI generates from a formal contract. Humans write the spec; AI writes everything else. The spec is both the prompt and the eval.',
      pills:['Deterministic output','Traceable to spec','Audit-ready'],
      excels:['Well-defined domain with stable requirements','Regulated industries: banking, healthcare, insurance','API-first or contract-first architectures','Teams with strong spec culture (OpenAPI, ADR, RFC)','Compliance-critical code where every output must trace to a requirement','Generating tests, docs, and stubs from the same spec'],
@@ -799,7 +1009,7 @@ const DATA = {
      tradeoffs:[{label:'Predictability',value:92},{label:'Setup cost',value:72},{label:'Flexibility',value:28},{label:'Speed to output',value:35},{label:'AI autonomy',value:20},{label:'Auditability',value:98}],
      note:'<strong>Banking context:</strong> Debt management systems, core banking APIs, SBV compliance modules demand traceable, auditable outputs. Specs also serve as compliance artifacts — two deliverables from one investment.'},
 
-    {id:'tdd',group:'A',index:'A2',label:'Test-Driven AI Dev',
+    {id:'tdd',icon:'✅',group:'A',index:'A2',label:'Test-Driven AI Dev',
      name:'Test-Driven AI\nDevelopment',tagline:'Humans write failing tests first; the AI’s only job is to make them pass. Executable tests are the spec. The feedback loop is mechanical, not human-judgment-dependent.',
      pills:['Tests as spec','Mechanical feedback','Red→Green loop'],
      excels:['Teams with strong TDD culture','Tasks with clear expressible acceptance criteria','Library or utility code with well-defined interfaces','Iterative improvement of existing behaviour','Writing a test is faster than writing a formal spec'],
@@ -808,7 +1018,7 @@ const DATA = {
      tradeoffs:[{label:'Predictability',value:88},{label:'Setup cost',value:60},{label:'Feedback speed',value:95},{label:'Flexibility',value:40},{label:'AI autonomy',value:35},{label:'Correctness signal',value:94}],
      note:'<strong>Key insight:</strong> TDAD inverts spec-driven — instead of a formal doc, executable code is the contract. Faster to write tests than specs for many developers, and the feedback loop is fully automated.'},
 
-    {id:'constraint',group:'A',index:'A3',label:'Constraint-Driven',
+    {id:'constraint',icon:'⚖️',group:'A',index:'A3',label:'Constraint-Driven',
      name:'Constraint-Driven\nDevelopment',tagline:'AI produces outputs that satisfy formal constraints: type systems, SMT solvers, or theorem provers. Strongest correctness guarantees; highest setup cost.',
      pills:['Formal verification','Provable correctness','SMT / type-level'],
      excels:['Safety-critical systems (financial risk engines, regulatory calculations)','Code that must be provably correct, not just tested','Teams using dependent types, theorem provers, or formal methods','Regulatory domains requiring mathematical proof of behaviour','AI + Lean, AI + Alloy, AI + TLA+ workflows'],
@@ -817,7 +1027,7 @@ const DATA = {
      tradeoffs:[{label:'Correctness guarantee',value:99},{label:'Setup cost',value:95},{label:'Flexibility',value:15},{label:'Speed to output',value:18},{label:'AI autonomy',value:25},{label:'Auditability',value:99}],
      note:'<strong>Banking use case:</strong> Debt calculation engines, Basel III risk weight formulae, and interest accrual logic are strong candidates — provable correctness matters more than development speed.'},
 
-    {id:'big',group:'B',index:'B1',label:'Big Context',
+    {id:'big',icon:'🗃️',group:'B',index:'B1',label:'Big Context',
      name:'Big Context-Driven\nDevelopment',tagline:'Entire codebase loaded into one massive context. AI rebuilds from scratch on every change. One run, one PR, days of compute.',
      pills:['Full coherence','Rebuild-on-change','1M+ tokens'],
      excels:['Greenfield projects where the full codebase fits in extended context','Total rewrites or large-scale architectural refactors','High coherence needs — all code visible simultaneously','Stable, infrequently changing requirements','Teams with budget for long compute runs'],
@@ -826,7 +1036,7 @@ const DATA = {
      tradeoffs:[{label:'Global coherence',value:96},{label:'Compute cost',value:90},{label:'Change cost',value:87},{label:'Iteration speed',value:18},{label:'Context ceiling risk',value:68},{label:'First-pass quality',value:88}],
      note:'<strong>Strategic fit:</strong> Debt management systems evolve frequently. Reserve Big Context for isolated, stable modules (e.g. a new calculation engine that won’t change for 12 months).'},
 
-    {id:'std',group:'B',index:'B2',label:'Standard Context',
+    {id:'std',icon:'📦',group:'B',index:'B2',label:'Standard Context',
      name:'Standard Context-Driven\nDevelopment',tagline:'Focused agent runs with scoped context. Each run = one PR. Changes trigger targeted additional passes, not full rebuilds.',
      pills:['Scoped windows','Incremental PRs','Parallelizable'],
      excels:['Large, evolving codebases where full context is impractical','Continuous delivery with frequent, incremental changes','Microservice or module-based architectures','Teams already using trunk-based dev / small PRs','Parallel development across independent modules'],
@@ -835,7 +1045,7 @@ const DATA = {
      tradeoffs:[{label:'Scalability',value:92},{label:'Iteration speed',value:80},{label:'Global coherence',value:44},{label:'Coordination overhead',value:58},{label:'Cost efficiency',value:78},{label:'Parallelizability',value:88}],
      note:'<strong>Fits your stack:</strong> Multi-tenant debt system with Core/Tenant structure maps cleanly. Each tenant onboarding = one scoped agent run with isolated context.'},
 
-    {id:'rag',group:'B',index:'B3',label:'RAG-Native',
+    {id:'rag',icon:'🔎',group:'B',index:'B3',label:'RAG-Native',
      name:'RAG-Native\nDevelopment',tagline:'Nothing is loaded upfront. Every piece of information is pulled on demand via retrieval. Scales to arbitrarily large codebases with no context ceiling.',
      pills:['On-demand retrieval','No context ceiling','Arbitrarily large repos'],
      excels:['Codebases too large for any context window','Organisations with rich indexed knowledge (docs, runbooks, past PRs, ADRs)','Tasks requiring diverse information sources combined dynamically','Teams with mature vector search infrastructure','AI that must reason across years of institutional knowledge'],
@@ -844,7 +1054,7 @@ const DATA = {
      tradeoffs:[{label:'Scale ceiling',value:99},{label:'Infra investment',value:72},{label:'Retrieval precision',value:65},{label:'Reasoning depth',value:55},{label:'Setup cost',value:68},{label:'Latency',value:45}],
      note:'<strong>Long-term play:</strong> As your debt system codebase and regulatory knowledge base grows, RAG-native becomes the only approach that scales without cost explosion. Worth investing in index quality now.'},
 
-    {id:'memory',group:'B',index:'B4',label:'Memory-Augmented',
+    {id:'memory',icon:'🧠',group:'B',index:'B4',label:'Memory-Augmented',
      name:'Memory-Augmented\nDevelopment',tagline:'Agents maintain persistent, structured long-term memory across sessions and projects. The agent learns your codebase conventions over time without re-reading them.',
      pills:['Cross-session persistence','Learned conventions','Compound returns'],
      excels:['Long-running projects where codebase knowledge compounds over time','Teams wanting AI that remembers past decisions and their rationale','Reducing context reconstruction cost across repeated similar tasks','AI that improves at your specific domain without retraining','Organisations building institutional AI memory alongside code'],
@@ -853,7 +1063,7 @@ const DATA = {
      tradeoffs:[{label:'Compounding value',value:92},{label:'Cold-start penalty',value:78},{label:'Curation cost',value:60},{label:'Consistency over time',value:85},{label:'Setup complexity',value:55},{label:'Cross-session speed',value:88}],
      note:'<strong>Strategic value:</strong> Memory-augmented agents that know your debt classification rules, SBV regulatory interpretations, and architectural decisions are qualitatively more useful than stateless agents.'},
 
-    {id:'agent',group:'C',index:'C1',label:'Agentic',
+    {id:'agent',icon:'🤖',group:'C',index:'C1',label:'Agentic',
      name:'Agentic-Driven\nDevelopment',tagline:'AI agents autonomously plan, execute, and iterate. Humans define goals; agents decide how. Loops until done.',
      pills:['Goal-directed','Multi-step','Self-correcting'],
      excels:['Exploratory, open-ended problem spaces','Tasks requiring dynamic planning (complex debugging, research)','Multi-tool orchestration: search + code + test + write','Research-to-implementation pipelines','High ambiguity where the solution path is unknown upfront'],
@@ -862,7 +1072,7 @@ const DATA = {
      tradeoffs:[{label:'Autonomy',value:95},{label:'Predictability',value:32},{label:'Speed to output',value:78},{label:'Debuggability',value:28},{label:'Error propagation risk',value:74},{label:'Exploration power',value:97}],
      note:'<strong>Risk flag:</strong> In debt management systems, unchecked agentic runs can compound errors silently. Always gate agents with human checkpoints before any write to production state.'},
 
-    {id:'multi',group:'C',index:'C2',label:'Multi-Agent',
+    {id:'multi',icon:'👥',group:'C',index:'C2',label:'Multi-Agent',
      name:'Multi-Agent\nCollaborative Development',tagline:'Multiple specialised agents work in parallel with defined roles: planner, coder, reviewer, tester, documenter. A team topology, not a single autonomous agent.',
      pills:['Parallel specialised agents','Role-based topology','High throughput'],
      excels:['Large tasks that decompose cleanly into parallel workstreams','Teams wanting AI to mirror their own role structure','Tasks where review and generation benefit from separation','High-volume output requirements (many PRs simultaneously)','Complex pipelines where specialisation improves each stage'],
@@ -871,7 +1081,7 @@ const DATA = {
      tradeoffs:[{label:'Throughput',value:92},{label:'Coordination overhead',value:78},{label:'Predictability',value:52},{label:'Setup complexity',value:80},{label:'Parallelism benefit',value:90},{label:'Error isolation',value:68}],
      note:'<strong>Patterns:</strong> AutoGen, CrewAI, and LangGraph all implement multi-agent topologies. The reviewer-coder separation alone catches a large class of errors before human review.'},
 
-    {id:'sim',group:'C',index:'C3',label:'Simulation-Driven',
+    {id:'sim',icon:'🔬',group:'C',index:'C3',label:'Simulation-Driven',
      name:'Simulation-Driven\nDevelopment',tagline:'AI generates code against a simulated environment and iterates on simulation feedback before any human review. The simulation is the eval.',
      pills:['Sandbox feedback loop','Pre-human validation','Digital twin'],
      excels:['Financial risk modelling against historical market data','Infrastructure code validated in a simulated cloud environment','Debt calculation engines tested against synthetic loan portfolios','Scenarios where real-world testing is costly, slow, or risky','Domains with high-fidelity simulators'],
@@ -880,7 +1090,7 @@ const DATA = {
      tradeoffs:[{label:'Pre-human quality',value:88},{label:'Sim build cost',value:80},{label:'Iteration speed',value:82},{label:'Real-world fidelity',value:65},{label:'Autonomy',value:85},{label:'Human review burden',value:25}],
      note:'<strong>High value for banking:</strong> A debt calculation simulator (synthetic loan portfolios + regulatory rules) lets agents iterate on calculation engines without touching real customer data or production systems.'},
 
-    {id:'skill',group:'D',index:'D1',label:'Skill-Driven',
+    {id:'skill',icon:'🧩',group:'D',index:'D1',label:'Skill-Driven',
      name:'Skill-Driven\nDevelopment',tagline:'Modular AI competencies composed into workflows. Each skill is a tested, versioned capability — not a raw prompt.',
      pills:['Composable','Versioned skills','Reusable library'],
      excels:['Cross-project reuse of AI capabilities','Platform or infra teams building shared internal tooling','Tasks that recur with variation (test gen, doc gen, migration scripts)','Environments where prompt reliability must be guaranteed','Teams building institutional AI memory over time'],
@@ -889,7 +1099,7 @@ const DATA = {
      tradeoffs:[{label:'Reusability',value:96},{label:'Initial investment',value:68},{label:'Consistency',value:88},{label:'Flexibility',value:62},{label:'Speed to output',value:38},{label:'Long-term ROI',value:94}],
      note:'<strong>Think of it as:</strong> A standard library for AI. “Summarise audit log,” “Generate migration script,” “Write unit tests from interface” become tested, reusable skills your entire team invokes confidently.'},
 
-    {id:'pipeline',group:'D',index:'D2',label:'Pipeline / Prompt-Chained',
+    {id:'pipeline',icon:'➡️',group:'D',index:'D2',label:'Pipeline / Prompt-Chained',
      name:'Pipeline / Prompt-Chained\nDevelopment',tagline:'Structured chains of deterministic prompt steps where each output feeds the next. No agent autonomy — the pipeline topology is fully defined by humans upfront.',
      pills:['Deterministic DAG','Human-defined topology','No agent autonomy'],
      excels:['Well-understood multi-step processes that repeat reliably','Teams wanting AI power without agent unpredictability','Document processing pipelines (extract → classify → enrich → validate)','ETL-style workflows on unstructured data','Compliance reporting pipelines where every step must be auditable'],
@@ -898,7 +1108,7 @@ const DATA = {
      tradeoffs:[{label:'Predictability',value:90},{label:'Flexibility',value:35},{label:'Debuggability',value:88},{label:'Setup cost',value:55},{label:'Auditability',value:92},{label:'Autonomy',value:10}],
      note:'<strong>Compliance sweet spot:</strong> Regulatory reporting pipelines (extract circulars → classify changes → map to modules → generate impact report) are perfect pipeline candidates — deterministic, auditable, repeatable.'},
 
-    {id:'micro',group:'D',index:'D3',label:'Micro-Approval',
+    {id:'micro',icon:'👀',group:'D',index:'D3',label:'Micro-Approval',
      name:'Human-in-the-Loop\nMicro-Approval',tagline:'AI proposes every individual change — line by line, function by function — and a human approves or rejects in real time. The human is embedded in the execution loop.',
      pills:['Continuous human review','Per-change approval','Cursor / Copilot pattern'],
      excels:['High-risk or unfamiliar codebases where human oversight is non-negotiable','Developers learning a new codebase with AI assistance','Critical path code where every line matters','Pair-programming style with AI as the junior','Situations where batch review misses intent'],
@@ -907,7 +1117,7 @@ const DATA = {
      tradeoffs:[{label:'Human control',value:99},{label:'Throughput',value:28},{label:'Learning value',value:88},{label:'Autonomy',value:5},{label:'Risk exposure',value:8},{label:'Developer trust',value:95}],
      note:'<strong>Best entry point:</strong> For teams new to AI-assisted development, micro-approval builds trust before graduating to higher-autonomy approaches. The developer always understands every accepted change.'},
 
-    {id:'hybrid',group:'D',index:'D4',label:'Hybrid / Orchestrated',
+    {id:'hybrid',icon:'🌀',group:'D',index:'D4',label:'Hybrid / Orchestrated',
      name:'Hybrid / Orchestrated\nDevelopment',tagline:'Combines multiple approaches under an orchestrator. Spec informs agents; skills plug into context loops. Best-of-each by task type.',
      pills:['Orchestrated','Adaptive routing','Compound ROI'],
      excels:['Mature teams ready to build custom AI pipelines','Environments where different task types need different approaches','Compliance-heavy core + experimental / velocity-driven edges','Platform teams building internal developer AI tooling','Long-horizon strategy: want approach to evolve without full replanning'],
@@ -950,17 +1160,17 @@ const DATA = {
   ],
 
   principles:[
-    {num:'01',title:'Human in the Loop at Risk Boundaries',      body:'Every AI workflow has points where errors compound — before irreversible actions, before production deployment, before touching shared financial state. Mandate human checkpoints at these exact boundaries regardless of how autonomous the rest of the workflow is. The question is not whether to checkpoint, but where.',guideline:'In banking: any write to account state, any compliance-affecting output, any change to a regulatory calculation.'},
-    {num:'02',title:'Match Context Scope to Task Cohesion',      body:'Use the smallest context that preserves the coherence the task actually needs. A bug fix needs one module, not the full codebase. Over-loading context wastes compute and dilutes attention; under-loading breaks coherence and produces subtly wrong outputs.',guideline:'If the AI cannot see the interfaces it is implementing against, the context is too small. If it takes more than 5 minutes to construct, it is probably too large.'},
-    {num:'03',title:'Specs Before Prompts',                      body:'A well-written specification is the most powerful AI prompt you can write. Invest in formalising requirements — OpenAPI, ADRs, data contracts — before optimising prompts. Specs are durable and serve as eval criteria. Prompts are ephemeral and drift as models change.',guideline:'In banking: specs double as compliance artifacts. Writing a good OpenAPI spec produces both the AI’s instructions and your audit evidence simultaneously.'},
-    {num:'04',title:'Build Skills Before Agents',                body:'Agentic autonomy amplifies whatever competencies the agent has. If the underlying skills are unreliable, an autonomous agent will fail faster and more expensively than a manual process. Validate each skill in isolation before composing them into agent pipelines. A pipeline is only as reliable as its weakest skill.',guideline:'Practical standard: run each skill with 20 representative test cases. If pass rate <85%, fix the skill before connecting it to other skills or agent loops.'},
-    {num:'05',title:'Evals Are the Product',                     body:'Without a way to measure output quality, you are guessing. Build eval suites before or alongside every AI workflow. Evals tell you when a workflow degrades after a model update, when it is safe to reduce human oversight, and which approach to choose for a given task type. The eval suite is your most valuable artifact.',guideline:'Minimum viable eval: 10 golden examples with expected outputs + one automated scorer. Ship evals with every new workflow, not as an afterthought.'},
-    {num:'06',title:'Log Everything, Replay Anything',           body:'Every AI action — inputs, tool calls, intermediate outputs, final output — should be captured in a structured trace. This enables debugging when autonomous runs go wrong, compliance audits when regulators ask, and root-cause analysis when outputs drift unexpectedly.',guideline:'In regulated systems: trace logs are non-optional. Design the log schema before the workflow schema — the log is primary, the workflow is secondary.'},
-    {num:'07',title:'Start Narrow, Expand Deliberately',         body:'Do not design the full agentic pipeline on day one. Pick one high-value, lower-risk task, instrument it with evals and logs, learn from it for 4–6 weeks, then expand. The shape of your AI workflow should evolve with your empirical understanding of where AI excels in your specific domain.',guideline:'Good first targets: documentation generation, test suite writing, migration script generation, audit log summarisation. High value, low blast radius if wrong.'},
-    {num:'08',title:'Treat Approach Selection as Architecture',  body:'Choosing between spec-driven, agentic, or context-driven is an architectural decision — not a prompt engineering decision. It determines cost structure, risk profile, team workflow, and system boundaries. Make the choice deliberately and document the rationale. Revisit it annually as models and tooling evolve.',guideline:'Anti-pattern: picking an approach because it is trendy. The decision must follow from your specific task’s coherence requirements and risk profile.'},
-    {num:'09',title:'Simulations Are Evals — Build Them First',body:'In simulation-driven development, the simulation is not a nice-to-have — it is the primary quality gate. The agent’s iteration loop depends entirely on simulation fidelity. A low-fidelity simulation produces confident wrong code; a high-fidelity simulation catches errors before any human review. Invest in simulation quality before running agents against it.',guideline:'For banking: a synthetic loan portfolio + regulatory rule engine is your simulation. Build it once, reuse across every calculation engine agent run. Its value compounds with every use.'},
-    {num:'10',title:'Memory Requires Active Curation',           body:'Memory-augmented agents compound value only when their memory store is accurate and current. Stale memories — referencing deprecated APIs, superseded decisions, or outdated conventions — actively degrade output quality. Memory curation must be a first-class team practice, not an afterthought.',guideline:'Practical: assign a memory review checkpoint at the end of every sprint. Treat a stale memory correction the same way you treat a bug fix in production code.'},
-    {num:'11',title:'Autonomy Is a Dial, Not a Switch',          body:'The spectrum from micro-approval to multi-agent autonomous runs is not a binary choice between AI helps and AI does it. It is a continuous dial you set deliberately based on task risk, team AI maturity, and the quality of your evals and checkpoints. Increasing autonomy should be backed by evidence — specifically, evidence that your evals catch the errors the human was previously catching.',guideline:'Graduation path: Micro-Approval → Std Context + human review → Agentic with checkpoints → Multi-Agent with review agent → Autonomous with eval gating. Move right only when the previous stage is stable.'},
+    {num:'01',icon:'🛑',title:'Human in the Loop at Risk Boundaries',      body:'Every AI workflow has points where errors compound — before irreversible actions, before production deployment, before touching shared financial state. Mandate human checkpoints at these exact boundaries regardless of how autonomous the rest of the workflow is. The question is not whether to checkpoint, but where.',guideline:'In banking: any write to account state, any compliance-affecting output, any change to a regulatory calculation.'},
+    {num:'02',icon:'🎯',title:'Match Context Scope to Task Cohesion',      body:'Use the smallest context that preserves the coherence the task actually needs. A bug fix needs one module, not the full codebase. Over-loading context wastes compute and dilutes attention; under-loading breaks coherence and produces subtly wrong outputs.',guideline:'If the AI cannot see the interfaces it is implementing against, the context is too small. If it takes more than 5 minutes to construct, it is probably too large.'},
+    {num:'03',icon:'📄',title:'Specs Before Prompts',                      body:'A well-written specification is the most powerful AI prompt you can write. Invest in formalising requirements — OpenAPI, ADRs, data contracts — before optimising prompts. Specs are durable and serve as eval criteria. Prompts are ephemeral and drift as models change.',guideline:'In banking: specs double as compliance artifacts. Writing a good OpenAPI spec produces both the AI’s instructions and your audit evidence simultaneously.'},
+    {num:'04',icon:'🔨',title:'Build Skills Before Agents',                body:'Agentic autonomy amplifies whatever competencies the agent has. If the underlying skills are unreliable, an autonomous agent will fail faster and more expensively than a manual process. Validate each skill in isolation before composing them into agent pipelines. A pipeline is only as reliable as its weakest skill.',guideline:'Practical standard: run each skill with 20 representative test cases. If pass rate <85%, fix the skill before connecting it to other skills or agent loops.'},
+    {num:'05',icon:'📊',title:'Evals Are the Product',                     body:'Without a way to measure output quality, you are guessing. Build eval suites before or alongside every AI workflow. Evals tell you when a workflow degrades after a model update, when it is safe to reduce human oversight, and which approach to choose for a given task type. The eval suite is your most valuable artifact.',guideline:'Minimum viable eval: 10 golden examples with expected outputs + one automated scorer. Ship evals with every new workflow, not as an afterthought.'},
+    {num:'06',icon:'📜',title:'Log Everything, Replay Anything',           body:'Every AI action — inputs, tool calls, intermediate outputs, final output — should be captured in a structured trace. This enables debugging when autonomous runs go wrong, compliance audits when regulators ask, and root-cause analysis when outputs drift unexpectedly.',guideline:'In regulated systems: trace logs are non-optional. Design the log schema before the workflow schema — the log is primary, the workflow is secondary.'},
+    {num:'07',icon:'🌱',title:'Start Narrow, Expand Deliberately',         body:'Do not design the full agentic pipeline on day one. Pick one high-value, lower-risk task, instrument it with evals and logs, learn from it for 4–6 weeks, then expand. The shape of your AI workflow should evolve with your empirical understanding of where AI excels in your specific domain.',guideline:'Good first targets: documentation generation, test suite writing, migration script generation, audit log summarisation. High value, low blast radius if wrong.'},
+    {num:'08',icon:'🏗️',title:'Treat Approach Selection as Architecture',  body:'Choosing between spec-driven, agentic, or context-driven is an architectural decision — not a prompt engineering decision. It determines cost structure, risk profile, team workflow, and system boundaries. Make the choice deliberately and document the rationale. Revisit it annually as models and tooling evolve.',guideline:'Anti-pattern: picking an approach because it is trendy. The decision must follow from your specific task’s coherence requirements and risk profile.'},
+    {num:'09',icon:'🎮',title:'Simulations Are Evals — Build Them First',body:'In simulation-driven development, the simulation is not a nice-to-have — it is the primary quality gate. The agent’s iteration loop depends entirely on simulation fidelity. A low-fidelity simulation produces confident wrong code; a high-fidelity simulation catches errors before any human review. Invest in simulation quality before running agents against it.',guideline:'For banking: a synthetic loan portfolio + regulatory rule engine is your simulation. Build it once, reuse across every calculation engine agent run. Its value compounds with every use.'},
+    {num:'10',icon:'🧹',title:'Memory Requires Active Curation',           body:'Memory-augmented agents compound value only when their memory store is accurate and current. Stale memories — referencing deprecated APIs, superseded decisions, or outdated conventions — actively degrade output quality. Memory curation must be a first-class team practice, not an afterthought.',guideline:'Practical: assign a memory review checkpoint at the end of every sprint. Treat a stale memory correction the same way you treat a bug fix in production code.'},
+    {num:'11',icon:'🎚️',title:'Autonomy Is a Dial, Not a Switch',          body:'The spectrum from micro-approval to multi-agent autonomous runs is not a binary choice between AI helps and AI does it. It is a continuous dial you set deliberately based on task risk, team AI maturity, and the quality of your evals and checkpoints. Increasing autonomy should be backed by evidence — specifically, evidence that your evals catch the errors the human was previously catching.',guideline:'Graduation path: Micro-Approval → Std Context + human review → Agentic with checkpoints → Multi-Agent with review agent → Autonomous with eval gating. Move right only when the previous stage is stable.'},
   ],
 
   framework:{
@@ -971,25 +1181,43 @@ const DATA = {
       {id:3,suffix:'',            text:'How frequently do requirements change?',        sub:'Determines the cost of re-running agents or regenerating from scratch.',                          options:[{value:'stable',label:'Stable — months between changes'},{value:'moderate',label:'Moderate — weekly changes expected'},{value:'frequent',label:'Frequent — daily or continuous changes'}]},
       {id:4,suffix:'',            text:'What is the risk profile of errors?',           sub:'High-risk domains need more human oversight engineered into the workflow.',                        options:[{value:'high',label:'High — financial data, compliance, production'},{value:'medium',label:'Medium — internal tools, staging environments'},{value:'low',label:'Low — docs, scripts, non-critical automation'}]},
       {id:5,suffix:'',            text:'Does this task recur across projects?',         sub:'Recurring tasks justify the upfront investment of building a reusable, tested skill.',            options:[{value:'yes',label:'Yes — similar tasks appear across projects or teams'},{value:'no',label:'No — one-off or rarely recurring'}]},
-      {id:6,suffix:'New',         text:'Does the task parallelise across workstreams?', sub:'Independent parallel tracks are the key signal for multi-agent over standard context.',          options:[{value:'yes',label:'Yes — clearly separable parallel workstreams'},{value:'no',label:'No — sequential or tightly interdependent'}]},
+      {id:6,suffix:'',            text:'Does the task parallelise across workstreams?', sub:'Independent parallel tracks are the key signal for multi-agent over standard context.',          options:[{value:'yes',label:'Yes — clearly separable parallel workstreams'},{value:'no',label:'No — sequential or tightly interdependent'}]},
     ],
     rules:[
-      {when:a=>a.q4==='high'  &&a.q1==='formal'&&a.q2==='small',            result:'constraint'},
-      {when:a=>a.q1==='formal'&&a.q4==='high',                               result:'spec'},
-      {when:a=>a.q1==='formal'&&a.q5==='yes'  &&a.q3!=='frequent',           result:'tdd'},
-      {when:a=>a.q6==='yes'   &&a.q2!=='small'&&a.q4!=='high',               result:'multi'},
-      {when:a=>a.q5==='yes'   &&a.q3==='frequent',                           result:'skill'},
-      {when:a=>a.q5==='yes'   &&a.q3!=='frequent'&&a.q1==='partial',         result:'memory'},
-      {when:a=>a.q1==='formal'&&a.q4==='medium'&&a.q3==='stable',            result:'sim'},
-      {when:a=>a.q1==='open'  &&a.q4==='low',                                result:'micro'},
-      {when:a=>a.q1==='open'  &&a.q4!=='high',                               result:'agent'},
-      {when:a=>a.q2==='large' &&a.q3==='stable',                             result:'rag'},
-      {when:a=>a.q2==='small' &&a.q3==='stable',                             result:'big'},
-      {when:a=>a.q2==='large' ||a.q3==='frequent',                           result:'std'},
-      {when:a=>a.q1==='formal'&&a.q5==='yes',                                result:'pipeline'},
-      {when:a=>a.q1==='formal',                                               result:'spec'},
-      {when:a=>a.q5==='yes',                                                  result:'skill'},
-      {when:()=>true,                                                         result:'hybrid'},
+      /* ── Group A: Specification & Contract ── */
+      /* Constraint: formal + high risk + small codebase = needs provable correctness */
+      {when:a=>a.q4==='high'   &&a.q1==='formal'&&a.q2==='small',             result:'constraint'},
+      /* Spec: formal + high risk (any codebase size) */
+      {when:a=>a.q1==='formal' &&a.q4==='high',                               result:'spec'},
+      /* Pipeline: formal + recurring + stable + low risk + sequential = deterministic workflow */
+      {when:a=>a.q1==='formal' &&a.q5==='yes'  &&a.q3==='stable'&&a.q4==='low'&&a.q6==='no', result:'pipeline'},
+      /* TDD: formal + recurring + not high risk (medium ok) = test-driven delivery */
+      {when:a=>a.q1==='formal' &&a.q5==='yes'  &&a.q3!=='frequent'&&a.q4!=='high', result:'tdd'},
+      /* Simulation: formal + not high risk + stable + non-parallelisable = sim-loop driven */
+      {when:a=>a.q1==='formal' &&a.q4!=='high' &&a.q3==='stable'&&a.q6==='no', result:'sim'},
+      /* ── Group C: Agent & Autonomy ── */
+      /* Multi-agent: parallelisable + medium/large + not high risk */
+      {when:a=>a.q6==='yes'    &&a.q2!=='small'&&a.q4!=='high',               result:'multi'},
+      /* Micro: open-ended + low risk = safe entry point */
+      {when:a=>a.q1==='open'   &&a.q4==='low',                                result:'micro'},
+      /* Agentic: open-ended + medium risk */
+      {when:a=>a.q1==='open'   &&a.q4!=='high',                               result:'agent'},
+      /* ── Group D: Composition & Pipeline ── */
+      /* Skill: recurring + frequent changes = skill library beats full rebuilds */
+      {when:a=>a.q5==='yes'    &&a.q3==='frequent',                           result:'skill'},
+      /* Memory: recurring + evolving (partial) reqs = compound learning */
+      {when:a=>a.q5==='yes'    &&a.q3!=='frequent'&&a.q1==='partial',         result:'memory'},
+      /* ── Group B: Context & Memory ── */
+      /* RAG: large codebase + stable = retrieval scales where context cannot */
+      {when:a=>a.q2==='large'  &&a.q3==='stable',                             result:'rag'},
+      /* Big context: small codebase + stable + not high risk = full coherence run */
+      {when:a=>a.q2==='small'  &&a.q3==='stable'&&a.q4!=='high',              result:'big'},
+      /* Std context: large OR frequent = incremental scoped runs */
+      {when:a=>a.q2==='large'  ||a.q3==='frequent',                           result:'std'},
+      /* ── Fallback chain ── */
+      {when:a=>a.q1==='formal',                                                result:'spec'},
+      {when:a=>a.q5==='yes',                                                   result:'skill'},
+      {when:()=>true,                                                          result:'hybrid'},
     ],
     recommendations:{
       spec:      {color:'var(--c-spec-dim)',       border:'rgba(74,158,255,.3)',  label:'Recommended',title:'Spec-Driven Development',            desc:'Your formal spec and high risk profile are the ideal match. Let the spec serve as ground truth — AI generates from it, humans validate against it. Every output is traceable to a requirement, making compliance straightforward.',steps:['Finalise the formal spec before any code generation','Run AI generation strictly against spec assertions','Validate every output against spec — reject divergences','Use spec as eval criteria and compliance artifact simultaneously']},
@@ -1147,6 +1375,15 @@ const DATA = {
   ],
 
 
+  crossRefs: {
+    /* approach id → building block names */
+    approachBlocks: {"spec": ["Context Window","PR / Diff Generator","Reflection / Critique","Human Checkpoint","Formal Specification","Feedback Signal","Audit / Trace Log","Eval Framework"],"tdd": ["Context Window","PR / Diff Generator","Self-Testing Loop","Human Checkpoint","Formal Specification","Feedback Signal","Audit / Trace Log","Eval Framework"],"constraint": ["Context Window","PR / Diff Generator","Constraint Solver","Human Checkpoint","Formal Specification","Feedback Signal","Audit / Trace Log","Eval Framework"],"big": ["Context Window","Codebase Loader","PR / Diff Generator","Self-Testing Loop","Human Checkpoint","Feedback Signal","Audit / Trace Log","Eval Framework"],"std": ["Context Window","RAG / Vector Store","Memory / Scratchpad","Codebase Loader","Task Decomposer","PR / Diff Generator","Self-Testing Loop","Human Checkpoint","Feedback Signal","Audit / Trace Log","Eval Framework"],"rag": ["Context Window","RAG / Vector Store","PR / Diff Generator","Human Checkpoint","Feedback Signal","Audit / Trace Log","Eval Framework"],"memory": ["Context Window","Agent Memory Store","PR / Diff Generator","Human Checkpoint","Feedback Signal","Audit / Trace Log","Eval Framework"],"agent": ["Context Window","RAG / Vector Store","Memory / Scratchpad","Task Decomposer","PR / Diff Generator","Self-Testing Loop","Reflection / Critique","Human Checkpoint","Skill / Tool Registry","Feedback Signal","Orchestrator","Audit / Trace Log","Eval Framework"],"multi": ["Context Window","Task Decomposer","PR / Diff Generator","Reflection / Critique","Human Checkpoint","Feedback Signal","Orchestrator","Multi-Agent Coordinator","Audit / Trace Log","Eval Framework"],"sim": ["Context Window","PR / Diff Generator","Simulation Environment","Human Checkpoint","Feedback Signal","Audit / Trace Log","Eval Framework"],"skill": ["Context Window","PR / Diff Generator","Human Checkpoint","Skill / Tool Registry","Feedback Signal","Audit / Trace Log","Eval Framework"],"pipeline": ["Context Window","PR / Diff Generator","Prompt Pipeline / DAG","Human Checkpoint","Feedback Signal","Audit / Trace Log","Eval Framework"],"micro": ["Context Window","PR / Diff Generator","Human Checkpoint","Feedback Signal","Audit / Trace Log","Eval Framework"],"hybrid": ["Context Window","RAG / Vector Store","Memory / Scratchpad","Agent Memory Store","Task Decomposer","PR / Diff Generator","Reflection / Critique","Prompt Pipeline / DAG","Simulation Environment","Human Checkpoint","Formal Specification","Skill / Tool Registry","Feedback Signal","Orchestrator","Multi-Agent Coordinator","Audit / Trace Log","Eval Framework"]},
+    /* approach id → principle nums */
+    approachPrinciples: {"spec": ["01","03","05","06"],"tdd": ["01","03","05","06"],"constraint": ["01","03","05","06"],"big": ["01","02","05","06"],"std": ["01","02","05","06","07"],"rag": ["01","02","05","06"],"memory": ["01","02","05","06","10"],"agent": ["01","04","05","06","07","08","11"],"multi": ["01","04","05","06","08","11"],"sim": ["01","05","06","09"],"skill": ["01","04","05","06"],"pipeline": ["01","04","05","06"],"micro": ["01","05","06","07","11"],"hybrid": ["01","04","05","06","08","11"]},
+    /* principle num → approach ids */
+    principleApproaches: {"01": ["spec","tdd","constraint","big","std","rag","memory","agent","multi","sim","skill","pipeline","micro","hybrid"],"02": ["big","std","rag","memory"],"03": ["spec","tdd","constraint"],"04": ["skill","agent","multi","pipeline","hybrid"],"05": ["spec","tdd","constraint","big","std","rag","memory","agent","multi","sim","skill","pipeline","micro","hybrid"],"06": ["spec","tdd","constraint","big","std","rag","memory","agent","multi","sim","skill","pipeline","micro","hybrid"],"07": ["micro","agent","std"],"08": ["hybrid","agent","multi"],"09": ["sim"],"10": ["memory"],"11": ["micro","agent","multi","hybrid"]},
+  },
+
 }; // end DATA
 
 
@@ -1206,7 +1443,7 @@ const RENDER = {
 
   _filterPills(sectionId) {
     const configs = {
-      approaches: { label:'Group', pills: DATA.groups.map(g=>({id:g.num,label:`${g.num}: ${g.name}`.substring(0,18)})) },
+      approaches: { label:'Group', pills: DATA.groups.map(g=>({id:g.num,label:`${g.num}: ${g.name}`})) },
       blocks:     { label:'Category', pills: DATA.blocks.map(g=>({id:g.category,label:g.category})) },
       principles: { label:'', pills:[] },
       workflows:  { label:'Type', pills: [...new Set(DATA.workflows.flatMap(w=>w.badges.map(b=>b.key)))].map(k=>({id:k,label:k.charAt(0).toUpperCase()+k.slice(1)})) },
@@ -1231,7 +1468,7 @@ const RENDER = {
       </div>`).join('');
     const ths  = overviewTable.headers.map(h => `<th>${h}</th>`).join('');
     const rows = overviewTable.rows.map(r => `
-      <tr>
+      <tr data-searchable="${r.num} ${r.name} ${r.group} ${r.role} ${r.cadence} ${r.fit.join(' ')} ${r.audit}">
         <td style="font-family:var(--mono);font-size:10px;color:var(--text3);white-space:nowrap">${r.num}</td>
         <td style="white-space:nowrap"><span class="dot-badge" style="background:var(--c-${r.id})"></span>${r.name}</td>
         <td style="font-size:11px;color:var(--text3)">${r.group}</td>
@@ -1254,11 +1491,17 @@ const RENDER = {
         <div class="hero-tags">${tags}</div>
       </div>
       <div class="overview-grid">${stats}</div>
-      <div class="table-wrap"><table><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table></div>
+      ${RENDER.searchBar('overview')}
+      <div class="table-wrap" id="overview-table-wrap"><table><thead><tr>${ths}</tr></thead><tbody id="overview-table-body">${rows}</tbody></table></div>
       <div class="map-section">
         <div class="map-label">Approach Fit Matrix — by task property</div>
         <div class="matrix-grid" style="grid-template-columns:80px repeat(5,1fr)">
           <div class="matrix-corner"></div>${colHeads}${matrixRows}
+        </div>
+        <div class="matrix-legend">
+          <span class="matrix-legend-item"><span class="matrix-legend-cell cell-hi">&#x25CF;&#x25CF;&#x25CF;</span>Strong fit</span>
+          <span class="matrix-legend-item"><span class="matrix-legend-cell cell-mid">&#x25CF;&#x25CF;</span>Moderate fit</span>
+          <span class="matrix-legend-item"><span class="matrix-legend-cell cell-lo">&#xB7;</span>Weak / not primary fit</span>
         </div>
       </div>
       ${RENDER._attribution()}`;
@@ -1276,12 +1519,17 @@ const RENDER = {
           <div class="approach-card" id="card-${a.id}"
             data-group="${a.group}"
             data-searchable="${a.label} ${a.name.replace('\\n',' ')} ${a.tagline} ${a.pills.join(' ')} ${a.excels.join(' ')} ${a.mechanics.join(' ')}"
-            onclick="APP.openModal('approach','${a.id}')">
-            <div class="card-index">${a.index} — ${a.label}</div>
+            onclick="APP.openModal('approach','${a.id}')" tabindex="0" role="button"
+            onkeydown="if(event.key==='Enter'||event.key===' '){APP.openModal('approach','${a.id}');event.preventDefault()}"
+            aria-label="Open details for ${a.label}">
+            <div class="card-header-row">
+              <span class="card-icon">${a.icon||''}</span>
+              <div class="card-index">${a.index} — ${a.label}</div>
+            </div>
             <div class="card-badge c-${a.id} border-${a.id} bg-${a.id}">${a.label}</div>
             <div class="card-name">${a.name.replace('\\n','<br>')}</div>
             <div class="card-tagline">${a.tagline}</div>
-            <div class="card-pills">${pills}</div>
+            <div class="card-pills-wrap"><span class="card-pills-label">Key traits</span><div class="card-pills">${pills}</div></div>
             <div class="card-expand-hint">↗ Details</div>
           </div>`;
       }).join('');
@@ -1312,11 +1560,16 @@ const RENDER = {
       const cards = g.items.map(b => `
         <div class="block-card" data-category="${g.category}"
           data-searchable="${b.name} ${b.desc} ${b.used}"
-          onclick="APP.openModal('block',${JSON.stringify(b.name)})">
+          onclick="APP.openModal('block',${JSON.stringify(b.name)})" tabindex="0" role="button"
+          onkeydown="if(event.key==='Enter'||event.key===' '){APP.openModal('block',${JSON.stringify(b.name)});event.preventDefault()}"
+          aria-label="Open details for ${b.name}">
           <div class="block-icon">${b.icon}</div>
           <div class="block-name">${b.name}</div>
           <div class="block-desc">${b.desc}</div>
-          <div class="block-used">${b.used}</div>
+          <div class="block-used-wrap">
+            <span class="block-used-label">Used by</span>
+            <div class="block-used-chips">${RENDER._blockUsedChips(b.used)}</div>
+          </div>
         </div>`).join('');
       return `
         <div class="blocks-category" data-category="${g.category}">
@@ -1338,12 +1591,18 @@ const RENDER = {
   sectionPrinciples(principles) {
     const items = principles.map(p => `
       <div class="principle-item" data-searchable="${p.title} ${p.body} ${p.guideline}"
-        onclick="APP.openModal('principle','${p.num}')">
-        <div class="principle-num">${p.num}</div>
+        onclick="APP.openModal('principle','${p.num}')" tabindex="0" role="button"
+        onkeydown="if(event.key==='Enter'||event.key===' '){APP.openModal('principle','${p.num}');event.preventDefault()}"
+        aria-label="Open details for principle ${p.num}">
+        <div class="principle-num-wrap">
+          <span class="principle-icon">${p.icon||''}</span>
+          <div class="principle-num">${p.num}</div>
+        </div>
         <div class="principle-body">
           <h3>${p.title}</h3>
           <p>${p.body}</p>
           <div class="principle-guideline">${p.guideline}</div>
+          <div class="principle-approaches">${RENDER._principleApproachChips(p.num)}</div>
         </div>
       </div>`).join('');
     return `
@@ -1381,18 +1640,24 @@ const RENDER = {
       <div class="framework-page">
         <div class="framework-intro">${intro}</div>
         <div class="questions-col">${qs}</div>
+        <button class="framework-reset" id="framework-reset" onclick="APP.resetFramework()">↺ Reset answers</button>
         <div id="rec-panel" class="rec-panel">
           <div class="rec-label" id="rec-label"></div>
           <div class="rec-title" id="rec-title"></div>
           <div class="rec-desc"  id="rec-desc"></div>
           <div class="rec-steps" id="rec-steps"></div>
+          <button class="rec-open-btn" id="rec-open-btn" onclick="APP.openRecModal()">↗ Open approach details</button>
         </div>
       </div>`;
   },
 
   sectionWorkflows(workflows) {
     const tabs = workflows.map((w, i) => {
-      const badges = w.badges.map(b=>`<span class="wf-badge c-${b.key} border-${b.key}">${b.label}</span>`).join('');
+      const badges = w.badges.map(b=>{
+        const a = DATA.approaches.find(x=>x.id===b.key);
+        const extra = a ? 'data-approach-id="'+b.key+'" onclick="APP.openModalApproach(this);event.stopPropagation()" style="cursor:pointer" title="'+a.label+'"' : '';
+        return '<span class="wf-badge c-'+b.key+' border-'+b.key+'" '+extra+'>'+b.label+'</span>';
+      }).join('');
       return `
         <div class="wf-tab${i===0?' active':''}" id="wftab-${w.id}" onclick="APP.switchWf('${w.id}')"
           data-searchable="${w.title} ${w.badges.map(b=>b.label).join(' ')}">
@@ -1417,11 +1682,14 @@ const RENDER = {
             <div class="step-content">
               <div class="step-meta">
                 <span class="step-phase">Step ${s.phase}</span>
-                <span class="${badgeCls}" style="${badgeSty}">${s.label}</span>
+                <span class="${badgeCls}"
+                  style="${badgeSty}${s.type!=='gate'?';cursor:pointer':''}"
+                  ${s.type!=='gate'?'data-approach-id="'+s.type+'" onclick="APP.openModalApproach(this);event.stopPropagation()" title="Open approach"':''}
+                >${s.label}</span>
               </div>
               <div class="step-title">${s.title}</div>
               <div class="step-desc">${s.desc}</div>
-              <div class="step-tools">${tools}</div>
+              <div class="step-tools-wrap"><span class="step-tools-label">Tools</span><div class="step-tools">${tools}</div></div>
             </div>
           </div>`;
       }).join('');
@@ -1465,7 +1733,7 @@ const RENDER = {
           <span>🤖</span>
           <span>Content generated by <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> (Anthropic)</span>
         </div>
-        <span>AI Workflow Integration Atlas · v2.0</span>
+        <span>AI Workflow Integration Atlas · v1.0</span>
         <span>Structure, content &amp; code co-authored with Claude Sonnet</span>
       </div>`;
   },
@@ -1501,7 +1769,9 @@ const RENDER = {
         <div class="modal-section-label">Tradeoff Profile</div>
         <div class="modal-tradeoffs">${tradeoffs}</div>
       </div>
-      <div class="modal-note" style="border-left-color:var(--c-${a.id})">${a.note}</div>`;
+      <div class="modal-note" style="border-left-color:var(--c-${a.id})">${a.note}</div>
+      ${RENDER._modalCrossRefBlocks(id)}
+      ${RENDER._modalCrossRefPrinciples(id)}`;
   },
 
   modalBlock(name) {
@@ -1527,7 +1797,103 @@ const RENDER = {
       </div>`;
   },
 
-  injectDynamicStyles(approaches, workflows) {
+
+  /* ── cross-reference helpers ── */
+
+
+  _principleApproachChips(num) {
+    const aids = (DATA.crossRefs.principleApproaches[num] || []);
+    if (!aids.length) return '';
+    const chips = aids.map(aid => {
+      const a = DATA.approaches.find(x=>x.id===aid);
+      if (!a) return '';
+      return `<span class="principle-approach-chip" style="border-color:var(--c-${aid});color:var(--c-${aid})"
+        data-approach-id="${aid}"
+        onclick="APP.openModalApproach(this,true);event.stopPropagation()"
+        title="${a.label}">${a.icon||''} ${a.index}</span>`;
+    }).join('');
+    return `<span class="principle-applies-label">Applies to</span>${chips}`;
+  },
+
+  _blockUsedChips(usedText) {
+    /* Parse the used text and match to approach ids */
+    const map = {
+      'Spec-driven':'spec','TDAD':'tdd','Constraint-Driven':'constraint',
+      'Big context':'big','Std context':'std','RAG-Native':'rag',
+      'Memory-Augmented':'memory','Agentic':'agent','Multi-Agent':'multi',
+      'Simulation-Driven':'sim','Skill-driven':'skill','Pipeline':'pipeline',
+      'Micro-Approval':'micro','Hybrid':'hybrid',
+    };
+    if (usedText.toLowerCase().includes('all approaches')) {
+      return '<span class="block-used-chip block-used-all">All approaches</span>';
+    }
+    const chips = Object.entries(map)
+      .filter(([label]) => usedText.toLowerCase().includes(label.toLowerCase()))
+      .map(([label, id]) => {
+        const a = DATA.approaches.find(x=>x.id===id);
+        const shortLabel = a ? a.index + ' ' + a.label : label;
+        return `<span class="block-used-chip" style="border-color:var(--c-${id});color:var(--c-${id})"
+          data-approach-id="${id}"
+          onclick="APP.openModalApproach(this,true);event.stopPropagation()"
+          title="Open approach">${shortLabel}</span>`;
+      }).join('');
+    return chips || `<span class="block-used-chip">${usedText}</span>`;
+  },
+
+  _modalCrossRefBlocks(approachId) {
+    const names = DATA.crossRefs.approachBlocks[approachId] || [];
+    if (!names.length) return '';
+    const chips = names.map(n => {
+      let icon = '';
+      DATA.blocks.forEach(g => { const b = g.items.find(x=>x.name===n); if(b) icon=b.icon; });
+      const safeName = n.replace(/'/g,"\'");
+      return `<span class="xref-chip" data-block-name="${n.replace(/"/g,'&quot;')}"
+        onclick="APP.openModalBlock(this,true);event.stopPropagation()"
+        title="Open: ${n}">${icon} ${n}</span>`;
+    }).join('');
+    return `
+      <div class="modal-section">
+        <div class="modal-section-label">Building blocks used</div>
+        <div class="xref-chips">${chips}</div>
+      </div>`;
+  },
+
+  _modalCrossRefPrinciples(approachId) {
+    const nums = DATA.crossRefs.approachPrinciples[approachId] || [];
+    if (!nums.length) return '';
+    const chips = nums.map(n => {
+      const p = DATA.principles.find(x=>x.num===n);
+      if (!p) return '';
+      return `<span class="xref-chip" data-principle-num="${n}"
+        onclick="APP.openModalPrinciple(this,true);event.stopPropagation()"
+        title="${p.title}">${n}. ${p.title}</span>`;
+    }).join('');
+    return `
+      <div class="modal-section">
+        <div class="modal-section-label">Relevant principles</div>
+        <div class="xref-chips">${chips}</div>
+      </div>`;
+  },
+
+  _modalCrossRefApproachesForPrinciple(num) {
+    const aids = DATA.crossRefs.principleApproaches[num] || [];
+    if (!aids.length) return '';
+    const chips = aids.map(aid => {
+      const a = DATA.approaches.find(x=>x.id===aid);
+      if (!a) return '';
+      return `<span class="xref-chip xref-approach" style="border-color:var(--c-${aid});color:var(--c-${aid})"
+        data-approach-id="${aid}"
+        onclick="APP.openModalApproach(this,true);event.stopPropagation()"
+        title="${a.label}">${a.index} ${a.label}</span>`;
+    }).join('');
+    return `
+      <div class="modal-section">
+        <div class="modal-section-label">Approaches this applies to</div>
+        <div class="xref-chips">${chips}</div>
+      </div>`;
+  },
+
+    injectDynamicStyles(approaches, workflows) {
     const wfColorMap = { onboard:'std', regulatory:'spec', feature:'agent', debug:'skill', greenfield:'big', pipeline_wf:'pipeline', memory_onboard:'memory', platform:'hybrid', legacy:'rag', steady_state:'hybrid' };
     const cardStyles = approaches.map(a=>`#card-${a.id}::before{background:var(--c-${a.id})}`).join('\n');
     const wfStyles   = workflows.map(w => {
@@ -1554,7 +1920,10 @@ const APP = {
     theme: 'dark',
     searchTimers: {},
     activeFilters: {},
+    lastQuery: {},
     modalOpen: false,
+    recKey: null,
+    modalStack: [],
   },
 
   _isMobile() { return window.innerWidth <= 700; },
@@ -1565,12 +1934,23 @@ const APP = {
     RENDER.injectDynamicStyles(DATA.approaches, DATA.workflows);
     this.show('overview');
     this._applyTheme(localStorage.getItem('atlas-theme') || 'dark');
+    this._syncTopbarHeight();
     if (!this._isMobile()) this._setSidebar(true);
     window.addEventListener('resize', () => {
+      this._syncTopbarHeight();
       if (!this._isMobile() && !this.state.sidebarOpen) this._setSidebar(true);
     });
     this._initScrollTop();
     this._initModal();
+  },
+
+  /* measure actual topbar height and expose as CSS variable */
+  _syncTopbarHeight() {
+    const tb = document.getElementById('topbar-toggle')?.closest('.topbar')
+            || document.querySelector('.topbar');
+    if (!tb) return;
+    const h = tb.getBoundingClientRect().height;
+    document.documentElement.style.setProperty('--topbar-actual-h', h + 'px');
   },
 
   /* sidebar */
@@ -1594,6 +1974,12 @@ const APP = {
     if (this._isMobile()) this._setSidebar(false);
     const m = document.getElementById('main');
     if (m) m.scrollTop = 0;
+    /* update mobile breadcrumb */
+    const bc = document.getElementById('section-breadcrumb');
+    if (bc) {
+      const nav = DATA.nav.find(n=>n.id===id);
+      bc.textContent = nav ? nav.label : id;
+    }
   },
 
   /* theme */
@@ -1640,7 +2026,10 @@ const APP = {
 
   _applySearch(sid, q) {
     const filters = this.state.activeFilters[sid] || new Set();
+    const qChanged = q !== (this.state.lastQuery[sid] || '');
+    this.state.lastQuery[sid] = q;
     const selMap = {
+      overview:   '#overview-table-body tr',
       approaches: '#approaches-content .approach-card',
       blocks:     '#blocks-content .block-card',
       principles: '#principles-content .principle-item',
@@ -1655,7 +2044,7 @@ const APP = {
       const matchQ = !q || text.includes(q);
       const matchF = !filters.size || [...filters].some(f => group.includes(f));
       el.style.display = (matchQ && matchF) ? '' : 'none';
-      this._highlight(el, q);
+      if (qChanged) this._highlight(el, q);
     });
 
     /* hide empty group headers */
@@ -1668,6 +2057,33 @@ const APP = {
       document.querySelectorAll('#blocks-content .blocks-category').forEach(g => {
         g.style.display = [...g.querySelectorAll('.block-card')].some(c=>c.style.display!=='none') ? '' : 'none';
       });
+    }
+    /* workflows: tabs always visible; bodies shown based on filter */
+    if (sid === 'workflows') {
+      const tabs   = document.querySelectorAll('#workflows-content .wf-tab');
+      const bodies = document.querySelectorAll('#workflows-content .wf-body');
+      const filters = this.state.activeFilters[sid] || new Set();
+      const hasFilter = q || filters.size > 0;
+
+      if (!hasFilter) {
+        /* no filter — restore default: show picker, only active body visible */
+        tabs.forEach(t=>{ t.style.display=''; });
+        const activeId = [...tabs].find(t=>t.classList.contains('active'))?.id.replace('wftab-','');
+        bodies.forEach(b=>{ b.style.display = (b.id==='wfbody-'+(activeId||'onboard')) ? '' : 'none'; });
+      } else {
+        /* filter active — tabs always visible, highlight matching; show all matching bodies */
+        tabs.forEach(t=>{ t.style.display=''; });  /* never hide tabs */
+        tabs.forEach(tab => {
+          const wfId    = tab.id.replace('wftab-','');
+          const body    = document.getElementById('wfbody-' + wfId);
+          const text    = (tab.dataset.searchable||'').toLowerCase();
+          const matchQ  = !q || text.includes(q);
+          const matchF  = !filters.size || [...filters].some(f=>text.includes(f.toLowerCase()));
+          const matches = matchQ && matchF;
+          tab.classList.toggle('active', matches);
+          if (body) body.style.display = matches ? '' : 'none';
+        });
+      }
     }
   },
 
@@ -1719,8 +2135,13 @@ const APP = {
     bd.onclick = e => { if(e.target===bd) APP.closeModal(); };
     const m = document.createElement('div');
     m.className='modal'; m.id='modal';
+    m.setAttribute('role','dialog');
+    m.setAttribute('aria-modal','true');
+    m.setAttribute('aria-labelledby','modal-title');
+    m.setAttribute('tabindex','-1');
     m.innerHTML=`
       <div class="modal-header" id="modal-header">
+        <button class="modal-back-btn" id="modal-back-btn" onclick="APP.popModal()" aria-label="Back">← Back</button>
         <div class="modal-header-color" id="modal-color-bar"></div>
         <div style="flex:1;min-width:0">
           <div class="modal-header-index" id="modal-index"></div>
@@ -1728,20 +2149,76 @@ const APP = {
         </div>
         <div class="modal-controls">
           <button class="modal-btn" id="modal-max-btn" onclick="APP.toggleModalMax()" title="Maximise">⤢</button>
-          <button class="modal-btn" onclick="APP.closeModal()" title="Close" aria-label="Close dialog">✕</button>
+          <button class="modal-btn" id="modal-close-btn" onclick="APP.closeModal()" title="Close" aria-label="Close dialog">✕</button>
         </div>
       </div>
       <div class="modal-body" id="modal-body"></div>`;
     bd.appendChild(m);
     document.body.appendChild(bd);
+    /* swipe-to-close on mobile */
+    let touchStartY=0;
+    m.addEventListener('touchstart', e=>{ touchStartY=e.touches[0].clientY; },{passive:true});
+    m.addEventListener('touchend', e=>{
+      if (e.changedTouches[0].clientY - touchStartY > 80) APP.closeModal();
+    },{passive:true});
     document.addEventListener('keydown', e => {
       if (!APP.state.modalOpen) return;
-      if (e.key==='Escape') APP.closeModal();
-      if (e.key==='ArrowRight'||e.key==='ArrowLeft') APP._navModal(e.key==='ArrowRight'?1:-1);
+      if (e.key==='Escape') { APP.closeModal(); return; }
+      if (e.key==='ArrowRight'||e.key==='ArrowLeft') { APP._navModal(e.key==='ArrowRight'?1:-1); return; }
+      /* focus trap */
+      if (e.key==='Tab') {
+        const modal = document.getElementById('modal');
+        const focusable = modal ? [...modal.querySelectorAll(
+          'button,a,[tabindex]:not([tabindex="-1"])'
+        )].filter(el=>!el.disabled&&el.offsetParent!==null) : [];
+        if (!focusable.length) return;
+        const first=focusable[0], last=focusable[focusable.length-1];
+        if (e.shiftKey && document.activeElement===first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement===last) { e.preventDefault(); first.focus(); }
+      }
     });
   },
 
-  openModal(type, id) {
+  /* push current modal content onto stack before opening new one (for nested modals) */
+  _pushCurrentModal() {
+    const body  = document.getElementById('modal-body');
+    const title = document.getElementById('modal-title');
+    const index = document.getElementById('modal-index');
+    const cbar  = document.getElementById('modal-color-bar');
+    const bd    = document.getElementById('modal-backdrop');
+    this.state.modalStack.push({
+      html:  body?.innerHTML || '',
+      title: title?.textContent || '',
+      index: index?.textContent || '',
+      color: cbar?.style.background || '',
+      type:  bd?.dataset.modalType || '',
+      id:    bd?.dataset.modalId   || '',
+    });
+    document.getElementById('modal-back-btn')?.classList.add('visible');
+  },
+
+  popModal() {
+    const frame = this.state.modalStack.pop();
+    if (!frame) { this.closeModal(); return; }
+    const body  = document.getElementById('modal-body');
+    const title = document.getElementById('modal-title');
+    const index = document.getElementById('modal-index');
+    const cbar  = document.getElementById('modal-color-bar');
+    const bd    = document.getElementById('modal-backdrop');
+    if (body)  body.innerHTML     = frame.html;
+    if (title) title.textContent  = frame.title;
+    if (index) index.textContent  = frame.index;
+    if (cbar)  cbar.style.background = frame.color;
+    if (bd) { bd.dataset.modalType = frame.type; bd.dataset.modalId = frame.id; }
+    if (body)  body.scrollTop = 0;
+    /* hide back button if stack is empty */
+    if (!this.state.modalStack.length)
+      document.getElementById('modal-back-btn')?.classList.remove('visible');
+  },
+
+  openModal(type, id, nested=false) {
+    /* if a modal is already open, push its content before replacing */
+    if (this.state.modalOpen && nested) this._pushCurrentModal();
     const bd    = document.getElementById('modal-backdrop');
     const body  = document.getElementById('modal-body');
     const title = document.getElementById('modal-title');
@@ -1751,14 +2228,14 @@ const APP = {
 
     if (type==='approach') {
       const a = DATA.approaches.find(x=>x.id===id); if(!a) return;
-      html=RENDER.modalApproach(id); t=a.name.replace('\\n',' '); idx=`${a.index} — ${a.label}`; col=`var(--c-${a.id})`;
+      html=RENDER.modalApproach(id); t=a.name.replace('\\n',' '); idx=`${a.icon||''} ${a.index} — ${a.label}`; col=`var(--c-${a.id})`;
       bd.dataset.modalType='approach'; bd.dataset.modalId=id;
     } else if (type==='block') {
       let found=null; DATA.blocks.forEach(g=>{const b=g.items.find(x=>x.name===id);if(b)found=b;}); if(!found) return;
       html=RENDER.modalBlock(id); t=found.name; idx='Building Block'; col='var(--c-agent)';
     } else if (type==='principle') {
       const p=DATA.principles.find(x=>x.num===id); if(!p) return;
-      html=RENDER.modalPrinciple(id); t=p.title; idx=`Principle ${p.num}`; col='var(--c-big)';
+      html=RENDER.modalPrinciple(id); t=p.title; idx=`${p.icon||''} Principle ${p.num}`; col='var(--c-big)';
     }
 
     title.textContent=t; index.textContent=idx; cbar.style.background=col;
@@ -1767,13 +2244,21 @@ const APP = {
     document.getElementById('modal')?.classList.remove('maximized');
     document.getElementById('modal-max-btn').textContent='⤢';
     this.state.modalOpen=true;
+    this.state.modalPrevFocus = document.activeElement;
     document.body.style.overflow='hidden';
+    /* focus modal for keyboard users */
+    requestAnimationFrame(() => document.getElementById('modal')?.focus());
   },
 
   closeModal() {
     document.getElementById('modal-backdrop')?.classList.remove('open');
     this.state.modalOpen=false;
+    this.state.modalStack = [];
+    document.getElementById('modal-back-btn')?.classList.remove('visible');
     document.body.style.overflow='';
+    /* return focus to triggering element */
+    this.state.modalPrevFocus?.focus?.();
+    this.state.modalPrevFocus = null;
   },
 
   toggleModalMax() {
@@ -1806,6 +2291,7 @@ const APP = {
     const cfg=DATA.framework.recommendations[key];
     const panel=document.getElementById('rec-panel');
     if(!panel||!cfg) return;
+    this.state.recKey = key;
     panel.className='rec-panel visible';
     panel.style.background=cfg.color; panel.style.borderColor=cfg.border;
     document.getElementById('rec-label').textContent=cfg.label.toUpperCase();
@@ -1813,7 +2299,41 @@ const APP = {
     document.getElementById('rec-desc').textContent=cfg.desc;
     document.getElementById('rec-steps').innerHTML=cfg.steps.map((s,i)=>
       `<div class="rec-step"><span class="rec-step-n">0${i+1}</span><span>${s}</span></div>`).join('');
+    /* colour the open-approach button */
+    const ob = document.getElementById('rec-open-btn');
+    if (ob) { ob.style.color=cfg.border.replace('rgba','rgb').replace(', .3)',')'); ob.style.borderColor=ob.style.color; }
+    /* show reset button */
+    document.getElementById('framework-reset')?.classList.add('visible');
     setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  },
+
+  resetFramework() {
+    this.state.answers = {};
+    this.state.recKey  = null;
+    document.querySelectorAll('.q-card').forEach(c=>c.classList.remove('answered'));
+    document.querySelectorAll('.q-opt').forEach(o=>{ o.classList.remove('selected'); o.style.background=''; });
+    const panel = document.getElementById('rec-panel');
+    if (panel) { panel.className='rec-panel'; panel.style.background=''; panel.style.borderColor=''; }
+    document.getElementById('framework-reset')?.classList.remove('visible');
+  },
+
+  openModalPrinciple(el, nested=false) {
+    const num = el.dataset.principleNum;
+    if (num) this.openModal('principle', num, nested);
+  },
+
+  openModalApproach(el, nested=false) {
+    const id = el.dataset.approachId;
+    if (id) this.openModal('approach', id, nested);
+  },
+
+  openModalBlock(el, nested=false) {
+    const name = el.dataset.blockName;
+    if (name) this.openModal('block', name, nested);
+  },
+
+  openRecModal() {
+    if (this.state.recKey) this.openModal('approach', this.state.recKey);
   },
 
   /* workflows */

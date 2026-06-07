@@ -935,9 +935,56 @@ mark.sh{
 }
 .principle-approach-chip:hover{opacity:.75}
 
+/* ── auditability legend (overview page) ── */
+.audit-legend{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  margin:0 56px 0;padding:10px 14px;
+  background:var(--bg2);border-radius:0 0 10px 10px;
+  border:1px solid var(--line);border-top:none;
+  font-family:var(--mono);font-size:10px;
+}
+.audit-legend-title{
+  color:var(--text3);letter-spacing:.1em;text-transform:uppercase;
+  font-size:9px;margin-right:6px;flex-shrink:0;
+}
+.audit-legend-item{
+  display:flex;align-items:center;gap:4px;
+  padding:3px 8px;border-radius:4px;cursor:default;
+  transition:background .15s;
+}
+.audit-legend-item:hover{background:var(--bg3)}
+.audit-legend-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.audit-legend-label{font-size:10px;font-weight:500}
+@media(max-width:700px){
+  .audit-legend{margin:0 16px 0;border-radius:0 0 8px 8px}
+}
+
+/* ── auditability tooltip ── */
+.audit-tip{
+  position:fixed;z-index:900;
+  max-width:260px;
+  background:var(--bg3);border:1px solid var(--line2);border-radius:8px;
+  padding:10px 12px;
+  font-family:var(--sans);font-size:12px;color:var(--text2);line-height:1.55;
+  box-shadow:0 8px 32px var(--shadow);
+  opacity:0;pointer-events:none;
+  transition:opacity .15s;
+}
+.audit-tip.visible{opacity:1}
+.audit-tip strong{display:block;margin-bottom:4px;font-size:11px;letter-spacing:.04em}
+
+/* ── audit badge in table ── */
+.audit-badge{
+  cursor:help;border-bottom:1px dashed currentColor;
+  font-weight:500;
+}
+
 </style>
 </head>
 <body>
+<!-- audit tooltip -->
+<div class="audit-tip" id="audit-tip"></div>
+
 <!-- sidebar backdrop (mobile overlay) -->
 <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="APP.toggleSidebar()"></div>
 
@@ -1384,6 +1431,18 @@ const DATA = {
     principleApproaches: {"01": ["spec","tdd","constraint","big","std","rag","memory","agent","multi","sim","skill","pipeline","micro","hybrid"],"02": ["big","std","rag","memory"],"03": ["spec","tdd","constraint"],"04": ["skill","agent","multi","pipeline","hybrid"],"05": ["spec","tdd","constraint","big","std","rag","memory","agent","multi","sim","skill","pipeline","micro","hybrid"],"06": ["spec","tdd","constraint","big","std","rag","memory","agent","multi","sim","skill","pipeline","micro","hybrid"],"07": ["micro","agent","std"],"08": ["hybrid","agent","multi"],"09": ["sim"],"10": ["memory"],"11": ["micro","agent","multi","hybrid"]},
   },
 
+  auditLevels: {
+    order: ['Formal','High','By Design','Med','Low'],
+    defs: {
+      'Formal':    { color:'var(--c-tdd)',      desc:'Provably correct by construction. Output verified by a mechanical judge (SMT solver, theorem prover, type checker). No human judgment needed to certify correctness — the proof either holds or it does not.' },
+      'High':      { color:'var(--c-skill)',     desc:'Full traceability. Every AI output traces directly to a human-authored artifact — a spec entry, a failing test, a pipeline step, or an accepted change. A compliance officer can follow the complete chain from requirement to code.' },
+      'By Design': { color:'var(--c-hybrid)',    desc:'Auditability is configurable. Hybrid/Orchestrated inherits the auditability of its constituent approaches. Route compliance work to Spec-Driven and you get High. Route exploration to Agentic and you get Low. The team chooses.' },
+      'Med':       { color:'var(--c-big)',        desc:'Partial traceability. Inputs and outputs are logged but intermediate reasoning steps are not fully captured. Re-running the same inputs may produce slightly different outputs. Good for most internal tooling and non-compliance work.' },
+      'Low':       { color:'var(--c-std)',        desc:'Minimal traceability. Autonomous agents make many intermediate decisions that are not structured-logged. The final output is reviewable but the path to it is opaque. Requires agent re-runs to debug rather than trace replay.' },
+    },
+  },
+
+
 }; // end DATA
 
 
@@ -1474,7 +1533,7 @@ const RENDER = {
         <td style="font-size:11px;color:var(--text3)">${r.group}</td>
         <td>${r.role}</td><td>${r.cadence}</td>
         <td><div class="fit-pills">${r.fit.map(f=>`<span class="fit-pill">${f}</span>`).join('')}</div></td>
-        <td><span style="color:${r.auditColor}">${r.audit}</span></td>
+        <td><span class="audit-badge" style="color:${r.auditColor}" data-audit="${r.audit}" onmouseenter="APP.showAuditTip(this)" onmouseleave="APP.hideAuditTip()">${r.audit}</span></td>
       </tr>`).join('');
     const colHeads = overviewMatrix.cols.map(c =>
       `<div class="matrix-col-head">${c.replace('\\n','<br>')}</div>`).join('');
@@ -1493,6 +1552,10 @@ const RENDER = {
       <div class="overview-grid">${stats}</div>
       ${RENDER.searchBar('overview')}
       <div class="table-wrap" id="overview-table-wrap"><table><thead><tr>${ths}</tr></thead><tbody id="overview-table-body">${rows}</tbody></table></div>
+      <div class="audit-legend">
+        <span class="audit-legend-title">Auditability</span>
+        ${RENDER._auditLegend()}
+      </div>
       <div class="map-section">
         <div class="map-label">Approach Fit Matrix — by task property</div>
         <div class="matrix-grid" style="grid-template-columns:80px repeat(5,1fr)">
@@ -1724,6 +1787,17 @@ const RENDER = {
       <section id="s-principles"                             >${RENDER.sectionPrinciples(data.principles)}</section>
       <section id="s-framework"                              >${RENDER.sectionFramework(data.framework)}</section>
       <section id="s-workflows"                              >${RENDER.sectionWorkflows(data.workflows)}</section>`;
+  },
+
+
+  _auditLegend() {
+    return DATA.auditLevels.order.map(level => {
+      const def = DATA.auditLevels.defs[level];
+      return '<span class="audit-legend-item" data-audit="' + level + '" onmouseenter="APP.showAuditTip(this)" onmouseleave="APP.hideAuditTip()">'
+        + '<span class="audit-legend-dot" style="background:' + def.color + '"></span>'
+        + '<span class="audit-legend-label" style="color:' + def.color + '">' + level + '</span>'
+        + '</span>';
+    }).join('');
   },
 
   _attribution() {
@@ -2334,6 +2408,27 @@ const APP = {
 
   openRecModal() {
     if (this.state.recKey) this.openModal('approach', this.state.recKey);
+  },
+
+  /* auditability tooltip */
+  showAuditTip(el) {
+    const level = el.dataset.audit;
+    const def   = DATA.auditLevels.defs[level];
+    if (!def) return;
+    const tip   = document.getElementById('audit-tip');
+    if (!tip) return;
+    tip.innerHTML = '<strong style="color:' + def.color + '">' + level + '</strong><br><span style="line-height:1.55">' + def.desc + '</span>';
+    tip.classList.add('visible');
+    const rect  = el.getBoundingClientRect();
+    const tipW  = 260;
+    let left    = rect.left + window.scrollX;
+    if (left + tipW > window.innerWidth - 16) left = window.innerWidth - tipW - 16;
+    tip.style.left = left + 'px';
+    tip.style.top  = (rect.bottom + window.scrollY + 8) + 'px';
+  },
+
+  hideAuditTip() {
+    document.getElementById('audit-tip')?.classList.remove('visible');
   },
 
   /* workflows */

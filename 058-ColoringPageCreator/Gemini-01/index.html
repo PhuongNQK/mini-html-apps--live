@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cute Cartoon Coloring Page Creator</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- JSZip and FileSaver for ZIP exporting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <!-- Google Fonts: Fredoka & Quicksand for playful Disney-like typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            quicksand: ['Quicksand', 'sans-serif'],
+          },
+          colors: {
+            disneyYellow: '#FFD166',
+            disneyPink: '#FF6B6B',
+            disneyPurple: '#845EC2',
+            disneyBlue: '#4D96FF',
+            disneyGreen: '#6BCB77',
+            disneyBg: '#FFFDF9'
+          },
+          boxShadow: {
+            'cartoon': '0 6px 0 0 rgba(0, 0, 0, 0.15)',
+            'cartoon-lg': '0 10px 0 0 rgba(0, 0, 0, 0.15)',
+            'cartoon-sm': '0 3px 0 0 rgba(0, 0, 0, 0.12)',
+            'cartoon-active': '0 1px 0 0 rgba(0, 0, 0, 0.15)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(135deg, #fef9d7 0%, #d2e7ff 100%);
+      user-select: none;
+    }
+    .disney-btn {
+      transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .disney-btn:hover {
+      transform: translateY(-2px);
+    }
+    .disney-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 0 rgba(0,0,0,0.2) !important;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #845EC2;
+      border-radius: 9999px;
+    }
+    /* Canvas view mode specific override styles */
+    .outline-mode svg g.canvas-item > g.item-content * {
+      fill: #ffffff !important;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .printable-area {
+      background-size: 20px 20px;
+      background-image: radial-gradient(circle, #00000010 1px, transparent 1px);
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printContainer, #printContainer * {
+        visibility: visible;
+      }
+      #printContainer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden text-gray-800">
+
+  <!-- TOP HEADER BAR -->
+  <header class="bg-white/80 backdrop-blur-md border-b-4 border-disneyPurple px-4 py-2.5 flex items-center justify-between z-30 shadow-md">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 bg-gradient-to-tr from-disneyPink to-disneyYellow rounded-2xl flex items-center justify-center text-white text-2xl shadow-cartoon border-2 border-white">
+        🎨
+      </div>
+      <div>
+        <h1 class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-disneyPurple via-disneyPink to-disneyBlue leading-none">
+          Magic Color Creator
+        </h1>
+        <p class="text-xs font-quicksand font-bold text-gray-500">Create & Print Vector Coloring Books</p>
+      </div>
+    </div>
+
+    <!-- Mode Toggle & Quick Settings -->
+    <div class="flex items-center space-x-2 md:space-x-3">
+      <!-- Fullscreen Toggle -->
+      <button id="btnFullscreen" class="p-2 bg-purple-100 hover:bg-purple-200 text-disneyPurple rounded-2xl border-2 border-purple-200 shadow-cartoon-sm disney-btn text-xs font-bold flex items-center gap-1" title="Toggle Fullscreen">
+        ⛶ Fullscreen
+      </button>
+
+      <!-- Monochrome Color Picker -->
+      <div class="flex items-center bg-purple-50 px-3 py-1.5 rounded-2xl border-2 border-purple-200 shadow-cartoon-sm">
+        <label for="monochromePicker" class="text-xs font-bold text-disneyPurple mr-2">Monochrome Color:</label>
+        <input type="color" id="monochromePicker" value="#000000" class="w-6 h-6 rounded-lg border-0 cursor-pointer bg-transparent">
+      </div>
+
+      <!-- Outline / Color Mode Switcher -->
+      <div class="flex bg-gray-100 p-1 rounded-2xl border-2 border-gray-200">
+        <button id="btnColorMode" class="px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all bg-disneyPurple text-white shadow-sm">
+          🌈 Color Mode
+        </button>
+        <button id="btnOutlineMode" class="px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all text-gray-600 hover:text-disneyPurple">
+          🖍️ Outline Mode
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <button id="btnPrint" class="px-3 py-1.5 bg-disneyGreen text-white text-xs md:text-sm font-bold rounded-2xl border-2 border-green-600 shadow-cartoon disney-btn flex items-center gap-1">
+        🖨️ Print
+      </button>
+      <button id="btnExportMenu" class="px-3 py-1.5 bg-disneyBlue text-white text-xs md:text-sm font-bold rounded-2xl border-2 border-blue-600 shadow-cartoon disney-btn flex items-center gap-1">
+        💾 Export / Save ▾
+      </button>
+      <button id="btnImportMenu" class="px-3 py-1.5 bg-disneyYellow text-gray-800 text-xs md:text-sm font-bold rounded-2xl border-2 border-amber-500 shadow-cartoon disney-btn flex items-center gap-1">
+        📂 Import ▾
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- LEFT PANEL: GALLERY & ASSETS -->
+    <aside class="w-80 md:w-96 bg-white/90 backdrop-blur-md border-r-4 border-disneyPurple flex flex-col z-20 shadow-xl">
+      <!-- Search & Gallery Header -->
+      <div class="p-3 border-b-2 border-purple-100 bg-purple-50/50">
+        <div class="flex justify-between items-center mb-2">
+          <h2 class="text-base font-bold text-disneyPurple flex items-center gap-1">
+            📦 Sticker Gallery
+          </h2>
+          <button id="btnCreateCustomItem" class="text-xs bg-disneyPink hover:bg-red-500 text-white font-bold px-2 py-1 rounded-xl shadow-cartoon-sm disney-btn">
+            + New SVG
+          </button>
+        </div>
+        <div class="relative">
+          <input type="text" id="gallerySearch" placeholder="Search stickers (e.g. ghost, pumpkin)..." class="w-full px-3 py-1.5 pl-8 rounded-xl text-xs font-quicksand border-2 border-purple-200 focus:outline-none focus:border-disneyPurple bg-white">
+          <span class="absolute left-2.5 top-1.5 text-xs text-purple-400">🔍</span>
+        </div>
+        <!-- Category Filter Tabs -->
+        <div class="flex gap-1 mt-2 overflow-x-auto custom-scrollbar pb-1 text-xs" id="categoryTabs">
+          <button data-cat="all" class="cat-tab px-2.5 py-1 rounded-xl font-bold bg-disneyPurple text-white whitespace-nowrap shadow-cartoon-sm">All</button>
+          <button data-cat="characters" class="cat-tab px-2.5 py-1 rounded-xl font-bold bg-gray-100 text-gray-600 hover:bg-purple-100 whitespace-nowrap">Ghosts & Pets</button>
+          <button data-cat="wearables" class="cat-tab px-2.5 py-1 rounded-xl font-bold bg-gray-100 text-gray-600 hover:bg-purple-100 whitespace-nowrap">Hats & Glasses</button>
+          <button data-cat="objects" class="cat-tab px-2.5 py-1 rounded-xl font-bold bg-gray-100 text-gray-600 hover:bg-purple-100 whitespace-nowrap">Props & Halloween</button>
+          <button data-cat="backgrounds" class="cat-tab px-2.5 py-1 rounded-xl font-bold bg-gray-100 text-gray-600 hover:bg-purple-100 whitespace-nowrap">Scenes & Christmas</button>
+        </div>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="flex-1 overflow-y-auto p-3 grid grid-cols-2 gap-3 custom-scrollbar" id="galleryGrid">
+        <!-- Dynamic items populated by JS -->
+      </div>
+
+      <!-- Gallery Action Footer -->
+      <div class="p-2 border-t-2 border-purple-100 bg-purple-50/50 flex justify-around text-xs">
+        <button id="btnExportGallery" class="text-disneyPurple font-bold hover:underline">📥 Export Gallery JSON</button>
+        <button id="btnImportGallery" class="text-disneyPurple font-bold hover:underline">📤 Import Gallery JSON</button>
+      </div>
+    </aside>
+
+    <!-- CENTER CANVAS AREA -->
+    <main class="flex-1 flex flex-col relative overflow-hidden bg-gray-200/60">
+      
+      <!-- TOP TOOLBAR: CANVAS MANIPULATION CONTROLS -->
+      <div class="bg-white border-b-2 border-gray-200 px-4 py-2 flex flex-wrap items-center justify-between gap-2 z-10 shadow-sm text-xs">
+        <!-- Transform Controls -->
+        <div class="flex items-center space-x-1 flex-wrap gap-y-1">
+          <button id="btnFlipH" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Flip Horizontal">↔️ Flip H</button>
+          <button id="btnFlipV" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Flip Vertical">↕️ Flip V</button>
+          <div class="h-5 w-px bg-gray-300 mx-1"></div>
+          <button id="btnLayerUp" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Bring Forward">🔼 Up</button>
+          <button id="btnLayerDown" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Send Backward">🔽 Down</button>
+          <div class="h-5 w-px bg-gray-300 mx-1"></div>
+          <button id="btnDuplicate" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Duplicate Selected">👯 Duplicate</button>
+          <button id="btnGroup" class="p-1.5 bg-purple-100 hover:bg-purple-200 text-disneyPurple rounded-xl font-bold disney-btn border border-purple-300" title="Group/Ungroup Selected Items">📦 Group / Ungroup</button>
+          <button id="btnSaveToGallery" class="p-1.5 bg-disneyYellow hover:bg-amber-300 text-gray-800 rounded-xl font-bold disney-btn border border-amber-400" title="Save Selected Item or Group to Gallery">⭐ Save to Gallery</button>
+          <button id="btnDelete" class="p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl font-bold disney-btn border border-red-300" title="Delete Selected">🗑️ Delete</button>
+        </div>
+
+        <!-- Dynamic Controls for Selected Element -->
+        <div class="flex items-center space-x-3 flex-wrap gap-y-1">
+          <!-- Scale & Rotation Inputs -->
+          <div class="flex items-center space-x-1 bg-purple-50 px-2 py-1 rounded-xl border">
+            <span class="font-bold text-gray-500">Scale:</span>
+            <input type="number" id="elementScale" min="0.1" max="5" step="0.1" value="1" class="w-12 border rounded px-1 text-center font-bold">
+            <span class="font-bold text-gray-500 ml-1">Rot:</span>
+            <input type="number" id="elementRotation" min="0" max="360" value="0" class="w-12 border rounded px-1 text-center font-bold">°
+          </div>
+
+          <!-- Fill & Stroke Pickers -->
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-gray-500">Fill:</span>
+            <input type="color" id="elementColorPicker" value="#ffffff" class="w-6 h-6 rounded border-0 cursor-pointer" title="Fill Color Override">
+            <span class="font-bold text-gray-500">Stroke:</span>
+            <input type="color" id="elementStrokePicker" value="#000000" class="w-6 h-6 rounded border-0 cursor-pointer" title="Stroke Outline Color (Color Mode)">
+            <span class="font-bold text-gray-500 ml-1">Opacity:</span>
+            <input type="range" id="elementOpacity" min="0.1" max="1" step="0.05" value="1" class="w-16 accent-disneyPurple">
+          </div>
+        </div>
+      </div>
+
+      <!-- WORKSPACE BOARD (SCROLLABLE & CENTERED CANVAS) -->
+      <div class="flex-1 overflow-auto p-8 flex items-center justify-center relative custom-scrollbar" id="workspace">
+        <!-- Scale Wrapper container for Canvas Zooming -->
+        <div id="canvasZoomWrapper" class="transition-transform duration-150 origin-center">
+          <div id="canvasViewport" class="printable-area relative shadow-2xl rounded-2xl border-4 border-white transition-all duration-300 overflow-hidden" style="width: 800px; height: 600px; background-color: #FFFFFF;">
+            <!-- SVG Container for standard render -->
+            <svg id="mainSvgCanvas" class="w-full h-full absolute inset-0 select-none overflow-visible" xmlns="http://www.w3.org/2000/svg">
+              <g id="canvasBackgroundGroup"></g>
+              <g id="canvasMainGroup"></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM SLIDE DECK & VIEWPORT NAVIGATOR -->
+      <div class="h-28 bg-white/95 border-t-4 border-disneyPurple px-4 py-2 flex items-center justify-between z-20 shadow-lg text-xs">
+        <div class="flex items-center space-x-3">
+          <button id="btnNewSlide" class="px-3 py-2 bg-disneyPink text-white font-bold rounded-2xl border-2 border-red-400 shadow-cartoon disney-btn flex items-center gap-1">
+            ➕ Add Slide
+          </button>
+
+          <!-- Preset Size & Canvas Background -->
+          <div class="flex gap-2">
+            <div class="flex flex-col">
+              <label for="slidePresetSelect" class="text-[10px] font-bold text-gray-400">Dimensions</label>
+              <select id="slidePresetSelect" class="font-bold bg-purple-50 border-2 border-purple-200 rounded-xl px-2 py-1 text-disneyPurple">
+                <option value="1920x1080">YouTube Thumbnail (16:9)</option>
+                <option value="1200x630">Facebook Post (1.91:1)</option>
+                <option value="1080x1920">FB/IG Story (9:16)</option>
+                <option value="1080x1080" selected>Instagram Square (1:1)</option>
+                <option value="2480x3508">Print A4 Portrait</option>
+                <option value="3508x2480">Print A4 Landscape</option>
+              </select>
+            </div>
+            
+            <div class="flex flex-col">
+              <label for="slideBgColorPicker" class="text-[10px] font-bold text-gray-400">Canvas Bg</label>
+              <div class="flex items-center border-2 border-purple-200 bg-purple-50 rounded-xl px-2 py-0.5">
+                <input type="color" id="slideBgColorPicker" value="#ffffff" class="w-6 h-6 border-0 cursor-pointer bg-transparent">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide Thumbnails Strip -->
+        <div class="flex-1 mx-4 overflow-x-auto flex items-center space-x-3 py-1 custom-scrollbar" id="slideThumbnailStrip">
+          <!-- Slide thumbnails injected here -->
+        </div>
+
+        <!-- Zoom & Slide Navigation Controls -->
+        <div class="flex items-center space-x-3">
+          <!-- Zoom Bar -->
+          <div class="flex items-center space-x-1 bg-purple-50 px-2 py-1 rounded-xl border border-purple-200">
+            <button id="btnZoomOut" class="px-1.5 py-0.5 bg-white font-bold rounded border text-gray-700 hover:bg-purple-100"> - </button>
+            <span id="zoomLabel" class="font-bold text-disneyPurple min-w-[45px] text-center">100%</span>
+            <button id="btnZoomIn" class="px-1.5 py-0.5 bg-white font-bold rounded border text-gray-700 hover:bg-purple-100"> + </button>
+            <button id="btnZoomReset" class="px-1.5 py-0.5 bg-white font-bold rounded border text-gray-500 hover:bg-purple-100 text-[10px]">Reset</button>
+          </div>
+
+          <div class="flex items-center space-x-1">
+            <button id="btnPrevSlide" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-purple-100 font-bold text-disneyPurple border border-purple-200 disney-btn">◀</button>
+            <span id="slideIndicator" class="font-bold text-gray-600 font-quicksand">1 / 1</span>
+            <button id="btnNextSlide" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-purple-100 font-bold text-disneyPurple border border-purple-200 disney-btn">▶</button>
+            <button id="btnDeleteSlide" class="px-2 py-1 bg-red-50 text-red-600 border border-red-200 rounded-xl font-bold hover:bg-red-100 disney-btn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODALS & DIALOGS -->
+
+  <!-- Export Dropdown Modal -->
+  <div id="exportMenuModal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="bg-white rounded-3xl p-6 border-4 border-disneyPurple shadow-2xl w-96 text-center transform transition-all scale-100">
+      <h3 class="text-xl font-bold text-disneyPurple mb-4">✨ Export Your Art</h3>
+      <div class="space-y-3 font-bold text-sm">
+        <button id="btnExportSVG" class="w-full py-2.5 bg-disneyBlue text-white rounded-2xl shadow-cartoon border-2 border-blue-600 disney-btn">
+          🖼️ Export Active Slide (SVG Vector)
+        </button>
+        <button id="btnExportPNG" class="w-full py-2.5 bg-disneyGreen text-white rounded-2xl shadow-cartoon border-2 border-green-600 disney-btn">
+          📸 Export Active Slide (PNG Image)
+        </button>
+        <button id="btnExportDeckJSON" class="w-full py-2.5 bg-disneyYellow text-gray-800 rounded-2xl shadow-cartoon border-2 border-amber-500 disney-btn">
+          💾 Save Entire Project Deck (JSON File)
+        </button>
+        <button id="btnExportDeckZip" class="w-full py-2.5 bg-disneyPink text-white rounded-2xl shadow-cartoon border-2 border-red-500 disney-btn">
+          📦 Batch Save All Slides as ZIP
+        </button>
+      </div>
+      <button onclick="document.getElementById('exportMenuModal').classList.add('hidden')" class="mt-5 text-xs text-gray-400 underline font-bold">Close Window</button>
+    </div>
+  </div>
+
+  <!-- Custom SVG Gallery Editor Modal -->
+  <div id="svgEditorModal" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 border-4 border-disneyPurple shadow-2xl w-full max-w-lg">
+      <h3 class="text-lg font-bold text-disneyPurple mb-3" id="modalSvgTitle">✨ Add Custom Gallery Sticker</h3>
+      <div class="space-y-3 text-xs font-bold">
+        <div>
+          <label class="block text-gray-600 mb-1">Sticker Name</label>
+          <input type="text" id="svgItemName" placeholder="e.g. Cute Vampire Ghost" class="w-full px-3 py-2 border-2 border-purple-200 rounded-xl focus:outline-none focus:border-disneyPurple">
+        </div>
+        <div>
+          <label class="block text-gray-600 mb-1">Category</label>
+          <select id="svgItemCat" class="w-full px-3 py-2 border-2 border-purple-200 rounded-xl focus:outline-none focus:border-disneyPurple">
+            <option value="characters">Ghosts & Pets (Characters)</option>
+            <option value="wearables">Hats & Glasses (Wearables)</option>
+            <option value="objects">Props & Halloween (Objects)</option>
+            <option value="backgrounds">Scenes & Backgrounds</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-gray-600 mb-1">Raw SVG Vector Code</label>
+          <textarea id="svgItemCode" rows="6" placeholder="<g><path fill='#FF6B6B' d='...' /></g>" class="w-full px-3 py-2 font-mono text-xs border-2 border-purple-200 rounded-xl focus:outline-none focus:border-disneyPurple"></textarea>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 mt-4">
+        <button id="btnCancelSvgModal" class="px-4 py-2 bg-gray-200 text-gray-700 font-bold rounded-xl text-xs disney-btn">Cancel</button>
+        <button id="btnSaveSvgModal" class="px-4 py-2 bg-disneyGreen text-white font-bold rounded-xl text-xs shadow-cartoon border-2 border-green-600 disney-btn">Save to Gallery</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden File Input Controls -->
+  <input type="file" id="importDeckInput" accept=".json" class="hidden">
+  <input type="file" id="importGalleryInput" accept=".json" class="hidden">
+
+  <!-- PRINT CONTAINER FOR HIGH RES CLEAN OUTPUT -->
+  <div id="printContainer" class="hidden"></div>
+
+  <!-- JAVASCRIPT LOGIC ARCHITECTURE -->
+  <script>
+    /**
+     * DISNEY COLORING CREATOR - CORE APPLICATION ENGINE
+     */
+
+    // --- 1. INITIAL BUILT-IN SVG GALLERY DATABASE ---
+    const DEFAULT_GALLERY = [
+      {
+        id: 'char_ghost',
+        name: 'Cute Ghost',
+        category: 'characters',
+        bbox: { x: 15, y: 10, width: 70, height: 80 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="ghost-shape">
+                <path d="M 50 10 C 25 10, 15 35, 15 65 C 15 85, 25 90, 30 85 C 35 80, 40 85, 50 85 C 60 85, 65 80, 70 85 C 75 90, 85 85, 85 65 C 85 35, 75 10, 50 10 Z" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
+                <ellipse cx="38" cy="42" rx="4" ry="6" fill="#000000"/>
+                <ellipse cx="62" cy="42" rx="4" ry="6" fill="#000000"/>
+                <ellipse cx="50" cy="54" rx="6" ry="4" fill="#FF6B6B"/>
+                <circle cx="30" cy="50" r="4" fill="#FFB6C1" opacity="0.6"/>
+                <circle cx="70" cy="50" r="4" fill="#FFB6C1" opacity="0.6"/>
+              </g>`
+      },
+      {
+        id: 'char_cat',
+        name: 'Cute Kitty Cat',
+        category: 'characters',
+        bbox: { x: 15, y: 10, width: 70, height: 75 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="cat-shape">
+                <polygon points="20,40 35,10 45,35" fill="#FFD166" stroke="#000000" stroke-width="4"/>
+                <polygon points="80,40 65,10 55,35" fill="#FFD166" stroke="#000000" stroke-width="4"/>
+                <polygon points="25,37 35,17 42,34" fill="#FFB6C1"/>
+                <polygon points="75,37 65,17 58,34" fill="#FFB6C1"/>
+                <ellipse cx="50" cy="55" rx="35" ry="30" fill="#FFD166" stroke="#000000" stroke-width="4"/>
+                <ellipse cx="38" cy="48" rx="4" ry="6" fill="#000000"/>
+                <ellipse cx="62" cy="48" rx="4" ry="6" fill="#000000"/>
+                <circle cx="39" cy="46" r="1.5" fill="#FFFFFF"/>
+                <circle cx="63" cy="46" r="1.5" fill="#FFFFFF"/>
+                <polygon points="50,56 46,52 54,52" fill="#FF6B6B"/>
+                <path d="M 45 60 Q 50 64 50 60 Q 50 64 55 60" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+                <line x1="15" y1="52" x2="28" y2="54" stroke="#000000" stroke-width="3"/>
+                <line x1="15" y1="60" x2="28" y2="58" stroke="#000000" stroke-width="3"/>
+                <line x1="85" y1="52" x2="72" y2="54" stroke="#000000" stroke-width="3"/>
+                <line x1="85" y1="60" x2="72" y2="58" stroke="#000000" stroke-width="3"/>
+              </g>`
+      },
+      {
+        id: 'char_puppy',
+        name: 'Friendly Dog',
+        category: 'characters',
+        bbox: { x: 8, y: 16, width: 84, height: 64 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="dog-shape">
+                <ellipse cx="18" cy="50" rx="10" ry="22" fill="#845EC2" stroke="#000000" stroke-width="4"/>
+                <ellipse cx="82" cy="50" rx="10" ry="22" fill="#845EC2" stroke="#000000" stroke-width="4"/>
+                <circle cx="50" cy="48" r="32" fill="#FFD166" stroke="#000000" stroke-width="4"/>
+                <ellipse cx="50" cy="58" rx="16" ry="12" fill="#FFFFFF" stroke="#000000" stroke-width="3"/>
+                <ellipse cx="50" cy="53" rx="6" ry="4" fill="#000000"/>
+                <circle cx="38" cy="42" r="4" fill="#000000"/>
+                <circle cx="62" cy="42" r="4" fill="#000000"/>
+                <path d="M 46 62 Q 50 67 54 62" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round"/>
+              </g>`
+      },
+      {
+        id: 'wear_santa_hat',
+        name: 'Santa Hat',
+        category: 'wearables',
+        bbox: { x: 15, y: 12, width: 73, height: 61 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="santa-hat">
+                <path d="M 20 60 Q 30 15 75 15 C 80 15 85 25 70 40 Q 50 55 20 60 Z" fill="#FF6B6B" stroke="#000000" stroke-width="4"/>
+                <rect x="15" y="55" width="70" height="18" rx="9" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
+                <circle cx="78" cy="22" r="10" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
+              </g>`
+      },
+      {
+        id: 'wear_witch_hat',
+        name: 'Witch Hat',
+        category: 'wearables',
+        bbox: { x: 8, y: 10, width: 84, height: 62 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="witch-hat">
+                <path d="M 50 10 L 25 60 L 75 60 Z" fill="#845EC2" stroke="#000000" stroke-width="4"/>
+                <ellipse cx="50" cy="62" rx="42" ry="10" fill="#4B4453" stroke="#000000" stroke-width="4"/>
+                <rect x="36" y="52" width="28" height="8" fill="#FFD166" stroke="#000000" stroke-width="2"/>
+              </g>`
+      },
+      {
+        id: 'wear_glasses',
+        name: 'Star Glasses',
+        category: 'wearables',
+        bbox: { x: 15, y: 30, width: 70, height: 28 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="glasses-star">
+                <polygon points="30,30 34,40 45,40 36,47 40,58 30,51 20,58 24,47 15,40 26,40" fill="#FF6B6B" stroke="#000000" stroke-width="3"/>
+                <polygon points="70,30 74,40 85,40 76,47 80,58 70,51 60,58 64,47 55,40 66,40" fill="#FF6B6B" stroke="#000000" stroke-width="3"/>
+                <line x1="45" y1="44" x2="55" y2="44" stroke="#000000" stroke-width="4"/>
+              </g>`
+      },
+      {
+        id: 'obj_pumpkin',
+        name: 'Halloween Pumpkin',
+        category: 'objects',
+        bbox: { x: 14, y: 10, width: 72, height: 76 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="pumpkin-shape">
+                <path d="M 46 25 Q 50 10 58 12 Q 54 25 54 25 Z" fill="#6BCB77" stroke="#000000" stroke-width="3"/>
+                <ellipse cx="50" cy="58" rx="36" ry="28" fill="#FF9F43" stroke="#000000" stroke-width="4"/>
+                <ellipse cx="50" cy="58" rx="24" ry="28" fill="#FF9F43" stroke="#000000" stroke-width="3"/>
+                <ellipse cx="50" cy="58" rx="10" ry="28" fill="#FF9F43" stroke="#000000" stroke-width="3"/>
+                <polygon points="34,48 42,48 38,40" fill="#000000"/>
+                <polygon points="66,48 58,48 62,40" fill="#000000"/>
+                <path d="M 32 62 Q 50 78 68 62 Q 50 70 32 62 Z" fill="#000000"/>
+              </g>`
+      },
+      {
+        id: 'obj_tree',
+        name: 'Christmas Tree',
+        category: 'objects',
+        bbox: { x: 15, y: 8, width: 70, height: 82 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="xmas-tree">
+                <rect x="44" y="75" width="12" height="15" fill="#8B4513" stroke="#000000" stroke-width="3"/>
+                <polygon points="50,15 20,50 35,50 15,75 85,75 65,50 80,50" fill="#6BCB77" stroke="#000000" stroke-width="4"/>
+                <circle cx="35" cy="58" r="4" fill="#FF6B6B"/>
+                <circle cx="65" cy="62" r="4" fill="#FFD166"/>
+                <circle cx="50" cy="38" r="4" fill="#4D96FF"/>
+                <polygon points="50,8 52,14 58,14 53,18 55,24 50,20 45,24 47,18 42,14 48,14" fill="#FFD166" stroke="#000000" stroke-width="2"/>
+              </g>`
+      },
+      {
+        id: 'bg_stars_moon',
+        name: 'Night Sky Moon',
+        category: 'backgrounds',
+        bbox: { x: 10, y: 20, width: 79, height: 69 },
+        viewBox: '0 0 100 100',
+        svg: `<g class="night-sky">
+                <path d="M 60 20 A 30 30 0 1 0 85 65 A 35 35 0 1 1 60 20 Z" fill="#FFD166" stroke="#000000" stroke-width="4"/>
+                <polygon points="20,20 23,28 30,28 24,33 26,40 20,35 14,40 16,33 10,28 17,28" fill="#FFD166" stroke="#000000" stroke-width="2"/>
+                <polygon points="75,75 77,80 82,80 78,84 79,89 75,86 71,89 72,84 68,80 73,80" fill="#FFD166" stroke="#000000" stroke-width="2"/>
+              </g>`
+      }
+    ];
+
+    // Helper: Compute SVG vector dimensions & bounding box dynamically
+    function calculateSvgBounds(svgString) {
+      const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      tempSvg.style.position = 'absolute';
+      tempSvg.style.visibility = 'hidden';
+      tempSvg.style.top = '-9999px';
+      tempSvg.style.left = '-9999px';
+      tempSvg.innerHTML = svgString;
+      document.body.appendChild(tempSvg);
+      
+      let box = { x: 0, y: 0, width: 100, height: 100 };
+      try {
+        const b = tempSvg.getBBox();
+        if (b.width > 0 && b.height > 0) {
+          box = {
+            x: Math.floor(b.x),
+            y: Math.floor(b.y),
+            width: Math.ceil(b.width),
+            height: Math.ceil(b.height)
+          };
+        }
+      } catch(e) {
+        // Fallback default
+      }
+      document.body.removeChild(tempSvg);
+      return box;
+    }
+
+    // Load assets from assets/gallery.json on load
+    async function loadExternalGallery() {
+      try {
+        const res = await fetch('assets/gallery.json');
+        if (res.ok) {
+          const externalItems = await res.json();
+          if (Array.isArray(externalItems)) {
+            externalItems.forEach(item => {
+              if (!item.bbox) item.bbox = calculateSvgBounds(item.svg);
+              if (!item.viewBox) item.viewBox = `${item.bbox.x - 5} ${item.bbox.y - 5} ${item.bbox.width + 10} ${item.bbox.height + 10}`;
+            });
+            AppState.gallery = [...DEFAULT_GALLERY, ...externalItems];
+          }
+        }
+      } catch (err) {
+        console.log('No external assets/gallery.json found or failed to fetch; using built-in gallery.');
+      }
+    }
+
+    // --- 2. GLOBAL APPLICATION STATE ---
+    const AppState = {
+      gallery: [...DEFAULT_GALLERY],
+      slides: [
+        {
+          id: 'slide_' + Date.now(),
+          width: 1080,
+          height: 1080,
+          bgColor: '#FFFFFF',
+          items: []
+        }
+      ],
+      activeSlideIndex: 0,
+      selectedItemIds: [], // Multi-selection support
+      zoomLevel: 1.0,
+      mode: 'color', // 'color' or 'outline'
+      monochromeColor: '#000000',
+      activeCategory: 'all',
+      searchQuery: '',
+
+      getActiveSlide() {
+        return this.slides[this.activeSlideIndex];
+      },
+      getPrimarySelected() {
+        if (this.selectedItemIds.length === 0) return null;
+        const lastId = this.selectedItemIds[this.selectedItemIds.length - 1];
+        return this.getActiveSlide().items.find(item => item.id === lastId);
+      }
+    };
+
+    // --- 3. CANVAS ENGINE ---
+    const CanvasEngine = {
+      viewport: document.getElementById('canvasViewport'),
+      zoomWrapper: document.getElementById('canvasZoomWrapper'),
+      svgCanvas: document.getElementById('mainSvgCanvas'),
+      mainGroup: document.getElementById('canvasMainGroup'),
+
+      init() {
+        this.bindEvents();
+        this.render();
+      },
+
+      updateDimensions() {
+        const slide = AppState.getActiveSlide();
+        this.viewport.style.width = slide.width + 'px';
+        this.viewport.style.height = slide.height + 'px';
+        this.viewport.style.backgroundColor = slide.bgColor || '#FFFFFF';
+        this.svgCanvas.setAttribute('viewBox', `0 0 ${slide.width} ${slide.height}`);
+        this.zoomWrapper.style.transform = `scale(${AppState.zoomLevel})`;
+      },
+
+      // Helper to compute local bounding box of an item's content
+      getItemLocalBBox(item) {
+        if (item.bbox) return item.bbox;
+        // Default box fallback
+        return { x: 0, y: 0, width: 100, height: 100 };
+      },
+
+      render() {
+        this.updateDimensions();
+        this.mainGroup.innerHTML = '';
+
+        const slide = AppState.getActiveSlide();
+        const isOutline = AppState.mode === 'outline';
+
+        if (isOutline) {
+          this.viewport.classList.add('outline-mode');
+        } else {
+          this.viewport.classList.remove('outline-mode');
+        }
+
+        slide.items.forEach(item => {
+          const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          g.setAttribute('id', item.id);
+          g.setAttribute('class', 'canvas-item cursor-pointer');
+
+          // Local BBox bounds (default to 0,0,100,100 if not present)
+          const bbox = this.getItemLocalBBox(item);
+          const cx = bbox.x + bbox.width / 2;
+          const cy = bbox.y + bbox.height / 2;
+
+          const transformStr = `translate(${item.x}, ${item.y}) scale(${item.scaleX * item.scale}, ${item.scaleY * item.scale}) rotate(${item.rotation}, ${cx}, ${cy})`;
+          g.setAttribute('transform', transformStr);
+          g.setAttribute('opacity', item.opacity);
+
+          // Wrap element vector content inside item-content to separate from selection overlays
+          const contentG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          contentG.setAttribute('class', 'item-content');
+          contentG.innerHTML = item.svg;
+
+          // Apply color modes & dynamic overrides to content elements
+          if (isOutline) {
+            contentG.querySelectorAll('*').forEach(el => {
+              el.setAttribute('stroke', AppState.monochromeColor);
+              el.setAttribute('fill', '#FFFFFF');
+            });
+          } else {
+            contentG.querySelectorAll('*').forEach(el => {
+              if (item.overrideColor && el.tagName !== 'g') {
+                el.setAttribute('fill', item.overrideColor);
+              }
+              if (item.overrideStroke && el.tagName !== 'g') {
+                el.setAttribute('stroke', item.overrideStroke);
+              }
+            });
+          }
+          g.appendChild(contentG);
+
+          // Bounding Box & Handles for Selected Elements (Rendered outside item-content so Outline mode cannot affect them)
+          if (AppState.selectedItemIds.includes(item.id)) {
+            const bboxGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            bboxGroup.setAttribute('class', 'selection-overlay pointer-events-none');
+            
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', bbox.x);
+            rect.setAttribute('y', bbox.y);
+            rect.setAttribute('width', bbox.width);
+            rect.setAttribute('height', bbox.height);
+            rect.setAttribute('fill', 'none');
+            rect.setAttribute('stroke', '#845EC2');
+            rect.setAttribute('stroke-width', '2.5');
+            rect.setAttribute('stroke-dasharray', '5 5');
+
+            // Interactive Transform Corner Scale Handle (bottom-right)
+            const handle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            handle.setAttribute('cx', bbox.x + bbox.width);
+            handle.setAttribute('cy', bbox.y + bbox.height);
+            handle.setAttribute('r', '8');
+            handle.setAttribute('fill', '#FF6B6B');
+            handle.setAttribute('stroke', '#FFFFFF');
+            handle.setAttribute('stroke-width', '2.5');
+            handle.setAttribute('class', 'pointer-events-auto cursor-nwse-resize');
+            handle.addEventListener('mousedown', (e) => this.onHandleScaleMouseDown(e, item));
+
+            // Rotate Handle (top-center)
+            const rotHandle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            rotHandle.setAttribute('cx', bbox.x + bbox.width / 2);
+            rotHandle.setAttribute('cy', bbox.y - 18);
+            rotHandle.setAttribute('r', '7');
+            rotHandle.setAttribute('fill', '#FFD166');
+            rotHandle.setAttribute('stroke', '#000000');
+            rotHandle.setAttribute('stroke-width', '2.5');
+            rotHandle.setAttribute('class', 'pointer-events-auto cursor-grab');
+            rotHandle.addEventListener('mousedown', (e) => this.onHandleRotateMouseDown(e, item));
+
+            bboxGroup.appendChild(rect);
+            bboxGroup.appendChild(handle);
+            bboxGroup.appendChild(rotHandle);
+            g.appendChild(bboxGroup);
+          }
+
+          g.addEventListener('mousedown', (e) => this.onItemMouseDown(e, item));
+          this.mainGroup.appendChild(g);
+        });
+
+        UI.updateToolbarInputs();
+        UI.renderThumbnails();
+      },
+
+      // Interaction Variables
+      isDragging: false,
+      isResizing: false,
+      isRotating: false,
+      activeItem: null,
+      startPos: { x: 0, y: 0 },
+      startItemState: {},
+
+      onItemMouseDown(e, item) {
+        if (this.isResizing || this.isRotating) return;
+        e.stopPropagation();
+
+        if (e.shiftKey) {
+          if (!AppState.selectedItemIds.includes(item.id)) {
+            AppState.selectedItemIds.push(item.id);
+          } else {
+            AppState.selectedItemIds = AppState.selectedItemIds.filter(id => id !== item.id);
+          }
+        } else {
+          if (!AppState.selectedItemIds.includes(item.id)) {
+            AppState.selectedItemIds = [item.id];
+          }
+        }
+
+        this.isDragging = true;
+        this.activeItem = item;
+        this.startPos = { x: e.clientX, y: e.clientY };
+        this.startItemState = { x: item.x, y: item.y };
+        this.render();
+      },
+
+      onHandleScaleMouseDown(e, item) {
+        e.stopPropagation();
+        this.isResizing = true;
+        this.activeItem = item;
+        this.startPos = { x: e.clientX, y: e.clientY };
+        this.startItemState = { scale: item.scale };
+      },
+
+      onHandleRotateMouseDown(e, item) {
+        e.stopPropagation();
+        this.isRotating = true;
+        this.activeItem = item;
+        this.startPos = { x: e.clientX, y: e.clientY };
+        this.startItemState = { rotation: item.rotation };
+      },
+
+      bindEvents() {
+        window.addEventListener('mousemove', (e) => {
+          if (!this.activeItem) return;
+
+          if (this.isDragging) {
+            const dx = (e.clientX - this.startPos.x) / AppState.zoomLevel;
+            const dy = (e.clientY - this.startPos.y) / AppState.zoomLevel;
+            this.activeItem.x = this.startItemState.x + dx;
+            this.activeItem.y = this.startItemState.y + dy;
+            this.render();
+          } else if (this.isResizing) {
+            const dx = (e.clientX - this.startPos.x) / 100;
+            this.activeItem.scale = Math.max(0.1, this.startItemState.scale + dx);
+            this.render();
+          } else if (this.isRotating) {
+            const dx = e.clientX - this.startPos.x;
+            this.activeItem.rotation = (this.startItemState.rotation + dx) % 360;
+            this.render();
+          }
+        });
+
+        const stopTransform = () => {
+          this.isDragging = false;
+          this.isResizing = false;
+          this.isRotating = false;
+          this.activeItem = null;
+        };
+
+        window.addEventListener('mouseup', stopTransform);
+
+        this.viewport.addEventListener('click', (e) => {
+          if (e.target === this.viewport || e.target === this.svgCanvas) {
+            AppState.selectedItemIds = [];
+            this.render();
+          }
+        });
+      }
+    };
+
+    // --- 4. UI & CONTROL ENGINE ---
+    const UI = {
+      async init() {
+        await loadExternalGallery();
+        this.renderGallery();
+        this.bindControls();
+        CanvasEngine.init();
+      },
+
+      renderGallery() {
+        const grid = document.getElementById('galleryGrid');
+        grid.innerHTML = '';
+
+        const filtered = AppState.gallery.filter(item => {
+          const matchCat = AppState.activeCategory === 'all' || item.category === AppState.activeCategory;
+          const matchSearch = item.name.toLowerCase().includes(AppState.searchQuery.toLowerCase());
+          return matchCat && matchSearch;
+        });
+
+        filtered.forEach(item => {
+          const card = document.createElement('div');
+          card.className = "bg-white p-2 rounded-2xl border-2 border-purple-100 hover:border-disneyPurple shadow-cartoon-sm flex flex-col items-center justify-between transition-all group relative";
+          
+          // Calculate thumbnail viewBox dynamically if not defined
+          const bbox = item.bbox || calculateSvgBounds(item.svg);
+          const vb = item.viewBox || `${bbox.x - 5} ${bbox.y - 5} ${bbox.width + 10} ${bbox.height + 10}`;
+
+          card.innerHTML = `
+            <div class="w-full h-24 flex items-center justify-center p-1 overflow-hidden bg-purple-50/50 rounded-xl">
+              <svg viewBox="${vb}" class="w-full h-full preserveAspectRatio="xMidYMid meet"">${item.svg}</svg>
+            </div>
+            <div class="flex items-center justify-between w-full mt-1 px-1">
+              <span class="text-xs font-bold text-gray-700 truncate flex-1 title-label">${item.name}</span>
+              <button class="btn-edit-title text-[10px] text-gray-400 hover:text-disneyPurple ml-1" title="Edit Name">✏️</button>
+              <button class="btn-del-item text-[10px] text-gray-400 hover:text-red-500 ml-1" title="Delete Gallery Sticker">🗑️</button>
+            </div>
+            <div class="flex gap-1 w-full mt-2">
+              <button class="btn-add flex-1 py-1 bg-disneyPurple text-white rounded-xl text-[10px] font-bold shadow-cartoon-sm disney-btn">
+                + Add
+              </button>
+              <button class="btn-dup p-1 bg-purple-100 text-disneyPurple rounded-xl text-[10px] font-bold hover:bg-purple-200" title="Duplicate & Edit">
+                📋
+              </button>
+            </div>
+          `;
+
+          // Edit gallery item name inline
+          card.querySelector('.btn-edit-title').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const newName = prompt('Enter new sticker name:', item.name);
+            if (newName && newName.trim()) {
+              item.name = newName.trim();
+              card.querySelector('.title-label').innerText = item.name;
+            }
+          });
+
+          // Delete gallery item
+          card.querySelector('.btn-del-item').addEventListener('click', (e) => {
+            e.stopPropagation();
+            AppState.gallery = AppState.gallery.filter(g => g.id !== item.id);
+            UI.renderGallery();
+          });
+
+          card.querySelector('.btn-add').addEventListener('click', () => {
+            const newItem = {
+              id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+              name: item.name,
+              svg: item.svg,
+              x: 150,
+              y: 150,
+              scale: 1,
+              scaleX: 1,
+              scaleY: 1,
+              rotation: 0,
+              opacity: 1,
+              bbox: item.bbox ? { ...item.bbox } : calculateSvgBounds(item.svg),
+              overrideColor: null,
+              overrideStroke: null
+            };
+            AppState.getActiveSlide().items.push(newItem);
+            AppState.selectedItemIds = [newItem.id];
+            CanvasEngine.render();
+          });
+
+          card.querySelector('.btn-dup').addEventListener('click', () => {
+            const dupItem = {
+              ...item,
+              id: 'custom_' + Date.now(),
+              name: item.name + ' (Copy)'
+            };
+            AppState.gallery.push(dupItem);
+            UI.renderGallery();
+          });
+
+          grid.appendChild(card);
+        });
+      },
+
+      updateToolbarInputs() {
+        const item = AppState.getPrimarySelected();
+        if (!item) return;
+
+        document.getElementById('elementScale').value = item.scale.toFixed(1);
+        document.getElementById('elementRotation').value = Math.round(item.rotation);
+        document.getElementById('elementOpacity').value = item.opacity;
+        if (item.overrideColor) document.getElementById('elementColorPicker').value = item.overrideColor;
+        if (item.overrideStroke) document.getElementById('elementStrokePicker').value = item.overrideStroke;
+      },
+
+      renderThumbnails() {
+        const strip = document.getElementById('slideThumbnailStrip');
+        strip.innerHTML = '';
+
+        AppState.slides.forEach((slide, idx) => {
+          const thumb = document.createElement('div');
+          thumb.className = `w-16 h-16 flex-shrink-0 bg-white rounded-xl border-4 cursor-pointer relative flex items-center justify-center font-bold text-xs shadow-cartoon-sm transition-all ${
+            idx === AppState.activeSlideIndex ? 'border-disneyPurple scale-105' : 'border-gray-200 opacity-70'
+          }`;
+          thumb.style.backgroundColor = slide.bgColor || '#FFFFFF';
+          thumb.innerHTML = `<span class="text-gray-400">Slide ${idx + 1}</span>`;
+
+          thumb.addEventListener('click', () => {
+            AppState.activeSlideIndex = idx;
+            AppState.selectedItemIds = [];
+            CanvasEngine.render();
+          });
+
+          strip.appendChild(thumb);
+        });
+
+        document.getElementById('slideIndicator').innerText = `${AppState.activeSlideIndex + 1} / ${AppState.slides.length}`;
+        document.getElementById('slideBgColorPicker').value = AppState.getActiveSlide().bgColor || '#FFFFFF';
+      },
+
+      bindControls() {
+        // Fullscreen Toggle
+        document.getElementById('btnFullscreen').addEventListener('click', () => {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+          } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+          }
+        });
+
+        // Search & Filter
+        document.getElementById('gallerySearch').addEventListener('input', (e) => {
+          AppState.searchQuery = e.target.value;
+          this.renderGallery();
+        });
+
+        document.getElementById('categoryTabs').addEventListener('click', (e) => {
+          const btn = e.target.closest('.cat-tab');
+          if (!btn) return;
+          document.querySelectorAll('.cat-tab').forEach(b => {
+            b.className = "cat-tab px-2.5 py-1 rounded-xl font-bold bg-gray-100 text-gray-600 hover:bg-purple-100 whitespace-nowrap";
+          });
+          btn.className = "cat-tab px-2.5 py-1 rounded-xl font-bold bg-disneyPurple text-white whitespace-nowrap shadow-cartoon-sm";
+          AppState.activeCategory = btn.dataset.cat;
+          this.renderGallery();
+        });
+
+        // Mode Toggles
+        const btnColor = document.getElementById('btnColorMode');
+        const btnOutline = document.getElementById('btnOutlineMode');
+
+        btnColor.addEventListener('click', () => {
+          AppState.mode = 'color';
+          btnColor.className = "px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all bg-disneyPurple text-white shadow-sm";
+          btnOutline.className = "px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all text-gray-600 hover:text-disneyPurple";
+          CanvasEngine.render();
+        });
+
+        btnOutline.addEventListener('click', () => {
+          AppState.mode = 'outline';
+          btnOutline.className = "px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all bg-disneyPurple text-white shadow-sm";
+          btnColor.className = "px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all text-gray-600 hover:text-disneyPurple";
+          CanvasEngine.render();
+        });
+
+        // Grouping & Ungrouping Mechanics with Precise Bounding Box Calculations
+        document.getElementById('btnGroup').addEventListener('click', () => {
+          const slide = AppState.getActiveSlide();
+          const selectedItems = slide.items.filter(i => AppState.selectedItemIds.includes(i.id));
+
+          // UNGROUP LOGIC: Handle single selected group item
+          if (selectedItems.length === 1 && selectedItems[0].isGroup && selectedItems[0].groupChildren) {
+            const groupItem = selectedItems[0];
+            const children = groupItem.groupChildren;
+            const newSelectedIds = [];
+
+            children.forEach(child => {
+              // Convert child coordinates back relative to canvas
+              const bbox = CanvasEngine.getItemLocalBBox(child);
+              const unGroupedItem = {
+                id: 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+                name: child.name || 'Unbound Shape',
+                svg: child.svg,
+                x: groupItem.x + child.relX * groupItem.scale,
+                y: groupItem.y + child.relY * groupItem.scale,
+                scale: groupItem.scale * child.scale,
+                scaleX: child.scaleX,
+                scaleY: child.scaleY,
+                rotation: (groupItem.rotation + child.rotation) % 360,
+                opacity: groupItem.opacity * child.opacity,
+                bbox: child.bbox ? { ...child.bbox } : CanvasEngine.getItemLocalBBox(child),
+                overrideColor: child.overrideColor,
+                overrideStroke: child.overrideStroke
+              };
+              slide.items.push(unGroupedItem);
+              newSelectedIds.push(unGroupedItem.id);
+            });
+
+            // Remove original group item
+            slide.items = slide.items.filter(i => i.id !== groupItem.id);
+            AppState.selectedItemIds = newSelectedIds;
+            CanvasEngine.render();
+            return;
+          }
+
+          // GROUP LOGIC: Handle multiple selected items
+          if (selectedItems.length > 1) {
+            // Calculate accurate unified Axis-Aligned Bounding Box (AABB) for selected group
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+            selectedItems.forEach(item => {
+              const bbox = CanvasEngine.getItemLocalBBox(item);
+              const scaleX = item.scale * item.scaleX;
+              const scaleY = item.scale * item.scaleY;
+              
+              const corners = [
+                { x: bbox.x, y: bbox.y },
+                { x: bbox.x + bbox.width, y: bbox.y },
+                { x: bbox.x + bbox.width, y: bbox.y + bbox.height },
+                { x: bbox.x, y: bbox.y + bbox.height }
+              ];
+
+              const cx = bbox.x + bbox.width / 2;
+              const cy = bbox.y + bbox.height / 2;
+              const rad = (item.rotation * Math.PI) / 180;
+
+              corners.forEach(pt => {
+                let px = (pt.x - cx) * scaleX;
+                let py = (pt.y - cy) * scaleY;
+                const rx = px * Math.cos(rad) - py * Math.sin(rad) + cx * scaleX + item.x;
+                const ry = px * Math.sin(rad) + py * Math.cos(rad) + cy * scaleY + item.y;
+
+                if (rx < minX) minX = rx;
+                if (rx > maxX) maxX = rx;
+                if (ry < minY) minY = ry;
+                if (ry > maxY) maxY = ry;
+              });
+            });
+
+            const groupWidth = maxX - minX || 100;
+            const groupHeight = maxY - minY || 100;
+
+            let groupSvg = '<g class="custom-group">';
+            const groupChildrenRecords = [];
+
+            selectedItems.forEach(item => {
+              const bbox = CanvasEngine.getItemLocalBBox(item);
+              const cx = bbox.x + bbox.width / 2;
+              const cy = bbox.y + bbox.height / 2;
+              
+              // Relativize items to group top-left position
+              const relX = item.x - minX;
+              const relY = item.y - minY;
+              
+              let fillAttr = item.overrideColor ? `fill="${item.overrideColor}"` : '';
+              let strokeAttr = item.overrideStroke ? `stroke="${item.overrideStroke}"` : '';
+              
+              groupSvg += `<g transform="translate(${relX}, ${relY}) scale(${item.scaleX * item.scale}, ${item.scaleY * item.scale}) rotate(${item.rotation}, ${cx}, ${cy})" opacity="${item.opacity}" ${fillAttr} ${strokeAttr}>${item.svg}</g>`;
+
+              groupChildrenRecords.push({
+                ...JSON.parse(JSON.stringify(item)),
+                relX,
+                relY
+              });
+            });
+            groupSvg += '</g>';
+
+            const groupItem = {
+              id: 'group_' + Date.now(),
+              name: 'Grouped Sticker',
+              svg: groupSvg,
+              x: minX,
+              y: minY,
+              scale: 1,
+              scaleX: 1,
+              scaleY: 1,
+              rotation: 0,
+              opacity: 1,
+              bbox: { x: 0, y: 0, width: groupWidth, height: groupHeight },
+              overrideColor: null,
+              overrideStroke: null,
+              isGroup: true,
+              groupChildren: groupChildrenRecords
+            };
+
+            slide.items = slide.items.filter(i => !AppState.selectedItemIds.includes(i.id));
+            slide.items.push(groupItem);
+            AppState.selectedItemIds = [groupItem.id];
+          }
+          CanvasEngine.render();
+        });
+
+        // Save Custom Canvas Object or Group to Gallery preserving full transformations, stroke & fill colors & opacity
+        document.getElementById('btnSaveToGallery').addEventListener('click', () => {
+          const item = AppState.getPrimarySelected();
+          if (item) {
+            // Render a temporary, hidden SVG element to calculate exact transformed bounding box & snapshot SVG
+            const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            tempSvg.style.position = 'absolute';
+            tempSvg.style.visibility = 'hidden';
+            tempSvg.style.top = '-9999px';
+            tempSvg.style.left = '-9999px';
+            
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.innerHTML = item.svg;
+            g.setAttribute('opacity', item.opacity || 1);
+
+            // Apply fill and stroke overrides ONLY to graphic shape primitives (never on <g> elements)
+            if (item.overrideColor || item.overrideStroke) {
+              const shapes = g.querySelectorAll('path, ellipse, circle, rect, polygon, polyline, line');
+              shapes.forEach(el => {
+                if (item.overrideColor) el.setAttribute('fill', item.overrideColor);
+                if (item.overrideStroke) el.setAttribute('stroke', item.overrideStroke);
+              });
+            }
+
+            const origBBox = CanvasEngine.getItemLocalBBox(item);
+            const scaleX = item.scale * item.scaleX;
+            const scaleY = item.scale * item.scaleY;
+            const cx = origBBox.x + origBBox.width / 2;
+            const cy = origBBox.y + origBBox.height / 2;
+            g.setAttribute('transform', `scale(${scaleX}, ${scaleY}) rotate(${item.rotation}, ${cx}, ${cy})`);
+
+            tempSvg.appendChild(g);
+            document.body.appendChild(tempSvg);
+
+            // Calculate precise bounding box of transformed element using browser engine
+            let bbox = { x: origBBox.x * scaleX, y: origBBox.y * scaleY, width: origBBox.width * scaleX, height: origBBox.height * scaleY };
+            try {
+              const b = g.getBBox();
+              if (b.width > 0 && b.height > 0) {
+                bbox = {
+                  x: Math.floor(b.x),
+                  y: Math.floor(b.y),
+                  width: Math.ceil(b.width),
+                  height: Math.ceil(b.height)
+                };
+              }
+            } catch(e) {}
+
+            document.body.removeChild(tempSvg);
+
+            const padding = 8;
+            const vb = `${bbox.x - padding} ${bbox.y - padding} ${bbox.width + padding * 2} ${bbox.height + padding * 2}`;
+            const finalSvg = g.outerHTML;
+
+            AppState.gallery.push({
+              id: 'saved_' + Date.now(),
+              name: item.name ? `${item.name} (Custom)` : 'Custom Sticker',
+              category: 'objects',
+              bbox: bbox,
+              viewBox: vb,
+              svg: finalSvg
+            });
+            this.renderGallery();
+            alert('Sticker saved to gallery with complete shapes, colors, opacity, and transforms!');
+          }
+        });
+
+        document.getElementById('btnDuplicate').addEventListener('click', () => {
+          const item = AppState.getPrimarySelected();
+          if (item) {
+            const clone = JSON.parse(JSON.stringify(item));
+            clone.id = 'item_' + Date.now();
+            clone.x += 30;
+            clone.y += 30;
+            AppState.getActiveSlide().items.push(clone);
+            AppState.selectedItemIds = [clone.id];
+            CanvasEngine.render();
+          }
+        });
+
+        document.getElementById('btnDelete').addEventListener('click', () => {
+          const slide = AppState.getActiveSlide();
+          slide.items = slide.items.filter(i => !AppState.selectedItemIds.includes(i.id));
+          AppState.selectedItemIds = [];
+          CanvasEngine.render();
+        });
+
+        document.getElementById('elementColorPicker').addEventListener('input', (e) => {
+          const item = AppState.getPrimarySelected();
+          if (item) { item.overrideColor = e.target.value; CanvasEngine.render(); }
+        });
+
+        document.getElementById('elementStrokePicker').addEventListener('input', (e) => {
+          const item = AppState.getPrimarySelected();
+          if (item) { item.overrideStroke = e.target.value; CanvasEngine.render(); }
+        });
+
+        document.getElementById('elementOpacity').addEventListener('input', (e) => {
+          const item = AppState.getPrimarySelected();
+          if (item) { item.opacity = parseFloat(e.target.value); CanvasEngine.render(); }
+        });
+
+        // Canvas Zoom Controls
+        document.getElementById('btnZoomIn').addEventListener('click', () => {
+          AppState.zoomLevel = Math.min(2.5, AppState.zoomLevel + 0.15);
+          document.getElementById('zoomLabel').innerText = Math.round(AppState.zoomLevel * 100) + '%';
+          CanvasEngine.updateDimensions();
+        });
+
+        document.getElementById('btnZoomOut').addEventListener('click', () => {
+          AppState.zoomLevel = Math.max(0.4, AppState.zoomLevel - 0.15);
+          document.getElementById('zoomLabel').innerText = Math.round(AppState.zoomLevel * 100) + '%';
+          CanvasEngine.updateDimensions();
+        });
+
+        document.getElementById('btnZoomReset').addEventListener('click', () => {
+          AppState.zoomLevel = 1.0;
+          document.getElementById('zoomLabel').innerText = '100%';
+          CanvasEngine.updateDimensions();
+        });
+
+        // Slide Management Controls
+        document.getElementById('btnNewSlide').addEventListener('click', () => {
+          const preset = document.getElementById('slidePresetSelect').value.split('x');
+          AppState.slides.push({
+            id: 'slide_' + Date.now(),
+            width: parseInt(preset[0]),
+            height: parseInt(preset[1]),
+            bgColor: '#FFFFFF',
+            items: []
+          });
+          AppState.activeSlideIndex = AppState.slides.length - 1;
+          AppState.selectedItemIds = [];
+          CanvasEngine.render();
+        });
+
+        document.getElementById('slideBgColorPicker').addEventListener('input', (e) => {
+          AppState.getActiveSlide().bgColor = e.target.value;
+          CanvasEngine.render();
+        });
+
+        document.getElementById('btnDeleteSlide').addEventListener('click', () => {
+          if (AppState.slides.length <= 1) return;
+          AppState.slides.splice(AppState.activeSlideIndex, 1);
+          AppState.activeSlideIndex = Math.max(0, AppState.activeSlideIndex - 1);
+          AppState.selectedItemIds = [];
+          CanvasEngine.render();
+        });
+
+        document.getElementById('btnPrevSlide').addEventListener('click', () => {
+          if (AppState.activeSlideIndex > 0) {
+            AppState.activeSlideIndex--;
+            AppState.selectedItemIds = [];
+            CanvasEngine.render();
+          }
+        });
+
+        document.getElementById('btnNextSlide').addEventListener('click', () => {
+          if (AppState.activeSlideIndex < AppState.slides.length - 1) {
+            AppState.activeSlideIndex++;
+            AppState.selectedItemIds = [];
+            CanvasEngine.render();
+          }
+        });
+
+        document.getElementById('slidePresetSelect').addEventListener('change', (e) => {
+          const [w, h] = e.target.value.split('x').map(Number);
+          const slide = AppState.getActiveSlide();
+          slide.width = w;
+          slide.height = h;
+          CanvasEngine.render();
+        });
+
+        // Modals & Menu Event Bindings
+        document.getElementById('btnCreateCustomItem').addEventListener('click', () => {
+          document.getElementById('svgEditorModal').classList.remove('hidden');
+        });
+
+        document.getElementById('btnCancelSvgModal').addEventListener('click', () => {
+          document.getElementById('svgEditorModal').classList.add('hidden');
+        });
+
+        document.getElementById('btnSaveSvgModal').addEventListener('click', () => {
+          const name = document.getElementById('svgItemName').value || 'Custom Sticker';
+          const category = document.getElementById('svgItemCat').value;
+          const svg = document.getElementById('svgItemCode').value;
+
+          if (svg.trim()) {
+            const bbox = calculateSvgBounds(svg);
+            const vb = `${bbox.x - 5} ${bbox.y - 5} ${bbox.width + 10} ${bbox.height + 10}`;
+            AppState.gallery.push({ id: 'custom_' + Date.now(), name, category, bbox, viewBox: vb, svg });
+            this.renderGallery();
+            document.getElementById('svgEditorModal').classList.add('hidden');
+          }
+        });
+
+        document.getElementById('btnExportMenu').addEventListener('click', () => {
+          document.getElementById('exportMenuModal').classList.remove('hidden');
+        });
+
+        document.getElementById('btnImportMenu').addEventListener('click', () => {
+          document.getElementById('importDeckInput').click();
+        });
+
+        document.getElementById('btnExportGallery').addEventListener('click', () => {
+          const blob = new Blob([JSON.stringify(AppState.gallery, null, 2)], { type: 'application/json' });
+          saveAs(blob, 'coloring_gallery_pack.json');
+        });
+
+        document.getElementById('btnImportGallery').addEventListener('click', () => {
+          document.getElementById('importGalleryInput').click();
+        });
+
+        document.getElementById('importDeckInput').addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+              try {
+                const data = JSON.parse(evt.target.result);
+                if (data.slides) {
+                  AppState.slides = data.slides;
+                  AppState.activeSlideIndex = 0;
+                  AppState.selectedItemIds = [];
+                  CanvasEngine.render();
+                }
+              } catch (err) {
+                alert('Invalid JSON Project File!');
+              }
+            };
+            reader.readAsText(file);
+          }
+        });
+
+        document.getElementById('importGalleryInput').addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+              try {
+                const data = JSON.parse(evt.target.result);
+                if (Array.isArray(data)) {
+                  AppState.gallery = [...AppState.gallery, ...data];
+                  UI.renderGallery();
+                }
+              } catch (err) {
+                alert('Invalid Gallery JSON File!');
+              }
+            };
+            reader.readAsText(file);
+          }
+        });
+
+        document.getElementById('btnPrint').addEventListener('click', ExportEngine.printCurrentSlide);
+        document.getElementById('btnExportSVG').addEventListener('click', ExportEngine.exportSVG);
+        document.getElementById('btnExportPNG').addEventListener('click', ExportEngine.exportPNG);
+        document.getElementById('btnExportDeckJSON').addEventListener('click', ExportEngine.exportDeckJSON);
+        document.getElementById('btnExportDeckZip').addEventListener('click', ExportEngine.exportDeckZip);
+      }
+    };
+
+    // --- 5. EXPORT & PRINTING ENGINE ---
+    const ExportEngine = {
+      printCurrentSlide() {
+        const printContainer = document.getElementById('printContainer');
+        printContainer.innerHTML = '';
+        const svgClone = CanvasEngine.svgCanvas.cloneNode(true);
+        svgClone.querySelectorAll('.selection-overlay').forEach(el => el.remove());
+        printContainer.appendChild(svgClone);
+        window.print();
+      },
+
+      exportSVG() {
+        const svgClone = CanvasEngine.svgCanvas.cloneNode(true);
+        svgClone.querySelectorAll('.selection-overlay').forEach(el => el.remove());
+        const svgData = new XMLSerializer().serializeToString(svgClone);
+        const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        saveAs(blob, `coloring_page_slide_${AppState.activeSlideIndex + 1}.svg`);
+      },
+
+      exportPNG() {
+        const svgClone = CanvasEngine.svgCanvas.cloneNode(true);
+        svgClone.querySelectorAll('.selection-overlay').forEach(el => el.remove());
+        const svgData = new XMLSerializer().serializeToString(svgClone);
+        
+        const canvas = document.createElement('canvas');
+        const slide = AppState.getActiveSlide();
+        canvas.width = slide.width;
+        canvas.height = slide.height;
+        const ctx = canvas.getContext('2d');
+
+        const img = new Image();
+        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+
+        img.onload = () => {
+          ctx.fillStyle = AppState.mode === 'color' ? (slide.bgColor || "#FFFFFF") : "#FFFFFF";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+          URL.revokeObjectURL(url);
+          canvas.toBlob((blob) => {
+            saveAs(blob, `coloring_page_slide_${AppState.activeSlideIndex + 1}.png`);
+          });
+        };
+        img.src = url;
+      },
+
+      exportDeckJSON() {
+        const data = {
+          version: '1.1',
+          mode: AppState.mode,
+          monochromeColor: AppState.monochromeColor,
+          slides: AppState.slides
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        saveAs(blob, 'magic_coloring_book_deck.json');
+      },
+
+      async exportDeckZip() {
+        const zip = new JSZip();
+        const slides = AppState.slides;
+
+        for (let i = 0; i < slides.length; i++) {
+          const slide = slides[i];
+          const canvas = document.createElement('canvas');
+          canvas.width = slide.width;
+          canvas.height = slide.height;
+          const ctx = canvas.getContext('2d');
+
+          const tempSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          tempSvg.setAttribute('width', slide.width);
+          tempSvg.setAttribute('height', slide.height);
+          tempSvg.setAttribute('viewBox', `0 0 ${slide.width} ${slide.height}`);
+
+          const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+          slide.items.forEach(item => {
+            const itemG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            itemG.setAttribute('transform', `translate(${item.x}, ${item.y}) scale(${item.scaleX * item.scale}, ${item.scaleY * item.scale}) rotate(${item.rotation})`);
+            itemG.setAttribute('opacity', item.opacity);
+            itemG.innerHTML = item.svg;
+
+            if (AppState.mode === 'outline') {
+              itemG.querySelectorAll('*').forEach(el => {
+                el.setAttribute('stroke', AppState.monochromeColor);
+                el.setAttribute('fill', '#FFFFFF');
+              });
+            }
+            g.appendChild(itemG);
+          });
+          tempSvg.appendChild(g);
+
+          const svgData = new XMLSerializer().serializeToString(tempSvg);
+          const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+          const url = URL.createObjectURL(svgBlob);
+
+          await new Promise((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+              ctx.fillStyle = AppState.mode === 'color' ? (slide.bgColor || "#FFFFFF") : "#FFFFFF";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0);
+              URL.revokeObjectURL(url);
+              canvas.toBlob((blob) => {
+                zip.file(`slide_${i + 1}.png`, blob);
+                resolve();
+              });
+            };
+            img.src = url;
+          });
+        }
+
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        saveAs(zipBlob, 'coloring_book_slides_package.zip');
+      }
+    };
+
+    // --- 6. INITIALIZATION ---
+    window.onload = () => {
+      UI.init();
+    };
+  </script>
+</body>
+</html>

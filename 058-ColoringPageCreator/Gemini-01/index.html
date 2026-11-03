@@ -54,8 +54,8 @@
       box-shadow: 0 1px 0 0 rgba(0,0,0,0.2) !important;
     }
     .custom-scrollbar::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.4);
@@ -75,6 +75,28 @@
       background-size: 20px 20px;
       background-image: radial-gradient(circle, #00000010 1px, transparent 1px);
     }
+
+    /* Mobile Responsive Sidebar Backdrop & Drawer Overrides */
+    @media (max-width: 768px) {
+      #leftSidebar {
+        position: fixed !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 40;
+        width: 85vw !important;
+        max-width: 340px !important;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+      }
+      #leftSidebar.mobile-open {
+        transform: translateX(0);
+      }
+      #sidebarSplitter {
+        display: none !important;
+      }
+    }
+
     @media print {
       body * {
         visibility: hidden;
@@ -97,82 +119,96 @@
 <body class="h-screen flex flex-col overflow-hidden text-gray-800">
 
   <!-- TOP HEADER BAR -->
-  <header class="bg-white/80 backdrop-blur-md border-b-4 border-disneyPurple px-4 py-2.5 flex items-center justify-between z-30 shadow-md">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gradient-to-tr from-disneyPink to-disneyYellow rounded-2xl flex items-center justify-center text-white text-2xl shadow-cartoon border-2 border-white">
+  <header class="bg-white/80 backdrop-blur-md border-b-4 border-disneyPurple px-3 py-2 flex items-center justify-between z-30 shadow-md">
+    <div class="flex items-center space-x-2">
+      <!-- Mobile Sidebar Toggle FAB -->
+      <button id="btnMobileToggleGallery" class="md:hidden p-2 bg-disneyPurple text-white rounded-xl shadow-cartoon-sm disney-btn font-bold text-sm" title="Toggle Sticker Gallery">
+        📦 Gallery
+      </button>
+
+      <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-tr from-disneyPink to-disneyYellow rounded-2xl flex items-center justify-center text-white text-xl md:text-2xl shadow-cartoon border-2 border-white">
         🎨
       </div>
       <div>
-        <h1 class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-disneyPurple via-disneyPink to-disneyBlue leading-none">
+        <h1 class="text-base md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-disneyPurple via-disneyPink to-disneyBlue leading-none">
           Magic Color Creator
         </h1>
-        <p class="text-xs font-quicksand font-bold text-gray-500">Create & Print Vector Coloring Books</p>
+        <p class="hidden sm:block text-[10px] md:text-xs font-quicksand font-bold text-gray-500">Create Vector Coloring Books</p>
       </div>
     </div>
 
     <!-- Mode Toggle & Quick Settings -->
-    <div class="flex items-center space-x-2 md:space-x-3">
+    <div class="flex items-center space-x-1.5 md:space-x-3 overflow-x-auto custom-scrollbar py-1">
       <!-- Working Directory Button -->
-      <button id="btnSelectDir" class="px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 rounded-2xl border-2 border-yellow-300 shadow-cartoon-sm disney-btn text-xs font-bold flex items-center gap-1" title="Select Local Working Directory">
-        📁 <span id="dirLabel">Work Dir</span>
+      <button id="btnSelectDir" class="px-2.5 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 rounded-xl md:rounded-2xl border-2 border-yellow-300 shadow-cartoon-sm disney-btn text-[11px] md:text-xs font-bold flex items-center gap-1 whitespace-nowrap" title="Select Local Working Directory">
+        📁 <span id="dirLabel" class="hidden sm:inline">Work Dir</span>
       </button>
 
       <!-- Manage Storage Button -->
-      <button id="btnOpenStorage" class="px-3 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-disneyPurple rounded-2xl border-2 border-indigo-300 shadow-cartoon-sm disney-btn text-xs font-bold flex items-center gap-1" title="Manage Saved Projects">
-        💾 Projects
+      <button id="btnOpenStorage" class="px-2.5 py-1.5 bg-indigo-100 hover:bg-indigo-200 text-disneyPurple rounded-xl md:rounded-2xl border-2 border-indigo-300 shadow-cartoon-sm disney-btn text-[11px] md:text-xs font-bold flex items-center gap-1 whitespace-nowrap" title="Manage Saved Projects">
+        💾 <span class="hidden sm:inline">Projects</span>
       </button>
 
       <!-- Fullscreen Toggle -->
-      <button id="btnFullscreen" class="p-2 bg-purple-100 hover:bg-purple-200 text-disneyPurple rounded-2xl border-2 border-purple-200 shadow-cartoon-sm disney-btn text-xs font-bold flex items-center gap-1" title="Toggle Fullscreen">
-        ⛶ Fullscreen
+      <button id="btnFullscreen" class="p-1.5 md:px-3 md:py-1.5 bg-purple-100 hover:bg-purple-200 text-disneyPurple rounded-xl md:rounded-2xl border-2 border-purple-200 shadow-cartoon-sm disney-btn text-[11px] md:text-xs font-bold flex items-center gap-1 whitespace-nowrap" title="Toggle Fullscreen">
+        ⛶ <span class="hidden sm:inline">Fullscreen</span>
       </button>
 
       <!-- Monochrome Color Picker -->
-      <div class="flex items-center bg-purple-50 px-3 py-1.5 rounded-2xl border-2 border-purple-200 shadow-cartoon-sm">
-        <label for="monochromePicker" class="text-xs font-bold text-disneyPurple mr-2">Monochrome Color:</label>
-        <input type="color" id="monochromePicker" value="#000000" class="w-6 h-6 rounded-lg border-0 cursor-pointer bg-transparent">
+      <div class="flex items-center bg-purple-50 px-2 py-1 md:px-3 md:py-1.5 rounded-xl md:rounded-2xl border-2 border-purple-200 shadow-cartoon-sm">
+        <label for="monochromePicker" class="hidden md:inline text-xs font-bold text-disneyPurple mr-2">Mono Color:</label>
+        <input type="color" id="monochromePicker" value="#000000" class="w-5 h-5 md:w-6 md:h-6 rounded-lg border-0 cursor-pointer bg-transparent">
       </div>
 
       <!-- Outline / Color Mode Switcher -->
-      <div class="flex bg-gray-100 p-1 rounded-2xl border-2 border-gray-200">
-        <button id="btnColorMode" class="px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all bg-disneyPurple text-white shadow-sm">
-          🌈 Color Mode
+      <div class="flex bg-gray-100 p-0.5 md:p-1 rounded-xl md:rounded-2xl border-2 border-gray-200">
+        <button id="btnColorMode" class="px-2 py-1 md:px-3 md:py-1 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold disney-btn transition-all bg-disneyPurple text-white shadow-sm whitespace-nowrap">
+          🌈 Color
         </button>
-        <button id="btnOutlineMode" class="px-3 py-1 rounded-xl text-xs md:text-sm font-bold disney-btn transition-all text-gray-600 hover:text-disneyPurple">
-          🖍️ Outline Mode
+        <button id="btnOutlineMode" class="px-2 py-1 md:px-3 md:py-1 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold disney-btn transition-all text-gray-600 hover:text-disneyPurple whitespace-nowrap">
+          🖍️ Outline
         </button>
       </div>
 
       <!-- Action Buttons -->
-      <button id="btnPrint" class="px-3 py-1.5 bg-disneyGreen text-white text-xs md:text-sm font-bold rounded-2xl border-2 border-green-600 shadow-cartoon disney-btn flex items-center gap-1">
-        🖨️ Print
+      <button id="btnPrint" class="px-2.5 py-1.5 bg-disneyGreen text-white text-[11px] md:text-sm font-bold rounded-xl md:rounded-2xl border-2 border-green-600 shadow-cartoon disney-btn flex items-center gap-1 whitespace-nowrap">
+        🖨️ <span class="hidden sm:inline">Print</span>
       </button>
-      <button id="btnExportMenu" class="px-3 py-1.5 bg-disneyBlue text-white text-xs md:text-sm font-bold rounded-2xl border-2 border-blue-600 shadow-cartoon disney-btn flex items-center gap-1">
-        💾 Export / Save ▾
+      <button id="btnExportMenu" class="px-2.5 py-1.5 bg-disneyBlue text-white text-[11px] md:text-sm font-bold rounded-xl md:rounded-2xl border-2 border-blue-600 shadow-cartoon disney-btn flex items-center gap-1 whitespace-nowrap">
+        💾 <span class="hidden sm:inline">Export</span> ▾
       </button>
-      <button id="btnImportMenu" class="px-3 py-1.5 bg-disneyYellow text-gray-800 text-xs md:text-sm font-bold rounded-2xl border-2 border-amber-500 shadow-cartoon disney-btn flex items-center gap-1">
-        📂 Import ▾
+      <button id="btnImportMenu" class="px-2.5 py-1.5 bg-disneyYellow text-gray-800 text-[11px] md:text-sm font-bold rounded-xl md:rounded-2xl border-2 border-amber-500 shadow-cartoon disney-btn flex items-center gap-1 whitespace-nowrap">
+        📂 <span class="hidden sm:inline">Import</span> ▾
       </button>
     </div>
   </header>
+
+  <!-- MOBILE OVERLAY BACKDROP -->
+  <div id="mobileBackdrop" class="hidden fixed inset-0 bg-black/40 z-30 md:hidden"></div>
 
   <!-- MAIN APP CONTAINER -->
   <div class="flex-1 flex overflow-hidden select-none" id="mainAppContainer">
 
     <!-- LEFT PANEL: GALLERY & ASSETS -->
-    <aside id="leftSidebar" class="bg-white/90 backdrop-blur-md border-r-4 border-disneyPurple flex flex-col z-20 shadow-xl relative" style="width: 320px; min-width: 200px; max-width: 600px;">
+    <aside id="leftSidebar" class="bg-white/95 backdrop-blur-md border-r-4 border-disneyPurple flex flex-col z-20 shadow-xl relative" style="width: 320px; min-width: 200px; max-width: 600px;">
+      <!-- Mobile Close Drawer Header -->
+      <div class="flex md:hidden justify-between items-center px-3 py-2 bg-purple-100 border-b border-purple-200">
+        <span class="font-bold text-disneyPurple text-sm">Sticker Gallery</span>
+        <button id="btnCloseMobileGallery" class="text-xs font-bold bg-purple-200 text-disneyPurple px-2 py-1 rounded-lg">✕ Close</button>
+      </div>
+
       <!-- Search & Gallery Header -->
       <div class="p-3 border-b-2 border-purple-100 bg-purple-50/50">
         <div class="flex justify-between items-center mb-2">
-          <h2 class="text-base font-bold text-disneyPurple flex items-center gap-1">
+          <h2 class="text-xs md:text-base font-bold text-disneyPurple flex items-center gap-1">
             📦 Sticker Gallery
           </h2>
-          <button id="btnCreateCustomItem" class="text-xs bg-disneyPink hover:bg-red-500 text-white font-bold px-2 py-1 rounded-xl shadow-cartoon-sm disney-btn">
+          <button id="btnCreateCustomItem" class="text-[11px] md:text-xs bg-disneyPink hover:bg-red-500 text-white font-bold px-2 py-1 rounded-xl shadow-cartoon-sm disney-btn">
             + New SVG
           </button>
         </div>
         <div class="relative">
-          <input type="text" id="gallerySearch" placeholder="Search stickers (e.g. ghost, pumpkin)..." class="w-full px-3 py-1.5 pl-8 rounded-xl text-xs font-quicksand border-2 border-purple-200 focus:outline-none focus:border-disneyPurple bg-white">
+          <input type="text" id="gallerySearch" placeholder="Search stickers..." class="w-full px-3 py-1.5 pl-8 rounded-xl text-xs font-quicksand border-2 border-purple-200 focus:outline-none focus:border-disneyPurple bg-white">
           <span class="absolute left-2.5 top-1.5 text-xs text-purple-400">🔍</span>
         </div>
         <!-- Category Filter Tabs -->
@@ -192,13 +228,13 @@
 
       <!-- Gallery Action Footer -->
       <div class="p-2 border-t-2 border-purple-100 bg-purple-50/50 flex justify-around text-xs">
-        <button id="btnExportGallery" class="text-disneyPurple font-bold hover:underline">📥 Export Gallery JSON</button>
-        <button id="btnImportGallery" class="text-disneyPurple font-bold hover:underline">📤 Import Gallery JSON</button>
+        <button id="btnExportGallery" class="text-disneyPurple font-bold hover:underline">📥 Export Gallery</button>
+        <button id="btnImportGallery" class="text-disneyPurple font-bold hover:underline">📤 Import Gallery</button>
       </div>
     </aside>
 
-    <!-- RESIZABLE SPLITTER -->
-    <div id="sidebarSplitter" class="w-2 hover:w-3 bg-disneyPurple/30 hover:bg-disneyPurple transition-all cursor-col-resize z-30 flex items-center justify-center">
+    <!-- RESIZABLE SPLITTER (Desktop) -->
+    <div id="sidebarSplitter" class="w-2 hover:w-3 bg-disneyPurple/30 hover:bg-disneyPurple transition-all cursor-col-resize z-30 hidden md:flex items-center justify-center">
       <div class="w-1 h-8 bg-white/70 rounded-full"></div>
     </div>
 
@@ -206,50 +242,50 @@
     <main class="flex-1 flex flex-col relative overflow-hidden bg-gray-200/60">
       
       <!-- TOP TOOLBAR: CANVAS MANIPULATION CONTROLS -->
-      <div class="bg-white border-b-2 border-gray-200 px-4 py-2 flex flex-wrap items-center justify-between gap-2 z-10 shadow-sm text-xs">
+      <div class="bg-white border-b-2 border-gray-200 px-2 md:px-4 py-1.5 flex flex-wrap items-center justify-between gap-1.5 z-10 shadow-sm text-[11px] md:text-xs">
         <!-- Transform & Layering Controls -->
-        <div class="flex items-center space-x-1 flex-wrap gap-y-1">
-          <button id="btnFlipH" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Flip Horizontal">↔️ Flip H</button>
-          <button id="btnFlipV" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Flip Vertical">↕️ Flip V</button>
-          <div class="h-5 w-px bg-gray-300 mx-1"></div>
+        <div class="flex items-center space-x-1 overflow-x-auto max-w-full custom-scrollbar py-0.5">
+          <button id="btnFlipH" class="p-1 md:p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border whitespace-nowrap" title="Flip Horizontal">↔️ Flip H</button>
+          <button id="btnFlipV" class="p-1 md:p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border whitespace-nowrap" title="Flip Vertical">↕️ Flip V</button>
+          <div class="h-4 w-px bg-gray-300 mx-0.5"></div>
           
           <!-- Advanced Layer Positioning -->
-          <button id="btnBringToFront" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Bring To Front">⏫ Front</button>
-          <button id="btnLayerUp" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Bring Forward">🔼 Up</button>
-          <button id="btnLayerDown" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Send Backward">🔽 Down</button>
-          <button id="btnSendToBack" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Send To Back">⏬ Back</button>
+          <button id="btnBringToFront" class="p-1 md:p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border whitespace-nowrap" title="Bring To Front">⏫ Front</button>
+          <button id="btnLayerUp" class="p-1 md:p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border whitespace-nowrap" title="Bring Forward">🔼 Up</button>
+          <button id="btnLayerDown" class="p-1 md:p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border whitespace-nowrap" title="Send Backward">🔽 Down</button>
+          <button id="btnSendToBack" class="p-1 md:p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border whitespace-nowrap" title="Send To Back">⏬ Back</button>
           
-          <div class="h-5 w-px bg-gray-300 mx-1"></div>
-          <button id="btnDuplicate" class="p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border" title="Duplicate Selected">👯 Duplicate</button>
-          <button id="btnGroup" class="p-1.5 bg-purple-100 hover:bg-purple-200 text-disneyPurple rounded-xl font-bold disney-btn border border-purple-300" title="Group/Ungroup Selected Items">📦 Group / Ungroup</button>
-          <button id="btnSaveToGallery" class="p-1.5 bg-disneyYellow hover:bg-amber-300 text-gray-800 rounded-xl font-bold disney-btn border border-amber-400" title="Save Selected Item or Group to Gallery">⭐ Save to Gallery</button>
-          <button id="btnDelete" class="p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl font-bold disney-btn border border-red-300" title="Delete Selected">🗑️ Delete</button>
+          <div class="h-4 w-px bg-gray-300 mx-0.5"></div>
+          <button id="btnDuplicate" class="p-1 md:p-1.5 bg-gray-100 hover:bg-purple-100 rounded-xl font-bold text-gray-700 disney-btn border whitespace-nowrap" title="Duplicate Selected">👯 Dup</button>
+          <button id="btnGroup" class="p-1 md:p-1.5 bg-purple-100 hover:bg-purple-200 text-disneyPurple rounded-xl font-bold disney-btn border border-purple-300 whitespace-nowrap" title="Group/Ungroup Selected Items">📦 Group</button>
+          <button id="btnSaveToGallery" class="p-1 md:p-1.5 bg-disneyYellow hover:bg-amber-300 text-gray-800 rounded-xl font-bold disney-btn border border-amber-400 whitespace-nowrap" title="Save Selected Item to Gallery">⭐ Save</button>
+          <button id="btnDelete" class="p-1 md:p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-xl font-bold disney-btn border border-red-300 whitespace-nowrap" title="Delete Selected">🗑️ Del</button>
         </div>
 
         <!-- Dynamic Controls for Selected Element -->
-        <div class="flex items-center space-x-3 flex-wrap gap-y-1">
+        <div class="flex items-center space-x-2 flex-wrap gap-y-1 overflow-x-auto custom-scrollbar">
           <!-- Scale & Rotation Inputs -->
-          <div class="flex items-center space-x-1 bg-purple-50 px-2 py-1 rounded-xl border">
-            <span class="font-bold text-gray-500">Scale:</span>
-            <input type="number" id="elementScale" min="0.1" max="5" step="0.1" value="1" class="w-12 border rounded px-1 text-center font-bold">
-            <span class="font-bold text-gray-500 ml-1">Rot:</span>
-            <input type="number" id="elementRotation" min="0" max="360" value="0" class="w-12 border rounded px-1 text-center font-bold">°
+          <div class="flex items-center space-x-1 bg-purple-50 px-1.5 py-0.5 rounded-xl border">
+            <span class="font-bold text-gray-500 text-[10px]">Scale:</span>
+            <input type="number" id="elementScale" min="0.1" max="5" step="0.1" value="1" class="w-10 border rounded px-0.5 text-center font-bold">
+            <span class="font-bold text-gray-500 text-[10px] ml-1">Rot:</span>
+            <input type="number" id="elementRotation" min="0" max="360" value="0" class="w-10 border rounded px-0.5 text-center font-bold">°
           </div>
 
           <!-- Fill & Stroke Pickers -->
-          <div class="flex items-center space-x-2">
-            <span class="font-bold text-gray-500">Fill:</span>
-            <input type="color" id="elementColorPicker" value="#ffffff" class="w-6 h-6 rounded border-0 cursor-pointer" title="Fill Color Override">
-            <span class="font-bold text-gray-500">Stroke:</span>
-            <input type="color" id="elementStrokePicker" value="#000000" class="w-6 h-6 rounded border-0 cursor-pointer" title="Stroke Outline Color (Color Mode)">
-            <span class="font-bold text-gray-500 ml-1">Opacity:</span>
-            <input type="range" id="elementOpacity" min="0.1" max="1" step="0.05" value="1" class="w-16 accent-disneyPurple">
+          <div class="flex items-center space-x-1.5">
+            <span class="font-bold text-gray-500 text-[10px]">Fill:</span>
+            <input type="color" id="elementColorPicker" value="#ffffff" class="w-5 h-5 rounded border-0 cursor-pointer" title="Fill Color Override">
+            <span class="font-bold text-gray-500 text-[10px]">Stroke:</span>
+            <input type="color" id="elementStrokePicker" value="#000000" class="w-5 h-5 rounded border-0 cursor-pointer" title="Stroke Outline Color">
+            <span class="font-bold text-gray-500 text-[10px] ml-0.5">Opac:</span>
+            <input type="range" id="elementOpacity" min="0.1" max="1" step="0.05" value="1" class="w-12 md:w-16 accent-disneyPurple">
           </div>
         </div>
       </div>
 
       <!-- WORKSPACE BOARD (SCROLLABLE & CENTERED CANVAS) -->
-      <div class="flex-1 overflow-auto p-8 flex items-center justify-center relative custom-scrollbar" id="workspace">
+      <div class="flex-1 overflow-auto p-3 md:p-8 flex items-center justify-center relative custom-scrollbar" id="workspace">
         <!-- Scale Wrapper container for Canvas Zooming -->
         <div id="canvasZoomWrapper" class="transition-transform duration-150 origin-center">
           <div id="canvasViewport" class="printable-area relative shadow-2xl rounded-2xl border-4 border-white transition-all duration-300 overflow-hidden" style="width: 800px; height: 600px; background-color: #FFFFFF;">
@@ -263,55 +299,55 @@
       </div>
 
       <!-- BOTTOM SLIDE DECK & VIEWPORT NAVIGATOR -->
-      <div class="h-28 bg-white/95 border-t-4 border-disneyPurple px-4 py-2 flex items-center justify-between z-20 shadow-lg text-xs">
-        <div class="flex items-center space-x-3">
-          <button id="btnNewSlide" class="px-3 py-2 bg-disneyPink text-white font-bold rounded-2xl border-2 border-red-400 shadow-cartoon disney-btn flex items-center gap-1">
+      <div class="min-h-24 md:h-28 bg-white/95 border-t-4 border-disneyPurple px-2 md:px-4 py-2 flex flex-col md:flex-row items-center justify-between gap-2 z-20 shadow-lg text-xs">
+        <div class="flex items-center justify-between w-full md:w-auto space-x-2">
+          <button id="btnNewSlide" class="px-2.5 py-1.5 md:px-3 md:py-2 bg-disneyPink text-white font-bold rounded-xl md:rounded-2xl border-2 border-red-400 shadow-cartoon disney-btn flex items-center gap-1 text-[11px] md:text-xs whitespace-nowrap">
             ➕ Add Slide
           </button>
 
           <!-- Preset Size & Canvas Background -->
-          <div class="flex gap-2">
+          <div class="flex gap-1.5">
             <div class="flex flex-col">
-              <label for="slidePresetSelect" class="text-[10px] font-bold text-gray-400">Dimensions</label>
-              <select id="slidePresetSelect" class="font-bold bg-purple-50 border-2 border-purple-200 rounded-xl px-2 py-1 text-disneyPurple">
-                <option value="1920x1080">YouTube Thumbnail (16:9)</option>
-                <option value="1200x630">Facebook Post (1.91:1)</option>
-                <option value="1080x1920">FB/IG Story (9:16)</option>
-                <option value="1080x1080" selected>Instagram Square (1:1)</option>
-                <option value="2480x3508">Print A4 Portrait</option>
-                <option value="3508x2480">Print A4 Landscape</option>
+              <label for="slidePresetSelect" class="text-[9px] font-bold text-gray-400">Preset</label>
+              <select id="slidePresetSelect" class="font-bold bg-purple-50 border border-purple-200 rounded-xl px-1.5 py-0.5 text-disneyPurple text-[10px] md:text-xs">
+                <option value="1920x1080">YouTube (16:9)</option>
+                <option value="1200x630">FB Post</option>
+                <option value="1080x1920">FB/IG Story</option>
+                <option value="1080x1080" selected>IG Square</option>
+                <option value="2480x3508">A4 Portrait</option>
+                <option value="3508x2480">A4 Landscape</option>
               </select>
             </div>
             
             <div class="flex flex-col">
-              <label for="slideBgColorPicker" class="text-[10px] font-bold text-gray-400">Canvas Bg</label>
-              <div class="flex items-center border-2 border-purple-200 bg-purple-50 rounded-xl px-2 py-0.5">
-                <input type="color" id="slideBgColorPicker" value="#ffffff" class="w-6 h-6 border-0 cursor-pointer bg-transparent">
+              <label for="slideBgColorPicker" class="text-[9px] font-bold text-gray-400">Bg</label>
+              <div class="flex items-center border border-purple-200 bg-purple-50 rounded-xl px-1 py-0.5">
+                <input type="color" id="slideBgColorPicker" value="#ffffff" class="w-4 h-4 md:w-5 md:h-5 border-0 cursor-pointer bg-transparent">
               </div>
             </div>
           </div>
         </div>
 
         <!-- Slide Thumbnails Strip -->
-        <div class="flex-1 mx-4 overflow-x-auto flex items-center space-x-3 py-1 custom-scrollbar" id="slideThumbnailStrip">
+        <div class="w-full md:w-auto flex-1 mx-1 md:mx-4 overflow-x-auto flex items-center space-x-2 py-1 custom-scrollbar justify-start md:justify-center" id="slideThumbnailStrip">
           <!-- Slide thumbnails injected here -->
         </div>
 
         <!-- Zoom Slider & Slide Navigation Controls -->
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center justify-between w-full md:w-auto space-x-2">
           <!-- Zoom Slider Controls -->
-          <div class="flex items-center space-x-2 bg-purple-50 px-3 py-1.5 rounded-xl border border-purple-200">
-            <span class="font-bold text-disneyPurple text-[11px]">Zoom:</span>
-            <input type="range" id="zoomSlider" min="0.4" max="2.5" step="0.05" value="1.0" class="w-24 accent-disneyPurple cursor-pointer">
-            <span id="zoomLabel" class="font-bold text-disneyPurple min-w-[36px] text-center">100%</span>
-            <button id="btnZoomReset" class="px-1.5 py-0.5 bg-white font-bold rounded border text-gray-500 hover:bg-purple-100 text-[10px]">Reset</button>
+          <div class="flex items-center space-x-1.5 bg-purple-50 px-2 py-1 rounded-xl border border-purple-200">
+            <span class="font-bold text-disneyPurple text-[10px]">Zoom:</span>
+            <input type="range" id="zoomSlider" min="0.4" max="2.5" step="0.05" value="1.0" class="w-16 md:w-20 accent-disneyPurple cursor-pointer">
+            <span id="zoomLabel" class="font-bold text-disneyPurple text-[10px] min-w-[28px] text-center">100%</span>
+            <button id="btnZoomReset" class="px-1 py-0.5 bg-white font-bold rounded border text-gray-500 hover:bg-purple-100 text-[9px]">Reset</button>
           </div>
 
           <div class="flex items-center space-x-1">
-            <button id="btnPrevSlide" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-purple-100 font-bold text-disneyPurple border border-purple-200 disney-btn">◀</button>
-            <span id="slideIndicator" class="font-bold text-gray-600 font-quicksand">1 / 1</span>
-            <button id="btnNextSlide" class="w-7 h-7 rounded-full bg-gray-100 hover:bg-purple-100 font-bold text-disneyPurple border border-purple-200 disney-btn">▶</button>
-            <button id="btnDeleteSlide" class="px-2 py-1 bg-red-50 text-red-600 border border-red-200 rounded-xl font-bold hover:bg-red-100 disney-btn">Delete</button>
+            <button id="btnPrevSlide" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-purple-100 font-bold text-disneyPurple border border-purple-200 disney-btn text-[10px]">◀</button>
+            <span id="slideIndicator" class="font-bold text-gray-600 font-quicksand text-[11px]">1 / 1</span>
+            <button id="btnNextSlide" class="w-6 h-6 rounded-full bg-gray-100 hover:bg-purple-100 font-bold text-disneyPurple border border-purple-200 disney-btn text-[10px]">▶</button>
+            <button id="btnDeleteSlide" class="px-1.5 py-0.5 bg-red-50 text-red-600 border border-red-200 rounded-lg font-bold hover:bg-red-100 disney-btn text-[10px]">Del</button>
           </div>
         </div>
       </div>
@@ -859,8 +895,30 @@
         this.renderGallery();
         this.bindControls();
         this.bindSplitter();
+        this.bindMobileDrawer();
         this.initAutoSave();
         CanvasEngine.init();
+      },
+
+      bindMobileDrawer() {
+        const btnToggle = document.getElementById('btnMobileToggleGallery');
+        const btnClose = document.getElementById('btnCloseMobileGallery');
+        const sidebar = document.getElementById('leftSidebar');
+        const backdrop = document.getElementById('mobileBackdrop');
+
+        const openDrawer = () => {
+          sidebar.classList.add('mobile-open');
+          backdrop.classList.remove('hidden');
+        };
+
+        const closeDrawer = () => {
+          sidebar.classList.remove('mobile-open');
+          backdrop.classList.add('hidden');
+        };
+
+        if (btnToggle) btnToggle.addEventListener('click', openDrawer);
+        if (btnClose) btnClose.addEventListener('click', closeDrawer);
+        if (backdrop) backdrop.addEventListener('click', closeDrawer);
       },
 
       bindSplitter() {

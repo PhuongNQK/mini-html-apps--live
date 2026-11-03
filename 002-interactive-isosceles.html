@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Interactive Isosceles Triangle with Trail Under Point A</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    svg {
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+    /* Change cursor when hovering over the movable point */
+    .draggable {
+      cursor: pointer;
+    }
+    /* Ensure trail points don't capture mouse events */
+    .trail {
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <svg id="svg" width="600" height="500">
+    <!-- Triangle edges -->
+    <line id="lineAB" x1="300" y1="200" x2="200" y2="400" stroke="black" stroke-width="2"/>
+    <line id="lineAC" x1="300" y1="200" x2="400" y2="400" stroke="black" stroke-width="2"/>
+    <line id="lineBC" x1="200" y1="400" x2="400" y2="400" stroke="black" stroke-width="2"/>
+    
+    <!-- Fixed blue points B and C -->
+    <circle id="pointB" cx="200" cy="400" r="8" fill="blue"/>
+    <circle id="pointC" cx="400" cy="400" r="8" fill="blue"/>
+    
+    <!-- Movable red point A -->
+    <circle id="pointA" cx="300" cy="200" r="8" fill="red" class="draggable"/>
+  </svg>
+
+  <script>
+    (function() {
+      const svg = document.getElementById("svg");
+      const pointA = document.getElementById("pointA");
+      const pointB = document.getElementById("pointB");
+      const pointC = document.getElementById("pointC");
+      const lineAB = document.getElementById("lineAB");
+      const lineAC = document.getElementById("lineAC");
+
+      let isDragging = false;
+
+      // Update the triangle edges to connect the current position of A to B and C.
+      function updateTriangle() {
+        const ax = parseFloat(pointA.getAttribute("cx"));
+        const ay = parseFloat(pointA.getAttribute("cy"));
+        const bx = parseFloat(pointB.getAttribute("cx"));
+        const by = parseFloat(pointB.getAttribute("cy"));
+        const cx = parseFloat(pointC.getAttribute("cx"));
+        const cy = parseFloat(pointC.getAttribute("cy"));
+
+        lineAB.setAttribute("x1", ax);
+        lineAB.setAttribute("y1", ay);
+        lineAB.setAttribute("x2", bx);
+        lineAB.setAttribute("y2", by);
+
+        lineAC.setAttribute("x1", ax);
+        lineAC.setAttribute("y1", ay);
+        lineAC.setAttribute("x2", cx);
+        lineAC.setAttribute("y2", cy);
+      }
+
+      // Convert mouse event coordinates to SVG coordinates.
+      function getSVGCoords(evt) {
+        const pt = svg.createSVGPoint();
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+        return pt.matrixTransform(svg.getScreenCTM().inverse());
+      }
+
+      // Start dragging when the user clicks on point A.
+      pointA.addEventListener("mousedown", function(evt) {
+        isDragging = true;
+        evt.preventDefault();
+      });
+
+      // While dragging, update point A’s position (keeping it on x = 300).
+      svg.addEventListener("mousemove", function(evt) {
+        if (!isDragging) return;
+        const coords = getSVGCoords(evt);
+        // Constrain A to the perpendicular bisector of BC.
+        const bx = parseFloat(pointB.getAttribute("cx"));
+        const cx = parseFloat(pointC.getAttribute("cx"));
+        const midX = (bx + cx) / 2; // Should be 300 in this setup.
+        pointA.setAttribute("cx", midX);
+        pointA.setAttribute("cy", coords.y);
+        updateTriangle();
+      });
+
+      // When the mouse is released, stop dragging and record A's position.
+      window.addEventListener("mouseup", function(evt) {
+        if (isDragging) {
+          isDragging = false;
+          // Create a new semi-transparent brown circle at the current position of A.
+          const ax = pointA.getAttribute("cx");
+          const ay = pointA.getAttribute("cy");
+          const trailPoint = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          trailPoint.setAttribute("cx", ax);
+          trailPoint.setAttribute("cy", ay);
+          trailPoint.setAttribute("r", 4);
+          trailPoint.setAttribute("fill", "brown");
+          trailPoint.setAttribute("opacity", "0.5");
+          trailPoint.classList.add("trail");
+          // Insert the trail point before point A so that A remains on top.
+          svg.insertBefore(trailPoint, pointA);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

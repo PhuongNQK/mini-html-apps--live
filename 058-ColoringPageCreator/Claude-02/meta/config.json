@@ -9,7 +9,8 @@
     "assets/galleries/props.json",
     "assets/galleries/backgrounds.json",
     "assets/galleries/characters.json",
-    "assets/galleries/wearables.json"
+    "assets/galleries/wearables.json",
+    "assets/galleries/building-blocks.json"
   ],
   "autosaveSeconds": 120,
   "defaultSlideSize": "a4-landscape"

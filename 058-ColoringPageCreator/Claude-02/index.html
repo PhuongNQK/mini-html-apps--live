@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2b3a9e">
+  <title>Magic Color</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/print.css">
+</head>
+<body class="loading">
+  <div id="app">
+    <!-- ===== Top bar ===== -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-logo" aria-hidden="true">🏰</span>
+        <span class="brand-name" data-i18n="app.name">Magic Color</span>
+      </div>
+
+      <button id="projectName" class="project-name" type="button" data-i18n-title="project.settings" title="Project settings"></button>
+      <span id="saveStatus" class="save-status" role="status"></span>
+
+      <div class="bar-group">
+        <button class="tbtn" data-action="projects" type="button"><span aria-hidden="true">📂</span><span class="lbl" data-i18n="toolbar.projects">Projects</span></button>
+        <button class="tbtn" data-action="save" type="button" data-i18n-title="toolbar.saveTitle"><span aria-hidden="true">💾</span><span class="lbl" data-i18n="toolbar.save">Save</span></button>
+        <button class="tbtn" id="btnWorkdir" data-action="workdir" type="button" data-i18n-title="workdir.title"><span aria-hidden="true">🗃️</span><span class="lbl" id="workdirLabel"></span></button>
+      </div>
+
+      <div class="bar-group">
+        <button class="tbtn" data-action="undo" type="button" data-i18n-title="toolbar.undo"><span aria-hidden="true">↩️</span><span class="lbl" data-i18n="toolbar.undo">Undo</span></button>
+        <button class="tbtn" data-action="redo" type="button" data-i18n-title="toolbar.redo"><span aria-hidden="true">↪️</span><span class="lbl" data-i18n="toolbar.redo">Redo</span></button>
+      </div>
+
+      <div class="bar-group">
+        <div class="segmented" role="group" data-i18n-aria="mode.label">
+          <button type="button" data-mode="colored" data-i18n="mode.colored" aria-pressed="true">Colored</button>
+          <button type="button" data-mode="uncolored" data-i18n="mode.uncolored" aria-pressed="false">Uncolored</button>
+        </div>
+        <button class="tbtn swatch-btn" id="btnMono" type="button" data-i18n-title="toolbar.monoTitle"><span class="swatch" id="monoSwatch"></span><span class="lbl" data-i18n="toolbar.mono">Line color</span></button>
+        <button class="tbtn swatch-btn" id="btnBg" type="button" data-i18n-title="toolbar.bgTitle"><span class="swatch" id="bgSwatch"></span><span class="lbl" data-i18n="toolbar.bg">Canvas</span></button>
+      </div>
+
+      <div class="bar-group zoom-group">
+        <button class="tbtn icon" data-action="zoomOut" type="button" data-i18n-title="view.zoomOut">➖</button>
+        <input id="zoomSlider" type="range" min="10" max="400" step="1" value="100" data-i18n-aria="view.zoom">
+        <button class="tbtn icon" data-action="zoomIn" type="button" data-i18n-title="view.zoomIn">➕</button>
+        <span id="zoomLabel" class="zoom-label">100%</span>
+        <button class="tbtn" id="btnFit" data-action="fit" type="button" data-i18n-title="view.fitTitle"><span aria-hidden="true">🔍</span><span class="lbl" data-i18n="view.fit">Fit</span></button>
+      </div>
+
+      <div class="bar-group right">
+        <button class="tbtn" data-action="print" type="button" data-i18n-title="menu.print"><span aria-hidden="true">🖨️</span><span class="lbl" data-i18n="toolbar.print">Print</span></button>
+        <button class="tbtn" id="btnFullscreen" data-action="fullscreen" type="button" data-i18n-title="view.fullscreen"><span id="fullscreenIcon" aria-hidden="true">⛶</span><span class="lbl" data-i18n="view.fullscreenShort">Full screen</span></button>
+        <button class="tbtn" data-action="menu" type="button" data-i18n-title="menu.title" aria-haspopup="menu"><span aria-hidden="true">☰</span><span class="lbl" data-i18n="menu.title">Menu</span></button>
+      </div>
+    </header>
+
+    <!-- ===== Edit bar ===== -->
+    <div class="editbar" role="toolbar" data-i18n-aria="edit.label">
+      <button class="ebtn" data-action="duplicate" data-needs="sel" type="button" data-i18n-title="edit.duplicate"><span aria-hidden="true">📑</span><span class="lbl" data-i18n="edit.duplicate">Duplicate</span></button>
+      <button class="ebtn danger" data-action="delete" data-needs="sel" type="button" data-i18n-title="edit.delete"><span aria-hidden="true">🗑️</span><span class="lbl" data-i18n="edit.delete">Delete</span></button>
+      <span class="sep"></span>
+      <button class="ebtn" data-action="group" data-needs="multi" type="button" data-i18n-title="edit.group"><span aria-hidden="true">🧩</span><span class="lbl" data-i18n="edit.group">Group</span></button>
+      <button class="ebtn" data-action="ungroup" data-needs="group" type="button" data-i18n-title="edit.ungroup"><span aria-hidden="true">✂️</span><span class="lbl" data-i18n="edit.ungroup">Ungroup</span></button>
+      <span class="sep"></span>
+      <button class="ebtn" data-action="flipH" data-needs="sel" type="button" data-i18n-title="edit.flipH"><span aria-hidden="true">↔️</span><span class="lbl" data-i18n="edit.flipH">Flip H</span></button>
+      <button class="ebtn" data-action="flipV" data-needs="sel" type="button" data-i18n-title="edit.flipV"><span aria-hidden="true">↕️</span><span class="lbl" data-i18n="edit.flipV">Flip V</span></button>
+      <button class="ebtn" data-action="rotL" data-needs="sel" type="button" data-i18n-title="edit.rotL"><span aria-hidden="true">⟲</span><span class="lbl" data-i18n="edit.rotL">Rotate left</span></button>
+      <button class="ebtn" data-action="rotR" data-needs="sel" type="button" data-i18n-title="edit.rotR"><span aria-hidden="true">⟳</span><span class="lbl" data-i18n="edit.rotR">Rotate right</span></button>
+      <span class="sep"></span>
+      <button class="ebtn" data-action="front" data-needs="sel" type="button" data-i18n-title="edit.front"><span aria-hidden="true">⏫</span><span class="lbl" data-i18n="edit.front">To front</span></button>
+      <button class="ebtn" data-action="forward" data-needs="sel" type="button" data-i18n-title="edit.forward"><span aria-hidden="true">🔼</span><span class="lbl" data-i18n="edit.forward">Forward</span></button>
+      <button class="ebtn" data-action="backward" data-needs="sel" type="button" data-i18n-title="edit.backward"><span aria-hidden="true">🔽</span><span class="lbl" data-i18n="edit.backward">Backward</span></button>
+      <button class="ebtn" data-action="back" data-needs="sel" type="button" data-i18n-title="edit.back"><span aria-hidden="true">⏬</span><span class="lbl" data-i18n="edit.back">To back</span></button>
+      <span class="sep"></span>
+      <button class="ebtn accent" data-action="saveToGallery" data-needs="sel" type="button" data-i18n-title="edit.saveToGallery"><span aria-hidden="true">⭐</span><span class="lbl" data-i18n="edit.saveToGallery">Save to gallery</span></button>
+    </div>
+
+    <!-- ===== Main area ===== -->
+    <main class="main">
+      <aside id="galleryPanel" class="panel gallery-panel" data-i18n-aria="gallery.title"></aside>
+      <div id="splitter" class="splitter" role="separator" aria-orientation="vertical" tabindex="0" data-i18n-aria="splitter.label"></div>
+      <section class="stage">
+        <div id="workspace" class="workspace"></div>
+        <div id="slideBar" class="slidebar"></div>
+      </section>
+      <aside id="propsPanel" class="panel props-panel" data-i18n-aria="props.title"></aside>
+    </main>
+
+    <!-- ===== Mobile tab bar ===== -->
+    <nav class="mobile-tabs">
+      <button type="button" data-drawer="gallery"><span aria-hidden="true">🎨</span><span data-i18n="gallery.title">Gallery</span></button>
+      <button type="button" data-drawer="props"><span aria-hidden="true">🎛️</span><span data-i18n="props.title">Properties</span></button>
+    </nav>
+    <div id="drawerBackdrop" class="drawer-backdrop"></div>
+  </div>
+
+  <div id="printRoot" aria-hidden="true"></div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <div id="bootError" class="boot-error" hidden></div>
+  <div class="boot-loader" aria-hidden="true">🏰 ✨</div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

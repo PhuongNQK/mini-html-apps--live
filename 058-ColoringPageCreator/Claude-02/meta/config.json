@@ -1,0 +1,16 @@
+{
+  "appName": "Magic Color",
+  "defaultLanguage": "en",
+  "languages": [
+    { "code": "en", "name": "English", "file": "i18n/en.json" }
+  ],
+  "galleries": [
+    "assets/galleries/seasonal-extras.json",
+    "assets/galleries/props.json",
+    "assets/galleries/backgrounds.json",
+    "assets/galleries/characters.json",
+    "assets/galleries/wearables.json"
+  ],
+  "autosaveSeconds": 120,
+  "defaultSlideSize": "a4-landscape"
+}

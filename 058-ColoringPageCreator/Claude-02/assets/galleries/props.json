@@ -1,0 +1,652 @@
+[
+  {
+    "id": "obj_pumpkin",
+    "name": "Halloween Pumpkin",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"pumpkin-shape\"><path d=\"M 46 25 Q 50 10 58 12 Q 54 25 54 25 Z\" fill=\"#6BCB77\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"50\" cy=\"58\" rx=\"36\" ry=\"28\" fill=\"#FF9F43\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"58\" rx=\"24\" ry=\"28\" fill=\"#FF9F43\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"50\" cy=\"58\" rx=\"10\" ry=\"28\" fill=\"#FF9F43\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"34,48 42,48 38,40\" fill=\"#000000\"/><polygon points=\"66,48 58,48 62,40\" fill=\"#000000\"/><path d=\"M 32 62 Q 50 78 68 62 Q 50 70 32 62 Z\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_tree",
+    "name": "Christmas Tree",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"xmas-tree\"><rect x=\"44\" y=\"75\" width=\"12\" height=\"15\" fill=\"#8B4513\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"50,15 20,50 35,50 15,75 85,75 65,50 80,50\" fill=\"#6BCB77\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"35\" cy=\"58\" r=\"4\" fill=\"#FF6B6B\"/><circle cx=\"65\" cy=\"62\" r=\"4\" fill=\"#FFD166\"/><circle cx=\"50\" cy=\"38\" r=\"4\" fill=\"#4D96FF\"/><polygon points=\"50,8 52,14 58,14 53,18 55,24 50,20 45,24 47,18 42,14 48,14\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_apple",
+    "name": "Red Apple",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"apple\"><circle cx=\"50\" cy=\"55\" r=\"32\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 50 23 C 55 10 65 15 65 15\" fill=\"none\" stroke=\"#6A994E\" stroke-width=\"4\" stroke-linecap=\"round\"/><ellipse cx=\"58\" cy=\"22\" rx=\"8\" ry=\"4\" fill=\"#6A994E\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_banana",
+    "name": "Yellow Banana",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"banana\"><path d=\"M 20 25 C 20 75 75 80 85 50 C 70 70 30 60 25 25 Z\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "obj_car",
+    "name": "Toy Race Car",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"car\"><path d=\"M 15 60 L 25 40 L 45 30 L 65 30 L 80 45 L 90 60 Z\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"30\" cy=\"65\" r=\"10\" fill=\"#000000\"/><circle cx=\"70\" cy=\"65\" r=\"10\" fill=\"#000000\"/><circle cx=\"30\" cy=\"65\" r=\"4\" fill=\"#FFFFFF\"/><circle cx=\"70\" cy=\"65\" r=\"4\" fill=\"#FFFFFF\"/></g>"
+  },
+  {
+    "id": "obj_rocket",
+    "name": "Space Rocket",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"rocket\"><path d=\"M 50 15 C 30 40 30 65 30 75 L 70 75 C 70 65 70 40 50 15 Z\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"45\" r=\"10\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"30,60 15,75 30,75\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"70,60 85,75 70,75\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"40,75 50,90 60,75\" fill=\"#FFB703\"/></g>"
+  },
+  {
+    "id": "obj_ball",
+    "name": "Soccer Ball",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"ball\"><circle cx=\"50\" cy=\"50\" r=\"35\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"50,35 60,42 56,54 44,54 40,42\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_book",
+    "name": "Story Book",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"book\"><rect x=\"25\" y=\"20\" width=\"50\" height=\"60\" rx=\"5\" fill=\"#7209B7\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"35\" y1=\"20\" x2=\"35\" y2=\"80\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"45\" y1=\"35\" x2=\"65\" y2=\"35\" stroke=\"#FFFFFF\" stroke-width=\"3\"/><line x1=\"45\" y1=\"45\" x2=\"65\" y2=\"45\" stroke=\"#FFFFFF\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_pencil",
+    "name": "Yellow Pencil",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"pencil\"><polygon points=\"35,80 50,95 65,80\" fill=\"#F4E1D2\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"45,90 50,95 55,90\" fill=\"#000000\"/><rect x=\"35\" y=\"25\" width=\"30\" height=\"55\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"35\" y=\"10\" width=\"30\" height=\"15\" rx=\"3\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_gift",
+    "name": "Present Box",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"gift\"><rect x=\"20\" y=\"40\" width=\"60\" height=\"45\" rx=\"4\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"15\" y=\"30\" width=\"70\" height=\"12\" rx=\"3\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"3\"/><rect x=\"44\" y=\"30\" width=\"12\" height=\"55\" fill=\"#FFD166\"/><circle cx=\"50\" cy=\"22\" r=\"10\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_balloon",
+    "name": "Party Balloon",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"balloon\"><ellipse cx=\"50\" cy=\"45\" rx=\"28\" ry=\"34\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"50,79 45,85 55,85\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"2\"/><path d=\"M 50 85 Q 40 92 50 100\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_ice_cream",
+    "name": "Ice Cream Cone",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"ice_cream\"><polygon points=\"50,90 30,45 70,45\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"35\" r=\"20\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"18\" r=\"6\" fill=\"#E63946\"/></g>"
+  },
+  {
+    "id": "obj_lollipop",
+    "name": "Sweet Lollipop",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"lollipop\"><circle cx=\"50\" cy=\"38\" r=\"26\" fill=\"#F15BB5\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"38\" r=\"16\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"4\"/><line x1=\"50\" y1=\"64\" x2=\"50\" y2=\"95\" stroke=\"#000000\" stroke-width=\"5\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "obj_clock",
+    "name": "Alarm Clock",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"clock\"><circle cx=\"50\" cy=\"55\" r=\"30\" fill=\"#4EA8DE\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"25\" cy=\"25\" r=\"8\" fill=\"#4EA8DE\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"75\" cy=\"25\" r=\"8\" fill=\"#4EA8DE\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"50\" y1=\"55\" x2=\"50\" y2=\"38\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/><line x1=\"50\" y1=\"55\" x2=\"62\" y2=\"55\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "obj_key",
+    "name": "Golden Key",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"key\"><circle cx=\"35\" cy=\"50\" r=\"18\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"35\" cy=\"50\" r=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><rect x=\"53\" y=\"46\" width=\"32\" height=\"8\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/><rect x=\"73\" y=\"54\" width=\"6\" height=\"10\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/><rect x=\"63\" y=\"54\" width=\"6\" height=\"8\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_umbrella",
+    "name": "Rain Umbrella",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"umbrella\"><path d=\"M 15 50 C 15 20 85 20 85 50 Z\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"50\" y1=\"50\" x2=\"50\" y2=\"85\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 50 85 C 50 95 38 95 38 88\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "obj_flower",
+    "name": "Daisy Flower",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"flower\"><circle cx=\"50\" cy=\"50\" r=\"12\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"26\" r=\"12\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"74\" cy=\"50\" r=\"12\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"74\" r=\"12\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"26\" cy=\"50\" r=\"12\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_guitar",
+    "name": "Acoustic Guitar",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"guitar\"><ellipse cx=\"50\" cy=\"68\" rx=\"24\" ry=\"20\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"46\" y=\"15\" width=\"8\" height=\"40\" fill=\"#6C584C\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"65\" r=\"6\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_drum",
+    "name": "Toy Drum",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"drum\"><ellipse cx=\"50\" cy=\"30\" rx=\"32\" ry=\"12\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"18\" y=\"30\" width=\"64\" height=\"45\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"75\" rx=\"32\" ry=\"12\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"18\" y1=\"30\" x2=\"50\" y2=\"75\" stroke=\"#000000\" stroke-width=\"2\"/><line x1=\"82\" y1=\"30\" x2=\"50\" y2=\"75\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_bell",
+    "name": "Golden Bell",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"bell\"><path d=\"M 25 70 C 25 30 75 30 75 70 Z\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"20\" y=\"70\" width=\"60\" height=\"8\" rx=\"4\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"83\" r=\"6\" fill=\"#000000\"/><circle cx=\"50\" cy=\"22\" r=\"5\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_camera",
+    "name": "Photo Camera",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"camera\"><rect x=\"20\" y=\"35\" width=\"60\" height=\"45\" rx=\"8\" fill=\"#457B9D\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"35\" y=\"25\" width=\"30\" height=\"10\" rx=\"3\" fill=\"#3D405B\"/><circle cx=\"50\" cy=\"57\" r=\"16\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"57\" r=\"8\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_flashlight",
+    "name": "Flashlight",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"flashlight\"><rect x=\"35\" y=\"40\" width=\"30\" height=\"45\" rx=\"5\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"30,20 70,20 65,40 35,40\" fill=\"#3D405B\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_magnifier",
+    "name": "Magnifying Glass",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"magnifier\"><circle cx=\"42\" cy=\"42\" r=\"26\" fill=\"none\" stroke=\"#000000\" stroke-width=\"6\"/><line x1=\"60\" y1=\"60\" x2=\"85\" y2=\"85\" stroke=\"#000000\" stroke-width=\"10\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "obj_scissors",
+    "name": "Craft Scissors",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"scissors\"><circle cx=\"30\" cy=\"75\" r=\"12\" fill=\"none\" stroke=\"#FF4D6D\" stroke-width=\"5\"/><circle cx=\"70\" cy=\"75\" r=\"12\" fill=\"none\" stroke=\"#FF4D6D\" stroke-width=\"5\"/><polygon points=\"30,65 50,40 45,15\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"70,65 50,40 55,15\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"42\" r=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_paint_palette",
+    "name": "Artist Palette",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"paint_palette\"><ellipse cx=\"50\" cy=\"50\" rx=\"38\" ry=\"28\" fill=\"#F8EDEB\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"72\" cy=\"60\" r=\"7\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"30\" cy=\"40\" r=\"5\" fill=\"#FF595E\"/><circle cx=\"45\" cy=\"35\" r=\"5\" fill=\"#FFD166\"/><circle cx=\"60\" cy=\"38\" r=\"5\" fill=\"#4895EF\"/><circle cx=\"35\" cy=\"58\" r=\"5\" fill=\"#70E000\"/></g>"
+  },
+  {
+    "id": "obj_telescope",
+    "name": "Space Telescope",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"telescope\"><polygon points=\"20,25 75,45 70,60 15,40\" fill=\"#1D3557\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"45\" y1=\"50\" x2=\"30\" y2=\"85\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"45\" y1=\"50\" x2=\"60\" y2=\"85\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "obj_microscope",
+    "name": "Science Microscope",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"microscope\"><rect x=\"30\" y=\"80\" width=\"40\" height=\"10\" rx=\"3\" fill=\"#2B2D42\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 50 80 C 70 80 70 40 55 35\" fill=\"none\" stroke=\"#000000\" stroke-width=\"6\"/><rect x=\"35\" y=\"15\" width=\"16\" height=\"30\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_compass",
+    "name": "Explorer Compass",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"compass\"><circle cx=\"50\" cy=\"50\" r=\"32\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"50,25 56,50 50,75 44,50\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_anchor",
+    "name": "Ship Anchor",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"anchor\"><line x1=\"50\" y1=\"20\" x2=\"50\" y2=\"75\" stroke=\"#457B9D\" stroke-width=\"8\"/><circle cx=\"50\" cy=\"18\" r=\"8\" fill=\"none\" stroke=\"#457B9D\" stroke-width=\"4\"/><path d=\"M 20 55 C 20 85 80 85 80 55\" fill=\"none\" stroke=\"#457B9D\" stroke-width=\"8\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "obj_trophy",
+    "name": "Winner Trophy",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"trophy\"><path d=\"M 30 20 L 70 20 L 65 55 C 60 70 40 70 35 55 Z\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"44\" y=\"65\" width=\"12\" height=\"15\" fill=\"#6C584C\"/><rect x=\"30\" y=\"80\" width=\"40\" height=\"12\" fill=\"#3D405B\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_crown_jewel",
+    "name": "Treasure Gem",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"crown_jewel\"><polygon points=\"30,30 70,30 85,50 50,85 15,50\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"15\" y1=\"50\" x2=\"85\" y2=\"50\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"30\" y1=\"30\" x2=\"50\" y2=\"85\" stroke=\"#000000\" stroke-width=\"2\"/><line x1=\"70\" y1=\"30\" x2=\"50\" y2=\"85\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_magic_wand",
+    "name": "Magic Wand",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"magic_wand\"><line x1=\"20\" y1=\"80\" x2=\"65\" y2=\"35\" stroke=\"#6C584C\" stroke-width=\"6\" stroke-linecap=\"round\"/><polygon points=\"75,15 78,25 88,25 80,31 83,40 75,34 67,40 70,31 62,25 72,25\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_teddy_toy",
+    "name": "Plush Teddy",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"teddy_toy\"><circle cx=\"50\" cy=\"55\" r=\"25\" fill=\"#C49A6C\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"35\" cy=\"32\" r=\"10\" fill=\"#C49A6C\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"65\" cy=\"32\" r=\"10\" fill=\"#C49A6C\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"42\" cy=\"50\" r=\"3\" fill=\"#000000\"/><circle cx=\"58\" cy=\"50\" r=\"3\" fill=\"#000000\"/><ellipse cx=\"50\" cy=\"58\" rx=\"8\" ry=\"6\" fill=\"#F4E1D2\"/></g>"
+  },
+  {
+    "id": "obj_blocks",
+    "name": "Building Blocks",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"blocks\"><rect x=\"15\" y=\"45\" width=\"35\" height=\"35\" rx=\"4\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"50\" y=\"45\" width=\"35\" height=\"35\" rx=\"4\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"32,15 15,45 50,45\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "obj_train",
+    "name": "Toy Train Engine",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"train\"><rect x=\"20\" y=\"40\" width=\"55\" height=\"35\" rx=\"4\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"50\" y=\"25\" width=\"25\" height=\"50\" rx=\"4\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"32\" cy=\"80\" r=\"8\" fill=\"#000000\"/><circle cx=\"65\" cy=\"80\" r=\"8\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_plane",
+    "name": "Paper Airplane",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"plane\"><polygon points=\"15,45 85,20 50,80 45,55\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"45\" y1=\"55\" x2=\"85\" y2=\"20\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_sailboat",
+    "name": "Toy Sailboat",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"sailboat\"><path d=\"M 20 65 L 80 65 L 70 85 L 30 85 Z\" fill=\"#6C584C\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"48,15 48,60 80,60\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"48\" y1=\"10\" x2=\"48\" y2=\"65\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_kite",
+    "name": "Flying Kite",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"kite\"><polygon points=\"50,15 80,50 50,85 20,50\" fill=\"#F15BB5\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"50\" y1=\"15\" x2=\"50\" y2=\"85\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"20\" y1=\"50\" x2=\"80\" y2=\"50\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_yoyo",
+    "name": "Spinning Yo-Yo",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"yoyo\"><circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"#70E000\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"16\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 50 20 Q 30 10 20 25\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_pinwheel",
+    "name": "Rainbow Pinwheel",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"pinwheel\"><polygon points=\"50,50 50,20 70,35\" fill=\"#FF595E\"/><polygon points=\"50,50 80,50 65,70\" fill=\"#FFD166\"/><polygon points=\"50,50 50,80 30,65\" fill=\"#4895EF\"/><polygon points=\"50,50 20,50 35,30\" fill=\"#70E000\"/><circle cx=\"50\" cy=\"50\" r=\"5\" fill=\"#000000\"/><line x1=\"50\" y1=\"50\" x2=\"50\" y2=\"90\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "obj_rubik",
+    "name": "Puzzle Cube",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"rubik\"><rect x=\"25\" y=\"25\" width=\"50\" height=\"50\" rx=\"4\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"41\" y1=\"25\" x2=\"41\" y2=\"75\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"58\" y1=\"25\" x2=\"58\" y2=\"75\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"25\" y1=\"41\" x2=\"75\" y2=\"41\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"25\" y1=\"58\" x2=\"75\" y2=\"58\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_watermelon",
+    "name": "Watermelon Slice",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"watermelon\"><path d=\"M 15 35 C 15 80 85 80 85 35 Z\" fill=\"#FF4D6D\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 15 35 C 15 72 85 72 85 35 Z\" fill=\"#52B788\"/><circle cx=\"35\" cy=\"50\" r=\"3\" fill=\"#000000\"/><circle cx=\"50\" cy=\"58\" r=\"3\" fill=\"#000000\"/><circle cx=\"65\" cy=\"50\" r=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "obj_pizza",
+    "name": "Pizza Slice",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"pizza\"><polygon points=\"50,85 20,25 80,25\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"45\" cy=\"40\" r=\"5\" fill=\"#E63946\"/><circle cx=\"60\" cy=\"52\" r=\"5\" fill=\"#E63946\"/><circle cx=\"40\" cy=\"62\" r=\"5\" fill=\"#E63946\"/></g>"
+  },
+  {
+    "id": "obj_burger",
+    "name": "Yummy Burger",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"burger\"><path d=\"M 20 40 C 20 20 80 20 80 40 Z\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"18\" y=\"42\" width=\"64\" height=\"10\" rx=\"4\" fill=\"#6A994E\" stroke=\"#000000\" stroke-width=\"3\"/><rect x=\"15\" y=\"54\" width=\"70\" height=\"12\" rx=\"4\" fill=\"#6C584C\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 20 68 C 20 80 80 80 80 68 Z\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "obj_fries",
+    "name": "Crispy French Fries",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"fries\"><polygon points=\"25,45 30,85 70,85 75,45\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"30\" y=\"20\" width=\"8\" height=\"30\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/><rect x=\"42\" y=\"15\" width=\"8\" height=\"35\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/><rect x=\"54\" y=\"22\" width=\"8\" height=\"30\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "obj_cookie",
+    "name": "Chocolate Chip Cookie",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"cookie\"><circle cx=\"50\" cy=\"50\" r=\"32\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"40\" r=\"4\" fill=\"#6C584C\"/><circle cx=\"60\" cy=\"42\" r=\"5\" fill=\"#6C584C\"/><circle cx=\"42\" cy=\"62\" r=\"4\" fill=\"#6C584C\"/><circle cx=\"62\" cy=\"60\" r=\"4.5\" fill=\"#6C584C\"/></g>"
+  },
+  {
+    "id": "obj_candy",
+    "name": "Wrapped Candy",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"candy\"><rect x=\"30\" y=\"38\" width=\"40\" height=\"24\" rx=\"12\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"30,50 15,35 15,65\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"70,50 85,35 85,65\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "obj_teapot",
+    "name": "Cute Teapot",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"teapot\"><ellipse cx=\"50\" cy=\"55\" rx=\"28\" ry=\"22\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 75 50 Q 90 40 85 65\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 25 50 Q 10 40 15 30\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"32\" rx=\"14\" ry=\"5\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"24\" r=\"4\" fill=\"#FFD166\"/></g>"
+  },
+  {
+    "id": "obj_cup",
+    "name": "Hot Cocoa Mug",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"cup\"><rect x=\"25\" y=\"30\" width=\"45\" height=\"50\" rx=\"8\" fill=\"#FF6B6B\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 70 40 C 85 40 85 65 70 65\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "obj_backpack",
+    "name": "School Backpack",
+    "category": "props",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"backpack\"><rect x=\"25\" y=\"25\" width=\"50\" height=\"60\" rx=\"15\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"32\" y=\"55\" width=\"36\" height=\"22\" rx=\"5\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 40 25 C 40 15 60 15 60 25\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  }
+]

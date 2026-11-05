@@ -1,0 +1,652 @@
+[
+  {
+    "id": "char_ghost",
+    "name": "Cute Ghost",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"ghost-shape\"><path d=\"M 50 10 C 25 10, 15 35, 15 65 C 15 85, 25 90, 30 85 C 35 80, 40 85, 50 85 C 60 85, 65 80, 70 85 C 75 90, 85 85, 85 65 C 85 35, 75 10, 50 10 Z\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"38\" cy=\"42\" rx=\"4\" ry=\"6\" fill=\"#000000\"/><ellipse cx=\"62\" cy=\"42\" rx=\"4\" ry=\"6\" fill=\"#000000\"/><ellipse cx=\"50\" cy=\"54\" rx=\"6\" ry=\"4\" fill=\"#FF6B6B\"/><circle cx=\"30\" cy=\"50\" r=\"4\" fill=\"#FFB6C1\" opacity=\"0.6\"/><circle cx=\"70\" cy=\"50\" r=\"4\" fill=\"#FFB6C1\" opacity=\"0.6\"/></g>"
+  },
+  {
+    "id": "char_cat",
+    "name": "Cute Kitty Cat",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"cat-shape\"><polygon points=\"20,40 35,10 45,35\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"80,40 65,10 55,35\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"25,37 35,17 42,34\" fill=\"#FFB6C1\"/><polygon points=\"75,37 65,17 58,34\" fill=\"#FFB6C1\"/><ellipse cx=\"50\" cy=\"55\" rx=\"35\" ry=\"30\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"38\" cy=\"48\" rx=\"4\" ry=\"6\" fill=\"#000000\"/><ellipse cx=\"62\" cy=\"48\" rx=\"4\" ry=\"6\" fill=\"#000000\"/><circle cx=\"39\" cy=\"46\" r=\"1.5\" fill=\"#FFFFFF\"/><circle cx=\"63\" cy=\"46\" r=\"1.5\" fill=\"#FFFFFF\"/><polygon points=\"50,56 46,52 54,52\" fill=\"#FF6B6B\"/><path d=\"M 45 60 Q 50 64 50 60 Q 50 64 55 60\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"15\" y1=\"52\" x2=\"28\" y2=\"54\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"15\" y1=\"60\" x2=\"28\" y2=\"58\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"85\" y1=\"52\" x2=\"72\" y2=\"54\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"85\" y1=\"60\" x2=\"72\" y2=\"58\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_puppy",
+    "name": "Friendly Dog",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"dog-shape\"><ellipse cx=\"18\" cy=\"50\" rx=\"10\" ry=\"22\" fill=\"#845EC2\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"82\" cy=\"50\" rx=\"10\" ry=\"22\" fill=\"#845EC2\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"48\" r=\"32\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"58\" rx=\"16\" ry=\"12\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"50\" cy=\"53\" rx=\"6\" ry=\"4\" fill=\"#000000\"/><circle cx=\"38\" cy=\"42\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"42\" r=\"4\" fill=\"#000000\"/><path d=\"M 46 62 Q 50 67 54 62\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "char_bear",
+    "name": "Teddy Bear",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_bear\"><circle cx=\"25\" cy=\"25\" r=\"12\" fill=\"#C49A6C\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"75\" cy=\"25\" r=\"12\" fill=\"#C49A6C\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"25\" cy=\"25\" r=\"6\" fill=\"#FFB6C1\"/><circle cx=\"75\" cy=\"25\" r=\"6\" fill=\"#FFB6C1\"/><circle cx=\"50\" cy=\"55\" r=\"32\" fill=\"#C49A6C\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"63\" rx=\"16\" ry=\"12\" fill=\"#F4E1D2\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"50\" cy=\"58\" rx=\"5\" ry=\"4\" fill=\"#000000\"/><circle cx=\"38\" cy=\"48\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"48\" r=\"4\" fill=\"#000000\"/><path d=\"M 46 68 Q 50 72 54 68\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "char_bunny",
+    "name": "Cute Bunny",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_bunny\"><ellipse cx=\"35\" cy=\"25\" rx=\"8\" ry=\"22\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"65\" cy=\"25\" rx=\"8\" ry=\"22\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"35\" cy=\"25\" rx=\"4\" ry=\"15\" fill=\"#FFB6C1\"/><ellipse cx=\"65\" cy=\"25\" rx=\"4\" ry=\"15\" fill=\"#FFB6C1\"/><circle cx=\"50\" cy=\"60\" r=\"28\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"52\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"52\" r=\"4\" fill=\"#000000\"/><polygon points=\"50,60 46,56 54,56\" fill=\"#FF6B6B\"/><path d=\"M 45 64 Q 50 68 55 64\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "char_panda",
+    "name": "Playful Panda",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_panda\"><circle cx=\"25\" cy=\"25\" r=\"12\" fill=\"#000000\"/><circle cx=\"75\" cy=\"25\" r=\"12\" fill=\"#000000\"/><circle cx=\"50\" cy=\"55\" r=\"32\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"38\" cy=\"48\" rx=\"7\" ry=\"10\" fill=\"#000000\"/><ellipse cx=\"62\" cy=\"48\" rx=\"7\" ry=\"10\" fill=\"#000000\"/><circle cx=\"38\" cy=\"46\" r=\"3\" fill=\"#FFFFFF\"/><circle cx=\"62\" cy=\"46\" r=\"3\" fill=\"#FFFFFF\"/><ellipse cx=\"50\" cy=\"62\" rx=\"6\" ry=\"4\" fill=\"#000000\"/><path d=\"M 45 68 Q 50 72 55 68\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_pig",
+    "name": "Happy Piggy",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_pig\"><polygon points=\"20,25 35,20 30,38\" fill=\"#FFADAD\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"80,25 65,20 70,38\" fill=\"#FFADAD\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"55\" r=\"32\" fill=\"#FFADAD\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"60\" rx=\"14\" ry=\"10\" fill=\"#FF85A1\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"45\" cy=\"60\" rx=\"3\" ry=\"4\" fill=\"#000000\"/><ellipse cx=\"55\" cy=\"60\" rx=\"3\" ry=\"4\" fill=\"#000000\"/><circle cx=\"36\" cy=\"45\" r=\"4\" fill=\"#000000\"/><circle cx=\"64\" cy=\"45\" r=\"4\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_frog",
+    "name": "Smiley Frog",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_frog\"><circle cx=\"30\" cy=\"28\" r=\"14\" fill=\"#CAFFBF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"70\" cy=\"28\" r=\"14\" fill=\"#CAFFBF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"30\" cy=\"28\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"70\" cy=\"28\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"30\" cy=\"28\" r=\"3\" fill=\"#000000\"/><circle cx=\"70\" cy=\"28\" r=\"3\" fill=\"#000000\"/><ellipse cx=\"50\" cy=\"60\" rx=\"36\" ry=\"25\" fill=\"#CAFFBF\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 30 60 Q 50 78 70 60\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"28\" cy=\"60\" r=\"5\" fill=\"#FF85A1\" opacity=\"0.6\"/><circle cx=\"72\" cy=\"60\" r=\"5\" fill=\"#FF85A1\" opacity=\"0.6\"/></g>"
+  },
+  {
+    "id": "char_lion",
+    "name": "Brave Lion",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_lion\"><circle cx=\"50\" cy=\"50\" r=\"38\" fill=\"#F97316\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"26\" fill=\"#FDFFB6\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"40\" cy=\"44\" r=\"3\" fill=\"#000000\"/><circle cx=\"60\" cy=\"44\" r=\"3\" fill=\"#000000\"/><polygon points=\"50,52 45,47 55,47\" fill=\"#000000\"/><path d=\"M 45 56 Q 50 62 55 56\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_monkey",
+    "name": "Cheeky Monkey",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_monkey\"><circle cx=\"20\" cy=\"45\" r=\"12\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"45\" r=\"12\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"20\" cy=\"45\" r=\"6\" fill=\"#FFE5D9\"/><circle cx=\"80\" cy=\"45\" r=\"6\" fill=\"#FFE5D9\"/><circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"56\" rx=\"20\" ry=\"16\" fill=\"#FFE5D9\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"40\" cy=\"42\" r=\"4\" fill=\"#000000\"/><circle cx=\"60\" cy=\"42\" r=\"4\" fill=\"#000000\"/><ellipse cx=\"50\" cy=\"52\" rx=\"4\" ry=\"3\" fill=\"#000000\"/><path d=\"M 44 60 Q 50 66 56 60\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_owl",
+    "name": "Wise Owl",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_owl\"><ellipse cx=\"50\" cy=\"55\" rx=\"30\" ry=\"35\" fill=\"#9BF6FF\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"25,25 35,30 22,40\" fill=\"#9BF6FF\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"75,25 65,30 78,40\" fill=\"#9BF6FF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"38\" cy=\"45\" r=\"12\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"62\" cy=\"45\" r=\"12\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"38\" cy=\"45\" r=\"5\" fill=\"#000000\"/><circle cx=\"62\" cy=\"45\" r=\"5\" fill=\"#000000\"/><polygon points=\"50,52 44,60 56,60\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"2\"/><path d=\"M 35 70 Q 50 82 65 70\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_duck",
+    "name": "Rubber Ducky",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_duck\"><circle cx=\"50\" cy=\"40\" r=\"25\" fill=\"#FFD6A5\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 25 55 C 25 75 75 75 75 55 Z\" fill=\"#FFD6A5\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"35\" r=\"4\" fill=\"#000000\"/><ellipse cx=\"62\" cy=\"42\" rx=\"12\" ry=\"6\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_penguin",
+    "name": "Little Penguin",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_penguin\"><ellipse cx=\"50\" cy=\"50\" rx=\"30\" ry=\"38\" fill=\"#2B2D42\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"54\" rx=\"20\" ry=\"28\" fill=\"#FFFFFF\"/><circle cx=\"40\" cy=\"35\" r=\"4\" fill=\"#000000\"/><circle cx=\"60\" cy=\"35\" r=\"4\" fill=\"#000000\"/><polygon points=\"50,40 44,46 56,46\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "char_koala",
+    "name": "Sleepy Koala",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_koala\"><circle cx=\"20\" cy=\"30\" r=\"15\" fill=\"#BDB2FF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"30\" r=\"15\" fill=\"#BDB2FF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"20\" cy=\"30\" r=\"8\" fill=\"#FFFFFF\"/><circle cx=\"80\" cy=\"30\" r=\"8\" fill=\"#FFFFFF\"/><circle cx=\"50\" cy=\"55\" r=\"30\" fill=\"#BDB2FF\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"52\" rx=\"8\" ry=\"14\" fill=\"#2B2D42\"/><circle cx=\"36\" cy=\"45\" r=\"3\" fill=\"#000000\"/><circle cx=\"64\" cy=\"45\" r=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_fox",
+    "name": "Clever Fox",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_fox\"><polygon points=\"20,20 35,45 15,45\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"80,20 65,45 85,45\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"50,85 15,40 85,40\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"50,85 30,55 70,55\" fill=\"#FFFFFF\"/><circle cx=\"50\" cy=\"80\" r=\"5\" fill=\"#000000\"/><circle cx=\"35\" cy=\"48\" r=\"4\" fill=\"#000000\"/><circle cx=\"65\" cy=\"48\" r=\"4\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_chick",
+    "name": "Baby Chick",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_chick\"><circle cx=\"50\" cy=\"50\" r=\"32\" fill=\"#FFEA00\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"45\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"45\" r=\"4\" fill=\"#000000\"/><polygon points=\"50,48 44,56 56,56\" fill=\"#FF6B6B\" stroke=\"#000000\" stroke-width=\"2\"/><ellipse cx=\"20\" cy=\"55\" rx=\"6\" ry=\"12\" fill=\"#FFEA00\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"80\" cy=\"55\" rx=\"6\" ry=\"12\" fill=\"#FFEA00\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_elephant",
+    "name": "Tiny Elephant",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_elephant\"><circle cx=\"20\" cy=\"45\" r=\"16\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"45\" r=\"16\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"42\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"42\" r=\"4\" fill=\"#000000\"/><path d=\"M 46 52 C 46 75 58 75 58 65\" fill=\"none\" stroke=\"#A8DADC\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M 46 52 C 46 75 58 75 58 65\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "char_hippo",
+    "name": "Happy Hippo",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_hippo\"><circle cx=\"50\" cy=\"42\" r=\"28\" fill=\"#CDB4DB\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"65\" rx=\"32\" ry=\"20\" fill=\"#CDB4DB\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"38\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"38\" r=\"4\" fill=\"#000000\"/><circle cx=\"40\" cy=\"62\" r=\"3\" fill=\"#000000\"/><circle cx=\"60\" cy=\"62\" r=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_cow",
+    "name": "Spotted Cow",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_cow\"><ellipse cx=\"20\" cy=\"30\" rx=\"12\" ry=\"6\" fill=\"#F1FAEE\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"80\" cy=\"30\" rx=\"12\" ry=\"6\" fill=\"#F1FAEE\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"48\" r=\"30\" fill=\"#F1FAEE\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"35\" cy=\"35\" r=\"8\" fill=\"#000000\"/><ellipse cx=\"50\" cy=\"62\" rx=\"22\" ry=\"14\" fill=\"#FFB6C1\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"42\" cy=\"42\" r=\"3\" fill=\"#000000\"/><circle cx=\"58\" cy=\"42\" r=\"3\" fill=\"#000000\"/><circle cx=\"44\" cy=\"60\" r=\"2.5\" fill=\"#000000\"/><circle cx=\"56\" cy=\"60\" r=\"2.5\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_sheep",
+    "name": "Fluffy Sheep",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_sheep\"><circle cx=\"30\" cy=\"35\" r=\"16\" fill=\"#F8EDEB\"/><circle cx=\"70\" cy=\"35\" r=\"16\" fill=\"#F8EDEB\"/><circle cx=\"50\" cy=\"25\" r=\"16\" fill=\"#F8EDEB\"/><circle cx=\"30\" cy=\"65\" r=\"16\" fill=\"#F8EDEB\"/><circle cx=\"70\" cy=\"65\" r=\"16\" fill=\"#F8EDEB\"/><circle cx=\"50\" cy=\"75\" r=\"16\" fill=\"#F8EDEB\"/><ellipse cx=\"50\" cy=\"50\" rx=\"28\" ry=\"24\" fill=\"#F8EDEB\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"52\" rx=\"18\" ry=\"20\" fill=\"#FFE5D9\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"42\" cy=\"46\" r=\"3\" fill=\"#000000\"/><circle cx=\"58\" cy=\"46\" r=\"3\" fill=\"#000000\"/><path d=\"M 46 58 Q 50 62 54 58\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_mouse",
+    "name": "Little Mouse",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_mouse\"><circle cx=\"22\" cy=\"25\" r=\"16\" fill=\"#E2ECE9\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"78\" cy=\"25\" r=\"16\" fill=\"#E2ECE9\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"22\" cy=\"25\" r=\"9\" fill=\"#FFB6C1\"/><circle cx=\"78\" cy=\"25\" r=\"9\" fill=\"#FFB6C1\"/><circle cx=\"50\" cy=\"58\" r=\"28\" fill=\"#E2ECE9\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"50\" r=\"3.5\" fill=\"#000000\"/><circle cx=\"60\" cy=\"50\" r=\"3.5\" fill=\"#000000\"/><circle cx=\"50\" cy=\"62\" r=\"4\" fill=\"#FF6B6B\"/></g>"
+  },
+  {
+    "id": "char_tiger",
+    "name": "Baby Tiger",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_tiger\"><circle cx=\"50\" cy=\"50\" r=\"34\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 30 22 L 35 32 M 50 18 L 50 30 M 70 22 L 65 32\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/><ellipse cx=\"50\" cy=\"62\" rx=\"16\" ry=\"12\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"38\" cy=\"46\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"46\" r=\"4\" fill=\"#000000\"/><polygon points=\"50,58 45,54 55,54\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_giraffe",
+    "name": "Tall Giraffe",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_giraffe\"><rect x=\"42\" y=\"45\" width=\"16\" height=\"40\" fill=\"#FFE459\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"35\" r=\"22\" fill=\"#FFE459\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"42\" cy=\"30\" r=\"3\" fill=\"#000000\"/><circle cx=\"58\" cy=\"30\" r=\"3\" fill=\"#000000\"/><ellipse cx=\"50\" cy=\"42\" rx=\"12\" ry=\"8\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"47\" cy=\"55\" r=\"3\" fill=\"#8D4925\"/><circle cx=\"53\" cy=\"70\" r=\"4\" fill=\"#8D4925\"/></g>"
+  },
+  {
+    "id": "char_zebra",
+    "name": "Striped Zebra",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_zebra\"><circle cx=\"50\" cy=\"45\" r=\"32\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 22 45 L 35 43 M 20 55 L 32 52 M 78 45 L 65 43 M 80 55 L 68 52\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"38\" cy=\"38\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"38\" r=\"4\" fill=\"#000000\"/><ellipse cx=\"50\" cy=\"58\" rx=\"16\" ry=\"12\" fill=\"#E9ECEF\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"50\" cy=\"54\" rx=\"5\" ry=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_octopus",
+    "name": "Friendly Octopus",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_octopus\"><path d=\"M 20 50 C 20 20 80 20 80 50 C 80 60 70 65 70 75 M 30 50 C 30 65 20 70 20 80 M 50 50 L 50 82\" stroke=\"#FF85A1\" stroke-width=\"12\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"42\" r=\"30\" fill=\"#FF85A1\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"38\" r=\"5\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"62\" cy=\"38\" r=\"5\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"38\" cy=\"38\" r=\"2\" fill=\"#000000\"/><circle cx=\"62\" cy=\"38\" r=\"2\" fill=\"#000000\"/><path d=\"M 44 48 Q 50 54 56 48\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_whale",
+    "name": "Happy Whale",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_whale\"><path d=\"M 15 55 C 15 25 75 25 85 55 C 85 70 65 75 50 75 C 30 75 15 70 15 55 Z\" fill=\"#4EA8DE\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"68\" cy=\"50\" r=\"4\" fill=\"#000000\"/><path d=\"M 15 55 Q 5 45 10 35 M 15 55 Q 5 65 10 75\" fill=\"none\" stroke=\"#4EA8DE\" stroke-width=\"6\" stroke-linecap=\"round\"/><path d=\"M 60 58 Q 66 64 72 58\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_crab",
+    "name": "Little Crab",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_crab\"><ellipse cx=\"50\" cy=\"55\" rx=\"30\" ry=\"20\" fill=\"#FF6B6B\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"35\" cy=\"28\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"65\" cy=\"28\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"35\" cy=\"28\" r=\"2.5\" fill=\"#000000\"/><circle cx=\"65\" cy=\"28\" r=\"2.5\" fill=\"#000000\"/><path d=\"M 20 45 Q 10 35 15 25 Q 25 35 25 48 M 80 45 Q 90 35 85 25 Q 75 35 75 48\" fill=\"#FF6B6B\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 40 60 Q 50 66 60 60\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_turtle",
+    "name": "Tiny Turtle",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_turtle\"><ellipse cx=\"50\" cy=\"50\" rx=\"32\" ry=\"25\" fill=\"#52B788\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"82\" cy=\"50\" r=\"10\" fill=\"#95D5B2\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"84\" cy=\"47\" r=\"2\" fill=\"#000000\"/><circle cx=\"25\" cy=\"32\" r=\"7\" fill=\"#95D5B2\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"75\" cy=\"32\" r=\"7\" fill=\"#95D5B2\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"25\" cy=\"68\" r=\"7\" fill=\"#95D5B2\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"75\" cy=\"68\" r=\"7\" fill=\"#95D5B2\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_bee",
+    "name": "Buzzy Bee",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_bee\"><ellipse cx=\"50\" cy=\"55\" rx=\"28\" ry=\"22\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 42 34 L 42 76 M 58 34 L 58 76\" stroke=\"#000000\" stroke-width=\"6\"/><ellipse cx=\"40\" cy=\"25\" rx=\"10\" ry=\"16\" fill=\"#E0AAFF\" opacity=\"0.7\" stroke=\"#000000\" stroke-width=\"2\"/><ellipse cx=\"60\" cy=\"25\" rx=\"10\" ry=\"16\" fill=\"#E0AAFF\" opacity=\"0.7\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"32\" cy=\"50\" r=\"3\" fill=\"#000000\"/><circle cx=\"32\" cy=\"60\" r=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_ladybug",
+    "name": "Spotted Ladybug",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_ladybug\"><circle cx=\"50\" cy=\"58\" r=\"28\" fill=\"#FF4D6D\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"50\" y1=\"30\" x2=\"50\" y2=\"86\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"26\" r=\"12\" fill=\"#000000\"/><circle cx=\"38\" cy=\"48\" r=\"5\" fill=\"#000000\"/><circle cx=\"62\" cy=\"48\" r=\"5\" fill=\"#000000\"/><circle cx=\"36\" cy=\"68\" r=\"4\" fill=\"#000000\"/><circle cx=\"64\" cy=\"68\" r=\"4\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_butterfly",
+    "name": "Flutter Butterfly",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_butterfly\"><path d=\"M 50 50 Q 15 15 20 45 Q 20 65 50 55 M 50 50 Q 85 15 80 45 Q 80 65 50 55\" fill=\"#B5179E\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 50 50 Q 20 60 25 80 Q 45 85 50 55 M 50 50 Q 80 60 75 80 Q 55 85 50 55\" fill=\"#FF9EAA\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"50\" rx=\"4\" ry=\"25\" fill=\"#000000\"/><circle cx=\"50\" cy=\"22\" r=\"4\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_dino",
+    "name": "Baby Dino",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_dino\"><path d=\"M 25 75 C 20 45 40 20 65 20 C 80 20 85 35 75 45 C 65 50 70 75 45 75 Z\" fill=\"#70E000\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"68\" cy=\"30\" r=\"3.5\" fill=\"#000000\"/><path d=\"M 35 25 L 30 15 L 42 22 M 48 20 L 48 8 M 58 20 L 62 10\" stroke=\"#FF595E\" stroke-width=\"4\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "char_dragon",
+    "name": "Friendly Dragon",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_dragon\"><path d=\"M 30 75 C 20 40 45 15 70 25 C 85 30 80 50 65 55 C 50 60 55 75 30 75 Z\" fill=\"#3A0CA3\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"40,25 35,10 48,20\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"2\"/><polygon points=\"55,22 55,8 63,18\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"68\" cy=\"35\" r=\"4\" fill=\"#000000\"/><path d=\"M 72 45 Q 80 45 75 52\" fill=\"none\" stroke=\"#FF595E\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_unicorn",
+    "name": "Magic Unicorn",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_unicorn\"><path d=\"M 30 80 C 25 50 40 30 65 30 C 80 30 85 45 70 55 C 55 60 55 80 30 80 Z\" fill=\"#F72585\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"65,30 80,5 72,28\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"65\" cy=\"40\" r=\"4\" fill=\"#000000\"/><path d=\"M 40 30 C 30 35 25 50 20 60\" fill=\"none\" stroke=\"#FF70A6\" stroke-width=\"8\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "char_alien",
+    "name": "Cute Alien",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_alien\"><ellipse cx=\"50\" cy=\"45\" rx=\"32\" ry=\"25\" fill=\"#52B788\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"40\" r=\"10\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"40\" r=\"4\" fill=\"#000000\"/><circle cx=\"30\" cy=\"45\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"70\" cy=\"45\" r=\"6\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"30\" cy=\"45\" r=\"2.5\" fill=\"#000000\"/><circle cx=\"70\" cy=\"45\" r=\"2.5\" fill=\"#000000\"/><path d=\"M 40 58 Q 50 64 60 58\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"50\" y1=\"20\" x2=\"50\" y2=\"10\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"8\" r=\"5\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "char_robot",
+    "name": "Helper Robot",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_robot\"><rect x=\"25\" y=\"25\" width=\"50\" height=\"45\" rx=\"10\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"40\" r=\"7\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"60\" cy=\"40\" r=\"7\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"40\" cy=\"40\" r=\"3\" fill=\"#000000\"/><circle cx=\"60\" cy=\"40\" r=\"3\" fill=\"#000000\"/><rect x=\"35\" y=\"55\" width=\"30\" height=\"6\" rx=\"3\" fill=\"#000000\"/><line x1=\"50\" y1=\"25\" x2=\"50\" y2=\"12\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"10\" r=\"5\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "char_snowman",
+    "name": "Happy Snowman",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_snowman\"><circle cx=\"50\" cy=\"30\" r=\"18\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"65\" r=\"28\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"44\" cy=\"26\" r=\"2.5\" fill=\"#000000\"/><circle cx=\"56\" cy=\"26\" r=\"2.5\" fill=\"#000000\"/><polygon points=\"50,32 65,34 50,36\" fill=\"#FF7B00\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"52\" r=\"3\" fill=\"#000000\"/><circle cx=\"50\" cy=\"64\" r=\"3\" fill=\"#000000\"/><circle cx=\"50\" cy=\"76\" r=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "char_sunflower_man",
+    "name": "Sunny Character",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_sunflower_man\"><circle cx=\"50\" cy=\"50\" r=\"38\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"22\" fill=\"#6C584C\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"42\" cy=\"46\" r=\"3\" fill=\"#FFFFFF\"/><circle cx=\"58\" cy=\"46\" r=\"3\" fill=\"#FFFFFF\"/><path d=\"M 44 56 Q 50 62 56 56\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_star_kid",
+    "name": "Star Boy",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_star_kid\"><polygon points=\"50,10 63,35 90,38 70,57 75,85 50,70 25,85 30,57 10,38 37,35\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"45\" r=\"4\" fill=\"#000000\"/><circle cx=\"60\" cy=\"45\" r=\"4\" fill=\"#000000\"/><path d=\"M 44 54 Q 50 60 56 54\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_apple_kid",
+    "name": "Apple Friend",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_apple_kid\"><circle cx=\"50\" cy=\"55\" r=\"32\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 50 23 Q 55 10 65 15\" fill=\"none\" stroke=\"#6A994E\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"38\" cy=\"50\" r=\"4\" fill=\"#000000\"/><circle cx=\"62\" cy=\"50\" r=\"4\" fill=\"#000000\"/><path d=\"M 44 62 Q 50 68 56 62\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_donut_man",
+    "name": "Donut Buddy",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_donut_man\"><circle cx=\"50\" cy=\"50\" r=\"34\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"14\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"38\" r=\"3\" fill=\"#000000\"/><circle cx=\"62\" cy=\"38\" r=\"3\" fill=\"#000000\"/><line x1=\"30\" y1=\"58\" x2=\"36\" y2=\"62\" stroke=\"#FFD166\" stroke-width=\"4\" stroke-linecap=\"round\"/><line x1=\"64\" y1=\"58\" x2=\"70\" y2=\"62\" stroke=\"#4895EF\" stroke-width=\"4\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "char_cupcake_girl",
+    "name": "Cupcake Fairy",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_cupcake_girl\"><path d=\"M 25 50 L 30 85 L 70 85 L 75 50 Z\" fill=\"#FFB6C1\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 20 50 C 20 25 80 25 80 50 Z\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"20\" r=\"7\" fill=\"#FF595E\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"40\" cy=\"40\" r=\"3\" fill=\"#000000\"/><circle cx=\"60\" cy=\"40\" r=\"3\" fill=\"#000000\"/><path d=\"M 44 46 Q 50 50 56 46\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2.5\"/></g>"
+  },
+  {
+    "id": "char_acorn_guy",
+    "name": "Little Acorn",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_acorn_guy\"><path d=\"M 25 40 C 25 75 75 75 75 40 Z\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 20 40 C 20 25 80 25 80 40 Z\" fill=\"#6C584C\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"50\" y1=\"25\" x2=\"50\" y2=\"15\" stroke=\"#6C584C\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"40\" cy=\"52\" r=\"3.5\" fill=\"#000000\"/><circle cx=\"60\" cy=\"52\" r=\"3.5\" fill=\"#000000\"/><path d=\"M 45 60 Q 50 64 55 60\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2.5\"/></g>"
+  },
+  {
+    "id": "char_cloud_kid",
+    "name": "Cloud Puff",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_cloud_kid\"><path d=\"M 20 60 C 10 60 10 40 25 40 C 30 20 60 20 70 35 C 85 30 90 55 80 65 C 75 75 25 75 20 60 Z\" fill=\"#E0AAFF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"48\" r=\"4\" fill=\"#000000\"/><circle cx=\"60\" cy=\"48\" r=\"4\" fill=\"#000000\"/><path d=\"M 45 56 Q 50 62 55 56\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_moon_guy",
+    "name": "Sleepy Moon",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_moon_guy\"><path d=\"M 50 15 A 32 32 0 1 0 82 65 A 36 36 0 1 1 50 15 Z\" fill=\"#FFEE8C\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"42\" cy=\"45\" r=\"3.5\" fill=\"#000000\"/><path d=\"M 38 55 Q 44 60 48 53\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_sun_guy",
+    "name": "Smiley Sun",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_sun_guy\"><circle cx=\"50\" cy=\"50\" r=\"26\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 50 10 L 50 18 M 50 82 L 50 90 M 10 50 L 18 50 M 82 50 L 90 50 M 22 22 L 28 28 M 72 72 L 78 78 M 22 78 L 28 72 M 72 28 L 78 22\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"42\" cy=\"45\" r=\"3.5\" fill=\"#000000\"/><circle cx=\"58\" cy=\"45\" r=\"3.5\" fill=\"#000000\"/><path d=\"M 44 54 Q 50 60 56 54\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "char_mushroom_guy",
+    "name": "Toadstool Friend",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_mushroom_guy\"><path d=\"M 15 50 C 15 20 85 20 85 50 Z\" fill=\"#FF4D6D\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"35\" y=\"50\" width=\"30\" height=\"35\" rx=\"10\" fill=\"#F4E1D2\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"35\" cy=\"35\" r=\"5\" fill=\"#FFFFFF\"/><circle cx=\"65\" cy=\"35\" r=\"5\" fill=\"#FFFFFF\"/><circle cx=\"43\" cy=\"62\" r=\"3\" fill=\"#000000\"/><circle cx=\"57\" cy=\"62\" r=\"3\" fill=\"#000000\"/><path d=\"M 46 70 Q 50 74 54 70\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2.5\"/></g>"
+  },
+  {
+    "id": "char_cactus_guy",
+    "name": "Prickly Cactus",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_cactus_guy\"><rect x=\"38\" y=\"20\" width=\"24\" height=\"65\" rx=\"12\" fill=\"#52B788\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 20 45 L 38 45 M 62 40 L 80 40 M 20 30 L 20 45 M 80 25 L 80 40\" stroke=\"#52B788\" stroke-width=\"10\" stroke-linecap=\"round\"/><path d=\"M 20 45 L 38 45 M 62 40 L 80 40 M 20 30 L 20 45 M 80 25 L 80 40\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"35\" r=\"3\" fill=\"#000000\"/><circle cx=\"56\" cy=\"35\" r=\"3\" fill=\"#000000\"/><path d=\"M 46 43 Q 50 47 54 43\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2.5\"/></g>"
+  },
+  {
+    "id": "char_fish",
+    "name": "Goldfish",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_fish\"><ellipse cx=\"45\" cy=\"50\" rx=\"30\" ry=\"20\" fill=\"#FF7B00\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"75,50 92,35 92,65\" fill=\"#FF7B00\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"30\" cy=\"45\" r=\"4\" fill=\"#000000\"/><circle cx=\"31\" cy=\"44\" r=\"1.5\" fill=\"#FFFFFF\"/><path d=\"M 25 55 Q 30 60 35 55\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2.5\"/></g>"
+  },
+  {
+    "id": "char_snail",
+    "name": "Slow Snail",
+    "category": "characters",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"char_snail\"><circle cx=\"42\" cy=\"45\" r=\"22\" fill=\"#B5E48C\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"42\" cy=\"45\" r=\"12\" fill=\"none\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 15 70 Q 50 70 80 70 C 88 70 90 55 80 55 C 75 55 70 65 50 65\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"82\" cy=\"48\" r=\"2.5\" fill=\"#000000\"/></g>"
+  }
+]

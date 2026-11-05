@@ -1,0 +1,652 @@
+[
+  {
+    "id": "wear_santa_hat",
+    "name": "Santa Hat",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"santa-hat\"><path d=\"M 20 60 Q 30 15 75 15 C 80 15 85 25 70 40 Q 50 55 20 60 Z\" fill=\"#FF6B6B\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"15\" y=\"55\" width=\"70\" height=\"18\" rx=\"9\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"78\" cy=\"22\" r=\"10\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_witch_hat",
+    "name": "Witch Hat",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"witch-hat\"><path d=\"M 50 10 L 25 60 L 75 60 Z\" fill=\"#845EC2\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"62\" rx=\"42\" ry=\"10\" fill=\"#4B4453\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"36\" y=\"52\" width=\"28\" height=\"8\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "wear_glasses",
+    "name": "Star Glasses",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"glasses-star\"><polygon points=\"30,30 34,40 45,40 36,47 40,58 30,51 20,58 24,47 15,40 26,40\" fill=\"#FF6B6B\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"70,30 74,40 85,40 76,47 80,58 70,51 60,58 64,47 55,40 66,40\" fill=\"#FF6B6B\" stroke=\"#000000\" stroke-width=\"3\"/><line x1=\"45\" y1=\"44\" x2=\"55\" y2=\"44\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_crown",
+    "name": "Royal Crown",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"crown\"><polygon points=\"15,70 15,30 32,50 50,20 68,50 85,30 85,70\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"15\" y=\"65\" width=\"70\" height=\"12\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"20\" r=\"5\" fill=\"#E63946\"/><circle cx=\"15\" cy=\"30\" r=\"5\" fill=\"#4895EF\"/><circle cx=\"85\" cy=\"30\" r=\"5\" fill=\"#4895EF\"/></g>"
+  },
+  {
+    "id": "wear_party_hat",
+    "name": "Party Cone Hat",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"party_hat\"><polygon points=\"50,15 20,80 80,80\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"12\" r=\"8\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"40\" cy=\"50\" r=\"4\" fill=\"#FFFFFF\"/><circle cx=\"60\" cy=\"65\" r=\"4\" fill=\"#FFFFFF\"/><circle cx=\"45\" cy=\"70\" r=\"4\" fill=\"#FFFFFF\"/></g>"
+  },
+  {
+    "id": "wear_pirate_hat",
+    "name": "Pirate Hat",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"pirate_hat\"><path d=\"M 10 65 Q 50 35 90 65 C 75 40 25 40 10 65 Z\" fill=\"#2B2D42\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"52\" r=\"8\" fill=\"#FFFFFF\"/><circle cx=\"50\" cy=\"52\" r=\"3\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "wear_chef_hat",
+    "name": "Chef Hat",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"chef_hat\"><path d=\"M 25 50 C 15 30 35 15 50 25 C 65 15 85 30 75 50 Z\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"25\" y=\"50\" width=\"50\" height=\"25\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_cowboy_hat",
+    "name": "Cowboy Hat",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"cowboy_hat\"><path d=\"M 30 45 C 30 20 70 20 70 45 Z\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"50\" rx=\"45\" ry=\"12\" fill=\"#D4A373\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"31\" y=\"40\" width=\"38\" height=\"6\" fill=\"#E63946\"/></g>"
+  },
+  {
+    "id": "wear_viking_helmet",
+    "name": "Viking Horn Helmet",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"viking_helmet\"><path d=\"M 20 60 C 20 30 80 30 80 60 Z\" fill=\"#A8DADC\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 20 45 Q 5 25 10 15 Q 22 25 25 40 M 80 45 Q 95 25 90 15 Q 78 25 75 40\" fill=\"#F4A261\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_grad_cap",
+    "name": "Graduation Cap",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"grad_cap\"><polygon points=\"50,20 90,40 50,60 10,40\" fill=\"#1D3557\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"35\" y=\"48\" width=\"30\" height=\"25\" fill=\"#1D3557\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 80 43 L 80 70\" stroke=\"#FFD166\" stroke-width=\"4\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "wear_beanie",
+    "name": "Winter Beanie",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"beanie\"><path d=\"M 20 65 C 20 25 80 25 80 65 Z\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"15\" y=\"60\" width=\"70\" height=\"15\" rx=\"5\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"22\" r=\"9\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_cap",
+    "name": "Baseball Cap",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"cap\"><path d=\"M 25 55 C 25 25 75 25 75 55 Z\" fill=\"#457B9D\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 15 55 Q 40 50 60 55\" fill=\"#457B9D\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"27\" r=\"4\" fill=\"#FFD166\"/></g>"
+  },
+  {
+    "id": "wear_sunglasses",
+    "name": "Cool Sunglasses",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"sunglasses\"><rect x=\"15\" y=\"38\" width=\"32\" height=\"24\" rx=\"6\" fill=\"#111111\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"53\" y=\"38\" width=\"32\" height=\"24\" rx=\"6\" fill=\"#111111\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"47\" y1=\"46\" x2=\"53\" y2=\"46\" stroke=\"#000000\" stroke-width=\"5\"/></g>"
+  },
+  {
+    "id": "wear_round_glasses",
+    "name": "Round Nerd Glasses",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"round_glasses\"><circle cx=\"32\" cy=\"48\" r=\"16\" fill=\"none\" stroke=\"#2B2D42\" stroke-width=\"5\"/><circle cx=\"68\" cy=\"48\" r=\"16\" fill=\"none\" stroke=\"#2B2D42\" stroke-width=\"5\"/><line x1=\"48\" y1=\"48\" x2=\"52\" y2=\"48\" stroke=\"#2B2D42\" stroke-width=\"5\"/></g>"
+  },
+  {
+    "id": "wear_bow_tie",
+    "name": "Cute Bowtie",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"bow_tie\"><polygon points=\"20,35 45,50 20,65\" fill=\"#FF4D6D\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"80,35 55,50 80,65\" fill=\"#FF4D6D\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"50\" r=\"8\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_necktie",
+    "name": "Business Necktie",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"necktie\"><polygon points=\"44,20 56,20 54,30 46,30\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"46,30 54,30 60,70 50,85 40,70\" fill=\"#4895EF\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_headband_bow",
+    "name": "Bow Headband",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"headband_bow\"><path d=\"M 20 60 C 20 20 80 20 80 60\" fill=\"none\" stroke=\"#000000\" stroke-width=\"5\"/><polygon points=\"35,20 50,30 35,40\" fill=\"#F15BB5\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"65,20 50,30 65,40\" fill=\"#F15BB5\" stroke=\"#000000\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "wear_cat_ears",
+    "name": "Cat Ears Headband",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"cat_ears\"><path d=\"M 15 65 C 15 25 85 25 85 65\" fill=\"none\" stroke=\"#000000\" stroke-width=\"5\"/><polygon points=\"20,40 32,15 45,35\" fill=\"#FFB6C1\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"80,40 68,15 55,35\" fill=\"#FFB6C1\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_bunny_ears",
+    "name": "Bunny Ears Headband",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"bunny_ears\"><path d=\"M 20 70 C 20 35 80 35 80 70\" fill=\"none\" stroke=\"#000000\" stroke-width=\"5\"/><ellipse cx=\"35\" cy=\"25\" rx=\"8\" ry=\"22\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"65\" cy=\"25\" rx=\"8\" ry=\"22\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_halo",
+    "name": "Angel Halo",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"halo\"><ellipse cx=\"50\" cy=\"30\" rx=\"35\" ry=\"10\" fill=\"none\" stroke=\"#FFEE8C\" stroke-width=\"6\"/><line x1=\"50\" y1=\"40\" x2=\"50\" y2=\"55\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_tiara",
+    "name": "Princess Tiara",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"tiara\"><path d=\"M 20 60 Q 50 45 80 60 L 75 35 L 60 45 L 50 25 L 40 45 L 25 35 Z\" fill=\"#FF85A1\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"25\" r=\"4\" fill=\"#4895EF\"/><circle cx=\"25\" cy=\"35\" r=\"4\" fill=\"#4895EF\"/><circle cx=\"75\" cy=\"35\" r=\"4\" fill=\"#4895EF\"/></g>"
+  },
+  {
+    "id": "wear_earmuffs",
+    "name": "Warm Earmuffs",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"earmuffs\"><path d=\"M 20 50 C 20 15 80 15 80 50\" fill=\"none\" stroke=\"#000000\" stroke-width=\"5\"/><circle cx=\"20\" cy=\"55\" r=\"14\" fill=\"#FF9EAA\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"80\" cy=\"55\" r=\"14\" fill=\"#FF9EAA\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_scarf",
+    "name": "Winter Scarf",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"scarf\"><rect x=\"20\" y=\"45\" width=\"60\" height=\"16\" rx=\"8\" fill=\"#52B788\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"55\" y=\"55\" width=\"16\" height=\"35\" rx=\"5\" fill=\"#52B788\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_headphones",
+    "name": "Music Headphones",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"headphones\"><path d=\"M 20 50 C 20 15 80 15 80 50\" fill=\"none\" stroke=\"#000000\" stroke-width=\"6\"/><rect x=\"12\" y=\"42\" width=\"14\" height=\"26\" rx=\"7\" fill=\"#7209B7\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"74\" y=\"42\" width=\"14\" height=\"26\" rx=\"7\" fill=\"#7209B7\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_eyepatch",
+    "name": "Pirate Eyepatch",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"eyepatch\"><line x1=\"10\" y1=\"35\" x2=\"90\" y2=\"55\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"38\" cy=\"46\" rx=\"12\" ry=\"10\" fill=\"#000000\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_mustache",
+    "name": "Funny Mustache",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"mustache\"><path d=\"M 50 48 Q 35 30 15 45 Q 35 60 50 48 Z M 50 48 Q 65 30 85 45 Q 65 60 50 48 Z\" fill=\"#3D405B\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_disguise_glasses",
+    "name": "Groucho Glasses",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"disguise_glasses\"><circle cx=\"32\" cy=\"40\" r=\"14\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"68\" cy=\"40\" r=\"14\" fill=\"none\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"52\" rx=\"10\" ry=\"14\" fill=\"#FFB6C1\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 50 64 Q 35 55 20 62 Q 35 75 50 64 Z M 50 64 Q 65 55 80 62 Q 65 75 50 64 Z\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "wear_flower_crown",
+    "name": "Flower Crown",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"flower_crown\"><path d=\"M 15 50 C 15 30 85 30 85 50\" fill=\"none\" stroke=\"#52B788\" stroke-width=\"5\"/><circle cx=\"25\" cy=\"40\" r=\"8\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"32\" r=\"10\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"75\" cy=\"40\" r=\"8\" fill=\"#FF70A6\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "wear_wizard_hat",
+    "name": "Wizard Star Hat",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"wizard_hat\"><path d=\"M 50 10 L 20 70 L 80 70 Z\" fill=\"#3A0CA3\" stroke=\"#000000\" stroke-width=\"4\"/><polygon points=\"50,30 53,40 62,40 55,45 58,55 50,48 42,55 45,45 38,40 47,40\" fill=\"#FFD166\"/></g>"
+  },
+  {
+    "id": "wear_beret",
+    "name": "Artist Beret",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"beret\"><ellipse cx=\"50\" cy=\"45\" rx=\"40\" ry=\"16\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><line x1=\"50\" y1=\"29\" x2=\"50\" y2=\"22\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_sombrero",
+    "name": "Fiesta Sombrero",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"sombrero\"><path d=\"M 32 50 C 32 20 68 20 68 50 Z\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"55\" rx=\"46\" ry=\"12\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 10 55 Q 50 65 90 55\" fill=\"none\" stroke=\"#E63946\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_helm_knight",
+    "name": "Knight Helmet",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"helm_knight\"><path d=\"M 25 65 C 25 25 75 25 75 65 Z\" fill=\"#8D99AE\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"30\" y=\"45\" width=\"40\" height=\"8\" fill=\"#000000\"/></g>"
+  },
+  {
+    "id": "wear_astronaut_helmet",
+    "name": "Space Helmet",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"astronaut_helmet\"><circle cx=\"50\" cy=\"50\" r=\"35\" fill=\"#E9ECEF\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"50\" cy=\"50\" rx=\"25\" ry=\"18\" fill=\"#4895EF\" opacity=\"0.7\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_snorkel",
+    "name": "Diving Mask & Snorkel",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"snorkel\"><rect x=\"25\" y=\"35\" width=\"50\" height=\"22\" rx=\"11\" fill=\"#4EA8DE\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 70 45 L 85 45 L 85 15\" fill=\"none\" stroke=\"#FFD166\" stroke-width=\"6\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "wear_sleep_mask",
+    "name": "Sleep Eye Mask",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"sleep_mask\"><rect x=\"20\" y=\"38\" width=\"60\" height=\"24\" rx=\"12\" fill=\"#BDB2FF\" stroke=\"#000000\" stroke-width=\"4\"/><path d=\"M 32 50 Q 37 56 42 50 M 58 50 Q 63 56 68 50\" stroke=\"#000000\" stroke-width=\"3\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "wear_monocle",
+    "name": "Fancy Monocle",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"monocle\"><circle cx=\"60\" cy=\"45\" r=\"14\" fill=\"none\" stroke=\"#FFD166\" stroke-width=\"4\"/><line x1=\"60\" y1=\"59\" x2=\"75\" y2=\"80\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "wear_mask_hero",
+    "name": "Superhero Mask",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"mask_hero\"><path d=\"M 15 40 Q 50 50 85 40 Q 75 65 50 60 Q 25 65 15 40 Z\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/><ellipse cx=\"33\" cy=\"48\" rx=\"8\" ry=\"5\" fill=\"#FFFFFF\"/><ellipse cx=\"67\" cy=\"48\" rx=\"8\" ry=\"5\" fill=\"#FFFFFF\"/></g>"
+  },
+  {
+    "id": "wear_mask_masquerade",
+    "name": "Masquerade Mask",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"mask_masquerade\"><path d=\"M 15 35 Q 50 60 85 35 Q 90 20 70 30 Q 50 40 30 30 Q 10 20 15 35 Z\" fill=\"#7209B7\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"32\" cy=\"33\" rx=\"7\" ry=\"4\" fill=\"#FFFFFF\"/><ellipse cx=\"68\" cy=\"33\" rx=\"7\" ry=\"4\" fill=\"#FFFFFF\"/></g>"
+  },
+  {
+    "id": "wear_flower_hairpin",
+    "name": "Flower Hair Clip",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"flower_hairpin\"><circle cx=\"50\" cy=\"50\" r=\"8\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"35\" r=\"8\" fill=\"#FF70A6\"/><circle cx=\"65\" cy=\"50\" r=\"8\" fill=\"#FF70A6\"/><circle cx=\"50\" cy=\"65\" r=\"8\" fill=\"#FF70A6\"/><circle cx=\"35\" cy=\"50\" r=\"8\" fill=\"#FF70A6\"/></g>"
+  },
+  {
+    "id": "wear_feather_boa",
+    "name": "Feather Scarf",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"feather_boa\"><path d=\"M 15 50 Q 50 75 85 50\" fill=\"none\" stroke=\"#FF85A1\" stroke-width=\"16\" stroke-linecap=\"round\"/></g>"
+  },
+  {
+    "id": "wear_necklace_pearl",
+    "name": "Pearl Necklace",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"necklace_pearl\"><path d=\"M 20 40 Q 50 75 80 40\" fill=\"none\" stroke=\"#000000\" stroke-width=\"2\"/><circle cx=\"25\" cy=\"45\" r=\"5\" fill=\"#F8EDEB\"/><circle cx=\"37\" cy=\"54\" r=\"5\" fill=\"#F8EDEB\"/><circle cx=\"50\" cy=\"58\" r=\"6\" fill=\"#F8EDEB\"/><circle cx=\"63\" cy=\"54\" r=\"5\" fill=\"#F8EDEB\"/><circle cx=\"75\" cy=\"45\" r=\"5\" fill=\"#F8EDEB\"/></g>"
+  },
+  {
+    "id": "wear_medallion",
+    "name": "Gold Medal",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"medallion\"><path d=\"M 35 20 L 50 50 L 65 20\" fill=\"none\" stroke=\"#E63946\" stroke-width=\"6\"/><circle cx=\"50\" cy=\"58\" r=\"14\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"3\"/><polygon points=\"50,48 53,55 60,55 55,60 57,67 50,62 43,67 45,60 40,55 47,55\" fill=\"#FFFFFF\"/></g>"
+  },
+  {
+    "id": "wear_belt_championship",
+    "name": "Hero Belt",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"belt_championship\"><rect x=\"15\" y=\"42\" width=\"70\" height=\"16\" fill=\"#000000\"/><polygon points=\"50,35 62,50 50,65 38,50\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"3\"/></g>"
+  },
+  {
+    "id": "wear_boots_rain",
+    "name": "Yellow Rain Boots",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"boots_rain\"><path d=\"M 25 30 L 25 65 L 42 65 C 45 65 45 50 38 50 L 38 30 Z M 60 30 L 60 65 L 77 65 C 80 65 80 50 73 50 L 73 30 Z\" fill=\"#FFD166\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_sneakers",
+    "name": "Cool Sneakers",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"sneakers\"><path d=\"M 15 55 Q 20 40 45 40 L 45 65 L 15 65 Z M 55 40 Q 80 40 85 55 L 85 65 L 55 65 Z\" fill=\"#4EA8DE\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"12\" y=\"65\" width=\"36\" height=\"8\" rx=\"3\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><rect x=\"52\" y=\"65\" width=\"36\" height=\"8\" rx=\"3\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "wear_ballet_shoes",
+    "name": "Ballet Shoes",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"ballet_shoes\"><ellipse cx=\"35\" cy=\"55\" rx=\"10\" ry=\"20\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"3\"/><ellipse cx=\"65\" cy=\"55\" rx=\"10\" ry=\"20\" fill=\"#FFC6FF\" stroke=\"#000000\" stroke-width=\"3\"/><path d=\"M 30 35 L 40 45 M 40 35 L 30 45 M 60 35 L 70 45 M 70 35 L 60 45\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "wear_boxing_gloves",
+    "name": "Boxing Gloves",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"boxing_gloves\"><circle cx=\"32\" cy=\"50\" r=\"18\" fill=\"#FF4D6D\" stroke=\"#000000\" stroke-width=\"4\"/><circle cx=\"68\" cy=\"50\" r=\"18\" fill=\"#FF4D6D\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"24\" y=\"62\" width=\"16\" height=\"10\" rx=\"3\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/><rect x=\"60\" y=\"62\" width=\"16\" height=\"10\" rx=\"3\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  },
+  {
+    "id": "wear_mittens",
+    "name": "Winter Mittens",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"mittens\"><path d=\"M 20 50 C 20 30 40 30 40 50 L 40 70 L 20 70 Z M 60 50 C 60 30 80 30 80 50 L 80 70 L 60 70 Z\" fill=\"#70E000\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_cape",
+    "name": "Hero Cape",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"cape\"><path d=\"M 30 25 Q 50 35 70 25 L 85 85 L 15 85 Z\" fill=\"#E63946\" stroke=\"#000000\" stroke-width=\"4\"/></g>"
+  },
+  {
+    "id": "wear_apron",
+    "name": "Kitchen Apron",
+    "category": "wearables",
+    "bbox": {
+      "x": 10,
+      "y": 10,
+      "width": 80,
+      "height": 80
+    },
+    "viewBox": "0 0 100 100",
+    "svg": "<g class=\"apron\"><polygon points=\"35,25 65,25 75,85 25,85\" fill=\"#FFB703\" stroke=\"#000000\" stroke-width=\"4\"/><rect x=\"38\" y=\"55\" width=\"24\" height=\"18\" rx=\"4\" fill=\"#FFFFFF\" stroke=\"#000000\" stroke-width=\"2\"/></g>"
+  }
+]

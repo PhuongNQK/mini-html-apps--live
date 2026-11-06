@@ -130,6 +130,15 @@ export function initPropertiesPanel(root) {
           'aria-label': item.locked ? t('props.unlock') : t('props.lock'),
           onClick: () => cmd.toggleLock(item.id),
         }, item.locked ? '🔒' : '🔓'),
+        state.selection.includes(item.id)
+          ? h('button', {
+              type: 'button',
+              class: 'mini-btn danger',
+              title: t('props.deleteLayer'),
+              'aria-label': t('props.deleteLayer'),
+              onClick: () => cmd.removeItem(item.id),
+            }, '🗑️')
+          : null,
       ),
     );
     return section(t('props.layers'), rows.length ? h('div', { class: 'layers' }, rows) : h('p', { class: 'hint' }, t('props.noLayers')));

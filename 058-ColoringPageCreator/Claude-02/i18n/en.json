@@ -1,14 +1,12 @@
 {
   "app.name": "Magic Color",
   "app.title": "Magic Color – Coloring Page Creator",
-
   "common.ok": "OK",
   "common.cancel": "Cancel",
   "common.close": "Close",
   "common.save": "Save",
   "common.delete": "Delete",
   "common.export": "Export",
-
   "toolbar.projects": "Projects",
   "toolbar.save": "Save",
   "toolbar.saveTitle": "Save now (Ctrl+S)",
@@ -19,11 +17,9 @@
   "toolbar.monoTitle": "Monochrome color – used to draw everything in Uncolored mode",
   "toolbar.bg": "Canvas",
   "toolbar.bgTitle": "Canvas background color",
-
   "mode.label": "Display mode",
   "mode.colored": "Colored",
   "mode.uncolored": "Uncolored",
-
   "view.zoom": "Zoom",
   "view.zoomIn": "Zoom in",
   "view.zoomOut": "Zoom out",
@@ -32,7 +28,6 @@
   "view.fullscreen": "Enter or exit full screen",
   "view.fullscreenShort": "Full screen",
   "view.fullscreenUnsupported": "Full screen is not available in this browser.",
-
   "menu.title": "Menu",
   "menu.newProject": "New project…",
   "menu.projects": "Open or manage projects…",
@@ -43,7 +38,6 @@
   "menu.exportDeckFile": "Save project file (.json)",
   "menu.importDeck": "Import project file…",
   "menu.print": "Print…",
-
   "edit.label": "Object tools",
   "edit.duplicate": "Duplicate",
   "edit.delete": "Delete",
@@ -58,7 +52,6 @@
   "edit.backward": "Backward",
   "edit.back": "To back",
   "edit.saveToGallery": "Save to gallery",
-
   "category.all": "All",
   "category.characters": "Characters",
   "category.wearables": "Wearables",
@@ -66,7 +59,6 @@
   "category.backgrounds": "Backgrounds",
   "category.buildingBlocks": "Building blocks",
   "category.custom": "Custom",
-
   "gallery.title": "Gallery",
   "gallery.search": "Search by name…",
   "gallery.rename": "Rename",
@@ -86,14 +78,12 @@
   "gallery.saveTitle": "Save to gallery",
   "gallery.customDefault": "My creation",
   "gallery.saved": "“{name}” saved in Custom.",
-
   "galleryIO.hint": "Choose which items go into the gallery file.",
   "galleryIO.scopeCustom": "Newly created items ({n})",
   "galleryIO.scopeAll": "The entire gallery ({n})",
   "galleryIO.scopeSelected": "Selected items ({n})",
   "galleryIO.nothing": "That file did not contain any usable gallery items.",
   "galleryIO.invalid": "That is not a valid gallery file.",
-
   "slides.title": "Slides",
   "slides.count": "Slide {current} of {total}",
   "slides.add": "Add slide",
@@ -103,7 +93,6 @@
   "slides.moveLeft": "Move slide earlier",
   "slides.moveRight": "Move slide later",
   "slides.delete": "Delete slide",
-
   "props.title": "Properties",
   "props.nothingSelected": "Click an object on the slide to change it, or pick something from the gallery.",
   "props.name": "Name",
@@ -122,12 +111,10 @@
   "props.noLayers": "This slide is empty.",
   "props.lock": "Lock",
   "props.unlock": "Unlock",
-
   "color.standard": "Standard colors",
   "color.spectrum": "Spectrum",
   "color.hue": "Hue",
   "color.hex": "Hex color",
-
   "project.defaultName": "My coloring book",
   "project.title": "Projects",
   "project.new": "New project",
@@ -148,14 +135,12 @@
   "project.noneInBrowser": "No projects saved in this browser.",
   "project.imported": "“{name}” imported.",
   "project.importInvalid": "That is not a valid project file.",
-
   "size.label": "Slide size",
   "size.custom": "Custom size",
   "size.width": "Width",
   "size.height": "Height",
   "size.swap": "Swap width and height",
   "size.invalid": "Width and height must be between 64 and 8000.",
-
   "export.slideTitle": "Export slide",
   "export.deckTitle": "Export all slides",
   "export.slideHint": "Exports “{name}”.",
@@ -168,7 +153,6 @@
   "export.bgHint": "Colored images use the canvas background color. Uncolored images use white paper.",
   "export.working": "Preparing your files…",
   "export.failed": "Export failed.",
-
   "print.title": "Print",
   "print.hint": "Print pages for children to color. The current display mode is selected by default.",
   "print.mode": "Print as",
@@ -181,7 +165,6 @@
   "print.portrait": "Portrait",
   "print.landscape": "Landscape",
   "print.go": "Print",
-
   "workdir.title": "Working folder",
   "workdir.button": "Folder",
   "workdir.reconnect": "Reconnect folder",
@@ -193,13 +176,33 @@
   "workdir.failed": "The folder could not be opened.",
   "workdir.pendingHint": "Click the folder button to reconnect your working folder.",
   "workdir.unsupported": "Your browser cannot save into a local folder. Use a recent Chrome or Edge on a computer. Your work is still saved automatically in this browser.",
-
   "save.unsaved": "Unsaved changes",
   "save.savedDir": "Saved to folder {time}",
   "save.savedLocal": "Saved in browser {time}",
   "save.toDir": "Saved to your working folder.",
   "save.toLocal": "Saved in this browser.",
   "save.failed": "Saving failed – storage may be full. Export your project to keep it.",
-
-  "splitter.label": "Resize the gallery"
+  "splitter.label": "Resize the gallery",
+  "toolbar.appearance": "Style",
+  "menu.appearance": "Appearance (skin & dark mode)…",
+  "appearance.title": "Appearance",
+  "appearance.scheme": "Brightness",
+  "appearance.skin": "Skin",
+  "appearance.hint": "Your choice is remembered on this device.",
+  "scheme.light": "Light",
+  "scheme.dark": "Dark",
+  "scheme.auto": "Auto",
+  "skin.storybook": "Storybook",
+  "skin.storybook.desc": "The classic cartoon castle look.",
+  "skin.rounded": "Bubbly",
+  "skin.rounded.desc": "Soft, round and candy-colored.",
+  "skin.sharp": "Sharp",
+  "skin.sharp.desc": "Square corners and bold black lines.",
+  "skin.retro": "Old School",
+  "skin.retro.desc": "Grey buttons and pixel letters, like the 90s.",
+  "skin.modern": "Modern",
+  "skin.modern.desc": "Clean, calm and minimal.",
+  "skin.fairy": "Fairy",
+  "skin.fairy.desc": "Sparkly pastels and magic glow.",
+  "props.deleteLayer": "Delete this layer"
 }

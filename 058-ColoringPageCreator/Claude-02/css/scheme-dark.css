@@ -1,0 +1,28 @@
+/*
+  Dark scheme – a layer over ANY skin. It only replaces surfaces and text colours; a skin
+  keeps its own accents, header and shape. Specificity (0,2,0) beats a skin's light values;
+  a skin can refine its dark look with  [data-scheme="dark"][data-skin="<id>"]  in its own file.
+*/
+[data-scheme='dark'][data-skin] {
+  --color-scheme: dark;
+  --heading: #c4c8ff;
+  --ink: #f0eeff;
+  --ink-soft: #b3b0d8;
+  --line: #0a0b1e;
+  --cream: #222645;
+  --surface: #2e3460;
+  --surface-hover: #3c4480;
+  --highlight: #54481f;
+  --danger-soft: #7b2d36;
+  --danger-hover: #933842;
+  --success-soft: #1f5a3a;
+  --warn: #fbbf24;
+  --body-bg: linear-gradient(160deg, #141735, #1b1740 55%, #1f1a30);
+  --workspace-bg: #12152e;
+  --workspace-dot: rgba(255, 255, 255, 0.08);
+  --divider: rgba(255, 255, 255, 0.18);
+  --backdrop: rgba(5, 6, 20, 0.72);
+  --shadow-color: rgba(0, 0, 0, 0.7);
+  --sheet-shadow: 8px 8px 0 rgba(0, 0, 0, 0.5);
+  --dialog-shadow: 0 8px 0 rgba(0, 0, 0, 0.7), 0 24px 60px rgba(0, 0, 0, 0.6);
+}

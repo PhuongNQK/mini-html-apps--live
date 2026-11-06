@@ -1,0 +1,43 @@
+/* Skin: Bubbly – big round shapes, soft shadows, candy pastels. */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&display=swap');
+
+[data-skin='rounded'] {
+  --font: 'Nunito', 'Fredoka', system-ui, sans-serif;
+  --royal: #7a5cff;
+  --royal-light: #a08bff;
+  --royal-dark: #4b36b8;
+  --gold: #ffd166;
+  --gold-dark: #ffb347;
+  --gold-hover: #ffe08f;
+  --pink: #ff7eb6;
+  --ink: #3b2f63;
+  --ink-soft: #7a6fa3;
+  --line: #7b66d6;
+  --cream: #f6f1ff;
+  --surface-hover: #fff0fa;
+  --highlight: #ffeaf5;
+  --danger-soft: #ffc2d6;
+  --danger-hover: #ffd6e4;
+  --body-bg: linear-gradient(160deg, #e9e2ff, #ffe6f3 60%, #fff4d9);
+  --workspace-bg: #efe9ff;
+  --workspace-dot: rgba(122, 92, 255, 0.16);
+  --divider: rgba(123, 102, 214, 0.25);
+  --backdrop: rgba(75, 54, 184, 0.45);
+  --shadow-color: rgba(98, 74, 190, 0.32);
+  --radius: 28px;
+  --radius-sm: 18px;
+  --border-w: 2px;
+  --hover-transform: translateY(-3px) scale(1.06);
+  --shadow: 0 8px 18px var(--shadow-color);
+  --shadow-sm: 0 4px 10px var(--shadow-color);
+  --shadow-press: 0 1px 3px var(--shadow-color);
+  --brand-shadow: 0 3px 0 rgba(75, 54, 184, 0.55);
+  --sheet-shadow: 0 16px 34px rgba(98, 74, 190, 0.3);
+  --dialog-shadow: 0 18px 50px rgba(75, 54, 184, 0.45);
+}
+
+[data-scheme='dark'][data-skin='rounded'] {
+  --line: #9d8cff;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --workspace-bg: #19163a;
+}

@@ -41,6 +41,15 @@ export function removeSelected() {
   });
 }
 
+/** Deletes one specific layer (used by the delete button in the Layers list). */
+export function removeItem(id) {
+  mutate('delete', (deck, slide) => {
+    if (!slide.items.some((i) => i.id === id)) return false;
+    slide.items = slide.items.filter((i) => i.id !== id);
+    state.selection = state.selection.filter((s) => s !== id);
+  });
+}
+
 export function duplicateSelected() {
   if (!hasSelection()) return;
   mutate('duplicate', (deck, slide) => {

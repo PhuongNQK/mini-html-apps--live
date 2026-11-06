@@ -1,0 +1,54 @@
+/* Skin: Sharp – square corners, black outlines, flat colour, hard offset shadows. */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap');
+
+[data-skin='sharp'] {
+  --font: 'Space Grotesk', 'Arial Narrow', system-ui, sans-serif;
+  --royal: #111111;
+  --royal-light: #2a2a2a;
+  --royal-dark: #000000;
+  --gold: #ffe600;
+  --gold-dark: #ffb800;
+  --gold-hover: #fff27a;
+  --pink: #ff2e63;
+  --ink: #000000;
+  --ink-soft: #444444;
+  --line: #000000;
+  --cream: #f3f3ee;
+  --surface-hover: #fff27a;
+  --highlight: #fff6a8;
+  --danger-soft: #ff8fa3;
+  --danger-hover: #ffb0bf;
+  --body-bg: repeating-linear-gradient(45deg, #f7f7f1 0 12px, #ecece4 12px 24px);
+  --workspace-bg: #d8d8d0;
+  --workspace-dot: rgba(0, 0, 0, 0.22);
+  --divider: rgba(0, 0, 0, 0.35);
+  --backdrop: rgba(0, 0, 0, 0.6);
+  --shadow-color: #000000;
+  --radius: 0;
+  --radius-sm: 0;
+  --pill: 0;
+  --round: 0;
+  --hover-transform: translate(-2px, -2px);
+  --active-transform: translate(2px, 2px);
+  --shadow: 5px 5px 0 var(--shadow-color);
+  --shadow-sm: 3px 3px 0 var(--shadow-color);
+  --shadow-press: 0 0 0 var(--shadow-color);
+  --header-border: #ffe600;
+  --brand-shadow: 3px 3px 0 #ff2e63;
+  --sheet-shadow: 10px 10px 0 #000000;
+  --dialog-shadow: 8px 8px 0 #000000;
+}
+
+[data-scheme='dark'][data-skin='sharp'] {
+  --line: #f3f3ee;
+  --shadow-color: #000000;
+  --surface: #1c1c1c;
+  --surface-hover: #4a4300;
+  --cream: #101010;
+  --body-bg: repeating-linear-gradient(45deg, #0b0b0b 0 12px, #141414 12px 24px);
+  --workspace-bg: #050505;
+  --highlight: #4a4300;
+  --header-bg: #000000;
+  --sheet-shadow: 10px 10px 0 #ffe600;
+  --dialog-shadow: 8px 8px 0 #ffe600;
+}

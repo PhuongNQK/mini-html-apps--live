@@ -2,7 +2,11 @@
   "appName": "Magic Color",
   "defaultLanguage": "en",
   "languages": [
-    { "code": "en", "name": "English", "file": "i18n/en.json" }
+    {
+      "code": "en",
+      "name": "English",
+      "file": "i18n/en.json"
+    }
   ],
   "galleries": [
     "assets/galleries/seasonal-extras.json",
@@ -13,5 +17,38 @@
     "assets/galleries/building-blocks.json"
   ],
   "autosaveSeconds": 120,
-  "defaultSlideSize": "a4-landscape"
+  "defaultSlideSize": "a4-landscape",
+  "defaultSkin": "storybook",
+  "defaultScheme": "light",
+  "skins": [
+    {
+      "id": "storybook",
+      "icon": "🏰"
+    },
+    {
+      "id": "rounded",
+      "icon": "🫧",
+      "file": "css/skins/rounded.css"
+    },
+    {
+      "id": "sharp",
+      "icon": "⬛",
+      "file": "css/skins/sharp.css"
+    },
+    {
+      "id": "retro",
+      "icon": "🕹️",
+      "file": "css/skins/retro.css"
+    },
+    {
+      "id": "modern",
+      "icon": "✨",
+      "file": "css/skins/modern.css"
+    },
+    {
+      "id": "fairy",
+      "icon": "🧚",
+      "file": "css/skins/fairy.css"
+    }
+  ]
 }

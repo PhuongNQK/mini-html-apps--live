@@ -1,0 +1,59 @@
+/* Skin: Fairy – sparkly pastels, glowing edges, curly brand font. */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Pacifico&display=swap');
+
+[data-skin='fairy'] {
+  --font: 'Quicksand', 'Fredoka', system-ui, sans-serif;
+  --brand-font: 'Pacifico', 'Quicksand', cursive;
+  --royal: #c45bd8;
+  --royal-light: #f08be6;
+  --royal-dark: #8a3aa0;
+  --gold: #ffe28a;
+  --gold-dark: #ffbf5e;
+  --gold-hover: #fff0b3;
+  --pink: #ff6fb5;
+  --ink: #4a2c63;
+  --ink-soft: #8a6aa8;
+  --line: #a35fcc;
+  --cream: #fff1fb;
+  --surface: #fffafd;
+  --surface-hover: #ffe6f7;
+  --highlight: #ffe9fb;
+  --danger-soft: #ffc0dc;
+  --danger-hover: #ffd5e8;
+  --body-bg:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.95) 0 2px, transparent 3px) 0 0 / 64px 64px,
+    radial-gradient(circle at 70% 60%, rgba(255, 226, 138, 0.9) 0 2px, transparent 3px) 24px 30px / 90px 90px,
+    linear-gradient(160deg, #ffe3f6, #e8dcff 55%, #d7f0ff);
+  --workspace-bg: #f6e8ff;
+  --workspace-dot: rgba(196, 91, 216, 0.24);
+  --divider: rgba(163, 95, 204, 0.3);
+  --backdrop: rgba(138, 58, 160, 0.4);
+  --shadow-color: rgba(163, 95, 204, 0.5);
+  --radius: 26px;
+  --radius-sm: 16px;
+  --border-w: 2px;
+  --hover-transform: translateY(-3px) scale(1.06);
+  --shadow: 0 5px 0 var(--shadow-color), 0 0 18px rgba(255, 150, 230, 0.45);
+  --shadow-sm: 0 3px 0 var(--shadow-color), 0 0 10px rgba(255, 150, 230, 0.4);
+  --shadow-press: 0 1px 0 var(--shadow-color);
+  --header-bg: linear-gradient(90deg, #f08be6, #a98bff 55%, #7fc8ff);
+  --header-border: #ffe28a;
+  --brand-color: #ffffff;
+  --brand-shadow: 0 0 10px #ff9be8, 0 2px 0 #8a3aa0;
+  --sheet-shadow: 0 0 0 4px #ffe28a, 0 14px 34px rgba(196, 91, 216, 0.4);
+  --dialog-shadow: 0 0 0 4px #ffe28a, 0 20px 50px rgba(138, 58, 160, 0.45);
+}
+
+[data-scheme='dark'][data-skin='fairy'] {
+  --line: #c58cf0;
+  --cream: #2a1f4a;
+  --surface: #382b63;
+  --surface-hover: #4b3a82;
+  --highlight: #5a3f7a;
+  --body-bg:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.5) 0 1.5px, transparent 2.5px) 0 0 / 64px 64px,
+    radial-gradient(circle at 70% 60%, rgba(255, 226, 138, 0.5) 0 1.5px, transparent 2.5px) 24px 30px / 90px 90px,
+    linear-gradient(160deg, #1c1237, #2a1b4f 55%, #14274a);
+  --workspace-bg: #1a1233;
+  --header-bg: linear-gradient(90deg, #7b3a8f, #5a4aa8 55%, #2d5f8a);
+}

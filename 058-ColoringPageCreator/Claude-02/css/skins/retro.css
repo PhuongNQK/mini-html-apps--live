@@ -1,0 +1,59 @@
+/* Skin: Old School – 90s desktop: grey bevelled buttons, teal desktop, pixel font. */
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;600;700&display=swap');
+
+[data-skin='retro'] {
+  --font: 'Pixelify Sans', 'Courier New', monospace;
+  --royal: #000080;
+  --royal-light: #1084d0;
+  --royal-dark: #00004d;
+  --gold: #ffd800;
+  --gold-dark: #c8a400;
+  --gold-hover: #ffe84d;
+  --pink: #ff00aa;
+  --ink: #000000;
+  --ink-soft: #404040;
+  --line: #000000;
+  --cream: #c0c0c0;
+  --surface: #dfdfdf;
+  --surface-hover: #ececec;
+  --highlight: #ffffa8;
+  --danger-soft: #ff8a8a;
+  --danger-hover: #ffb0b0;
+  --body-bg: #008080;
+  --workspace-bg: #808080;
+  --workspace-dot: rgba(0, 0, 0, 0.25);
+  --divider: rgba(0, 0, 0, 0.4);
+  --backdrop: rgba(0, 64, 64, 0.6);
+  --radius: 0;
+  --radius-sm: 0;
+  --pill: 0;
+  --round: 0;
+  --border-w: 2px;
+  --hover-transform: none;
+  --active-transform: translate(1px, 1px);
+  --shadow: inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff, 2px 2px 0 #000000;
+  --shadow-sm: inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff, 2px 2px 0 #000000;
+  --shadow-press: inset 2px 2px 0 #808080, inset -2px -2px 0 #ffffff;
+  --header-bg: linear-gradient(90deg, #000080, #1084d0);
+  --header-border: #c0c0c0;
+  --brand-color: #ffffff;
+  --brand-shadow: 2px 2px 0 #000000;
+  --chip-border: rgba(255, 255, 255, 0.7);
+  --sheet-shadow: 6px 6px 0 #000000;
+  --dialog-shadow: 4px 4px 0 #000000;
+}
+
+[data-scheme='dark'][data-skin='retro'] {
+  --line: #000000;
+  --cream: #2b2b2b;
+  --surface: #3d3d3d;
+  --surface-hover: #4c4c4c;
+  --highlight: #5a5320;
+  --body-bg: #003a3a;
+  --workspace-bg: #1e1e1e;
+  --shadow: inset -2px -2px 0 #141414, inset 2px 2px 0 #707070, 2px 2px 0 #000000;
+  --shadow-sm: inset -2px -2px 0 #141414, inset 2px 2px 0 #707070, 2px 2px 0 #000000;
+  --shadow-press: inset 2px 2px 0 #141414, inset -2px -2px 0 #707070;
+  --header-bg: linear-gradient(90deg, #000050, #0a5a96);
+  --header-border: #555555;
+}

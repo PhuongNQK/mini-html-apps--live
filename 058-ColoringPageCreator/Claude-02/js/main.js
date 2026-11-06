@@ -1,6 +1,7 @@
 /** Application bootstrap. */
 import { loadConfig, config, findSlideSize } from './core/config.js';
 import { initI18n, i18n, applyStatic } from './core/i18n.js';
+import { initTheme } from './core/theme.js';
 import { loadDeck } from './core/store.js';
 import { gallery } from './services/gallery.js';
 import { workdir } from './services/workdir.js';
@@ -19,6 +20,7 @@ import { t } from './core/i18n.js';
 async function boot() {
   await loadConfig();
   await initI18n(config);
+  await initTheme();
   await gallery.init(config);
   await workdir.restore();
 

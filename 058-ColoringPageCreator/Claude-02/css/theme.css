@@ -3,29 +3,75 @@
   All colours and radii live in variables so the look can be re-skinned in one place.
 */
 :root {
+  /* ===== Primitives: every skin / scheme overrides these ===== */
   --font: 'Fredoka', 'Baloo 2', 'Comic Neue', 'Trebuchet MS', system-ui, sans-serif;
+  --brand-font: var(--font);
 
   --royal: #2b3a9e;
   --royal-dark: #1c2670;
   --royal-light: #4a5fd6;
   --gold: #ffd23f;
   --gold-dark: #f2a03d;
-  --cream: #fff8e7;
-  --paper: #ffffff;
-  --sky: #dff1ff;
+  --gold-hover: #ffe073;
   --pink: #ff6b9d;
   --red: #e5484d;
   --green: #35b36b;
+
   --ink: #2b2b3b;
   --ink-soft: #5d5d78;
   --line: #2b2b3b;
+  --on-header: #ffffff;
 
+  --cream: #fff8e7;          /* panels */
+  --surface: #ffffff;        /* cards, inputs, buttons */
+  --surface-hover: #fff7cc;
+  --highlight: #fff3c4;      /* selected / current rows */
+  --danger-soft: #ffb3b6;
+  --danger-hover: #ffc9cb;
+  --success-soft: #d9f7e4;
+  --warn: #b45309;
+  --art-bg: #ffffff;         /* paper behind artwork previews (always light) */
+  --handle-fill: #ffffff;
+
+  --body-bg: radial-gradient(circle at 20% 10%, #fff 0 2px, transparent 3px) 0 0 / 46px 46px, linear-gradient(160deg, #cfe9ff 0%, #fdf1ff 55%, #fff6d6 100%);
+  --workspace-bg: #e8e4f5;
+  --workspace-dot: rgba(43, 58, 158, 0.18);
+  --divider: rgba(43, 43, 59, 0.25);
+  --backdrop: rgba(28, 38, 112, 0.55);
+  --chip-border: rgba(255, 255, 255, 0.55);
+  --chip-bg: rgba(255, 255, 255, 0.12);
+  --shadow-color: rgba(43, 43, 59, 0.9);
+  --color-scheme: light;
+
+  /* shape */
   --radius: 16px;
   --radius-sm: 10px;
-  --border: 3px solid var(--line);
-  --shadow: 0 4px 0 rgba(43, 43, 59, 0.9);
-  --shadow-sm: 0 3px 0 rgba(43, 43, 59, 0.9);
+  --pill: 999px;   /* buttons, tabs, search */
+  --round: 50%;    /* swatches, chips */
+  --border-w: 3px;
   --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --hover-transform: translateY(-2px) scale(1.04);
+  --active-transform: translateY(2px);
+}
+
+/*
+  Derived values are declared for :root AND for every [data-skin] element, so the skin
+  preview cards in the Appearance dialog resolve them with their own primitives.
+*/
+:root,
+[data-skin] {
+  --border: var(--border-w) solid var(--line);
+  --heading: var(--royal);
+  --header-bg: linear-gradient(180deg, var(--royal-light), var(--royal));
+  --header-border: var(--gold);
+  --brand-color: var(--gold);
+  --brand-shadow: 0 2px 0 var(--royal-dark), 0 0 12px rgba(255, 210, 63, 0.5);
+  --shadow: 0 4px 0 var(--shadow-color);
+  --shadow-sm: 0 3px 0 var(--shadow-color);
+  --shadow-press: 0 1px 0 var(--shadow-color);
+  --sheet-shadow: 8px 8px 0 rgba(43, 43, 59, 0.35);
+  --dialog-shadow: 0 8px 0 var(--shadow-color), 0 24px 60px rgba(0, 0, 0, 0.4);
+  color-scheme: var(--color-scheme);
 }
 
 *,
@@ -43,7 +89,7 @@ body {
 body {
   font-family: var(--font);
   color: var(--ink);
-  background: radial-gradient(circle at 20% 10%, #fff 0 2px, transparent 3px) 0 0 / 46px 46px, linear-gradient(160deg, #cfe9ff 0%, #fdf1ff 55%, #fff6d6 100%);
+  background: var(--body-bg);
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
   overscroll-behavior: none;
@@ -82,9 +128,9 @@ button:disabled {
 .ebtn,
 .mini-btn {
   border: var(--border);
-  background: var(--paper);
+  background: var(--surface);
   box-shadow: var(--shadow-sm);
-  border-radius: 999px;
+  border-radius: var(--pill);
   transition: transform 0.15s var(--bounce), box-shadow 0.15s, background 0.15s;
   font-weight: 600;
 }
@@ -93,20 +139,21 @@ button:disabled {
 .tbtn:hover:not(:disabled),
 .ebtn:hover:not(:disabled),
 .mini-btn:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.04);
-  background: #fff7cc;
+  transform: var(--hover-transform);
+  background: var(--surface-hover);
 }
 
 .btn:active:not(:disabled),
 .tbtn:active:not(:disabled),
 .ebtn:active:not(:disabled),
 .mini-btn:active:not(:disabled) {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 rgba(43, 43, 59, 0.9);
+  transform: var(--active-transform);
+  box-shadow: var(--shadow-press);
 }
 
 .btn {
   padding: 8px 18px;
+  color: var(--ink);
 }
 
 .btn-small {
@@ -119,11 +166,11 @@ button:disabled {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #ffe073;
+  background: var(--gold-hover);
 }
 
 .btn-danger {
-  background: #ffb3b6;
+  background: var(--danger-soft);
 }
 
 /* ---------- form fields ---------- */
@@ -132,12 +179,12 @@ button:disabled {
   border: var(--border);
   border-radius: var(--radius-sm);
   padding: 7px 10px;
-  background: #fff;
+  background: var(--surface);
   min-width: 0;
 }
 
 .field.search {
-  border-radius: 999px;
+  border-radius: var(--pill);
   padding-left: 14px;
 }
 
@@ -172,7 +219,7 @@ body.loading .boot-loader {
   inset: 20px;
   z-index: 101;
   padding: 24px;
-  background: #fff;
+  background: var(--surface);
   border: var(--border);
   border-radius: var(--radius);
   font-size: 1.1rem;

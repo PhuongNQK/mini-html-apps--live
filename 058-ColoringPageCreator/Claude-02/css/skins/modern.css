@@ -1,0 +1,61 @@
+/* Skin: Modern – clean, flat, light borders, subtle shadows, indigo accent. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+[data-skin='modern'] {
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --royal: #4f46e5;
+  --royal-light: #6366f1;
+  --royal-dark: #3730a3;
+  --gold: #fbbf24;
+  --gold-dark: #d97706;
+  --gold-hover: #fcd34d;
+  --pink: #ec4899;
+  --ink: #0f172a;
+  --ink-soft: #64748b;
+  --line: #cbd5e1;
+  --on-header: #0f172a;
+  --cream: #f8fafc;
+  --surface-hover: #eef2ff;
+  --highlight: #e0e7ff;
+  --danger-soft: #fecaca;
+  --danger-hover: #fee2e2;
+  --success-soft: #dcfce7;
+  --body-bg: #f1f5f9;
+  --workspace-bg: #e2e8f0;
+  --workspace-dot: rgba(100, 116, 139, 0.25);
+  --divider: rgba(100, 116, 139, 0.3);
+  --backdrop: rgba(15, 23, 42, 0.5);
+  --chip-border: rgba(79, 70, 229, 0.35);
+  --chip-bg: rgba(79, 70, 229, 0.08);
+  --shadow-color: rgba(15, 23, 42, 0.14);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --pill: 10px;
+  --border-w: 1.5px;
+  --hover-transform: translateY(-1px);
+  --active-transform: translateY(1px);
+  --shadow: 0 6px 16px var(--shadow-color);
+  --shadow-sm: 0 1px 3px var(--shadow-color), 0 1px 2px var(--shadow-color);
+  --shadow-press: 0 0 0 var(--shadow-color);
+  --header-bg: #ffffff;
+  --header-border: #e2e8f0;
+  --brand-color: #4f46e5;
+  --brand-shadow: none;
+  --sheet-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+  --dialog-shadow: 0 24px 60px rgba(15, 23, 42, 0.35);
+}
+
+[data-scheme='dark'][data-skin='modern'] {
+  --line: #3b4560;
+  --on-header: #e2e8f0;
+  --header-bg: #1e293b;
+  --header-border: #334155;
+  --brand-color: #a5b4fc;
+  --cream: #172033;
+  --surface: #1e293b;
+  --surface-hover: #2a3650;
+  --highlight: #312e81;
+  --body-bg: #0f172a;
+  --workspace-bg: #0b1220;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+}

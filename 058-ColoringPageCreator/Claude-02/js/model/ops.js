@@ -6,6 +6,7 @@ import { clone, uid } from '../core/util.js';
 import { aabb, deg, normalizeAngle, rad, unionRects } from './geometry.js';
 
 export const FILL_RE = /fill="(#[0-9a-f]{6})"/g;
+export const STROKE_RE = /stroke="(#[0-9a-f]{6})"/g;
 
 export function createDeck({ name, width, height }) {
   const now = Date.now();
@@ -179,9 +180,32 @@ export function recolorItem(item, orig, color) {
   for (const o of targets) if (item.svg.includes(`fill="${o}"`)) item.colorMap[o] = color;
 }
 
+/** Distinct original line (stroke) colours of an item, in drawing order. */
+export function itemLineColors(item, out = new Map()) {
+  if (item.type === 'group') item.children.forEach((c) => itemLineColors(c, out));
+  else {
+    for (const m of item.svg.matchAll(STROKE_RE)) {
+      const orig = m[1];
+      if (!out.has(orig)) out.set(orig, item.lineMap?.[orig] || orig);
+    }
+  }
+  return out;
+}
+
+/** Sets the replacement for one original line colour (or all line colours when orig is null). */
+export function recolorLine(item, orig, color) {
+  if (item.type === 'group') return item.children.forEach((c) => recolorLine(c, orig, color));
+  item.lineMap ||= {};
+  const targets = orig ? [orig] : [...itemLineColors(item).keys()];
+  for (const o of targets) if (item.svg.includes(`stroke="${o}"`)) item.lineMap[o] = color;
+}
+
 export function resetColors(item) {
   if (item.type === 'group') item.children.forEach(resetColors);
-  else item.colorMap = {};
+  else {
+    item.colorMap = {};
+    item.lineMap = {};
+  }
 }
 
 export { deg };

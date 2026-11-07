@@ -15,7 +15,22 @@ import { workdir } from './workdir.js';
 import { composeRecipe, difficultyOf, blockCounts } from '../game/recipe.js';
 
 export const GALLERY_FORMAT = 'magic-color-gallery';
-const CATEGORY_CODES = new Set(CATEGORIES.map((c) => c.code));
+
+const NON_DRAWING = new Set(['defs', 'style', 'title', 'desc', 'metadata']);
+
+/** Top-level drawable shapes of an svg fragment (single wrapper groups without a transform are looked through). */
+export function svgParts(svg) {
+  const doc = new DOMParser().parseFromString(`<svg xmlns="http://www.w3.org/2000/svg">${svg}</svg>`, 'image/svg+xml');
+  let kids = [...doc.documentElement.children].filter((e) => !NON_DRAWING.has(e.localName));
+  while (kids.length === 1 && kids[0].localName === 'g' && !kids[0].hasAttribute('transform')) {
+    kids = [...kids[0].children].filter((e) => !NON_DRAWING.has(e.localName));
+  }
+  return kids;
+}
+
+export const countSvgParts = (svg) => Math.max(1, svgParts(svg).length);
+// Any well-formed code is a valid category: unknown ones are detected and shown automatically.
+const CATEGORY_RE = /^[A-Za-z][A-Za-z0-9_-]{0,31}$/;
 const USER_KEY = 'gallery.user';
 const OVERRIDES_KEY = 'gallery.overrides';
 
@@ -41,6 +56,7 @@ class GalleryService extends Emitter {
     this.#overrides = { names: {}, deleted: [], ...local.get(OVERRIDES_KEY, {}) };
     for (const item of local.get(USER_KEY, [])) this.#items.set(item.id, item);
     this.#resolveRecipes();
+    this.auditCustom(); // repairs stale part counts left by older versions
   }
 
   /** Recipe items without their own svg are drawn from their blocks once every gallery is loaded. */
@@ -75,6 +91,7 @@ class GalleryService extends Emitter {
         rot: num(p.rot, 0),
         flip: !!p.flip,
         fill: /^#[0-9a-f]{6}$/i.test(p.fill || '') ? p.fill.toLowerCase() : null,
+        line: /^#[0-9a-f]{6}$/i.test(p.line || '') ? p.line.toLowerCase() : null,
         label: typeof p.label === 'string' ? p.label.slice(0, 40) : '',
         z: num(p.z, 0),
       }));
@@ -110,7 +127,7 @@ class GalleryService extends Emitter {
       if (!hasRecipe) throw new Error('missing svg');
       raw = { ...raw, svg: '<g/>', prepared: false, pending: true };
     }
-    const category = CATEGORY_CODES.has(raw.category) ? raw.category : defaultCategory;
+    const category = typeof raw.category === 'string' && CATEGORY_RE.test(raw.category) ? raw.category : defaultCategory;
     const prepared = raw.prepared && raw.bbox ? { svg: raw.svg, bbox: raw.bbox } : prepareSvg(raw.svg, { noPad: category === 'backgrounds' });
     const item = {
       id: String(raw.id || uid('gal')),
@@ -158,6 +175,60 @@ class GalleryService extends Emitter {
     return this.all().filter((i) => i.category === category).length;
   }
 
+  /**
+   * Categories to show: the built-in ones in their usual order, then any category found in the loaded
+   * galleries that the app does not know. Detected ones use their first shape as logo.
+   */
+  categories() {
+    const items = this.all();
+    const known = new Set(CATEGORIES.map((c) => c.code));
+    const extra = [];
+    for (const i of items) if (!known.has(i.category) && !extra.some((c) => c.code === i.category)) extra.push({ code: i.category, icon: '🔹', logo: i });
+    const custom = CATEGORIES.filter((c) => c.code === 'custom');
+    return [...CATEGORIES.filter((c) => c.code !== 'custom'), ...extra, ...custom];
+  }
+
+  /** Display name of a category (translated when a key exists, otherwise made readable from the code). */
+  categoryLabel(code) {
+    const key = `category.${code}`;
+    if (has(key)) return t(key);
+    return code.replace(/[-_]+/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase());
+  }
+
+  /**
+   * Scans the Custom category and repairs derived building-block data:
+   *  - items with a recipe: part count, block counts and difficulty are recomputed from the recipe
+   *    (a recipe that uses blocks which no longer exist is dropped; the picture stays);
+   *  - items without a recipe: the part count is the number of top-level shapes in the drawing.
+   * @returns {{checked:number, fixed:{id:string,name:string,before:number|null,after:number,note?:string}[]}}
+   */
+  auditCustom() {
+    const fixed = [];
+    const list = this.customItems();
+    for (const item of list) {
+      const before = item.partCount ?? null;
+      let note = '';
+      if (item.recipe?.length) {
+        if (!item.recipe.every((p) => this.#items.has(p.block))) {
+          delete item.recipe;
+          delete item.blocksUsed;
+          delete item.difficulty;
+          note = 'recipe used missing blocks';
+          item.partCount = countSvgParts(item.svg);
+        } else {
+          const recipe = GalleryService.cleanRecipe(item.recipe);
+          item.recipe = recipe;
+          item.partCount = recipe.length;
+          item.blocksUsed = Object.fromEntries(blockCounts(recipe));
+          item.difficulty = difficultyOf(recipe.length);
+        }
+      } else item.partCount = countSvgParts(item.svg);
+      if (before !== item.partCount || note) fixed.push({ id: item.id, name: item.name, before, after: item.partCount, note });
+    }
+    if (fixed.length) this.#changed(true);
+    return { checked: list.length, fixed };
+  }
+
   /** Building blocks, in gallery order. */
   blocks() {
     return this.all().filter((i) => i.category === 'buildingBlocks');
@@ -165,7 +236,7 @@ class GalleryService extends Emitter {
 
   /** Items the "Build this object" game can use (they have a recipe). */
   recipes() {
-    return this.all().filter((i) => i.recipe?.length && !i.pending);
+    return this.all().filter((i) => i.recipe?.length && !i.pending && i.recipe.every((p) => this.#items.has(p.block)));
   }
 
   customItems() {
@@ -179,10 +250,12 @@ class GalleryService extends Emitter {
   /* ---------- changes ---------- */
 
   /** Saves a slide object/group (markup already baked) into the Custom category. */
-  addCustom({ name, svg, bbox = null, recipe = null }) {
+  addCustom({ name, svg, bbox = null, recipe = null, partCount = null }) {
     const prepared = bbox ? { svg, bbox } : prepareSvg(svg);
     const item = { id: uid('custom'), name, category: 'custom', svg: prepared.svg, bbox: prepared.bbox, source: 'user', prepared: true, created: Date.now() };
-    if (recipe) this.#attachRecipe(item, { recipe });
+    // Only recipes made purely of building blocks can be played as a puzzle.
+    if (recipe && recipe.every((p) => typeof p.block === 'string' && !p.svg)) this.#attachRecipe(item, { recipe });
+    if (partCount) item.partCount = item.recipe ? item.partCount : partCount;
     this.#items.set(item.id, item);
     this.#changed(true);
     return item;
@@ -210,7 +283,7 @@ class GalleryService extends Emitter {
   }
 
   #changed(userChanged, overridesChanged = false) {
-    if (userChanged) local.set(USER_KEY, this.customItems().map(({ id, name, category, svg, bbox, source, prepared, created, recipe, fact }) => ({ id, name, category, svg, bbox, source, prepared, created, recipe, fact })));
+    if (userChanged) local.set(USER_KEY, this.customItems().map(({ id, name, category, svg, bbox, source, prepared, created, recipe, fact, partCount }) => ({ id, name, category, svg, bbox, source, prepared, created, recipe, fact, partCount })));
     if (overridesChanged) local.set(OVERRIDES_KEY, this.#overrides);
     this.emit('change');
     if (userChanged) this.emit('userChange');

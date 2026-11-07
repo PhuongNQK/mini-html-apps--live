@@ -7,7 +7,7 @@
  *   fill  – replaces the block's main colour (null keeps it)
  *   z     – draw order; ears, wings and feet use a low z so they sit behind the body
  */
-const P = (block, label, x, y, sx, sy, { rot = 0, flip = false, fill = null, z = 0 } = {}) => ({ block, label, x, y, sx, sy, rot, flip, fill, z });
+import { P } from './_recipe.js';
 
 export default {
   category: 'animals',

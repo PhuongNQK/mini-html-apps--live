@@ -59,16 +59,58 @@ export const sound = {
   },
 };
 
-/** Reads text aloud in the app language (silently does nothing when unsupported or muted). */
-export function speak(text) {
-  if (!enabled || !text || !('speechSynthesis' in window)) return;
+/* ---------- narration voices ---------- */
+
+const RATE_KEY = 'game.voiceRate';
+const VOICE_KEY = 'game.voice';
+let chosenVoice = local.get(VOICE_KEY, null); // voiceURI, or null = automatic
+let rate = Number(local.get(RATE_KEY, 0.92)) || 0.92;
+
+const synth = () => ('speechSynthesis' in window ? window.speechSynthesis : null);
+
+/** Voices installed on this device (they may load a moment after the page starts). */
+export function listVoices() {
+  const s = synth();
+  if (!s) return Promise.resolve([]);
+  const now = s.getVoices();
+  if (now.length) return Promise.resolve(now);
+  return new Promise((resolve) => {
+    const done = () => resolve(s.getVoices());
+    s.addEventListener?.('voiceschanged', done, { once: true });
+    setTimeout(done, 1200);
+  });
+}
+
+export const getVoiceChoice = () => ({ voiceURI: chosenVoice, rate });
+
+export function setVoiceChoice({ voiceURI = chosenVoice, rate: r = rate }) {
+  chosenVoice = voiceURI || null;
+  rate = Math.min(1.4, Math.max(0.6, Number(r) || 0.92));
+  local.set(VOICE_KEY, chosenVoice);
+  local.set(RATE_KEY, rate);
+}
+
+/** The chosen voice if it is still installed, otherwise the best match for the app language. */
+function pickVoice() {
+  const voices = synth()?.getVoices() || [];
+  const chosen = chosenVoice && voices.find((v) => v.voiceURI === chosenVoice);
+  return chosen || null;
+}
+
+/** Reads text aloud (silently does nothing when unsupported or muted). `force` ignores the sound switch (voice test). */
+export function speak(text, { force = false } = {}) {
+  if ((!enabled && !force) || !text || !synth()) return;
   try {
-    speechSynthesis.cancel();
+    synth().cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = getLanguage() || 'en';
-    u.rate = 0.92;
+    const voice = pickVoice();
+    if (voice) {
+      u.voice = voice;
+      u.lang = voice.lang;
+    } else u.lang = getLanguage() || 'en';
+    u.rate = rate;
     u.pitch = 1.15;
-    speechSynthesis.speak(u);
+    synth().speak(u);
   } catch {
     /* narration is optional */
   }
@@ -76,7 +118,7 @@ export function speak(text) {
 
 export const stopSpeaking = () => {
   try {
-    speechSynthesis?.cancel?.();
+    synth()?.cancel();
   } catch {
     /* ignore */
   }

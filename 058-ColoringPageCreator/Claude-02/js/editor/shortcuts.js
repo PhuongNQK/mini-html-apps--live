@@ -26,6 +26,15 @@ export function initShortcuts() {
     } else if (ctrl && key === 'a') {
       e.preventDefault();
       cmd.selectAll();
+    } else if (ctrl && key === 'c') {
+      e.preventDefault();
+      cmd.copySelected();
+    } else if (ctrl && key === 'x') {
+      e.preventDefault();
+      cmd.cutSelected();
+    } else if (ctrl && key === 'v') {
+      e.preventDefault();
+      cmd.pasteClipboard();
     } else if (ctrl && key === 'd') {
       e.preventDefault();
       cmd.duplicateSelected();

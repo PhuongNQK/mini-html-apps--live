@@ -3,12 +3,12 @@ import { bus, state } from '../core/store.js';
 import { h } from '../core/util.js';
 import { t } from '../core/i18n.js';
 import { gallery } from '../services/gallery.js';
-import { CATEGORIES } from '../data/builtin/index.js';
 import { galleryThumb } from '../svg/render.js';
 import { addFromGallery } from '../editor/commands.js';
 import { promptText, confirmBox, toast } from './dialog.js';
 import { showMenu } from './menu.js';
 import { exportGalleryDialog, importGalleryFile } from './dialogs/galleryIO.js';
+import { auditCustomDialog } from './dialogs/auditCustom.js';
 
 export const galleryUi = { category: 'all', query: '', selectMode: false, selected: new Set() };
 
@@ -26,7 +26,7 @@ export function initGalleryPanel(root) {
   });
 
   function renderTabs() {
-    const all = [{ code: 'all', icon: '✨' }, ...CATEGORIES];
+    const all = [{ code: 'all', icon: '✨' }, ...gallery.categories()];
     tabs.replaceChildren(
       ...all.map((c) =>
         h('button', {
@@ -39,7 +39,7 @@ export function initGalleryPanel(root) {
             renderTabs();
             renderGrid();
           },
-        }, h('span', { class: 'tab-icon' }, c.icon), h('span', {}, t(`category.${c.code}`))),
+        }, h('span', { class: 'tab-icon', ...(c.logo ? { html: galleryThumb(c.logo, 'colored', '#000') } : {}) }, c.logo ? null : c.icon), h('span', {}, c.code === 'all' ? t('category.all') : gallery.categoryLabel(c.code))),
       ),
     );
   }
@@ -117,6 +117,7 @@ export function initGalleryPanel(root) {
             { icon: '📤', label: t('gallery.export'), onClick: () => exportGalleryDialog([...galleryUi.selected]) },
             { icon: '📥', label: t('gallery.import'), onClick: () => importGalleryFile().then((n) => n != null && toast(t('gallery.imported', { n }), 'success')) },
             { separator: true },
+            { icon: '🔧', label: t('audit.menu'), onClick: () => auditCustomDialog() },
             { icon: '♻️', label: t('gallery.restore', { n: gallery.deletedCount }), disabled: !gallery.deletedCount, onClick: () => gallery.restoreDeleted() },
           ]),
       }, `⋯ ${t('gallery.more')}`),
@@ -131,7 +132,7 @@ export function initGalleryPanel(root) {
     renderTabs();
     renderGrid();
   };
-  gallery.on('change', renderGrid);
+  gallery.on('change', () => (renderTabs(), renderGrid()));
   bus.on('view', renderGrid);
   bus.on('deckLoaded', renderGrid);
   refresh();

@@ -11,9 +11,15 @@ export const monochrome = (svg, mono) =>
 
 /** Applies an item's colour overrides (original colour -> new colour). */
 export function recolored(item) {
-  const map = item.colorMap;
-  if (!map || !Object.keys(map).length) return item.svg;
-  return item.svg.replace(/fill="(#[0-9a-f]{6})"/g, (m, c) => (map[c] ? `fill="${map[c]}"` : m));
+  const fills = item.colorMap;
+  const lines = item.lineMap;
+  const hasFills = fills && Object.keys(fills).length;
+  const hasLines = lines && Object.keys(lines).length;
+  if (!hasFills && !hasLines) return item.svg;
+  return item.svg.replace(/(fill|stroke)="(#[0-9a-f]{6})"/g, (m, attr, c) => {
+    const map = attr === 'fill' ? fills : lines;
+    return map?.[c] ? `${attr}="${map[c]}"` : m;
+  });
 }
 
 /**

@@ -19,13 +19,14 @@ export function showFinish({ host, name, svg, bbox, recipe, fact, revealed = fal
   const art = mode === 'uncolored' ? monochrome(svg, mono) : svg;
 
   const counts = blockCounts(recipe);
+  const others = recipe.filter((p) => !p.block).length; // pieces taken from other gallery objects
   const color = dominantColor(recipe, (id) => gallery.get(id));
   const colorName = color && has(`color.name.${colorKey(color)}`) ? t(`color.name.${colorKey(color)}`) : null;
 
   const title = generic ? t('game.builtGeneric') : revealed ? t('game.revealed', { name }) : t('game.built', { name });
   const colorText = (c) => (generic ? t('game.colorGeneric', { color: c }) : t('game.colorLine', { name, color: c }));
   const lines = [
-    h('p', { class: 'fin-count' }, `🧱 ${t('game.used', { n: recipe.length, list: countList(counts) })}`),
+    h('p', { class: 'fin-count' }, `🧱 ${t('game.used', { n: recipe.length, list: [countList(counts), others ? t('game.otherPieces', { n: others }) : ''].filter(Boolean).join(', ') })}`),
     fact ? h('p', { class: 'fin-fact' }, `💡 ${fact}`) : null,
     colorName ? h('p', { class: 'fin-color' }, `🎨 ${colorText(colorName)}`) : null,
   ];

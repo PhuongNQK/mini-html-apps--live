@@ -26,9 +26,11 @@ function cleanItem(raw) {
   } else {
     item.galleryId = raw.galleryId || null;
     item.svg = sanitizeMarkup(String(raw.svg || ''));
-    item.colorMap = {};
-    for (const [k, v] of Object.entries(raw.colorMap || {})) {
-      if (/^#[0-9a-f]{6}$/i.test(k) && /^#[0-9a-f]{6}$/i.test(v)) item.colorMap[k.toLowerCase()] = v.toLowerCase();
+    for (const field of ['colorMap', 'lineMap']) {
+      item[field] = {};
+      for (const [k, v] of Object.entries(raw[field] || {})) {
+        if (/^#[0-9a-f]{6}$/i.test(k) && /^#[0-9a-f]{6}$/i.test(v)) item[field][k.toLowerCase()] = v.toLowerCase();
+      }
     }
   }
   return item;

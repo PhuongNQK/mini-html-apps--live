@@ -21,14 +21,23 @@ export function mainColor(svg) {
   return null;
 }
 
-export const partTransform = (part, at = part) =>
-  `translate(${round(at.x)} ${round(at.y)}) rotate(${round(part.rot || 0)}) scale(${round((part.flip ? -1 : 1) * part.sx, 4)} ${round(part.sy, 4)}) translate(-${BLOCK_CENTER} -${BLOCK_CENTER})`;
+/**
+ * A part is usually a block (100x100 grid, centre 50,50). In the Create game's Advanced mode a part can also
+ * be a piece of any gallery object: it carries its own `svg` and `cx`,`cy` (the centre in that svg's own space).
+ */
+export const partCenter = (part) => (part.svg ? { x: part.cx ?? 0, y: part.cy ?? 0 } : { x: BLOCK_CENTER, y: BLOCK_CENTER });
 
-/** Block markup with the recipe's colour override and a minimum outline width. */
+export const partTransform = (part, at = part) => {
+  const c = partCenter(part);
+  return `translate(${round(at.x)} ${round(at.y)}) rotate(${round(part.rot || 0)}) scale(${round((part.flip ? -1 : 1) * part.sx, 4)} ${round(part.sy, 4)}) translate(${round(-c.x, 3)} ${round(-c.y, 3)})`;
+};
+
+/** Part markup with the recipe's colour overrides and a minimum outline width. */
 export function blockBody(part, block, minLine = MIN_LINE) {
-  let svg = block.svg;
+  let svg = part.svg || block.svg;
   const main = mainColor(svg);
   if (part.fill && main) svg = svg.replaceAll(`fill="${main}"`, `fill="${String(part.fill).toLowerCase()}"`);
+  if (part.line) svg = svg.replace(/stroke="#[0-9a-f]{6}"/g, `stroke="${String(part.line).toLowerCase()}"`);
   const k = Math.sqrt(Math.abs(part.sx * part.sy)) || 1;
   return svg.replace(/stroke-width="([\d.]+)"/g, (m, w) => `stroke-width="${round(Math.max(Number(w), minLine / k), 2)}"`);
 }
@@ -40,8 +49,8 @@ export function composeRecipe(recipe, getBlock) {
   const parts = recipe.map((p, i) => ({ p, i })).sort((a, b) => (a.p.z || 0) - (b.p.z || 0) || a.i - b.i);
   let out = '';
   for (const { p } of parts) {
-    const block = getBlock(p.block);
-    if (!block) return null;
+    const block = p.svg ? null : getBlock(p.block);
+    if (!p.svg && !block) return null;
     out += partMarkup(p, block);
   }
   return `<g>${out}</g>`;
@@ -71,7 +80,7 @@ export function trayThumb(part, block, mode, mono) {
 
 export const blockCounts = (recipe) => {
   const counts = new Map();
-  for (const p of recipe) counts.set(p.block, (counts.get(p.block) || 0) + 1);
+  for (const p of recipe) if (p.block) counts.set(p.block, (counts.get(p.block) || 0) + 1);
   return counts;
 };
 
@@ -132,7 +141,7 @@ export function dominantColor(recipe, getBlock) {
   let best = null;
   for (const p of recipe) {
     const area = Math.abs(p.sx * p.sy);
-    if (!best || area > best.area) best = { area, color: p.fill || mainColor(getBlock(p.block)?.svg || '') };
+    if (!best || area > best.area) best = { area, color: p.fill || mainColor(p.svg || getBlock(p.block)?.svg || '') };
   }
   return best?.color || null;
 }

@@ -2,7 +2,7 @@
  * Editing commands. Every user action (buttons, shortcuts, drag & drop) goes through here,
  * so behaviour is defined once and is always undoable.
  */
-import { state, mutate, activeSlide, select, setActiveSlide, setView } from '../core/store.js';
+import { state, bus, mutate, activeSlide, select, setActiveSlide, setView } from '../core/store.js';
 import { clone, uid, clamp } from '../core/util.js';
 import { gallery } from '../services/gallery.js';
 import { createObjectItem, createSlide, duplicateItems, flip, groupItems, recolorItem, reorder, resetColors, ungroupItems } from '../model/ops.js';
@@ -49,6 +49,46 @@ export function removeItem(id) {
     if (!slide.items.some((i) => i.id === id)) return false;
     slide.items = slide.items.filter((i) => i.id !== id);
     state.selection = state.selection.filter((s) => s !== id);
+  });
+}
+
+/* ---------- clipboard (copy / paste between slides and projects) ---------- */
+
+let clipboard = null; // { items, slideId, pastes }
+
+export const hasClipboard = () => !!clipboard?.items.length;
+
+/** Remembers the selected objects or groups so they can be pasted on any slide. */
+export function copySelected() {
+  const items = selectedItems();
+  if (!items.length) return false;
+  clipboard = { items: items.map((i) => clone(i)), slideId: activeSlide().id, pastes: 0 };
+  bus.emit('clipboard');
+  return true;
+}
+
+export function cutSelected() {
+  if (copySelected()) removeSelected();
+}
+
+/** Pastes onto the current slide: same place on another slide, nudged on the slide it came from. */
+export function pasteClipboard() {
+  if (!hasClipboard()) return;
+  mutate('paste', (deck, slide) => {
+    clipboard.pastes += 1;
+    const offset = slide.id === clipboard.slideId ? 24 * clipboard.pastes : 0;
+    const copies = clipboard.items.map((i) => {
+      const c = cloneItem(i);
+      c.x += offset;
+      c.y += offset;
+      c.locked = false;
+      // Projects can have another slide size: keep pasted objects reachable.
+      c.x = clamp(c.x, 0, deck.width);
+      c.y = clamp(c.y, 0, deck.height);
+      return c;
+    });
+    slide.items.push(...copies);
+    state.selection = copies.map((c) => c.id);
   });
 }
 

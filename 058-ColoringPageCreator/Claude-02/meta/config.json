@@ -14,6 +14,9 @@
     "assets/galleries/backgrounds.json",
     "assets/galleries/characters.json",
     "assets/galleries/wearables.json",
+    "assets/galleries/humans_100.json",
+    "assets/galleries/robots_100.json",
+    "assets/galleries/recipes-sample.json",
     "assets/galleries/building-blocks.json",
     "assets/galleries/with-recipes/animals_100.json"
   ],
@@ -24,31 +27,31 @@
   "skins": [
     {
       "id": "storybook",
-      "icon": "🏰"
+      "icon": "\ud83c\udff0"
     },
     {
       "id": "rounded",
-      "icon": "🫧",
+      "icon": "\ud83e\udee7",
       "file": "css/skins/rounded.css"
     },
     {
       "id": "sharp",
-      "icon": "⬛",
+      "icon": "\u2b1b",
       "file": "css/skins/sharp.css"
     },
     {
       "id": "retro",
-      "icon": "🕹️",
+      "icon": "\ud83d\udd79\ufe0f",
       "file": "css/skins/retro.css"
     },
     {
       "id": "modern",
-      "icon": "✨",
+      "icon": "\u2728",
       "file": "css/skins/modern.css"
     },
     {
       "id": "fairy",
-      "icon": "🧚",
+      "icon": "\ud83e\uddda",
       "file": "css/skins/fairy.css"
     }
   ]

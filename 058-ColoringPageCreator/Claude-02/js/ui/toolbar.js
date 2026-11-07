@@ -59,6 +59,8 @@ export function initToolbar({ canvas }) {
     fit: () => canvas.fitToView(),
     zoomIn: () => setZoom(Math.min(4, state.zoom * 1.2), false),
     zoomOut: () => setZoom(Math.max(0.1, state.zoom / 1.2), false),
+    copy: () => cmd.copySelected() && toast(t('edit.copied'), 'success'),
+    paste: cmd.pasteClipboard,
     duplicate: cmd.duplicateSelected,
     delete: cmd.removeSelected,
     group: cmd.groupSelected,
@@ -142,7 +144,7 @@ export function initToolbar({ canvas }) {
     const items = cmd.selectedItems();
     document.querySelectorAll('[data-needs]').forEach((b) => {
       const need = b.dataset.needs;
-      b.disabled = need === 'sel' ? !items.length : need === 'multi' ? items.length < 2 : !items.some((i) => i.type === 'group');
+      b.disabled = need === 'clip' ? !cmd.hasClipboard() : need === 'sel' ? !items.length : need === 'multi' ? items.length < 2 : !items.some((i) => i.type === 'group');
     });
   };
   const syncZoom = () => {
@@ -156,6 +158,7 @@ export function initToolbar({ canvas }) {
   bus.on('history', syncHistory);
   bus.on('selection', syncSelection);
   bus.on('deck', syncSelection);
+  bus.on('clipboard', syncSelection);
   bus.on('zoom', syncZoom);
   document.addEventListener('fullscreenchange', () => {
     $('btnFullscreen').classList.toggle('active', !!document.fullscreenElement);

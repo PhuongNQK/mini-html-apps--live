@@ -2,12 +2,13 @@
 import { bus, state, activeSlide, beginLive, live, endLive, select } from '../core/store.js';
 import { h, round } from '../core/util.js';
 import { t } from '../core/i18n.js';
-import { itemColors, recolorItem } from '../model/ops.js';
+import { itemColors, recolorItem, itemLineColors, recolorLine } from '../model/ops.js';
 import { itemSize } from '../model/geometry.js';
 import * as cmd from '../editor/commands.js';
 import { createColorPicker } from './colorPicker.js';
 
 let activePart = null; // original colour being edited, or '*' for all
+let colorTarget = 'fill'; // 'fill' | 'line'
 
 export function initPropertiesPanel(root) {
   const fields = {}; // numeric inputs, refreshed during live drags
@@ -54,9 +55,25 @@ export function initPropertiesPanel(root) {
   }
 
   function colorSection(items) {
+    const isLine = colorTarget === 'line';
     const colors = new Map();
-    items.forEach((i) => itemColors(i, colors));
-    if (!colors.size) return null;
+    items.forEach((i) => (isLine ? itemLineColors(i, colors) : itemColors(i, colors)));
+    const recolor = isLine ? recolorLine : recolorItem;
+
+    const targetSwitch = h('div', { class: 'segmented small', role: 'group', 'aria-label': t('props.colors') },
+      ['fill', 'line'].map((k) =>
+        h('button', {
+          type: 'button',
+          class: colorTarget === k ? 'active' : '',
+          'aria-pressed': colorTarget === k,
+          onClick: () => {
+            colorTarget = k;
+            activePart = null;
+            render();
+          },
+        }, t(`props.target.${k}`))));
+
+    if (!colors.size) return section(t('props.colors'), targetSwitch, h('p', { class: 'hint' }, t('props.noLineColors')));
     if (activePart !== '*' && !colors.has(activePart)) activePart = [...colors.keys()][0];
 
     const chips = [
@@ -90,7 +107,7 @@ export function initPropertiesPanel(root) {
         beginLive();
         liveOn = true;
       }
-      live(() => selected().forEach((i) => recolorItem(i, activePart === '*' ? null : activePart, hex)));
+      live(() => selected().forEach((i) => recolor(i, activePart === '*' ? null : activePart, hex)));
     };
     const picker = createColorPicker({
       value: activePart === '*' ? [...colors.values()][0] : colors.get(activePart),
@@ -103,7 +120,8 @@ export function initPropertiesPanel(root) {
 
     const note = state.deck.view.mode === 'uncolored' ? h('p', { class: 'hint warn' }, t('props.colorHintUncolored')) : null;
     return section(t('props.colors'),
-      h('p', { class: 'hint' }, t('props.partHint')),
+      targetSwitch,
+      h('p', { class: 'hint' }, t(isLine ? 'props.lineHint' : 'props.partHint')),
       h('div', { class: 'chips' }, chips),
       picker.el,
       note,

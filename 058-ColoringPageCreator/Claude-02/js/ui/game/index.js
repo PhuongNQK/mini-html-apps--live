@@ -15,6 +15,8 @@ import { toast } from '../dialog.js';
 import { startPlay } from './play.js';
 import { startCreate } from './create.js';
 import { showFinish } from './finish.js';
+import { voiceDialog } from './voiceDialog.js';
+import { auditCustomDialog } from '../dialogs/auditCustom.js';
 
 export const GAME_MODES = [
   { id: 'guided', icon: '🧸', age: '3–4' },
@@ -35,6 +37,7 @@ export function openGame() {
   const title = h('h2', { class: 'game-title' });
   const backBtn = h('button', { type: 'button', class: 'btn', onClick: () => back() }, `← ${t('game.back')}`);
   const soundBtn = h('button', { type: 'button', class: 'btn icon-toggle', onClick: toggleSound });
+  const voiceBtn = h('button', { type: 'button', class: 'btn', onClick: () => voiceDialog(), title: t('game.voice'), 'aria-label': t('game.voice') }, '🗣️');
   const modeBtns = ['colored', 'uncolored'].map((m) =>
     h('button', { type: 'button', 'data-mode': m, onClick: () => setView({ mode: m }) }, t(`mode.${m}`)));
   const body = h('div', { class: 'game-body' });
@@ -44,6 +47,7 @@ export function openGame() {
       h('span', { class: 'grow' }),
       h('div', { class: 'segmented', role: 'group', 'aria-label': t('mode.label') }, modeBtns),
       soundBtn,
+      voiceBtn,
       h('button', { type: 'button', class: 'btn', onClick: close, 'aria-label': t('common.close') }, '✕'),
     ),
     body,
@@ -96,18 +100,19 @@ export function openGame() {
   function close() {
     teardown();
     bus.off?.('view', onView);
-    document.removeEventListener('keydown', onKey);
+    document.removeEventListener('keydown', onKey, true);
     document.body.classList.remove('game-open');
     root.remove();
     root = null;
   }
   function onKey(e) {
-    if (e.key === 'Escape' && !document.querySelector('dialog[open]')) {
+    // Escape first closes an open popover or dialog; only then does it go back.
+    if (e.key === 'Escape' && !document.querySelector('dialog[open], .popover')) {
       e.preventDefault();
       back();
     }
   }
-  document.addEventListener('keydown', onKey);
+  document.addEventListener('keydown', onKey, true);
 
   /* ---------- screens ---------- */
   function menuScreen() {
@@ -125,6 +130,8 @@ export function openGame() {
             return card;
           }),
         ),
+        h('p', { class: 'game-tools' },
+          h('button', { type: 'button', class: 'btn btn-small', onClick: () => auditCustomDialog() }, `🔧 ${t('audit.menu')}`)),
       ),
     );
   }

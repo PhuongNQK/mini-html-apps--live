@@ -15,7 +15,7 @@ export function initShortcuts() {
       saveNow();
       return;
     }
-    if (typing || document.querySelector('dialog[open]')) return;
+    if (typing || document.body.classList.contains('game-open') || document.querySelector('dialog[open]')) return;
 
     if (ctrl && key === 'z') {
       e.preventDefault();

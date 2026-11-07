@@ -8,6 +8,8 @@ import { gallery } from '../services/gallery.js';
 import { createObjectItem, createSlide, duplicateItems, flip, groupItems, recolorItem, reorder, resetColors, ungroupItems } from '../model/ops.js';
 import { normalizeAngle, aabb, unionRects } from '../model/geometry.js';
 import { itemMarkup } from '../svg/render.js';
+import { luminance } from '../svg/annotate.js';
+import { itemColors } from '../model/ops.js';
 import { cloneItem } from '../model/ops.js';
 
 export const selectedItems = () => activeSlide().items.filter((i) => state.selection.includes(i.id));
@@ -200,6 +202,28 @@ export function deleteSlide() {
     deck.slides.splice(index, 1);
     state.slideId = deck.slides[Math.min(index, deck.slides.length - 1)].id;
     state.selection = [];
+  });
+}
+
+/**
+ * Puts a built object on a slide as ONE merged object with its fills removed (light fills become white),
+ * ready to be coloured in. Uses the current slide when it is empty, otherwise adds a new slide after it.
+ * @param {{svg:string, bbox:object, category?:string}} source  a prepared gallery item or composed object
+ */
+export function addColoringPage(source, name) {
+  mutate('addColoringPage', (deck, slide) => {
+    let target = slide;
+    if (slide.items.length) {
+      target = createSlide(name);
+      deck.slides.splice(deck.slides.indexOf(slide) + 1, 0, target);
+      state.slideId = target.id;
+    } else slide.name = name;
+    const item = createObjectItem({ ...source, category: 'props' }, deck, name);
+    const fit = (0.8 * Math.min(deck.width, deck.height)) / Math.max(item.bw, item.bh);
+    item.sx = item.sy = fit;
+    for (const [orig] of itemColors(item)) if (luminance(orig) > 0.35) item.colorMap[orig] = '#ffffff';
+    target.items.push(item);
+    state.selection = [item.id];
   });
 }
 

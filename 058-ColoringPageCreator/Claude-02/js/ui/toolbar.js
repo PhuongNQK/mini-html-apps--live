@@ -18,6 +18,7 @@ import { exportGalleryDialog, importGalleryFile } from './dialogs/galleryIO.js';
 import { exportDeckFile } from '../services/exporter.js';
 import { chooseWorkingDirectory } from './workdirUi.js';
 import { appearanceDialog } from './dialogs/appearance.js';
+import { openGame } from './game/index.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -76,6 +77,7 @@ export function initToolbar({ canvas }) {
     exportDeckFile: () => exportDeckFile(state.deck),
     importDeck: () => importDeckFile(),
     appearance: () => appearanceDialog(),
+    game: () => openGame(),
     menu: (el) => showAppMenu(el),
   };
 
@@ -92,6 +94,7 @@ export function initToolbar({ canvas }) {
       { icon: '📦', label: t('menu.exportDeckFile'), onClick: actions.exportDeckFile },
       { icon: '📥', label: t('menu.importDeck'), onClick: actions.importDeck },
       { icon: '🖨️', label: t('menu.print'), onClick: actions.print },
+      { icon: '🎮', label: t('menu.game'), onClick: actions.game },
       { icon: '🖌️', label: t('menu.appearance'), onClick: actions.appearance },
       { separator: true },
       { icon: '📤', label: t('gallery.export'), onClick: () => exportGalleryDialog() },

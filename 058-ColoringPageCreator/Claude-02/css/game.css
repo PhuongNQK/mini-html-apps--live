@@ -1,0 +1,150 @@
+/* "Build this object" game. Uses the theme variables, so every skin and the dark scheme apply. */
+
+.game-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  background: var(--body-bg);
+  color: var(--ink);
+  user-select: none;
+  -webkit-user-select: none;
+  animation: game-in 0.25s ease-out;
+}
+@keyframes game-in { from { opacity: 0; transform: scale(0.98); } }
+
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--header-bg);
+  border-bottom: 4px solid var(--header-border);
+  color: var(--on-header);
+  flex-wrap: wrap;
+}
+.game-header .grow, .create-tools .grow { flex: 1; }
+.game-title {
+  margin: 0;
+  font-family: var(--brand-font);
+  font-size: 1.25rem;
+  color: var(--brand-color);
+  text-shadow: var(--brand-shadow);
+}
+.game-header .btn { color: var(--ink); padding: 6px 12px; }
+.game-header .segmented button { color: var(--ink); }
+
+.game-body { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: auto; }
+
+/* ----- menu & picker ----- */
+.game-menu, .game-picker { padding: 20px clamp(12px, 4vw, 40px); max-width: 1100px; margin: 0 auto; width: 100%; }
+.game-lead { font-size: 1.15rem; font-weight: 600; text-align: center; margin: 4px 0 18px; }
+.mode-grid, .pick-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+.mode-card, .pick-card {
+  display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center;
+  padding: 18px 14px; background: var(--surface); color: var(--ink);
+  border: var(--border); border-radius: var(--radius); box-shadow: var(--shadow);
+  transition: transform 0.15s var(--bounce), box-shadow 0.15s;
+}
+.mode-card:hover, .pick-card:hover { transform: var(--hover-transform); background: var(--surface-hover); }
+.mode-card:active, .pick-card:active { transform: var(--active-transform); }
+.mode-icon { font-size: 3rem; line-height: 1; }
+.mode-card strong { font-size: 1.25rem; }
+.mode-desc { font-size: 0.9rem; color: var(--ink-soft); }
+.mode-age { font-size: 0.8rem; font-weight: 700; background: var(--highlight); padding: 2px 10px; border-radius: var(--pill); }
+.pick-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.pick-card { padding: 10px; }
+.pick-art { width: 100%; aspect-ratio: 1; background: var(--art-bg); border-radius: var(--radius-sm); border: 2px solid var(--line); }
+.pick-art svg { width: 100%; height: 100%; display: block; }
+.pick-meta { font-size: 0.8rem; color: var(--ink-soft); }
+
+/* ----- play layout ----- */
+.game-play { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 12px; }
+.game-stage { flex: 1; min-height: 0; display: flex; justify-content: center; }
+.game-board {
+  position: relative; height: 100%; max-width: 100%; aspect-ratio: 1; z-index: 2;
+  touch-action: none; user-select: none; -webkit-user-select: none;
+}
+.game-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.game-paper { fill: var(--art-bg); stroke: var(--line); stroke-width: 0.8; }
+.game-fx { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+.spark { position: absolute; font-size: 1.3rem; transform: translate(-50%, -50%); animation: spark 0.85s ease-out forwards; }
+@keyframes spark { to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.4) rotate(120deg); opacity: 0; } }
+.game-bubble {
+  position: absolute; left: 50%; top: 8px; transform: translateX(-50%); z-index: 4;
+  background: var(--highlight); color: var(--ink); border: var(--border); border-radius: var(--pill);
+  padding: 6px 16px; font-weight: 700; font-size: 1.05rem; box-shadow: var(--shadow-sm); white-space: nowrap; pointer-events: none;
+}
+.game-bubble.pop { animation: bubble-pop 0.35s var(--bounce); }
+@keyframes bubble-pop { from { transform: translateX(-50%) scale(0.6); opacity: 0; } }
+
+.game-status { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.game-prompt { font-weight: 700; font-size: 1.05rem; text-align: center; }
+.game-progress { width: min(240px, 40vw); height: 14px; background: var(--surface); border: 2px solid var(--line); border-radius: var(--pill); overflow: hidden; }
+.game-progress .bar { display: block; height: 100%; width: 0; background: var(--gold); transition: width 0.4s; }
+.game-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+
+.game-tray {
+  position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; align-items: center; min-height: 100px;
+  max-height: 34vh; padding: 8px; overflow-y: auto; background: var(--surface); border: var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.tray-piece {
+  flex: 0 0 auto; width: 84px; height: 84px; padding: 4px; touch-action: none; cursor: grab;
+  background: var(--art-bg); border: 2px solid var(--line); border-radius: var(--radius-sm);
+  transition: transform 0.15s var(--bounce);
+}
+.tray-piece:hover { transform: scale(1.06) rotate(-2deg); }
+.tray-piece svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+.tray-piece.lifted { opacity: 0.3; }
+.tray-piece.shake { animation: shake 0.4s; }
+@keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* ----- board elements ----- */
+.slot.faint { opacity: 0.45; }
+.slot.active { animation: glow 1s ease-in-out infinite alternate; }
+.slot.active * { stroke: #f5a300; }
+@keyframes glow { from { opacity: 0.65; } to { opacity: 1; filter: drop-shadow(0 0 2px #ffd23f); } }
+.piece { cursor: grab; }
+.piece.lifted { opacity: 0.3; }
+.piece.landed { transform-box: fill-box; transform-origin: center; animation: land 0.5s var(--bounce); }
+@keyframes land { 0% { transform: scale(1.35); } 100% { transform: scale(1); } }
+.peek { pointer-events: none; }
+.sel-frame { fill: none; stroke: var(--pink); stroke-width: 0.7; stroke-dasharray: 2 1.4; pointer-events: none; }
+.dragging { pointer-events: none; filter: drop-shadow(0 1.5px 1.5px rgba(0, 0, 0, 0.3)); }
+
+/* ----- create ----- */
+.create-empty { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-weight: 700; color: var(--ink-soft); pointer-events: none; padding: 20px; }
+.create-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.create-tools .sep { width: 2px; height: 24px; background: var(--divider); margin: 0 2px; }
+.mini-tool { padding: 4px 9px; min-width: 38px; font-size: 1rem; }
+.tools-hint { font-size: 0.9rem; color: var(--ink-soft); }
+.swatch-dot { width: 24px; height: 24px; border-radius: var(--round); border: 2px solid var(--line); padding: 0; }
+.swatch-dot:hover { transform: scale(1.2); }
+
+/* ----- finish ----- */
+.game-finish { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; padding: 12px; background: var(--backdrop); overflow: auto; }
+.fin-card {
+  position: relative; z-index: 2; width: min(560px, 100%); display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 20px 20px; text-align: center; background: var(--cream); border: var(--border); border-radius: var(--radius);
+  box-shadow: var(--dialog-shadow); animation: land 0.5s var(--bounce);
+}
+.fin-card h2 { margin: 0; font-family: var(--brand-font); color: var(--heading); }
+.fin-art { width: min(300px, 70vw); aspect-ratio: 1; background: var(--art-bg); border: var(--border); border-radius: var(--radius); }
+.fin-art svg { width: 100%; height: 100%; display: block; }
+.fin-card p { margin: 0; font-weight: 600; }
+.fin-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
+.confetti-layer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.confetti { position: absolute; top: -12px; width: 10px; height: 16px; background: var(--c); border-radius: 2px; animation: fall linear infinite; }
+@keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+
+@media (max-width: 700px) {
+  .tray-piece { width: 68px; height: 68px; }
+  .game-tray { min-height: 80px; }
+  .game-header .btn { padding: 4px 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .confetti, .slot.active, .piece.landed, .fin-card { animation: none; }
+}
+.game-body:has(.game-finish) .game-bubble { display: none; }

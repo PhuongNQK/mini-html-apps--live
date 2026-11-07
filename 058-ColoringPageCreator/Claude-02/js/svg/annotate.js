@@ -144,7 +144,10 @@ export function prepareSvg(markup, opts = {}) {
       if (hasStroke) maxStroke = Math.max(maxStroke, parseFloat(inherited(el, 'stroke-width', root)) || 1);
 
       let u = null;
-      if (!hasFill && hasStroke) u = 'fill:none;stroke:@M;opacity:1';
+      // Authoring hints: data-solid = always solid mono (pupils), data-blank = plain white (highlights).
+      if (el.hasAttribute('data-solid')) u = 'fill:@M;stroke:none;opacity:1';
+      else if (el.hasAttribute('data-blank')) u = 'fill:#fff;stroke:none;opacity:1';
+      else if (!hasFill && hasStroke) u = 'fill:none;stroke:@M;opacity:1';
       else if (hasFill && hasStroke) u = 'fill:#fff;stroke:@M;opacity:1';
       else if (hasFill) {
         const b = safeBBox(el);

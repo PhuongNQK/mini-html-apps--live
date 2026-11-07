@@ -4,12 +4,14 @@ import wearables from './wearables.js';
 import props from './props.js';
 import backgrounds from './backgrounds.js';
 import buildingBlocks from './buildingBlocks.js';
+import animals from './animals.js';
 
-export const BUILTIN_GALLERIES = [characters, wearables, props, backgrounds, buildingBlocks];
+export const BUILTIN_GALLERIES = [buildingBlocks, characters, wearables, props, backgrounds, animals];
 
 /** Category order shown in the UI. `custom` holds everything the user creates. */
 export const CATEGORIES = [
   { code: 'characters', icon: '🐱' },
+  { code: 'animals', icon: '🐟' },
   { code: 'wearables', icon: '🎩' },
   { code: 'props', icon: '🎃' },
   { code: 'backgrounds', icon: '🏞️' },

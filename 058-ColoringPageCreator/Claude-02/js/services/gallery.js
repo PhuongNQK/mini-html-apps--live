@@ -12,6 +12,7 @@ import { prepareSvg } from '../svg/annotate.js';
 import { BUILTIN_GALLERIES, CATEGORIES } from '../data/builtin/index.js';
 import { local } from './storage.js';
 import { workdir } from './workdir.js';
+import { composeRecipe, difficultyOf, blockCounts } from '../game/recipe.js';
 
 export const GALLERY_FORMAT = 'magic-color-gallery';
 const CATEGORY_CODES = new Set(CATEGORIES.map((c) => c.code));
@@ -39,6 +40,56 @@ class GalleryService extends Emitter {
 
     this.#overrides = { names: {}, deleted: [], ...local.get(OVERRIDES_KEY, {}) };
     for (const item of local.get(USER_KEY, [])) this.#items.set(item.id, item);
+    this.#resolveRecipes();
+  }
+
+  /** Recipe items without their own svg are drawn from their blocks once every gallery is loaded. */
+  #resolveRecipes() {
+    for (const item of [...this.#items.values()]) {
+      if (!item.pending) continue;
+      const composed = composeRecipe(item.recipe, (id) => this.#items.get(id));
+      if (!composed) {
+        console.warn(`Recipe "${item.id}" uses a missing block – skipped`);
+        this.#items.delete(item.id);
+        continue;
+      }
+      const prepared = prepareSvg(composed);
+      item.svg = composed;
+      item.bbox = prepared.bbox;
+      delete item.pending;
+    }
+  }
+
+  /** Validated copy of a recipe, or null. */
+  static cleanRecipe(list) {
+    if (!Array.isArray(list)) return null;
+    const num = (v, d) => (Number.isFinite(Number(v)) ? Number(v) : d);
+    const parts = list
+      .filter((p) => p && typeof p.block === 'string')
+      .map((p) => ({
+        block: p.block,
+        x: num(p.x, 50),
+        y: num(p.y, 50),
+        sx: num(p.sx, 1) || 1,
+        sy: num(p.sy, 1) || 1,
+        rot: num(p.rot, 0),
+        flip: !!p.flip,
+        fill: /^#[0-9a-f]{6}$/i.test(p.fill || '') ? p.fill.toLowerCase() : null,
+        label: typeof p.label === 'string' ? p.label.slice(0, 40) : '',
+        z: num(p.z, 0),
+      }));
+    return parts.length ? parts : null;
+  }
+
+  /** Copies the game fields of a raw entry onto a normalised item. */
+  #attachRecipe(item, raw) {
+    const recipe = GalleryService.cleanRecipe(raw.recipe);
+    if (!recipe) return;
+    item.recipe = recipe;
+    item.partCount = recipe.length;
+    item.difficulty = ['easy', 'medium', 'hard'].includes(raw.difficulty) ? raw.difficulty : difficultyOf(recipe.length);
+    item.blocksUsed = Object.fromEntries(blockCounts(recipe));
+    if (typeof raw.fact === 'string' && raw.fact.trim()) item.fact = raw.fact.trim().slice(0, 200);
   }
 
   /** Normalises raw gallery entries (sanitises SVG, measures bbox) and stores them. */
@@ -54,10 +105,14 @@ class GalleryService extends Emitter {
   }
 
   #normalize(raw, defaultCategory, source) {
-    if (typeof raw?.svg !== 'string' || !raw.svg.trim()) throw new Error('missing svg');
+    const hasRecipe = Array.isArray(raw?.recipe) && raw.recipe.length > 0;
+    if (typeof raw?.svg !== 'string' || !raw.svg.trim()) {
+      if (!hasRecipe) throw new Error('missing svg');
+      raw = { ...raw, svg: '<g/>', prepared: false, pending: true };
+    }
     const category = CATEGORY_CODES.has(raw.category) ? raw.category : defaultCategory;
     const prepared = raw.prepared && raw.bbox ? { svg: raw.svg, bbox: raw.bbox } : prepareSvg(raw.svg, { noPad: category === 'backgrounds' });
-    return {
+    const item = {
       id: String(raw.id || uid('gal')),
       name: String(raw.name || 'Untitled'),
       category,
@@ -66,6 +121,9 @@ class GalleryService extends Emitter {
       source,
       prepared: true,
     };
+    if (raw.pending) item.pending = true;
+    this.#attachRecipe(item, raw);
+    return item;
   }
 
   /* ---------- queries ---------- */
@@ -100,6 +158,16 @@ class GalleryService extends Emitter {
     return this.all().filter((i) => i.category === category).length;
   }
 
+  /** Building blocks, in gallery order. */
+  blocks() {
+    return this.all().filter((i) => i.category === 'buildingBlocks');
+  }
+
+  /** Items the "Build this object" game can use (they have a recipe). */
+  recipes() {
+    return this.all().filter((i) => i.recipe?.length && !i.pending);
+  }
+
   customItems() {
     return this.all().filter((i) => i.source === 'user');
   }
@@ -111,9 +179,10 @@ class GalleryService extends Emitter {
   /* ---------- changes ---------- */
 
   /** Saves a slide object/group (markup already baked) into the Custom category. */
-  addCustom({ name, svg }) {
-    const prepared = prepareSvg(svg);
+  addCustom({ name, svg, bbox = null, recipe = null }) {
+    const prepared = bbox ? { svg, bbox } : prepareSvg(svg);
     const item = { id: uid('custom'), name, category: 'custom', svg: prepared.svg, bbox: prepared.bbox, source: 'user', prepared: true, created: Date.now() };
+    if (recipe) this.#attachRecipe(item, { recipe });
     this.#items.set(item.id, item);
     this.#changed(true);
     return item;
@@ -141,7 +210,7 @@ class GalleryService extends Emitter {
   }
 
   #changed(userChanged, overridesChanged = false) {
-    if (userChanged) local.set(USER_KEY, this.customItems().map(({ id, name, category, svg, bbox, source, prepared, created }) => ({ id, name, category, svg, bbox, source, prepared, created })));
+    if (userChanged) local.set(USER_KEY, this.customItems().map(({ id, name, category, svg, bbox, source, prepared, created, recipe, fact }) => ({ id, name, category, svg, bbox, source, prepared, created, recipe, fact })));
     if (overridesChanged) local.set(OVERRIDES_KEY, this.#overrides);
     this.emit('change');
     if (userChanged) this.emit('userChange');
@@ -155,7 +224,7 @@ class GalleryService extends Emitter {
    */
   exportText(scope, ids = []) {
     const pool = scope === 'custom' ? this.customItems() : scope === 'selected' ? this.all().filter((i) => ids.includes(i.id)) : this.all();
-    const items = pool.map((i) => ({ id: i.id, name: this.displayName(i), category: i.category, svg: i.svg, bbox: i.bbox, prepared: true }));
+    const items = pool.map((i) => ({ id: i.id, name: this.displayName(i), category: i.category, svg: i.svg, bbox: i.bbox, prepared: true, recipe: i.recipe, fact: i.fact }));
     return JSON.stringify({ format: GALLERY_FORMAT, version: 1, exported: new Date().toISOString(), items });
   }
 
@@ -182,6 +251,7 @@ class GalleryService extends Emitter {
         console.warn('Skipped invalid gallery item while importing', err);
       }
     }
+    this.#resolveRecipes();
     if (added) this.#changed(true);
     return added;
   }
@@ -214,6 +284,7 @@ class GalleryService extends Emitter {
           added++;
         } catch { /* skip */ }
       }
+      this.#resolveRecipes();
       if (added) this.#changed(true);
       return added;
     } catch {

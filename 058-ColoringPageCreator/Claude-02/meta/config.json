@@ -14,7 +14,8 @@
     "assets/galleries/backgrounds.json",
     "assets/galleries/characters.json",
     "assets/galleries/wearables.json",
-    "assets/galleries/building-blocks.json"
+    "assets/galleries/building-blocks.json",
+    "assets/galleries/with-recipes/animals_100.json"
   ],
   "autosaveSeconds": 120,
   "defaultSlideSize": "a4-landscape",

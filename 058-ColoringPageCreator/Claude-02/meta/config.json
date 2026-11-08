@@ -14,11 +14,13 @@
     "assets/galleries/backgrounds.json",
     "assets/galleries/characters.json",
     "assets/galleries/wearables.json",
-    "assets/galleries/humans_100.json",
-    "assets/galleries/robots_100.json",
     "assets/galleries/recipes-sample.json",
     "assets/galleries/building-blocks.json",
-    "assets/galleries/with-recipes/animals_100.json"
+    "assets/galleries/with-recipes/animals_100.json",
+    "assets/galleries/with-recipes/humans_100.json",
+    "assets/galleries/with-recipes/ninjas_100.json",
+    "assets/galleries/with-recipes/robots_100.json",
+    "assets/galleries/with-recipes/vehicles_100.json"
   ],
   "autosaveSeconds": 120,
   "defaultSlideSize": "a4-landscape",

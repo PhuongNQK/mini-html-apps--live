@@ -18,7 +18,8 @@ export function initGalleryPanel(root) {
   const grid = h('div', { class: 'gallery-grid' });
   const footer = h('div', { class: 'gallery-footer' });
   const title = h('div', { class: 'panel-title' });
-  root.replaceChildren(title, search, tabs, grid, footer);
+  const loadingBar = h('div', { class: 'gallery-loading', role: 'status', hidden: true });
+  root.replaceChildren(title, loadingBar, search, tabs, grid, footer);
 
   search.addEventListener('input', () => {
     galleryUi.query = search.value;
@@ -93,7 +94,7 @@ export function initGalleryPanel(root) {
   function renderGrid() {
     const items = gallery.search(galleryUi.query, galleryUi.category);
     if (!items.length) {
-      grid.replaceChildren(h('p', { class: 'empty' }, galleryUi.category === 'buildingBlocks' && !galleryUi.query ? t('gallery.emptyBlocks') : galleryUi.category === 'custom' && !galleryUi.query ? t('gallery.emptyCustom') : t('gallery.noResults')));
+      grid.replaceChildren(h('p', { class: 'empty' }, gallery.loading.active ? `⏳ ${t('gallery.loadingEmpty')}` : galleryUi.category === 'buildingBlocks' && !galleryUi.query ? t('gallery.emptyBlocks') : galleryUi.category === 'custom' && !galleryUi.query ? t('gallery.emptyCustom') : t('gallery.noResults')));
     } else grid.replaceChildren(...items.map(card));
     renderFooter();
   }
@@ -132,9 +133,28 @@ export function initGalleryPanel(root) {
     renderTabs();
     renderGrid();
   };
-  gallery.on('change', () => (renderTabs(), renderGrid()));
+  // Galleries arrive one by one: coalesce bursts of changes into one redraw per frame.
+  let queued = false;
+  const redraw = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      renderTabs();
+      renderGrid();
+    });
+  };
+  const showProgress = () => {
+    const { active, done, total } = gallery.loading;
+    loadingBar.hidden = !active;
+    loadingBar.textContent = active ? `⏳ ${t('gallery.loading', { done, total })}` : '';
+    loadingBar.style.setProperty('--p', `${total ? (done / total) * 100 : 0}%`);
+  };
+  gallery.on('change', redraw);
+  gallery.on('progress', showProgress);
   bus.on('view', renderGrid);
   bus.on('deckLoaded', renderGrid);
   refresh();
+  showProgress();
   return { rebuild: refresh };
 }

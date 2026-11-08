@@ -314,5 +314,8 @@
   "game.voiceTest": "Test",
   "game.voiceHint": "The voices come from your device, so every device can offer different ones.",
   "game.voiceSample": "Hello! Let's build something together.",
-  "game.noVoices": "This device did not list any voices. Try another browser or install a voice in your system settings."
+  "game.noVoices": "This device did not list any voices. Try another browser or install a voice in your system settings.",
+  "gallery.loading": "Loading galleries… {done} of {total}",
+  "gallery.loadingEmpty": "Loading… items appear as soon as they are ready.",
+  "game.stillLoading": "More objects are still loading and will appear here."
 }

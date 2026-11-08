@@ -34,39 +34,79 @@ const CATEGORY_RE = /^[A-Za-z][A-Za-z0-9_-]{0,31}$/;
 const USER_KEY = 'gallery.user';
 const OVERRIDES_KEY = 'gallery.overrides';
 
+const yieldToBrowser = () => (globalThis.scheduler?.yield ? globalThis.scheduler.yield() : new Promise((r) => setTimeout(r)));
+
 class GalleryService extends Emitter {
   #items = new Map();
   #overrides = { names: {}, deleted: [] };
+  #loading = { active: false, done: 0, total: 0 };
+  ready = Promise.resolve();
 
+  /**
+   * Starts the gallery. Returns as soon as the user's own items are available; the built-in and file
+   * galleries keep loading in the background, one after another, and the service emits "change"
+   * after each one (and "progress" with the counters in `loading`). Use `ready` to await the end.
+   */
   async init(config) {
-    for (const g of BUILTIN_GALLERIES) this.#addMany(g.items, g.category, 'builtin');
-
-    for (const path of config.galleries) {
-      try {
-        const res = await fetch(path, { cache: 'no-cache' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        const list = Array.isArray(data) ? data : data.items;
-        this.#addMany(list, (!Array.isArray(data) && data.category) || 'props', 'file');
-      } catch (err) {
-        console.warn(`Gallery "${path}" could not be loaded`, err);
-      }
-    }
-
     this.#overrides = { names: {}, deleted: [], ...local.get(OVERRIDES_KEY, {}) };
     for (const item of local.get(USER_KEY, [])) this.#items.set(item.id, item);
-    this.#resolveRecipes();
-    this.auditCustom(); // repairs stale part counts left by older versions
+
+    // Start every download now so they overlap while earlier galleries are being processed.
+    const downloads = config.galleries.map((path) =>
+      fetch(path, { cache: 'no-cache' })
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return res.json();
+        })
+        .catch((err) => (console.warn(`Gallery "${path}" could not be loaded`, err), null)),
+    );
+    this.#loading = { active: true, done: 0, total: BUILTIN_GALLERIES.length + downloads.length };
+    this.ready = this.#loadAll(downloads);
   }
 
-  /** Recipe items without their own svg are drawn from their blocks once every gallery is loaded. */
-  #resolveRecipes() {
+  get loading() {
+    return this.#loading;
+  }
+
+  async #loadAll(downloads) {
+    const finished = () => {
+      this.#loading.done += 1;
+      this.#resolveRecipes();
+      this.emit('progress');
+      this.emit('change');
+    };
+    try {
+      for (const g of BUILTIN_GALLERIES) {
+        await this.#addManyAsync(g.items, g.category, 'builtin');
+        finished();
+      }
+      for (const download of downloads) {
+        const data = await download;
+        if (data) {
+          const list = Array.isArray(data) ? data : data.items;
+          await this.#addManyAsync(list, (!Array.isArray(data) && data.category) || 'props', 'file');
+        }
+        finished();
+      }
+      this.#resolveRecipes(true);
+      this.auditCustom(); // repairs stale part counts (needs every block to be loaded)
+    } finally {
+      this.#loading.active = false;
+      this.emit('progress');
+      this.emit('change');
+    }
+  }
+
+  /** Recipe items without their own svg are drawn from their blocks as soon as those blocks are loaded. */
+  #resolveRecipes(final = false) {
     for (const item of [...this.#items.values()]) {
       if (!item.pending) continue;
-      const composed = composeRecipe(item.recipe, (id) => this.#items.get(id));
+      const composed = composeRecipe(item.recipe, (id) => this.#items.get(id)?.pending ? null : this.#items.get(id));
       if (!composed) {
-        console.warn(`Recipe "${item.id}" uses a missing block – skipped`);
-        this.#items.delete(item.id);
+        if (final) {
+          console.warn(`Recipe "${item.id}" uses a missing block – skipped`);
+          this.#items.delete(item.id);
+        }
         continue;
       }
       const prepared = prepareSvg(composed);
@@ -121,6 +161,29 @@ class GalleryService extends Emitter {
     }
   }
 
+  /** Same as #addMany but gives the browser a turn every few milliseconds so the app stays responsive. */
+  async #addManyAsync(list, defaultCategory, source) {
+    let sliceStart = performance.now();
+    let lastEmit = sliceStart;
+    for (const raw of list || []) {
+      try {
+        const item = this.#normalize(raw, defaultCategory, source);
+        this.#items.set(item.id, item);
+      } catch (err) {
+        console.warn('Skipped invalid gallery item', raw?.id, err);
+      }
+      const now = performance.now();
+      if (now - sliceStart > 12) {
+        if (now - lastEmit > 300) {
+          this.emit('change'); // big galleries show up in steps too
+          lastEmit = now;
+        }
+        await yieldToBrowser();
+        sliceStart = performance.now();
+      }
+    }
+  }
+
   #normalize(raw, defaultCategory, source) {
     const hasRecipe = Array.isArray(raw?.recipe) && raw.recipe.length > 0;
     if (typeof raw?.svg !== 'string' || !raw.svg.trim()) {
@@ -152,7 +215,8 @@ class GalleryService extends Emitter {
   }
 
   get(id) {
-    return this.#items.get(id);
+    const item = this.#items.get(id);
+    return item?.pending ? undefined : item;
   }
 
   isDeleted(id) {
@@ -160,7 +224,7 @@ class GalleryService extends Emitter {
   }
 
   all() {
-    return [...this.#items.values()].filter((i) => !this.isDeleted(i.id));
+    return [...this.#items.values()].filter((i) => !i.pending && !this.isDeleted(i.id));
   }
 
   /** Items in `category` (or all) whose name contains `query` (case-insensitive). */
@@ -209,7 +273,7 @@ class GalleryService extends Emitter {
       const before = item.partCount ?? null;
       let note = '';
       if (item.recipe?.length) {
-        if (!item.recipe.every((p) => this.#items.has(p.block))) {
+        if (!item.recipe.every((p) => this.get(p.block))) {
           delete item.recipe;
           delete item.blocksUsed;
           delete item.difficulty;
@@ -236,7 +300,7 @@ class GalleryService extends Emitter {
 
   /** Items the "Build this object" game can use (they have a recipe). */
   recipes() {
-    return this.all().filter((i) => i.recipe?.length && !i.pending && i.recipe.every((p) => this.#items.has(p.block)));
+    return this.all().filter((i) => i.recipe?.length && !i.pending && i.recipe.every((p) => this.get(p.block)));
   }
 
   customItems() {
@@ -324,7 +388,7 @@ class GalleryService extends Emitter {
         console.warn('Skipped invalid gallery item while importing', err);
       }
     }
-    this.#resolveRecipes();
+    this.#resolveRecipes(!this.#loading.active);
     if (added) this.#changed(true);
     return added;
   }
@@ -357,7 +421,7 @@ class GalleryService extends Emitter {
           added++;
         } catch { /* skip */ }
       }
-      this.#resolveRecipes();
+      this.#resolveRecipes(!this.#loading.active);
       if (added) this.#changed(true);
       return added;
     } catch {

@@ -19,9 +19,12 @@ import { t } from './core/i18n.js';
 
 async function boot() {
   await loadConfig();
+  // Galleries load in the background and the panels fill up as each one arrives, so start them first
+  // and let them overlap with the rest of the start-up.
+  const galleryStart = gallery.init(config);
   await initI18n(config);
   await initTheme();
-  await gallery.init(config);
+  await galleryStart;
   await workdir.restore();
 
   if (!(await restoreLast())) {

@@ -77,6 +77,12 @@ export function openGame() {
     if (trail.at(-1).rerenderOnMode) show(trail.at(-1), { push: false });
   };
   bus.on('view', onView);
+  // Galleries may still be loading in the background: keep the object list and the block tray current.
+  const offGallery = gallery.on('change', () => {
+    const top = trail.at(-1);
+    if (top?.rerenderOnMode) show(top, { push: false });
+    else if (top === createScreen) controller?.refresh?.();
+  });
 
   function teardown() {
     controller?.destroy?.();
@@ -100,6 +106,7 @@ export function openGame() {
   function close() {
     teardown();
     bus.off?.('view', onView);
+    offGallery();
     document.removeEventListener('keydown', onKey, true);
     document.body.classList.remove('game-open');
     root.remove();
@@ -144,6 +151,7 @@ export function openGame() {
       body.replaceChildren(
         h('div', { class: 'game-picker' },
           h('p', { class: 'game-lead' }, t('game.pick')),
+          gallery.loading.active ? h('p', { class: 'hint' }, `⏳ ${t('game.stillLoading')}`) : null,
           list.length
             ? h('div', { class: 'pick-grid' },
                 list.map((item) =>

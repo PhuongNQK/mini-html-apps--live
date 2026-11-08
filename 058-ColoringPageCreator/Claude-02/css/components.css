@@ -826,3 +826,16 @@
 /* Category logo taken from one of the category's shapes (auto-detected categories). */
 .tab-icon svg { width: 1.2em; height: 1.2em; display: block; }
 .segmented.small button { padding: 2px 12px; font-size: 0.85rem; }
+
+/* Progress while galleries load in the background. */
+.gallery-loading {
+  position: relative;
+  margin: 0 10px 6px;
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  border-radius: var(--pill);
+  background: linear-gradient(90deg, var(--highlight) var(--p, 0%), var(--surface) var(--p, 0%));
+  border: 2px solid var(--line);
+}

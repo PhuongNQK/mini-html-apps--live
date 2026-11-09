@@ -19,6 +19,7 @@ import { Board, beginDrag } from './board.js';
 import { blockName, cap } from './names.js';
 import { promptText, toast } from '../dialog.js';
 import { openColorPopover } from '../colorPicker.js';
+import { VirtualGrid } from '../virtualGrid.js';
 
 const VIEW = { x: -6, y: -6, w: 112, h: 112 };
 const COLORS = ['#ff6b6b', '#ff9f43', '#ffd23f', '#6bcb77', '#4ecdc4', '#4ea8de', '#a78bfa', '#ff8fb1', '#8a5a2b', '#ffffff', '#2b2b3b'];
@@ -132,7 +133,7 @@ export function startCreate({ host, onDone }) {
   /* ---------- DOM ---------- */
   const tools = h('div', { class: 'create-tools' });
   const advBar = h('div', { class: 'adv-bar' });
-  const tray = h('div', { class: 'game-tray', role: 'list', 'aria-label': t('game.tray') });
+  const tray = h('div', { class: 'game-tray virtual', role: 'list', 'aria-label': t('game.tray') });
   const empty = h('div', { class: 'create-empty' }, `👆 ${t('game.createEmpty')}`);
   board.el.append(empty);
   host.replaceChildren(h('div', { class: 'game-play mode-create' }, h('div', { class: 'game-stage' }, board.el), tools, advBar, tray));
@@ -168,35 +169,42 @@ export function startCreate({ host, onDone }) {
     return p;
   };
 
-  function renderTray() {
+  /** One tray tile (built only for tiles that are on screen). */
+  function trayButton(item) {
     const { mode, mono } = state.deck.view;
+    const label = advanced ? gallery.displayName(item) : blockName(item.id);
+    const thumb = advanced || item.category !== 'buildingBlocks'
+      ? galleryThumb(item, mode, mono)
+      : trayThumb({ block: item.id, x: 0, y: 0, sx: DEFAULT_SIZE, sy: DEFAULT_SIZE, rot: 0, flip: false, fill: null }, item, mode, mono);
+    const btn = h('button', { type: 'button', class: 'tray-piece', role: 'listitem', title: label, 'aria-label': label, html: thumb });
+    btn.addEventListener('pointerdown', (e) => {
+      if (e.button > 0) return;
+      e.preventDefault();
+      sound.pick();
+      const sample = previewPart(item);
+      beginDrag(e, board, (at) => paint(partMarkup(sample, sample.svg ? null : item, at)), {
+        onMove: (what) => what === 'start' && btn.classList.add('lifted'),
+        onDrop: (info) => {
+          btn.classList.remove('lifted');
+          // A tap drops the piece in the middle (slightly offset so repeats don't hide each other).
+          const at = info.moved ? (info.inside ? info : null) : { x: 50 + (parts.length % 5) * 4, y: 50 + (parts.length % 5) * 4 };
+          if (at) add(item, at);
+        },
+      });
+    });
+    return btn;
+  }
+
+  // The advanced tray can list the whole gallery: only the visible tiles are kept in the DOM.
+  const trayGrid = new VirtualGrid(tray, {
+    renderItem: trayButton,
+    cell: () => (matchMedia('(max-width: 700px)').matches ? 68 : 84),
+    gap: 8, padX: 8, padTop: 8, padBottom: 8, center: true,
+  });
+
+  function renderTray({ reset = false } = {}) {
     const items = advanced ? gallery.search(adv.query, adv.category) : gallery.blocks();
-    tray.replaceChildren(
-      ...items.map((item) => {
-        const label = advanced ? gallery.displayName(item) : blockName(item.id);
-        const thumb = advanced || item.category !== 'buildingBlocks'
-          ? galleryThumb(item, mode, mono)
-          : trayThumb({ block: item.id, x: 0, y: 0, sx: DEFAULT_SIZE, sy: DEFAULT_SIZE, rot: 0, flip: false, fill: null }, item, mode, mono);
-        const btn = h('button', { type: 'button', class: 'tray-piece', role: 'listitem', title: label, 'aria-label': label, html: thumb });
-        btn.addEventListener('pointerdown', (e) => {
-          if (e.button > 0) return;
-          e.preventDefault();
-          sound.pick();
-          const sample = previewPart(item);
-          beginDrag(e, board, (at) => paint(partMarkup(sample, sample.svg ? null : item, at)), {
-            onMove: (what) => what === 'start' && btn.classList.add('lifted'),
-            onDrop: (info) => {
-              btn.classList.remove('lifted');
-              // A tap drops the piece in the middle (slightly offset so repeats don't hide each other).
-              const at = info.moved ? (info.inside ? info : null) : { x: 50 + (parts.length % 5) * 4, y: 50 + (parts.length % 5) * 4 };
-              if (at) add(item, at);
-            },
-          });
-        });
-        return btn;
-      }),
-    );
-    if (!items.length) tray.replaceChildren(h('p', { class: 'hint pad' }, t('gallery.noResults')));
+    trayGrid.setItems(items, { resetScroll: reset, empty: h('p', { class: 'hint pad' }, t('gallery.noResults')) });
   }
 
   function renderAdvBar() {
@@ -208,12 +216,12 @@ export function startCreate({ host, onDone }) {
     select.value = adv.category;
     select.addEventListener('change', () => {
       adv.category = select.value;
-      renderTray();
+      renderTray({ reset: true });
     });
     const search = h('input', { type: 'search', class: 'field search', placeholder: t('gallery.search'), value: adv.query, 'aria-label': t('gallery.search') });
     search.addEventListener('input', () => {
       adv.query = search.value;
-      renderTray();
+      renderTray({ reset: true });
     });
     advBar.replaceChildren(select, search, h('span', { class: 'hint' }, t('game.advancedHint')));
   }
@@ -313,7 +321,7 @@ export function startCreate({ host, onDone }) {
             advanced = m === 'advanced';
             local.set('game.createMode', m);
             renderAdvBar();
-            renderTray();
+            renderTray({ reset: true });
             syncTools();
           },
         }, t(`game.createMode.${m}`))));
@@ -435,6 +443,6 @@ export function startCreate({ host, onDone }) {
 
   return {
     refresh: () => (renderTray(), render()),
-    destroy: () => document.removeEventListener('keydown', onKey),
+    destroy: () => (document.removeEventListener('keydown', onKey), trayGrid.destroy()),
   };
 }

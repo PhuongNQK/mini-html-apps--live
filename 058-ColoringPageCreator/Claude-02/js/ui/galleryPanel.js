@@ -9,6 +9,8 @@ import { promptText, confirmBox, toast } from './dialog.js';
 import { showMenu } from './menu.js';
 import { exportGalleryDialog, importGalleryFile } from './dialogs/galleryIO.js';
 import { auditCustomDialog } from './dialogs/auditCustom.js';
+import { VirtualGrid } from './virtualGrid.js';
+import { theme } from '../core/theme.js';
 
 export const galleryUi = { category: 'all', query: '', selectMode: false, selected: new Set() };
 
@@ -20,10 +22,12 @@ export function initGalleryPanel(root) {
   const title = h('div', { class: 'panel-title' });
   const loadingBar = h('div', { class: 'gallery-loading', role: 'status', hidden: true });
   root.replaceChildren(title, loadingBar, search, tabs, grid, footer);
+  // Only the visible tiles exist in the DOM, however long the list is.
+  const vgrid = new VirtualGrid(grid, { renderItem: (item) => card(item), minCol: 104, gap: 10, padX: 10, padTop: 4, padBottom: 10 });
 
   search.addEventListener('input', () => {
     galleryUi.query = search.value;
-    renderGrid();
+    renderGrid({ reset: true });
   });
 
   function renderTabs() {
@@ -38,7 +42,7 @@ export function initGalleryPanel(root) {
           onClick: () => {
             galleryUi.category = c.code;
             renderTabs();
-            renderGrid();
+            renderGrid({ reset: true });
           },
         }, h('span', { class: 'tab-icon', ...(c.logo ? { html: galleryThumb(c.logo, 'colored', '#000') } : {}) }, c.logo ? null : c.icon), h('span', {}, c.code === 'all' ? t('category.all') : gallery.categoryLabel(c.code))),
       ),
@@ -91,11 +95,13 @@ export function initGalleryPanel(root) {
     }
   }
 
-  function renderGrid() {
+  function renderGrid({ reset = false } = {}) {
     const items = gallery.search(galleryUi.query, galleryUi.category);
-    if (!items.length) {
-      grid.replaceChildren(h('p', { class: 'empty' }, gallery.loading.active ? `⏳ ${t('gallery.loadingEmpty')}` : galleryUi.category === 'buildingBlocks' && !galleryUi.query ? t('gallery.emptyBlocks') : galleryUi.category === 'custom' && !galleryUi.query ? t('gallery.emptyCustom') : t('gallery.noResults')));
-    } else grid.replaceChildren(...items.map(card));
+    const message = gallery.loading.active
+      ? `⏳ ${t('gallery.loadingEmpty')}`
+      : galleryUi.category === 'buildingBlocks' && !galleryUi.query ? t('gallery.emptyBlocks')
+        : galleryUi.category === 'custom' && !galleryUi.query ? t('gallery.emptyCustom') : t('gallery.noResults');
+    vgrid.setItems(items, { resetScroll: reset, empty: h('p', { class: 'empty' }, message) });
     renderFooter();
   }
 
@@ -152,8 +158,10 @@ export function initGalleryPanel(root) {
   };
   gallery.on('change', redraw);
   gallery.on('progress', showProgress);
-  bus.on('view', renderGrid);
-  bus.on('deckLoaded', renderGrid);
+  bus.on('view', () => renderGrid());
+  theme.on('change', () => vgrid.relayout());
+  document.fonts?.ready.then(() => vgrid.relayout());
+  bus.on('deckLoaded', () => renderGrid());
   refresh();
   showProgress();
   return { rebuild: refresh };

@@ -839,3 +839,9 @@
   background: linear-gradient(90deg, var(--highlight) var(--p, 0%), var(--surface) var(--p, 0%));
   border: 2px solid var(--line);
 }
+
+/* Virtual lists: tiles are absolutely positioned inside one tall sizer. */
+.vg { display: block !important; position: relative; padding: 0 !important; overflow-y: auto; }
+.vg-sizer { position: relative; width: 100%; }
+.vg .empty { padding: 12px 14px; }
+.gallery-grid.vg .gcard { margin: 0; }

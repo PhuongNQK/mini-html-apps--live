@@ -7,7 +7,7 @@
   <title>Magic Color</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@400;700&family=Chewy&family=Patrick+Hand&family=Caveat:wght@400;700&family=Pacifico&family=Lobster&family=Bangers&family=Creepster&family=Mountains+of+Christmas:wght@400;700&display=swap">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%B0%3C/text%3E%3C/svg%3E">
   <script>
     /* Apply the saved appearance before first paint (full logic: js/core/theme.js). */
@@ -78,6 +78,8 @@
 
     <!-- ===== Edit bar ===== -->
     <div class="editbar" role="toolbar" data-i18n-aria="edit.label">
+      <button class="ebtn accent" data-action="addText" type="button" data-i18n-title="edit.addTextTitle"><span aria-hidden="true">🔤</span><span class="lbl" data-i18n="edit.addText">Add text</span></button>
+      <span class="sep"></span>
       <button class="ebtn" data-action="copy" data-needs="sel" type="button" data-i18n-title="edit.copyTitle"><span aria-hidden="true">📋</span><span class="lbl" data-i18n="edit.copy">Copy</span></button>
       <button class="ebtn" data-action="paste" data-needs="clip" type="button" data-i18n-title="edit.pasteTitle"><span aria-hidden="true">📌</span><span class="lbl" data-i18n="edit.paste">Paste</span></button>
       <button class="ebtn" data-action="duplicate" data-needs="sel" type="button" data-i18n-title="edit.duplicate"><span aria-hidden="true">📑</span><span class="lbl" data-i18n="edit.duplicate">Duplicate</span></button>

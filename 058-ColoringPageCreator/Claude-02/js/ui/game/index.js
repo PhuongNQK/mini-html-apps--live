@@ -17,6 +17,9 @@ import { startCreate } from './create.js';
 import { showFinish } from './finish.js';
 import { voiceDialog } from './voiceDialog.js';
 import { auditCustomDialog } from '../dialogs/auditCustom.js';
+import { blockCheckDialog } from '../dialogs/blockCheck.js';
+import { VirtualGrid } from '../virtualGrid.js';
+import { renderCategoryTabs } from '../categoryTabs.js';
 
 export const GAME_MODES = [
   { id: 'guided', icon: '🧸', age: '3–4' },
@@ -74,17 +77,27 @@ export function openGame() {
     controller?.refresh?.();
     if (!trail.length) return;
     // Menu/picker thumbnails follow the mode too.
-    if (trail.at(-1).rerenderOnMode) show(trail.at(-1), { push: false });
+    if (trail.at(-1).rerenderOnMode) redrawTop();
   };
   bus.on('view', onView);
   // Galleries may still be loading in the background: keep the object list and the block tray current.
   const offGallery = gallery.on('change', () => {
     const top = trail.at(-1);
-    if (top?.rerenderOnMode) show(top, { push: false });
+    if (top?.rerenderOnMode) redrawTop();
     else if (top === createScreen) controller?.refresh?.();
   });
 
+  /** Re-renders the current list screen; the picker keeps its search box and scroll position. */
+  function redrawTop() {
+    const top = trail.at(-1);
+    if (top?.redraw) top.redraw();
+    else if (top) show(top, { push: false });
+  }
+
+  let shown = null;
   function teardown() {
+    shown?.destroy?.();
+    shown = null;
     controller?.destroy?.();
     controller = null;
     finishView?.close();
@@ -95,6 +108,7 @@ export function openGame() {
   function show(screen, { push = true } = {}) {
     teardown();
     if (push) trail.push(screen);
+    shown = screen;
     screen();
     syncChrome();
   }
@@ -138,31 +152,60 @@ export function openGame() {
           }),
         ),
         h('p', { class: 'game-tools' },
-          h('button', { type: 'button', class: 'btn btn-small', onClick: () => auditCustomDialog() }, `🔧 ${t('audit.menu')}`)),
+          h('button', { type: 'button', class: 'btn btn-small', onClick: () => auditCustomDialog() }, `🔧 ${t('audit.menu')}`),
+          ' ',
+          h('button', { type: 'button', class: 'btn btn-small', onClick: () => blockCheckDialog() }, `🧱 ${t('blockcheck.menu')}`)),
       ),
     );
   }
 
+  /** Filters stay the same while the kid moves between game modes. */
+  const pickUi = { category: 'all', query: '', level: 'all' };
+  const LEVELS = ['easy', 'medium', 'hard'];
+
   function pickerScreen(mode) {
     const screen = () => {
       title.textContent = `${GAME_MODES.find((m) => m.id === mode).icon} ${t(`game.mode.${mode}`)}`;
-      const { mode: m, mono } = state.deck.view;
-      const list = gallery.recipes().sort((a, b) => ['easy', 'medium', 'hard'].indexOf(a.difficulty) - ['easy', 'medium', 'hard'].indexOf(b.difficulty) || a.name.localeCompare(b.name));
-      body.replaceChildren(
-        h('div', { class: 'game-picker' },
-          h('p', { class: 'game-lead' }, t('game.pick')),
-          gallery.loading.active ? h('p', { class: 'hint' }, `⏳ ${t('game.stillLoading')}`) : null,
-          list.length
-            ? h('div', { class: 'pick-grid' },
-                list.map((item) =>
-                  h('button', { type: 'button', class: 'pick-card', onClick: () => show(playScreen(mode, item)) },
-                    h('div', { class: 'pick-art', html: galleryThumb(item, m, mono) }),
-                    h('strong', {}, gallery.displayName(item)),
-                    h('span', { class: 'pick-meta' }, `${STARS[item.difficulty] || ''} · ${t('game.parts', { n: item.partCount })}`)))
-              )
-            : h('p', { class: 'hint' }, t('game.noRecipes')),
-        ),
-      );
+      const lead = h('p', { class: 'game-lead' }, t('game.pick'));
+      const loadingHint = h('p', { class: 'hint', hidden: true }, `⏳ ${t('game.stillLoading')}`);
+      const search = h('input', { type: 'search', class: 'field search', value: pickUi.query, placeholder: t('game.search'), 'aria-label': t('game.search') });
+      const tabs = h('div', { class: 'tabs', role: 'tablist' });
+      const levelBtns = ['all', ...LEVELS].map((l) =>
+        h('button', { type: 'button', 'data-level': l, onClick: () => { pickUi.level = l; draw({ reset: true }); } }, l === 'all' ? t('game.allLevels') : STARS[l]));
+      const levels = h('div', { class: 'segmented small', role: 'group' }, levelBtns);
+      const scroller = h('div', { class: 'pick-scroll' });
+      const panel = h('div', { class: 'game-picker' }, lead, loadingHint, h('div', { class: 'pick-filters' }, search, levels), tabs, scroller);
+      body.replaceChildren(panel);
+
+      const vgrid = new VirtualGrid(scroller, { minCol: 150, gap: 14, padX: 4, padTop: 4, padBottom: 14, renderItem: (item) => card(item) });
+      screen.destroy = () => vgrid.destroy();
+      const all = () => gallery.recipes().sort((a, b) => LEVELS.indexOf(a.difficulty) - LEVELS.indexOf(b.difficulty) || a.name.localeCompare(b.name));
+
+      function card(item) {
+        const { mode: m, mono } = state.deck.view;
+        return h('button', { type: 'button', class: 'pick-card', onClick: () => show(playScreen(mode, item)) },
+          h('div', { class: 'pick-art', html: galleryThumb(item, m, mono) }),
+          h('strong', {}, gallery.displayName(item)),
+          h('span', { class: 'pick-meta' }, `${STARS[item.difficulty] || ''} · ${t('game.parts', { n: item.partCount })}`));
+      }
+      function draw({ reset = false } = {}) {
+        const list = all();
+        // Only categories that have playable objects get a tab.
+        const present = new Set(list.map((i) => i.category));
+        const cats = gallery.categories().filter((c) => present.has(c.code));
+        if (pickUi.category !== 'all' && !present.has(pickUi.category)) pickUi.category = 'all';
+        renderCategoryTabs(tabs, cats, pickUi.category, (code) => { pickUi.category = code; draw({ reset: true }); });
+        levelBtns.forEach((b) => { const on = b.dataset.level === pickUi.level; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
+        loadingHint.hidden = !gallery.loading.active;
+        const q = pickUi.query.trim().toLowerCase();
+        const shown = list.filter((i) => (pickUi.category === 'all' || i.category === pickUi.category)
+          && (pickUi.level === 'all' || i.difficulty === pickUi.level)
+          && (!q || gallery.displayName(i).toLowerCase().includes(q) || i.name.toLowerCase().includes(q)));
+        vgrid.setItems(shown, { resetScroll: reset, empty: h('p', { class: 'hint' }, list.length ? t('game.noMatches') : t('game.noRecipes')) });
+      }
+      search.addEventListener('input', () => { pickUi.query = search.value; draw({ reset: true }); });
+      screen.redraw = () => draw();
+      draw();
     };
     screen.rerenderOnMode = true;
     return screen;

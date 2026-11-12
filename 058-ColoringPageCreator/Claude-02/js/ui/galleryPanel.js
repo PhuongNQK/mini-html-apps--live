@@ -9,7 +9,9 @@ import { promptText, confirmBox, toast } from './dialog.js';
 import { showMenu } from './menu.js';
 import { exportGalleryDialog, importGalleryFile } from './dialogs/galleryIO.js';
 import { auditCustomDialog } from './dialogs/auditCustom.js';
+import { blockCheckDialog } from './dialogs/blockCheck.js';
 import { VirtualGrid } from './virtualGrid.js';
+import { renderCategoryTabs } from './categoryTabs.js';
 import { theme } from '../core/theme.js';
 
 export const galleryUi = { category: 'all', query: '', selectMode: false, selected: new Set() };
@@ -31,22 +33,11 @@ export function initGalleryPanel(root) {
   });
 
   function renderTabs() {
-    const all = [{ code: 'all', icon: '✨' }, ...gallery.categories()];
-    tabs.replaceChildren(
-      ...all.map((c) =>
-        h('button', {
-          type: 'button',
-          role: 'tab',
-          class: `tab ${galleryUi.category === c.code ? 'active' : ''}`,
-          'aria-selected': galleryUi.category === c.code,
-          onClick: () => {
-            galleryUi.category = c.code;
-            renderTabs();
-            renderGrid({ reset: true });
-          },
-        }, h('span', { class: 'tab-icon', ...(c.logo ? { html: galleryThumb(c.logo, 'colored', '#000') } : {}) }, c.logo ? null : c.icon), h('span', {}, c.code === 'all' ? t('category.all') : gallery.categoryLabel(c.code))),
-      ),
-    );
+    renderCategoryTabs(tabs, gallery.categories(), galleryUi.category, (code) => {
+      galleryUi.category = code;
+      renderTabs();
+      renderGrid({ reset: true });
+    });
   }
 
   function card(item) {
@@ -125,6 +116,7 @@ export function initGalleryPanel(root) {
             { icon: '📥', label: t('gallery.import'), onClick: () => importGalleryFile().then((n) => n != null && toast(t('gallery.imported', { n }), 'success')) },
             { separator: true },
             { icon: '🔧', label: t('audit.menu'), onClick: () => auditCustomDialog() },
+            { icon: '🧱', label: t('blockcheck.menu'), onClick: () => blockCheckDialog() },
             { icon: '♻️', label: t('gallery.restore', { n: gallery.deletedCount }), disabled: !gallery.deletedCount, onClick: () => gallery.restoreDeleted() },
           ]),
       }, `⋯ ${t('gallery.more')}`),

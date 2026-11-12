@@ -104,7 +104,7 @@ export async function projectSettingsDialog() {
       },
     ],
   });
-  if (!result) return;
+  if (!result || typeof result !== 'object') return;
   mutate('project', (d) => {
     d.name = result.name;
     d.width = result.width;

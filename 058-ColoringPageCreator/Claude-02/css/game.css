@@ -161,3 +161,34 @@
 
 /* Create tray is a virtual list: fixed height, tiles positioned by the grid. */
 .game-tray.virtual { display: block; position: relative; flex-wrap: nowrap; height: clamp(100px, 28vh, 230px); max-height: none; padding: 0; }
+
+/* ----- picker filters & virtual list ----- */
+.game-picker { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.game-body:has(.pick-scroll) { overflow: hidden; }
+.pick-filters { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; justify-content: center; margin-bottom: 8px; }
+.pick-filters .search { flex: 1 1 200px; max-width: 360px; }
+.game-picker .tabs { justify-content: center; padding: 0 0 8px; }
+.pick-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+.pick-scroll .pick-card { width: 100%; }
+.check-body { max-height: 60vh; overflow-y: auto; }
+.check-section h3 { margin: 10px 0 2px; }
+.pick-art { position: relative; overflow: hidden; min-height: 0; }
+.pick-art svg { position: absolute; inset: 0; }
+.pick-scroll .pick-card { overflow: hidden; justify-content: flex-start; }
+.adv-bar .tabs { padding: 0; flex: 1 1 100%; max-height: 64px; overflow-y: auto; }
+
+/* ----- Create layout: pieces on the left, the canvas gets the rest ----- */
+.game-play.mode-create { flex-direction: row; align-items: stretch; }
+.create-side { flex: 0 0 clamp(250px, 27vw, 360px); min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.create-main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+.create-side .adv-bar { flex-direction: column; align-items: stretch; }
+.create-side .adv-bar .field { width: 100%; min-width: 0; }
+.create-side .adv-bar .tabs { max-height: 22vh; flex: 0 1 auto; }
+.create-side .adv-bar .hint { margin: 0; }
+.mode-create .game-tray.virtual { flex: 1; height: auto; min-height: 0; }
+@media (max-width: 700px) {
+  .game-play.mode-create { flex-direction: column-reverse; }
+  .create-side { flex: 0 0 auto; }
+  .mode-create .game-tray.virtual { flex: none; height: clamp(100px, 24vh, 200px); }
+  .create-side .adv-bar .tabs { max-height: 72px; }
+}

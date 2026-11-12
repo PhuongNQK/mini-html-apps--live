@@ -40,6 +40,7 @@ class GalleryService extends Emitter {
   #items = new Map();
   #overrides = { names: {}, deleted: [] };
   #loading = { active: false, done: 0, total: 0 };
+  #skipped = []; // recipe shapes dropped because a block is missing
   ready = Promise.resolve();
 
   /**
@@ -105,6 +106,7 @@ class GalleryService extends Emitter {
       if (!composed) {
         if (final) {
           console.warn(`Recipe "${item.id}" uses a missing block – skipped`);
+          this.#skipped.push({ id: item.id, name: item.name, category: item.category, missing: [...new Set((item.recipe || []).map((p) => p.block).filter((b) => !this.#items.get(b) || this.#items.get(b).pending))] });
           this.#items.delete(item.id);
         }
         continue;
@@ -291,6 +293,34 @@ class GalleryService extends Emitter {
     }
     if (fixed.length) this.#changed(true);
     return { checked: list.length, fixed };
+  }
+
+  /**
+   * Looks for shapes whose building blocks are incomplete (every category except the blocks themselves):
+   *  - noRecipe: no recipe at all, so the game cannot build it;
+   *  - missing: the recipe uses blocks that do not exist (or the shape was skipped because of that);
+   *  - count: the stored part count disagrees with the recipe.
+   * @returns {{checked:number, issues:{id:string,name:string,category:string,kind:string,missing?:string[]}[]}}
+   */
+  blockCheck() {
+    const issues = [];
+    let checked = 0;
+    for (const item of this.all()) {
+      if (item.category === 'buildingBlocks') continue;
+      checked++;
+      const base = { id: item.id, name: this.displayName(item), category: item.category };
+      if (!item.recipe?.length) issues.push({ ...base, kind: 'noRecipe' });
+      else {
+        const missing = [...new Set(item.recipe.filter((p) => !this.get(p.block)).map((p) => p.block))];
+        if (missing.length) issues.push({ ...base, kind: 'missing', missing });
+        else if (item.partCount !== item.recipe.length) issues.push({ ...base, kind: 'count' });
+      }
+    }
+    for (const s of this.#skipped) {
+      checked++;
+      issues.push({ id: s.id, name: s.name, category: s.category, kind: 'missing', missing: s.missing });
+    }
+    return { checked, issues };
   }
 
   /** Building blocks, in gallery order. */

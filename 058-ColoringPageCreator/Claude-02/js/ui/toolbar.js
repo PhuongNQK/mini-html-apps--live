@@ -51,6 +51,7 @@ export function initToolbar({ canvas }) {
       if (where) toast(t(where === 'dir' ? 'save.toDir' : 'save.toLocal'), 'success');
     },
     projectSettings: () => projectSettingsDialog(),
+    addText: cmd.addText,
     undo,
     redo,
     print: () => printDialog(),

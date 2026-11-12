@@ -20,7 +20,7 @@ export function modal({ title, content, actions = [], className = '' }) {
       h('button', {
         type: 'button',
         class: `btn ${a.primary ? 'btn-primary' : ''} ${a.danger ? 'btn-danger' : ''}`,
-        onClick: () => (a.onClick ? a.onClick(close) : close(a.value ?? a.label)),
+        onClick: () => (a.onClick ? a.onClick(close) : close('value' in a ? a.value : a.label)),
       }, a.label),
     );
     const dlg = h('dialog', { class: `mcc-dialog ${className}` },

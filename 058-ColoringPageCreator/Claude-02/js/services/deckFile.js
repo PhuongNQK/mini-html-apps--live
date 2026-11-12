@@ -1,6 +1,7 @@
 /** Reading / writing the custom deck file format (JSON). */
 import { uid } from '../core/util.js';
 import { sanitizeMarkup } from '../svg/annotate.js';
+import { cleanText, textSvg } from '../model/text.js';
 
 export const DECK_FORMAT = 'magic-color-deck';
 export const DECK_VERSION = 1;
@@ -25,7 +26,11 @@ function cleanItem(raw) {
     item.children = (Array.isArray(raw.children) ? raw.children : []).map(cleanItem);
   } else {
     item.galleryId = raw.galleryId || null;
-    item.svg = sanitizeMarkup(String(raw.svg || ''));
+    // Text items regenerate their markup from the text description (never trust stored markup for them).
+    if (raw.text && typeof raw.text === 'object') {
+      item.text = cleanText(raw.text);
+      item.svg = textSvg(item.text, { w: item.bw, h: item.bh });
+    } else item.svg = sanitizeMarkup(String(raw.svg || ''));
     for (const field of ['colorMap', 'lineMap']) {
       item[field] = {};
       for (const [k, v] of Object.entries(raw[field] || {})) {

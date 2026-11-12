@@ -222,6 +222,12 @@ export function initCanvas(workspace) {
     }
   });
 
+  // Double-click a text box to edit its words in the Properties panel.
+  svg.addEventListener('dblclick', (e) => {
+    const id = e.target.closest('[data-id]')?.dataset.id;
+    if (itemById(id)?.text) bus.emit('editText');
+  });
+
   const finish = () => {
     if (!drag) return;
     endLive();

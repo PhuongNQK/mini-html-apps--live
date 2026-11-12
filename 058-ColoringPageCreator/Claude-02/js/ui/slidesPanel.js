@@ -32,6 +32,11 @@ export function initSlidesPanel(root) {
       btn('▶', 'slides.moveRight', () => cmd.moveSlide(1), index === deck.slides.length - 1),
       btn('🗑️', 'slides.delete', cmd.deleteSlide, deck.slides.length <= 1),
     );
+    // Thumbnails keep the slide's own proportions (portrait slides get tall, narrow thumbnails).
+    const ratio = deck.width / deck.height;
+    let th = matchMedia('(max-width: 900px)').matches ? 52 : 70;
+    let tw = th * ratio;
+    if (tw > 200) [tw, th] = [200, 200 / ratio];
     strip.replaceChildren(
       ...deck.slides.map((slide, i) =>
         h('div', {
@@ -44,7 +49,7 @@ export function initSlidesPanel(root) {
           onDblclick: () => rename(slide),
           onKeydown: (e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), setActiveSlide(slide.id)),
         },
-          h('div', { class: 'thumb-art', style: `aspect-ratio:${deck.width}/${deck.height}`, html: slideSvg(slide, deck, { responsive: true }) }),
+          h('div', { class: 'thumb-art', style: `width:${Math.round(tw)}px;height:${Math.round(th)}px`, html: slideSvg(slide, deck, { responsive: true }) }),
           h('div', { class: 'thumb-name' }, `${i + 1}. ${slide.name}`),
         ),
       ),

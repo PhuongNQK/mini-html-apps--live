@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   height: 100dvh;
-  --gallery-w: 300px;
 }
 
 /* ---------- top bar ---------- */
@@ -178,7 +177,7 @@
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: var(--gallery-w) 8px minmax(0, 1fr) 290px;
+  grid-template-columns: var(--gallery-w, 300px) 8px minmax(0, 1fr) 290px;
 }
 
 .panel {

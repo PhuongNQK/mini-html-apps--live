@@ -5,12 +5,14 @@
 import { state, bus, mutate, activeSlide, select, setActiveSlide, setView } from '../core/store.js';
 import { clone, uid, clamp } from '../core/util.js';
 import { gallery } from '../services/gallery.js';
+import { t } from '../core/i18n.js';
 import { createObjectItem, createSlide, duplicateItems, flip, groupItems, recolorItem, reorder, resetColors, ungroupItems } from '../model/ops.js';
 import { normalizeAngle, aabb, unionRects } from '../model/geometry.js';
 import { itemMarkup } from '../svg/render.js';
 import { luminance } from '../svg/annotate.js';
 import { itemColors } from '../model/ops.js';
 import { cloneItem } from '../model/ops.js';
+import { applyText, createTextItem, ensureFont, isText } from '../model/text.js';
 
 export const selectedItems = () => activeSlide().items.filter((i) => state.selection.includes(i.id));
 const hasSelection = () => state.selection.length > 0;
@@ -33,6 +35,26 @@ export function addFromGallery(galleryId, at) {
     else slide.items.push(item);
     state.selection = [item.id];
   });
+}
+
+/** Adds a text box in the middle of the slide and puts the cursor in its text field. */
+export function addText() {
+  mutate('addText', (deck, slide) => {
+    const item = createTextItem(deck, t('text.default'));
+    const offset = (slide.items.filter((i) => i.type).length % 6) * 22;
+    item.x += offset;
+    item.y += offset;
+    slide.items.push(item);
+    state.selection = [item.id];
+  });
+  bus.emit('editText');
+}
+
+/** Changes text properties of the selected text items (font, size, B/I/U/S, align, outline, content). */
+export async function setTextProps(patch) {
+  if (!selectedItems().some(isText)) return;
+  if (patch.font || patch.bold != null || patch.italic != null) await ensureFont({ ...selectedItems().find(isText).text, ...patch });
+  mutate('text', () => selectedItems().filter(isText).forEach((i) => applyText(i, patch)));
 }
 
 export function removeSelected() {

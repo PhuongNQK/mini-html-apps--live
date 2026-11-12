@@ -6,9 +6,12 @@ import { itemColors, recolorItem, itemLineColors, recolorLine } from '../model/o
 import { itemSize } from '../model/geometry.js';
 import * as cmd from '../editor/commands.js';
 import { createColorPicker } from './colorPicker.js';
+import { FONTS } from '../data/fonts.js';
+import { applyText, isText } from '../model/text.js';
 
 let activePart = null; // original colour being edited, or '*' for all
 let colorTarget = 'fill'; // 'fill' | 'line'
+let textArea = null;
 
 export function initPropertiesPanel(root) {
   const fields = {}; // numeric inputs, refreshed during live drags
@@ -52,6 +55,60 @@ export function initPropertiesPanel(root) {
     });
     range.addEventListener('change', endLive);
     return section(t('props.opacity'), h('div', { class: 'range-row' }, range, out));
+  }
+
+  /** Text tools: words, font, size, Bold/Italic/Underline/Strike, alignment and outline. */
+  function textSection(items) {
+    const texts = items.filter(isText);
+    if (!texts.length) return null;
+    const single = texts.length === 1 && items.length === 1 ? texts[0] : null;
+    const first = texts[0].text;
+    const same = (k) => texts.every((i) => i.text[k] === first[k]);
+
+    const area = h('textarea', { class: 'field text-input', rows: 3, maxlength: 2000, disabled: !single, 'aria-label': t('text.content') }, single ? single.text.content : '');
+    textArea = area;
+    area.addEventListener('input', () => {
+      beginLive();
+      live(() => single && applyText(single, { content: area.value }));
+    });
+    area.addEventListener('change', endLive);
+
+    const font = h('select', { class: 'field', 'aria-label': t('text.font'), style: `font-family:${FONTS.find((f) => f.id === first.font)?.css}` },
+      FONTS.map((f) => h('option', { value: f.id, selected: same('font') && f.id === first.font, style: `font-family:${f.css}` }, f.label)));
+    if (!same('font')) font.selectedIndex = -1;
+    font.addEventListener('change', () => cmd.setTextProps({ font: font.value }));
+
+    const size = h('input', { type: 'number', class: 'field num', min: 4, max: 1000, step: 2, value: round(first.size, 0), 'aria-label': t('text.size') });
+    size.addEventListener('change', () => cmd.setTextProps({ size: Number(size.value) }));
+
+    const toggle = (key, label, tag) =>
+      h('button', {
+        type: 'button', class: `fmt-btn ${texts.every((i) => i.text[key]) ? 'active' : ''}`,
+        title: t(label), 'aria-label': t(label), 'aria-pressed': texts.every((i) => i.text[key]),
+        onClick: () => cmd.setTextProps({ [key]: !texts.every((i) => i.text[key]) }),
+      }, h(tag, {}, tag.toUpperCase()));
+    const align = (key, icon, label) =>
+      h('button', {
+        type: 'button', class: `fmt-btn ${same('align') && first.align === key ? 'active' : ''}`,
+        title: t(label), 'aria-label': t(label), onClick: () => cmd.setTextProps({ align: key }),
+      }, icon);
+
+    const outline = h('input', { type: 'range', min: 0, max: 12, step: 0.5, value: first.strokeW, 'aria-label': t('text.outline') });
+    outline.addEventListener('input', () => {
+      beginLive();
+      live(() => texts.forEach((i) => applyText(i, { strokeW: Number(outline.value) })));
+    });
+    outline.addEventListener('change', endLive);
+
+    return section(t('text.title'),
+      area,
+      h('div', { class: 'text-row' }, font, size),
+      h('div', { class: 'fmt-row', role: 'group' },
+        toggle('bold', 'text.bold', 'b'), toggle('italic', 'text.italic', 'i'), toggle('underline', 'text.underline', 'u'), toggle('strike', 'text.strike', 's'),
+        h('span', { class: 'sep' }),
+        align('left', '⯇', 'text.alignLeft'), align('center', '≡', 'text.alignCenter'), align('right', '⯈', 'text.alignRight')),
+      h('label', { class: 'num-row' }, h('span', {}, t('text.outline')), outline),
+      h('p', { class: 'hint' }, t('text.webFontNote')));
   }
 
   function colorSection(items) {
@@ -107,7 +164,11 @@ export function initPropertiesPanel(root) {
         beginLive();
         liveOn = true;
       }
-      live(() => selected().forEach((i) => recolor(i, activePart === '*' ? null : activePart, hex)));
+      live(() => selected().forEach((i) => {
+        recolor(i, activePart === '*' ? null : activePart, hex);
+        // A line colour needs a visible line: give text an outline the first time one is chosen.
+        if (isLine && isText(i) && !i.text.strokeW) applyText(i, { strokeW: Math.max(1.5, i.text.size * 0.05) });
+      }));
     };
     const picker = createColorPicker({
       value: activePart === '*' ? [...colors.values()][0] : colors.get(activePart),
@@ -174,6 +235,7 @@ export function initPropertiesPanel(root) {
       children.push(
         section(t('props.name'), nameInput),
         transformSection(items),
+        textSection(items),
         opacitySection(items),
         colorSection(items),
         layersSection(),
@@ -192,6 +254,7 @@ export function initPropertiesPanel(root) {
     for (const [key, input] of Object.entries(fields)) if (document.activeElement !== input && key in values) input.value = round(values[key], 1);
   }
 
+  bus.on('editText', () => requestAnimationFrame(() => (textArea?.focus(), textArea?.select())));
   bus.on('selection', render);
   bus.on('deck', render);
   bus.on('slide', render);

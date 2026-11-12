@@ -20,6 +20,7 @@ import { blockName, cap } from './names.js';
 import { promptText, toast } from '../dialog.js';
 import { openColorPopover } from '../colorPicker.js';
 import { VirtualGrid } from '../virtualGrid.js';
+import { renderCategoryTabs } from '../categoryTabs.js';
 
 const VIEW = { x: -6, y: -6, w: 112, h: 112 };
 const COLORS = ['#ff6b6b', '#ff9f43', '#ffd23f', '#6bcb77', '#4ecdc4', '#4ea8de', '#a78bfa', '#ff8fb1', '#8a5a2b', '#ffffff', '#2b2b3b'];
@@ -136,7 +137,9 @@ export function startCreate({ host, onDone }) {
   const tray = h('div', { class: 'game-tray virtual', role: 'list', 'aria-label': t('game.tray') });
   const empty = h('div', { class: 'create-empty' }, `👆 ${t('game.createEmpty')}`);
   board.el.append(empty);
-  host.replaceChildren(h('div', { class: 'game-play mode-create' }, h('div', { class: 'game-stage' }, board.el), tools, advBar, tray));
+  host.replaceChildren(h('div', { class: 'game-play mode-create' },
+    h('aside', { class: 'create-side' }, advBar, tray),
+    h('div', { class: 'create-main' }, h('div', { class: 'game-stage' }, board.el), tools)));
 
   /* ---------- rendering ---------- */
   function renderBoard() {
@@ -210,20 +213,19 @@ export function startCreate({ host, onDone }) {
   function renderAdvBar() {
     advBar.hidden = !advanced;
     if (!advanced) return advBar.replaceChildren();
-    const select = h('select', { class: 'field', 'aria-label': t('game.category') },
-      h('option', { value: 'all' }, t('category.all')),
-      gallery.categories().map((c) => h('option', { value: c.code, selected: c.code === adv.category }, gallery.categoryLabel(c.code))));
-    select.value = adv.category;
-    select.addEventListener('change', () => {
-      adv.category = select.value;
+    const tabs = h('div', { class: 'tabs', role: 'tablist' });
+    const drawTabs = () => renderCategoryTabs(tabs, gallery.categories(), adv.category, (code) => {
+      adv.category = code;
+      drawTabs();
       renderTray({ reset: true });
     });
+    drawTabs();
     const search = h('input', { type: 'search', class: 'field search', placeholder: t('gallery.search'), value: adv.query, 'aria-label': t('gallery.search') });
     search.addEventListener('input', () => {
       adv.query = search.value;
       renderTray({ reset: true });
     });
-    advBar.replaceChildren(select, search, h('span', { class: 'hint' }, t('game.advancedHint')));
+    advBar.replaceChildren(search, tabs, h('span', { class: 'hint' }, t('game.advancedHint')));
   }
 
   function add(item, at) {
